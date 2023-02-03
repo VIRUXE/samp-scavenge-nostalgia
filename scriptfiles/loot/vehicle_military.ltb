@@ -1,0 +1,36 @@
+vehicle_military, 1.0
+
+# military stuff
+22.0,	Medkit
+16.0,	Explosive
+25.0,	Backpack
+30.0,	AntiSepBandage
+18.0,	LargeBackpack
+#20.0,   SupplyDrop
+
+# weapons
+0.5,	M77RMRifle
+1.0,	SniperRifle
+10.0,	Grenade
+20.0,	M9PistolSD
+4.0,	M16Rifle
+8.0,	MP5
+8.0,	Spas12
+
+# ammo
+7.2,	Ammo556
+7.0,	Ammo556Tracer
+7.0,	Ammo357
+7.0,	Ammo357Tracer
+3.0,	Ammo308
+1.0,	Ammo50BMG
+#1.0,	AmmoRocket
+
+# misc
+10.0,	Wheel
+38.0,	Wrench
+35.0,	Screwdriver
+33.0,	Hammer
+30.0,	Spanner
+38.0,	Crowbar
+1.0,    LockBreaker

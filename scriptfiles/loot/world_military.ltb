@@ -1,0 +1,50 @@
+world_military, 1.0
+
+# military stuff
+23.0,	Medkit
+19.0,	Explosive
+25.0,	Backpack
+25.0,	AntiSepBandage
+8.0,	Rucksack
+8.0,	Parachute
+18.0,	Armour
+30.0,	Shield
+10.0,   HelmArmy
+10.0,   PoliceCap
+10.0,   SwatHelmet
+10.0,   PoliceHelm
+10.0,   ArmyHelmet2
+#20.0,   SupplyDrop
+
+# weapons
+2.0,	M77RMRifle
+3.0,	SniperRifle
+10.0,	Grenade
+20.0,	M9PistolSD
+8.5,	M16Rifle
+7.5,	WASR3Rifle
+6.5,	AK47Rifle
+9.5,	MP5
+9.5,	Spas12
+#2.5,	RocketLauncher
+2.0,	Flamer
+0.1,	Minigun
+
+# ammo
+10.5,	Ammo556
+10.5,	Ammo556Tracer
+6.0,	Ammo357
+6.0,	Ammo357Tracer
+4.0,	Ammo308
+1.0,	Ammo50BMG
+#1.0,	AmmoRocket
+6.0,	AmmoBuck
+5.0,	Ammo762
+
+# misc
+12.0,	Wheel
+22.0,	Wrench
+20.0,	Screwdriver
+17.0,	Hammer
+22.0,	Crowbar
+12.0,	Spanner

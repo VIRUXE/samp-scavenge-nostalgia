@@ -1,0 +1,35 @@
+airdrop_industrial, 1.0
+
+# tools and useful stuff
+10.0,	Chainsaw
+40.0,	MediumBox
+50.0,	SmallBox
+30.0,	LargeBox
+
+# crafting
+24.0,	Battery
+30.0,	Fusebox
+30.0,	MotionSense
+40.0,	Accelerometer
+20.0,	Keypad
+20.0,	Motor
+
+# construction
+12.0,	RadioPole
+
+# defences
+
+0.5,     MetalBlin
+10.0,    DoorBlin
+10.0,    PortaCofre
+#10.0,    DupleDoor
+10.0,    GarageDoor
+10.0,    ShipDoor
+10.0,    CorPanel
+10.0,    InsulPanel
+10.0,    WoodPanel
+10.0,    InsulDoor
+#10.0,    MetalGate2
+10.0,    MetPanel
+10.0,    CrateDoor
+10.0,    MetalGate1

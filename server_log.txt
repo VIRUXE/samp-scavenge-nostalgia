@@ -1,0 +1,435 @@
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7-R2, (C)2005-2015 SA-MP Team
+
+[21:58:40] 
+[21:58:40] Server Plugins
+[21:58:40] --------------
+[21:58:40]  Loading plugin: crashdetect
+[21:58:40]   CrashDetect v4.18.1 is OK.
+[21:58:40]   Loaded.
+[21:58:40]  Loading plugin: sscanf
+[21:58:40] 
+
+[21:58:40]  ===============================
+
+[21:58:40]       sscanf plugin loaded.     
+
+[21:58:40]          Version:  2.8.2        
+
+[21:58:40]    (c) 2012 Alex "Y_Less" Cole  
+
+[21:58:40]  ===============================
+
+[21:58:40]   Loaded.
+[21:58:40]  Loading plugin: streamer
+[21:58:40] 
+
+*** Streamer Plugin v2.9.6 by Incognito loaded ***
+
+[21:58:40]   Loaded.
+[21:58:40]  Loading plugin: pawnraknet
+[21:58:40] [Pawn.RakNet] plugin v1.5.1 loading...
+[21:58:40] [Pawn.RakNet] 
+
+    | Pawn.RakNet 1.5.1 | 2016 - 2021
+    |--------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Sep 26 2021 at 12:04:10
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.RakNet
+    |--------------------------------------------------------------
+    | Wiki: https://github.com/katursis/Pawn.RakNet/wiki
+
+[21:58:40]   Loaded.
+[21:58:40]  Loading plugin: Whirlpool
+[21:58:40]  
+[21:58:40]  ==================
+[21:58:40]  
+[21:58:40]   Whirlpool loaded
+[21:58:40]  
+[21:58:40]  ==================
+[21:58:40]  
+[21:58:40]   Loaded.
+[21:58:40]  Loading plugin: ColAndreas
+[21:58:40] *********************
+[21:58:40] ** Created By:     **
+[21:58:40] ** [uL]Chris42O    **
+[21:58:40] ** [uL]Slice       **
+[21:58:40] ** [uL]Pottus      **
+[21:58:40] *********************
+[21:58:43] Loaded collision data.
+[21:58:43] *********************
+[21:58:43]   ColAndreas Loaded
+[21:58:43]    v1.4.0
+[21:58:43] *********************
+[21:58:43]   Loaded.
+[21:58:43]  Loading plugin: filemanager
+[21:58:43] ******************
+[21:58:43] ** FILE MANAGER **
+[21:58:43] **    Loaded    **
+[21:58:43] ** Version 1.5 **
+[21:58:43] ******************
+[21:58:43]   Loaded.
+[21:58:43]  Loading plugin: CTime
+[21:58:43]   Loaded.
+[21:58:43]  Loading plugin: profiler
+[21:58:43]   Profiler plugin 2.15.3
+[21:58:43]   Loaded.
+[21:58:43]  Loaded 9 plugins.
+
+[21:58:43] 
+[21:58:43] Filterscripts
+[21:58:43] ---------------
+[21:58:43]   Loading filterscript 'object-loader.amx'...
+[21:58:43] AMX (519033696) loaded
+[21:58:43] INFO: [Init] Debug Level: 0
+[21:58:46] INFO: [Init] 25487 Total objects
+[21:58:46] INFO: [Init] 169 Objects to remove
+[21:58:46] Loading Map.
+[21:58:46] Loaded Map.                             
+[21:58:46]   Loading filterscript 'AntiAirbreak.amx'...
+[21:58:46] AMX (518866528) loaded
+[21:58:46]   Loading filterscript 'mapfix.amx'...
+[21:58:46] AMX (518823920) loaded
+[21:58:46]   MapFix by Nexius v3.9.4 loaded (filterscript version).
+[21:58:46]   Loaded 3 filterscripts.
+
+[21:58:47] *** Streamer Plugin: The plugin version (0x295) is older than the include file version (0x296) for this script. The plugin might need to be updated to the latest version.
+[21:58:47] AMX (518876360) loaded
+[21:58:47] [OnGameModeInit] Initialising 'Main'...
+[21:58:56] [OnGameModeInit_Setup] Setting up...
+[21:58:56] [SETTING] server/motd: Nosso Discord: https://discord.gg/jduSSH2Ezf
+[21:58:56] [SETTING] server/website: discord.gg/8y5fU84
+[21:58:56] [SETTING] server/max-uptime: 14400
+[21:58:56] [SETTING] player/combat-log-window: 30
+[21:58:56] [SETTING] player/login-freeze-time: 8
+[21:58:56] [SETTING] player/max-tab-out-time: 60
+[21:58:56] [SETTING] player/ping-limit: 900
+[21:58:56] [SETTING] server/global-debug-level: 0
+[21:58:56]  
+[21:58:56]  
+[21:58:56]  
+[21:58:56]  ======================================= 
+[21:58:56]  |                                     | 
+[21:58:56]  |        YSI version 4.00.0001        | 
+[21:58:56]  |        By Alex "Y_Less" Cole        | 
+[21:58:56]  |                                     | 
+[21:58:56]  ======================================= 
+[21:58:56]  
+[21:59:01] Registered SIF debug handler 1: 'SIF/Button' initial state: 0
+[21:59:01] Registered SIF debug handler 2: 'SIF/Item' initial state: 0
+[21:59:01] Registered SIF debug handler 3: 'SIF/Inventory' initial state: 0
+[21:59:01] Registered SIF debug handler 4: 'SIF/Container' initial state: 0
+[21:59:01] Registered SIF debug handler 5: 'SIF/ItemArrayData' initial state: 0
+[21:59:01] Registered SIF debug handler 6: 'SIF/ItemSerializer' initial state: 0
+[21:59:01] Registered SIF debug handler 7: 'SIF/extensions/Craft' initial state: 0
+[21:59:01] [SETTING] vehicle-spawn/spawn-chance: 1.000000
+[21:59:01] [SETTING] vehicle-spawn/print-each: 0
+[21:59:01] [SETTING] vehicle-spawn/print-total: 1
+[21:59:01] [SETTING] vehicle.damage/knock-mult: 1.000000
+[21:59:01] [SETTING] vehicle.damage/bleed-mult: 1.000000
+[21:59:01] [SETTING] server/loot-spawn-multiplier: 0.009999
+[21:59:01] 
+[OnScriptInit] Initialising 'defences-io'...
+[21:59:01] 
+[OnScriptInit] Initialising 'sign-io'...
+[21:59:01] 
+[OnScriptInit] Initialising 'safebox-io'...
+[21:59:01] 
+[OnScriptInit] Initialising 'tent-io'...
+[21:59:01] Loaded 2 Detection Fields
+[21:59:02] Default language (English) has 622 entries.
+[21:59:02] Malformed line 314 in 'languages/Portugues' key contains non-alphabetic character (234:ê).
+[21:59:02] [debug] AMX backtrace:
+[21:59:02] [debug] #0 native PrintBacktrace () from crashdetect.DLL
+[21:59:02] [debug] #1 000a19c4 in err (text[]=@0b656154 "Malformed line %d in '%s' key contains non-alphabetic character (%d:%c).", ... <4 arguments>) at sss/utils/logging.pwn:91
+[21:59:02] [debug] #2 000b12b8 in LoadLanguage (filename[]=@0ce63b44 "languages/Portugues", langname[]=@0ce63f48 "Portugues") at sss/core/server/language.pwn:208
+[21:59:02] [debug] #3 000b0d44 in LoadAllLanguages () at sss/core/server/language.pwn:147
+[21:59:02] [debug] #4 000b0854 in ?? (... <1073741823 arguments>) at sss/core/server/language.pwn:94
+[21:59:02] [debug] #5 00019d08 in public ScriptInit_OnGameModeInit () at E:\Coisas\SAMP\Nostalgia ~ Scavenge\pawno\include\YSI\..\YSI_Coding\..\YSI_Data\..\YSI_Coding\..\YSI_Internal\y_cgen.inc:114
+[21:59:02] [debug] #6 00007bac in public SSCANF_OnGameModeInit () at E:\Coisas\SAMP\Nostalgia ~ Scavenge\pawno\include\YSI\..\YSI_Coding\..\YSI_Internal\..\YSI_Server\y_scriptinit.inc:237
+[21:59:02] [debug] #7 00000e9c in public main_OnGameModeInit () at E:\Coisas\SAMP\Nostalgia ~ Scavenge\pawno\include\sscanf2.inc:205
+[21:59:02] [debug] #8 00000a18 in ?? () at e:\Coisas\SAMP\Nostalgia ~ Scavenge\gamemodes\ScavengeSurvive.pwn:132
+[21:59:02] Loaded language Portugues: 623 entries, -1 missing entries
+[21:59:02] Loaded 1 languages
+[21:59:02] [LOAD] 35 item spawn rates loaded from loot/airdrop_food_medical.ltb
+[21:59:02] [LOAD] 23 item spawn rates loaded from loot/airdrop_industrial.ltb
+[21:59:02] [LOAD] 16 item spawn rates loaded from loot/airdrop_low_weapons.ltb
+[21:59:02] [LOAD] 20 item spawn rates loaded from loot/airdrop_military_weapons.ltb
+[21:59:02] [LOAD] 16 item spawn rates loaded from loot/airdrop_ordnance.ltb
+[21:59:02] [LOAD] 138 item spawn rates loaded from loot/vehicle_civilian.ltb
+[21:59:02] [LOAD] 52 item spawn rates loaded from loot/vehicle_industrial.ltb
+[21:59:02] [LOAD] 25 item spawn rates loaded from loot/vehicle_military.ltb
+[21:59:02] [LOAD] 27 item spawn rates loaded from loot/vehicle_police.ltb
+[21:59:02] [LOAD] 139 item spawn rates loaded from loot/world_civilian.ltb
+[21:59:02] [LOAD] 58 item spawn rates loaded from loot/world_industrial.ltb
+[21:59:02] [LOAD] 5 item spawn rates loaded from loot/world_medical.ltb
+[21:59:02] [LOAD] 38 item spawn rates loaded from loot/world_military.ltb
+[21:59:02] [LOAD] 31 item spawn rates loaded from loot/world_police.ltb
+[21:59:02] [LOAD] 41 item spawn rates loaded from loot/world_survivor.ltb
+[21:59:02] Loaded 15 Loot table entries
+[21:59:02] ERROR: [SetItemArrayData] data length 2 exceeds item type 82 data size of 0.
+[21:59:02] ERROR: [SetItemArrayData] data length 2 exceeds item type 82 data size of 0.
+[21:59:02] ERROR: [SetItemArrayData] data length 2 exceeds item type 186 data size of 0.
+[21:59:03] ERROR: [SetItemArrayData] data length 2 exceeds item type 166 data size of 0.
+[21:59:03] ERROR: [SetItemArrayData] data length 2 exceeds item type 187 data size of 0.
+[21:59:03] ERROR: [SetItemArrayData] data length 2 exceeds item type 186 data size of 0.
+[21:59:04] Loaded 52 vehicles
+[21:59:04] [LoadVehiclesFromFolder] Loading vehicles from: 'vspawn/'...
+[21:59:06] Loaded 77 Vehicles
+[21:59:06] [00] Spawned 7 'Bobcat'
+[21:59:06] [02] Spawned 2 'Maverick'
+[21:59:06] [05] Spawned 1 'Wayfarer'
+[21:59:06] [06] Spawned 2 'Sabre'
+[21:59:06] [09] Spawned 1 'Patriot'
+[21:59:06] [10] Spawned 1 'Boxville'
+[21:59:06] [15] Spawned 2 'Yosemite'
+[21:59:06] [16] Spawned 1 'Dinghy'
+[21:59:06] [21] Spawned 2 'Sentinel'
+[21:59:06] [22] Spawned 1 'Regina'
+[21:59:06] [23] Spawned 2 'Tampa'
+[21:59:06] [24] Spawned 1 'Clover'
+[21:59:06] [25] Spawned 7 'Sultan'
+[21:59:06] [26] Spawned 7 'Huntley'
+[21:59:06] [27] Spawned 3 'Mesa'
+[21:59:06] [29] Spawned 1 'Bandito'
+[21:59:06] [30] Spawned 1 'Ambulancia'
+[21:59:06] [31] Spawned 1 'Faggio'
+[21:59:06] [32] Spawned 1 'Sanchez'
+[21:59:06] [34] Spawned 1 'Police Car'
+[21:59:06] [39] Spawned 1 'FBI Truck'
+[21:59:06] [43] Spawned 1 'Squalo'
+[21:59:06] [51] Spawned 1 'Duneride'
+[21:59:06] [52] Spawned 1 'Doomride'
+[21:59:06] [53] Spawned 2 'Walton'
+[21:59:06] [54] Spawned 3 'Rancher'
+[21:59:06] [55] Spawned 1 'Sadler'
+[21:59:06] [62] Spawned 1 'Scimitar'
+[21:59:06] [63] Spawned 1 'Truckfort'
+[21:59:06] [65] Spawned 1 'Vortex'
+[21:59:06] [66] Spawned 2 'Burrito'
+[21:59:06] [67] Spawned 1 'Landstalker'
+[21:59:06] [93] Spawned 4 'Hotring Racer'
+[21:59:06] [98] Spawned 12 'NRG'
+[21:59:06] [SETTING] spawn/blood: 100.000000
+[21:59:06] [SETTING] spawn/food: 80.000000
+[21:59:06] [SETTING] spawn/bleed: 0.000000
+[21:59:06] [SETTING] spawn/vipblood: 100.000000
+[21:59:06] [SETTING] spawn/vipfood: 100.000000
+[21:59:06] [SETTING] spawn/vipbleed: 0.000000
+[21:59:06] 
+[OnGameModeInit] Initialising 'defences-io'...
+[21:59:06] [LOAD] Item 360 (aXU_SXd4aDlOZQ) info: 311, 1, 2374.123291, -1138.295898, 29.106712
+[21:59:06] [LOAD] Item 361 (bmBKWXhQdkNjQg) info: 307, 1, 1368.465454, 1796.185791, 11.268962
+[21:59:06] [LOAD] Item 362 (cWZHX09cYzlAQA) info: 308, 1, 1362.322631, 1791.972412, 11.489131
+[21:59:06] [LOAD] Item 363 (djtEXWlcfH45Ww) info: 306, 1, 1366.460083, 1791.241577, 11.489131
+[21:59:06] [LOAD] Item 364 (M15UNztHQEhjZA) info: 305, 1, 1367.836669, 1802.793334, 11.589132
+[21:59:06] [LOAD] Item 365 (MT9mb0JeN1JgVw) info: 312, 1, -2134.175537, 2695.589599, 158.626388
+[21:59:06] [LOAD] Item 366 (NVpjRENnQ05zdA) info: 304, 1, -2182.704833, 711.781982, 54.659511
+[21:59:06] [LOAD] Item 367 (PFNtQ1ZiRTs6Sw) info: 312, 1, -2130.896240, 2703.577636, 159.353759
+[21:59:06] [LOAD] Item 368 (Q0FsPltdP0RXfQ) info: 305, 1, 1463.754638, 1761.635253, 11.581319
+[21:59:06] [LOAD] Item 369 (Q290ZjRRTVJlYA) info: 312, 1, -2185.228027, 711.796997, 54.655754
+[21:59:06] [LOAD] Item 370 (QD17b3lgS31XbQ) info: 304, 1, -2178.735107, 711.791687, 54.659446
+[21:59:06] [LOAD] Item 371 (SDY3Xzd3Q0h6bw) info: 312, 1, 1365.445678, 1798.872436, 11.074592
+[21:59:06] [LOAD] Item 372 (VENWOGg1RVJ3SQ) info: 310, 1, 1963.767333, -1748.573486, 13.637092
+[21:59:06] [LOAD] Item 373 (WFR8UmFLe3dobA) info: 305, 1, 1363.730224, 1802.763793, 11.589132
+[21:59:06] [LOAD] Item 374 (WIBSQWZGeFlaTA) info: 316, 1, 1358.583740, 1793.729125, 11.652569
+[21:59:06] [LOAD] Item 375 (XXE7QWdrUGp8Xw) info: 311, 1, -2179.524414, 708.757690, 55.010421
+[21:59:06] Loaded 16 items from data/defences/
+[21:59:06] 
+[OnGameModeInit] Initialising 'sign-io'...
+[21:59:06] Loaded 0 items from data/sign/
+[21:59:06] 
+[OnGameModeInit] Initialising 'safebox-io'...
+[21:59:06] Loaded 0 items from data/safebox/
+[21:59:06] 
+[OnGameModeInit] Initialising 'tent-io'...
+[21:59:06] [LOAD] Item 376 (czpigD9SaHNZPQ) info: 125, 1, -2444.762451, 2361.266357, 4.739900
+[21:59:06] [LOAD] Item 378 (ZjdMgVh-TVdkPA) info: 125, 1, -2186.126220, 715.062072, 52.938701
+[21:59:06] Loaded 2 items from data/tents/
+[21:59:06] ================================================================================
+[21:59:06]     Southclaw's Scavenge and Survive
+[21:59:06]         Copyright (C) 2016 Barnaby "Southclaw" Keene
+[21:59:06]         This program comes with ABSOLUTELY NO WARRANTY; This is free software,
+[21:59:06]         and you are welcome to redistribute it under certain conditions.
+[21:59:06]         Please see <http://www.gnu.org/copyleft/gpl.html> for details.
+[21:59:06] ================================================================================
+[21:59:06] Number of vehicle models: 32
+[21:59:07] 
+[OnGameModeInit] Initialising 'World/LS'...
+[21:59:08] 
+[OnGameModeInit] Initialising 'World/SF'...
+[21:59:09] 
+[OnGameModeInit] Initialising 'World/LV'...
+[21:59:10] 
+[OnGameModeInit] Initialising 'World/RC'...
+[21:59:10] 
+[OnGameModeInit] Initialising 'World/FC'...
+[21:59:11] 
+[OnGameModeInit] Initialising 'World/BC'...
+[21:59:11] 
+[OnGameModeInit] Initialising 'World/TR'...
+[21:59:12] 
+[OnGameModeInit] Initialising 'World/Novos'...
+[21:59:13] [001] Carregado:0003, Spawnado:0000, Total:0003, 'Knuckles'
+[21:59:13] [002] Carregado:0004, Spawnado:0002, Total:0006, 'GolfClub'
+[21:59:13] [004] Carregado:0002, Spawnado:0001, Total:0003, 'Knife'
+[21:59:13] [005] Carregado:0004, Spawnado:0000, Total:0004, 'Bat'
+[21:59:13] [006] Carregado:0002, Spawnado:0001, Total:0003, 'Spade'
+[21:59:13] [014] Carregado:0001, Spawnado:0001, Total:0002, 'Flowers'
+[21:59:13] [015] Carregado:0001, Spawnado:0000, Total:0001, 'WalkingCane'
+[21:59:13] [022] Carregado:0008, Spawnado:0001, Total:0009, 'M9Pistol'
+[21:59:13] [024] Carregado:0001, Spawnado:0000, Total:0001, 'DesertEagle'
+[21:59:13] [025] Carregado:0002, Spawnado:0003, Total:0005, 'PumpShotgun'
+[21:59:13] [026] Carregado:0004, Spawnado:0000, Total:0004, 'Sawnoff'
+[21:59:13] [028] Carregado:0002, Spawnado:0000, Total:0002, 'Mac10'
+[21:59:13] [032] Carregado:0001, Spawnado:0000, Total:0001, 'Tec9'
+[21:59:13] [033] Carregado:0000, Spawnado:0001, Total:0001, 'SemiAutoRifle'
+[21:59:13] [041] Carregado:0004, Spawnado:0001, Total:0005, 'SprayPaint'
+[21:59:13] [042] Carregado:0001, Spawnado:0000, Total:0001, 'Extinguisher'
+[21:59:13] [043] Carregado:0002, Spawnado:0000, Total:0002, 'Camera'
+[21:59:13] [047] Carregado:0004, Spawnado:0000, Total:0004, 'Medkit'
+[21:59:13] [050] Carregado:0002, Spawnado:0001, Total:0003, 'FireworkBox'
+[21:59:13] [051] Carregado:0009, Spawnado:0002, Total:0011, 'FireLighter'
+[21:59:13] [055] Carregado:0010, Spawnado:0004, Total:0014, 'Battery'
+[21:59:13] [056] Carregado:0010, Spawnado:0000, Total:0010, 'Fusebox'
+[21:59:13] [057] Carregado:0006, Spawnado:0003, Total:0009, 'Bottle'
+[21:59:13] [060] Carregado:0004, Spawnado:0001, Total:0005, 'Bandage'
+[21:59:13] [061] Carregado:0006, Spawnado:0000, Total:0006, 'FishRod'
+[21:59:13] [062] Carregado:0009, Spawnado:0004, Total:0013, 'Wrench'
+[21:59:13] [063] Carregado:0007, Spawnado:0002, Total:0009, 'Crowbar'
+[21:59:13] [064] Carregado:0013, Spawnado:0001, Total:0014, 'Hammer'
+[21:59:13] [066] Carregado:0002, Spawnado:0001, Total:0003, 'Flashlight'
+[21:59:13] [067] Carregado:0001, Spawnado:0001, Total:0002, 'StunGun'
+[21:59:13] [069] Carregado:0009, Spawnado:0002, Total:0011, 'Screwdriver'
+[21:59:13] [070] Carregado:0004, Spawnado:0003, Total:0007, 'MobilePhone'
+[21:59:13] [073] Carregado:0001, Spawnado:0000, Total:0001, 'HotDog'
+[21:59:13] [076] Carregado:0001, Spawnado:0000, Total:0001, 'HandCuffs'
+[21:59:13] [077] Carregado:0005, Spawnado:0000, Total:0005, 'Bucket'
+[21:59:13] [078] Carregado:0009, Spawnado:0000, Total:0009, 'GasMask'
+[21:59:13] [082] Carregado:0005, Spawnado:0002, Total:0007, 'Satchel'
+[21:59:13] [083] Carregado:0006, Spawnado:0003, Total:0009, 'Wheel'
+[21:59:13] [084] Carregado:0003, Spawnado:0000, Total:0003, 'MotionSense'
+[21:59:13] [085] Carregado:0001, Spawnado:0001, Total:0002, 'Accelerometer'
+[21:59:13] [088] Carregado:0001, Spawnado:0000, Total:0001, 'Pizza'
+[21:59:13] [089] Carregado:0002, Spawnado:0001, Total:0003, 'Burger'
+[21:59:13] [090] Carregado:0004, Spawnado:0001, Total:0005, 'BurgerBox'
+[21:59:13] [091] Carregado:0004, Spawnado:0003, Total:0007, 'Taco'
+[21:59:13] [092] Carregado:0009, Spawnado:0003, Total:0012, 'GasCan'
+[21:59:13] [097] Carregado:0000, Spawnado:0001, Total:0001, 'SmallBox'
+[21:59:13] [098] Carregado:0002, Spawnado:0000, Total:0002, 'LargeBox'
+[21:59:13] [099] Carregado:0001, Spawnado:0000, Total:0001, 'HockeyMask'
+[21:59:13] [112] Carregado:0001, Spawnado:0002, Total:0003, 'Barbecue'
+[21:59:13] [113] Carregado:0012, Spawnado:0001, Total:0013, 'Headlight'
+[21:59:13] [114] Carregado:0004, Spawnado:0003, Total:0007, 'Pills'
+[21:59:13] [115] Carregado:0001, Spawnado:0000, Total:0001, 'AutoInjec'
+[21:59:13] [116] Carregado:0003, Spawnado:0000, Total:0003, 'BurgerBag'
+[21:59:13] [117] Carregado:0007, Spawnado:0001, Total:0008, 'CanDrink'
+[21:59:13] [124] Carregado:0004, Spawnado:0000, Total:0004, 'Keypad'
+[21:59:13] [125] Carregado:0009, Spawnado:0000, Total:0009, 'TentPack'
+[21:59:13] [126] Carregado:0001, Spawnado:0000, Total:0001, 'Campfire'
+[21:59:13] [128] Carregado:0007, Spawnado:0002, Total:0009, 'TruckCap'
+[21:59:13] [129] Carregado:0003, Spawnado:0000, Total:0003, 'BoaterHat'
+[21:59:13] [130] Carregado:0005, Spawnado:0000, Total:0005, 'BowlerHat'
+[21:59:13] [135] Carregado:0005, Spawnado:0000, Total:0005, 'AmmoBuck'
+[21:59:13] [137] Carregado:0001, Spawnado:0000, Total:0001, 'Ammo357'
+[21:59:13] [148] Carregado:0006, Spawnado:0000, Total:0006, 'PlantPot'
+[21:59:13] [161] Carregado:0003, Spawnado:0002, Total:0005, 'Motor'
+[21:59:13] [166] Carregado:0002, Spawnado:0000, Total:0002, 'LargeBackpack'
+[21:59:13] [168] Carregado:0003, Spawnado:0000, Total:0003, 'XmasHat'
+[21:59:13] [171] Carregado:0002, Spawnado:0000, Total:0002, 'Ammo9mmFMJ'
+[21:59:13] [172] Carregado:0000, Spawnado:0003, Total:0003, 'AmmoFlechette'
+[21:59:13] [173] Carregado:0002, Spawnado:0000, Total:0002, 'AmmoHomeBuck'
+[21:59:13] [179] Carregado:0000, Spawnado:0001, Total:0001, 'M77RMRifle'
+[21:59:13] [182] Carregado:0001, Spawnado:0000, Total:0001, 'Ammo308'
+[21:59:13] [185] Carregado:0005, Spawnado:0004, Total:0009, 'Daypack'
+[21:59:13] [186] Carregado:0003, Spawnado:0000, Total:0003, 'MediumBag'
+[21:59:13] [187] Carregado:0001, Spawnado:0000, Total:0001, 'Rucksack'
+[21:59:13] [189] Carregado:0005, Spawnado:0002, Total:0007, 'Note'
+[21:59:13] [192] Carregado:0004, Spawnado:0000, Total:0004, 'AntiSepBandage'
+[21:59:13] [202] Carregado:0000, Spawnado:0001, Total:0001, 'Spatula'
+[21:59:13] [203] Carregado:0002, Spawnado:0000, Total:0002, 'Pan'
+[21:59:13] [204] Carregado:0001, Spawnado:0000, Total:0001, 'Knife2'
+[21:59:13] [206] Carregado:0001, Spawnado:0000, Total:0001, 'FryingPan'
+[21:59:13] [207] Carregado:0001, Spawnado:0000, Total:0001, 'PizzaOnly'
+[21:59:13] [208] Carregado:0002, Spawnado:0001, Total:0003, 'BreadLoaf'
+[21:59:13] [209] Carregado:0001, Spawnado:0000, Total:0001, 'Banana'
+[21:59:13] [210] Carregado:0001, Spawnado:0000, Total:0001, 'Orange'
+[21:59:13] [211] Carregado:0006, Spawnado:0000, Total:0006, 'WheelLock'
+[21:59:13] [212] Carregado:0002, Spawnado:0000, Total:0002, 'RedApple'
+[21:59:13] [213] Carregado:0004, Spawnado:0001, Total:0005, 'Lemon'
+[21:59:13] [215] Carregado:0003, Spawnado:0000, Total:0003, 'PizzaBox'
+[21:59:13] [216] Carregado:0002, Spawnado:0000, Total:0002, 'MilkBottle'
+[21:59:13] [217] Carregado:0001, Spawnado:0001, Total:0002, 'MilkCarton'
+[21:59:13] [219] Carregado:0002, Spawnado:0000, Total:0002, 'FishyFingers'
+[21:59:13] [221] Carregado:0003, Spawnado:0001, Total:0004, 'AppleJuice'
+[21:59:13] [222] Carregado:0002, Spawnado:0000, Total:0002, 'OrangeJuice'
+[21:59:13] [224] Carregado:0001, Spawnado:0001, Total:0002, 'Cereal2'
+[21:59:13] [227] Carregado:0003, Spawnado:0000, Total:0003, 'StrawHat'
+[21:59:13] [228] Carregado:0003, Spawnado:0000, Total:0003, 'WitchesHat'
+[21:59:13] [232] Carregado:0003, Spawnado:0000, Total:0003, 'PizzaHat'
+[21:59:13] [241] Carregado:0001, Spawnado:0000, Total:0001, 'Ketchup'
+[21:59:13] [242] Carregado:0001, Spawnado:0000, Total:0001, 'Mustard'
+[21:59:13] [243] Carregado:0000, Spawnado:0001, Total:0001, 'Boot'
+[21:59:13] [244] Carregado:0001, Spawnado:0000, Total:0001, 'Doormat'
+[21:59:13] [247] Carregado:0000, Spawnado:0002, Total:0002, 'GrnApple'
+[21:59:13] [249] Carregado:0001, Spawnado:0001, Total:0002, 'Wine2'
+[21:59:13] [250] Carregado:0001, Spawnado:0000, Total:0001, 'Wine3'
+[21:59:13] [253] Carregado:0001, Spawnado:0000, Total:0001, 'Ham'
+[21:59:13] [255] Carregado:0003, Spawnado:0000, Total:0003, 'Bread'
+[21:59:13] [256] Carregado:0002, Spawnado:0000, Total:0002, 'Broom'
+[21:59:13] [266] Carregado:0000, Spawnado:0001, Total:0001, 'ScrapMachine'
+[21:59:13] [267] Carregado:0000, Spawnado:0001, Total:0001, 'RefineMachine'
+[21:59:13] [269] Carregado:0000, Spawnado:0011, Total:0011, 'Workbench'
+[21:59:13] [272] Carregado:0001, Spawnado:0000, Total:0001, 'GearBox'
+[21:59:13] [273] Carregado:0001, Spawnado:0000, Total:0001, 'ToolBox'
+[21:59:13] [275] Carregado:0000, Spawnado:0001, Total:0001, 'PoliceHelm'
+[21:59:13] [288] Carregado:0002, Spawnado:0000, Total:0002, 'BandanaWh'
+[21:59:13] [289] Carregado:0001, Spawnado:0001, Total:0002, 'BandanaPat'
+[21:59:13] [291] Carregado:0004, Spawnado:0001, Total:0005, 'Clothes'
+[21:59:13] [292] Carregado:0002, Spawnado:0000, Total:0002, 'DiaboMask'
+[21:59:13] [293] Carregado:0002, Spawnado:0000, Total:0002, 'CluckinBellHat1'
+[21:59:13] [294] Carregado:0002, Spawnado:0000, Total:0002, 'Balaclava'
+[21:59:13] [295] Carregado:0001, Spawnado:0000, Total:0001, 'fire_hat1'
+[21:59:13] [297] Carregado:0001, Spawnado:0001, Total:0002, 'headphones04'
+[21:59:13] [304] Carregado:0002, Spawnado:0001, Total:0003, 'MetalBlin'
+[21:59:13] [305] Carregado:0003, Spawnado:0000, Total:0003, 'DoorBlin'
+[21:59:13] [306] Carregado:0002, Spawnado:0000, Total:0002, 'PortaCofre'
+[21:59:13] [307] Carregado:0001, Spawnado:0000, Total:0001, 'GarageDoor'
+[21:59:13] [308] Carregado:0001, Spawnado:0000, Total:0001, 'DupleDoor'
+[21:59:13] [309] Carregado:0000, Spawnado:0001, Total:0001, 'ShipDoor'
+[21:59:13] [310] Carregado:0001, Spawnado:0000, Total:0001, 'CorPanel'
+[21:59:13] [311] Carregado:0002, Spawnado:0000, Total:0002, 'InsulPanel'
+[21:59:13] [312] Carregado:0006, Spawnado:0000, Total:0006, 'WoodPanel'
+[21:59:13] [316] Carregado:0001, Spawnado:0000, Total:0001, 'CrateDoor'
+[21:59:32] [connection] 127.0.0.1:56889 requests connection cookie.
+[21:59:33] [connection] incoming connection: 127.0.0.1:56889 id: 0
+[21:59:34] [join] Oupieer has joined the server (0:127.0.0.1)
+[21:59:34] INFO: [RemoveObjects_FirstLoad] Created session data for Oupieer
+[21:59:34] [JOIN] Oupieer joined
+[21:59:40] RCON (In-Game): Player #0 (Oupieer) has logged in.
+[21:59:42] [COMMAND] [Oupieer]: /macacoverde43 6
+[21:59:50] [LoadAccount] Oupieer (account exists, prompting login) Alive: 1 Last login: Tuesday Jan 31 2023 at 21:52:28
+[21:59:50] [DisplayLoginPrompt] Oupieer is logging in
+[21:59:52] [LoginPrompt] Oupieer Response: 1
+[21:59:52] [LOGIN] Oupieer logged in, alive: 1
+[21:59:53] [SPAWN] Oupieer spawned existing character at -2111.4, 2701.3, 160.8 (32.0)
+[22:00:16] [COMMAND] [Oupieer]: /sf
+[22:00:21] [COMMAND] [Oupieer]: /move f 1500
+[22:00:23] [FOCUS] Oupieer unfocused game
+[22:00:23] [FOCUS] Oupieer focused back to game
+[22:00:25] [COMMAND] [Oupieer]: /move f 100
+[22:00:25] [COMMAND] [Oupieer]: /move f 100
+[22:00:26] [COMMAND] [Oupieer]: /move f 100
+[22:00:27] [COMMAND] [Oupieer]: /move f 100
+[22:00:38] INFO: [OnPlayerDisconnect] Removing session data file for Oupieer
+[22:00:38] [LOGOUT] Oupieer logged out at -2583.3, 1158.2, 55.2 (229.2) Logged In: 1 Alive: 1 Knocked Out: 0
+[22:00:38] [part] Oupieer has left the server (0:1)

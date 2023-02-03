@@ -1,0 +1,25 @@
+airdrop_ordnance, 1.0
+
+# crafting
+50.0,	Fluctuator
+50.0,	Timer
+
+# tnt
+50.0,	Explosive
+50.0,	TntTimebomb
+50.0,	TntTripMine
+50.0,	TntProxMine
+50.0,	TntPhoneBomb
+
+# ied
+50.0,	IedBomb
+50.0,	IedTimebomb
+50.0,	IedTripMine
+50.0,	IedProxMine
+50.0,	IedPhoneBomb
+
+# emp
+50.0,	EmpTimebomb
+50.0,	EmpTripMine
+50.0,	EmpProxMine
+50.0,	EmpPhoneBomb

@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks":
+  [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+      "args": [
+        "'${file}'",
+        "'-D${fileDirname}'",
+        "'-;+'",
+        "'-(+'",
+        "'-d3'"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": "$pawncc"
+    },
+    {
+      "type": "vsls",
+      "taskUid": "shell:build",
+      "problemMatcher": [
+        "$vsls"
+      ],
+      "label": "Shared: build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

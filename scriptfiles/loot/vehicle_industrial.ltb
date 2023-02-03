@@ -1,0 +1,65 @@
+vehicle_industrial,	1.0
+
+# tools,	useful stuff, etc
+45.0,	Wrench
+40.0,	Screwdriver
+38.0,	Hammer
+25.0,	Crowbar
+12.0,	Satchel
+12.0,	Daypack
+8.0,	AmmoBuck
+10.0,	Bandage
+6.0,	AntiSepBandage
+40.0,	GasCan
+30.0,	Wheel
+
+# crafting
+1.0,	ScrapMetal
+31.0,	Fusebox
+20.0,	Accelerometer
+20.0,	MotionSense
+6.0,	WheelLock
+20.0,	Motor
+
+# construction and base stuff
+20.0,	Keypad
+10.0,	SmallBox
+7.0,	MediumBox
+5.0,	LargeBox
+6.0,	Holdall
+9.0,	GearBox
+8.0,	ToolBox
+4.0,	RadioPole
+
+# defences
+0.1,    MetalBlin
+0.5,    DoorBlin
+1.0,    PortaCofre
+#2.9,    DupleDoor
+3.1,    GarageDoor
+3.3,    ShipDoor
+3.5,    CorPanel
+3.7,    InsulPanel
+3.7,    WoodPanel
+3.9,    InsulDoor
+#2.5,    MetalGate2
+4.0,    MetPanel
+4.1,    CrateDoor
+4.1,    MetalGate1
+
+# misc
+31.0,	CanDrink
+32.0,	Bottle
+34.0,	Bucket
+15.0,	Flashlight
+2.0,	LaserPoint
+12.0,	Broom
+2.0,	Canister
+3.0,	WoodLog
+3.0,	Sledgehammer
+32.0,	Note
+5.0,	Boot
+55.0,	GasMask
+56.0,	TruckCap
+45.0,	Battery
+35.0,	Headlight
