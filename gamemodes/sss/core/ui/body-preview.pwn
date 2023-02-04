@@ -75,7 +75,7 @@ hook OnPlayerConnect(playerid)
 
 CreateBodyPreviewUI(playerid)
 {
-	bod_Header[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid], "Saude e Feridas");
+	bod_Header[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid], "Saúde e Ferídas");
 	PlayerTextDrawAlignment			(playerid, bod_Header[playerid], 2);
 	PlayerTextDrawFont				(playerid, bod_Header[playerid], 1);
 	PlayerTextDrawLetterSize		(playerid, bod_Header[playerid], 0.2, 1.0);
@@ -99,7 +99,7 @@ CreateBodyPreviewUI(playerid)
 	PlayerTextDrawBoxColor			(playerid, bod_Background[playerid], 0x00000055);
 	PlayerTextDrawTextSize			(playerid, bod_Background[playerid], 0.0, bod_UIWidth[playerid]);
 
-	bod_Footer[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid] + 204.0, "Nao saudavel");
+	bod_Footer[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid] + 204.0, "Não saudável");
 	PlayerTextDrawAlignment			(playerid, bod_Footer[playerid], 2);
 	PlayerTextDrawFont				(playerid, bod_Footer[playerid], 1);
 	PlayerTextDrawLetterSize		(playerid, bod_Footer[playerid], 0.2, 1.0);
@@ -326,7 +326,7 @@ CMD:bodyuioffsets(playerid, params[])
 
 	if(sscanf(params, "ff", x, y))
 	{
-		ChatMsg(playerid, YELLOW, " >  Current offsets: %f, %f", bod_UIPositionX[playerid], bod_UIPositionY[playerid]);
+		ChatMsg(playerid, YELLOW, " >  Offsets atuais: %f, %f", bod_UIPositionX[playerid], bod_UIPositionY[playerid]);
 		return 1;
 	}
 
