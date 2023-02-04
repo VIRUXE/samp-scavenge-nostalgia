@@ -10,14 +10,13 @@ BUTTONMSG=Pressione F para interagir
 CHATKILLMSG=[KILL] {C_YELLOW}%p matou %p{C_RED}!
 STATUSOPT={C_YELLOW}Status >
 CAMUOPT={C_YELLOW}Camuflagem >
+
 STS_SCORE=Score
 STS_DEATH=Mortes
 STS_SPREE=Killing Spree
 STS_ALIVET=Minutos Vivo
 STS_CLAN=Clan
-STS_FP=Fome
-STS_BLEED=Taxa de Sangramento
-STS_RESTART=Respawn de itens em
+
 VEHDMG=DANO
 VEHENG=MOTOR
 VEHDOR=PORTAS
@@ -176,9 +175,9 @@ STUNGUNCHAR=Arma de choque carregada
 KICKMESSAGE= >  Kickado, motivo: {C_BLUE}%s
 VEHNOTYOURS= >  Este {C_BLUE}%s{C_YELLOW} não é salvará, você tem um {C_BLUE}%s{C_YELLOW}. Para salvar qualquer veículo, use: /vsave on
 VEHICLSAVED= Veículo %s salvo!
-#VEHMODEALLV= >  Vehicle Save mode ativo!. Quando você entrar em QUALQUER veículo, ele será salvo para você.
-#VEHMODEOWNV= >  Vehicle Save mode ativo para 'Próprio veículo'!. Apenas seu próprio veículo será salvo quando você dirigí-lo. Se você entrar em outro como motorista, ele não deletará seu veículo atual.
-#VEHMODEHELP= >  Uso: /vsave [on / off] - Salva veículos na entrada e na saída. Quando 'off', você será capaz apenas de salvar seu próprio veículo.
+# VEHMODEALLV= >  Vehicle Save mode ativo!. Quando você entrar em QUALQUER veículo, ele será salvo para você.
+# VEHMODEOWNV= >  Vehicle Save mode ativo para 'Próprio veículo'!. Apenas seu próprio veículo será salvo quando você dirigí-lo. Se você entrar em outro como motorista, ele não deletará seu veículo atual.
+# VEHMODEHELP= >  Uso: /vsave [on / off] - Salva veículos na entrada e na saída. Quando 'off', você será capaz apenas de salvar seu próprio veículo.
 WARNCOUNTER= >  Você tem %d/5 Avisos!.
 MUTEDPERMAN= >  Você está permanentemente mudo.
 MUTEDTIMERM= >  Você está mudo. Tempo restante: %s
@@ -272,13 +271,6 @@ DEFENCESLIST=	 {C_YELLOW}Lista de Metais: (Total: 17) \n\n\t  \n\n\t {C_ORANGE}M
 BACKPACKLIST=	 {C_YELLOW}Lista de Mochilas: (Total: 7) \n\n\t  \n\n\t {C_ORANGE}Mochila de Acampamento - (18 slots) \n\n\t {C_ORANGE}Mochila de Paraquedas - (15 slots) \n\n\t {C_ORANGE}Mochila Grande - (14 slots) \n\n\t {C_ORANGE}Mochila Larga - (12 slots) \n\n\t {C_ORANGE}Mochila Média - (10 slots) \n\n\t {C_ORANGE}Daypack - (8 slots) \n\n\t {C_ORANGE}Mochila Pequena - (7 slots).
 BOXESLIST=	 {C_YELLOW}Lista de Caixas: (Total: 8) \n\n\t  \n\n\t {C_ORANGE}Armário (45 Slots) \n\n\t {C_ORANGE}Caixa Grande (15 Slots) \n\n\t {C_ORANGE}Caixa Média (12 Slots) \n\n\t {C_ORANGE}Caixa Pequena (10 Slots) \n\n\t {C_ORANGE}Caixa de Ferramentas (8 Slots) \n\n\t {C_ORANGE}Mala de Viagem (6 Slots) \n\n\t {C_ORANGE}Bolsa de Viagem (6 Slots) \n\n\t {C_ORANGE}Caixinha (5 Slots).
 
-STATUSUPDDD=Fome: %0.1f - Sangramento: %0.5f _~n~Matou: %d - Morreu: %d - Spree: %d
-
-STATUSUPD=~y~~h~Score: ~w~%d  ~y~~h~Mortes: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Sangramento: ~g~~h~~h~%0.2f  ~y~~h~Fome: ~g~~h~~h~%0.1f
-STATUSUPD2=~y~~h~Score: ~w~%d  ~y~~h~Mortes: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Sangramento: ~r~~h~~h~%0.2f  ~y~~h~Fome: ~r~~h~~h~%0.1f
-STATUSUPD3=~y~~h~Score: ~w~%d  ~y~~h~Mortes: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Sangramento: ~g~~h~~h~%0.2f  ~y~~h~Fome: ~r~~h~~h~%0.1f
-STATUSUPD4=~y~~h~Score: ~w~%d  ~y~~h~Mortes: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Sangramento: ~r~~h~~h~%0.2f  ~y~~h~Fome: ~g~~h~~h~%0.1f.
-
 STTSCORE=~w~%d
 STTPED=~w~%d
 STTCLAN=~w~%s
@@ -317,8 +309,6 @@ MASK_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acessório.
 LIQUID_T=Este item pode conter líquidos. Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar beber ou usa-lo.
 HOLSTER_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar no coldre
 FOOD_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar náuseas se não for cozinhado antes.
-
-DEFENCE_T=
 
 NULL_T=Esse é um item inválido, ignore-o.
 Knuckles_T=Essa é uma arma 'branca' robusta, útil para desmaiar jogadores.
@@ -453,7 +443,7 @@ IedPhoneB_T=Use um telefone com isso pressionando {KEYTEXT_INTERACT} para sincro
 EmpTimebo_T=Uma bomba de proximidade com uma detonação cronômetrada de 5 segundos, pressione {KEYTEXT_INTERACT} para armá-la.
 EmpTripMi_T=Arme-a no chão pressionando {KEYTEXT_INTERACT}, arme-a dentro containers clicando Opções e em Armar, assim que o container for aberto a bomba detonará.
 EmpProxMi_T=Esse item não tem útilidade.
-EmpPhoneB_T=IedPhoneB_T=Use um telefone com isso pressionando {KEYTEXT_INTERACT} para sincronizar telefones, depois use o telefone para detonar com {KEYTEXT_INTERACT}
+EmpPhoneB_T=Use um telefone com isso pressionando {KEYTEXT_INTERACT} para sincronizar telefones, depois use o telefone para detonar com {KEYTEXT_INTERACT}
 Gyroscope_T=Esse item não tem útilidade.
 Motor_T=Use isso para montar uma base ou em crafts.
 StarterMo_T=Esse item não tem útilidade.
@@ -508,8 +498,8 @@ BurntLog_T=Esse item não tem útilidade.
 Padlock_T=Esse item não tem útilidade.
 OilDrum_T=Esse item não tem útilidade.
 Canister_T=Usado em crafts.
-ScrapMeta_T=Canister_T=Usado em crafts.
-RefinedMe_T=Canister_T=Usado em crafts.
+ScrapMeta_T=Usado em crafts.
+RefinedMe_T=Usado em crafts.
 Locator_T=Esse item não tem útilidade.
 PlotPole_T=Uso do item não definido.
 ScrapMach_T=Uso do item não definido.
