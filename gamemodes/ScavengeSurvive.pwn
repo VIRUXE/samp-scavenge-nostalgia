@@ -905,18 +905,19 @@ DatabaseTableCheck(DB:database, tablename[], expectedcolumns)
 	}
 }
 
+// Converte caracteres especiais para o padr√£o do SA-MP (Utilizado para as textdraws)
 stock ConverterTexto(string[])
 {
 	for(new arraysize = 0; arraysize < strlen(string); arraysize++){
-		if(strfind(string, "‚", true) != -1){new pos = strfind(string, "‚", true); strdel(string, pos, pos+strlen("‚")); strins(string, "ô", pos, sizeof(pos));}
-		if(strfind(string, "„", true) != -1){new pos = strfind(string, "„", true); strdel(string, pos, pos+strlen("„")); strins(string, "ö", pos, sizeof(pos));}
-		if(strfind(string, "·", true) != -1){new pos = strfind(string, "·", true); strdel(string, pos, pos+strlen("·")); strins(string, "ò", pos, sizeof(pos));}
-		if(strfind(string, "È", true) != -1){new pos = strfind(string, "È", true); strdel(string, pos, pos+strlen("È")); strins(string, "û", pos, sizeof(pos));}
-		if(strfind(string, "˙", true) != -1){new pos = strfind(string, "˙", true); strdel(string, pos, pos+strlen("˙")); strins(string, "ì", pos, sizeof(pos));}
-		if(strfind(string, "Û", true) != -1){new pos = strfind(string, "Û", true); strdel(string, pos, pos+strlen("Û")); strins(string, "¶", pos, sizeof(pos));}
-		if(strfind(string, "Í", true) != -1){new pos = strfind(string, "Í", true); strdel(string, pos, pos+strlen("Í")); strins(string, "ü", pos, sizeof(pos));}
-		if(strfind(string, "Ì", true) != -1){new pos = strfind(string, "Ì", true); strdel(string, pos, pos+strlen("Ì")); strins(string, "¢", pos, sizeof(pos));}
-		if(strfind(string, "Á", true) != -1){new pos = strfind(string, "Á", true); strdel(string, pos, pos+strlen("Á")); strins(string, "ú", pos, sizeof(pos));}
-		if(strfind(string, "Ù", true) != -1){new pos = strfind(string, "Ù", true); strdel(string, pos, pos+strlen("Ù")); strins(string, "ß", pos, sizeof(pos));}
+		if(strfind(string, "√¢", true) != -1){new pos = strfind(string, "√¢", true); strdel(string, pos, pos+strlen("√¢")); strins(string, "¬ô", pos, sizeof(pos));}
+		if(strfind(string, "√£", true) != -1){new pos = strfind(string, "√£", true); strdel(string, pos, pos+strlen("√£")); strins(string, "¬ö", pos, sizeof(pos));}
+		if(strfind(string, "√°", true) != -1){new pos = strfind(string, "√°", true); strdel(string, pos, pos+strlen("√°")); strins(string, "¬ò", pos, sizeof(pos));}
+		if(strfind(string, "√©", true) != -1){new pos = strfind(string, "√©", true); strdel(string, pos, pos+strlen("√©")); strins(string, "¬û", pos, sizeof(pos));}
+		if(strfind(string, "√∫", true) != -1){new pos = strfind(string, "√∫", true); strdel(string, pos, pos+strlen("√∫")); strins(string, "¬ì", pos, sizeof(pos));}
+		if(strfind(string, "√≥", true) != -1){new pos = strfind(string, "√≥", true); strdel(string, pos, pos+strlen("√≥")); strins(string, "¬¶", pos, sizeof(pos));}
+		if(strfind(string, "√™", true) != -1){new pos = strfind(string, "√™", true); strdel(string, pos, pos+strlen("√™")); strins(string, "¬ü", pos, sizeof(pos));}
+		if(strfind(string, "√≠", true) != -1){new pos = strfind(string, "√≠", true); strdel(string, pos, pos+strlen("√≠")); strins(string, "¬¢", pos, sizeof(pos));}
+		if(strfind(string, "√ß", true) != -1){new pos = strfind(string, "√ß", true); strdel(string, pos, pos+strlen("√ß")); strins(string, "¬ú", pos, sizeof(pos));}
+		if(strfind(string, "√¥", true) != -1){new pos = strfind(string, "√¥", true); strdel(string, pos, pos+strlen("√¥")); strins(string, "¬ß", pos, sizeof(pos));}
 	}
 }
