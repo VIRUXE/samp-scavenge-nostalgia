@@ -76,9 +76,9 @@ timer CreateTitles[100](playerid)
 	CreatePlayerTile(playerid, GearSlot_Tors[0], GearSlot_Tors[1], GearSlot_Tors[2], 490.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Back[0], GearSlot_Back[1], GearSlot_Back[2], 560.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 
-	PlayerTextDrawSetString(playerid, GearSlot_Head[0], "Cabeca");
+	PlayerTextDrawSetString(playerid, GearSlot_Head[0], "Cabea");
 	PlayerTextDrawSetString(playerid, GearSlot_Face[0], "Cara");
-	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], "Mao");
+	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], "Mo");
 	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], "Coldre");
 	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], "Corpo");
 	PlayerTextDrawSetString(playerid, GearSlot_Back[0], "Costas");
