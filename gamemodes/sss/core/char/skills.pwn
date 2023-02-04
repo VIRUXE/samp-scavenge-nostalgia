@@ -96,7 +96,6 @@ stock PlayerGainSkillExperience(playerid, skillname[], Float:mult = 0.0)
 
 	new str[MAX_SKILL_NAME + 1];
 	format(str, sizeof(str), "+%s", skillname);
-	ConverterTexto(str);
 	PlayerTextDrawSetString(playerid, skl_PlayerNotification, str);
 	PlayerTextDrawShow(playerid, skl_PlayerNotification);
 	defer skl_HideUI(playerid);

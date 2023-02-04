@@ -209,7 +209,6 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 		{
 			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Updating left side index: %d", index);
 
-            ConverterTexto(string);
 			PlayerTextDrawSetString(playerid, bod_LabelData0[playerid][index][bl_textdraw], string);
 			PlayerTextDrawColor(playerid, bod_LabelData0[playerid][index][bl_textdraw], textcolour);
 			PlayerTextDrawShow(playerid, bod_LabelData0[playerid][index][bl_textdraw]);
@@ -231,8 +230,6 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 
 			bod_LabelData0[playerid][index][bl_posY] = ypos;
 			
-			ConverterTexto(string);
-
 			bod_LabelData0[playerid][index][bl_textdraw]=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid] - 55.0, ypos, string);
 			PlayerTextDrawAlignment			(playerid, bod_LabelData0[playerid][index][bl_textdraw], 1);
 			PlayerTextDrawBackgroundColor	(playerid, bod_LabelData0[playerid][index][bl_textdraw], 255);
@@ -255,7 +252,6 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 		{
 			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Updating right side index: %d", index);
 
-			ConverterTexto(string);
 			PlayerTextDrawSetString(playerid, bod_LabelData1[playerid][index][bl_textdraw], string);
 			PlayerTextDrawColor(playerid, bod_LabelData1[playerid][index][bl_textdraw], textcolour);
 			PlayerTextDrawShow(playerid, bod_LabelData1[playerid][index][bl_textdraw]);
@@ -316,7 +312,6 @@ stock SetBodyPreviewFooterText(playerid, string[])
 	if(!bod_Shown[playerid])
 		return 0;
 
-    ConverterTexto(string);
 	PlayerTextDrawSetString(playerid, bod_Footer[playerid], string);
 	PlayerTextDrawShow(playerid, bod_Footer[playerid]);
 

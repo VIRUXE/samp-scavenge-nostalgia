@@ -46,7 +46,6 @@ ShowHelpTip(playerid, text[], time = 0)
 	if(!ToolTips[playerid])
 		return 0;
 
-	ConverterTexto(text);
 	PlayerTextDrawSetString(playerid, ToolTipText[playerid], text);
 	PlayerTextDrawShow(playerid, ToolTipText[playerid]);
 

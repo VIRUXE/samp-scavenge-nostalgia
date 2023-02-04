@@ -904,20 +904,3 @@ DatabaseTableCheck(DB:database, tablename[], expectedcolumns)
 		for(;;){}
 	}
 }
-
-// Converte caracteres especiais para o padrão do SA-MP (Utilizado para as textdraws)
-stock ConverterTexto(string[])
-{
-	for(new arraysize = 0; arraysize < strlen(string); arraysize++){
-		if(strfind(string, "â", true) != -1){new pos = strfind(string, "â", true); strdel(string, pos, pos+strlen("â")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "ã", true) != -1){new pos = strfind(string, "ã", true); strdel(string, pos, pos+strlen("ã")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "á", true) != -1){new pos = strfind(string, "á", true); strdel(string, pos, pos+strlen("á")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "é", true) != -1){new pos = strfind(string, "é", true); strdel(string, pos, pos+strlen("é")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "ú", true) != -1){new pos = strfind(string, "ú", true); strdel(string, pos, pos+strlen("ú")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "ó", true) != -1){new pos = strfind(string, "ó", true); strdel(string, pos, pos+strlen("ó")); strins(string, "¦", pos, sizeof(pos));}
-		if(strfind(string, "ê", true) != -1){new pos = strfind(string, "ê", true); strdel(string, pos, pos+strlen("ê")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "í", true) != -1){new pos = strfind(string, "í", true); strdel(string, pos, pos+strlen("í")); strins(string, "¢", pos, sizeof(pos));}
-		if(strfind(string, "ç", true) != -1){new pos = strfind(string, "ç", true); strdel(string, pos, pos+strlen("ç")); strins(string, "", pos, sizeof(pos));}
-		if(strfind(string, "ô", true) != -1){new pos = strfind(string, "ô", true); strdel(string, pos, pos+strlen("ô")); strins(string, "§", pos, sizeof(pos));}
-	}
-}
