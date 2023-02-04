@@ -385,6 +385,8 @@ ShowListOfReports(playerid)
 		idx++;
 	}
 
+	ShowPlayerPageButtons(playerid);
+
 	Dialog_Show(playerid, ListOfReports, DIALOG_STYLE_LIST, "Reports", string, "Abrir", "Fechar");
 
 	return 1;
