@@ -329,7 +329,6 @@ stock ShowActionText(playerid, message[], time=0, width=200)
 {
     if(!IsPlayerNPC(playerid))
 	{
-		ConverterTexto(message);
 		PlayerTextDrawSetString(playerid, ActionText[playerid], message);
 		PlayerTextDrawTextSize(playerid, ActionText[playerid], width, 300);
 		PlayerTextDrawColor(playerid, ActionText[playerid], 0xF4F98EFF);

@@ -51,7 +51,6 @@ hook OnPlayerConnect(playerid)
 
 stock ShowPlayerKeyActionUI(playerid)
 {
-	ConverterTexto(KeyActionsText[playerid]);
 	PlayerTextDrawSetString(playerid, KeyActions[playerid], KeyActionsText[playerid]);
 	PlayerTextDrawShow(playerid, KeyActions[playerid]);
 }

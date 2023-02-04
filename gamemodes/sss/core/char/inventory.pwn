@@ -68,6 +68,7 @@ timer CreateTitles[100](playerid)
 		defer CreateTitles(playerid);
 		return;
 	}
+
 	CreatePlayerTile(playerid, GearSlot_Head[0], GearSlot_Head[1], GearSlot_Head[2], 490.0, 120.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Face[0], GearSlot_Face[1], GearSlot_Face[2], 560.0, 120.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Hand[0], GearSlot_Hand[1], GearSlot_Hand[2], 490.0, 230.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
@@ -75,16 +76,9 @@ timer CreateTitles[100](playerid)
 	CreatePlayerTile(playerid, GearSlot_Tors[0], GearSlot_Tors[1], GearSlot_Tors[2], 490.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Back[0], GearSlot_Back[1], GearSlot_Back[2], 560.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 
-	new string[8] = "Cabeça" ;
-	ConverterTexto(string);
-	PlayerTextDrawSetString(playerid, GearSlot_Head[0], string);
-
+	PlayerTextDrawSetString(playerid, GearSlot_Head[0], "Cabeca");
 	PlayerTextDrawSetString(playerid, GearSlot_Face[0], "Cara");
-
-	string = "Mão" ;
-	ConverterTexto(string);
-	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], string);
-
+	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], "Mao");
 	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], "Coldre");
 	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], "Corpo");
 	PlayerTextDrawSetString(playerid, GearSlot_Back[0], "Costas");
@@ -196,18 +190,18 @@ ShowPlayerHealthInfo(playerid)
 	ShowBodyPreviewUI(playerid);
 
 	new strc[15];
-	format(strc, sizeof(strc), "Cabeça: %d", bodypartwounds[6]);
+	format(strc, sizeof(strc), "Cabeï¿½a: %d", bodypartwounds[6]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 35.0, strc,
 		bodypartwounds[6] ? RGBAToHex(max(bodypartwounds[6] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
 	SetBodyPreviewLabel(playerid, 0, tmp++, 25.0, sprintf("Tronco: %d", bodypartwounds[0]),
 		bodypartwounds[0] ? RGBAToHex(max(bodypartwounds[0] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
-    format(strc, sizeof(strc), "Braço D: %d", bodypartwounds[3]);
+    format(strc, sizeof(strc), "Braï¿½o D: %d", bodypartwounds[3]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 30.0, strc,
 		bodypartwounds[3] ? RGBAToHex(max(bodypartwounds[3] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
-    format(strc, sizeof(strc), "Braço E: %d", bodypartwounds[2]);
+    format(strc, sizeof(strc), "Braï¿½o E: %d", bodypartwounds[2]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 20.0, strc,
 		bodypartwounds[2] ? RGBAToHex(max(bodypartwounds[2] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -226,10 +220,10 @@ ShowPlayerHealthInfo(playerid)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, "Sangramento", RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
 
 	if(infected1)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecção alimentar", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecï¿½ï¿½o alimentar", 0xFF0000FF);
 
 	if(infected2)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecção na ferida", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecï¿½ï¿½o na ferida", 0xFF0000FF);
 
 	for(new i; i < drugs; i++)
 	{
@@ -257,7 +251,6 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemTypeName(GetItemType(itemid), tmp);
-		ConverterTexto(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Head[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Head[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Head[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -272,7 +265,6 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemTypeName(GetItemType(itemid), tmp);
-		ConverterTexto(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Face[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Face[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Face[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -288,7 +280,6 @@ UpdatePlayerGear(playerid, show = 1)
 	{
 		GetItemName(itemid, tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemid)), tmp);
-		ConverterTexto(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hand[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hand[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Hand[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -304,7 +295,6 @@ UpdatePlayerGear(playerid, show = 1)
 	{
 		GetItemName(itemid, tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemid)), tmp);
-		ConverterTexto(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hols[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hols[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Hols[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -331,7 +321,6 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemName(itemid, tmp);
-		ConverterTexto(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Back[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Back[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Back[UI_ELEMENT_TILE], 0.0, 0.0, -45.0, 1.0);
@@ -440,7 +429,7 @@ hook OnItemAddToInventory(playerid, itemid, slot)
 		return 1;
 
 	UpdatePlayerGear(playerid, 0);
-	ShowActionText(playerid, "Item adicionado ao inventário", 3000);
+	ShowActionText(playerid, "Item adicionado ao inventï¿½rio", 3000);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
