@@ -72,7 +72,7 @@ hook OnPlayerConnect(playerid)
 {
 	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/ui/tip-text.pwn");
 
-	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer veÃ­culos");
+	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer veí­culos");
 	PlayerTextDrawLetterSize(playerid, ToolTipText[playerid], 0.279665, 1.952331);
 	PlayerTextDrawTextSize(playerid, ToolTipText[playerid], 182.651519, 35.466674);
 	PlayerTextDrawAlignment(playerid, ToolTipText[playerid], 1);
@@ -112,17 +112,8 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 		if(GetItemTypeLiquidContainerType(itype) != -1 || itype != item_GasCan || itype != item_OilCan)
 			ShowHelpTip(playerid, ls(playerid, "LIQUID_T"), 20000);
 
-/*		else if(GetItemTypeWeaponBaseWeapon(itype))
-			ShowHelpTip(playerid, ls(playerid, "WEAPON_T"), 20000);
-
-		else if(IsValidHolsterItem(itype))
-			ShowHelpTip(playerid, ls(playerid, "HOLSTER_T"), 20000);
-			
-		else if(GetItemTypeAmmoType(itype) != -1)
-			ShowHelpTip(playerid, ls(playerid, "AMMO_T"), 20000);
-
 		else if(IsItemTypeFood(itype))
-			ShowHelpTip(playerid, ls(playerid, "FOOD_T"), 20000);*/
+			ShowHelpTip(playerid, ls(playerid, "FOOD_T"), 20000);
 
 		else {
 			new itemname[ITM_MAX_NAME],
