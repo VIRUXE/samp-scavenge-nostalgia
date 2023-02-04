@@ -288,24 +288,39 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 StartBuildingDefence(playerid, itemid)
 {
 	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+
+	new BlockedZone = -1;
+	if(IsPlayerInRangeOfPoint(playerid, 15.0, 256.6457, 4297.8452, 7.2358)){
+		BlockedZone = 1;
+		return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+	}
+
+	else if(IsPlayerInRangeOfPoint(playerid, 5.0, 0, 0, 5)){
+		BlockedZone = 1;
+		return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+	}
+
+	if(BlockedZone == -1)
+	{	
+		new itemtypename[ITM_MAX_NAME];
+
+		GetItemTypeName(GetItemType(itemid), itemtypename);
+
+		def_CurrentDefenceItem[playerid] = itemid;
 		
-	new itemtypename[ITM_MAX_NAME];
+		if(IsPlayerVip(playerid))
+			StartHoldAction(playerid, 4000);
+		else
+			StartHoldAction(playerid, 8000);
+		
+		ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
+		ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
 
-	GetItemTypeName(GetItemType(itemid), itemtypename);
+		if(!IsPlayerInvadedField(playerid))
+			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
-	def_CurrentDefenceItem[playerid] = itemid;
-	
-	if(IsPlayerVip(playerid))
-	    StartHoldAction(playerid, 4000);
-	else
-	    StartHoldAction(playerid, 8000);
-	
-	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
-
-	if(!IsPlayerInvadedField(playerid))
-		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
-
+		return 1;
+	}
 	return 1;
 }
 
