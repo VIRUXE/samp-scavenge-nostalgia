@@ -93,22 +93,55 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 	if(ToolTips[playerid])
 	{
-		new
-			itemname[ITM_MAX_NAME],
-			itemtipkey[12],
-			str[288];
+		new ItemType:itype = GetItemType(itemid);
+		
+		if(IsItemTypeDefence(itype))
+			ShowHelpTip(playerid, ls(playerid, "DEFENCE_T"), 20000);
 
-		GetItemTypeUniqueName(GetItemType(itemid), itemname);
+		else if(IsItemTypeSafebox(itype))
+			ShowHelpTip(playerid, ls(playerid, "SAFEBOX_T"), 20000);
 
-		if(strlen(itemname) > 9)
-			itemname[9] = EOS;
+		else if(IsItemTypeBag(itype))
+			ShowHelpTip(playerid, ls(playerid, "BAG_T"), 20000);
 
-		format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
-		itemtipkey[11] = EOS;
+		else if(GetHatFromItem(itype) != -1)
+			ShowHelpTip(playerid, ls(playerid, "HAT_T"), 20000);
 
-		format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey, true));
+		else if(GetMaskFromItem(itype) != -1)
+			ShowHelpTip(playerid, ls(playerid, "MASK_T"), 20000);
 
-		ShowHelpTip(playerid, str, 20000);
+		if(GetItemTypeLiquidContainerType(itype) != -1 || itype != item_GasCan || itype != item_OilCan)
+			ShowHelpTip(playerid, ls(playerid, "LIQUID_T"), 20000);
+
+/*		else if(GetItemTypeWeaponBaseWeapon(itype))
+			ShowHelpTip(playerid, ls(playerid, "WEAPON_T"), 20000);
+
+		else if(IsValidHolsterItem(itype))
+			ShowHelpTip(playerid, ls(playerid, "HOLSTER_T"), 20000);
+			
+		else if(GetItemTypeAmmoType(itype) != -1)
+			ShowHelpTip(playerid, ls(playerid, "AMMO_T"), 20000);
+
+		else if(IsItemTypeFood(itype))
+			ShowHelpTip(playerid, ls(playerid, "FOOD_T"), 20000);*/
+
+		else {
+			new itemname[ITM_MAX_NAME],
+				itemtipkey[12],
+				str[288];
+
+			GetItemTypeUniqueName(GetItemType(itemid), itemname);
+
+			if(strlen(itemname) > 9)
+				itemname[9] = EOS;
+
+			format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
+			itemtipkey[11] = EOS;
+
+			format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey, true));
+
+			ShowHelpTip(playerid, str, 20000);
+		}
 	}
 }
 
