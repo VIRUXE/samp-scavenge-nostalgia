@@ -72,7 +72,7 @@ hook OnPlayerConnect(playerid)
 {
 	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/ui/tip-text.pwn");
 
-	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer veí­culos");
+	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer veículos");
 	PlayerTextDrawLetterSize(playerid, ToolTipText[playerid], 0.279665, 1.952331);
 	PlayerTextDrawTextSize(playerid, ToolTipText[playerid], 182.651519, 35.466674);
 	PlayerTextDrawAlignment(playerid, ToolTipText[playerid], 1);
