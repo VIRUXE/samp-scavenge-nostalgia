@@ -1,0 +1,1 @@
+..\pawno\pawncc.exe ScavengeSurvive.pwn -;+ -(+ -d3
