@@ -5,14 +5,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
-      "args": [
-        "ScavengeSurvive.pwn",
-        "'-Dgamemodes'",
-        "'-;+'",
-        "'-(+'",
-        "'-d3'"
-      ],
+      "command": "${workspaceRoot}\\gamemodes\\build.bat",
       "group": {
         "kind": "build",
         "isDefault": true
