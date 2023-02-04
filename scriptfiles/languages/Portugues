@@ -301,14 +301,14 @@ WCDROP= >  [Exército]: CACHE DE ARMAS CAINDO EM: {C_ORANGE}'%s'
 SCDROP= >  [Exército]: CAIXA DE SUPRIMENTOS: {C_BLUE}'%s'{C_YELLOW} CAINDO EM: {C_ORANGE}'%s'
 SCDROP2= >  [Exército]: %p(id:%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}'%s'{C_YELLOW} MARCADO UM 'S' NO MAPA!'
 
-DEFENCE_T=Use uma ~y~Chave de Fenda~w~ nisto para construir cuma parede, ou um ~y~Martelo~w~ para construir um chão, segure {KEYTEXT_INTERACT} para construir.
-SAFEBOX_T=Armazene itens aqui e eles serão salvos. ~R~OBS: Caso esteja vazio, será destruido.
+DEFENCE_T=Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chão, segure {KEYTEXT_INTERACT} para construir.
+SAFEBOX_T=Armazene itens aqui e eles serão salvos. ~R~OBS: Caso esteja vazio, ser� destruido no respawn.
 BAG_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas m�os para remover.
-HAT_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acessório.
-MASK_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acessório.
+HAT_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acess�rio.
+MASK_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acess�rio.
 LIQUID_T=Este item pode conter l�quidos. Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar beber ou usa-lo.
-HOLSTER_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar no coldre
-FOOD_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar n�useas se não for cozinhado antes.
+HOLSTER_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar no coldre.
+FOOD_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar n�useas se n�o for cozinhado antes.
 
 NULL_T=Esse é um item inv�lido, ignore-o.
 Knuckles_T=Essa é uma arma 'branca' robusta, �til para desmaiar jogadores.
