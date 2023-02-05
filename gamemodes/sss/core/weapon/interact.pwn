@@ -108,7 +108,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != GetItemWeaponItemAmmoItem(ammoitemid))
 				{
-					ShowActionText(playerid, ls(playerid, "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, GetLanguageString(playerid, "AMDIFFATYPE", true), 5000);
 					return 1;
 				}
 			}
@@ -169,7 +169,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != ammoitemtype)
 				{
-					ShowActionText(playerid, ls(playerid, "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, GetLanguageString(playerid, "AMDIFFATYPE", true), 5000);
 					return 1;
 				}
 			}
@@ -209,7 +209,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != helditemtype)
 				{
-					ShowActionText(playerid, ls(playerid, "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, GetLanguageString(playerid, "AMDIFFATYPE", true), 5000);
 					return 1;
 				}
 			}
@@ -233,14 +233,14 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 				if(heldcalibre != GetAmmoTypeCalibre(ammotypeid))
 				{
-					ShowActionText(playerid, "Calibre errado em caixa de munição", 3000);
+					ShowActionText(playerid, "Calibre errado em caixa de muniÃ§Ã£o", 3000);
 					return 1;
 				}
 			}
 
 			if(ammoitemtype != helditemtype)
 			{
-				ShowActionText(playerid, ls(playerid, "AMMIXINTINS", true), 5000);
+				ShowActionText(playerid, GetLanguageString(playerid, "AMMIXINTINS", true), 5000);
 				return 1;
 			}
 
@@ -274,7 +274,7 @@ _TransferWeaponToWeapon(playerid, srcitem, tgtitem)
 		SetItemWeaponItemMagAmmo(srcitem, 0);
 		SetItemWeaponItemReserve(srcitem, remainder);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "AMTRANSWTOW", true), (reserveammo + magammo) - remainder), 3000);
+		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "AMTRANSWTOW", true), (reserveammo + magammo) - remainder), 3000);
 	}
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
@@ -297,7 +297,7 @@ _TransferTinToWeapon(playerid, srcitem, tgtitem)
 
 		SetItemExtraData(srcitem, remainder);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "AMTRANSTTOW", true), ammo - remainder), 3000);
+		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "AMTRANSTTOW", true), ammo - remainder), 3000);
 	}
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
@@ -314,7 +314,7 @@ _TransferWeaponToTin(playerid, srcitem, tgtitem)
 	SetItemWeaponItemMagAmmo(srcitem, 0);
 	SetItemWeaponItemReserve(srcitem, 0);
 
-	ShowActionText(playerid, sprintf(ls(playerid, "AMTRANSWTOT", true), amount), 3000);
+	ShowActionText(playerid, sprintf(GetLanguageString(playerid, "AMTRANSWTOT", true), amount), 3000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
 }
@@ -329,7 +329,7 @@ _TransferTinToTin(playerid, srcitem, tgtitem)
 	SetItemExtraData(tgtitem, existing + amount);
 	SetItemExtraData(srcitem, 0);
 
-	ShowActionText(playerid, sprintf(ls(playerid, "AMTRANSTTOT", true), amount), 3000);
+	ShowActionText(playerid, sprintf(GetLanguageString(playerid, "AMTRANSTTOT", true), amount), 3000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
 }
@@ -366,11 +366,11 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 	{
 		if(IsValidItem(trans_SelectedItem[playerid]) && trans_SelectedItem[playerid] != itemid)
 		{
-			trans_ContainerOptionID[playerid] = AddContainerOption(playerid, "Transferir munição aqui");
+			trans_ContainerOptionID[playerid] = AddContainerOption(playerid, "Transferir muniÃ§Ã£o aqui");
 		}
 		else
 		{
-			trans_ContainerOptionID[playerid] = AddContainerOption(playerid, "Transferir munição...");
+			trans_ContainerOptionID[playerid] = AddContainerOption(playerid, "Transferir muniÃ§Ã£o...");
 		}
 	}
 
@@ -413,7 +413,7 @@ DisplayTransferAmmoDialog(playerid, containerid, msg[] = "")
 	GetItemTypeName(targetitemtype, targetitemname);
 
     trans_ContainerID[playerid] = containerid;
-	Dialog_Show(playerid, AmmoTransfer, DIALOG_STYLE_INPUT, "Transferir munição", sprintf("Insira a quantidade de munição para transferir de %s para %s\n\n%s", sourceitemname, targetitemname, msg), "Pronto", "Cancelar");
+	Dialog_Show(playerid, AmmoTransfer, DIALOG_STYLE_INPUT, "Transferir muniÃ§Ã£o", sprintf("Insira a quantidade de muniÃ§Ã£o para transferir de %s para %s\n\n%s", sourceitemname, targetitemname, msg), "Pronto", "Cancelar");
 }
 
 Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
@@ -454,7 +454,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contÃ©m apenas %d muniÃ§Ãµes", sourceitemname, sourceitemammo));
 				}
 
 			}
@@ -472,7 +472,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contÃ©m apenas %d muniÃ§Ãµes", sourceitemname, sourceitemammo));
 				}
 			}
 		}
@@ -493,7 +493,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contÃ©m apenas %d muniÃ§Ãµes", sourceitemname, sourceitemammo));
 				}
 			}
 			else if(GetItemTypeAmmoType(targetitemtype) != -1)
@@ -510,7 +510,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contÃ©m apenas %d muniÃ§Ãµes", sourceitemname, sourceitemammo));
 				}
 			}
 		}
