@@ -292,8 +292,12 @@ StartBuildingDefence(playerid, itemid)
 	// Zonas do mapa em que não se pode construir
 	new const Float:blockedZones[][4] = {
 		// [radius, x, y, z]
-		{15.0, 256.6457, 4297.8452, 7.2358}, // KACC
-		{5.0, 0.0, 0.0, 5.0} // Centro do mapa
+		{40.0, 2000.7017, -2139.0505, 13.5537}, // Comerciante Los Santos
+		{180.0, 4547.9453, -1642.1956, -0.2185}, // Ilha Los Santos
+		{150.0, -1951.6232, 678.3726, 46.5625}, // Casa Branca San Fierro
+		{150.0, -1471.0057, 392.3958, 30.0859}, // Navio 69 San Fierro
+		{150.0, -4474.6050, 476.7611, 10.7196}, // Ilha San Fierro
+		{200.0, 2609.5820, 2749.2007, 26.9102} // K.A.C.C Las Venturas
 	};
 
 	for(new i = 0; i < sizeof(blockedZones); i++)
