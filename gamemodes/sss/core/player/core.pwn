@@ -106,7 +106,7 @@ ShowLanguageMenu(playerid)
 	for(new i; i < langcount; i++)
 		format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
 
-	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma|Language", langlist, ""C_GREEN">", "");
+	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, ""C_GREEN">", "");
 }
 
 Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
@@ -121,9 +121,6 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
 		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
 
 		defer LoadAccountDelay(playerid);
-        new namep[24], string[MAX_FRASE_LEN];
-		GetPlayerName(playerid, namep, 24);
-		format(string, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini",namep));
 
 		// Mostra na tela para os outros jogadores que o jogador entrou no servidor e qual o idioma escolhido. (Apenas depois de carregar a conta)
 		// Mensagem personalizada para cada player no final do texto
@@ -131,7 +128,11 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
 
 		if(listitem == 0) lang_name = "EN"; else lang_name = "PT";
 		
-		foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, string);
+		// Mostra a entrada do jogador no chat para os outros jogadores
+        new playerName[MAX_PLAYER_NAME], frase[MAX_FRASE_LEN];
+		GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+		format(frase, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini", playerName));
+		foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
 	}
 	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
 }
