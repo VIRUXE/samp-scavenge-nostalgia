@@ -246,25 +246,25 @@ hook OnPlayerUseItem(playerid, itemid)
 
 		if(!IsValidItem(bombitem))
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_ItemTypeExplosive[bombitemtype] == INVALID_EXPLOSIVE_TYPE)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_Data[exp_ItemTypeExplosive[bombitemtype]][exp_trigger] != RADIO)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(GetItemExtraData(bombitem) != 1)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
@@ -491,7 +491,7 @@ hook OnPlayerPickUpItem(playerid, itemid)
 	if(exp_ItemTypeExplosive[itemtype] != INVALID_EXPLOSIVE_TYPE)
 	{
 	    if(GetTickCountDifference(GetTickCount(), exp_ArmTick[playerid]) < 1000){
-	        ChatMsg(playerid, RED, " > Você não pode pegar este item agora.");
+	        ChatMsg(playerid, RED, " > VocÃª nÃ£o pode pegar este item agora.");
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 		if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)
