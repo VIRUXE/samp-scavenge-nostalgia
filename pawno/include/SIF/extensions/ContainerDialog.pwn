@@ -192,7 +192,7 @@ stock DisplayContainerInventory(playerid, containerid)
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
+	strcat(cnt_InventoryString[playerid], GetLanguageString(playerid, "OPENINVO", true));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -203,7 +203,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	format(title, sizeof(title), "{DEB887}%s (%d/%d)", containername, GetContainerSize(containerid) - GetContainerFreeSlots(containerid), GetContainerSize(containerid));
 
-	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], GetLanguageString(playerid, "BUTTONOPT", true), ls(playerid, "BUTTONCLS"));
 
 	return 1;
 }
@@ -314,13 +314,13 @@ DisplayContainerOptions(playerid, slotid)
 	GetItemNameDialog(cnt_Items[cnt_CurrentContainer[playerid]][slotid], tmp);
 
     cnt_OptionsList[playerid] = "";
-	strcat(cnt_OptionsList[playerid], ls(playerid, "CNTOPTION"));
+	strcat(cnt_OptionsList[playerid], GetLanguageString(playerid, "CNTOPTION", true));
 	
 	cnt_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewContainerOpt", "dd", playerid, cnt_CurrentContainer[playerid]);
 
-	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], GetLanguageString(playerid, "BUTTONSLC", true), ls(playerid, "BUTTONRTN"));
 
 	return 1;
 }
