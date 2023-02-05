@@ -110,25 +110,37 @@ ShowLanguageMenu(playerid)
 }
 
 Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
-	if(response){
+	if(response) {
+		// O primeiro idioma é sempre o Português, o segundo o Inglês
+		// Mas internamente o primeiro idioma é Inglês, o segundo Português
+
+		listitem = listitem == 0 ? 1 : 0; // Aqui invertemos o valor para ficar igual ao que esta no array de idiomas
+
 		SetPlayerLanguage(playerid, listitem);
 
+<<<<<<< HEAD
 		switch(GetPlayerLanguage(playerid)){
 			case 0: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "EN");
 			case 1: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "PT");
 		}
+=======
+		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
+>>>>>>> bf20983b314168ebf57104227f2a9802bb1a180c
 
 		defer LoadAccountDelay(playerid);
         new namep[24], string[MAX_FRASE_LEN];
 		GetPlayerName(playerid, namep, 24);
 		format(string, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini",namep));
 
-		switch(GetPlayerLanguage(playerid)){
-			case 0: foreach(new i : Player) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, "EN", string);
-			case 1: foreach(new i : Player) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, "PT", string);
-		}
+		// Mostra na tela para os outros jogadores que o jogador entrou no servidor e qual o idioma escolhido. (Apenas depois de carregar a conta)
+		// Mensagem personalizada para cada player no final do texto
+		new lang_name[3];
+
+		if(listitem == 0) lang_name = "EN"; else lang_name = "PT";
+		
+		foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, string);
 	}
-	else ShowLanguageMenu(playerid);
+	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
 }
 
 public OnPlayerConnect(playerid)

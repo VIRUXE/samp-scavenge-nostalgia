@@ -460,7 +460,7 @@ stock GetLanguageList(list[][])
 	for(new lang = lang_Total - 1, i = 0; lang >= 0; lang--, i++)
 	{
 		list[i][0] = EOS;
-		strcat(list[i], lang_Name[i], MAX_LANGUAGE_NAME);
+		strcat(list[i], lang_Name[lang], MAX_LANGUAGE_NAME);
 	}
 
 	return lang_Total;
