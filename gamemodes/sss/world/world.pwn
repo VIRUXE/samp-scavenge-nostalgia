@@ -78,15 +78,15 @@ timer LoadWorld[10]()
 	gServerInitialising = true;
 
 	SetGameModeText("Scavenge Survive");
-	SendRconCommand("hostname Nostalgia ~ Scavenge - [Respawn de Itens]");
+	SendRconCommand("hostname Nostalgia ~ Scavenge (Iniciando)");
+	SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
+
 	// store this to a list and compare after
 	for(new ItemType:i; i < ITM_MAX_TYPES; i++)
 	{
-		if(!IsValidItemType(i))
-			break;
+		if(!IsValidItemType(i)) break;
 
-		if(GetItemTypeCount(i) == 0)
-			continue;
+		if(GetItemTypeCount(i) == 0) continue;
 
 		ItemCounts[i] = GetItemTypeCount(i);
 	}
@@ -152,11 +152,9 @@ timer _Finalise[500]()
 	// compare with previous list and print differences
 	for(new ItemType:i; i < ITM_MAX_TYPES; i++)
 	{
-		if(!IsValidItemType(i))
-			break;
+		if(!IsValidItemType(i)) break;
 
-		if(GetItemTypeCount(i) == 0)
-			continue;
+		if(GetItemTypeCount(i) == 0) continue;
 
 		GetItemTypeUniqueName(i, itemtypename);
 
@@ -173,11 +171,7 @@ timer _Finalise[500]()
 	// hesitant to release my work completely free of charge.
 	SetGameModeText("Scavenge Survive");
 	SendRconCommand("hostname Nostalgia ~ Scavenge");
-	
+	SendRconCommand("password 0"); // Removes the password
 }
 
-stock GetMapName()
-{
-	return MapName;
-}
-
+stock GetMapName() return MapName;
