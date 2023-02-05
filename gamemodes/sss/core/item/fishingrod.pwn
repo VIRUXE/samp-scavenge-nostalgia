@@ -134,7 +134,7 @@ _CatchFish(playerid, Float:distance)
 	else
 	{
 		_PlayerStopFishing(playerid);
-		ShowActionText(playerid, ls(playerid, "FISHNCLOSER", true), 8000);
+		ShowActionText(playerid, GetLanguageString(playerid, "FISHNCLOSER", true), 8000);
 	}
 
 	// Debugging purposes
@@ -150,7 +150,7 @@ timer _TryCatch[catchtime](playerid, catchtime)
 		ApplyAnimation(playerid, "SWORD", "sword_block", 50.0, 1, 0, 0, 0, 0);
 
 		fish_Timer[playerid] = defer _CatchDelay(playerid);
-		ShowActionText(playerid, ls(playerid, "FISHLINETUG", true), floatround(fish_Distance[playerid], floatround_round) * 100);
+		ShowActionText(playerid, GetLanguageString(playerid, "FISHLINETUG", true), floatround(fish_Distance[playerid], floatround_round) * 100);
 	}
 	else
 	{
