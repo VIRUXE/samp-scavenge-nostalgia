@@ -55,7 +55,7 @@ ACMD:blockrr[1](playerid, params[]){
 	new prid;
 	if(sscanf(params, "d", prid)) return ChatMsg(playerid, RED, " > Use /blockrr [id]");
     RelatorioBlock[prid] = !RelatorioBlock[prid];
-    if(RelatorioBlock[prid]) ChatMsg(playerid, YELLOW, " > VocÍ bloqueou %p de usar o /relatorio!", prid);
+    if(RelatorioBlock[prid]) ChatMsg(playerid, YELLOW, " > Voc√™ bloqueou %p de usar o /relatorio!", prid);
     else ChatMsg(playerid, YELLOW, " > %p agora pode usar /relatorio", prid);
 	return 1;
 }
@@ -66,17 +66,17 @@ ACMD:rr[1](playerid, params[])
 
 	if(sscanf(params, "ds[200]", prid, msg)) return ChatMsg(playerid, RED, " > Use /rr [id] [Mensagem]");
 
-	if(RelatorioEnviado[prid] == false) return ChatMsg(playerid, RED, " > Esse player n„o enviou nenhum relatÛrio ou j· foi respondido.");
+	if(RelatorioEnviado[prid] == false) return ChatMsg(playerid, RED, " > Esse player n√£o enviou nenhum relat√≥rio ou j√° foi respondido.");
 
     ChatMsg(prid, GREEN, "="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"=");
 
 	new string[500];
-	format(string, 500, "[RelatÛrio] %p(id:%d) respondeu: "C_WHITE"%s", playerid, playerid, msg);
+	format(string, 500, "[Relat√≥rio] %p(id:%d) respondeu: "C_WHITE"%s", playerid, playerid, msg);
 	ChatMsg(prid, GREEN, string);
 
 	ChatMsg(prid, GREEN, "="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"=");
 
-	format(string, 500, " > %p(id:%d) respondeu o relatÛrio de %p(id:%d): %s", playerid, playerid, prid, prid, msg);
+	format(string, 500, " > %p(id:%d) respondeu o relat√≥rio de %p(id:%d): %s", playerid, playerid, prid, prid, msg);
 	ChatMsgAdmins(1, GREEN, string);
 
 	RelatorioEnviado[prid] = RelatorioTempo[prid] = false, RelatorioTempo2[prid] = 100;
@@ -105,7 +105,7 @@ CMD:relatorio(playerid, params[])
     if(sscanf(params, "s[200]", msg)) return ChatMsg(playerid, RED, " > Use /relatorio [mensagem]");
 
     ChatMsgAdmins(1, BLUE, "="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"=");
-    ChatMsgAdmins(1, BLUE, "[RelatÛrio]: %p(id:%d)"C_BLUE": "C_WHITE"%s", playerid, playerid, msg);
+    ChatMsgAdmins(1, BLUE, "[Relat√≥rio]: %p(id:%d)"C_BLUE": "C_WHITE"%s", playerid, playerid, msg);
     ChatMsgAdmins(1, BLUE, "="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"=");
 	RelatorioTempo[playerid] = true;
     RelatorioTempo2[playerid] = 80;
@@ -113,7 +113,7 @@ CMD:relatorio(playerid, params[])
 
     defer RelatorioFalse(playerid);
 
-    ChatMsg(playerid, YELLOW, " > RelatÛrio enviado com sucesso. Aguarde a administraÁ„o do servidor.");
+    ChatMsg(playerid, YELLOW, " > Relat√≥rio enviado com sucesso. Aguarde a administra√ß√£o do servidor.");
 	return 1;
 }
 
@@ -140,9 +140,9 @@ timer RelatorioFalse[1000](playerid)
 ==============================================================================*/
 
 
-CMD:report(playerid, params[]){
+CMD:report(playerid){
     if(GetPlayerAdminLevel(playerid) > 1)
-        return ChatMsg(playerid, RED, " > VocÍ n„o pode usar este comando.");
+        return ChatMsg(playerid, RED, " > Voc√™ n√£o pode usar este comando.");
         
 	ShowReportMenu(playerid);
 
@@ -151,7 +151,7 @@ CMD:report(playerid, params[]){
 
 ShowReportMenu(playerid)
 {
-	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um ID que est· online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais prÛximo de mim", ""C_GREEN"Enviar", ""C_RED"Cancelar");
+	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um ID que est√° online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais pr√≥ximo de mim", ""C_GREEN"Enviar", ""C_RED"Cancelar");
 	return 1;
 }
 
@@ -298,7 +298,7 @@ Dialog:ReportOfflinePlayer(playerid, response, listitem, inputtext[])
 
 ShowReportReasonInput(playerid)
 {
-	Dialog_Show(playerid, ReportReasonInput, DIALOG_STYLE_INPUT, "Motivo do report", "Digite o motivo do seu relatÔøΩrio abaixo.", "Reportar", "Voltar");
+	Dialog_Show(playerid, ReportReasonInput, DIALOG_STYLE_INPUT, "Motivo do report", "Digite o motivo do seu relat√≥rio abaixo.", "Reportar", "Voltar");
 }
 
 Dialog:ReportReasonInput(playerid, response, listitem, inputtext[])
@@ -341,7 +341,7 @@ ACMD:reports[1](playerid, params[])
 	ret = ShowListOfReports(playerid);
 
 	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  N„o tem nenhum report para mostrar.");
+		ChatMsg(playerid, YELLOW, " >  N√£o tem nenhum report para mostrar.");
 
 	return 1;
 }
@@ -434,7 +434,7 @@ ShowReport(playerid, reportlistitem)
 
 	SetReportRead(report_CurrentReportList[playerid][reportlistitem][report_rowid], 1);
 
-	Dialog_Show(playerid, Report, DIALOG_STYLE_MSGBOX, report_CurrentReportList[playerid][reportlistitem][report_name], message, "OpÁıes", "Voltar");
+	Dialog_Show(playerid, Report, DIALOG_STYLE_MSGBOX, report_CurrentReportList[playerid][reportlistitem][report_name], message, "Op√ß√µes", "Voltar");
 
 	return 1;
 }
@@ -459,7 +459,7 @@ ShowReportOptions(playerid)
 
 	if((IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) == STAFF_LEVEL_DEVELOPER)
 	{
-		strcat(options, "Ir para a posiÁ„o do report\n");
+		strcat(options, "Ir para a posi√ß√£o do report\n");
 
 		if(!strcmp(report_CurrentType[playerid], "TELE"))
 		{
@@ -468,13 +468,13 @@ ShowReportOptions(playerid)
 
 		if(!strcmp(report_CurrentType[playerid], "CAM"))
 		{
-			strcat(options, "Ir para o local da c‚mera\n");
-			strcat(options, "Ver a c‚mera\n");
+			strcat(options, "Ir para o local da c√¢mera\n");
+			strcat(options, "Ver a c√¢mera\n");
 		}
 
 		if(!strcmp(report_CurrentType[playerid], "VTP"))
 		{
-			strcat(options, "Ir para a posiÁ„o do veÌculo\n");
+			strcat(options, "Ir para a posi√ß√£o do ve√≠culo\n");
 		}
 	}
 
@@ -592,7 +592,7 @@ Dialog:ReportOptions(playerid, response, listitem, inputtext[])
 						SetPlayerCameraPos(playerid, x, y, z);
 						SetPlayerCameraLookAt(playerid, x + vx, y + vy, z + vz);
 
-						ChatMsg(playerid, YELLOW, " >  Use /recam para resetar sua c‚mera");
+						ChatMsg(playerid, YELLOW, " >  Use /recam para resetar sua c√¢mera");
 					}
 				}
 			}
@@ -608,13 +608,13 @@ ShowReportBanPrompt(playerid)
 {
 	if(GetPlayerAdminLevel(playerid) < 3)
 	{
-		ChatMsg(playerid, RED, "VocÍ n„o tem permiss„o para banir jogadores.");
+		ChatMsg(playerid, RED, "Voc√™ n√£o tem permiss√£o para banir jogadores.");
 		ShowReportOptions(playerid);
 
 		return 0;
 	}
 
-	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a duraÁ„o do banimento", "Digite a duraÁ„o do banimento abaixo, insira o n˙mero e o tempo. Exemplo: '1 days': 'days', 'weeks' ou 'months'. Escreva 'forever' para um ban permanente.", "Continar", "Cancelar");
+	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a dura√ß√£o do banimento", "Digite a dura√ß√£o do banimento abaixo, insira o n√∫mero e o tempo. Exemplo: '1 days': 'days', 'weeks' ou 'months'. Escreva 'forever' para um ban permanente.", "Continar", "Cancelar");
 
 	return 1;
 }
