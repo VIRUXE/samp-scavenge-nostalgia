@@ -78,11 +78,11 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			if(amount <= 0.0)
 			{
-				ShowActionText(playerid, ls(playerid, "POTBOTEMPTY", true), 5000);
+				ShowActionText(playerid, GetLanguageString(playerid, "POTBOTEMPTY", true), 5000);
 			}
 			else if(type != liquid_Water)
 			{
-				ShowActionText(playerid, ls(playerid, "POTBOTNOWAT", true), 5000);
+				ShowActionText(playerid, GetLanguageString(playerid, "POTBOTNOWAT", true), 5000);
 			}
 			else
 			{
@@ -91,7 +91,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 				SetItemArrayDataAtCell(withitemid, GetItemArrayDataAtCell(withitemid, E_PLANT_POT_WATER) + floatround(transfer * 10), E_PLANT_POT_WATER, 1);
 				SetLiquidItemLiquidAmount(itemid, amount - transfer);
-				ShowActionText(playerid, ls(playerid, "POTADDWATER", true), 5000);
+				ShowActionText(playerid, GetLanguageString(playerid, "POTADDWATER", true), 5000);
 			}
 		}
 
@@ -99,7 +99,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		{
 			if(!potdata[E_PLANT_POT_ACTIVE])
 			{
-				ShowActionText(playerid, ls(playerid, "POTNOACPLNT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "POTNOACPLNT", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -113,7 +113,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			if(_:(potdata[E_PLANT_POT_GROWTH] < GetSeedTypeGrowthTime(seedtype)))
 			{
-				ShowActionText(playerid, ls(playerid, "POTNOTGROWN", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "POTNOTGROWN", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
