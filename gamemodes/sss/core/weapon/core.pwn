@@ -251,7 +251,7 @@ stock UpdatePlayerWeaponItem(playerid)
 	{
 		ResetPlayerWeapons(playerid);
 		_UpdateWeaponUI(playerid);
-		ShowActionText(playerid, ls(playerid, "WEAPNOAMMOL", true), 3000);
+		ShowActionText(playerid, GetLanguageString(playerid, "WEAPNOAMMOL", true), 3000);
 		return 0;
 	}
 
