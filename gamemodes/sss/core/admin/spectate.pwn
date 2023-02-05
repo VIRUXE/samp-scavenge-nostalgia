@@ -133,7 +133,7 @@ EnterSpectateMode(playerid, targetid)
 	stop spectate_Timer[playerid];
 	spectate_Timer[playerid] = repeat UpdateSpectateMode(playerid);
 
-	log("[SPECTATE] %p watches %p", playerid, targetid);
+	log("[ESPECTADOR] %p está espectando %p", playerid, targetid);
 
 	return 1;
 }
@@ -200,7 +200,6 @@ timer ReturnToDuty[100](playerid)
 	SetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
 	if(GetPlayerGender(playerid) == GENDER_MALE)
 		SetPlayerSkin(playerid, 217);
-
 	else
 		SetPlayerSkin(playerid, 211);
 }
@@ -461,7 +460,7 @@ timer UpdateSpectateMode[100](playerid)
 				GetPlayerFP(targetid),
 				GetPlayerInterior(targetid),
 				GetPlayerVirtualWorld(targetid),
-				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("Nao"),
+				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("Não"),
 				GetPlayerBleedRate(targetid),
 				cameramodename,
 				velocity,

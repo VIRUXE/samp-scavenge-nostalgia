@@ -3,7 +3,7 @@
 
 hook OnGameModeInit()
 {
-	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins nÌvel 3\n");
+	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins n√≠vel 3\n");
 }
 
 /*
@@ -15,7 +15,7 @@ ACMD:whitelist[3](playerid, params[])
 
 	if(sscanf(params, "s[7]S()[24]", command, name))
 	{
-		ChatMsg(playerid, YELLOW, " >  Use: /whitelist [add/remover/on/off/auto/lista] - A whitelist est· atualmente %s (auto: %s)", IsWhitelistActive() ? ("on") : ("off"), IsWhitelistAuto() ? ("on") : ("off"));
+		ChatMsg(playerid, YELLOW, " >  Use: /whitelist [add/remover/on/off/auto/lista] - A whitelist est√° atualmente %s (auto: %s)", IsWhitelistActive() ? ("on") : ("off"), IsWhitelistAuto() ? ("on") : ("off"));
 		return 1;
 	}
 
@@ -33,7 +33,7 @@ ACMD:whitelist[3](playerid, params[])
 			ChatMsg(playerid, YELLOW, " >  Adicionado "C_BLUE"%s "C_YELLOW"na whitelist.", name);
 
 		if(result == 0)
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"j· est· "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"j√° est√° "C_YELLOW"na whitelist.");
 
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
@@ -52,7 +52,7 @@ ACMD:whitelist[3](playerid, params[])
 			ChatMsg(playerid, YELLOW, " >  Removido "C_BLUE"%s "C_YELLOW"da whitelist.", name);
 
 		if(result == 0)
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"n„o est· "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"n√£o est√° "C_YELLOW"na whitelist.");
 
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
@@ -71,14 +71,14 @@ ACMD:whitelist[3](playerid, params[])
 	{
 		if(!IsWhitelistAuto())
 		{
-			ChatMsgAdmins(1, YELLOW, " >  Whitelist autom·tica ativada.");
+			ChatMsgAdmins(1, YELLOW, " >  Whitelist autom√°tica ativada.");
 			ToggleAutoWhitelist(true);
 
 			// UpdateSetting("whitelist-auto-toggle", 0);
 		}
 		else
 		{
-			ChatMsgAdmins(1, YELLOW, " >  Whitelist autom·tica desativada.");
+			ChatMsgAdmins(1, YELLOW, " >  Whitelist autom√°tica desativada.");
 			ToggleAutoWhitelist(false);
 
 			// UpdateSetting("whitelist-auto-toggle", 0);
@@ -87,10 +87,10 @@ ACMD:whitelist[3](playerid, params[])
 	else if(!strcmp(command, "?", true))
 	{
 		if(IsNameInWhitelist(name))
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_BLUE"est· "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_BLUE"est√° "C_YELLOW"na whitelist.");
 
 		else
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"n„o est· "C_YELLOW"na whitelist");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"n√£o est√° "C_YELLOW"na whitelist");
 	}
 	else if(!strcmp(command, "lista", true))
 	{
@@ -124,11 +124,11 @@ ACMD:spec[3](playerid, params[])
 				new name[MAX_PLAYER_NAME];
 				GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 				if(GetPlayerAdminLevel(targetid) > 1){
-				    ChatMsg(playerid, YELLOW, " >  VocÍ n„o pode fazer isto neste player.");
+				    ChatMsg(playerid, YELLOW, " >  Voc√™ n√£o pode fazer isto neste player.");
 					return 1;
 				}
 			}
-            ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Est· observando "C_BLUE"%p(id:%d)", playerid, playerid, targetid, targetid);
+            ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Est√° observando "C_BLUE"%p(id:%d)", playerid, playerid, targetid, targetid);
 			EnterSpectateMode(playerid, targetid);
 		}
 	}
@@ -165,7 +165,7 @@ ACMD:ip[3](playerid, params[])
 		if(!IsPlayerConnected(targetid))
 		{
 			if(targetid > 99)
-				ChatMsg(playerid, YELLOW, " >  O ID '%d' n„o est· online, tente usar o nome do jogador.", targetid);
+				ChatMsg(playerid, YELLOW, " >  O ID '%d' n√£o est√° online, tente usar o nome do jogador.", targetid);
 
 			else
 				return 4;
@@ -177,7 +177,7 @@ ACMD:ip[3](playerid, params[])
 	{
 		if(!AccountExists(params))
 		{
-			ChatMsg(playerid, YELLOW, " >  A conta '%s' n„o existe.", params);
+			ChatMsg(playerid, YELLOW, " >  A conta '%s' n√£o existe.", params);
 			return 1;
 		}
 
@@ -359,8 +359,8 @@ ACMD:move[3](playerid, params[])
 		return 1;
 	}
 
-	ChatMsg(playerid, YELLOW, " >  Use: /move [f/b/u/d] [dist‚ncia]");
-	ChatMsg(playerid, YELLOW, " >  F = frente, B = atr·s, U = pra cima, D = pra baixo.");
+	ChatMsg(playerid, YELLOW, " >  Use: /move [f/b/u/d] [dist√¢ncia]");
+	ChatMsg(playerid, YELLOW, " >  F = frente, B = atr√°s, U = pra cima, D = pra baixo.");
 
 	return 1;
 }
@@ -400,7 +400,7 @@ ACMD:setactive[3](playerid, params[])
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, RED, " >  Essa conta n„o existe.");
+		ChatMsg(playerid, RED, " >  Essa conta n√£o existe.");
 		return 1;
 	}
 
@@ -427,12 +427,12 @@ ACMD:irpos[3](playerid, params[])
 		Float:z;
 
 	if(sscanf(params, "fff", x, y, z) && sscanf(params, "p<,>fff", x, y, z))
-		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem vÌrgulas)");
+		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem v√≠rgulas)");
 
 //	ChatMsg(playerid, YELLOW, " >  Teleportado para %f, %f, %f", x, y, z);
 	SetPlayerPos(playerid, x, y, z);
 
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Foi atÈ a posiÁ„o: %0.2f, %0.2f, %0.2f", playerid, playerid, x, y, z);
+	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Foi at√© a posi√ß√£o: %0.2f, %0.2f, %0.2f", playerid, playerid, x, y, z);
 
 	return 1;
 }
@@ -455,12 +455,12 @@ ACMD:banir[3](playerid, params[])
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' n„o est· online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' n√£o est√° online, tente usar o nome do jogador.", targetid);
 	}
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, YELLOW, " > a conta '%s' n„o existe.", name);
+		ChatMsg(playerid, YELLOW, " > a conta '%s' n√£o existe.", name);
 		return 1;
 	}
 
@@ -485,7 +485,7 @@ ACMD:desbanir[3](playerid, params[])
 		ChatMsg(playerid, YELLOW, " >  A conta "C_BLUE"%s"C_YELLOW" foi desbanida.", name);
 
 	else
-		ChatMsg(playerid, YELLOW, " >  A conta '%s' n„o est· banida.");
+		ChatMsg(playerid, YELLOW, " >  A conta '%s' n√£o est√° banida.");
 
 	return 1;
 }
@@ -495,7 +495,7 @@ ACMD:banidos[3](playerid, params[])
 	new ret = ShowListOfBans(playerid, 0);
 
 	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  N„o h· nenhum player banido.");
+		ChatMsg(playerid, YELLOW, " >  N√£o h√° nenhum player banido.");
 
 	if(ret == -1)
 //		ChatMsg(playerid, YELLOW, " >  Ocorreu um erro ao executar 'stmt_BanGetList'.");
@@ -751,16 +751,16 @@ ACMD:teleportes[3](playerid)
 ACMD:comandoslvl3[3](playerid)
 {
     new stringlvl3[800];
-    strcat(stringlvl3, "{FFFF00}Comandos dos Admins NÌvel 3:\n");
+    strcat(stringlvl3, "{FFFF00}Comandos dos Admins N√≠vel 3:\n");
     strcat(stringlvl3, "{FF0000}\n");
     strcat(stringlvl3, ""C_BLUE"/(des)congelar - Congelar/descongelar players\n");
     strcat(stringlvl3, ""C_BLUE"/(des)banir - Banir/desbanir players\n");
-    strcat(stringlvl3, ""C_BLUE"/spec /free - Observar alguÈm, camera livre\n");
+    strcat(stringlvl3, ""C_BLUE"/spec /free - Observar algu√©m, camera livre\n");
     strcat(stringlvl3, ""C_BLUE"/ip - Pegar ip de players\n");
-    strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar veÌculos\n");
+    strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar ve√≠culos\n");
     strcat(stringlvl3, ""C_BLUE"/move - Mover-se\n");
     strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
-    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguÈm (a senha nova ser·: password)\n");
+    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de algu√©m (a senha nova ser√°: 'password')\n");
     strcat(stringlvl3, ""C_BLUE"/setactive - ativar/desativar contas\n");
     strcat(stringlvl3, ""C_BLUE"/teleportes - Ver os comandos de teleportes\n");
     strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");
