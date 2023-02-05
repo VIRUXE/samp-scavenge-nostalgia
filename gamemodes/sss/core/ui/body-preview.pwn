@@ -169,6 +169,7 @@ stock HideBodyPreviewUI(playerid)
 
 	bod_Shown[playerid] = false;
 }
+
 hook OnPlayerDeath(playerid, killerid, reason)
 {
     HideBodyPreviewUI(playerid);
@@ -194,8 +195,7 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 {
 	dbg("gamemodes/sss/core/ui/body-preview.pwn", 1, "[SetBodyPreviewLabel] side:%d index:%d spacing:%.2f string:'%s' col:%x", side, index, spacing, string, textcolour);
 
-	if(!bod_Shown[playerid])
-		return 0;
+	if(!bod_Shown[playerid]) return 0;
 
 	//if(textcolour != 0xFFFFFFFF)
     	//ChatMsg(playerid, textcolour, "[CORPO]: %s", string);
@@ -219,14 +219,10 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 
 			bod_LabelData0[playerid][index][bl_valid] = true;
 
-			if(index > bod_LabelIndex0[playerid])
-				bod_LabelIndex0[playerid] = index;
+			if(index > bod_LabelIndex0[playerid]) bod_LabelIndex0[playerid] = index;
 
-			if(index == 0)
-				ypos = bod_UIPositionY[playerid] + spacing;
-
-			else
-				ypos = bod_LabelData0[playerid][index - 1][bl_posY] + spacing;
+			if(index == 0) ypos = bod_UIPositionY[playerid] + spacing;
+			else ypos = bod_LabelData0[playerid][index - 1][bl_posY] + spacing;
 
 			bod_LabelData0[playerid][index][bl_posY] = ypos;
 			
@@ -262,14 +258,10 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 
 			bod_LabelData1[playerid][index][bl_valid] = true;
 
-			if(index > bod_LabelIndex1[playerid])
-				bod_LabelIndex1[playerid] = index;
+			if(index > bod_LabelIndex1[playerid]) bod_LabelIndex1[playerid] = index;
 
-			if(index == 0)
-				ypos = bod_UIPositionY[playerid] + spacing;
-
-			else
-				ypos = bod_LabelData1[playerid][index - 1][bl_posY] + spacing;
+			if(index == 0) ypos = bod_UIPositionY[playerid] + spacing;
+			else ypos = bod_LabelData1[playerid][index - 1][bl_posY] + spacing;
 
 			bod_LabelData1[playerid][index][bl_posY] = ypos;
 
