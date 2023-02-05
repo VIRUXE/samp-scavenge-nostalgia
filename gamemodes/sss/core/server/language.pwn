@@ -23,7 +23,7 @@
 
 
 #define DIRECTORY_LANGUAGES			"languages/"
-#define MAX_LANGUAGE				(12)
+#define MAX_LANGUAGE				(2)
 #define MAX_LANGUAGE_ENTRIES		(1024)
 #define MAX_LANGUAGE_KEY_LEN		(20)
 #define MAX_LANGUAGE_ENTRY_LENGTH	(768)
@@ -138,8 +138,7 @@ stock LoadAllLanguages()
 	{
 		if(type == FM_FILE)
 		{
-			if(!strcmp(item, "English"))
-				continue;
+			if(!strcmp(item, "English")) continue;
 
 			next_path[0] = EOS;
 			format(next_path, sizeof(next_path), "%s%s", DIRECTORY_LANGUAGES, item);
@@ -152,10 +151,7 @@ stock LoadAllLanguages()
 				languages++;
 				lang_entries[languages] = entries;
 			}
-			else
-			{
-				err("No entries loaded from language file '%s'", item);
-			}
+			else err("No entries loaded from language file '%s'", item);
 		}
 	}
 
@@ -195,8 +191,7 @@ stock LoadLanguage(filename[], langname[])
 	{
 		length = strlen(line);
 
-		if(length < 4)
-			continue;
+		if(length < 4) continue;
 
 		delimiter = 0;
 
@@ -259,16 +254,13 @@ stock LoadLanguage(filename[], langname[])
 
 	fclose(f);
 
-	if(lang_TotalEntries[lang_Total] == 0)
-	{
-		return 0;
-	}
+	if(lang_TotalEntries[lang_Total] == 0) return 0;
 
 	strcat(lang_Name[lang_Total], langname, MAX_LANGUAGE_NAME);
 
 	_qs(lang_Entries[lang_Total], 0, lang_TotalEntries[lang_Total] - 1);
 
-	// alphabetmap
+	// ! Mapa de alfabeto. Mas porque?!
 	new
 		this_letter,
 		letter_idx;
@@ -277,8 +269,7 @@ stock LoadLanguage(filename[], langname[])
 	{
 		this_letter = toupper(lang_Entries[lang_Total][i][lang_key][0]) - 65;
 
-		if(this_letter == letter_idx-1)
-			continue;
+		if(this_letter == letter_idx-1) continue;
 
 		while(letter_idx < this_letter)
 		{
@@ -286,17 +277,14 @@ stock LoadLanguage(filename[], langname[])
 			letter_idx++;
 		}
 
-		if(letter_idx >= 26)
-		{
-			err("letter_idx > 26 (%d) at i = %d entry: '%s'", letter_idx, i, lang_Entries[lang_Total][i][lang_key]);
-		}
+		if(letter_idx >= ALPHABET_SIZE) err("letter_idx > 26 (%d) at i = %d entry: '%s'", letter_idx, i, lang_Entries[lang_Total][i][lang_key]);
 
-		lang_AlphabetMap[lang_Total][letter_idx] = i;
+		lang_AlphabetMap[lang_Total][letter_idx] = i; 
 		letter_idx++;
 	}
 
 	// fill in the empty ones
-	while(letter_idx < 26)
+	while(letter_idx < ALPHABET_SIZE)
 		lang_AlphabetMap[lang_Total][letter_idx++] = -1;
 
 	lang_Total++;
@@ -353,10 +341,7 @@ _doReplace(input[], output[])
 					i += 1;
 				}
 			}
-			else
-			{
-				output[output_idx++] = input[i];
-			}
+			else output[output_idx++] = input[i];
 		}
 	}
 }
@@ -370,11 +355,9 @@ _qs(array[][], left, right)
 
 	while(tempLeft <= tempRight)
 	{
-		while(array[tempLeft][0] < pivot)
-			tempLeft++;
+		while(array[tempLeft][0] < pivot) tempLeft++;
 
-		while(array[tempRight][0] > pivot)
-			tempRight--;
+		while(array[tempRight][0] > pivot) tempRight--;
 
 		if(tempLeft <= tempRight)
 		{
@@ -386,11 +369,9 @@ _qs(array[][], left, right)
 		}
 	}
 
-	if(left < tempRight)
-		_qs(array, left, tempRight);
+	if(left < tempRight) _qs(array, left, tempRight);
 
-	if(tempLeft < right)
-		_qs(array, tempLeft, right);
+	if(tempLeft < right) _qs(array, tempLeft, right);
 }
 
 _swap(str1[], str2[])
@@ -440,8 +421,7 @@ stock GetLanguageString(languageid, key[], bool:encode = false)
 
 static stock _GetLanguageString(languageid, key[], result[], bool:encode = false)
 {
-	if(!('A' <= key[0] <= 'Z'))
-		return 1;
+	if(!('A' <= key[0] <= 'Z')) return 1; // Must be all uppercase
 
 	new
 		index,
@@ -453,21 +433,18 @@ static stock _GetLanguageString(languageid, key[], result[], bool:encode = false
 
 	start = lang_AlphabetMap[languageid][abindex];
 
-	if(start == -1)
-		return 2;
+	if(start == -1) return 2;
 
 	do
 	{
 		abindex++;
 
-		if(abindex == ALPHABET_SIZE)
-			break;
+		if(abindex == ALPHABET_SIZE) break;
 	}
 	while(lang_AlphabetMap[languageid][abindex] == -1);
 
 	if(abindex < ALPHABET_SIZE)
 		end = lang_AlphabetMap[languageid][abindex];
-
 	else
 		end = lang_TotalEntries[languageid];
 
@@ -476,17 +453,14 @@ static stock _GetLanguageString(languageid, key[], result[], bool:encode = false
 	// dumb search for now, will probably replace with bisect
 	for(index = start; index < end; index++)
 	{
-		if(!strcmp(lang_Entries[languageid][index][lang_key], key, false, MAX_LANGUAGE_ENTRY_LENGTH))
-			break;
+		if(!strcmp(lang_Entries[languageid][index][lang_key], key, false, MAX_LANGUAGE_ENTRY_LENGTH)) break;
 	}
 
-	if(index == end)
-		return 2;
+	if(index == end) return 2;
 
 	strcat(result, lang_Entries[languageid][index][lang_val], MAX_LANGUAGE_ENTRY_LENGTH);
 
-	if(encode)
-		ConvertEncoding(result);
+	if(encode) ConvertEncoding(result);
 
 	return 0;
 }
@@ -494,6 +468,7 @@ static stock _GetLanguageString(languageid, key[], result[], bool:encode = false
 /*
 	Credit for this function goes to Y_Less:
 	http://forum.sa-mp.com/showpost.php?p=3015480&postcount=6
+
 */
 stock ConvertEncoding(string[])
 {
@@ -521,40 +496,11 @@ stock ConvertEncoding(string[])
 	for(new i = 0, len = strlen(string), ch; i != len; ++i)
 	{
 		// Check if this character is in our reduced range.
-		if(0 <= (ch = string[i]) < 256)
-		{
-			string[i] = real[ch];
-		}
+		// If it is, replace it with the real character.
+		if(0 <= (ch = string[i]) < 256) string[i] = real[ch];
 	}
 }
 
-/*
-	Not sure where this code came from... random pastebin link!
-
-stock ConvertEncoding(string[])
-{
-	for(new i = 0, len = strlen(string); i != len; ++i)
-	{
-		switch(string[i])
-		{
-			case 0xC0 .. 0xC3: string[i] -= 0x40;
-			case 0xC7 .. 0xC9: string[i] -= 0x42;
-			case 0xD2 .. 0xD5: string[i] -= 0x44;
-			case 0xD9 .. 0xDC: string[i] -= 0x47;
-			case 0xE0 .. 0xE3: string[i] -= 0x49;
-			case 0xE7 .. 0xEF: string[i] -= 0x4B;
-			case 0xF2 .. 0xF5: string[i] -= 0x4D;
-			case 0xF9 .. 0xFC: string[i] -= 0x50;
-			case 0xC4, 0xE4: string[i] = 0x83;
-			case 0xC6, 0xE6: string[i] = 0x84;
-			case 0xD6, 0xF6: string[i] = 0x91;
-			case 0xD1, 0xF1: string[i] = 0xEC;
-			case 0xDF: string[i] = 0x96;
-			case 0xBF: string[i] = 0xAF;
-		}
-	}
-}
-*/
 stock GetLanguageList(list[][])
 {
 	for(new i; i < lang_Total; i++)
@@ -568,8 +514,7 @@ stock GetLanguageList(list[][])
 
 stock GetLanguageName(languageid, name[])
 {
-	if(!(0 <= languageid < lang_Total))
-		return 0;
+	if(!(0 <= languageid < lang_Total)) return 0;
 
 	name[0] = EOS;
 	strcat(name, lang_Name[languageid], MAX_LANGUAGE_NAME);
@@ -579,13 +524,9 @@ stock GetLanguageName(languageid, name[])
 
 stock GetLanguageID(name[])
 {
-	for(new i; i < lang_Total; i++)
-	{
-		if(!strcmp(name, lang_Name[i]))
-			return i;
-	}
+	for(new i; i < lang_Total; i++) if(!strcmp(name, lang_Name[i])) return i;
+
 	return -1;
 }
 
-stock GetLanguageEntries(languageid)
-	return lang_entries[languageid];
+stock GetLanguageEntries(languageid) return lang_entries[languageid];
