@@ -109,7 +109,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 		else if(GetMaskFromItem(itype) != -1)
 			ShowHelpTip(playerid, ls(playerid, "MASK_T"), 20000);
 
-		if(GetItemTypeLiquidContainerType(itype) != -1 || itype != item_GasCan || itype != item_OilCan)
+		if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
 			ShowHelpTip(playerid, ls(playerid, "LIQUID_T"), 20000);
 
 		else if(IsItemTypeFood(itype))
