@@ -76,7 +76,7 @@ hook OnGameModeInit()
 
 CMD:bug(playerid)
 {
-	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", ls(playerid, "BUGREPORTDI"), "Confirmar", "Cancelar");
+	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", GetLanguageString(playerid, "BUGREPORTDI", true), "Confirmar", "Cancelar");
     
 	return 1;
 }
@@ -118,7 +118,7 @@ CMD:bugs(playerid)
 	ret = ShowListOfBugs(playerid);
 
 	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
+		ChatMsg(playerid, YELLOW, " >  NÃ£o tem nenhum report de BUG para mostrar.");
 
 	return 1;
 }
