@@ -58,7 +58,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 			}
 		}	
 		else if(itemtype == item_Screwdriver)
@@ -71,7 +71,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 			}
 		}	
 		else if(itemtype == item_Hammer)
@@ -84,7 +84,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 			}
 		}
 		else if(itemtype == item_Spanner)
@@ -97,7 +97,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 			}
 		}
 		else if(itemtype == item_Wheel)
@@ -157,7 +157,7 @@ StopRepairingVehicle(playerid)
 	{
         SetVehicleHealth(fix_TargetVehicle[playerid], 990.0);
         
-        // Reparar lataria do veículo
+        // Reparar lataria do veÃ­culo
         
 		new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
 	    GetVehicleHealth(fix_TargetVehicle[playerid], lataria);
@@ -169,7 +169,7 @@ StopRepairingVehicle(playerid)
    		UpdateVehicleDamageStatus(fix_TargetVehicle[playerid], 0, 0, luzes, pneus);
     	SetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
     	SetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
-    	ShowActionText(playerid, ls(playerid, "~g~~h~~h~VEHICLEBODY", true), 3000, 100);
+    	ShowActionText(playerid, GetLanguageString(playerid, "VEHICLEBODY", true), 5000);
  }
 
 	VehicleBonnetState(fix_TargetVehicle[playerid], 0);
