@@ -1,4 +1,4 @@
-CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " » https://discord.gg/jduSSH2Ezf");
+CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " > https://discord.gg/jduSSH2Ezf");
 
 CMD:dicas(playerid)
 {
@@ -111,7 +111,7 @@ CMD:pos(playerid)
 
 	GetPlayerPos(playerid, x, y, z);
 
-	ChatMsg(playerid, YELLOW, " >  Sua posição: "C_BLUE"%.2f, %.2f, %.2f", x, y, z);
+	ChatMsg(playerid, YELLOW, " >  Sua posiÃ§Ã£o: "C_BLUE"%.2f, %.2f, %.2f", x, y, z);
 
 	return 1;
 }
@@ -171,31 +171,25 @@ CMD:mudarsenha(playerid,params[])
 
 CMD:ajuda(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações gerais", ls(playerid, "GENCOMDHELP"), "X", "");
-	return 1;
-}
-
-CMD:ayuda(playerid)
-{
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações gerais", ls(playerid, "GENCOMDHELP"), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "InformaÃ§Ãµes gerais", GetLanguageString(playerid, "GENCOMDHELP", true), "X", "");
 	return 1;
 }
 
 CMD:comandos(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações gerais", ls(playerid, "GENCOMDHELP"), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "InformaÃ§Ãµes gerais", GetLanguageString(playerid, "GENCOMDHELP", true), "X", "");
 	return 1;
 }
 
 CMD:help(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações gerais", ls(playerid, "GENCOMDHELP"), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "InformaÃ§Ãµes gerais", GetLanguageString(playerid, "GENCOMDHELP", true), "X", "");
 	return 1;
 }
 
 CMD:cmds(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações gerais", ls(playerid, "GENCOMDHELP"), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "InformaÃ§Ãµes gerais", GetLanguageString(playerid, "GENCOMDHELP", true), "X", "");
 	return 1;
 }
 
@@ -203,25 +197,13 @@ CMD:cmds(playerid)
 
 CMD:regras(playerid)
 {
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras", ls(playerid, "RULESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras", GetLanguageString(playerid, "RULESLIST", true), "X", "");
 	return 1;
 }
 
 CMD:rules(playerid)
 {
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Rules", ls(playerid, "RULESLIST"), "X", "");
-	return 1;
-}
-
-CMD:reglas(playerid)
-{
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Reglas", ls(playerid, "RULESLIST"), "X", "");
-	return 1;
-}
-
-CMD:regles(playerid)
-{
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regles", ls(playerid, "RULESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Rules", GetLanguageString(playerid, "RULESLIST", true), "X", "");
 	return 1;
 }
 
@@ -229,25 +211,19 @@ CMD:regles(playerid)
 
 CMD:explosivos(playerid)
 {
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos", ls(playerid, "BOMBSLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos", GetLanguageString(playerid, "BOMBSLIST", true), "X", "");
 	return 1;
 }
 
 CMD:explosives(playerid)
 {
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosives", ls(playerid, "BOMBSLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosives", GetLanguageString(playerid, "BOMBSLIST", true), "X", "");
 	return 1;
 }
 
 CMD:bombas(playerid)
 {
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Bombas", ls(playerid, "BOMBSLIST"), "X", "");
-	return 1;
-}
-
-CMD:explosifs(playerid)
-{
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosifs", ls(playerid, "BOMBSLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Bombas", GetLanguageString(playerid, "BOMBSLIST", true), "X", "");
 	return 1;
 }
 
@@ -255,25 +231,13 @@ CMD:explosifs(playerid)
 
 CMD:metais(playerid)
 {
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Metais", ls(playerid, "DEFENCESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Metais", GetLanguageString(playerid, "DEFENCESLIST", true), "X", "");
 	return 1;
 }
 
 CMD:defences(playerid)
 {
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defences", ls(playerid, "DEFENCESLIST"), "X", "");
-	return 1;
-}
-
-CMD:defensas(playerid)
-{
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defensas", ls(playerid, "DEFENCESLIST"), "X", "");
-	return 1;
-}
-
-CMD:defenses(playerid)
-{
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defenses", ls(playerid, "DEFENCESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defences", GetLanguageString(playerid, "DEFENCESLIST", true), "X", "");
 	return 1;
 }
 
@@ -281,25 +245,13 @@ CMD:defenses(playerid)
 
 CMD:mochilas(playerid)
 {
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas", ls(playerid, "BACKPACKLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas", GetLanguageString(playerid, "BACKPACKLIST", true), "X", "");
 	return 1;
 }
 
 CMD:backpacks(playerid)
 {
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Backpacks", ls(playerid, "BACKPACKLIST"), "X", "");
-	return 1;
-}
-
-CMD:bolsas(playerid)
-{
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Bolsas", ls(playerid, "BACKPACKLIST"), "X", "");
-	return 1;
-}
-
-CMD:sacs(playerid)
-{
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Sacs", ls(playerid, "BACKPACKLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Backpacks", GetLanguageString(playerid, "BACKPACKLIST", true), "X", "");
 	return 1;
 }
 
@@ -307,25 +259,13 @@ CMD:sacs(playerid)
 
 CMD:caixas(playerid)
 {
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas", ls(playerid, "BOXESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas", GetLanguageString(playerid, "BOXESLIST", true), "X", "");
 	return 1;
 }
 
 CMD:boxes(playerid)
 {
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Boxes", ls(playerid, "BOXESLIST"), "X", "");
-	return 1;
-}
-
-CMD:cajas(playerid)
-{
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Cajas", ls(playerid, "BOXESLIST"), "X", "");
-	return 1;
-}
-
-CMD:boites(playerid)
-{
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Boites", ls(playerid, "BOXESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Boxes", GetLanguageString(playerid, "BOXESLIST", true), "X", "");
 	return 1;
 }
 
