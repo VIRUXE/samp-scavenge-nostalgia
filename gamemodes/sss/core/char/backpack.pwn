@@ -309,7 +309,7 @@ stock AddItemToPlayer(playerid, itemid, useinventory = false, playeraction = tru
 		}
 		else
 		{
-		    ShowActionText(playerid, sprintf(ls(playerid, "INVEXTRASLO", true), itemsize), 3000, 150);
+		    ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), itemsize), 3000, 150);
 		}
 	}
 	else
