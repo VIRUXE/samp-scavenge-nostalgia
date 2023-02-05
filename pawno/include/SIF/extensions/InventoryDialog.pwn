@@ -245,9 +245,9 @@ stock DisplayPlayerInventory(playerid)
 	if(!isnull(inv_ExtraItemList[playerid]))
 		strcat(list, inv_ExtraItemList[playerid]);
 
-	format(title, sizeof(title), ls(playerid, "INVNAME"), GetPlayerInventorySize(playerid) - GetInventoryFreeSlots(playerid), GetPlayerInventorySize(playerid));
+	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", true), GetPlayerInventorySize(playerid) - GetInventoryFreeSlots(playerid), GetPlayerInventorySize(playerid));
     inv_ViewingInventory[playerid] = true;
-	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, GetLanguageString(playerid, "BUTTONOPT", true), ls(playerid, "BUTTONCLS"));
 	return 1;
 }
 
@@ -392,7 +392,7 @@ DisplayPlayerInventoryOptions(playerid, slotid)
 
 	CallLocalFunction("OnPlayerViewInventoryOpt", "d", playerid);
 
-	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], GetLanguageString(playerid, "BUTTONSLC", true), ls(playerid, "BUTTONRTN"));
 
 	return 1;
 }
@@ -419,7 +419,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -438,7 +438,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -457,7 +457,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
