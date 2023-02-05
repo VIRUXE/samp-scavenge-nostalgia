@@ -262,7 +262,7 @@ _UpdateKeyActions(playerid)
 			ShowPlayerKeyActionUI(playerid);
 		}
 
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(playerid, "KA_OPENINV", true));
 		
 		//AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 		    
@@ -299,14 +299,14 @@ _UpdateKeyActions(playerid)
 	}
 	else if(itemtype == item_Wheel)
 	{
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW", true));
 	}
 	else if(itemtype == item_GasCan)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV", true));
 		}
 		else
 		{
@@ -400,13 +400,13 @@ _UpdateKeyActions(playerid)
 
 			if(pInB == 1)
 			{
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLG"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_REFULLG", true));
 			}
 			else
 			{
 			    if(GetLiquidItemLiquidAmount(GetPlayerItem(playerid)) <= 0.0)
 				{
-				    ShowHelpTip(playerid, ls(playerid, "KA_GOTOPOST"));
+				    ShowHelpTip(playerid, GetLanguageString(playerid, "KA_GOTOPOST", true));
 				}
 				else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV"));
 			}
@@ -445,7 +445,7 @@ _UpdateKeyActions(playerid)
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRMV"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_REPAIRMV", true));
 		}
 	}
 	else
@@ -461,7 +461,7 @@ _UpdateKeyActions(playerid)
 		}
 		else if(GetHatFromItem(itemtype) != -1)
 		{
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_USEAC", true));
 		}
 		else if(GetMaskFromItem(itemtype) != -1)
 		{
@@ -524,22 +524,22 @@ _ShowRepairTip(playerid, vehicleid)
 
 	if(health <= VEHICLE_HEALTH_CHUNK_2)
 	{
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHVER"));
+		ShowHelpTip(playerid, GetLanguageString(playerid, "TUTORVEHVER", true));
 		return;
 	}
 	else if(health <= VEHICLE_HEALTH_CHUNK_3)
 	{
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHBRO"));
+		ShowHelpTip(playerid, GetLanguageString(playerid, "TUTORVEHBRO", true));
 		return;
 	}
 	else if(health <= VEHICLE_HEALTH_CHUNK_4)
 	{
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHBIT"));
+		ShowHelpTip(playerid, GetLanguageString(playerid, "TUTORVEHBIT", true));
 		return;
 	}
 	else if(health <= VEHICLE_HEALTH_MAX)
 	{
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHSLI"));
+		ShowHelpTip(playerid, GetLanguageString(playerid, "TUTORVEHSLI", true));
 		return;
 	}
 
