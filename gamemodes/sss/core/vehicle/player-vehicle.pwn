@@ -181,10 +181,7 @@ LoadPlayerVehicle(filename[])
 	{
 		if(!IsPointInMapBounds(Float:data[VEH_CELL_POSX], Float:data[VEH_CELL_POSY], Float:data[VEH_CELL_POSZ]))
 		{
-			if(category == VEHICLE_CATEGORY_HELICOPTER || category == VEHICLE_CATEGORY_PLANE)
-			{
-				data[VEH_CELL_POSZ] = _:(Float:data[VEH_CELL_POSZ] + 10.0);
-			}
+			if(category == VEHICLE_CATEGORY_HELICOPTER || category == VEHICLE_CATEGORY_PLANE) data[VEH_CELL_POSZ] = _:(Float:data[VEH_CELL_POSZ] + 10.0);
 			else
 			{
 				err("Removing vehicle file: %s (%s) because it's out of the map bounds.", filename, vehiclename);
@@ -223,8 +220,7 @@ LoadPlayerVehicle(filename[])
 
 	Iter_Add(veh_Index, vehicleid);
 
-	if(Float:data[VEH_CELL_HEALTH] > 990.0)
-		data[VEH_CELL_HEALTH] = _:990.0;
+	if(Float:data[VEH_CELL_HEALTH] > 990.0) data[VEH_CELL_HEALTH] = _:990.0;
 
 	SetVehicleHP(vehicleid, Float:data[VEH_CELL_HEALTH]);
 	SetVehicleFuel(vehicleid, Float:data[VEH_CELL_FUEL]);
@@ -349,17 +345,14 @@ LoadPlayerVehicle(filename[])
 
 				dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 2, "[LoadPlayerVehicle] item %d/%d type:%d", i, itemcount, _:itemtype);
 
-				if(itemtype == INVALID_ITEM_TYPE)
-					break;
+				if(itemtype == INVALID_ITEM_TYPE) break;
 
-				if(itemtype == ItemType:0)
-					break;
+				if(itemtype == ItemType:0) break;
 
 				itemid = CreateItem(itemtype);
 				dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 2, "[LoadPlayerVehicle] created item:%d container:%d", itemid, containerid);
 
-				if(!IsItemTypeSafebox(itemtype) && !IsItemTypeBag(itemtype))
-					SetItemArrayDataFromStored(itemid, i);
+				if(!IsItemTypeSafebox(itemtype) && !IsItemTypeBag(itemtype)) SetItemArrayDataFromStored(itemid, i);
 
 				AddItemToContainer(containerid, itemid);
 			}
@@ -398,8 +391,7 @@ _SaveVehicle(vehicleid)
 
 	session = modio_getsession_write(filename);
 
-	if(session != -1)
-		modio_close_session_write(session);
+	if(session != -1) modio_close_session_write(session);
 
 	active[0] = !IsVehicleDead(vehicleid);
 	modio_push(filename, _T<A,C,T,V>, 1, active);
@@ -417,8 +409,7 @@ _SaveVehicle(vehicleid)
 	GetVehicleDamageStatus(vehicleid, data[VEH_CELL_PANELS], data[VEH_CELL_DOORS], data[VEH_CELL_LIGHTS], data[VEH_CELL_TIRES]);
 	data[VEH_CELL_KEY] = GetVehicleKey(vehicleid);
 
-	if(!IsVehicleOccupied(vehicleid))
-		data[VEH_CELL_LOCKED] = _:GetVehicleLockState(vehicleid);
+	if(!IsVehicleOccupied(vehicleid)) data[VEH_CELL_LOCKED] = _:GetVehicleLockState(vehicleid);
 
 	modio_push(filename, _T<D,A,T,A>, VEH_CELL_END, data);
 
@@ -462,8 +453,7 @@ _SaveVehicle(vehicleid)
 			{
 				items[i] = GetContainerSlotItem(containerid, i);
 
-				if(!IsValidItem(items[i]))
-					break;
+				if(!IsValidItem(items[i])) break;
 
 				itemcount++;
 			}
@@ -495,8 +485,7 @@ _SaveVehicle(vehicleid)
 	{
 		items[i] = GetContainerSlotItem(containerid, i);
 
-		if(!IsValidItem(items[i]))
-			break;
+		if(!IsValidItem(items[i])) break;
 
 		itemcount++;
 	}
@@ -519,10 +508,7 @@ _SaveVehicle(vehicleid)
 			Float:data[VEH_CELL_POSY],
 			Float:data[VEH_CELL_POSZ]);
 	}
-	else
-	{
-		log("[DELT] Removing player vehicle %d.", vehicleid);
-	}
+	else log("[DELT] Removing player vehicle %d.", vehicleid);
 	
 	return 1;
 }
@@ -542,7 +528,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 	if(newstate == PLAYER_STATE_DRIVER)
 	{
 		GetVehicleTypeName(GetVehicleType(GetPlayerVehicleID(playerid)), vehiclename);
-		ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "VEHICLSAVED", true), vehiclename), 5000);
 		_SaveVehicle(GetPlayerVehicleID(playerid));
 	}
 	if(oldstate == PLAYER_STATE_DRIVER)
@@ -550,7 +536,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 		if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleEnterTick(playerid)) > 1000)
 		{
 		    GetVehicleTypeName(GetVehicleType(GetPlayerLastVehicle(playerid)), vehiclename);
-			ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "VEHICLSAVED", true), vehiclename), 5000);
 			_SaveVehicle(GetPlayerLastVehicle(playerid));
 		}
 	}
