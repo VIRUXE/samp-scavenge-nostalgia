@@ -223,7 +223,7 @@ hook OnHoldActionFinish(playerid)
 				if(random(100) < 33)
 				{
 					SetPlayerInfectionIntensity(playerid, 1, 1);
-					ShowActionText(playerid, ls(playerid, "WOUNDINFECT", true), 5000);
+					ShowActionText(playerid, GetLanguageString(playerid, "WOUNDINFECT", true), 5000);
 				}
 
 				ChatMsgLang(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
