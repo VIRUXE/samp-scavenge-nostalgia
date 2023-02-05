@@ -34,7 +34,7 @@ static
 task SendAutoMessage[5 * 60000](){
 	foreach(new i : Player)
 	    if(ToolTips[i])
-	    	ChatMsg(i, BLUE, ""C_BLUE"%s", ls(i, sprintf("AUTOMSG%d", MsgAuto )));
+	    	ChatMsg(i, BLUE, ""C_BLUE"%s", ls(i, sprintf("AUTOMSG%d", MsgAuto)));
 
     MsgAuto++;
 	if(MsgAuto >= 7) MsgAuto = 0;
@@ -95,25 +95,25 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 		new ItemType:itype = GetItemType(itemid);
 		
 		if(IsItemTypeDefence(itype))
-			ShowHelpTip(playerid, ls(playerid, "DEFENCE_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "DEFENCE_T", true), 20000);
 
 		else if(IsItemTypeSafebox(itype))
-			ShowHelpTip(playerid, ls(playerid, "SAFEBOX_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "SAFEBOX_T", true), 20000);
 
 		else if(IsItemTypeBag(itype))
-			ShowHelpTip(playerid, ls(playerid, "BAG_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "BAG_T", true), 20000);
 
 		else if(GetHatFromItem(itype) != -1)
-			ShowHelpTip(playerid, ls(playerid, "HAT_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "HAT_T", true), 20000);
 
 		else if(GetMaskFromItem(itype) != -1)
-			ShowHelpTip(playerid, ls(playerid, "MASK_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "MASK_T", true), 20000);
 
 		if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
-			ShowHelpTip(playerid, ls(playerid, "LIQUID_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "LIQUID_T", true), 20000);
 
 		else if(IsItemTypeFood(itype))
-			ShowHelpTip(playerid, ls(playerid, "FOOD_T"), 20000);
+			ShowHelpTip(playerid, GetLanguageString(playerid, "FOOD_T", true), 20000);
 
 		else {
 			new itemname[ITM_MAX_NAME],
@@ -128,7 +128,8 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 			format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
 			itemtipkey[11] = EOS;
 
-			format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey, true));
+//			format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey, true));
+			format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(playerid, itemtipkey, true));
 
 			ShowHelpTip(playerid, str, 20000);
 		}
