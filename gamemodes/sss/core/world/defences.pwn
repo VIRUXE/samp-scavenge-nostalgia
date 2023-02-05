@@ -287,40 +287,35 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 StartBuildingDefence(playerid, itemid)
 {
-	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > VocÃª nÃ£o pode construir aqui.");
 
-	new BlockedZone = -1;
-	if(IsPlayerInRangeOfPoint(playerid, 15.0, 256.6457, 4297.8452, 7.2358)){
-		BlockedZone = 1;
-		return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+	// Zonas do mapa em que nÃ£o se pode construir
+	new const Float:blockedZones[][4] = {
+		// [radius, x, y, z]
+		{15.0, 256.6457, 4297.8452, 7.2358}, // KACC
+		{5.0, 0.0, 0.0, 5.0} // Centro do mapa
+	};
+
+	for(new i = 0; i < sizeof(blockedZones); i++)
+	{
+		if(IsPlayerInRangeOfPoint(playerid, blockedZones[i][0], blockedZones[i][1], blockedZones[i][2], blockedZones[i][3]))
+			return ChatMsg(playerid, RED, " > VocÃª nÃ£o pode construir aqui.");
 	}
 
-	else if(IsPlayerInRangeOfPoint(playerid, 5.0, 0, 0, 5)){
-		BlockedZone = 1;
-		return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
-	}
+	new itemtypename[ITM_MAX_NAME];
 
-	if(BlockedZone == -1)
-	{	
-		new itemtypename[ITM_MAX_NAME];
+	GetItemTypeName(GetItemType(itemid), itemtypename);
 
-		GetItemTypeName(GetItemType(itemid), itemtypename);
+	def_CurrentDefenceItem[playerid] = itemid;
+	
+	StartHoldAction(playerid, IsPlayerVip(playerid) ? 4000 : 8000);
+	
+	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
+	ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
 
-		def_CurrentDefenceItem[playerid] = itemid;
-		
-		if(IsPlayerVip(playerid))
-			StartHoldAction(playerid, 4000);
-		else
-			StartHoldAction(playerid, 8000);
-		
-		ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-		ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
+	if(!IsPlayerInvadedField(playerid))
+		ChatMsg(playerid, GREEN, " > [FIELD] ApÃ³s construir a sua base, chame um admin no /relatorio para por uma proteÃ§Ã£o (field) contra hackers.");
 
-		if(!IsPlayerInvadedField(playerid))
-			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
-
-		return 1;
-	}
 	return 1;
 }
 
