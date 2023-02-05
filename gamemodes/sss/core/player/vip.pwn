@@ -66,7 +66,7 @@ CMD:ajudavip(playerid)
     new stringajudavip[1300];
     strcat(stringajudavip, "{FFFF00}Benefícios dos VIPS: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00\n");
     strcat(stringajudavip, " \n");
-	strcat(stringajudavip, "{FFAA00}- Tem uma maior variedade de spawns ap�s morrer\n");
+	strcat(stringajudavip, "{FFAA00}- Tem uma maior variedade de spawns após morrer\n");
 //	strcat(stringajudavip, "{FFAA00}- Consegue trocar o nickname usando {FFFFFF}/mudarnick\n");
 	strcat(stringajudavip, "{FFAA00}- Consegue trocar o estilo de luta usando {FFFFFF}/mudarluta\n");
 	strcat(stringajudavip, "{FFAA00}- Nickname colorido (destacado)\n");
@@ -82,7 +82,7 @@ CMD:ajudavip(playerid)
 	strcat(stringajudavip, "{FFAA00}- Spawna sem fome (jogadores sem vip nascem com 20% de fome faltando)\n");
 	strcat(stringajudavip, "{FFAA00}- Recebe o dobro de kills (score) ao eliminar algum jogador\n");
 	strcat(stringajudavip, "{FFAA00}- Consegue trocar a skin usando {FFFFFF}/skin\n");
-	strcat(stringajudavip, "{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bast�o\n");
+	strcat(stringajudavip, "{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bastão\n");
     ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", stringajudavip, "Fechar", "");
     return 1;
 }
@@ -111,7 +111,7 @@ CMD:avip(playerid, params[])
 	new name[24];
 	GetPlayerName(playerid, name, 24);
 
-	ChatMsgAll(VIP_COLOR, "[An�ncio-VIP] {FFFFFF}(%d) %s: {FFAA00}%s", playerid, name, Anuncio);
+	ChatMsgAll(VIP_COLOR, "[Anúncio-VIP] {FFFFFF}(%d) %s: {FFAA00}%s", playerid, name, Anuncio);
 
 	aviptimer[playerid] = true;
 	defer DesTempAVip(playerid);
@@ -206,7 +206,7 @@ CMD:mudarluta(playerid, params[]){
 	}
 	else if(AccountExists(novonome))
 	{
-	    ChatMsg(playerid, YELLOW, "Este nick j� está registrado no Servidor.");
+	    ChatMsg(playerid, YELLOW, "Este nick já está registrado no Servidor.");
 		return 1;
 	}
 	else if(strlen(novonome) > 21 || strlen(novonome) < 3)
@@ -216,7 +216,7 @@ CMD:mudarluta(playerid, params[]){
 	}
 	else if(!IsValidUsername(novonome))
 	{
-	    ChatMsg(playerid, YELLOW, "O Nick que voc� digitou possui algum caracter inválido");
+	    ChatMsg(playerid, YELLOW, "O Nick que você digitou possui algum caracter inválido");
 		return 1;
 	}
 	else
@@ -287,7 +287,7 @@ hook OnPlayerSpawnNewChar(playerid){
 
 /*==============================================================================
 
-	Fun��es
+	Funções
 
 ==============================================================================*/
 

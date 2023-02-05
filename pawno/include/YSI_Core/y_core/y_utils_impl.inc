@@ -597,7 +597,7 @@ stock IPToInt(const ip[])
  *
  *  I modified it slightly from the original code pasted by aru, to code
  *  closer to the code <a href="http://www.burtleburtle.net/bob/hash/doobs.html" />
- *  and to work with PAWN (and shaved 0.2�s off the time for one call :D).
+ *  and to work with PAWN (and shaved 0.2s off the time for one call :D).
  *
  *  Uber reduced version (just for fun):
  *  b(s[]){new h=-1,i,j;while((j=s[i++]))h=h*33+j;return h;}

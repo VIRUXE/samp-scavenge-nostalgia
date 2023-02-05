@@ -493,13 +493,13 @@ Knife3_T=Esse item não tem útilidade.
 Boot_T=Esse item não tem útilidade.
 Doormat_T=Esse item não tem útilidade.
 Broom_T=Use isso para causar danos em outros jogadores.
-Keycard_T=Esse item não tem útilidade.
+Keycard_T=Esse item não tem útilidade._T
 BurntLog_T=Esse item não tem útilidade.
 Padlock_T=Esse item não tem útilidade.
 OilDrum_T=Esse item não tem útilidade.
 Canister_T=Usado em crafts.
-ScrapMeta_T=Canister_T=Usado em crafts.
-RefinedMe_T=Canister_T=Usado em crafts.
+ScrapMeta_T=Usado em crafts.
+RefinedMe_T=Usado em crafts.
 Locator_T=Esse item não tem útilidade.
 PlotPole_T=Uso do item não definido.
 ScrapMach_T=Uso do item não definido.

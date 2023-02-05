@@ -270,9 +270,9 @@ GENCOMDHELP=	 /viphelp - See the VIP benefits/values \n\n\t /crafts - List of se
 
 RULESLIST=	 {C_YELLOW}List of Rules: (Total: 9)\n\n\t \n\n\t {C_ORANGE}Disrespect for staff = ban \n\n\t {C_ORANGE}Player offense or disrespect = warn \n\n\t {C_ORANGE}Promote other servers = ban \n\n\t {C_ORANGE}Bug abuse = ban (depending on severity) \n\n\t {C_ORANGE}Report players in global chat = warn \n\n\t {C_ORANGE}Use beneficial programs or mods = ban \n\n\t {C_ORANGE}Have more than one account on server = account disabled and warn \n\n\t {C_ORANGE}FakeKill (kill friends or clan members) = warn \n\n\t {C_ORANGE}Flood/Spam = warn.
 BOMBSLIST=	 {C_YELLOW}List of Explosives: (Total: 2) \n\n\t  \n\n\t {C_ORANGE}TNT - (2 DAMAGE IN DEFENCES) \n\n\t {C_ORANGE}IED - (1 DAMAGE IN DEFENCES).
-DEFENCESLIST=	 {C_YELLOW}Lista de Metais: (Total: 17) \n\n\t  \n\n\t {C_ORANGE}Metal Blindado - (15/15) \n\n\t {C_ORANGE}Porta Blindada (14/14) \n\n\t {C_ORANGE}Porta de Cofre (13/13) \n\n\t {C_ORANGE}Port�o de Garagem (12/12) \n\n\t {C_ORANGE}Porta Dupla - (11/11) \n\n\t {C_ORANGE}Porta de Navio - (9/9) \n\n\t {C_ORANGE}Metal Corrugado - (8/8) \n\n\t {C_ORANGE}Painel Isolado - (8/8) \n\n\t {C_ORANGE}Rampa de Madeira - (8/8) \n\n\t {C_ORANGE}Entrada Isolada - (7/7) \n\n\t {C_ORANGE}Grade Grande - (7/7) \n\n\t {C_ORANGE}Painel de Metal - (6/6) \n\n\t {C_ORANGE}Porta de Container - (6/6) \n\n\t {C_ORANGE}Grade - (5/5) \n\n\t {C_ORANGE}Peda�o de Metal - (4/4) \n\n\t {C_ORANGE}Metal Pequeno - (4/4).
-BACKPACKLIST=	 {C_YELLOW}List of Backpacks: (Total: 7) \n\n\t  \n\n\t {C_ORANGE}Mochila de Acampamento - (18 slots) \n\n\t {C_ORANGE}Mochila de Paraquedas - (15 slots) \n\n\t {C_ORANGE}Mochila Grande - (14 slots) \n\n\t {C_ORANGE}Mochila Larga - (12 slots) \n\n\t {C_ORANGE}Mochila M�dia - (10 slots) \n\n\t {C_ORANGE}Daypack - (8 slots) \n\n\t {C_ORANGE}Mochila Pequena - (7 slots).
-BOXESLIST=	 {C_YELLOW}List of Boxes: (Total: 8) \n\n\t  \n\n\t {C_ORANGE}Arm�rio (45 Slots) \n\n\t {C_ORANGE}Caixa Grande (15 Slots) \n\n\t {C_ORANGE}Caixa M�dia (12 Slots) \n\n\t {C_ORANGE}Caixa Pequena (10 Slots) \n\n\t {C_ORANGE}Caixa de Ferramentas (8 Slots) \n\n\t {C_ORANGE}Mala de Viagem (6 Slots) \n\n\t {C_ORANGE}Bolsa de Viagem (6 Slots) \n\n\t {C_ORANGE}Caixinha (5 Slots).
+DEFENCESLIST=	 {C_YELLOW}Lista de Metais: (Total: 17) \n\n\t  \n\n\t {C_ORANGE}Metal Blindado - (15/15) \n\n\t {C_ORANGE}Porta Blindada (14/14) \n\n\t {C_ORANGE}Porta de Cofre (13/13) \n\n\t {C_ORANGE}Portão de Garagem (12/12) \n\n\t {C_ORANGE}Porta Dupla - (11/11) \n\n\t {C_ORANGE}Porta de Navio - (9/9) \n\n\t {C_ORANGE}Metal Corrugado - (8/8) \n\n\t {C_ORANGE}Painel Isolado - (8/8) \n\n\t {C_ORANGE}Rampa de Madeira - (8/8) \n\n\t {C_ORANGE}Entrada Isolada - (7/7) \n\n\t {C_ORANGE}Grade Grande - (7/7) \n\n\t {C_ORANGE}Painel de Metal - (6/6) \n\n\t {C_ORANGE}Porta de Container - (6/6) \n\n\t {C_ORANGE}Grade - (5/5) \n\n\t {C_ORANGE}Pedaço de Metal - (4/4) \n\n\t {C_ORANGE}Metal Pequeno - (4/4).
+BACKPACKLIST=	 {C_YELLOW}List of Backpacks: (Total: 7) \n\n\t  \n\n\t {C_ORANGE}Mochila de Acampamento - (18 slots) \n\n\t {C_ORANGE}Mochila de Paraquedas - (15 slots) \n\n\t {C_ORANGE}Mochila Grande - (14 slots) \n\n\t {C_ORANGE}Mochila Larga - (12 slots) \n\n\t {C_ORANGE}Mochila Média - (10 slots) \n\n\t {C_ORANGE}Daypack - (8 slots) \n\n\t {C_ORANGE}Mochila Pequena - (7 slots).
+BOXESLIST=	 {C_YELLOW}List of Boxes: (Total: 8) \n\n\t  \n\n\t {C_ORANGE}Armário (45 Slots) \n\n\t {C_ORANGE}Caixa Grande (15 Slots) \n\n\t {C_ORANGE}Caixa Média (12 Slots) \n\n\t {C_ORANGE}Caixa Pequena (10 Slots) \n\n\t {C_ORANGE}Caixa de Ferramentas (8 Slots) \n\n\t {C_ORANGE}Mala de Viagem (6 Slots) \n\n\t {C_ORANGE}Bolsa de Viagem (6 Slots) \n\n\t {C_ORANGE}Caixinha (5 Slots).
 
 STATUSUPDDD=Hunger: %0.1f - Bleed Rate: %0.5f _~n~Score: %d - Deaths: %d - Spree: %d
 
@@ -418,8 +418,8 @@ Flag_T=This has no use yet
 DoctorBag_T=You can slow bleeding, regenerate blood and heal wounds on yourself or others with this
 Wheel_T=Use this to repair vehicle wheels by facing them and pressing {KEYTEXT_INTERACT}
 MotionSen_T=Used for crafting
-Accelerom_T=used for crafting
-TntTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking 'Arm' will explode when interacted with
+Accelerom_T=Used for crafting
+TntTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking Arm will explode when interacted with
 IedBomb_T=Craft with various mechanical items for different types of bombs
 GasCan_T=Use this to refuel vehicles by standing at the front and holding {KEYTEXT_INTERACT} refuel petrol can at fuel pumps by holding {KEYTEXT_INTERACT} at one
 Clothes_T=Wear these by holding {KEYTEXT_INTERACT}
@@ -464,11 +464,11 @@ HerpDerp_T=Press {KEYTEXT_INTERACT} to derp
 Parrot_T=This is a parrot called Sebastian
 TntProxMi_T=This item has no use yet
 IedTimebo_T=An explosive with a timed detonation of 5 seconds, press {KEYTEXT_INTERACT} to arm
-IedTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking 'Arm' will explode when interacted with
+IedTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking Arm will explode when interacted with
 IedProxMi_T=This item has no use yet
 IedPhoneB_T=Use a phone with this by pressing {KEYTEXT_INTERACT} to sync the phones, then use the phone to detonate with {KEYTEXT_INTERACT}
 EmpTimebo_T=A proximity taser with a timed detonation of 5 seconds, press {KEYTEXT_INTERACT} to arm
-EmpTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking 'Arm' will explode when interacted with
+EmpTripMi_T=Arm on the floor by pressing {KEYTEXT_INTERACT} arm inside containers by opening options and clicking Arm will explode when interacted with
 EmpProxMi_T=This item has no use yet
 EmpPhoneB_T=Use a phone with this by pressing {KEYTEXT_INTERACT} to sync the phones, then use the phone to detonate with {KEYTEXT_INTERACT}
 Gyroscope_T=This item has no use yet

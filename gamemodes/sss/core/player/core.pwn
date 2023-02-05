@@ -243,7 +243,7 @@ timer LoadAccountDelay[6000](playerid)
 	if(loadresult == 4) // Account does exists, but is disabled
 	{
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a cria��o de 2 ou mais contas no servidor.");
+		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
 		KickPlayer(playerid, "Conta inativa", false);
 	}

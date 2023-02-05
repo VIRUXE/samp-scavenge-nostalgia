@@ -190,18 +190,18 @@ ShowPlayerHealthInfo(playerid)
 	ShowBodyPreviewUI(playerid);
 
 	new strc[15];
-	format(strc, sizeof(strc), "Cabe�a: %d", bodypartwounds[6]);
+	format(strc, sizeof(strc), "Cabeça: %d", bodypartwounds[6]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 35.0, strc,
 		bodypartwounds[6] ? RGBAToHex(max(bodypartwounds[6] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
 	SetBodyPreviewLabel(playerid, 0, tmp++, 25.0, sprintf("Tronco: %d", bodypartwounds[0]),
 		bodypartwounds[0] ? RGBAToHex(max(bodypartwounds[0] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
-    format(strc, sizeof(strc), "Bra�o D: %d", bodypartwounds[3]);
+    format(strc, sizeof(strc), "Braço D: %d", bodypartwounds[3]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 30.0, strc,
 		bodypartwounds[3] ? RGBAToHex(max(bodypartwounds[3] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
-    format(strc, sizeof(strc), "Bra�o E: %d", bodypartwounds[2]);
+    format(strc, sizeof(strc), "Braço E: %d", bodypartwounds[2]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 20.0, strc,
 		bodypartwounds[2] ? RGBAToHex(max(bodypartwounds[2] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -220,10 +220,10 @@ ShowPlayerHealthInfo(playerid)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, "Sangramento", RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
 
 	if(infected1)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infec��o alimentar", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecção alimentar", 0xFF0000FF);
 
 	if(infected2)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infec��o na ferida", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecçãoo na ferida", 0xFF0000FF);
 
 	for(new i; i < drugs; i++)
 	{
@@ -429,7 +429,7 @@ hook OnItemAddToInventory(playerid, itemid, slot)
 		return 1;
 
 	UpdatePlayerGear(playerid, 0);
-	ShowActionText(playerid, "Item adicionado ao invent�rio", 3000);
+	ShowActionText(playerid, "Item adicionado ao inventário", 3000);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
