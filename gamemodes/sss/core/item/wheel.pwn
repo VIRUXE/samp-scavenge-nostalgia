@@ -70,7 +70,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
@@ -88,7 +88,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
@@ -106,7 +106,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 0);
-					ShowActionText(playerid, ls(playerid, "TIREREPFL"), 7000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPFL", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -114,7 +114,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
@@ -124,7 +124,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 1);
-					ShowActionText(playerid, ls(playerid, "TIREREPFR"), 7000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPFR", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -132,7 +132,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
@@ -142,7 +142,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 2);
-					ShowActionText(playerid, ls(playerid, "TIREREPBL"), 7000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPBL", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -150,7 +150,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
@@ -160,7 +160,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 3);
-					ShowActionText(playerid, ls(playerid, "TIREREPBR"), 7000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPBR", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -168,7 +168,7 @@ _WheelRepair(playerid, vehicleid)
 				}
 				else
 				{
-					ShowActionText(playerid, ls(playerid, "TIRENOTBROK"), 2000);
+					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 				}
 			}
 
