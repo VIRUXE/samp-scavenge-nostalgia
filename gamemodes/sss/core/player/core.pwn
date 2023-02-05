@@ -118,14 +118,7 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
 
 		SetPlayerLanguage(playerid, listitem);
 
-<<<<<<< HEAD
-		switch(GetPlayerLanguage(playerid)){
-			case 0: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "EN");
-			case 1: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "PT");
-		}
-=======
 		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
->>>>>>> bf20983b314168ebf57104227f2a9802bb1a180c
 
 		defer LoadAccountDelay(playerid);
         new namep[24], string[MAX_FRASE_LEN];
