@@ -321,7 +321,7 @@ CreateAccount(playerid, password[])
 		CheckAdminLevel(playerid);
 
 		if(GetPlayerAdminLevel(playerid) > 0)
-			ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
+			ChatMsg(playerid, BLUE, " >  Seu nÃ­vel de admin atual Ã©: %d", GetPlayerAdminLevel(playerid));
 
 		acc_IsNewPlayer[playerid] = true;
 		acc_HasAccount[playerid] = true;
@@ -339,7 +339,7 @@ CreateAccount(playerid, password[])
 DisplayRegisterPrompt(playerid)
 {
 	new str[250];
-	format(str, 250, ls(playerid, "ACCREGIBODY"), playerid);
+	format(str, 250, GetLanguageString(playerid, "ACCREGIBODY", true), playerid);
 
 	log("[DisplayRegisterPrompt] %p is registering", playerid);
 	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCREGITITL"), str, ""C_GREEN">", ""C_RED"X");
@@ -382,7 +382,7 @@ DisplayLoginPrompt(playerid, badpass = 0)
 		format(str, 200, ls(playerid, "ACCLOGWROPW"), acc_LoginAttempts[playerid]);
 
 	else
-		format(str, 200, ls(playerid, "ACCLOGIBODY"), playerid);
+		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", true), playerid);
 
 	log("[DisplayLoginPrompt] %p is logging in", playerid);
 
@@ -485,10 +485,10 @@ Login(playerid)
 				reports = GetUnreadReports(),
 				issues = GetBugReports();
 
-			ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
+			ChatMsg(playerid, BLUE, " >  Seu nÃ­vel de admin atual Ã©: %d", GetPlayerAdminLevel(playerid));
 
 			if(reports > 0)
-				ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
+				ChatMsg(playerid, YELLOW, " >  %d reports nÃ£o lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 
 			if(issues > 0)
 				ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
