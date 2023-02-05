@@ -109,7 +109,7 @@ stock TweakItem(playerid, itemid)
 
 	_twk_ShowUI(playerid);
 	_twk_ToggleMouse(playerid, false);
-	ShowHelpTip(playerid, ls(playerid, "TIPTWEAKITM"));
+	ShowHelpTip(playerid, GetLanguageString(playerid, "TIPTWEAKITM", true));
 
 	return 1;
 }
@@ -371,7 +371,7 @@ _twk_AdjustItemPos(playerid, Float:distance, Float:direction, Float:rotation, Fl
 
 	if(new_z < twk_Origin[playerid][2])
 	{
-		ShowActionText(playerid, "Você não pode mover mais para baixo", 6000);
+		ShowActionText(playerid, "VocÃª nÃ£o pode mover mais para baixo", 6000);
 		return 6;
 	}
 
