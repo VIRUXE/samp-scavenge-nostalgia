@@ -114,8 +114,8 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
 		SetPlayerLanguage(playerid, listitem);
 
 		switch(GetPlayerLanguage(playerid)){
-			case 0: ChatMsg(playerid, YELLOW, "%s ( %s)", ls(playerid, "LANGCHANGE"), "EN");
-			case 1: ChatMsg(playerid, YELLOW, "%s ( %s)", ls(playerid, "LANGCHANGE"), "PT");
+			case 0: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "EN");
+			case 1: ChatMsg(playerid, YELLOW, "%s (%s)", ls(playerid, "LANGCHANGE"), "PT");
 		}
 
 		defer LoadAccountDelay(playerid);
