@@ -132,7 +132,7 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
         new playerName[MAX_PLAYER_NAME], frase[MAX_FRASE_LEN];
 		GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 		format(frase, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini", playerName));
-		foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
+		foreach(new i : Player) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
 	}
 	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
 }
