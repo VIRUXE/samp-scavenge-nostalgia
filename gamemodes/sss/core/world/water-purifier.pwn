@@ -88,7 +88,7 @@ stock CreateWaterMachine(Float:x, Float:y, Float:z, Float:rz)
 		return 0;
 	}
 
-	wm_Data[wm_Total][wm_machineId] = CreateMachine(943, x, y, z, rz, "Máquina de Purificação", "Pressione "KEYTEXT_INTERACT" para acessar a máquima~n~Segure "KEYTEXT_INTERACT" para abrir o menu~n~Use gasolina para adicionar combustível", MAX_WATER_MACHINE_ITEMS);
+	wm_Data[wm_Total][wm_machineId] = CreateMachine(943, x, y, z, rz, "MÃ¡quina de PurificaÃ§Ã£o", "Pressione "KEYTEXT_INTERACT" para acessar a mÃ¡quima~n~Segure "KEYTEXT_INTERACT" para abrir o menu~n~Use gasolina para adicionar combustÃ­vel", MAX_WATER_MACHINE_ITEMS);
 
 	wm_MachineWaterMachine[wm_Data[wm_Total][wm_machineId]] = wm_Total;
 
@@ -129,7 +129,7 @@ _wm_PlayerUseWaterMachine(playerid, watermachineid, interactiontype)
 
 	if(wm_Data[watermachineid][wm_cooking])
 	{
-		ShowActionText(playerid, sprintf(ls(playerid, "MACHPROCESS", true), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
+		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "MACHPROCESS", true), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
 		return 0;
 	}
 
@@ -154,7 +154,7 @@ _wm_PlayerUseWaterMachine(playerid, watermachineid, interactiontype)
 		}
 	}
 
-	Dialog_Show(playerid, WaterMachine, DIALOG_STYLE_MSGBOX, "Máquina de Purificação", sprintf("Pressione 'Iniciar' para ativar a máquina de purificação.\n\n"C_GREEN"Quantidade de Combustível: "C_WHITE"%.1f", wm_Data[watermachineid][wm_fuel]), "Iniciar", "Cancelar");
+	Dialog_Show(playerid, WaterMachine, DIALOG_STYLE_MSGBOX, "MÃ¡quina de PurificaÃ§Ã£o", sprintf("Pressione 'Iniciar' para ativar a mÃ¡quina de purificaÃ§Ã£o.\n\n"C_GREEN"Quantidade de CombustÃ­vel: "C_WHITE"%.1f", wm_Data[watermachineid][wm_fuel]), "Iniciar", "Cancelar");
 
 	return 0;
 }
@@ -166,10 +166,10 @@ Dialog:WaterMachine(playerid, response, listitem, inputtext[])
 		new ret = _wm_StartCooking(watermachineid);
 
 		if(ret == 0)
-			ShowActionText(playerid, ls(playerid, "MACHNOITEMS", true), 5000);
+			ShowActionText(playerid, GetLanguageString(playerid, "MACHNOITEMS", true), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, ls(playerid, "MACHRESTART", true), 6000);
+			ShowActionText(playerid, GetLanguageString(playerid, "MACHRESTART", true), 6000);
 
 		else if(ret == -2)
 			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL", true), WATER_MACHINE_FUEL_USAGE), 6000);
