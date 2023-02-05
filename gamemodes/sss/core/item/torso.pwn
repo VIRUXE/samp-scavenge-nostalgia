@@ -58,7 +58,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "BODYDECOMPD", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "BODYDECOMPD", true), 3000);
 			}
 		}
 		else
