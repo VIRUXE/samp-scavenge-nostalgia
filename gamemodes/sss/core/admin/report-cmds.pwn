@@ -102,7 +102,7 @@ CMD:relatorio(playerid, params[])
 	
 	new msg[200];
 
-    if(sscanf(params, "s[200]", msg)) return ChatMsg(playerid, RED, " > Use /Relatorio [Mensagem]");
+    if(sscanf(params, "s[200]", msg)) return ChatMsg(playerid, RED, " > Use /relatorio [mensagem]");
 
     ChatMsgAdmins(1, BLUE, "="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"="C_WHITE"="C_BLUE"=");
     ChatMsgAdmins(1, BLUE, "[Relatório]: %p(id:%d)"C_BLUE": "C_WHITE"%s", playerid, playerid, msg);
@@ -113,7 +113,7 @@ CMD:relatorio(playerid, params[])
 
     defer RelatorioFalse(playerid);
 
-    ChatMsg(playerid, YELLOW, " > Relatório Enviado com Sucesso. Aguarde a administração do servidor.");
+    ChatMsg(playerid, YELLOW, " > Relatório enviado com sucesso. Aguarde a administração do servidor.");
 	return 1;
 }
 
@@ -151,7 +151,7 @@ CMD:report(playerid, params[]){
 
 ShowReportMenu(playerid)
 {
-	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um id que está online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais próximo de min", ""C_GREEN"Enviar", ""C_RED"Cancelar");
+	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um ID que está online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais próximo de mim", ""C_GREEN"Enviar", ""C_RED"Cancelar");
 	return 1;
 }
 
@@ -298,7 +298,7 @@ Dialog:ReportOfflinePlayer(playerid, response, listitem, inputtext[])
 
 ShowReportReasonInput(playerid)
 {
-	Dialog_Show(playerid, ReportReasonInput, DIALOG_STYLE_INPUT, "Motivo do report", "Digite o motivo do seu relatório abaixo.", "Reportar", "Voltar");
+	Dialog_Show(playerid, ReportReasonInput, DIALOG_STYLE_INPUT, "Motivo do report", "Digite o motivo do seu relatï¿½rio abaixo.", "Reportar", "Voltar");
 }
 
 Dialog:ReportReasonInput(playerid, response, listitem, inputtext[])
@@ -346,13 +346,11 @@ ACMD:reports[1](playerid, params[])
 	return 1;
 }
 
-/*ACMD:deletereports[2](playerid, params[])
-{
+ACMD:delreports[5](playerid){
 	DeleteReadReports();
-	ChatMsg(playerid, YELLOW, " >  All read reports deleted.");
-
+	ChatMsg(playerid, YELLOW, " >  Todos os reports lidos foram deletados.");
 	return 1;
-}*/
+}
 
 ShowListOfReports(playerid)
 {
@@ -397,6 +395,7 @@ Dialog:ListOfReports(playerid, response, listitem, inputtext[])
 	if(response)
 	{
 		ShowReport(playerid, listitem);
+		HidePlayerPageButtons(playerid);
 		report_CurrentItem[playerid] = listitem;
 	}
 }
@@ -456,9 +455,9 @@ ShowReportOptions(playerid)
 {
 	new options[128];
 
-	options = "Ban\nDeletar\nDeletar todos os reports desse player\nDeixar lido\n";
+	options = "Banir\nDeletar\nDeletar reports do jogador\nDeixar lido\n";
 
-	if(IsPlayerOnAdminDuty(playerid))
+	if((IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) == STAFF_LEVEL_DEVELOPER)
 	{
 		strcat(options, "Ir para a posição do report\n");
 
@@ -478,10 +477,8 @@ ShowReportOptions(playerid)
 			strcat(options, "Ir para a posição do veículo\n");
 		}
 	}
-	else
-	{
-		strcat(options, "(Entre em duty para ver mais opções)");
-	}
+
+	HidePlayerPageButtons(playerid);
 
 	Dialog_Show(playerid, ReportOptions, DIALOG_STYLE_LIST, report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_name], options, "Selecionar", "Voltar");
 }
@@ -617,7 +614,7 @@ ShowReportBanPrompt(playerid)
 		return 0;
 	}
 
-	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a duração do banimento", "Digite a duração do banimento abaixo. Você pode digitar um número e um dos: 'days', 'weeks' ou 'months'. Type 'forever' for perma-ban.", "Continar", "Cancelar");
+	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a duração do banimento", "Digite a duração do banimento abaixo, insira o número e o tempo. Exemplo: '1 days': 'days', 'weeks' ou 'months'. Escreva 'forever' para um ban permanente.", "Continar", "Cancelar");
 
 	return 1;
 }
