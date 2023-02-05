@@ -24,16 +24,15 @@
 
 #define DIRECTORY_LANGUAGES			"languages/"
 #define MAX_LANGUAGE				(2)
-#define MAX_LANGUAGE_ENTRIES		(1024)
+#define MAX_LANGUAGE_ENTRIES		(600) // De momento temos cerca de 550 entradas 05/02/23
 #define MAX_LANGUAGE_KEY_LEN		(20)
 #define MAX_LANGUAGE_ENTRY_LENGTH	(768)
 #define MAX_LANGUAGE_NAME			(32)
-#define MAX_LANGUAGE_REPLACEMENTS	(48)
+#define MAX_LANGUAGE_REPLACEMENTS	(25) // Temos 25 de momento (Para cores e teclas) 05/02/23
 #define MAX_LANGUAGE_REPL_KEY_LEN	(32)
 #define MAX_LANGUAGE_REPL_VAL_LEN	(32)
 
 #define DELIMITER_CHAR				'='
-#define ALPHABET_SIZE				(26)
 
 
 enum e_LANGUAGE_ENTRY_DATA
@@ -52,7 +51,6 @@ enum e_LANGUAGE_TAG_REPLACEMENT_DATA
 static
 	lang_Entries[MAX_LANGUAGE][MAX_LANGUAGE_ENTRIES][e_LANGUAGE_ENTRY_DATA],
 	lang_TotalEntries[MAX_LANGUAGE],
-	lang_AlphabetMap[MAX_LANGUAGE][ALPHABET_SIZE],
 
 	lang_Replacements[MAX_LANGUAGE_REPLACEMENTS][e_LANGUAGE_TAG_REPLACEMENT_DATA],
 	lang_TotalReplacements,
@@ -138,7 +136,10 @@ stock LoadAllLanguages()
 	{
 		if(type == FM_FILE)
 		{
-			if(!strcmp(item, "English")) continue;
+			if(!strcmp(item, "English")) continue; // Already loaded by default.
+
+			// Don't load files that have an extension. (probably a tool and not a language file)
+			if(strfind(item, ".") != -1) continue;
 
 			next_path[0] = EOS;
 			format(next_path, sizeof(next_path), "%s%s", DIRECTORY_LANGUAGES, item);
@@ -157,7 +158,7 @@ stock LoadAllLanguages()
 
 	dir_close(dirhandle);
 
-	log("Loaded %d languages", languages);
+	log("Loaded %d language%s", languages, languages == 1 ? "" : "s"); // Paneleirice do crl
 
 	return 1;
 }
@@ -236,6 +237,7 @@ stock LoadLanguage(filename[], langname[])
 		key[delimiter] = EOS;
 		index = lang_TotalEntries[lang_Total]++;
 
+		// Don't allow to add more keys than the array can hold.
 		if(lang_TotalEntries[lang_Total] >= MAX_LANGUAGE_ENTRIES)
 		{
 			err("MAX_LANGUAGE_ENTRIES limit reached at line %d", linenumber);
@@ -246,8 +248,6 @@ stock LoadLanguage(filename[], langname[])
 		strmid(replace_me, line, delimiter + 1, length - 1, MAX_LANGUAGE_ENTRY_LENGTH);
 
 		_doReplace(replace_me, lang_Entries[lang_Total][index][lang_val]);
-
-		// log("Added language key '%s'", key);
 
 		linenumber++;
 	}
@@ -260,34 +260,7 @@ stock LoadLanguage(filename[], langname[])
 
 	_qs(lang_Entries[lang_Total], 0, lang_TotalEntries[lang_Total] - 1);
 
-	// ! Mapa de alfabeto. Mas porque?!
-	new
-		this_letter,
-		letter_idx;
-
-	for(new i; i < lang_TotalEntries[lang_Total]; i++)
-	{
-		this_letter = toupper(lang_Entries[lang_Total][i][lang_key][0]) - 65;
-
-		if(this_letter == letter_idx-1) continue;
-
-		while(letter_idx < this_letter)
-		{
-			lang_AlphabetMap[lang_Total][letter_idx] = -1;
-			letter_idx++;
-		}
-
-		if(letter_idx >= ALPHABET_SIZE) err("letter_idx > 26 (%d) at i = %d entry: '%s'", letter_idx, i, lang_Entries[lang_Total][i][lang_key]);
-
-		lang_AlphabetMap[lang_Total][letter_idx] = i; 
-		letter_idx++;
-	}
-
-	// fill in the empty ones
-	while(letter_idx < ALPHABET_SIZE)
-		lang_AlphabetMap[lang_Total][letter_idx++] = -1;
-
-	lang_Total++;
+	lang_Total++; // Increment the total number of languages.
 
 	return index;
 }
@@ -386,19 +359,19 @@ _swap(str1[], str2[])
 	}
 }
 
-stock GetLanguageString(languageid, key[], bool:encode = false)
+stock GetLanguageString(languageId, key[], bool:encode = false)
 {
 	new
 		result[MAX_LANGUAGE_ENTRY_LENGTH],
 		ret;
 
-	if(!(0 <= languageid < lang_Total))
+	if(!(0 <= languageId < lang_Total))
 	{
-		err("Invalid language id %d.", languageid);
+		err("Invalid language id %d.", languageId);
 		return result;
 	}
 
-	ret = _GetLanguageString(languageid, key, result, encode);
+	ret = _GetLanguageString(languageId, key, result, encode);
 
 	switch(ret)
 	{
@@ -408,10 +381,10 @@ stock GetLanguageString(languageid, key[], bool:encode = false)
 		}
 		case 2:
 		{
-			printf("Key not found: '%s' in language '%s'", key, lang_Name[languageid]);
+			printf("Key not found: '%s' in language '%s'", key, lang_Name[languageId]);
 
 			// return English if key not found
-			if(languageid != 0)
+			if(languageId != 0)
 				strcat(result, GetLanguageString(0, key, encode), MAX_LANGUAGE_ENTRY_LENGTH);
 		}
 	}
@@ -419,46 +392,26 @@ stock GetLanguageString(languageid, key[], bool:encode = false)
 	return result;
 }
 
-static stock _GetLanguageString(languageid, key[], result[], bool:encode = false)
+static stock _GetLanguageString(languageId, key[], result[], bool:encode = false)
 {
 	if(!('A' <= key[0] <= 'Z')) return 1; // Must be all uppercase
 
-	new
-		index,
-		start,
-		end,
-		abindex;
+	new bool:keyFound = false;
 
-	abindex = toupper(key[0] - 65);
-
-	start = lang_AlphabetMap[languageid][abindex];
-
-	if(start == -1) return 2;
-
-	do
+	// Loop through all entries to find the key
+	for(new entry; entry < lang_TotalEntries[languageId]; ++entry)
 	{
-		abindex++;
+		// If the key matches, copy the value to the result
+		if(!strcmp(lang_Entries[languageId][entry][lang_key], key, false, MAX_LANGUAGE_ENTRY_LENGTH)) {
+			// Copy the value to the result
+			strcat(result, lang_Entries[languageId][entry][lang_val], MAX_LANGUAGE_ENTRY_LENGTH);
 
-		if(abindex == ALPHABET_SIZE) break;
-	}
-	while(lang_AlphabetMap[languageid][abindex] == -1);
-
-	if(abindex < ALPHABET_SIZE)
-		end = lang_AlphabetMap[languageid][abindex];
-	else
-		end = lang_TotalEntries[languageid];
-
-	// start..end is now the search space
-
-	// dumb search for now, will probably replace with bisect
-	for(index = start; index < end; index++)
-	{
-		if(!strcmp(lang_Entries[languageid][index][lang_key], key, false, MAX_LANGUAGE_ENTRY_LENGTH)) break;
+			keyFound = true;
+			break;
+		}
 	}
 
-	if(index == end) return 2;
-
-	strcat(result, lang_Entries[languageid][index][lang_val], MAX_LANGUAGE_ENTRY_LENGTH);
+	if(!keyFound) return 2;
 
 	if(encode) ConvertEncoding(result);
 
@@ -512,12 +465,12 @@ stock GetLanguageList(list[][])
 	return lang_Total;
 }
 
-stock GetLanguageName(languageid, name[])
+stock GetLanguageName(languageId, name[])
 {
-	if(!(0 <= languageid < lang_Total)) return 0;
+	if(!(0 <= languageId < lang_Total)) return 0;
 
 	name[0] = EOS;
-	strcat(name, lang_Name[languageid], MAX_LANGUAGE_NAME);
+	strcat(name, lang_Name[languageId], MAX_LANGUAGE_NAME);
 
 	return 1;
 }
@@ -529,4 +482,4 @@ stock GetLanguageID(name[])
 	return -1;
 }
 
-stock GetLanguageEntries(languageid) return lang_entries[languageid];
+stock GetLanguageEntries(languageId) return lang_entries[languageId];
