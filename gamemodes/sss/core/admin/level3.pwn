@@ -112,34 +112,31 @@ ACMD:spec[3](playerid, params[])
 {
 	if(!(IsPlayerOnAdminDuty(playerid))) return 6;
 
+	// If there's only one player, don't do anything
+	if(GetTotalPlayers() == 1) return 1;
+
 	if(isnull(params)) {
 		if(IsPlayerSpectating(playerid)) ExitSpectateMode(playerid); // If player is spectating, exit spectate mode
-		else {
-			// Select a random player to spectate
+		else { // Select a random player to spectate
 			new targetId;
 			
-			while(true) {
-				targetId = random(0, MAX_PLAYERS);
-				if(IsPlayerConnected(targetId) && targetId != playerid) break;
-			}
+			while(!IsPlayerConnected(targetId) || targetId == playerid) targetId = random(MAX_PLAYERS);
 
 			EnterSpectateMode(playerid, targetId);
 		}
 	}
 	else{
-		new targetid = strval(params);
+		new targetId = strval(params);
 
-		if(IsPlayerConnected(targetid) && targetid != playerid){
-			if(GetPlayerAdminLevel(playerid) < 6){
-				new name[MAX_PLAYER_NAME];
-				GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-				if(GetPlayerAdminLevel(targetid) > 1){
-				    ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
-					return 1;
-				}
+		if(IsPlayerConnected(targetId) && targetId != playerid) {
+			// Não pode observar admins
+			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) {
+				ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
+				return 1;
 			}
-            ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Está observando "C_BLUE"%p(id:%d)", playerid, playerid, targetid, targetid);
-			EnterSpectateMode(playerid, targetid);
+
+            ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Está observando "C_BLUE"%p(id:%d)", playerid, playerid, targetId, targetId);
+			EnterSpectateMode(playerid, targetId);
 		}
 	}
 
