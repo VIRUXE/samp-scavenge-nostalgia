@@ -1,66 +1,66 @@
 #include <YSI\y_hooks>
 
 static
+	bool:anticheat_Active = true,
 	player_AntiCheat[MAX_PLAYERS] = 0;
 
-hook OnPlayerConnect(playerid)
+hook OnPlayerLogin(playerid)
 {
-    new ip[16], nick[MAX_PLAYER_NAME], string[106];
+    new ip[16], nick[MAX_PLAYER_NAME];
 
 	GetPlayerIp(playerid, ip, sizeof ip);
 	GetPlayerName(playerid, nick, MAX_PLAYER_NAME);
 
-	format(string, sizeof string, "vulpecula.flaviopereira.digital/nostalgia/anticheat.php?ip=%s&nick=%s", ip, nick);
+	// if(strcmp(ip, "127.0.0.1", true) == 0) return 1; // Ignore localhost
 
-	HTTP(playerid, HTTP_GET, string, "", "MyHttpResponse");
-}
+	new url[106];
+	format(url, sizeof url, "vulpecula.flaviopereira.digital/nostalgia/anticheat.php?ip=%s&nick=%s", ip, nick);
 
-forward MyHttpResponse(playerid, response_code, data[]);
-public MyHttpResponse(playerid, response_code, data[])
-{
-	new ip[16];
-	GetPlayerIp(playerid, ip, sizeof ip);
-	if(strcmp(ip, "127.0.0.1", true) == 0)
-	{
-        return 1;
-	}
-	if(response_code == 202)
-	{
-		player_AntiCheat[playerid] = 1;
-	} else
-	if(response_code == 403 || response_code == 404)
-	{
-		if(GetAdminsOnline() == 0)
-		{
-	    	AC_KickPlayer(playerid, "AntiCheat n„o iniciado");
-		}
-		else ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] %P (id:%d) Est· sem anti-cheat aberto!", playerid, playerid);
-		
-		player_AntiCheat[playerid] = 2;
-	} else
-	{
-		if(GetAdminsOnline() == 0)
-		{
-			AC_KickPlayer(playerid, "AntiCheat n„o iniciado");
-		}
-		else ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] %P (id:%d) Est· sem anti-cheat aberto!", playerid, playerid);
+	log(url);
 
-		player_AntiCheat[playerid] = 2;
-	}
+	HTTP(playerid, HTTP_HEAD, url, "", "AnticheatBackendResponse"); // Send the request to the anti-cheat backend
 
 	return 1;
 }
 
-stock PlayerAntiCheat(playerid)
-	return player_AntiCheat[playerid];
-
-stock IsPlayerAntiCheatOpen(playerid)
+forward AnticheatBackendResponse(playerid, response_code, data[]);
+public AnticheatBackendResponse(playerid, response_code, data[])
 {
-	if(!IsPlayerConnected(playerid))
-		return false;
+	if(response_code == 500) { // Server error
+		if(anticheat_Active) {
+			anticheat_Active = false;
+			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat n√£o est√° respondendo!");
+			log("Anti-Cheat: Servidor de anti-cheat n√£o est√° respondendo!");
+		}
 
-	if (player_AntiCheat[playerid] == 2 || player_AntiCheat[playerid] == 0)
-		return false;
+		return 1;
+	} else { // Esta respondendo corretamente
+		if(!anticheat_Active) {
+			anticheat_Active = true; // Se o servidor de anti-cheat voltou a responder, ativa o anticheat
+			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat voltou a responder!");
+			log("Anti-Cheat: Servidor de anti-cheat voltou a responder!");
+		}
 
-	return true;
+		switch(response_code) {
+			case 202: { // Anti-cheat iniciado
+				player_AntiCheat[playerid] = 1;
+			}
+			case 403: { // Anti-cheat nao autorizado
+				player_AntiCheat[playerid] = 2;
+			}
+			case 404: { // Anti-cheat n√£o iniciado
+				// new adminCount = GetAdminsOnline();
+
+				// Tell all the players that this player joined without using the anti-cheat
+				foreach(new p : Player) {
+					if(p != playerid) ChatMsg(p, YELLOW, "[Anti-Cheat] %P (id:%d) entrou sem usar o anti-cheat!", playerid, playerid);
+				}
+			}
+			default: { // Nao e suposto acontecer
+				log("[Anti-Cheat] %s (%d) - Resposta desconhecida: %d", GetPlayerName(playerid), playerid, response_code);
+			}
+		}
+	}
+
+	return 1;
 }

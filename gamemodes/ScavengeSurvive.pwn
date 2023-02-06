@@ -383,6 +383,7 @@ new stock
 //#include "sss/core/server/save-block.pwn"
 //#include "sss/core/server/info-message.pwn"
 #include "sss/core/server/language.pwn"
+#include "sss/core/server/anti-cheat.pwn"
 //#include "sss/core/player/language.pwn"
 #include "sss/core/player/frase.pwn"
 #include "sss/core/player/ped.pwn"
