@@ -18,34 +18,19 @@ hook OnPlayerConnect(playerid)
 
 new dutytick[MAX_PLAYERS];
 
-ACMD:duty[2](playerid)
+ACMD:duty[2](playerid, params[])
 {
-	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
-	{
-		ChatMsg(playerid, YELLOW, " >  Você deve sair do /spec.");
-		return 1;
-	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, YELLOW, " >  Você deve sair do /spec.");
 	
-	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000)
-	{
-	    ChatMsg(playerid, YELLOW, " >  Aguarde no mínimo 5 segundos para usar esse comando novamente.");
-		return 1;
-	}
+	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000) return ChatMsg(playerid, YELLOW, " >  Aguarde no mínimo 5 segundos para usar esse comando novamente.");
 	
 	new
 	    lastattacker,
 		lastweapon;
 		
-	if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon))
-	{
-	    ChatMsg(playerid, RED, " >  Você está em Combate-LOG, aguarde.");
-		return 1;
-	}
+	if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) return ChatMsg(playerid, RED, " >  Você está em combate, aguarde.");
 
-	if(IsPlayerOnAdminDuty(playerid))
-		TogglePlayerAdminDuty(playerid, false);
-	else
-		TogglePlayerAdminDuty(playerid, true);
+	TogglePlayerAdminDuty(playerid, !IsPlayerOnAdminDuty(playerid), !strcmp(params, "aqui", true));
 
     dutytick[playerid] = GetTickCount();
     

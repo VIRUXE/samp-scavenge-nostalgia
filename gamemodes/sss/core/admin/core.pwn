@@ -358,7 +358,7 @@ ChatMsgAdminsFlat(level, colour, string[])
 	return 1;
 }
 
-TogglePlayerAdminDuty(playerid, toggle)
+TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 {
 	if(toggle)
 	{
@@ -376,10 +376,7 @@ TogglePlayerAdminDuty(playerid, toggle)
 		SetPlayerSpawnPos(playerid, x, y, z);
 
 		if(IsItemTypeSafebox(itemtype) || IsItemTypeBag(itemtype))
-		{
-			if(!IsContainerEmpty(GetItemExtraData(itemid)))
-				CreateItemInWorld(itemid, x, y, z - FLOOR_OFFSET);
-		}
+			if(!IsContainerEmpty(GetItemExtraData(itemid))) CreateItemInWorld(itemid, x, y, z - FLOOR_OFFSET);
 
 		Logout(playerid, 0); // docombatlogcheck = 0
 
@@ -389,11 +386,7 @@ TogglePlayerAdminDuty(playerid, toggle)
 
 		admin_OnDuty[playerid] = true;
 
-		if(GetPlayerGender(playerid) == GENDER_MALE)
-			SetPlayerSkin(playerid, 217);
-
-		else
-			SetPlayerSkin(playerid, 211);
+		if(GetPlayerGender(playerid) == GENDER_MALE) SetPlayerSkin(playerid, 217); else SetPlayerSkin(playerid, 211);
 	}
 	else
 	{
@@ -402,9 +395,12 @@ TogglePlayerAdminDuty(playerid, toggle)
 			Float:y,
 			Float:z;
 
-		GetPlayerSpawnPos(playerid, x, y, z);
-
-		SetPlayerPos(playerid, x, y, z);
+		// Se voltamos para o local onde entramos no duty...
+		if(goBack) {
+			GetPlayerSpawnPos(playerid, x, y, z);
+			SetPlayerPos(playerid, x, y, z);
+		}
+		
 		LoadPlayerChar(playerid);
 
 		if(PlayerMapCheck(playerid))
