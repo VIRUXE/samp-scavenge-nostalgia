@@ -45,14 +45,14 @@ timer ShowWelcomeMessage[1000](playerid, count)
 		button[7];
 
 	strcat(str,
-		""C_WHITE"Você tem que lutar para sobreviver em um deserto apocalíptico.\n\n\
-	Você terá uma chance melhor em um grupo, mas tenha cuidado em quem você confia.\n\n\
-	Os suprimentos podem ser encontrados espalhados, armas são raras embora.\n\n");
+		""C_WHITE"Vocï¿½ tem que lutar para sobreviver em um deserto apocalï¿½ptico.\n\n\
+	Vocï¿½ terï¿½ uma chance melhor em um grupo, mas tenha cuidado em quem vocï¿½ confia.\n\n\
+	Os suprimentos podem ser encontrados espalhados, armas sï¿½o raras embora.\n\n");
 
 	strcat(str,
-			"Evite atacar jogadores desarmados, eles assustam facilmente, mas retornarão, e em maior número...\n\n\n\n\
+			"Evite atacar jogadores desarmados, eles assustam facilmente, mas retornarï¿½o, e em maior nï¿½mero...\n\n\n\n\
 	"C_TEAL" Por favor, dedique algum tempo para olhar as regras "C_BLUE"/rules "C_TEAL" e "C_BLUE"/help "C_TEAL" antes de mergulhar no jogo.\n\n\
-	Visite "C_YELLOW" scavenge-survive.wikia.com "C_TEAL" para obter mais informações.\n\n\n");
+	Visite "C_YELLOW" scavenge-survive.wikia.com "C_TEAL" para obter mais informaï¿½ï¿½es.\n\n\n");
 
 	if(count == 0)
 	{

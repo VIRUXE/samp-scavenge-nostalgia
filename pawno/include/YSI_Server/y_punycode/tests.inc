@@ -74,22 +74,22 @@ Test:y_punycode_1()
 {
 	new
 		dst[32];
-	Puny_Encode(dst, "bücher");
+	Puny_Encode(dst, "bï¿½cher");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
-	Puny_Encode(dst, "büücher");
+	Puny_Encode(dst, "bï¿½ï¿½cher");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kvaa"));
-	Puny_Encode(dst, "bücüher");
+	Puny_Encode(dst, "bï¿½cï¿½her");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kvab"));
-	Puny_Encode(dst, "bücherü");
+	Puny_Encode(dst, "bï¿½cherï¿½");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kvae"));
-	Puny_Encode(dst, "ýbücher");
+	Puny_Encode(dst, "ï¿½bï¿½cher");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kvaf"));
-	Puny_Encode(dst, "übücher");
+	Puny_Encode(dst, "ï¿½bï¿½cher");
 	P:1("Test:y_punycode_1: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-jvab"));
 }
@@ -99,19 +99,19 @@ Test:y_punycode_2()
 	new
 		dst[32],
 		hash;
-	Puny_EncodeHash(dst, "bücher", hash);
+	Puny_EncodeHash(dst, "bï¿½cher", hash);
 	P:1("Test:y_punycode_2: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
-	Puny_EncodeHash(dst, "büCHer", hash);
+	Puny_EncodeHash(dst, "bï¿½CHer", hash);
 	P:1("Test:y_punycode_2: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
-	Puny_EncodeHash(dst, "BücHeR", hash);
+	Puny_EncodeHash(dst, "Bï¿½cHeR", hash);
 	P:1("Test:y_punycode_2: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
-	Puny_EncodeHash(dst, "bücHER", hash);
+	Puny_EncodeHash(dst, "bï¿½cHER", hash);
 	P:1("Test:y_punycode_2: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
-	Puny_EncodeHash(dst, "bÜcher", hash);
+	Puny_EncodeHash(dst, "bï¿½cher", hash);
 	P:1("Test:y_punycode_2: dst = %s", dst);
 	ASSERT(!strcmp(dst, "bcher-kva"));
 }

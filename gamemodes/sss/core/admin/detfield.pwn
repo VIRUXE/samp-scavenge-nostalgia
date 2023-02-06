@@ -569,7 +569,7 @@ stock AddDetectionFieldException(detfieldid, name[MAX_PLAYER_NAME])
 
 	if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID)
 	{
-		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "Proteção Field", ""C_GREEN"Você foi adicionado como exceção em uma base com proteção field.", "Fechar", "");
+		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "Proteï¿½ï¿½o Field", ""C_GREEN"Vocï¿½ foi adicionado como exceï¿½ï¿½o em uma base com proteï¿½ï¿½o field.", "Fechar", "");
         fld_PlayerInvade[GetPlayerIDFromName(name)] = false;
 	}
 	return det_ExceptionCount[detfieldid];
@@ -758,7 +758,7 @@ ACMD:addex[2](playerid, params[])
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  ID '%d' não está conectado.", targetid);
+			ChatMsg(playerid, YELLOW, " >  ID '%d' nï¿½o estï¿½ conectado.", targetid);
 
 		else
 			return 4;
@@ -766,7 +766,7 @@ ACMD:addex[2](playerid, params[])
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, YELLOW, " >  Conta  '%s' não existente.", name);
+		ChatMsg(playerid, YELLOW, " >  Conta  '%s' nï¿½o existente.", name);
 		return 1;
 	}
 
@@ -788,22 +788,22 @@ ACMD:addex[2](playerid, params[])
 
 		if(ret == -1)
 		{
-			ChatMsg(playerid, RED, " >  Lista de exceções cheias");
+			ChatMsg(playerid, RED, " >  Lista de exceï¿½ï¿½es cheias");
 		}
 
 		if(ret == -2)
 		{
-			ChatMsg(playerid, RED, " >  Nome inválido ");
+			ChatMsg(playerid, RED, " >  Nome invï¿½lido ");
 		}
 
 		if(ret == -3)
 		{
-			ChatMsg(playerid, RED, " >  O player já está na lista");
+			ChatMsg(playerid, RED, " >  O player jï¿½ estï¿½ na lista");
 		}
 		UpdateDetectionFieldExceptions(fieldid);
 		UpdateDetectionFieldExceptions(fieldid);
 	}
-	else return ChatMsg(playerid, YELLOW, " > Você não está em nenhuma field.");
+	else return ChatMsg(playerid, YELLOW, " > Vocï¿½ nï¿½o estï¿½ em nenhuma field.");
 
 	return 1;
 }
@@ -846,7 +846,7 @@ timer CheckPlayerInvadeField[2000](playerid)
 		SetPlayerVirtualWorld(playerid, 0);
 		SetPlayerInterior(playerid, 0);
 	    SetCameraBehindPlayer(playerid);
-	    ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
+	    ChatMsg(playerid, GREEN, "[FIELD]: Vocï¿½ nasceu em uma area com field e foi respawnado!");
 	    fld_PlayerInvade[playerid] = false;
 	}
 
@@ -864,7 +864,7 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 			if(GetPlayerState(playerid) != PLAYER_STATE_SPECTATING)
 			{
 				if(GetPlayerAdminLevel(playerid) >= 2)
-					ChatMsg(playerid, PINK, " > Você entrou na field field '%s' ID: %d", det_Name[i], i);
+					ChatMsg(playerid, PINK, " > Vocï¿½ entrou na field field '%s' ID: %d", det_Name[i], i);
 			}
 
 			if(!IsPlayerOnAdminDuty(playerid))
@@ -1046,22 +1046,22 @@ stock AvisoField(playerid) {
 	new string[700];
 
     format(string, 700,
-		""C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
-				Você não poderá fazer as seguintes coisas:\n\n");
+		""C_WHITE"Vocï¿½ entrou em uma base com proteï¿½ï¿½o FIELD sem ter acesso.\n\n\
+				Vocï¿½ nï¿½o poderï¿½ fazer as seguintes coisas:\n\n");
 
     format(string, 700,
 		"%s"C_YELLOW"\t- Construir.\n\
-		\t- Desmontar com pé de cabra.\n\
+		\t- Desmontar com pï¿½ de cabra.\n\
 		\t- Interagir tendas e caixas.\n\
-		\t- Interagir com veículos.\n\n", string);
+		\t- Interagir com veï¿½culos.\n\n", string);
 
     format(string, 700,
-		"%s"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteção.\n\n", string);
+		"%s"C_WHITE"Se vocï¿½ entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteï¿½ï¿½o.\n\n", string);
 
 	format(string, 700,
 		"%s"C_RED"[WARNING] Isso serve para evitar que hackers maliciosos invadam bases no servidor.", string);
 
-    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", string, "Fechar", "");
+    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Proteï¿½ï¿½o Anti-Cheater "C_RED"FIELD DETECTION", string, "Fechar", "");
 	return 1;
 }
 

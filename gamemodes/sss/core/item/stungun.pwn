@@ -87,7 +87,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			SetItemNameExtra(itemid, "Carregada");
 
 		else
-			SetItemNameExtra(itemid, "Não carregada");
+			SetItemNameExtra(itemid, "Nï¿½o carregada");
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;

@@ -49,7 +49,7 @@ public MyHttpResponse(playerid, response_code, data[])
 		    {
 				AntiCheaterKick(playerid, "Proxy/VPN ip alterado");
 			}
-			else ChatMsgAdmins(1, YELLOW, "[Anti-Proxy/VPN] %P (id:%d) Provávelmente está usando proxy ou VPN, ip alterado!", playerid, playerid);
+			else ChatMsgAdmins(1, YELLOW, "[Anti-Proxy/VPN] %P (id:%d) Provï¿½velmente estï¿½ usando proxy ou VPN, ip alterado!", playerid, playerid);
 		}
 		if(data[0] == 'X')
 		{

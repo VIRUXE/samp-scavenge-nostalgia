@@ -98,19 +98,19 @@
 static FloorNames[14][] =
 {
 	"Estacionamento",
-	"Térreo",
+	"Tï¿½rreo",
 	"Primeiro andar",
 	"Segundo andar",
 	"Terceiro andar",
 	"Quarto andar",
 	"Quinto andar",
 	"Sexto andar",
-	"Sétimo andar",
+	"Sï¿½timo andar",
 	"Oitavo andar",
 	"Nono andar",
-	"Décimo andar",
-	"Décimo primeiro andar",
-	"Décimo segundo andar"
+	"Dï¿½cimo andar",
+	"Dï¿½cimo primeiro andar",
+	"Dï¿½cimo segundo andar"
 };
 
 // Elevator floor Z heights
@@ -405,7 +405,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 							GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~y~~h~O elevador~n~~y~~h~Ja esta neste andar...~n~~w~entre ~n~~w~e pressione '~k~~CONVERSATION_YES~'", 3500, 3);
 
 							// Display chat text message to the player
-	                        SendClientMessage(playerid, COLOR_MESSAGE_YELLOW, "* O elevador já está neste andar... entre e pressione '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}'");
+	                        SendClientMessage(playerid, COLOR_MESSAGE_YELLOW, "* O elevador jï¿½ estï¿½ neste andar... entre e pressione '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}'");
 
 	                        // Exit here (return 1 so this callback is processed in other scripts)
 	                        return 1;
@@ -425,7 +425,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 					if (ElevatorState == ELEVATOR_STATE_MOVING)
 					{
 					    // Format chat text message
-						format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente está se movendo em direção ao %s.", FloorNames[ElevatorFloor]);
+						format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente estï¿½ se movendo em direï¿½ï¿½o ao %s.", FloorNames[ElevatorFloor]);
 					}
 					else
 					{
@@ -433,12 +433,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 					    if (ElevatorFloor == 0)
 					    {
 					    	// Format chat text message
-							format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente está no %s.", FloorNames[ElevatorFloor]);
+							format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente estï¿½ no %s.", FloorNames[ElevatorFloor]);
 						}
 						else
 						{
 					    	// Format chat text message
-							format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente está no %s.", FloorNames[ElevatorFloor]);
+							format(strTempString, sizeof(strTempString), "* O elevador foi chamado... atualmente estï¿½ no %s.", FloorNames[ElevatorFloor]);
 						}
 					}
 

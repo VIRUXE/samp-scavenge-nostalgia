@@ -1001,7 +1001,7 @@ static stock Player_HashPass(pass[], target[])
 		#error SHA1 unsupported.
 	#elseif defined PP_YSI
 		static
-			charset[] = "A,UbRgdnS#|rT_%5+ZvEK¬NF<9¦IH[(C)2O07 Y-Less]$Qw^?/om4;@'8k£Pp.c{&l\\3zay>DfxV:WXjuG6*!1\"i~=Mh`JB}qt",
+			charset[] = "A,UbRgdnS#|rT_%5+ZvEKï¿½NF<9ï¿½IH[(C)2O07 Y-Less]$Qw^?/om4;@'8kï¿½Pp.c{&l\\3zay>DfxV:WXjuG6*!1\"i~=Mh`JB}qt",
 			css = 99;
 		new
 			//target[MAX_PASSWORD_LENGTH + 1],

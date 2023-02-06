@@ -59,7 +59,7 @@ public OnIncomingPacket(playerid, packetid, BitStream:bs){
 	return 1;
 }
 
-// Verifica a posição do jogador e compara com a antiga;
+// Verifica a posiï¿½ï¿½o do jogador e compara com a antiga;
 ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 {
 	if(!IsPlayerConnected(playerid))

@@ -95,7 +95,7 @@ Load_SF()
 
 SF_District_Housing1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Housing1' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Housing1' {1589FF}por favor, aguarde...");
 
 	//CreateSaveBlockArea(CreateDynamicCube(-2521.3608, 286.6024, 1035.3081, -2478.7195, 328.1099, 1039.7107), -2499.1262, 315.1892, 29.4147);
 
@@ -683,7 +683,7 @@ SF_District_Housing1()
 }
 SF_District_Housing2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Housing2' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Housing2' {1589FF}por favor, aguarde...");
 
 	CreateItem(item_Barbecue, -2701.1328, 845.7422, 70.3828, 171.0);
 
@@ -1392,7 +1392,7 @@ SF_District_Housing2()
 }
 SF_District_Bayfront()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Bayfront' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Bayfront' {1589FF}por favor, aguarde...");
 
 	DefineWeaponsCachePos(-1838.79651, 1543.79602, 6.11533);
 	DefineWeaponsCachePos(-1791.30994, 1543.37488, 6.12531);
@@ -1636,7 +1636,7 @@ SF_District_Bayfront()
 }
 SF_District_City1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_City1' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_City1' {1589FF}por favor, aguarde...");
 
 	new
 		buttonid[2];
@@ -2142,7 +2142,7 @@ SF_District_City1()
 }
 SF_District_City2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_City2' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_City2' {1589FF}por favor, aguarde...");
 
 /*
 	LinkTP(
@@ -2751,7 +2751,7 @@ SF_District_City2()
 }
 SF_District_Naval()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Naval' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Naval' {1589FF}por favor, aguarde...");
 
 	new buttonid[1];
 
@@ -2810,7 +2810,7 @@ SF_District_Naval()
 }
 SF_District_Police()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Police' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Police' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-1615.52000, 685.33000, 6.48000,			GetLootIndexFromName("world_police"), 10.0);
 	CreateStaticLootSpawn(-1590.78000, 716.26000, -6.15000,			GetLootIndexFromName("world_police"), 10.0);
@@ -2820,7 +2820,7 @@ SF_District_Police()
 }
 SF_District_Industrial()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Industrial' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Industrial' {1589FF}por favor, aguarde...");
 
 //	CreateDynamicObject(2002, -1978.52356, 131.39619, 26.68210, 0.00000, 0.00000, 90.00000);
 //	CreateDynamic3DTextLabel("XBOX ONE", YELLOW, -1978.52356, 131.39619, 28.2150, 10.0);
@@ -3175,7 +3175,7 @@ SF_District_Industrial()
 }
 SF_District_SfAirport()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_SfAirport' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_SfAirport' {1589FF}por favor, aguarde...");
 
 	DefineWeaponsCachePos(-1237.20361, 52.09208, 13.13244);
 	DefineWeaponsCachePos(-1279.19019, 45.46248, 13.13572);
@@ -3256,7 +3256,7 @@ SF_District_SfAirport()
 }
 SF_District_MontFoster()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_MontFoster' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_MontFoster' {1589FF}por favor, aguarde...");
 
 	DefineWeaponsCachePos(-2150.16040, -408.60284, 34.30775);
 	DefineWeaponsCachePos(-1986.81006, -497.92313, 34.31303);
@@ -3598,7 +3598,7 @@ SF_District_MontFoster()
 }
 SF_District_Ship1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Ship1' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Ship1' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-2401.805908, 1551.141357, 25.033910, GetLootIndexFromName("world_industrial"), 35);
 	CreateStaticLootSpawn(-2416.135498, 1539.008911, 25.036119, GetLootIndexFromName("world_industrial"), 35);
@@ -3644,7 +3644,7 @@ SF_District_Ship1()
 }
 SF_District_Ship2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'SF_District_Ship2' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'SF_District_Ship2' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-1415.532470, 1489.697140, 6.093890, GetLootIndexFromName("world_civilian"), 30.000000, 3);
 	CreateStaticLootSpawn(-1456.652100, 1497.540530, 6.092340, GetLootIndexFromName("world_civilian"), 30.000000, 3);

@@ -245,7 +245,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 				SetItemNameExtra(itemid, sprintf("Cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
 
 			else
-				SetItemNameExtra(itemid, sprintf("Não cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
+				SetItemNameExtra(itemid, sprintf("Nï¿½o cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
 		}
 		else
 		{

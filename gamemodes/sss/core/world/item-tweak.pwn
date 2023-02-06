@@ -48,7 +48,7 @@ hook OnPlayerUpdate(playerid){
 	return 1;
 }
 
-// Corrigir posição do objeto
+// Corrigir posiï¿½ï¿½o do objeto
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
 	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID){
 	    TweakResetItemPos(playerid);
@@ -86,7 +86,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
         if(Distance(x, y, z, ix, iy, iz) > 10.0){
             GetItemPos(twk_Item[playerid], x, y, z);
 	    	GetItemRot(twk_Item[playerid], rx, ry, rz);
-            ChatMsg(playerid, RED, " > Você moveu o item longe demais e a posição foi resetada.");
+            ChatMsg(playerid, RED, " > Vocï¿½ moveu o item longe demais e a posiï¿½ï¿½o foi resetada.");
         }
 	    SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
@@ -98,7 +98,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 
         SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
-		ChatMsg(playerid, RED, " > Edição cancelada.");
+		ChatMsg(playerid, RED, " > Ediï¿½ï¿½o cancelada.");
 		TweakFinalise(playerid);
 	}
 	else if(response == EDIT_RESPONSE_UPDATE){
@@ -112,8 +112,8 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 		/*if(Distance(x, y, z, ix, iy, iz) > 8.0)
 		    ShowHelpTip(playerid, "~r~Voce moveu muito longe do local de origem.");
 		else
-		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua posição original\
-			~n~~y~Use ESPACO para mover a câmera~n~~y~~h~Esta proibido grifar a base de outros jogadores.");*/
+		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua posiï¿½ï¿½o original\
+			~n~~y~Use ESPACO para mover a cï¿½mera~n~~y~~h~Esta proibido grifar a base de outros jogadores.");*/
 	    
 	}
 	return 1;

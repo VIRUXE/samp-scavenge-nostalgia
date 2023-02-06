@@ -162,27 +162,27 @@ _OnDeath(playerid, killerid)
 		switch(deathreason)
 		{
 			case 0..3, 5..7, 10..15:
-				deathreasonstring = "Espancado até a morte.";
+				deathreasonstring = "Espancado atï¿½ a morte.";
 			case 4:
 				deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
 			case 8:
-				deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
+				deathreasonstring = "Grandes laceraï¿½ï¿½es cobrem o tronco e a cabeï¿½a, parece uma espada finamente afiada.";
 			case 9:
-				deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
+				deathreasonstring = "Hï¿½ pedaï¿½os em todos os lugares, provavelmente sofreu com uma serra elï¿½trica.";
 			case 16, 39, 35, 36, 255:
-				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
+				deathreasonstring = "Sofreu uma concussï¿½o maciï¿½a devido a uma explosï¿½o.";
 			case 18, 37:
-				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
+				deathreasonstring = "Todo o corpo estï¿½ carbonizado e queimado.";
 			case 22..34, 38:
 				deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
 			case 41, 42:
-				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
+				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substï¿½ncia de alta pressï¿½o.";
 			case 44, 45:
-				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
+				deathreasonstring = "De alguma forma, eles foram mortos por ï¿½culos.";
 			case 43:
-				deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
+				deathreasonstring = "De alguma forma, eles foram mortos por uma cï¿½mera.";
 			default:
-				deathreasonstring = "Sangrou até a morte";
+				deathreasonstring = "Sangrou atï¿½ a morte";
 		}
 	}
 	else
@@ -197,11 +197,11 @@ _OnDeath(playerid, killerid)
 			case 53:
 				deathreasonstring = "Se afogou";
 			case 54:
-				deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
+				deathreasonstring = "A maioria dos ossos estï¿½o quebrados, parece que eles caï¿½ram de uma grande altura.";
 			case 255:
-				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
+				deathreasonstring = "Sofreu uma concussï¿½o maciï¿½a devido a uma explosï¿½o.";
 			default:
-				deathreasonstring = "Razão da morte desconhecida.";
+				deathreasonstring = "Razï¿½o da morte desconhecida.";
 		}
 	}
 

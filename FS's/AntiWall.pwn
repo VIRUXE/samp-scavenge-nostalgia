@@ -83,7 +83,7 @@ stock IsPlayerViewingPlayer(playerid, viewid)
 	return IsObjectVisible(CA_RayCastLine(px, py, pz, vx, vy, vz, tmp, tmp, tmp));
 }
 
-// Detecta se o objeto é uma grade, vidro etc. (Feito por min mesmo)
+// Detecta se o objeto ï¿½ uma grade, vidro etc. (Feito por min mesmo)
 stock IsObjectVisible(objectid)
 {
     new const VisibleIDs[] =

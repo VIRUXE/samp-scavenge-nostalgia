@@ -27,6 +27,6 @@ stock GetPlayerPED(playerid)
 {
  	new stringped;
  	stringped = GetPlayerPED(playerid);
- 	ChatMsg(playerid, RED, "> SEU PED É: %i", stringped);
+ 	ChatMsg(playerid, RED, "> SEU PED ï¿½: %i", stringped);
  	return 1;
  }*/

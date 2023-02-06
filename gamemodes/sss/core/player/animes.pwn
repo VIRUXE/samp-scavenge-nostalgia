@@ -1,7 +1,7 @@
 
 CMD:animes(playerid)
 {
-	ChatMsg(playerid,RED,"Lista de animações -");
+	ChatMsg(playerid,RED,"Lista de animaï¿½ï¿½es -");
     ChatMsg(playerid,YELLOW," /handsup, /dance[1-4], /rap, /rap2, /rap3, /wankoff, /wank, /strip[1-7], /sexy[1-8], /bj[1-4], /cellin, /cellout, /lean, /piss, /follow");
     ChatMsg(playerid,YELLOW," /greet, /injured, /injured2, /hitch, /bitchslap, /cpr, /gsign1, /gsign2, /gsign3, /gsign4, /gsign5, /gift, /getup");
     ChatMsg(playerid,YELLOW," /chairsit, /stand, /slapped, /slapass, /drunk, /gwalk, /gwalk2, /mwalk, /fwalk, /celebrate, /celebrate2, /win, /win2");
@@ -29,7 +29,7 @@ AplicarAnime(playerid, animlib[], animname[], Float:fDelta, loop, lockx, locky, 
     
 //    ShowActionText(playerid, "~>~ ~w~Use ~r~/stop~w~ para parar.");
     ChatMsg(playerid, RED, " ");
-    ChatMsg(playerid, RED, " > Use /stop para parar a animação.");
+    ChatMsg(playerid, RED, " > Use /stop para parar a animaï¿½ï¿½o.");
     ChatMsg(playerid, RED, " ");
 	return 1;
 }
@@ -42,12 +42,12 @@ CMD:handsup(playerid)
 CMD:stop(playerid)
 {
 	if(GetPlayerTotalVelocity(playerid) > 0.0){
-	    SendClientMessage(playerid, RED, " > Você deve estar parado para usar este comando.");
+	    SendClientMessage(playerid, RED, " > Vocï¿½ deve estar parado para usar este comando.");
 	    return 1;
 	}
 	
     ClearAnimations(playerid);
-    ShowActionText(playerid, "Animaçšo resetada.");
+    ShowActionText(playerid, "Animaï¿½o resetada.");
     ApplyAnimation(playerid, "CARRY", "crry_prtial", 2.0, 0, 0, 0, 0, 0);
     return 1;
 }

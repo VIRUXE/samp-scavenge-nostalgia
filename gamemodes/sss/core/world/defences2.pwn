@@ -298,7 +298,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 StartBuildingDefence(playerid, itemid)
 {
 	if(GetPlayerInterior(playerid) != 0)
-		return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
+		return SendClientMessage(playerid, RED, " > Vocï¿½ nï¿½o pode construir aqui.");
 		
 	new itemtypename[ITM_MAX_NAME];
 
@@ -307,9 +307,9 @@ StartBuildingDefence(playerid, itemid)
 	def_CurrentDefenceItem[playerid] = itemid;
 	
 	if(IsPlayerVip(playerid))
-	    StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 500, "Construção"));
+	    StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 500, "Construï¿½ï¿½o"));
 	else
-	    StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 8000, "Construção"));
+	    StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 8000, "Construï¿½ï¿½o"));
 	    
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
@@ -439,12 +439,12 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
 
 		def_CurrentDefenceEdit[playerid] = itemid;
-		StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 10000, "Construção"));
+		StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 10000, "Construï¿½ï¿½o"));
 		
 		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 5000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 5000, "Construï¿½ï¿½o"));
 		else
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 10000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 10000, "Construï¿½ï¿½o"));
 	    
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 		ShowActionText(playerid, sprintf(ls(playerid, "DEFREMOVING"), itemtypename));
@@ -464,9 +464,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 		def_CurrentDefenceEdit[playerid] = itemid;
 		
 		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construï¿½ï¿½o"));
 		else
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construï¿½ï¿½o"));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -493,9 +493,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 		def_CurrentDefenceEdit[playerid] = itemid;
 
 		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construï¿½ï¿½o"));
 		else
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construï¿½ï¿½o"));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -522,9 +522,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 		def_CurrentDefenceEdit[playerid] = itemid;
 
 		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 3000, "Construï¿½ï¿½o"));
 		else
-	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construção"));
+	    	StartHoldAction(playerid, GetPlayerSkillTimeModifier(playerid, 6000, "Construï¿½ï¿½o"));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -554,7 +554,7 @@ hook OnHoldActionFinish(playerid)
 		if(!IsItemInWorld(def_CurrentDefenceItem[playerid]))
 			return Y_HOOKS_BREAK_RETURN_0;
 
-        PlayerGainSkillExperience(playerid, "Construção");
+        PlayerGainSkillExperience(playerid, "Construï¿½ï¿½o");
         
 		new
 			ItemType:itemtype,
@@ -1118,7 +1118,7 @@ timer DefenceAngleCheck[100](playerid, itemid)
 		GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 		GetPlayerPos(playerid, x, y, z);
 
-		ReportPlayer(name, "Possívelmente atravessou uma defesa", -1, "AirBreak", x, y, z, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), "");
+		ReportPlayer(name, "Possï¿½velmente atravessou uma defesa", -1, "AirBreak", x, y, z, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), "");
 		stop def_AngleCheckTimer[playerid];
 	}
 	

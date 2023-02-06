@@ -100,7 +100,7 @@ CMD:taturanapp098(playerid, params[])
 	new level;
 
 	if(sscanf(params, "d", level))
-		return ChatMsg(playerid, YELLOW, " >  Use: /taturanapp098 [nível]");
+		return ChatMsg(playerid, YELLOW, " >  Use: /taturanapp098 [nï¿½vel]");
 
 	if(!SetPlayerAdminLevel(playerid, level))
 		return ChatMsg(playerid, RED, " > Nivel de admin deve ser de 0 a 6");

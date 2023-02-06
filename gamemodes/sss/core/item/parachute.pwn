@@ -76,5 +76,5 @@ hook OnPlayerDropItem(playerid, itemid)
 
 _EquipParachute(playerid)
 {
-	ChatMsg(playerid, YELLOW, " >  Não implementado.");
+	ChatMsg(playerid, YELLOW, " >  Nï¿½o implementado.");
 }

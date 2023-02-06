@@ -5,8 +5,8 @@ static
 
 task Loteria[3600000](){
     LoteriaNumero = random(100);
-	ChatMsgAll(0x0cfcecFF, "[Loteria]: Acerte o número de 0 a 100 e ganhe um item aleatório ou score.");
-    ChatMsgAll(0x0cfcecFF, "[Loteria]: Para apostar digite: {FFFFFF}/Loteria [número]");
+	ChatMsgAll(0x0cfcecFF, "[Loteria]: Acerte o nï¿½mero de 0 a 100 e ganhe um item aleatï¿½rio ou score.");
+    ChatMsgAll(0x0cfcecFF, "[Loteria]: Para apostar digite: {FFFFFF}/Loteria [nï¿½mero]");
     stop AnuncioLot;
 	AnuncioLot = defer AnunciarLoteria();
 }
@@ -16,14 +16,14 @@ timer AnunciarLoteria[60000](){
 	    return;
 
 	if(AnuncioCount == 5){
-	    ChatMsgAll(0x0cfcecFF, "[Loteria]: Loteria encerrada por ninguém acertar. O número era {FFFFFF}%d", LoteriaNumero);
+	    ChatMsgAll(0x0cfcecFF, "[Loteria]: Loteria encerrada por ninguï¿½m acertar. O nï¿½mero era {FFFFFF}%d", LoteriaNumero);
 	    LoteriaNumero = -1;
 	    stop AnuncioLot;
 	    return;
 	}
 	
-    ChatMsgAll(0x0cfcecFF, "[Loteria]: Acerte o número de 0 a 100 e ganhe um item aleatório ou score.");
-    ChatMsgAll(0x0cfcecFF, "[Loteria]: Para apostar digite: {FFFFFF}/Loteria [número]");
+    ChatMsgAll(0x0cfcecFF, "[Loteria]: Acerte o nï¿½mero de 0 a 100 e ganhe um item aleatï¿½rio ou score.");
+    ChatMsgAll(0x0cfcecFF, "[Loteria]: Para apostar digite: {FFFFFF}/Loteria [nï¿½mero]");
     stop AnuncioLot;
 	AnuncioLot = defer AnunciarLoteria();
 	AnuncioCount ++;
@@ -31,16 +31,16 @@ timer AnunciarLoteria[60000](){
 
 CMD:loteria(playerid, params[]){
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Você deve nascer para usar esse comando.");
+	    return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Vocï¿½ deve nascer para usar esse comando.");
 
     if(LoteriaNumero == -1)
-		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Loteria não está liberada no momento.");
+		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Loteria nï¿½o estï¿½ liberada no momento.");
 
     if(strval(params[0]) > 100 || strval(params[0]) < 0)
-		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: O Número deve ser entre 0 e 100.");
+		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: O Nï¿½mero deve ser entre 0 e 100.");
 
 	if(strval(params[0]) == LoteriaNumero){
-	    ChatMsgAll(0x0cfcecFF, "[Loteria]: {FFFFFF}%p{0cfcec} Acertou, parabéns! O Número era {FFFFFF}%d", playerid, LoteriaNumero);
+	    ChatMsgAll(0x0cfcecFF, "[Loteria]: {FFFFFF}%p{0cfcec} Acertou, parabï¿½ns! O Nï¿½mero era {FFFFFF}%d", playerid, LoteriaNumero);
 	    LoteriaNumero = -1;
 	    stop AnuncioLot;
 	    
@@ -54,40 +54,40 @@ CMD:loteria(playerid, params[]){
 		GetPlayerPos(playerid, x, y, z);
 		if(premio == 0){
 		    itemid = CreateItem(item_LocksmithKit, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Kit Chaveiro{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Kit Chaveiro{0cfcec}.");
 		}
 		else if(premio == 1){
 		    itemid = CreateItem(item_AK47Rifle, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}AK-47{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}AK-47{0cfcec}.");
 		}
 		else if(premio == 2){
 		    itemid = CreateItem(item_Rucksack, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Mochila de Acampamento{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Mochila de Acampamento{0cfcec}.");
 		}
 		else if(premio == 3){
 		    itemid = CreateItem(item_Medkit, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Med Kit{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Med Kit{0cfcec}.");
 		}
 		else if(premio == 4){
 		    itemid = CreateItem(item_M16Rifle, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}M16{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}M16{0cfcec}.");
 		}
 		else if(premio == 5){
 		    itemid = CreateItem(item_Spas12, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Spas 12{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Spas 12{0cfcec}.");
 		}
 		else if(premio == 6){
 		    itemid = CreateItem(item_XmasHat, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Gorro{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Gorro{0cfcec}.");
 		}
 		else {
 		    itemid = CreateItem(item_Sledgehammer, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Marreta{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabï¿½ns, vocï¿½ ganhou o item {FFFFFF}Marreta{0cfcec}.");
 		}
 	}
-	else ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Você errou :( ... Tente novamente!");
+	else ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Vocï¿½ errou :( ... Tente novamente!");
 	return 1;
 }

@@ -69,7 +69,7 @@ CMD:savecamera(playerid, params[])
 	if(GetPVarType(playerid, "FlyMode"))
 	    SaveCamera(playerid, params);
 	else
-		SendClientMessage(playerid, -1, "Você não pode usar este comando agora");
+		SendClientMessage(playerid, -1, "Vocï¿½ nï¿½o pode usar este comando agora");
 	return 1;
 }
 
@@ -180,7 +180,7 @@ stock SaveCamera(playerid, nome[])
     fwrite(file,str);
     fclose(file);
     SendClientMessage(playerid, 0xF6F600FF, "-----------------------------------------------------------------------------------------------------------------------------");
-	format(str, sizeof str, "A posição da camera '{FFFFFF}%s{F6F600}' foi salva no arquivo ({FFFFFF}%s{F6F600}) em sua pasta 'scriptfiles'",nome, PASTA_SAVE);
+	format(str, sizeof str, "A posiï¿½ï¿½o da camera '{FFFFFF}%s{F6F600}' foi salva no arquivo ({FFFFFF}%s{F6F600}) em sua pasta 'scriptfiles'",nome, PASTA_SAVE);
     SendClientMessage(playerid, 0xF6F600FF, str);
 	SendClientMessage(playerid, 0xF6F600FF, "-----------------------------------------------------------------------------------------------------------------------------");
 	return 1;
@@ -258,7 +258,7 @@ stock GetNextCameraPositionEx(Float:CP[3], Float:FV[3], &Float:X, &Float:Y, &Flo
 
 stock CancelCameraMode(playerid)
 {
-    SendClientMessage(playerid, 0xF6F600FF, "Você foi spawnado.");
+    SendClientMessage(playerid, 0xF6F600FF, "Vocï¿½ foi spawnado.");
 	DeletePVar(playerid, "FlyMode");
 	CancelEdit(playerid);
 	TogglePlayerSpectating(playerid, false);

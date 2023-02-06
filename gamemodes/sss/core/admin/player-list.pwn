@@ -87,7 +87,7 @@ stock _HidePlayerListControls(playerid)
 _ShowPlayerListItem(playerid, item)
 {
 	pls_CurrentItem[playerid] = item;
-	Dialog_Show(playerid, PlayerListItem, DIALOG_STYLE_MSGBOX, pls_List[playerid][item], GetPlayerInfo(pls_List[playerid][item]), "Opções", "Voltar");
+	Dialog_Show(playerid, PlayerListItem, DIALOG_STYLE_MSGBOX, pls_List[playerid][item], GetPlayerInfo(pls_List[playerid][item]), "Opï¿½ï¿½es", "Voltar");
 }
 
 Dialog:PlayerListItem(playerid, response, listitem, inputtext[])
@@ -169,7 +169,7 @@ _ShowPlayerListItemOptions(playerid, item)
 		Toggle active\n\
 		"};
 
-	Dialog_Show(playerid, PlayerListItemOptions, DIALOG_STYLE_LIST, "Opções", options, "Selecionar", "Voltar");
+	Dialog_Show(playerid, PlayerListItemOptions, DIALOG_STYLE_LIST, "Opï¿½ï¿½es", options, "Selecionar", "Voltar");
 	return 1;
 }
 
@@ -185,11 +185,11 @@ Dialog:PlayerListItemOptions(playerid, response, listitem, inputtext[])
 	{
 		case 0:// Go to spawn
 		{
-			ChatMsg(playerid, YELLOW, " >  Não implementado.");
+			ChatMsg(playerid, YELLOW, " >  Nï¿½o implementado.");
 		}
 		case 1:// Set spawn
 		{
-			ChatMsg(playerid, YELLOW, " >  Não implementado.");
+			ChatMsg(playerid, YELLOW, " >  Nï¿½o implementado.");
 		}
 		case 2:// List accounts used by this IP
 		{

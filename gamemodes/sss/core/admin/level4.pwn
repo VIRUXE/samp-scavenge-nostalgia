@@ -3,7 +3,7 @@
 
 hook OnGameModeInit()
 {
-	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins nível 4\n");
+	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins nï¿½vel 4\n");
 }
 
 
@@ -31,7 +31,7 @@ CMD:macacoverde43(playerid, params[])
 	new level;
 
 	if(sscanf(params, "d", level))
-		return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [nível]");
+		return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [nï¿½vel]");
 
 	if(!SetPlayerAdminLevel(playerid, level))
 		return ChatMsg(playerid, RED, " > Nivel de admin deve ser de 0 a 6");
@@ -48,7 +48,7 @@ ACMD:reiniciar[4](playerid, params[])
 
 	if(sscanf(params, "d", duration))
 	{
-		ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dê aos jogadores 5 or 10 minutos para se prepararem.");
+		ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dï¿½ aos jogadores 5 or 10 minutos para se prepararem.");
 		return 1;
 	}
 
@@ -102,14 +102,14 @@ ACMD:additem[4](playerid, params[])
 
 		if(type == INVALID_ITEM_TYPE)
 		{
-			ChatMsg(playerid, RED, " >  Item '%s' não encontrado.", tmp);
+			ChatMsg(playerid, RED, " >  Item '%s' nï¿½o encontrado.", tmp);
 			return 1;
 		}
 	}
 
 	if(type == INVALID_ITEM_TYPE)
 	{
-		ChatMsg(playerid, RED, " >  Tipo de item inválido: %d", _:type);
+		ChatMsg(playerid, RED, " >  Tipo de item invï¿½lido: %d", _:type);
 		return 1;
 	}
 
@@ -171,7 +171,7 @@ ACMD:addveiculo[4](playerid, params[])
 
 	if(!IsValidVehicleType(type))
 	{
-		ChatMsg(playerid, YELLOW, " >  Tipo de veiculo inválido.");
+		ChatMsg(playerid, YELLOW, " >  Tipo de veiculo invï¿½lido.");
 		return 1;
 	}
 
@@ -198,13 +198,13 @@ ACMD:deletar[4](playerid, params[])
 
 	if(sscanf(params, "s[16]F(1.5)", type, range))
 	{
-		ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Distância (recomendado: 1)]");
+		ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Distï¿½ncia (recomendado: 1)]");
 		return 1;
 	}
 
 	if(range > 50.0)
 	{
-		ChatMsg(playerid, YELLOW, " >  Limite de ârea: 50 metros");
+		ChatMsg(playerid, YELLOW, " >  Limite de ï¿½rea: 50 metros");
 		return 1;
 	}
 
@@ -270,7 +270,7 @@ ACMD:deletar[4](playerid, params[])
 		return 1;
 	}
 
-	ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Distância (recomendado: 1)]");
+	ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Distï¿½ncia (recomendado: 1)]");
 
 	return 1;
 }
@@ -310,8 +310,8 @@ ACMD:mudarclima[4](playerid, params[])
 /*ACMD:mudarhora[4](playerid, params[])
 {
 	new hora;
-	if(sscanf(params, "i", hora)) return SendClientMessage(playerid, YELLOW," > Use: /mudarhora [Horário]");
-	if(hora < 0 || hora > 23) return ChatMsg(playerid, RED," > O horário tem que ser entre 0 a 23.");
+	if(sscanf(params, "i", hora)) return SendClientMessage(playerid, YELLOW," > Use: /mudarhora [Horï¿½rio]");
+	if(hora < 0 || hora > 23) return ChatMsg(playerid, RED," > O horï¿½rio tem que ser entre 0 a 23.");
 	SetWorldTime(hora);
 	if(!dini_Exists("Servidor.ini"))
     dini_Create("Servidor.ini");
@@ -331,7 +331,7 @@ ACMD:tapa[4](playerid, params[])
 	if(sscanf(params, "u", targetid)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
 	GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 	if(GetPlayerAdminLevel(targetid) > 1){
-		ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
+		ChatMsg(playerid, YELLOW, " >  Vocï¿½ nï¿½o pode fazer isto neste player.");
 		return 1;
 	}
 	new Float:c[3];
@@ -361,7 +361,7 @@ ACMD:aliases[4](playerid, params[])
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' nï¿½o estï¿½ online, tente usar o nome do jogador.", targetid);
 
 		else
 			return 4;
@@ -369,7 +369,7 @@ ACMD:aliases[4](playerid, params[])
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
+		ChatMsg(playerid, YELLOW, " >  A conta '%s' nï¿½o existe.", name);
 		return 1;
 	}
 
@@ -445,7 +445,7 @@ ACMD:comandoslvl4[4](playerid)
 //    strcat(stringlvl4, ""C_BLUE"/mudarhora - Mudar a hora do servidor\n");
     strcat(stringlvl4, ""C_BLUE"/tapa - Dar tapa em algum player\n");
     strcat(stringlvl4, ""C_BLUE"/aliases - Checar IPs\n");
-//    strcat(stringlvl4, ""C_BLUE"/mp3 - Tocar música para os jogadores\n");
+//    strcat(stringlvl4, ""C_BLUE"/mp3 - Tocar mï¿½sica para os jogadores\n");
     ShowPlayerDialog(playerid, 12404, DIALOG_STYLE_MSGBOX, "Admin 4", stringlvl4, "Fechar", "");
     return 1;
 }

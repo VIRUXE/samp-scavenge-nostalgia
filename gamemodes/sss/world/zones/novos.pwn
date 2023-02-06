@@ -15,7 +15,7 @@ Load_Novos()
 
 MapasNovos_Ilhas()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'Mapas Novos - Ilhas' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'Mapas Novos - Ilhas' {1589FF}por favor, aguarde...");
 
 // ILHA SF
 
@@ -66,21 +66,21 @@ MapasNovos_Ilhas()
 
 MapasNovos_LS()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'Mapas Novos - LS' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'Mapas Novos - LS' {1589FF}por favor, aguarde...");
 
 //	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	GetLootIndexFromName("world_civilian"), 20.0);
 }
 
 MapasNovos_LV()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'Mapas Novos - LV' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'Mapas Novos - LV' {1589FF}por favor, aguarde...");
 
 //	CreateStaticLootSpawn(-692.57898, 1549.16516, 81.65029,		GetLootIndexFromName("world_survivor"), 10.0);
 }
 
 MapasNovos_SF()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'Mapas Novos - SF' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'Mapas Novos - SF' {1589FF}por favor, aguarde...");
 
 //	CreateStaticLootSpawn(-881.05548, 1998.04822, 59.19070,		GetLootIndexFromName("world_survivor"), 10.0);
 

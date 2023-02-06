@@ -21,10 +21,10 @@ hook OnPlayerConnect(playerid)
 		{
 			clan_Name[playerid][0] = EOS;
 
-			return ChatMsg(playerid, RED, " > Seu clan foi excluído enquanto você estava offline.");
+			return ChatMsg(playerid, RED, " > Seu clan foi excluï¿½do enquanto vocï¿½ estava offline.");
 		} else {
 			if(dini_Int(file, "Membros") >= 5)
-				return ChatMsg(playerid, RED, " > Você foi expulso enquanto estava offline e o clan lotou.");
+				return ChatMsg(playerid, RED, " > Vocï¿½ foi expulso enquanto estava offline e o clan lotou.");
 		}
 	}
 	
@@ -60,12 +60,12 @@ CMD:ajudaclan(playerid)
     new stringajudaclan[380];
     strcat(stringajudaclan, "{FFFF00}Comandos de CLAN:\n");
     strcat(stringajudaclan, " \n");
-	strcat(stringajudaclan, "{33AA33}/procurarclan {FFFFFF}- Envia um anúncio buscando um clan\n");
+	strcat(stringajudaclan, "{33AA33}/procurarclan {FFFFFF}- Envia um anï¿½ncio buscando um clan\n");
 	strcat(stringajudaclan, "{33AA33}/criarclan {FFFFFF}- Cria um clan\n");
 	strcat(stringajudaclan, "{33AA33}/convidarclan {FFFFFF}- Convida um jogador para o clan\n");
 	strcat(stringajudaclan, "{33AA33}/expulsarclan {FFFFFF}- Expulsa um jogador do seu clan\n");
 	strcat(stringajudaclan, "{33AA33}/sairclan {FFFFFF}- Sair do clan atual\n");
-	strcat(stringajudaclan, "{33AA33}/deletarclan {FFFFFF}- Deleta o clan que você criou\n");
+	strcat(stringajudaclan, "{33AA33}/deletarclan {FFFFFF}- Deleta o clan que vocï¿½ criou\n");
     ShowPlayerDialog(playerid, 9147, DIALOG_STYLE_MSGBOX, "Ajuda CLAN:", stringajudaclan, "Fechar", "");
     return 1;
 }
@@ -73,15 +73,15 @@ CMD:ajudaclan(playerid)
 CMD:procurarclan(playerid)
 {
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
 	    
     if(GetTickCountDifference(GetTickCount(), clan_Tick[playerid]) < 5000)
         return ChatMsg(playerid, RED, " > Aguarde para usar esse comando novamente.");
     
 	if(strlen(clan_Name[playerid]) > 1)
-	    return ChatMsg(playerid, RED, " > Você já possui um clan.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ jï¿½ possui um clan.");
 
-	ChatMsgAll(CHAT_CLAN, "[CLAN] %p(id:%d) Está procurando um clan.", playerid, playerid);
+	ChatMsgAll(CHAT_CLAN, "[CLAN] %p(id:%d) Estï¿½ procurando um clan.", playerid, playerid);
 	
 	clan_Tick[playerid] = GetTickCount();
 	return 1;
@@ -90,29 +90,29 @@ CMD:procurarclan(playerid)
 CMD:criarclan(playerid, params[])
 {
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
 	          
     if(strlen(clan_Name[playerid]) > 1)
-	    return ChatMsg(playerid, RED, " > Você já possui um clan.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ jï¿½ possui um clan.");
 
     if(strlen(params) < 1)
         return ChatMsg(playerid, RED, " > Use /criarclan [Nome do CLAN]");
         
 	if(strlen(params) < 5)
-	    return ChatMsg(playerid, RED, " > O nome do clan deve ter no mínimo 5 digitos.");
+	    return ChatMsg(playerid, RED, " > O nome do clan deve ter no mï¿½nimo 5 digitos.");
 
     if(strlen(params) > 16)
-	    return ChatMsg(playerid, RED, " > O nome do clan deve ter no máximo 16 digitos.");
+	    return ChatMsg(playerid, RED, " > O nome do clan deve ter no mï¿½ximo 16 digitos.");
 
 	if(HaveSymbols(params) > 0)
-	    return ChatMsg(playerid, RED, " > O nome do clan deve conter apenas letras e números.");
+	    return ChatMsg(playerid, RED, " > O nome do clan deve conter apenas letras e nï¿½meros.");
 
 	new file[32];
 
 	format(file, sizeof(file), "INI_Clan/%s.ini", params);
 
 	if(dini_Exists(file))
-		return ChatMsg(playerid, RED, " > O nome do clan já existe, escolha outro.");
+		return ChatMsg(playerid, RED, " > O nome do clan jï¿½ existe, escolha outro.");
 
 	format(clan_Name[playerid], 16, "%s", params);
     
@@ -129,10 +129,10 @@ CMD:criarclan(playerid, params[])
 CMD:deletarclan(playerid)
 {
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
 	           
     if(!clan_Owner[playerid])
-	    return ChatMsg(playerid, RED, " > Você não é dono de um clan");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ nï¿½o ï¿½ dono de um clan");
 
 	clan_Owner[playerid] = false;
 
@@ -162,10 +162,10 @@ CMD:deletarclan(playerid)
 CMD:sairclan(playerid)
 {       
     if(strlen(clan_Name[playerid]) < 5)
-	    return ChatMsg(playerid, RED, " > Você não possui um clan");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ nï¿½o possui um clan");
 
     if(clan_Owner[playerid])
-	    return ChatMsg(playerid, RED, " > Você é dono do clan portanto não pode sair. Use /deletarclan");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ ï¿½ dono do clan portanto nï¿½o pode sair. Use /deletarclan");
 
     ChatMsgAll(CHAT_CLAN, "[CLAN] %p(id:%d) Saiu do clan %s.", playerid, playerid, clan_Name[playerid]);
 
@@ -186,24 +186,24 @@ CMD:sairclan(playerid)
 CMD:expulsarclan(playerid, params[])
 {
 	if(!IsPlayerSpawned(playerid)) 
-		return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+		return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
 	          
 	if(!clan_Owner[playerid])
-	    return ChatMsg(playerid, RED, " > Você não é dono de um clan");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ nï¿½o ï¿½ dono de um clan");
 
 	new arg[MAX_PLAYER_NAME];
 	
 	if(sscanf(params, "s[24]", arg)) 
 		return ChatMsg(playerid, YELLOW, " >  Use: /expulsarclan [id/nome]");
 
-	if(isnumeric(arg)) { //passou ID e jogador está conectado
+	if(isnumeric(arg)) { //passou ID e jogador estï¿½ conectado
 		new id = strval(params);
 
 		if(!IsPlayerConnected(id))
-	    	return ChatMsg(playerid, RED, " > Jogador não conectado.");
+	    	return ChatMsg(playerid, RED, " > Jogador nï¿½o conectado.");
 	    
     	if(!IsPlayerAllyForPlayer(playerid, id))
-        	return ChatMsg(playerid, RED, " > Este jogador não está no seu clan.");
+        	return ChatMsg(playerid, RED, " > Este jogador nï¿½o estï¿½ no seu clan.");
 
 		foreach(new i : Player)
 		{
@@ -219,12 +219,12 @@ CMD:expulsarclan(playerid, params[])
 	} else {
 		new idByName = GetPlayerIDFromName(params);
 
-		if(idByName != INVALID_PLAYER_ID) { //passou NOME e jogador está conectado
+		if(idByName != INVALID_PLAYER_ID) { //passou NOME e jogador estï¿½ conectado
 			if(!IsPlayerConnected(idByName))
-				return ChatMsg(playerid, RED, " > Jogador não conectado.");
+				return ChatMsg(playerid, RED, " > Jogador nï¿½o conectado.");
 			
 			if(!IsPlayerAllyForPlayer(playerid, idByName))
-				return ChatMsg(playerid, RED, " > Este jogador não está no seu clan.");
+				return ChatMsg(playerid, RED, " > Este jogador nï¿½o estï¿½ no seu clan.");
 
 			foreach(new i : Player)
 			{
@@ -237,18 +237,18 @@ CMD:expulsarclan(playerid, params[])
 			clan_Name[idByName][0] = EOS;
 			ClanNameTagUpdate(idByName);
 			SavePlayerIniData(idByName);
-		} else { //passou NOME e jogador não está conectado
+		} else { //passou NOME e jogador nï¿½o estï¿½ conectado
 			new file[16 + MAX_PLAYER_NAME];
 
 			format(file, sizeof(file), "INI_Data/%s.ini", arg);
 
 			if(dini_Exists(file)) {
-				//verificar se é ally
+				//verificar se ï¿½ ally
 				if (strcmp(dini_Get(file, "Clan"), clan_Name[playerid]))
-					return ChatMsg(playerid, RED, " > Este jogador não está no seu clan.");
+					return ChatMsg(playerid, RED, " > Este jogador nï¿½o estï¿½ no seu clan.");
 
 				dini_Set(file, "Clan", "");
-			} else return ChatMsg(playerid, RED, " > Este jogador não está no seu clan.");
+			} else return ChatMsg(playerid, RED, " > Este jogador nï¿½o estï¿½ no seu clan.");
 
 			foreach(new i : Player)
 			{
@@ -275,10 +275,10 @@ CMD:convidarclan(playerid, params[])
 	new targetid;
 
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
         
     if(!clan_Owner[playerid])
-	    return ChatMsg(playerid, RED, " > Você não é dono de um clan");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ nï¿½o ï¿½ dono de um clan");
 
 	if(sscanf(params, "d", targetid)) 
 		return ChatMsg(playerid, YELLOW, " >  Use: /convidarclan [id]");
@@ -286,12 +286,12 @@ CMD:convidarclan(playerid, params[])
 //	new id = strval(params);
 
 	if(!IsPlayerConnected(targetid))
-	    return ChatMsg(playerid, RED, " > Jogador não conectado.");
+	    return ChatMsg(playerid, RED, " > Jogador nï¿½o conectado.");
 
     if(strlen(clan_Name[targetid]) > 4)
-	    return ChatMsg(playerid, RED, " > Este jogador já possui um clan");
+	    return ChatMsg(playerid, RED, " > Este jogador jï¿½ possui um clan");
 
-    ChatMsg(targetid, CHAT_CLAN, "[CLAN] %p(id:%d) convidou você para o clan: %s.", playerid, playerid, clan_Name[playerid]);
+    ChatMsg(targetid, CHAT_CLAN, "[CLAN] %p(id:%d) convidou vocï¿½ para o clan: %s.", playerid, playerid, clan_Name[playerid]);
     ChatMsg(targetid, CHAT_CLAN, "[CLAN] para aceitar: "C_GREEN"/aceitar");
     ChatMsg(targetid, CHAT_CLAN, "[CLAN] para recusar: "C_RED"/recusar");
     
@@ -304,7 +304,7 @@ CMD:convidarclan(playerid, params[])
 CMD:aceitar(playerid)
 {
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	    return ChatMsg(playerid, RED, " > Vocï¿½ deve nascer antes.");
 	          
 	if(!IsPlayerConnected(Convite[playerid]))
 	    return ChatMsg(playerid, RED, " > Convite expirado.");
@@ -319,12 +319,12 @@ CMD:aceitar(playerid)
 	if(dini_Exists(file))
 	{
 		if(dini_Int(file, "Membros") >= 5)
-			return ChatMsg(playerid, RED, " > O clan está lotado (limite 5 membros).");
+			return ChatMsg(playerid, RED, " > O clan estï¿½ lotado (limite 5 membros).");
 	}
 	    
     format(clan_Name[playerid], 16, "%s", clan_Name[Convite[playerid]]);
     
-    ChatMsgAll(CHAT_CLAN, "[CLAN] %p(id:%d) É o mais novo membro do clan %s.", playerid, playerid, clan_Name[playerid]);
+    ChatMsgAll(CHAT_CLAN, "[CLAN] %p(id:%d) ï¿½ o mais novo membro do clan %s.", playerid, playerid, clan_Name[playerid]);
     
     foreach(new i : Player)
 	{

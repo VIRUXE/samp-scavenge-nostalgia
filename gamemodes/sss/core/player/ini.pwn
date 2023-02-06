@@ -37,7 +37,7 @@ hook OnPlayerConnect(playerid)
 		ChatMsg(playerid, RED, " ");
 		ChatMsg(playerid, RED, " ");
 		ChatMsg(playerid, RED, "> Kickado por o servidor estar lotado com 35 online. VIPS possuem 5 slots reservados!");
-		KickPlayer(playerid, "O servidor está lotado com 35 online. VIPS possuem 5 slots reservados!");
+		KickPlayer(playerid, "O servidor estï¿½ lotado com 35 online. VIPS possuem 5 slots reservados!");
 	}
 }
 

@@ -59,22 +59,22 @@ ptask UptimeUpdate[60000](playerid)
     if(p_OnlineTime[playerid] == 30)
     {
         PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 30 minutos e ganhe um prêmio.");
+	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 30 minutos e ganhe um prï¿½mio.");
 	}
 	if(p_OnlineTime[playerid] == 40)
     {
         PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 20 minutos e ganhe um prêmio.");
+	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 20 minutos e ganhe um prï¿½mio.");
 	}
 	if(p_OnlineTime[playerid] == 50)
     {
         PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 10 minutos e ganhe um prêmio.");
+	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 10 minutos e ganhe um prï¿½mio.");
 	}
 	if(p_OnlineTime[playerid] == 55)
     {
         PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 5 minutos e ganhe um prêmio.");
+	    ChatMsg(playerid, BLUE, "[Uptime]: Fique online mais 5 minutos e ganhe um prï¿½mio.");
 	}
 	if(p_OnlineTime[playerid] == 60)
     {
@@ -83,17 +83,17 @@ ptask UptimeUpdate[60000](playerid)
         if(randomPrime == 0)
         {
 	        SetPlayerScore(playerid, GetPlayerScore(playerid) + 3);
-	        ChatMsg(playerid, BLUE, "[Uptime]: Parabéns, você ganhou + 3 score por ficar 1 hora em nosso servidor.");
+	        ChatMsg(playerid, BLUE, "[Uptime]: Parabï¿½ns, vocï¿½ ganhou + 3 score por ficar 1 hora em nosso servidor.");
         }
         if(randomPrime == 1)
         {
 	        SetPlayerScore(playerid, GetPlayerScore(playerid) + 2);
-	        ChatMsg(playerid, BLUE, "[Uptime]: Parabéns, você ganhou + 2 score por ficar 1 hora em nosso servidor.");
+	        ChatMsg(playerid, BLUE, "[Uptime]: Parabï¿½ns, vocï¿½ ganhou + 2 score por ficar 1 hora em nosso servidor.");
         }
         if(randomPrime == 2)
         {
 	        SetPlayerScore(playerid, GetPlayerScore(playerid) + 1);
-	        ChatMsg(playerid, BLUE, "[Uptime]: Parabéns, você ganhou + 1 score por ficar 1 hora em nosso servidor.");
+	        ChatMsg(playerid, BLUE, "[Uptime]: Parabï¿½ns, vocï¿½ ganhou + 1 score por ficar 1 hora em nosso servidor.");
         }
         
         PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);

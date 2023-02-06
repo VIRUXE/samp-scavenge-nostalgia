@@ -41,8 +41,8 @@ hook OnPlayerConnect(playerid)
 
 CMD:frase(playerid, params[])
 {
-    if(!IsPlayerLoggedIn(playerid)) return SendClientMessage(playerid, RED, " > Você precisa estar logado para isso.");
-    if(GetPlayerScore(playerid) < 100 && !IsPlayerVip(playerid)) return SendClientMessage(playerid, RED, " > Você precisa ter no mínimo 100 score para usar este comando.");
+    if(!IsPlayerLoggedIn(playerid)) return SendClientMessage(playerid, RED, " > Vocï¿½ precisa estar logado para isso.");
+    if(GetPlayerScore(playerid) < 100 && !IsPlayerVip(playerid)) return SendClientMessage(playerid, RED, " > Vocï¿½ precisa ter no mï¿½nimo 100 score para usar este comando.");
 	if(isnull(params)) return SendClientMessage(playerid, YELLOW, " > Use: /frase [frase]");
  	if(strlen(params) > MAX_FRASE_LEN) return SendClientMessage(playerid, RED, " > Frase muito grande.");
 

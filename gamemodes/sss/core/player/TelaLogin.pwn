@@ -3,7 +3,7 @@
 forward SetPlayerInCenario(playerid);
 public SetPlayerInCenario(playerid)
 {  
-    ChatMsg(playerid, RED, " > Você foi setado em um cenário.");
+    ChatMsg(playerid, RED, " > Vocï¿½ foi setado em um cenï¿½rio.");
     
     new camerapos = random(7);
     switch(camerapos){

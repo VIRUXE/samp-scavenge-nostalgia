@@ -56,7 +56,7 @@ Load_TR()
 
 TR_District_Bayside()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'TR_District_Bayside' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'TR_District_Bayside' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-2560.33521, 2256.71069, 4.03032,		GetLootIndexFromName("world_civilian"), 20.0);
 	CreateStaticLootSpawn(-2526.42236, 2230.25171, 3.97745,		GetLootIndexFromName("world_civilian"), 20.0);
@@ -132,7 +132,7 @@ TR_District_Bayside()
 
 TR_District_Quebrados()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'TR_District_Quebrados' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'TR_District_Quebrados' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	GetLootIndexFromName("world_civilian"), 20.0);
 	CreateStaticLootSpawn(-1589.21973, 2705.65381, 55.16963,	GetLootIndexFromName("world_civilian"), 20.0);
@@ -178,7 +178,7 @@ TR_District_Quebrados()
 
 TR_District_Barancas()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'TR_District_Barancas' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'TR_District_Barancas' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-637.60626, 1442.92505, 12.60786,		GetLootIndexFromName("world_civilian"), 20.0);
 	CreateStaticLootSpawn(-654.76465, 1446.82837, 12.60757,		GetLootIndexFromName("world_civilian"), 20.0);
@@ -201,7 +201,7 @@ TR_District_Barancas()
 
 TR_District_Sherman()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'TR_District_Sherman' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'TR_District_Sherman' {1589FF}por favor, aguarde...");
 
 	CreateStaticLootSpawn(-897.95825, 1976.49341, 59.62031,		GetLootIndexFromName("world_civilian"), 20.0);
 	CreateStaticLootSpawn(-895.60889, 1967.39795, 59.62622,		GetLootIndexFromName("world_civilian"), 20.0);
@@ -242,7 +242,7 @@ TR_District_Sherman()
 
 TR_District_RobadaGen()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'TR_District_RobadaGen' {1589FF}por favor, aguarde...");
+	ChatMsgAll(LBLUE, " >  Carregando regiï¿½o do mundo: {FF8A14}'TR_District_RobadaGen' {1589FF}por favor, aguarde...");
 
 	CreateItem(item_Workbench, -1513.53040, 1978.50232, 47.35660, 0.0, 0.0, 85.37996);
 

@@ -27,26 +27,26 @@
 -------------------*/
 static FloorNames[21][] =
 {
-	"Térreo",
+	"Tï¿½rreo",
 	"Primeiro andar",
 	"Segundo andar",
 	"Terceiro andar",
 	"Quarto andar",
 	"Quinto andar",
 	"Sexto andar",
-	"Sétimo andar",
+	"Sï¿½timo andar",
 	"Oitavo andar",
 	"Nono andar",
-	"Décimo andar",
-	"Décimo primeiro andar",
-	"Décimo Segundo Andar",
-	"Décimo terceiro andar",
-	"Décimo quarto andar",
-	"Décimo Quinto Andar",
-	"Décimo sexto andar",
-	"Décimo sétimo andar",
-	"Décimo oitavo andar",
-	"Décimo nono andar",
+	"Dï¿½cimo andar",
+	"Dï¿½cimo primeiro andar",
+	"Dï¿½cimo Segundo Andar",
+	"Dï¿½cimo terceiro andar",
+	"Dï¿½cimo quarto andar",
+	"Dï¿½cimo Quinto Andar",
+	"Dï¿½cimo sexto andar",
+	"Dï¿½cimo sï¿½timo andar",
+	"Dï¿½cimo oitavo andar",
+	"Dï¿½cimo nono andar",
 	"Cobertura"
 };
 

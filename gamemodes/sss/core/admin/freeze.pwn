@@ -98,7 +98,7 @@ timer UnfreezePlayer_check[4000](playerid)
 
 	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946)
 	{
-		ChatMsgAdmins(2, YELLOW, " >  Possível úsuario de mod: "C_ORANGE"%p (%d)", playerid, playerid);
+		ChatMsgAdmins(2, YELLOW, " >  Possï¿½vel ï¿½suario de mod: "C_ORANGE"%p (%d)", playerid, playerid);
 	}
 
 	return;

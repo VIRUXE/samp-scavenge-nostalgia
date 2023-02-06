@@ -205,7 +205,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 	    if(GlobalTime[playerid] != 0)
 	    {
-	        ChatMsg(playerid, RED, " > Você pode usar o chat global novamente em %d segundos.", GlobalTime[playerid]);
+	        ChatMsg(playerid, RED, " > Vocï¿½ pode usar o chat global novamente em %d segundos.", GlobalTime[playerid]);
 	        return 1;
 	    }
 

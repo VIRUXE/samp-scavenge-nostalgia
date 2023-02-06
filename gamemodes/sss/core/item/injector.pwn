@@ -73,7 +73,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			case INJECT_TYPE_EMPTY:			SetItemNameExtra(itemid, "Vazio");
 			case INJECT_TYPE_MORPHINE:		SetItemNameExtra(itemid, "Morfina");
 			case INJECT_TYPE_ADRENALINE:	SetItemNameExtra(itemid, "Adrenalina");
-			case INJECT_TYPE_HEROIN:		SetItemNameExtra(itemid, "Heroína");
+			case INJECT_TYPE_HEROIN:		SetItemNameExtra(itemid, "Heroï¿½na");
 			default:						SetItemNameExtra(itemid, "Vazio");
 		}
 	}

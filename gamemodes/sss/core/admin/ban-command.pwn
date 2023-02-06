@@ -40,7 +40,7 @@ hook OnPlayerConnect(playerid)
 
 BanAndEnterInfo(playerid, name[MAX_PLAYER_NAME])
 {
-	BanPlayerByName(name, "Não informado", playerid, 0);
+	BanPlayerByName(name, "Nï¿½o informado", playerid, 0);
 	FormatBanReasonDialog(playerid);
 
 	ban_CurrentName[playerid] = name;
@@ -55,7 +55,7 @@ ResetBanVariables(playerid)
 
 FormatBanReasonDialog(playerid)
 {
-	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres é 128. Após essa tela, você definirá a duração do banimento.", "Continuar", "Cancelar");
+	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres ï¿½ 128. Apï¿½s essa tela, vocï¿½ definirï¿½ a duraï¿½ï¿½o do banimento.", "Continuar", "Cancelar");
 }
 
 Dialog:BanReason(playerid, response, listitem, inputtext[])
@@ -75,7 +75,7 @@ Dialog:BanReason(playerid, response, listitem, inputtext[])
 
 FormatBanDurationDialog(playerid)
 {
-	Dialog_Show(playerid, BanDuration, DIALOG_STYLE_INPUT, "Insira a duração do banimento", "Enter the ban duration below. You can type a number then one of either: 'days', 'weeks' or 'months'. Type 'forever' for perma-ban.", "Continuar", "Voltar");
+	Dialog_Show(playerid, BanDuration, DIALOG_STYLE_INPUT, "Insira a duraï¿½ï¿½o do banimento", "Enter the ban duration below. You can type a number then one of either: 'days', 'weeks' or 'months'. Type 'forever' for perma-ban.", "Continuar", "Voltar");
 
 	return 1;
 }
@@ -115,7 +115,7 @@ FinaliseBan(playerid)
 {
 	if(isnull(ban_CurrentName[playerid]))
 	{
-		ChatMsg(playerid, RED, " >  Ocorreu um erro: 'ban_CurrentName' está vazio.");
+		ChatMsg(playerid, RED, " >  Ocorreu um erro: 'ban_CurrentName' estï¿½ vazio.");
 		return 0;
 	}
 
@@ -125,7 +125,7 @@ FinaliseBan(playerid)
 		return 0;
 	}
 
-	ChatMsg(playerid, YELLOW, " >  Você baniu "C_BLUE"%s", ban_CurrentName[playerid]);
+	ChatMsg(playerid, YELLOW, " >  Vocï¿½ baniu "C_BLUE"%s", ban_CurrentName[playerid]);
 
 	log("[BAN] %p baniu %s motivo: %s", playerid, ban_CurrentName[playerid], ban_CurrentReason[playerid]);
 

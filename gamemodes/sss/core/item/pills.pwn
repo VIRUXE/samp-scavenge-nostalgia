@@ -67,8 +67,8 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 	{
 		switch(GetItemExtraData(itemid))
 		{
-			case PILL_TYPE_ANTIBIOTICS:		SetItemNameExtra(itemid, "Antibióticos");
-			case PILL_TYPE_PAINKILL:		SetItemNameExtra(itemid, "Analgésico");
+			case PILL_TYPE_ANTIBIOTICS:		SetItemNameExtra(itemid, "Antibiï¿½ticos");
+			case PILL_TYPE_PAINKILL:		SetItemNameExtra(itemid, "Analgï¿½sico");
 			case PILL_TYPE_LSD:				SetItemNameExtra(itemid, "LSD");
 			default:						SetItemNameExtra(itemid, "Vazio");
 		}

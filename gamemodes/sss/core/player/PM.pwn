@@ -29,13 +29,13 @@ CMD:pm(playerid, params[])
 	    GetPlayerName(giveplayerid, giveplayername, sizeof(giveplayername));
         if(PmBlock[playerid])
 		{
-            format(string,sizeof(string),"[PM]: Você não pode enviar uma menssagem pois usou /blockpm!");
+            format(string,sizeof(string),"[PM]: Vocï¿½ nï¿½o pode enviar uma menssagem pois usou /blockpm!");
             SendClientMessage(playerid, RED, string);
             return 1;
         }
         if(PmBlock[giveplayerid])
 		{
-            format(string,sizeof(string),"[PM]: Você não pode enviar uma menssagem para %s pois ele está com o PM Bloqueado!", giveplayername);
+            format(string,sizeof(string),"[PM]: Vocï¿½ nï¿½o pode enviar uma menssagem para %s pois ele estï¿½ com o PM Bloqueado!", giveplayername);
             SendClientMessage(playerid, RED, string);
             return 1;
         }
@@ -58,7 +58,7 @@ CMD:pm(playerid, params[])
     }
     else
 	{
-        format(string, sizeof(string), "[PM]: O ID %d não está online.", giveplayerid);
+        format(string, sizeof(string), "[PM]: O ID %d nï¿½o estï¿½ online.", giveplayerid);
         SendClientMessage(playerid, RED, string);
     }
     return 1;
