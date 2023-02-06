@@ -197,6 +197,15 @@ public OnPlayerDisconnect(playerid, reason)
 	return 1;
 }
 
+stock GetTotalPlayers()
+{
+	new count = 0;
+
+	foreach(new i : Player) count++;
+
+	return count;
+}
+
 timer LoadAccountDelay[6000](playerid)
 {
 	if(!IsPlayerConnected(playerid))
