@@ -138,6 +138,8 @@ EnterSpectateMode(playerid, targetid)
 	return 1;
 }
 
+IsPlayerSpectating(playerid) return spectate_Type[playerid] != SPECTATE_TYPE_NONE;
+
 EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0)
 {
 	if(camX * camY * camZ == 0.0)
@@ -556,4 +558,3 @@ ACMD:freezecam[2](playerid)
 	
 	return 1;
 }
-

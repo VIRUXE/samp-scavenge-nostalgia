@@ -110,11 +110,21 @@ ACMD:whitelist[3](playerid, params[])
 
 ACMD:spec[3](playerid, params[])
 {
-	if(!(IsPlayerOnAdminDuty(playerid)))
-		return 6;
+	if(!(IsPlayerOnAdminDuty(playerid))) return 6;
 
-	if(isnull(params)){
-		ExitSpectateMode(playerid);
+	if(isnull(params)) {
+		if(IsPlayerSpectating(playerid)) ExitSpectateMode(playerid); // If player is spectating, exit spectate mode
+		else {
+			// Select a random player to spectate
+			new targetId;
+			
+			while(true) {
+				targetId = random(0, MAX_PLAYERS);
+				if(IsPlayerConnected(targetId) && targetId != playerid) break;
+			}
+
+			EnterSpectateMode(playerid, targetId);
+		}
 	}
 	else{
 		new targetid = strval(params);
