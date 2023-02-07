@@ -324,6 +324,19 @@ ACMD:veiculo[3](playerid, params[])
 		return 1;
 	}
 
+	// Reparar completamente o veiculo
+	if(!strcmp(command, "reparar"))
+	{
+		SetVehicleHealth(vehicleid, 1000.0);
+		RepairVehicle(vehicleid); // Repara a lataria
+		
+		SaveVehicle(vehicleid);
+
+		ChatMsg(playerid, YELLOW, " >  Veiculo %d reparado", vehicleid);
+
+		return 1;
+	}
+
 	ChatMsg(playerid, YELLOW, " >  Use: /veiculo [puxar/ir/entrar/deletar/respawnar/resetar/trancar/destrancar/removerchave/destruir] [id]");
 
 	return 1;
