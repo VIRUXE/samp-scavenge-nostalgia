@@ -3,6 +3,8 @@ crashinfo.txt
 *.amx
 *.db
 samp-server.exe
+pawno/pawnc.*
+pawno/pawncc.*
 msvcp140.dll
 vcruntime140.dll
 pawno/pawno.exe
