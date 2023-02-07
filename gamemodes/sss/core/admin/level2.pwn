@@ -30,7 +30,7 @@ ACMD:duty[2](playerid, params[])
 		
 	if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) return ChatMsg(playerid, RED, " >  Você está em combate, aguarde.");
 
-	TogglePlayerAdminDuty(playerid, !IsPlayerOnAdminDuty(playerid), !strcmp(params, "aqui", true));
+	TogglePlayerAdminDuty(playerid, !IsPlayerOnAdminDuty(playerid), !isequal(params, "aqui", true));
 
     dutytick[playerid] = GetTickCount();
     
