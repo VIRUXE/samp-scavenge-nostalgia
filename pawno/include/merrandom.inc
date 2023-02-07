@@ -1,5 +1,5 @@
 /* MerRandom 2.1 Pawn Include
- * Scripted by Cyber_Punk ï¿½ 2009-2010
+ * Scripted by Cyber_Punk © 2009-2010
  * Thanks to Tannz0rz for C++ Coaching :P
  * Huge Thanks to Agner Fog for his Mersenne Twister Assembly code!!! 
  * This file is provided as is (no warranties).

@@ -492,7 +492,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, "Vocï¿½ jï¿½ estï¿½ segurando um item.", 3000, 200);
+				ShowActionText(playerid, "Você já está segurando um item.", 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -511,7 +511,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, "Vocï¿½ jï¿½ estï¿½ segurando um item.", 3000, 200);
+				ShowActionText(playerid, "Você já está segurando um item.", 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}

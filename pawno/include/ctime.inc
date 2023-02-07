@@ -1,6 +1,6 @@
 /* 
 	CTime Library Plugin For Pawn
-    Copyright ï¿½ 2011 RyDeR`
+    Copyright © 2011 RyDeR`
 */
 
 #if defined _CTime_Included

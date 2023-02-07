@@ -455,12 +455,12 @@ DisplayContainerOptions(playerid, slotid)
 
 	GetItemName(cnt_Items[cnt_CurrentContainer[playerid]][slotid], tmp);
 
-	cnt_OptionsList[playerid] = "Equipar\nMover para inventï¿½rio >\n";
+	cnt_OptionsList[playerid] = "Equipar\nMover para inventário >\n";
 	cnt_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewContainerOpt", "dd", playerid, cnt_CurrentContainer[playerid]);
 
-	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], "Opï¿½ï¿½es", "Voltar");
+	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], "Opções", "Voltar");
 
 	return 1;
 }
@@ -487,7 +487,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, "Voce estï¿½ segurando um item.", 3000, 200);
+				ShowActionText(playerid, "Voce está segurando um item.", 3000, 200);
 				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			}
 		}
