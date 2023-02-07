@@ -523,3 +523,11 @@ stock PreloadPlayerAnims(playerid)
 	PreloadAnimLib(playerid, "GFUNK");
 	PreloadAnimLib(playerid, "RUNNINGMAN");
 }
+
+// Melhor assim nao?
+GetPlayerNameEx(playerid) {
+	new name[MAX_PLAYER_NAME];
+	GetPlayerName(playerid, name, sizeof(name));
+
+	return name;
+}
