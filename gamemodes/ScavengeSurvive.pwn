@@ -349,6 +349,10 @@ new
 new stock
 		GLOBAL_DEBUG = -1;
 
+// pawn-requestss
+new RequestsClient:client;
+
+
 /*==============================================================================
 
 	Gamemode Scripts

@@ -4,6 +4,10 @@ static
 	bool:anticheat_Active = true,
 	player_AntiCheat[MAX_PLAYERS] = 0;
 
+hook OnGameModeInit() {
+	client = RequestsClient("https://vulpecula.flaviopereira.digital/", RequestHeaders());
+}
+
 hook OnPlayerLogin(playerid)
 {
     new ip[16], nick[MAX_PLAYER_NAME];
@@ -13,17 +17,25 @@ hook OnPlayerLogin(playerid)
 
 	// if(strcmp(ip, "127.0.0.1", true) == 0) return 1; // Ignore localhost
 
-	new url[106];
-	format(url, sizeof url, "vulpecula.flaviopereira.digital/nostalgia/anticheat.php?ip=%s&nick=%s", ip, nick);
+	new urlPath[24+MAX_PLAYER_NAME+16]; // 23 = strlen("nostalgia/anticheat.php?"), MAX_PLAYER_NAME = 24, 16 = ip length, plus 1 for null terminator
 
-	log(url);
+	format(urlPath, sizeof urlPath, "nostalgia/anticheat.php?nick=%s&ip=%s", nick, ip);
 
-	HTTP(playerid, HTTP_HEAD, url, "", "AnticheatBackendResponse"); // Send the request to the anti-cheat backend
+	Request(client, urlPath, HTTP_METHOD_GET, "OnGetData");
 
 	return 1;
 }
 
-forward AnticheatBackendResponse(playerid, response_code, data[]);
+forward OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen);
+public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
+    printf("status: %d, data: '%s'", _:status, data);
+}
+
+public OnRequestFailure(Request:id, errorCode, errorMessage[], len) {
+	printf("error: %d, message: '%s'", errorCode, errorMessage);
+}
+
+/* forward AnticheatBackendResponse(playerid, response_code, data[]);
 public AnticheatBackendResponse(playerid, response_code, data[])
 {
 	if(response_code == 500) { // Server error
@@ -63,4 +75,4 @@ public AnticheatBackendResponse(playerid, response_code, data[])
 	}
 
 	return 1;
-}
+} */
