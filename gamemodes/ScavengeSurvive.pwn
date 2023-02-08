@@ -34,8 +34,6 @@
 
 ==============================================================================*/
 
-#undef MAX_PLAYERS
-
 //#define BUILD_MINIMAL
 
 native IsValidVehicle(vehicleid);
@@ -76,7 +74,6 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 
 #if defined BUILD_MINIMAL
 
-	#define MAX_PLAYERS						(32)
 	#define BTN_MAX							(4096) // SIF/Button
 	#define ITM_MAX							(4096) // SIF/Item
 	#define CNT_MAX_SLOTS					(10)
@@ -85,7 +82,6 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 
 #else
 
-#define MAX_PLAYERS (40)
 	#define BTN_MAX							(32768) // SIF/Button
 	#define ITM_MAX							(32768) // SIF/Item
 	#define CNT_MAX_SLOTS					(80)
@@ -690,6 +686,9 @@ Text:ClockRestart2 = Text:INVALID_TEXT_DRAW;
 
 main()
 {
+	// Print out the MAX_PLAYERS constant
+	log("\nMAX_PLAYERS = %d\n", MAX_PLAYERS);
+
 	log("================================================================================");
 	log("    Southclaw's Scavenge and Survive");
 	log("        Copyright (C) 2016 Barnaby \"Southclaw\" Keene");

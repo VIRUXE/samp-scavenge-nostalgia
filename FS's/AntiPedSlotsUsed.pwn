@@ -2,9 +2,6 @@
 
 #define		FILTERSCRIPT
 
-#undef 		MAX_PLAYERS
-#define     MAX_PLAYERS 	(50)
-
 #include 	<Pawn.RakNet>
 
 #define     MAX_PED_SLOTS_USED  (10)

@@ -1,8 +1,5 @@
 #include <YSI\y_hooks>
 
-#undef 		MAX_PLAYERS
-#define     MAX_PLAYERS 	(50)
-
 static
 	clan_Name[MAX_PLAYERS][16],
 	bool:clan_Owner[MAX_PLAYERS],

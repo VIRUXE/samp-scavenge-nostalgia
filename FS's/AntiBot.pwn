@@ -2,9 +2,6 @@
 
 #define		FILTERSCRIPT
 
-#undef 		MAX_PLAYERS
-#define     MAX_PLAYERS 	(50)
-
 #define     MAX_PLAYER_IP   (3)
 
 #include <Pawn.RakNet>
@@ -28,4 +25,3 @@ public OnPlayerConnect(playerid)
 
 	return 1;
 }
-

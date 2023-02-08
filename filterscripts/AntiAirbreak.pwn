@@ -8,9 +8,6 @@
 
 #define FILTERSCRIPT
 
-#undef 	MAX_PLAYERS
-#define MAX_PLAYERS (40)
-
 #include <ColAndreas>	// By Pottus:       https://github.com/Pottus/ColAndreas
 #include <Pawn.RakNet>  // By urShadow:    	https://github.com/urShadow/Pawn.RakNet
 
