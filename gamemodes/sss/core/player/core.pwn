@@ -216,6 +216,7 @@ timer LoadAccountDelay[6000](playerid)
 
 	if(gServerInitialising || GetTickCountDifference(GetTickCount(), gServerInitialiseTick) < 5000)
 	{
+		ChatMsg(playerid, WHITE, "Servidor a iniciar, por favor aguarde...");
 		defer LoadAccountDelay(playerid);
 		return;
 	}
