@@ -172,6 +172,12 @@ timer _Finalise[500]()
 	SetGameModeText("Scavenge Survive");
 	SendRconCommand("hostname Nostalgia ~ Scavenge");
 	SendRconCommand("password 0"); // Removes the password
+	
+	// Calculate the amount of time it takes to load the server
+	gServerLoadTime = GetTickCount() - gServerLoadTime_Start;
+	log("\nServer load time: %d seconds", gServerLoadTime /= 1000);
+	// MAX_PLAYERS
+	log("MAX_PLAYERS: %d", MAX_PLAYERS);
 }
 
 stock GetMapName() return MapName;

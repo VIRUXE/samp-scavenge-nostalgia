@@ -109,8 +109,12 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 
 ==============================================================================*/
 
+new gServerLoadTime_Start, gServerLoadTime;
+
 public OnGameModeInit()
 {
+	gServerLoadTime_Start = GetTickCount();
+
     UsePlayerPedAnims();
     DisableInteriorEnterExits();
     SetNameTagDrawDistance(0.0);
@@ -686,9 +690,6 @@ Text:ClockRestart2 = Text:INVALID_TEXT_DRAW;
 
 main()
 {
-	// Print out the MAX_PLAYERS constant
-	log("\nMAX_PLAYERS = %d\n", MAX_PLAYERS);
-
 	log("================================================================================");
 	log("    Southclaw's Scavenge and Survive");
 	log("        Copyright (C) 2016 Barnaby \"Southclaw\" Keene");
