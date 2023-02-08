@@ -3,7 +3,7 @@
 #define FILTERSCRIPT
 
 #undef 	MAX_PLAYERS
-#define MAX_PLAYERS   (50)
+#define MAX_PLAYERS (40)
 
 enum eCBugPlayerInfo
 {

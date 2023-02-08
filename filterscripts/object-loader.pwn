@@ -48,7 +48,7 @@
 
 
 #undef MAX_PLAYERS
-#define MAX_PLAYERS (50)
+#define MAX_PLAYERS (40)
 
 #include <ColAndreas>
 #include <streamer>					// By Incognito:			http://forum.sa-mp.com/showthread.php?t=102865

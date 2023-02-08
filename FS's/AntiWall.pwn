@@ -1,7 +1,7 @@
 #include <a_samp>
 
 #undef MAX_PLAYERS
-#define MAX_PLAYERS  (50)
+#define MAX_PLAYERS (40)
 
 #define FILTERSCRIPT
 

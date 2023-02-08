@@ -85,7 +85,7 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 
 #else
 
-	#define MAX_PLAYERS						(50)
+#define MAX_PLAYERS (40)
 	#define BTN_MAX							(32768) // SIF/Button
 	#define ITM_MAX							(32768) // SIF/Item
 	#define CNT_MAX_SLOTS					(80)
