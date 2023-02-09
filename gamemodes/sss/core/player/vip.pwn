@@ -100,18 +100,14 @@ CMD:avip(playerid, params[])
     if(!PlayerVip[playerid]) return ChatMsg(playerid, RED, "> Esse comando é apenas para jogadores VIP.");
 	if(aviptimer[playerid] == true) return ChatMsg(playerid, RED, "Erro: aguarde 3 minutos para usar esse comando novamente.");
 
-    new Anuncio[100];
+    new anuncio[150];
 
-	if(sscanf(params, "s[100]", Anuncio))
+	if(sscanf(params, "s[150]", anuncio))
 	{
 		ChatMsg(playerid, RED, " > Use: /avip [anúncio]");
 		return 1;
 	}
-
-	new name[24];
-	GetPlayerName(playerid, name, 24);
-
-	ChatMsgAll(VIP_COLOR, "[Anúncio-VIP] {FFFFFF}(%d) %s: {FFAA00}%s", playerid, name, Anuncio);
+	ChatMsgAll(VIP_COLOR, "[Anúncio-VIP] {FFFFFF}%p(id:%d): {FFAA00}%s", playerid, playerid, anuncio);
 
 	aviptimer[playerid] = true;
 	defer DesTempAVip(playerid);
