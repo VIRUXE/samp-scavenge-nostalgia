@@ -144,22 +144,24 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
+	new hour, minute;
+	gettime(hour, minute);
+
+	SetPlayerTime(playerid, hour, minute);
+	SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+
 	LoadPlayerHUD(playerid);
 	SetPlayerSpawnedState(playerid, true);
 	SetCameraBehindPlayer(playerid);
 	SetAllWeaponSkills(playerid, 500);
 
 	if(!PlayerMapCheck(playerid))
-	{
 		GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-	}
-	else
-	{
+	else{
 		ShowSupplyIconSpawn(playerid);
 		WCIconSpawn(playerid);
 		HideWatch(playerid);
 	}
-
 	CancelSelectTextDraw(playerid);
 }
 
