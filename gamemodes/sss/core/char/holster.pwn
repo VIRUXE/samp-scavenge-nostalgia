@@ -331,32 +331,18 @@ timer HolsterItemDelay[time](playerid, itemid, time)
 	{
 		GiveWorldItemToPlayer(playerid, currentitem);
 		
-		switch(GetPlayerLanguage(playerid))
-	    {
-	         case 0:
-	         {
-	              ShowActionText(playerid, "Changed", 3000, 70);
-	         }
-	         case 1:
-	         {
-	              ShowActionText(playerid, "Trocado", 3000, 70);
-	         }
+		switch(GetPlayerLanguage(playerid)){
+	         case 0: ShowActionText(playerid, "Changed", 3000, 70);
+	         case 1: ShowActionText(playerid, "Trocado", 3000, 70);
     	}
 		
 		CallLocalFunction("OnPlayerUnHolsteredItem", "dd", playerid, currentitem);
 	}
 	else
 	{
-		switch(GetPlayerLanguage(playerid))
-	    {
-	         case 0:
-	         {
-	              ShowActionText(playerid, "Weapon put in the holster", 3000, 70);
-	         }
-	         case 1:
-	         {
-	              ShowActionText(playerid, "Arma colocada no coldre", 3000, 70);
-	         }
+		switch(GetPlayerLanguage(playerid)){
+	         case 0: ShowActionText(playerid, "Weapon put in the holster", 3000, 70);
+	         case 1: ShowActionText(playerid, "Arma colocada no coldre", 3000, 70);
     	}
 	}
 
@@ -395,16 +381,9 @@ timer UnholsterItemDelay[time](playerid, time)
 	CreateItemInWorld(hols_Item[playerid]);
 	GiveWorldItemToPlayer(playerid, hols_Item[playerid]);
 
-	switch(GetPlayerLanguage(playerid))
-    {
-         case 0:
-         {
-              ShowActionText(playerid, "Equipped", 3000, 70);
-         }
-         case 1:
-         {
-              ShowActionText(playerid, "Equipado", 3000, 70);
-         }
+	switch(GetPlayerLanguage(playerid)){
+		case 0: ShowActionText(playerid, "Equipped", 3000, 70);
+        case 1: ShowActionText(playerid, "Equipado", 3000, 70);
 	}
     	
 	CallLocalFunction("OnPlayerUnHolsteredItem", "dd", playerid, hols_Item[playerid]);
