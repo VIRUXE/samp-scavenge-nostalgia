@@ -82,9 +82,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 						dialogOpen[playerid] = false;
 						return SendClientMessage(playerid, RED, " > Voc� n�o tem coins o suficiente."); 
 					}   
-					dialogOpen[playerid] = false;    
-					SendClientMessage(playerid, RED, " > Item desativado temporariamente."); 
-					//BuyItem(playerid, 0, 30);
+					BuyItem(playerid, 0, 30);
 				}
 				case 1:
 				{
@@ -243,7 +241,7 @@ stock BuyItem(playerid, item, value){
 	z = 14.5271;
 
 	switch(item){
-		//case 0: CreateItem(item_Camouflage, x, y, z - FLOOR_OFFSET);
+		case 0: CreateItem(item_Camouflage, x, y, z - FLOOR_OFFSET);
 		case 1: CreateItem(item_SupplyDrop, x, y, z - FLOOR_OFFSET);
 		case 2: CreateItem(item_EmpProxMine, x, y, z - FLOOR_OFFSET);
 		case 3: CreateItem(item_AdvancedKeypad, x, y, z - FLOOR_OFFSET);
