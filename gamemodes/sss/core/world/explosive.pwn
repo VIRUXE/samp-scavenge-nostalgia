@@ -24,7 +24,7 @@
 
 #include <YSI\y_hooks>
 
-#define MAX_EXPLOSIVE_ITEM				(17)
+#define MAX_EXPLOSIVE_ITEM				(14)
 #define INVALID_EXPLOSIVE_TYPE			(-1)
 #define EXP_STREAMER_AREA_IDENTIFIER	(700)
 
