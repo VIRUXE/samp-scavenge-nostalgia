@@ -120,9 +120,6 @@ public OnGameModeInit()
     SetNameTagDrawDistance(0.0);
     ShowNameTags(0);
     
-    SetWeather(dini_Int("Servidor.ini", "Clima"));
-//    SetWorldTime(dini_Int("Servidor.ini", "Hora"));
-
 	print("[OnGameModeInit] Initialising 'Main'...");
 
 	OnGameModeInit_Setup();
@@ -477,7 +474,7 @@ new RequestsClient:client;
 #include "sss/core/player/status.pwn" // By Kolorado
 #include "sss/core/player/name-tags.pwn"
 #include "sss/core/player/TextDraw.pwn"
-//#include "sss/core/player/TelaLogin.pwn"
+#include "sss/core/player/TelaLogin.pwn"
 #include "sss/core/player/Coins.pwn"
 #include "sss/core/world/comerciante.pwn"
 
