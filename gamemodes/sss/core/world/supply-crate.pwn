@@ -87,7 +87,6 @@ static
 hook OnGameModeInit()
 {
 	sup_UpdateTimer = repeat SupplyDropTimer();
-
 	return 1;
 }
 
@@ -161,10 +160,7 @@ timer SupplyDropTimer[SUPPLY_DROP_TICK_INTERVAL]()
 		return;
 	}
 
-	new
-		type,
-		id,
-		ret;
+	new type, id, ret;
 
 	// This loop picks a type. Types have a required amount of players
 	// (supt_required) designed so more valuable drops only fall if there are
@@ -364,10 +360,7 @@ ACMD:sc[5](playerid, params[])
 		return 1;
 	}
 
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(playerid, x, y, z);
 	SupplyCrateDrop(type, x, y, z - 0.8);
@@ -390,9 +383,7 @@ ACMD:scinfo[5](playerid, params[])
 stock ShowSupplyIconSpawn(playerid)
 {
 	if(supplyCrateDropped == 1)
-	{
 		SetPlayerMapIcon(playerid, ICON_SUPPLY, sup_DropX, sup_DropY, sup_DropZ, 38, 0, MAPICON_GLOBAL);
-	}
 }
 
 stock ShowSupplyIcon(Float:x, Float:y, Float:z)
@@ -439,9 +430,7 @@ stock IsSupplyDropLocationUsed(location)
 }
 
 stock GetTotalSupplyDropLocations()
-{
 	return sup_TotalLocations;
-}
 
 stock CallDropWithFlareGun(playerid) 
 {
@@ -478,7 +467,5 @@ stock CallDropWithFlareGun(playerid)
 hook OnPlayerDisconnect(playerid, reason)
 {
 	if(supplyCrateDropped == 1)
-    {
 		RemovePlayerMapIcon(playerid, ICON_SUPPLY);   
-	}
 }
