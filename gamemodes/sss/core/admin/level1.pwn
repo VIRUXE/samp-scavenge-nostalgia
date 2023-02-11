@@ -3,7 +3,7 @@
 
 hook OnGameModeInit()
 {
-	RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, ""C_BLUE"/comandoslvl1 - Ver a lista de comandos dos admins n�vel 1\n");
+	RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, ""C_BLUE"/comandoslvl1 - Ver a lista de comandos dos admins nível 1\n");
 }
 
 
@@ -18,13 +18,13 @@ ACMD:calar[1](playerid, params[])
 		return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
 
 	if(!IsPlayerConnected(targetid))
-		return ChatMsg(playerid,RED, " >  Esse player n�o est� conectado.");
+		return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
 
 	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid))
 		return 3;
 
 	if(IsPlayerMuted(targetid))
-		return ChatMsg(playerid, YELLOW, " >  Esse player j� est� calado.");
+		return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
 
     new admNm[24];GetPlayerName(playerid, admNm, 24);
     new pNm[24];GetPlayerName(targetid, pNm, 24);
@@ -77,7 +77,7 @@ ACMD:avisar[1](playerid, params[])
 		return ChatMsg(playerid, YELLOW, " >  Use: /avisar [playerid] [motivo]");
 
 	if(!IsPlayerConnected(targetid))
-		return ChatMsg(playerid,RED, " >  Esse player n�o est� conectado");
+		return ChatMsg(playerid,RED, " >  Esse player não está conectado");
 
 	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid)
 		return 3;
@@ -96,7 +96,7 @@ ACMD:avisar[1](playerid, params[])
 	if(warnings >= 3)
 	{
 	    SetPlayerWarnings(targetid, 0);
-		KickPlayer(targetid, "Atingiu 3 avisos da administra��o.");
+		KickPlayer(targetid, "Atingiu 3 avisos da administração.");
 	}
 	return 1;
 }
@@ -131,7 +131,7 @@ ACMD:kick[1](playerid, params[])
 		ChatMsg(highestadmin, YELLOW, " >  %p kickou o player: (%d)%p motivo: %s", playerid, targetid, targetid, reason);
 
 	if(playerid == targetid)
-		ChatMsg(playerid, PINK, " >  %P"C_PINK" voc� n�o pode kickar a si mesmo", playerid);
+		ChatMsg(playerid, PINK, " >  %P"C_PINK" você não pode kickar a si mesmo", playerid);
 
 	KickPlayer(targetid, reason);
 
@@ -140,13 +140,14 @@ ACMD:kick[1](playerid, params[])
 
 ACMD:msg[1](playerid, params[])
 {
-	if(strlen(params) < 1)
-        return ChatMsg(playerid,YELLOW," >  Use: /msg [Mensagem]");
+	new anuncio[255];
 
-	new str[255];
-	format(str, 255, "[Admin]: %p(id:%d) Diz"C_WHITE": %s", playerid, playerid, TagScan(params));
+	if(sscanf(params, "s[255]", anuncio)){
+		ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
+		return 1;
+	}
 
-	ChatMsgAll(0xC457EBAA, str);
+	ChatMsgAll(0xC457EBAA, "[Aviso-Admin] %p(id:%d): diz: {FFFFFF}%s", playerid, playerid, anuncio);
 	return 1;
 }
 
@@ -159,7 +160,7 @@ ACMD:country[1](playerid, params[])
 		if(!IsPlayerConnected(targetid))
 		{
 			if(targetid > 99)
-				ChatMsg(playerid, YELLOW, " >  O ID '%d' n�o est� online, tente usar o nome do jogador.", targetid);
+				ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 
 			else
 				return 4;
@@ -167,7 +168,7 @@ ACMD:country[1](playerid, params[])
 		if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Aguarde o jogador spawnar.!");
 		
 		new str[520];
-		format(str, sizeof(str), "%s\tPa�s: %s", str, GetPlayerCountry(targetid));
+		format(str, sizeof(str), "%s\tPaís: %s", str, GetPlayerCountry(targetid));
    	 	format(str, sizeof(str), "%s\tCidade: %s", str, GetPlayerCity(targetid));
     	format(str, sizeof(str), "%s\tLatitude: %s", str, GetPlayerLatitude(targetid));
     	format(str, sizeof(str), "%s\tLongititude: %s", str, GetPlayerLongtitude(targetid));
@@ -176,7 +177,7 @@ ACMD:country[1](playerid, params[])
     	
 		ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "IP Data", str, "Fechar", "");
 	}
-	else ChatMsg(playerid, YELLOW, " >  ID de jogador inv�lido.", params);
+	else ChatMsg(playerid, YELLOW, " >  ID de jogador inválido.", params);
 
 	return 1;
 }
@@ -226,7 +227,7 @@ ACMD:history[1](playerid, params[])
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' n�o est� online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 
 		else
 			return 4;
@@ -234,7 +235,7 @@ ACMD:history[1](playerid, params[])
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, YELLOW, " >  A conta '%s' n�o existe.", name);
+		ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 		return 1;
 	}
 
@@ -279,7 +280,7 @@ ACMD:history[1](playerid, params[])
 	}
 	else
 	{
-		ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o par�metro opcional 'n' lista o hist�rico apenas para esse jogador.");
+		ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parâmetro opcional 'n' lista o histórico apenas para esse jogador.");
 		return 1;
 	}
 
@@ -294,11 +295,11 @@ ACMD:comandoslvl1[1](playerid)
     strcat(stringlvl1, ""C_BLUE"/(des)calar - calar/descalar um player\n");
     strcat(stringlvl1, ""C_BLUE"/avisar - Dar aviso em um player\n");
     strcat(stringlvl1, ""C_BLUE"/kick - Kickar players\n");
-    strcat(stringlvl1, ""C_BLUE"/msg - Enviar um an�ncio no chat\n");
+    strcat(stringlvl1, ""C_BLUE"/msg - Enviar um anúncio no chat\n");
     strcat(stringlvl1, ""C_BLUE"/(all)country - Mostrar dados da cidade de um player\n");
     strcat(stringlvl1, ""C_BLUE"/cc - Limpar o chat\n");
-    strcat(stringlvl1, ""C_BLUE"/rr - Responder relat�rios\n");
-    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear algu�m de enviar relat�rio\n");
+    strcat(stringlvl1, ""C_BLUE"/rr - Responder relatórios\n");
+    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear alguém de enviar relatório\n");
     ShowPlayerDialog(playerid, 12401, DIALOG_STYLE_MSGBOX, "Admin 1", stringlvl1, "Fechar", "");
     return 1;
 }

@@ -142,7 +142,9 @@ public OnPlayerConnect(playerid)
     if(IsPlayerNPC(playerid))
 		return 1;
 
-	PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/uw3jdo6s0u9urgu/NS.mp3");
+	TogglePlayerSpectating(playerid, true);
+	SetTimerEx("SetPlayerInCenario", 2000, false, "d", playerid);
+
     ShowLanguageMenu(playerid);
     
     log("[JOIN] %p joined", playerid);
@@ -167,12 +169,12 @@ public OnPlayerConnect(playerid)
 		return 0;
 	}
 
-	SetPlayerBrightness(playerid, 255);
+//	SetPlayerBrightness(playerid, 255);
 
 	TogglePlayerControllable(playerid, false);
 	Streamer_ToggleIdleUpdate(playerid, true);
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
-	SpawnPlayer(playerid);
+//	SpawnPlayer(playerid);
 
     for(new i;i<10;i++)
 		SendClientMessage(playerid, WHITE, "");
@@ -264,7 +266,7 @@ timer LoadAccountDelay[6000](playerid)
 		KickPlayer(playerid, "Conta inativa", false);
 	}
 	
-	SpawnPlayer(playerid);
+//	SpawnPlayer(playerid);
 
 	return;
 }
@@ -348,13 +350,14 @@ ptask PlayerUpdateFast[100](playerid)
 
 	PlayerBagUpdate(playerid);
 
-	new
+
+/*	new
 		hour,
 		minute;
 
 	gettime(hour, minute);
 	
-	SetPlayerTime(playerid, hour, minute);
+	SetPlayerTime(playerid, hour, minute);*/
 
 	return;
 }
@@ -396,7 +399,7 @@ public OnPlayerSpawn(playerid)
 		return 1;
 	}
 
-    SetPlayerPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
+//	SetPlayerPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
     
 	ply_Data[playerid][ply_SpawnTick] = GetTickCount();
 

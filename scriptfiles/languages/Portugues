@@ -10,13 +10,11 @@ BUTTONMSG=Pressione F para interagir
 CHATKILLMSG=[KILL] {C_YELLOW}%p matou %p{C_RED}!
 STATUSOPT={C_YELLOW}Status >
 CAMUOPT={C_YELLOW}Camuflagem >
-
 STS_SCORE=Score
 STS_DEATH=Mortes
 STS_SPREE=Killing Spree
 STS_ALIVET=Minutos Vivo
 STS_CLAN=Clan
-
 VEHDMG=DANO
 VEHENG=MOTOR
 VEHDOR=PORTAS
@@ -175,9 +173,6 @@ STUNGUNOUTC=Arma de choque descarregada
 STUNGUNCHAR=Arma de choque carregada
 KICKMESSAGE= >  Kickado, motivo: {C_BLUE}%s
 VEHICLSAVED= Veículo %s salvo!
-# VEHMODEALLV= >  Vehicle Save mode ativo!. Quando você entrar em QUALQUER veículo, ele será salvo para você.
-# VEHMODEOWNV= >  Vehicle Save mode ativo para 'Próprio veículo'!. Apenas seu próprio veículo será salvo quando você dirigi-lo. Se você entrar em outro como motorista, ele não deletará seu veículo atual.
-# VEHMODEHELP= >  Uso: /vsave [on / off] - Salva veículos na entrada e na saída. Quando 'off', você será capaz apenas de salvar seu próprio veículo.
 WARNCOUNTER= >  Você tem %d/5 Avisos!.
 MUTEDPERMAN= >  Você está permanentemente mudo.
 MUTEDTIMERM= >  Você está mudo. Tempo restante: %s
@@ -257,25 +252,18 @@ TUTORVEHBIT=Este veículo está um pouco quebrado! Para reparar, equipe um marte
 TUTORVEHSLI=Este veículo está ligeiramente quebrado! Para reparar, equipar uma chave de roda e segure F na frente do veículo.
 TUTORIDEF=Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.
 TIPTWEAKITM=Afaste-se do item para movê-lo ~n~ Pressione ~k~~SNEAK_ABOUT~ para mostrar o mouse ~n~ Clique em Concluído para concluir
-
 GENCOMDHELP=	 /ajudavip - Ver os benefícios e valores do VIP \n\n\t /ajudaclan - Lista de comandos de clan do servidor \n\n\t /crafts - Lista de crafts do servidor \n\n\t /rank - Veja o ranking do servidor \n\n\t /dicas - Habilite e desabilite as dicas de ajuda \n\n\t /mudarsenha - Alterar sua senha \n\n\t /relatorio [mensagem] - Envie uma mensagem para os administradores do servidor \n\n\t /regras - Ver as regras do servidor \n\n\t /discord - Ver o link do nosso grupo no Discord \n\n\t /bug - Reportar algum BUG para os staffs \n\n\t /report - Reportar algum jogador \n\n\t /explosivos - Ver a lista de explosivos do servidor \n\n\t /metais - Ver a lista de metais do servidor \n\n\t /mochilas - Ver a lista de mochilas do servidor \n\n\t /caixas - Ver a lista de caixas do servidor
-
-#RULESLIST=	 {C_YELLOW}Lista de Regras: (Total: 9) \n\n\t  \n\n\t {C_ORANGE}Desrespeito a staff = ban \n\n\t {C_ORANGE}Ofensa a jogador ou desrespeito = aviso \n\n\t {C_ORANGE}Divulgar outros servidores = ban \n\n\t {C_ORANGE}Abuso de bugs = ban (dependendo da gravidade) \n\n\t {C_ORANGE}Reportar jogadores no chat global = aviso \n\n\t {C_ORANGE}Usar programas ou mods vantajosos = ban \n\n\t {C_ORANGE}Ter mais de uma conta no server = conta desativada e aviso \n\n\t {C_ORANGE}FakeKill (matar amigos ou membros do clan) = aviso \n\n\t {C_ORANGE}Flood/Spam = aviso.
 BOMBSLIST=	 {C_YELLOW}Lista de Explosivos: (Total: 2) \n\n\t  \n\n\t {C_ORANGE}DINAMITE - (3 DE DANO EM METAIS) \n\n\t {C_ORANGE}TNT - (2 DE DANO EM METAIS) \n\n\t {C_ORANGE}IED - (1 DE DANO EM METAIS).
 DEFENCESLIST=	 {C_YELLOW}Lista de Metais: (Total: 17) \n\n\t  \n\n\t {C_ORANGE}Metal Blindado - (15/15) \n\n\t {C_ORANGE}Porta Blindada (14/14) \n\n\t {C_ORANGE}Porta de Cofre (13/13) \n\n\t {C_ORANGE}Portão de Garagem (12/12) \n\n\t {C_ORANGE}Porta Dupla - (11/11) \n\n\t {C_ORANGE}Porta de Navio - (9/9) \n\n\t {C_ORANGE}Metal Corrugado - (8/8) \n\n\t {C_ORANGE}Painel Isolado - (8/8) \n\n\t {C_ORANGE}Rampa de Madeira - (8/8) \n\n\t {C_ORANGE}Entrada Isolada - (7/7) \n\n\t {C_ORANGE}Grade Grande - (7/7) \n\n\t {C_ORANGE}Painel de Metal - (6/6) \n\n\t {C_ORANGE}Porta de Container - (6/6) \n\n\t {C_ORANGE}Grade - (5/5) \n\n\t {C_ORANGE}Pedaço de Metal - (4/4) \n\n\t {C_ORANGE}Metal Pequeno - (4/4).
 BACKPACKLIST=	 {C_YELLOW}Lista de Mochilas: (Total: 7) \n\n\t  \n\n\t {C_ORANGE}Mochila de Acampamento - (18 slots) \n\n\t {C_ORANGE}Mochila de Paraquedas - (15 slots) \n\n\t {C_ORANGE}Mochila Grande - (14 slots) \n\n\t {C_ORANGE}Mochila Larga - (12 slots) \n\n\t {C_ORANGE}Mochila Média - (10 slots) \n\n\t {C_ORANGE}Daypack - (8 slots) \n\n\t {C_ORANGE}Mochila Pequena - (7 slots).
 BOXESLIST=	 {C_YELLOW}Lista de Caixas: (Total: 8) \n\n\t  \n\n\t {C_ORANGE}Armário (45 Slots) \n\n\t {C_ORANGE}Caixa Grande (15 Slots) \n\n\t {C_ORANGE}Caixa Média (12 Slots) \n\n\t {C_ORANGE}Caixa Pequena (10 Slots) \n\n\t {C_ORANGE}Caixa de Ferramentas (8 Slots) \n\n\t {C_ORANGE}Mala de Viagem (6 Slots) \n\n\t {C_ORANGE}Bolsa de Viagem (6 Slots) \n\n\t {C_ORANGE}Caixinha (5 Slots).
-
 STTSCORE=~w~%d
 STTPED=~w~%d
 STTCLAN=~w~%s
-
 STTFOME=~g~~h~~h~%0.1f
 STTFOME2=~r~~h~~h~%0.1f
-
 STTSANGUE=%0.2f
 STTSANGUE2=~r~~h~~h~%0.2f
-
 LOCKBREAKNO=Este veículo foi travado com uma chave craftada e não pode ser quebrado
 LOCKBREAKDR=Quebra de porta aberta
 LOCKBREAKTR=Quebrando porta-malas
@@ -291,11 +279,9 @@ ACCLOGIBODY={C_WHITE}Bem vindo de volta %P{C_WHITE}, Por favor faça o login na 
 ACCLOGITITL=Login
 GENDER_M=Homem
 GENDER_F=Mulher
-
 WCDROP= >  [Exército]: CACHE DE ARMAS CAINDO EM: {C_ORANGE}%s
 SCDROP= >  [Exército]: CAIXA DE SUPRIMENTOS: {C_BLUE}%s{C_YELLOW} CAINDO EM: {C_ORANGE}%s
 SCDROP2= >  [Exército]: %p(id:%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s{C_YELLOW} MARCADO UM S NO MAPA!
-
 DEFENCE_T=Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chão, segure {KEYTEXT_INTERACT} para construir.
 SAFEBOX_T=Armazene itens aqui e eles serão salvos. ~R~OBS: Caso esteja vazio, será destruido no respawn.
 BAG_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas mãos para remover.
@@ -304,7 +290,6 @@ MASK_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para vestir esse acessório.
 LIQUID_T=Este item pode conter líquidos. Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar beber ou usa-lo.
 HOLSTER_T=Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar no coldre.
 FOOD_T=Pressione ~y~{KEYTEXT_INTERACT}~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar náuseas se não for cozinhado antes.
-
 NULL_T=Esse é um item inválido, ignore-o.
 Knuckles_T=Essa é uma arma branca robusta, útil para desmaiar jogadores.
 GolfClub_T=Essa é uma arma branca robusta, útil para desmaiar jogadores.
