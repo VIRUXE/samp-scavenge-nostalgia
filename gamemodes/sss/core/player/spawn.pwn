@@ -206,17 +206,13 @@ PlayerSpawnExistingCharacter(playerid)
 	PrepareForSpawn(playerid);
 
 	if(GetPlayerStance(playerid) == 1)
-	{
 		ApplyAnimation(playerid, "SUNBATHE", "PARKSIT_M_OUT", 4.0, 0, 0, 0, 0, 0);
-	}
+
 	else if(GetPlayerStance(playerid) == 2)
-	{
 		ApplyAnimation(playerid, "SUNBATHE", "PARKSIT_M_OUT", 4.0, 0, 0, 0, 0, 0);
-	}
+
 	else if(GetPlayerStance(playerid) == 3)
-	{
 		ApplyAnimation(playerid, "ROB_BANK", "SHP_HandsUp_Scr", 4.0, 0, 1, 1, 1, 0);
-	}
 
 	log("[SPAWN] %p spawned existing character at %.1f, %.1f, %.1f (%.1f)", playerid, x, y, z, r);
 	
