@@ -467,8 +467,7 @@ new RequestsClient:client;
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
 #include "sss/core/player/clan.pwn" // By Kolorado
 #include "sss/core/player/ini.pwn" // By Kolorado
-//#include "sss/core/player/vip.pwn" // By Kolorado
-#include "sss/core/player/interior.pwn" // By Kolorado
+//#include "sss/core/player/interior.pwn" // By Kolorado
 #include "sss/core/player/rank.pwn" // By Kolorado
 #include "sss/core/player/animes.pwn" // By Kolorado
 #include "sss/core/player/status.pwn" // By Kolorado
