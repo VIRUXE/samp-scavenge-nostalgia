@@ -218,7 +218,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		{
 			case 0:
 			{
-				format(line1, 256, "[G] [%s] (%d) %P"C_WHITE": %s",
+				format(line1, 256, "[GLOBAL] [%s] (%d) %P"C_WHITE": %s",
 					"EN",
 					playerid,
 					playerid,
@@ -226,7 +226,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 			}
 			case 1:
 			{
-				format(line1, 256, "[G] [%s] (%d) %P"C_WHITE": %s",
+				format(line1, 256, "[GLOBAL] [%s] (%d) %P"C_WHITE": %s",
 					"PT",
 					playerid,
 					playerid,
@@ -265,7 +265,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		GetPlayerPos(playerid, x, y, z);
 
-		format(line1, 256, "[L] %P %s",
+		format(line1, 256, "[LOCAL] %P %s",
 			playerid,
 			TagScan(chat));
 
@@ -290,7 +290,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 	{
 		log("[CHAT] [ADMIN] [%p]: %s", playerid, chat);
 
-		format(line1, 256, "%C[A] (%d) %P"C_WHITE": %s",
+		format(line1, 256, "%C[Admin] (%d) %P"C_WHITE": %s",
 			GetAdminRankColour(GetPlayerAdminLevel(playerid)),
 			playerid,
 			playerid,
@@ -315,7 +315,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 	{
 		log("[CHAT] [CLAN] [%.2f] [%p]: %s", frequency, playerid, chat);
 
-		format(line1, 256, "[>] (%d) %P"C_WHITE": %s",
+		format(line1, 256, "[CLAN] (%d) %P"C_WHITE": %s",
 			playerid,
 			playerid,
 			TagScan(chat));
@@ -438,7 +438,7 @@ CMD:c(playerid, params[])
 	return 7;
 }
 
-CMD:quiet(playerid, params[])
+CMD:globaloff(playerid, params[])
 {
 	if(chat_Quiet[playerid])
 	{
