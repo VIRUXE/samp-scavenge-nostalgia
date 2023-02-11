@@ -3,12 +3,34 @@
   "tasks":
   [
     {
-      "label": "build",
+      "label": "Compilar Arquivo Aberto",
       "type": "shell",
       "command": "${workspaceRoot}\\pawno\\pawncc.exe",
       "args": [
         "'${file}'",
         "'-D${fileDirname}'",
+        "'-;+'",
+        "'-(+'",
+        "'-d3'"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": "$pawncc"
+    },
+    {
+      "label": "Compilar Gamemode",
+      "type": "shell",
+      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+      "args": [
+        "'ScavengeSurvive.pwn'",
+        "'-Dgamemodes'",
         "'-;+'",
         "'-(+'",
         "'-d3'"
