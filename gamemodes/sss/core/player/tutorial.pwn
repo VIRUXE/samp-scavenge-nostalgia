@@ -172,7 +172,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         	SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTOREXITCM"));
 	}
 }
 
@@ -458,34 +457,9 @@ hook OnItemTweakFinish(playerid, itemid)
 	}
 }
 
-CMD:exit(playerid, params[])
-{
-	ExitTutorial(playerid);
-	return 1;
-}
-
-CMD:sair(playerid, params[])
-{
-	ExitTutorial(playerid);
-	return 1;
-}
-
-CMD:salir(playerid, params[])
-{
-	ExitTutorial(playerid);
-	return 1;
-}
-
-CMD:partir(playerid, params[])
-{
-	ExitTutorial(playerid);
-	return 1;
-}
-
 stock IsPlayerInTutorial(playerid)
 {
-	if(PlayerInTutorial[playerid])
-		return 1;
+	if(PlayerInTutorial[playerid]) return 1;
 
 	return 0;
 }
