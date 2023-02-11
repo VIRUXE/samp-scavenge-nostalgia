@@ -54,9 +54,12 @@ public SetPlayerInCenario(playerid){
 }
 
 RandomLoginSound(playerid){
-    new musicalogin = random(2);
+    new musicalogin = random(5);
 	switch(musicalogin){
         case 0: PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/uw3jdo6s0u9urgu/NS.mp3");
-        case 1: PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/b0yozgytqbvqhch/TWD2.mp3");
+        case 1: PlayAudioStreamForPlayer(playerid, "http://dl.dropboxusercontent.com/s/b0yozgytqbvqhch/NS2.mp3");
+        case 2: PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/3d2s9x1ay0jgefq/NS3.mp3");
+        case 3: PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/eh9w2adw0vp2yvd/NS4.mp3");
+        case 4: PlayAudioStreamForPlayer(playerid, "https://dl.dropboxusercontent.com/s/m0ub0mve3q8m0wi/NS5.mp3");
     }
 }
