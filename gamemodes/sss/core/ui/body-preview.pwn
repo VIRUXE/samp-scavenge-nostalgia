@@ -111,7 +111,7 @@ CreateBodyPreviewUI(playerid)
 	PlayerTextDrawBoxColor			(playerid, bod_Footer[playerid], 0xDEB88766);
 	PlayerTextDrawTextSize			(playerid, bod_Footer[playerid], 0.000000, bod_UIWidth[playerid]);
 
-    bod_BodyPreview[playerid]		=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid] - (bod_UIWidth[playerid] * 0.666666667), bod_UIPositionY[playerid] + 12.0, "~n~");
+    bod_BodyPreview[playerid]		=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid] - (bod_UIWidth[playerid] * 0.5), bod_UIPositionY[playerid] + 1.0, "~n~");
 	PlayerTextDrawAlignment			(playerid, bod_BodyPreview[playerid], 2);
 	PlayerTextDrawBackgroundColor	(playerid, bod_BodyPreview[playerid], 0x0);
 	PlayerTextDrawFont				(playerid, bod_BodyPreview[playerid], TEXT_DRAW_FONT_MODEL_PREVIEW);
@@ -121,7 +121,6 @@ CreateBodyPreviewUI(playerid)
 	PlayerTextDrawTextSize			(playerid, bod_BodyPreview[playerid], bod_UIWidth[playerid] * 1.333333333, 210.0);
 	PlayerTextDrawSetPreviewModel	(playerid, bod_BodyPreview[playerid], 60);
 	PlayerTextDrawSetPreviewRot		(playerid, bod_BodyPreview[playerid], 0.0, 0.0, 0.0, 1.0010000);
-	
 }
 
 stock ShowBodyPreviewUI(playerid)
