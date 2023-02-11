@@ -243,14 +243,14 @@ PlayerCreateNewCharacter(playerid)
 	SetPlayerBrightness(playerid, 255);
 	TogglePlayerControllable(playerid, false);
 
-	if(IsPlayerLoggedIn(playerid))
+	if(IsPlayerLoggedIn(playerid) && GetPlayerTotalSpawns(playerid) > 0) // If they are logged in a have spawned before
 	{
 		PlayerTextDrawSetString(playerid, ClassButtonMale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "GENDER_M")));
 		PlayerTextDrawSetString(playerid, ClassButtonFemale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "GENDER_F")));
 		PlayerTextDrawShow(playerid, ClassButtonMale[playerid]);
 		PlayerTextDrawShow(playerid, ClassButtonFemale[playerid]);
-		SelectTextDraw(playerid, 0xFFFFFF88);
 	}
+	SelectTextDraw(playerid, 0xFFFFFF88);
 
 	CallLocalFunction("OnPlayerCreateChar", "d", playerid);
 }
@@ -259,14 +259,8 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
 	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/spawn.pwn");
 
-	if(playertextid == ClassButtonMale[playerid])
-	{
-		PlayerSpawnNewCharacter(playerid, GENDER_MALE);
-	}
-	if(playertextid == ClassButtonFemale[playerid])
-	{
-		PlayerSpawnNewCharacter(playerid, GENDER_FEMALE);
-	}
+	if(playertextid == ClassButtonMale[playerid]) PlayerSpawnNewCharacter(playerid, GENDER_MALE);
+	else if(playertextid == ClassButtonFemale[playerid]) PlayerSpawnNewCharacter(playerid, GENDER_FEMALE);
 }
 
 PlayerSpawnNewCharacter(playerid, gender)
