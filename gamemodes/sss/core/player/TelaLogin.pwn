@@ -9,22 +9,8 @@ public SetPlayerInCenario(playerid) {
         {{-2698.83, 2089.62, 62.80}, {-2698.83, 2089.62, 62.80}, {-2698.83, 2089.62, 62.80}}, // Ponte Bayside
         {{-2298.30, 2673.60, 56.99}, {-2298.30, 2673.60, 56.99}, {-2298.30, 2673.60, 56.99}}, // Ponte Bayside 2
         {{-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}} // Hospital de East Los Santos
-
-
     };
-    RandomLoginSound(playerid);
-    SetPlayerTime(playerid, 0, 0);
-    SetPlayerWeather(playerid, 20);
-  
-    new scenario = random(sizeof(scenarios) - 1);
-    SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
-    SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
-    SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2]);
 
-    return 1;
-}
-
-RandomLoginSound(playerid){
     new sounds[][] = {
         "uw3jdo6s0u9urgu/NS.mp3",
         "b0yozgytqbvqhch/NS2.mp3",
@@ -37,4 +23,14 @@ RandomLoginSound(playerid){
     format(soundURL, sizeof(soundURL), "https://dl.dropboxusercontent.com/s/%s", sounds[random(sizeof(sounds) - 1)]);
 
     PlayAudioStreamForPlayer(playerid, soundURL);
+
+    SetPlayerTime(playerid, 0, 0);
+    SetPlayerWeather(playerid, 20);
+  
+    new scenario = random(sizeof(scenarios) - 1);
+    SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
+    SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
+    SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2]);
+
+    return 1;
 }
