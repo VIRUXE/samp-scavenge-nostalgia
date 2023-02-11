@@ -2031,7 +2031,7 @@ stock GetItemsInRange(Float:x, Float:y, Float:z, Float:range = 500.0, items[], m
 CreateItemInWorld(itemid,
 	Float:x = 0.0, Float:y = 0.0, Float:z = 0.0,
 	Float:rx = 0.0, Float:ry = 0.0, Float:rz = 0.0,
-	world = 0, interior = 0, label = 0, applyrotoffsets = 1, hitpoints = -1)
+	world = 0, interior = 0, label = 1, applyrotoffsets = 1, hitpoints = -1)
 {
 	sif_d:SIF_DEBUG_LEVEL_INTERNAL:ITEM_DEBUG("[CreateItemInWorld]");
 	if(!Iter_Contains(itm_Index, itemid))
