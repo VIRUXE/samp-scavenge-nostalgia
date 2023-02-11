@@ -83,6 +83,7 @@ CMD:ajudavip(playerid)
 	strcat(stringajudavip, "{FFAA00}- Recebe o dobro de kills (score) ao eliminar algum jogador\n");
 	strcat(stringajudavip, "{FFAA00}- Consegue trocar a skin usando {FFFFFF}/skin\n");
 	strcat(stringajudavip, "{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bastão\n");
+	strcat(stringajudavip, "{FFAA00}- Consegue reparar a lataria do veículo ao finalizar o reparo com ferramentas.\n");
     ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", stringajudavip, "Fechar", "");
     return 1;
 }
