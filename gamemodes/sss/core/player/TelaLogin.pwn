@@ -2,7 +2,7 @@ forward SetPlayerInCenario(playerid);
 public SetPlayerInCenario(playerid){
     RandomLoginSound(playerid);
     SetPlayerTime(playerid, 0, 0);
-    SetPlayerWeather(playerid, 9);
+    SetPlayerWeather(playerid, 20);
   
     new camerapos = random(7);
     switch(camerapos){

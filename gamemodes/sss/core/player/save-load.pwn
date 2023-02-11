@@ -140,8 +140,8 @@ SavePlayerChar(playerid)
 
 	if(GetPlayerInterior(playerid) == 0)
 		GetPlayerPos(playerid, Float:data[PLY_CELL_SPAWN_X], Float:data[PLY_CELL_SPAWN_Y], Float:data[PLY_CELL_SPAWN_Z]);
-	else
-	    int_GetPlayerPos(playerid, Float:data[PLY_CELL_SPAWN_X], Float:data[PLY_CELL_SPAWN_Y], Float:data[PLY_CELL_SPAWN_Z]);
+/*	else
+	    int_GetPlayerPos(playerid, Float:data[PLY_CELL_SPAWN_X], Float:data[PLY_CELL_SPAWN_Y], Float:data[PLY_CELL_SPAWN_Z]);*/
 	    
 	GetPlayerFacingAngle(playerid, Float:data[PLY_CELL_SPAWN_R]);
 
