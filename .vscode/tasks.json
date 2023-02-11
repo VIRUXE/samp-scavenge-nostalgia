@@ -7,8 +7,8 @@
       "type": "shell",
       "command": "${workspaceRoot}\\pawno\\pawncc.exe",
       "args": [
-        "ScavengeSurvive.pwn",
-        "'-Dgamemodes'",
+        "'${file}'",
+        "'-D${fileDirname}'",
         "'-;+'",
         "'-(+'",
         "'-d3'"
