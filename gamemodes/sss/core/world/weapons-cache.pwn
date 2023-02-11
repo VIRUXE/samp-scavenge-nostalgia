@@ -167,9 +167,7 @@ timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Floa
 		GetSupplyDropLocationPos(i, ref_x, ref_y, ref_z);
 
 		if(Distance(ref_x, ref_y, ref_z, wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ) < 1000.0)
-		{
 			locationlist[idx++] = i;
-		}
 	}
 
 	if(idx > 0)
@@ -188,13 +186,9 @@ timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Floa
 	}
 
 	if(count < 3)
-	{
 		defer WeaponsCacheSignal(count + 1, x, y, z);
-	}
-	else
-	{
-		webc_ActiveDrop = -1;
-	}
+
+	else webc_ActiveDrop = -1;
 
 	return;
 }
@@ -202,9 +196,7 @@ timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Floa
 stock WCIconSpawn(playerid)
 {
 	if(WCDropped == 1)
-	{
 		SetPlayerMapIcon(playerid, ICON_WC, wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ, 44, 0, MAPICON_GLOBAL);
-	}
 }
 
 stock WCIcon(Float:x, Float:y, Float:z)
@@ -222,7 +214,5 @@ stock WCIcon(Float:x, Float:y, Float:z)
 hook OnPlayerDisconnect(playerid, reason)
 {
 	if(WCDropped == 1)
-    {
-		RemovePlayerMapIcon(playerid, ICON_WC);   
-	}
+		RemovePlayerMapIcon(playerid, ICON_WC);
 }
