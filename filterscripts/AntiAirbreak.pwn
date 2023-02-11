@@ -11,7 +11,7 @@
 #include <ColAndreas>	// By Pottus:       https://github.com/Pottus/ColAndreas
 #include <Pawn.RakNet>  // By urShadow:    	https://github.com/urShadow/Pawn.RakNet
 
-bool:ab_Check[MAX_PLAYERS],
+new bool:ab_Check[MAX_PLAYERS],
 	ab_ChangePosTick[MAX_PLAYERS],
 	Float:ab_SetX[MAX_PLAYERS],
 	Float:ab_SetY[MAX_PLAYERS],
@@ -90,6 +90,7 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 	
 	if(id && id != WATER_OBJECT){
 		ClearAnimations(playerid);
+//		printf("> ID: %d", id);
 	    SetPlayerVelocity(playerid, 0.0, 0.0, 0.0);
 	    ab_Check[playerid] = true;
         
