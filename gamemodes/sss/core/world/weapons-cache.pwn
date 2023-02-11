@@ -140,10 +140,7 @@ WeaponsCacheDrop(Float:x, Float:y, Float:z)
 	wepc_CurrentPosY = y;
 	wepc_CurrentPosZ = z;
 
-	FillContainerWithLoot(
-		CreateContainer("Cache de Armas", 32,
-			CreateButton(x, y - 0.5, z + 1.0, "Cache de Armas")),
-		22 + random(11), GetLootIndexFromName("airdrop_military_weapons"));
+	FillContainerWithLoot(CreateContainer("Caixa de Armamentos", 32, CreateButton(x, y, z + 1.5, "Caixa de Armamentos", .label =1, .labeltext = "Caixa de Armamentos")), 22 + random(11), GetLootIndexFromName("airdrop_military_weapons"));
 
 	defer WeaponsCacheSignal(1, x, y, z);
 
