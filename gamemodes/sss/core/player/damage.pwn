@@ -82,7 +82,7 @@ GivePlayerHP(playerid, Float:hp)
 
 ShowHitMarker(playerid, weapon)
 {
-	if(weapon == 0)
+	if(weapon == 0 || IsWeaponMelee(weapon))
 		return 0;
 
 	if(weapon == 34 || weapon == 35){
