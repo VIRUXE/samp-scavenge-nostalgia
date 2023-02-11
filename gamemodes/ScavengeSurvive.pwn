@@ -451,7 +451,6 @@ new RequestsClient:client;
 #include "sss/core/player/brightness.pwn"
 #include "sss/core/player/spawn.pwn"
 #include "sss/core/player/PM.pwn"
-#include "sss/core/player/damage.pwn"
 #include "sss/core/player/death.pwn"
 #include "sss/core/player/tutorial.pwn"
 //#include "sss/core/player/welcome-message.pwn"
@@ -511,6 +510,7 @@ new RequestsClient:client;
 #include "sss/core/weapon/misc.pwn"
 #include "sss/core/weapon/anti-combat-log.pwn"
 #include "sss/core/weapon/tracer.pwn"
+#include "sss/core/weapon/hitmark.pwn"
 
 // UI
 #include "sss/core/ui/tool-tip.pwn"
