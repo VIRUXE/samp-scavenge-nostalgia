@@ -34,7 +34,7 @@
 
 ==============================================================================*/
 
-//#define BUILD_MINIMAL
+#define BUILD_MINIMAL
 
 native IsValidVehicle(vehicleid);
 native gpci(playerid, serial[], len);
