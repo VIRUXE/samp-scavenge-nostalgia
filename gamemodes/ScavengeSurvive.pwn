@@ -66,7 +66,7 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 #define BTN_TELEPORT_FREEZE_TIME		(3000) // SIF/Button
 #define INV_MAX_SLOTS					(8) // SIF/Inventory
 #define ITM_ARR_ARRAY_SIZE_PROTECT		(false) // SIF/extensions/ItemArrayData
-#define ITM_MAX_TYPES					(ItemType:340) // SIF/Item
+#define ITM_MAX_TYPES					(ItemType:324) // SIF/Item
 #define ITM_MAX_NAME					(28) // SIF/Item
 #define ITM_MAX_TEXT					(81) // SIF/Item
 #define ITM_DROP_ON_DEATH				(false) // SIF/Item
