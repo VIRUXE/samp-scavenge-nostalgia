@@ -82,16 +82,18 @@ GivePlayerHP(playerid, Float:hp)
 
 ShowHitMarker(playerid, weapon)
 {
-	if(weapon == 34 || weapon == 35)
-	{
+	if(weapon == 0)
+		return 0;
+
+	if(weapon == 34 || weapon == 35){
 		TextDrawShowForPlayer(playerid, HitMark_centre);
 		defer HideHitMark(playerid, HitMark_centre);
-	}
-	else
-	{
+	}else{
 		TextDrawShowForPlayer(playerid, HitMark_offset);
 		defer HideHitMark(playerid, HitMark_offset);
 	}
+
+	return 1;
 }
 timer HideHitMark[5000](playerid, Text:hitmark)
 {
@@ -100,40 +102,21 @@ timer HideHitMark[5000](playerid, Text:hitmark)
 
 hook OnGameModeInit()
 {
-	/*new hm[14];
-	hm[0] =92,	hm[1] =' ',hm[2] ='/',hm[3] ='~',hm[4] ='n',hm[5] ='~',	hm[6] =' ',
-	hm[7] ='~',	hm[8] ='n',hm[9] ='~',hm[10]='/',hm[11]=' ',hm[12]=92,  hm[13]=EOS;*/
-	//"\ /~n~ ~n~/ \"
+	HitMark_centre = TextDrawCreate(315.799987, 216.299957, "X");
+	TextDrawBackgroundColor(HitMark_centre, 255);
+	TextDrawFont(HitMark_centre, 1);
+	TextDrawLetterSize(HitMark_centre, 0.389999, 1.399999);
+	TextDrawColor(HitMark_centre, -16776961);
+	TextDrawSetOutline(HitMark_centre, 1);
+	TextDrawSetProportional(HitMark_centre, 1);
+	TextDrawSetSelectable(HitMark_centre, 0);
 
-//	new hm[11] = {92, 1, 47, 126, 110, 126, 47, 1, 92};
-
-	HitMark_centre			=TextDrawCreate(305.500000, 208.500000, "X");
-//	TextDrawTextSize(HitMark_centre, 2.0, 2.0);
-	TextDrawBackgroundColor	(HitMark_centre, 51);
-	TextDrawFont			(HitMark_centre, 1);
-	TextDrawLetterSize		(HitMark_centre, 0.500000, 1.000000);
-	TextDrawColor			(HitMark_centre, -16776961);
-	TextDrawSetProportional	(HitMark_centre, 1);
-	TextDrawSetOutline		(HitMark_centre, -1);
-	TextDrawSetShadow		(HitMark_centre, 0);
-
-	HitMark_offset			=TextDrawCreate(325.500000, 165.500000, "X");
-//	TextDrawTextSize(HitMark_offset, 2.0, 2.0);
-	TextDrawBackgroundColor	(HitMark_offset, 51);
-	TextDrawFont			(HitMark_offset, 1);
-	TextDrawLetterSize		(HitMark_offset, 0.520000, 1.000000);
-	TextDrawColor			(HitMark_offset, -16776961);
-	TextDrawSetProportional	(HitMark_offset, 1);
-	TextDrawSetOutline		(HitMark_offset, -1);
-	TextDrawSetShadow		(HitMark_offset, 0);
-}
-
-CMD:hm(playerid){
-	ShowHitMarker(playerid, 1);
-	return 1;
-}
-
-CMD:hm2(playerid){
-	ShowHitMarker(playerid, 34);
-	return 1;
+	HitMark_offset = TextDrawCreate(334.799987, 172.299957, "X");
+	TextDrawBackgroundColor(HitMark_offset, 255);
+	TextDrawFont(HitMark_offset, 1);
+	TextDrawLetterSize(HitMark_offset, 0.390000, 1.399999);
+	TextDrawColor(HitMark_offset, -16776961);
+	TextDrawSetOutline(HitMark_offset, 1);
+	TextDrawSetProportional(HitMark_offset, 1);
+	TextDrawSetSelectable(HitMark_offset, 0);
 }
