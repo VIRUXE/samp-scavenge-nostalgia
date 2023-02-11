@@ -1,3 +1,5 @@
+# Troca entre o arquivos de compilador russo e o original
+
 import os
 
 if os.path.exists("pawncc.exe_ru"):
