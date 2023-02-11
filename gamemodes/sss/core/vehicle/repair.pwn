@@ -155,22 +155,23 @@ StopRepairingVehicle(playerid)
 
 	if(fix_Progress[playerid] >= 988.0)
 	{
+		if(IsPlayerVip(playerid)){
+       		// Reparar lataria do veículo    
+			new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
+			GetVehicleHealth(fix_TargetVehicle[playerid], lataria);
+			GetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
+			GetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
+			GetVehicleDamageStatus(fix_TargetVehicle[playerid], aux, aux, luzes, pneus);
+			RepairVehicle(fix_TargetVehicle[playerid]);
+			SetVehicleHealth(fix_TargetVehicle[playerid], lataria);
+			UpdateVehicleDamageStatus(fix_TargetVehicle[playerid], 0, 0, luzes, pneus);
+			SetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
+			SetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
+			ShowActionText(playerid, GetLanguageString(playerid, "VEHICLEBODY", true), 5000);
+		}
+		
         SetVehicleHealth(fix_TargetVehicle[playerid], 990.0);
-        
-        // Reparar lataria do veículo
-        
-		new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
-	    GetVehicleHealth(fix_TargetVehicle[playerid], lataria);
- 		GetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
- 		GetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
- 	    GetVehicleDamageStatus(fix_TargetVehicle[playerid], aux, aux, luzes, pneus);
-	  	RepairVehicle(fix_TargetVehicle[playerid]);
-    	SetVehicleHealth(fix_TargetVehicle[playerid], lataria);
-   		UpdateVehicleDamageStatus(fix_TargetVehicle[playerid], 0, 0, luzes, pneus);
-    	SetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
-    	SetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
-    	ShowActionText(playerid, GetLanguageString(playerid, "VEHICLEBODY", true), 5000);
- }
+ 	}
 
 	VehicleBonnetState(fix_TargetVehicle[playerid], 0);
 	StopHoldAction(playerid);
