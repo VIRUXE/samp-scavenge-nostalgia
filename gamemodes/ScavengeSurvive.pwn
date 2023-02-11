@@ -34,7 +34,7 @@
 
 ==============================================================================*/
 
-#define BUILD_MINIMAL
+#define BUILD_MINIMAL // Constroi o servidor com menos recursos. Para que o carregamento seja mais rapido.
 
 native IsValidVehicle(vehicleid);
 native gpci(playerid, serial[], len);
