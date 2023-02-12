@@ -129,3 +129,31 @@ hook OnPlayerUpdate(playerid)
 	return 1;
 }
 */
+
+stock DestroyPlayerItems(playerid)
+{
+	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--)
+
+	if(IsValidItem(i))
+		RemoveItemFromInventory(playerid, i);
+
+	DestroyPlayerBag(playerid);
+
+	if(IsValidItem(GetPlayerItem(playerid)))
+		DestroyItem(GetPlayerItem(playerid));
+
+	if(IsValidItem(GetPlayerHolsterItem(playerid))) {
+		DestroyItem(GetPlayerHolsterItem(playerid));
+		RemovePlayerHolsterItem(playerid);
+	}
+
+	if(IsValidItem(GetPlayerHatItem(playerid))){
+		DestroyItem(GetPlayerHatItem(playerid));
+		RemovePlayerHatItem(playerid);
+	}
+
+	if(IsValidItem(GetPlayerMaskItem(playerid))){
+		DestroyItem(GetPlayerMaskItem(playerid));
+		RemovePlayerMaskItem(playerid);
+	}
+}
