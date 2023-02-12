@@ -196,13 +196,8 @@ PlayerSpawnExistingCharacter(playerid)
 		ChatMsgLang(playerid, YELLOW, "WARNCOUNTER", GetPlayerWarnings(playerid));
 	}
 
-	//SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
-	
-//	if(!IsPlayerVip(playerid))
 	FreezePlayer(playerid, gLoginFreezeTime * 1000);
-//	else
-//	    UnfreezePlayer(playerid);
-	    
+
 	PrepareForSpawn(playerid);
 
 	if(GetPlayerStance(playerid) == 1)
@@ -315,14 +310,11 @@ PlayerSpawnNewCharacter(playerid, gender)
 		}
 	}
 
-	if(PlayerVip[playerid])
-	{
+	if(PlayerVip[playerid]){
 		SetPlayerHP(playerid, spawn_VipBlood);
 		SetPlayerFP(playerid, spawn_VipFood);
 		SetPlayerBleedRate(playerid, spawn_VipBleed);
-	}
-	else
-	{
+	}else{
 		SetPlayerHP(playerid, spawn_Blood);
 		SetPlayerFP(playerid, spawn_Food);
 		SetPlayerBleedRate(playerid, spawn_Bleed);
@@ -334,11 +326,8 @@ PlayerSpawnNewCharacter(playerid, gender)
 
 	SetPlayerAliveState(playerid, true);
 
-//    if(!IsPlayerVip(playerid))
 	FreezePlayer(playerid, gLoginFreezeTime * 1000);
-//    else
-//	    UnfreezePlayer(playerid);
-	    
+    
 	PrepareForSpawn(playerid);
 
 	PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
@@ -350,8 +339,6 @@ PlayerSpawnNewCharacter(playerid, gender)
     
 	log("[SPAWN] %p spawned new character at %.1f, %.1f, %.1f (%.1f)", playerid, x, y, z, r);
 
-    //if(!IsPlayerVip(playerid))
-		//defer CheckBug(playerid);
 	return 1;
 }
 
