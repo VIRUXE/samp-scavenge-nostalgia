@@ -1,7 +1,7 @@
 
 #include <YSI\y_hooks>
 
-CMD:rank(playerid, params[])
+CMD:rank(playerid)
 {
     Dialog_Show(playerid, Ranking, DIALOG_STYLE_LIST,"{35B330}Ranking - Melhores Onlines","1�- Ranking de Score\n2�- Ranking de Spree\n3�- Ranking Mortes\n4�- Ranking Ping\n5�- Ranking Tempo Vivo","Selecionar","Sair");
 	return 1;
@@ -49,8 +49,8 @@ foreach(new i : Player) // Posi��o 1�
     {
 		if(DataSource[i] > MaxData[1])
 		{
-		MaxData[1] = DataSource[i];
-		MaxDataID[1] = i;
+			MaxData[1] = DataSource[i];
+			MaxDataID[1] = i;
 		}
 	}
 }
@@ -62,8 +62,8 @@ foreach(new i : Player) // Posi��o 2�
     {
 		if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
 		{
-		MaxData[2] = DataSource[i];
-		MaxDataID[2] = i;
+			MaxData[2] = DataSource[i];
+			MaxDataID[2] = i;
 		}
 	}
 }
@@ -75,8 +75,8 @@ foreach(new i : Player)
     {
 		if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
 		{
-		MaxData[3] = DataSource[i];
-		MaxDataID[3] = i;
+			MaxData[3] = DataSource[i];
+			MaxDataID[3] = i;
 		}
 	}
 }
@@ -87,8 +87,8 @@ foreach(new i : Player) // Posi��o 4�
     {
 		if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
 		{
-		MaxData[4] = DataSource[i];
-		MaxDataID[4] = i;
+			MaxData[4] = DataSource[i];
+			MaxDataID[4] = i;
 		}
 	}
 }
@@ -100,8 +100,8 @@ foreach(new i : Player) // Posi��o 5�
     {
 		if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
 		{
-		MaxData[5] = DataSource[i];
-		MaxDataID[5] = i;
+			MaxData[5] = DataSource[i];
+			MaxDataID[5] = i;
 		}
 	}
 }
@@ -113,8 +113,8 @@ foreach(new i : Player) // Posi��o 6�
     {
 		if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
 		{
-		MaxData[6] = DataSource[i];
-		MaxDataID[6] = i;
+			MaxData[6] = DataSource[i];
+			MaxDataID[6] = i;
 		}
 	}
 }
@@ -126,8 +126,8 @@ foreach(new i : Player) // Posi��o 7�
     {
 		if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
 		{
-		MaxData[7] = DataSource[i];
-		MaxDataID[7] = i;
+			MaxData[7] = DataSource[i];
+			MaxDataID[7] = i;
 		}
 	}
 }
@@ -139,8 +139,8 @@ foreach(new i : Player) // Posi��o 8�
     {
 		if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
 		{
-		MaxData[8] = DataSource[i];
-		MaxDataID[8] = i;
+			MaxData[8] = DataSource[i];
+			MaxDataID[8] = i;
 		}
 	}
 }
@@ -152,8 +152,8 @@ foreach(new i : Player) // Posi��o 9�
     {
 		if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
 		{
-		MaxData[9] = DataSource[i];
-		MaxDataID[9] = i;
+			MaxData[9] = DataSource[i];
+			MaxDataID[9] = i;
 		}
 	}
 }
@@ -165,8 +165,8 @@ foreach(new i : Player) // Posi��o 10�
     {
 		if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
 		{
-		MaxData[10] = DataSource[i];
-		MaxDataID[10] = i;
+			MaxData[10] = DataSource[i];
+			MaxDataID[10] = i;
 		}
 	}
 }
@@ -176,10 +176,10 @@ for(new i; i < 11; i++)
 {
 	if(MaxDataID[i] != -1)
 	{
-	new Name[MAX_PLAYER_NAME];
-	GetPlayerName(MaxDataID[i], Name, sizeof(Name));
-	PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
+		new Name[MAX_PLAYER_NAME];
+		GetPlayerName(MaxDataID[i], Name, sizeof(Name));
+		PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
+		format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
 	}
 }
 
@@ -208,8 +208,8 @@ foreach(new i : Player) // Posi��o 1�
     {
 		if(DataSource[i] > MaxData[1])
 		{
-		MaxData[1] = DataSource[i];
-		MaxDataID[1] = i;
+			MaxData[1] = DataSource[i];
+			MaxDataID[1] = i;
 		}
 	}
 }
@@ -221,8 +221,8 @@ foreach(new i : Player) // Posi��o 2�
     {
 		if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
 		{
-		MaxData[2] = DataSource[i];
-		MaxDataID[2] = i;
+			MaxData[2] = DataSource[i];
+			MaxDataID[2] = i;
 		}
 	}
 }
@@ -234,8 +234,8 @@ foreach(new i : Player) // Posi��o 3�
     {
 		if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
 		{
-		MaxData[3] = DataSource[i];
-		MaxDataID[3] = i;
+			MaxData[3] = DataSource[i];
+			MaxDataID[3] = i;
 		}
 	}
 }
@@ -247,8 +247,8 @@ foreach(new i : Player) // Posi��o 4�
     {
 		if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
 		{
-		MaxData[4] = DataSource[i];
-		MaxDataID[4] = i;
+			MaxData[4] = DataSource[i];
+			MaxDataID[4] = i;
 		}
 	}
 }
@@ -260,8 +260,8 @@ foreach(new i : Player) // Posi��o 5�
     {
 		if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
 		{
-		MaxData[5] = DataSource[i];
-		MaxDataID[5] = i;
+			MaxData[5] = DataSource[i];
+			MaxDataID[5] = i;
 		}
 	}
 }
@@ -272,8 +272,8 @@ foreach(new i : Player) // Posi��o 6�
     {
 		if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
 		{
-		MaxData[6] = DataSource[i];
-		MaxDataID[6] = i;
+			MaxData[6] = DataSource[i];
+			MaxDataID[6] = i;
 		}
 	}
 }
@@ -284,8 +284,8 @@ foreach(new i : Player) // Posi��o 7�
     {
 		if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
 		{
-		MaxData[7] = DataSource[i];
-		MaxDataID[7] = i;
+			MaxData[7] = DataSource[i];
+			MaxDataID[7] = i;
 		}
 	}
 }
@@ -297,8 +297,8 @@ foreach(new i : Player) // Posi��o 8�
     {
 		if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
 		{
-		MaxData[8] = DataSource[i];
-		MaxDataID[8] = i;
+			MaxData[8] = DataSource[i];
+			MaxDataID[8] = i;
 		}
 	}
 }
@@ -310,8 +310,8 @@ foreach(new i : Player) // Posi��o 9�
     {
 		if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
 		{
-		MaxData[9] = DataSource[i];
-		MaxDataID[9] = i;
+			MaxData[9] = DataSource[i];
+			MaxDataID[9] = i;
 		}
 	}
 }
@@ -323,8 +323,8 @@ foreach(new i : Player) // Posi��o 10�
     {
 		if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
 		{
-		MaxData[10] = DataSource[i];
-		MaxDataID[10] = i;
+			MaxData[10] = DataSource[i];
+			MaxDataID[10] = i;
 		}
 	}
 }
@@ -378,8 +378,8 @@ foreach(new i : Player) // Posi��o 1�
     {
 		if(DataSource[i] > MaxData[1])
 		{
-		MaxData[1] = DataSource[i];
-		MaxDataID[1] = i;
+			MaxData[1] = DataSource[i];
+			MaxDataID[1] = i;
 		}
 	}
 }
@@ -391,8 +391,8 @@ foreach(new i : Player) // Posi��o 2�
     {
 		if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
 		{
-		MaxData[2] = DataSource[i];
-		MaxDataID[2] = i;
+			MaxData[2] = DataSource[i];
+			MaxDataID[2] = i;
 		}
 	}
 }
@@ -404,8 +404,8 @@ foreach(new i : Player)
     {
 		if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
 		{
-		MaxData[3] = DataSource[i];
-		MaxDataID[3] = i;
+			MaxData[3] = DataSource[i];
+			MaxDataID[3] = i;
 		}
 	}
 }
@@ -416,8 +416,8 @@ foreach(new i : Player) // Posi��o 4�
     {
 		if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
 		{
-		MaxData[4] = DataSource[i];
-		MaxDataID[4] = i;
+			MaxData[4] = DataSource[i];
+			MaxDataID[4] = i;
 		}
 	}
 }
@@ -429,8 +429,8 @@ foreach(new i : Player) // Posi��o 5�
     {
 		if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
 		{
-		MaxData[5] = DataSource[i];
-		MaxDataID[5] = i;
+			MaxData[5] = DataSource[i];
+			MaxDataID[5] = i;
 		}
 	}
 }
@@ -442,8 +442,8 @@ foreach(new i : Player) // Posi��o 6�
     {
 		if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
 		{
-		MaxData[6] = DataSource[i];
-		MaxDataID[6] = i;
+			MaxData[6] = DataSource[i];
+			MaxDataID[6] = i;
 		}
 	}
 }
@@ -455,8 +455,8 @@ foreach(new i : Player) // Posi��o 7�
     {
 		if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
 		{
-		MaxData[7] = DataSource[i];
-		MaxDataID[7] = i;
+			MaxData[7] = DataSource[i];
+			MaxDataID[7] = i;
 		}
 	}
 }
@@ -468,8 +468,8 @@ foreach(new i : Player) // Posi��o 8�
     {
 		if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
 		{
-		MaxData[8] = DataSource[i];
-		MaxDataID[8] = i;
+			MaxData[8] = DataSource[i];
+			MaxDataID[8] = i;
 		}
 	}
 }
@@ -481,8 +481,8 @@ foreach(new i : Player) // Posi��o 9�
     {
 		if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
 		{
-		MaxData[9] = DataSource[i];
-		MaxDataID[9] = i;
+			MaxData[9] = DataSource[i];
+			MaxDataID[9] = i;
 		}
 	}
 }
@@ -494,8 +494,8 @@ foreach(new i : Player) // Posi��o 10�
     {
 		if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
 		{
-		MaxData[10] = DataSource[i];
-		MaxDataID[10] = i;
+			MaxData[10] = DataSource[i];
+			MaxDataID[10] = i;
 		}
 	}
 }
@@ -505,10 +505,10 @@ for(new i; i < 11; i++)
 {
 	if(MaxDataID[i] != -1)
 	{
-	new Name[MAX_PLAYER_NAME];
-	GetPlayerName(MaxDataID[i], Name, sizeof(Name));
-	PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
+		new Name[MAX_PLAYER_NAME];
+		GetPlayerName(MaxDataID[i], Name, sizeof(Name));
+		PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
+		format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
 	}
 }
 
@@ -537,8 +537,8 @@ foreach(new i : Player) // Posi��o 1�
     {
 		if(DataSource[i] > MaxData[1])
 		{
-		MaxData[1] = DataSource[i];
-		MaxDataID[1] = i;
+			MaxData[1] = DataSource[i];
+			MaxDataID[1] = i;
 		}
 	}
 }
@@ -550,8 +550,8 @@ foreach(new i : Player) // Posi��o 2�
     {
 		if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
 		{
-		MaxData[2] = DataSource[i];
-		MaxDataID[2] = i;
+			MaxData[2] = DataSource[i];
+			MaxDataID[2] = i;
 		}
 	}
 }
@@ -563,8 +563,8 @@ foreach(new i : Player) // Posi��o 3�
     {
 		if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
 		{
-		MaxData[3] = DataSource[i];
-		MaxDataID[3] = i;
+			MaxData[3] = DataSource[i];
+			MaxDataID[3] = i;
 		}
 	}
 }
@@ -576,8 +576,8 @@ foreach(new i : Player) // Posi��o 4�
     {
 		if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
 		{
-		MaxData[4] = DataSource[i];
-		MaxDataID[4] = i;
+			MaxData[4] = DataSource[i];
+			MaxDataID[4] = i;
 		}
 	}
 }
@@ -589,8 +589,8 @@ foreach(new i : Player) // Posi��o 5�
     {
 		if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
 		{
-		MaxData[5] = DataSource[i];
-		MaxDataID[5] = i;
+			MaxData[5] = DataSource[i];
+			MaxDataID[5] = i;
 		}
 	}
 }
@@ -602,8 +602,8 @@ foreach(new i : Player) // Posi��o 6�
     {
 		if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
 		{
-		MaxData[6] = DataSource[i];
-		MaxDataID[6] = i;
+			MaxData[6] = DataSource[i];
+			MaxDataID[6] = i;
 		}
 	}
 }
@@ -615,8 +615,8 @@ foreach(new i : Player) // Posi��o 7�
     {
 		if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
 		{
-		MaxData[7] = DataSource[i];
-		MaxDataID[7] = i;
+			MaxData[7] = DataSource[i];
+			MaxDataID[7] = i;
 		}
 	}
 }
@@ -628,8 +628,8 @@ foreach(new i : Player) // Posi��o 8�
     {
 		if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
 		{
-		MaxData[8] = DataSource[i];
-		MaxDataID[8] = i;
+			MaxData[8] = DataSource[i];
+			MaxDataID[8] = i;
 		}
 	}
 }
@@ -641,8 +641,8 @@ foreach(new i : Player) // Posi��o 9�
     {
 		if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
 		{
-		MaxData[9] = DataSource[i];
-		MaxDataID[9] = i;
+			MaxData[9] = DataSource[i];
+			MaxDataID[9] = i;
 		}
 	}
 }
@@ -654,8 +654,8 @@ foreach(new i : Player) // Posi��o 10�
     {
 		if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
 		{
-		MaxData[10] = DataSource[i];
-		MaxDataID[10] = i;
+			MaxData[10] = DataSource[i];
+			MaxDataID[10] = i;
 		}
 	}
 }
@@ -665,10 +665,10 @@ for(new i; i < 11; i++)
 {
 	if(MaxDataID[i] != -1)
 	{
-	new Name[MAX_PLAYER_NAME];
-	GetPlayerName(MaxDataID[i], Name, sizeof(Name));
-	PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
+		new Name[MAX_PLAYER_NAME];
+		GetPlayerName(MaxDataID[i], Name, sizeof(Name));
+		PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
+		format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
 	}
 }
 
@@ -685,9 +685,7 @@ new DataSource[MAX_PLAYERS];
 new Ranking[570];
 
 foreach(new i : Player)
-{
 	if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerPing(i); //FONTE DE DADOS DO RANKING
-}
 
 for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar vari�veis
 
@@ -697,11 +695,12 @@ foreach(new i : Player) // Posi��o 1�
     {
 		if(DataSource[i] > MaxData[1])
 		{
-		MaxData[1] = DataSource[i];
-		MaxDataID[1] = i;
+			MaxData[1] = DataSource[i];
+			MaxDataID[1] = i;
 		}
 	}
 }
+
 if(MaxDataID[1] != -1) OnTheRank[MaxDataID[1]] = true;
 
 foreach(new i : Player) // Posi��o 2�
@@ -710,8 +709,8 @@ foreach(new i : Player) // Posi��o 2�
     {
 		if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
 		{
-		MaxData[2] = DataSource[i];
-		MaxDataID[2] = i;
+			MaxData[2] = DataSource[i];
+			MaxDataID[2] = i;
 		}
 	}
 }
@@ -723,8 +722,8 @@ foreach(new i : Player) // Posi��o 3�
     {
 		if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
 		{
-		MaxData[3] = DataSource[i];
-		MaxDataID[3] = i;
+			MaxData[3] = DataSource[i];
+			MaxDataID[3] = i;
 		}
 	}
 }
@@ -736,8 +735,8 @@ foreach(new i : Player) // Posi��o 4�
     {
 		if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
 		{
-		MaxData[4] = DataSource[i];
-		MaxDataID[4] = i;
+			MaxData[4] = DataSource[i];
+			MaxDataID[4] = i;
 		}
 	}
 }
@@ -749,8 +748,8 @@ foreach(new i : Player) // Posi��o 5�
     {
 		if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
 		{
-		MaxData[5] = DataSource[i];
-		MaxDataID[5] = i;
+			MaxData[5] = DataSource[i];
+			MaxDataID[5] = i;
 		}
 	}
 }
@@ -762,8 +761,8 @@ foreach(new i : Player) // Posi��o 6�
     {
 		if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
 		{
-		MaxData[6] = DataSource[i];
-		MaxDataID[6] = i;
+			MaxData[6] = DataSource[i];
+			MaxDataID[6] = i;
 		}
 	}
 }
@@ -775,8 +774,8 @@ foreach(new i : Player) // Posi��o 7�
     {
 		if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
 		{
-		MaxData[7] = DataSource[i];
-		MaxDataID[7] = i;
+			MaxData[7] = DataSource[i];
+			MaxDataID[7] = i;
 		}
 	}
 }
@@ -788,8 +787,8 @@ foreach(new i : Player) // Posi��o 8�
     {
 		if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
 		{
-		MaxData[8] = DataSource[i];
-		MaxDataID[8] = i;
+			MaxData[8] = DataSource[i];
+			MaxDataID[8] = i;
 		}
 	}
 }
@@ -801,8 +800,8 @@ foreach(new i : Player) // Posi��o 9�
     {
 		if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
 		{
-		MaxData[9] = DataSource[i];
-		MaxDataID[9] = i;
+			MaxData[9] = DataSource[i];
+			MaxDataID[9] = i;
 		}
 	}
 }
@@ -814,8 +813,8 @@ foreach(new i : Player) // Posi��o 10�
     {
 		if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
 		{
-		MaxData[10] = DataSource[i];
-		MaxDataID[10] = i;
+			MaxData[10] = DataSource[i];
+			MaxDataID[10] = i;
 		}
 	}
 }
@@ -825,10 +824,10 @@ for(new i; i < 11; i++)
 {
 	if(MaxDataID[i] != -1)
 	{
-	new Name[MAX_PLAYER_NAME];
-	GetPlayerName(MaxDataID[i], Name, sizeof(Name));
-	PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-	format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
+		new Name[MAX_PLAYER_NAME];
+		GetPlayerName(MaxDataID[i], Name, sizeof(Name));
+		PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
+		format(Ranking, sizeof(Ranking), "%s\n%i� - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
 	}
 }
 
@@ -840,21 +839,12 @@ return 1;
 
 task ShowRandomRank[60000 * 6]()
 {
-	new id;
-	new id2;
-	new id3;
-    new id4;
-    new id5;
-    
-	new MaxScore = -1;
-	new MaxMortes = -1;
-	new MaxSpree = -1;
-	new MaxPing = -1;
-    new MaxHS = -1;
+	new id, id2, id3, id4, id5;
+	new MaxScore = -1, MaxMortes = -1, MaxSpree = -1, MaxPing = -1, MaxHS = -1;
 
 	foreach(new i : Player)
 	{
-		if(IsPlayerConnected(i))
+		if(IsPlayerConnected(i) && !IsPlayerInTutorial(i))
 		{
 			if(GetPlayerScore(i) > MaxScore)
 			{
@@ -888,25 +878,10 @@ task ShowRandomRank[60000 * 6]()
 	new RAST = random(6);
 	switch (RAST)
 	{
-		case 0:
-		{
-			ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior n�mero de Score. Com{35B330} %d {B4E070}Assassinatos.", id,MaxScore);
-		}
-		case 1:
-		{
-			ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior n�mero de Mortes. Com{35B330} %d {B4E070}Mortes.", id2,MaxMortes);
-		}
-		case 2:
-		{
-			ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o melhor Killing Spree do server com{35B330} %d {B4E070}Spree!", id3,MaxSpree);
-		}
-		case 3:
-		{
-			ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p � o mais lagado online, com{35B330} %d {B4E070}de Ping!", id4,MaxPing);
-		}
-		default:
-		{
-		    ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior tempo vivo, {35B330}%d minutos{B4E070} Vivo!", id5, (MaxHS / 60));
-		}
+		case 0: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior n�mero de Score. Com{35B330} %d {B4E070}Assassinatos.", id,MaxScore);
+		case 1: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior n�mero de Mortes. Com{35B330} %d {B4E070}Mortes.", id2,MaxMortes);
+		case 2: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o melhor Killing Spree do server com{35B330} %d {B4E070}Spree!", id3,MaxSpree);
+		case 3: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p � o mais lagado online, com{35B330} %d {B4E070}de Ping!", id4,MaxPing);
+		default: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior tempo vivo, {35B330}%d minutos{B4E070} Vivo!", id5, (MaxHS / 60));
 	}
 }
