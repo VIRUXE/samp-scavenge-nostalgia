@@ -63,20 +63,16 @@ hook OnGameModeInit()
 
 hook OnPlayerPickUpItem(playerid, itemid)
 {
-	if(IsItemTypeSafebox(GetItemType(itemid)) && GetItemType(itemid) != item_Workbench)
-	{
+	if(IsItemTypeSafebox(GetItemType(itemid)) && GetItemType(itemid) != item_Workbench && !IsPlayerInTutorial(playerid))
 		RemoveSavedItem(itemid, DIRECTORY_SAFEBOX);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 hook OnPlayerDroppedItem(playerid, itemid)
 {
-	if(IsItemTypeSafebox(GetItemType(itemid)))
-	{
+	if(IsItemTypeSafebox(GetItemType(itemid)) && !IsPlayerInTutorial(playerid))
 		SaveSafeboxItem(itemid);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -112,7 +108,7 @@ SaveBoxCnt(playerid)
 {
     new safe_itemid = GetPlayerCurrentBoxItem(playerid);
 
-	if(IsValidItem(safe_itemid) && GetItemType(safe_itemid) != item_Workbench)
+	if(IsValidItem(safe_itemid) && GetItemType(safe_itemid) != item_Workbench && !IsPlayerInTutorial(playerid))
 	{
 	    if(IsItemTypeSafebox(GetItemType(safe_itemid)))
 		{
