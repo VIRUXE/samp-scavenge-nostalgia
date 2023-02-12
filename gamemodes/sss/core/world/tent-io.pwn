@@ -57,7 +57,7 @@ hook OnGameModeInit()
 hook OnPlayerCloseContainer(playerid, containerid)
 {
 	new itemid = GetTentItem(GetContainerTent(containerid));
-	if(IsItemTypeTent(GetItemType(itemid)))
+	if(IsItemTypeTent(GetItemType(itemid)) && !IsPlayerInTutorial(playerid))
 	{
 		TentSaveCheck(itemid);
 		ClearAnimations(playerid);
@@ -69,7 +69,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 hook OnPlayerOpenContainer(playerid, containerid)
 {
 	new itemid = GetTentItem(GetContainerTent(containerid));
-	if(IsItemTypeTent(GetItemType(itemid)))
+	if(IsItemTypeTent(GetItemType(itemid)) && !IsPlayerInTutorial(playerid))
 	{
 		TentSaveCheck(itemid);
 		ClearAnimations(playerid);
@@ -83,7 +83,7 @@ hook OnItemRemovedFromCnt(containerid, slotid, playerid)
     if(playerid != INVALID_PLAYER_ID)
 	{
 	    new itemid2 = GetTentItem(GetContainerTent(containerid));
-		if(IsItemTypeTent(GetItemType(itemid2)))
+		if(IsItemTypeTent(GetItemType(itemid2)) && !IsPlayerInTutorial(playerid))
 		{
 			TentSaveCheck(itemid2);
 			ClearAnimations(playerid);
@@ -99,7 +99,7 @@ hook OnTentDestroy(tentid)
 
 TentSaveCheck(itemid)
 {
-	SaveTentItem(itemid);
+		SaveTentItem(itemid);
 }
 
 /*==============================================================================
