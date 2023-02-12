@@ -44,15 +44,14 @@ hook OnPlayerDeconstructed(playerid, itemid, itemid2)
 
 hook OnPlayerConstructed(playerid, consset, result)
 {
-    SaveCraftItem(result);
+	if(!IsPlayerInTutorial(playerid))
+    	SaveCraftItem(result);
 }
 
 hook OnItemTweakFinish(playerid, itemid)
 {
-	if(GetDefenceType(itemid) == -1)
-	{
+	if(GetDefenceType(itemid) == -1 && !IsPlayerInTutorial(playerid))
     	SaveCraftItem(itemid);
-    }
 }
 
 
@@ -72,8 +71,8 @@ hook OnGameModeInit()
 
 stock IsCraftTypeSaved(itemid)
 {
-	if(GetItemType(itemid) == item_Bed)
-		return 1;
+/*	if(GetItemType(itemid) == item_Bed)
+		return 1;*/
 	    
 	if(GetItemType(itemid) == item_Workbench)
 	    return 1;
@@ -93,14 +92,14 @@ stock IsCraftTypeSaved(itemid)
     if(GetItemType(itemid) == item_SmallTable)
     	return 1;
 
-	if(GetItemType(itemid) == item_ScrapMachine)
+/*	if(GetItemType(itemid) == item_ScrapMachine)
     	return 1;
 
 	if(GetItemType(itemid) == item_RefineMachine)
     	return 1;
 
 	if(GetItemType(itemid) == item_WaterMachine)
-    	return 1;
+    	return 1;*/
 }
 
 /*==============================================================================
