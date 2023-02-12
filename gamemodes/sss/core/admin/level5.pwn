@@ -99,15 +99,9 @@ ACMD:setplayerscore[5](playerid,params[])
 ACMD:hud[5](playerid)
 {
 	if(IsPlayerHudOn(playerid))
-	{
-//		TogglePlayerHungerBar(playerid, false);
 		TogglePlayerHUD(playerid, false);
-	}
-	else
-	{
-		//TogglePlayerHungerBar(playerid, true);
-		TogglePlayerHUD(playerid, true);
-	}
+
+	else TogglePlayerHUD(playerid, true);
 }
 
 /*ACMD:nametags[5](playerid, params[])
@@ -283,7 +277,7 @@ ACMD:removewounds[5](playerid, params[])
 	return 1;
 }
 
-ACMD:wc[5](playerid, params[])
+ACMD:wc[5](playerid)
 {
 	new
 		Float:x,
