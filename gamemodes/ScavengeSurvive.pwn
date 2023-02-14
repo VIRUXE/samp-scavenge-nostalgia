@@ -792,11 +792,8 @@ RestartGamemode()
 {
 	printf("\n[RestartGamemode] Initialising gamemode restart...\n");
 
-	for(new i = 0; i < MAX_PLAYERS; i++)
-		if(IsPlayerConnected(i))
-		{
-			Kick(i);
-		}
+	foreach(new i : Player) Kick(i);
+	
     gServerRestarting = true;
 	defer ServerGMX();
 }
@@ -809,71 +806,66 @@ task RestartUpdate[1000]()
 {
 	if(gServerMaxUptime > 0)
 	{
-		if(gServerUptime >= gServerMaxUptime)
-		{
-			RestartGamemode();
-		}
+		if(gServerUptime >= gServerMaxUptime) RestartGamemode();
 
-		{
-            new hours, minutes, seconds;
+		new hours, minutes, seconds;
 
-			minutes = (gServerMaxUptime - gServerUptime) / 60;
-			seconds = (gServerMaxUptime - gServerUptime) % 60;
-			hours = minutes / 60;
-			minutes = minutes % 60;
+		minutes = (gServerMaxUptime - gServerUptime) / 60;
+		seconds = (gServerMaxUptime - gServerUptime) % 60;
+		hours   = minutes / 60;
+		minutes = minutes % 60;
+	
+		new str[64];
+		format(str, 64, "Respawn em: ~r~~h~~h~ %02d:%02d:%02d", hours, minutes, seconds);
+		TextDrawSetString(RestartCount, str);
 		
-			new str[64];
-			format(str, 64, "Respawn em: ~r~~h~~h~ %02d:%02d:%02d", hours, minutes, seconds);
-			TextDrawSetString(RestartCount, str);
-			
-			new str2[64];
-			format(str2, 64, "Respawn em: ~y~ %02d:%02d:%02d", hours, minutes, seconds);
-			TextDrawSetString(RestartCount2, str2);
+		new str2[64];
+		format(str2, 64, "Respawn em: ~y~ %02d:%02d:%02d", hours, minutes, seconds);
+		TextDrawSetString(RestartCount2, str2);
 
-			foreach(new i : Player)
+		foreach(new i : Player)
+		{
+			if(IsPlayerHudOn(i) && IsPlayerSpawned(i))
 			{
-				if(IsPlayerHudOn(i) && IsPlayerSpawned(i))
-				{
-					if(gServerUptime <= gServerMaxUptime - 600)
-					{
-						TextDrawHideForPlayer(i, RestartCount);
-						TextDrawHideForPlayer(i, ClockRestart);
-
-						TextDrawShowForPlayer(i, RestartCount2);
-						TextDrawShowForPlayer(i, ClockRestart2);
-					}
-					
-					if(gServerUptime > gServerMaxUptime - 600)
-					{
-						TextDrawHideForPlayer(i, RestartCount2);
-						TextDrawHideForPlayer(i, ClockRestart2);
-
-						TextDrawShowForPlayer(i, RestartCount);
-						TextDrawShowForPlayer(i, ClockRestart);
-					}
-				}
-				else
+				if(gServerUptime <= gServerMaxUptime - 600)
 				{
 					TextDrawHideForPlayer(i, RestartCount);
-					TextDrawHideForPlayer(i, RestartCount2);
-
 					TextDrawHideForPlayer(i, ClockRestart);
+
+					TextDrawShowForPlayer(i, RestartCount2);
+					TextDrawShowForPlayer(i, ClockRestart2);
+				}
+				
+				if(gServerUptime > gServerMaxUptime - 600)
+				{
+					TextDrawHideForPlayer(i, RestartCount2);
 					TextDrawHideForPlayer(i, ClockRestart2);
+
+					TextDrawShowForPlayer(i, RestartCount);
+					TextDrawShowForPlayer(i, ClockRestart);
 				}
 			}
-		}
-		
-		if(gServerUptime == gServerMaxUptime - 60){
-		foreach(new i : Player){
-		ChatMsg(i, RED, "");
-		ChatMsgLang(i, RED, "RESPAWNWRNTXT");
-		ChatMsg(i, RED, "");
+			else
+			{
+				TextDrawHideForPlayer(i, RestartCount);
+				TextDrawHideForPlayer(i, RestartCount2);
 
+				TextDrawHideForPlayer(i, ClockRestart);
+				TextDrawHideForPlayer(i, ClockRestart2);
 			}
 		}
-
-		gServerUptime++;
 	}
+	
+	// Avisa os jogadores pelo chat 1 minuto antes de reiniciar o servidor
+	if(gServerUptime == gServerMaxUptime - 60) {
+		foreach(new i : Player) {
+			ChatMsg(i, RED, "");
+			ChatMsgLang(i, RED, "RESPAWNWRNTXT");
+			ChatMsg(i, RED, "");
+		}
+	}
+
+	gServerUptime++;
 }
 
 DirectoryCheck(directory[])
