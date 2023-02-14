@@ -27,6 +27,22 @@
 
 static formatBuffer[244];
 
+#define SendClientMessageToAll msg_SendClientMessageToAll
+
+// Override SendClientMessageToAll to use our own function
+stock msg_SendClientMessageToAll(colour, string[])
+{
+	foreach(new i: Player)
+	{
+		if(IsPlayerInTutorial(i)) continue; // don't send messages to players in tutorial
+		if(!IsPlayerLoggedIn(i)) continue; // don't send messages to players who aren't logged in
+
+		ChatMsgFlat(i, colour, string);
+	}
+	
+	return 1;
+}
+
 
 /*==============================================================================
 
@@ -143,10 +159,7 @@ stock ChatMsgAllFlat(colour, string[])
 		SendClientMessageToAll(colour, string);
 		SendClientMessageToAll(colour, string2);
 	}
-	else
-	{
-		SendClientMessageToAll(colour, string);
-	}
+	else SendClientMessageToAll(colour, string);
 
 	return 1;
 }
