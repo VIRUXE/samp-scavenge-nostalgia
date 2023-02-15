@@ -742,11 +742,12 @@ ShowVehicleUI(playerid, vehicleid)
 
 	if(GetVehicleTypeCategory(GetVehicleType(vehicleid)) != VEHICLE_CATEGORY_PUSHBIKE)
 	{
-		PlayerTextDrawShow(playerid, veh_FuelUI[playerid]);
+		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][3]);
 		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][1]);
 		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][2]);
-		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][3]);
 		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][4]);
+
+		PlayerTextDrawShow(playerid, veh_FuelUI[playerid]);
 		PlayerTextDrawShow(playerid, veh_EngineUI[playerid]);
 		PlayerTextDrawShow(playerid, veh_DoorsUI[playerid]);
 		PlayerTextDrawShow(playerid, veh_BarraUI[playerid]);
@@ -755,13 +756,13 @@ ShowVehicleUI(playerid, vehicleid)
 
 HideVehicleUI(playerid)
 {
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][3]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][1]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][2]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][4]);
 	PlayerTextDrawHide(playerid, veh_NameUI[playerid]);
 	//PlayerTextDrawHide(playerid, veh_SpeedUI[playerid]);
 	PlayerTextDrawHide(playerid, veh_FuelUI[playerid]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][1]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][2]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][3]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][4]);
 	PlayerTextDrawHide(playerid, veh_EngineUI[playerid]);
 	PlayerTextDrawHide(playerid, veh_DoorsUI[playerid]);
 	PlayerTextDrawHide(playerid, veh_BarraUI[playerid]);
