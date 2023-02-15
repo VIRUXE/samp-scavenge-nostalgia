@@ -168,10 +168,7 @@ stock AddAmmoToWeapon(itemid, amount)
 			remainder = (reserveammo + amount) - magsize;
 			amount = magsize;
 		}
-		else
-		{
-			remainder = 0;
-		}
+		else remainder = 0;
 
 		dbg("gamemodes/sss/core/weapon/core.pwn", 2, "[AddAmmoToWeapon] Setting just mag to %d", amount);
 
@@ -189,10 +186,7 @@ stock AddAmmoToWeapon(itemid, amount)
 			remainder = (reserveammo + amount) - maxammo;
 			amount = maxammo - reserveammo;
 		}
-		else
-		{
-			remainder = 0;
-		}
+		else remainder = 0;
 
 		dbg("gamemodes/sss/core/weapon/core.pwn", 2, "[AddAmmoToWeapon] Setting just reserve to %d", amount);
 
@@ -279,10 +273,7 @@ stock UpdatePlayerWeaponItem(playerid)
 		if(reserveammo > 0)
 			_ReloadWeapon(playerid);
 	}
-	else if(magammo > 0)
-	{
-		GivePlayerWeapon(playerid, itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_baseWeapon], 99999);
-	}
+	else if(magammo > 0) GivePlayerWeapon(playerid, itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_baseWeapon], 99999);
 
 	_UpdateWeaponUI(playerid);
 
@@ -603,10 +594,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 			if(GetItemWeaponItemMagAmmo(helditemid) == 0)
 				RemovePlayerWeapon(playerid);
 		}
-		else
-		{
-			RemovePlayerWeapon(playerid);
-		}
+		else RemovePlayerWeapon(playerid);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -617,9 +605,7 @@ hook OnPlayerUnHolsteredItem(playerid, itemid)
 	dbg("global", CORE, "[OnPlayerUnHolsteredItem] in /gamemodes/sss/core/weapon/core.pwn");
 
 	if(GetItemTypeWeapon(GetItemType(itemid)) != -1)
-	{
 		UpdatePlayerWeaponItem(playerid);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -676,21 +662,16 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		}
 
 		if(itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_flags] & WEAPON_FLAG_ASSISTED_FIRE_ONCE)
-		{
 			_FireWeapon(playerid, WEAPON_ROCKETLAUNCHER);
-		}
+
 		else if(itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_flags] & WEAPON_FLAG_ASSISTED_FIRE)
-		{
 			itmw_RepeatingFireTimer[playerid] = repeat _RepeatingFire(playerid);
-		}
 	}
 
 	if(oldkeys & KEY_FIRE)
 	{
 		if(GetItemTypeWeaponBaseWeapon(GetItemType(GetPlayerItem(playerid))) == WEAPON_FLAMETHROWER)
-		{
 			stop itmw_RepeatingFireTimer[playerid];
-		}
 	}
 
 	if(oldkeys & KEY_NO)
