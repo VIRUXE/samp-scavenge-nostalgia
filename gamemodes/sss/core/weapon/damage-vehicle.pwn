@@ -47,9 +47,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	dbg("global", CORE, "[OnPlayerTakeDamage] in /gamemodes/sss/core/weapon/damage-vehicle.pwn");
 
 	if(weaponid == 49)
-	{
 		_DoVehicleCollisionDamage(issuerid, playerid);
-	}
 
 	return 1;
 }
