@@ -74,10 +74,7 @@ _CombatLogHandleDamage(playerid, targetid, itemid)
 		combatlog_LastAttacked[playerid] = targetid;
 		combatlog_LastAttacker[targetid] = playerid;
 	}
-	else
-	{
-		combatlog_LastAttacker[targetid] = INVALID_PLAYER_ID;
-	}
+	else combatlog_LastAttacker[targetid] = INVALID_PLAYER_ID;
 
 	combatlog_LastItem[targetid] = itemid;
 
