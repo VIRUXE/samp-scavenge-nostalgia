@@ -117,7 +117,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 
 	if(woundid == ITER_NONE)
 	{
-		SetPlayerHP(targetid, 0.0);
+		SetPlayerHP(targetid, 0.0); 
 		return 0;
 	}
 
@@ -184,10 +184,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 
 		log("[WOUND] %p wounds %p. bleedrate %f knockmult %f bodypart %d source '%s'", playerid, targetid, bleedrate, knockmult, bodypart, source);
 	}
-	else
-	{
-		log("[WOUND] %p wounded. bleedrate %f knockmult %f bodypart %d source '%s'", targetid, bleedrate, knockmult, bodypart, source);
-	}
+	else log("[WOUND] %p wounded. bleedrate %f knockmult %f bodypart %d source '%s'", targetid, bleedrate, knockmult, bodypart, source);
 
 	ShowActionText(targetid, sprintf(ls(targetid, "WOUNDEDMSSG", true), source, (knockmult * (((woundcount + 1) * 0.2) * ((totalbleedrate * 50) + 1)) < 50.0 ? ("Baixa") : ("Alta"))), 5000);
 
@@ -385,10 +382,7 @@ stock GetPlayerWoundDataAsArray(playerid, output[])
 			err("Wound %d sourcelen:%d > %d dump: t:%d b:%f c:%d d:%d p:%d", i, sourcelen, MAX_WOUND_SRCLEN, _:wnd_Data[playerid][i][wnd_type], _:wnd_Data[playerid][i][wnd_bleedrate], wnd_Data[playerid][i][wnd_calibre], wnd_Data[playerid][i][wnd_timestamp], wnd_Data[playerid][i][wnd_bodypart]);
 			sourcelen = MAX_WOUND_SRCLEN;
 		}
-		else if(sourcelen == 0)
-		{
-			err("Wound %d sourcelen:%d <= 0 dump: t:%d b:%f c:%d d:%d p:%d", i, sourcelen, _:wnd_Data[playerid][i][wnd_type], _:wnd_Data[playerid][i][wnd_bleedrate], wnd_Data[playerid][i][wnd_calibre], wnd_Data[playerid][i][wnd_timestamp], wnd_Data[playerid][i][wnd_bodypart]);
-		}
+		else if(sourcelen == 0) err("Wound %d sourcelen:%d <= 0 dump: t:%d b:%f c:%d d:%d p:%d", i, sourcelen, _:wnd_Data[playerid][i][wnd_type], _:wnd_Data[playerid][i][wnd_bleedrate], wnd_Data[playerid][i][wnd_calibre], wnd_Data[playerid][i][wnd_timestamp], wnd_Data[playerid][i][wnd_bodypart]);
 
 		//memcpy(output[idx++], wnd_Data[playerid][i][wnd_source], 0, 32 * 4, 32);
 		// alternative version, memcpy seems to be causing stack issues:
@@ -440,10 +434,7 @@ stock SetPlayerWoundDataFromArray(playerid, input[])
 			err("sourcelen:%d > %d, truncating.", sourcelen, MAX_WOUND_SRCLEN);
 			sourcelen = MAX_WOUND_SRCLEN;
 		}
-		else if(sourcelen == 0)
-		{
-			err("sourcelen:%d <= 0, truncating.", sourcelen);
-		}
+		else if(sourcelen == 0) err("sourcelen:%d <= 0, truncating.", sourcelen);
 
 		// memcpy(wnd_Data[playerid][woundid][wnd_source], input[idx], 0, 32 * 4); // no idx++
 		// idx += sourcelen; // jump over the string
