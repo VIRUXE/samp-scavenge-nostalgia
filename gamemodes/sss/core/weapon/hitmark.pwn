@@ -32,30 +32,21 @@ static
 
 public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
-	if(IsPlayerOnAdminDuty(playerid))
+	if(IsPlayerOnAdminDuty(playerid) || IsPlayerOnAdminDuty(issuerid))
 		return 0;
 
-	if(!IsPlayerSpawned(playerid))
+	if(!IsPlayerSpawned(playerid) || !IsPlayerSpawned(issuerid))
 		return 0;
 
-	if(IsPlayerOnAdminDuty(issuerid))
+    if(IsPlayerNPC(playerid) || IsPlayerNPC(issuerid))
 		return 0;
 
-	if(!IsPlayerSpawned(issuerid))
-		return 0;
-
-    if(IsPlayerNPC(issuerid))
-		return 0;
-
-    if(IsPlayerNPC(playerid))
-		return 0;
+	if(!IsPlayerStreamedIn(issuerid, playerid) || !IsPlayerStreamedIn(playerid, issuerid))
+        return 0;
 
 	if(IsPlayerUnfocused(playerid))
 	    return 1;
-	    
-    if(!IsPlayerStreamedIn(issuerid, playerid) || !IsPlayerStreamedIn(playerid, issuerid))
-        return 0;
-		
+	    	
 	switch(weaponid)
 	{
 		case 31:
@@ -76,9 +67,7 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 }
 
 GivePlayerHP(playerid, Float:hp)
-{
 	SetPlayerHP(playerid, (GetPlayerHP(playerid) + hp));
-}
 
 ShowHitMarker(playerid, weapon)
 {
@@ -95,10 +84,9 @@ ShowHitMarker(playerid, weapon)
 
 	return 1;
 }
+
 timer HideHitMark[5000](playerid, Text:hitmark)
-{
 	TextDrawHideForPlayer(playerid, hitmark);
-}
 
 hook OnGameModeInit()
 {
