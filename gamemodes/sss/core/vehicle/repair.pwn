@@ -56,10 +56,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else
-			{
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
-			}
+			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 		}	
 		else if(itemtype == item_Screwdriver)
 		{
@@ -69,10 +66,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else
-			{
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
-			}
+			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 		}	
 		else if(itemtype == item_Hammer)
 		{
@@ -82,10 +76,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else
-			{
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
-			}
+			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 		}
 		else if(itemtype == item_Spanner)
 		{
@@ -95,10 +86,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else
-			{
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
-			}
+			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
 		}
 		else if(itemtype == item_Wheel)
 		{
@@ -130,10 +118,7 @@ StartRepairingVehicle(playerid, vehicleid)
 {
 	GetVehicleHealth(vehicleid, fix_Progress[playerid]);
 
-	if(fix_Progress[playerid] >= 990.0)
-	{
-		return 0;
-	}
+	if(fix_Progress[playerid] >= 990.0) return 0;
 
 	ApplyAnimation(playerid, "INT_SHOP", "SHOP_CASHIER", 4.0, 1, 0, 0, 0, 0, 1);
 	VehicleBonnetState(fix_TargetVehicle[playerid], 1);
@@ -150,8 +135,7 @@ StartRepairingVehicle(playerid, vehicleid)
 
 StopRepairingVehicle(playerid)
 {
-	if(fix_TargetVehicle[playerid] == INVALID_VEHICLE_ID)
-		return 0;
+	if(fix_TargetVehicle[playerid] == INVALID_VEHICLE_ID) return 0;
 
 	if(fix_Progress[playerid] >= 988.0)
 	{
@@ -184,8 +168,6 @@ StopRepairingVehicle(playerid)
 
 hook OnHoldActionUpdate(playerid, progress)
 {
-
-
 	if(fix_TargetVehicle[playerid] != INVALID_VEHICLE_ID)
 	{
 		new ItemType:itemtype = GetItemType(GetPlayerItem(playerid));
@@ -208,10 +190,7 @@ hook OnHoldActionUpdate(playerid, progress)
 			SetVehicleHealth(fix_TargetVehicle[playerid], fix_Progress[playerid]);
 			SetPlayerToFaceVehicle(playerid, fix_TargetVehicle[playerid]);	
 		}
-		else
-		{
-			StopRepairingVehicle(playerid);
-		}
+		else StopRepairingVehicle(playerid);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -221,23 +200,19 @@ CompToolHealth(ItemType:itemtype, Float:health)
 {
 	if(VEHICLE_HEALTH_CHUNK_1 - 2.0 <= health <= VEHICLE_HEALTH_CHUNK_2 - 2.0)
 	{
-		if(itemtype == item_Wrench)
-			return 1;
+		if(itemtype == item_Wrench) return 1;
 	}
 	else if(VEHICLE_HEALTH_CHUNK_2 - 2.0 <= health <= VEHICLE_HEALTH_CHUNK_3 - 2.0)
 	{
-		if(itemtype == item_Screwdriver)
-			return 1;
+		if(itemtype == item_Screwdriver) return 1;
 	}
 	else if(VEHICLE_HEALTH_CHUNK_3 - 2.0 <= health <= VEHICLE_HEALTH_CHUNK_4 - 2.0)
 	{
-		if(itemtype == item_Hammer)
-			return 1;
+		if(itemtype == item_Hammer) return 1;
 	}
 	else if(VEHICLE_HEALTH_CHUNK_4 - 2.0 <= health <= VEHICLE_HEALTH_MAX - 2.0)
 	{
-		if(itemtype == item_Spanner)
-			return 1;
+		if(itemtype == item_Spanner) return 1;
 	}
 
 	return 0;
