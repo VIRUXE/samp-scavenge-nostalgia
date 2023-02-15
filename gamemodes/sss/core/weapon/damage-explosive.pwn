@@ -39,9 +39,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	dbg("global", CORE, "[OnPlayerTakeDamage] in /gamemodes/sss/core/weapon/damage-explosive.pwn");
 
 	if(weaponid == 51)
-	{
 		_DoExplosiveDamage(issuerid, playerid, amount);
-	}
 
 	return 1;
 }
