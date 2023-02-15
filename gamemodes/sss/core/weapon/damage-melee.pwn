@@ -44,10 +44,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/weapon/damage-melee.pwn");
 
 	if(newkeys & KEY_FIRE)
-	{
 		_HandleCustomMelee(playerid, GetItemType(GetPlayerItem(playerid)));
-	}
-
+		
 	return 1;
 }
 
