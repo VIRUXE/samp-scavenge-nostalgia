@@ -187,8 +187,6 @@ public OnGameModeInit()
 #define MAX_WEBSITE_NAME			(64)
 #define MAX_RULE					(24)
 #define MAX_RULE_LEN				(128)
-#define MAX_STAFF					(24)
-#define MAX_STAFF_LEN				(24)
 #define MAX_PLAYER_FILE				(MAX_PLAYER_NAME+16)
 #define MAX_ADMIN					(48)
 #define MAX_PASSWORD_LEN			(129)
@@ -319,7 +317,7 @@ bool:	gServerRestarting = false,
 		gGlobalDebugLevel;
 
 // DATABASES
-new
+new 
 DB:		gAccounts;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
@@ -328,7 +326,6 @@ new
 		gMessageOfTheDay[MAX_MOTD_LEN],
 		gWebsiteURL[MAX_WEBSITE_NAME],
 		gRuleList[MAX_RULE][MAX_RULE_LEN],
-		gStaffList[MAX_STAFF][MAX_STAFF_LEN],
 
 		// server
 bool:   gCombatLogWindow,
@@ -337,9 +334,7 @@ bool:   gCombatLogWindow,
 		gPingLimit;
 
 // INTERNAL
-new
-		gBigString[MAX_PLAYERS][4096],
-		gTotalStaff;
+new gBigString[MAX_PLAYERS][4096];
 
 new stock
 		GLOBAL_DEBUG = -1;
