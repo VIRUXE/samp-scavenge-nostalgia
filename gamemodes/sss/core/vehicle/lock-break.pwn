@@ -149,13 +149,21 @@ hook OnHoldActionFinish(playerid)
 			itemid = GetPlayerItem(playerid);
 			itemtype = GetItemType(itemid);
 
+/*			if(itemtype == item_LockBreaker)
+				DestroyItem(itemid);*/
+
 			if(itemtype == item_LockBreaker)
-				DestroyItem(itemid);	
+			{
+				if(random(10) >= 5)
+				{
+					DestroyItem(GetPlayerItem(playerid));
+					ShowActionText(playerid, "~r~Sua ferramenta quebrou.");
+				}
+			}
 		}
+		
 		if(cro_OpenType[playerid] == 1)
-		{
 			SetVehicleTrunkLock(cro_TargetVehicle[playerid], 0);
-		}
 
 		StopBreakingVehicleLock(playerid);			
 
