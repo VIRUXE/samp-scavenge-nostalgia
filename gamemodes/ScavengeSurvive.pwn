@@ -174,7 +174,8 @@ public OnGameModeInit()
 #include <attachment-fix>           // By BrunoBM16:            https://github.com/Jelly23/Proper-attachments-fix
 #include <dini2>                    // By Gammix:               https://github.com/Agneese-Saini/SA-MP/blob/master/pawno/include/dini2.inc
 #include <player_geolocation>       // By Twixxx:               https://forum.sa-mp.com/showthread.php?t=658087
-#include <requests>
+#include <json>						// By Southclaw:			https://github.com/Southclaws/pawn-json/releases/tag/1.4.1
+#include <requests>					// By Southclaw:			https://github.com/Southclaws/pawn-requests/releases/tag/0.10.0
 
 /*==============================================================================
 
