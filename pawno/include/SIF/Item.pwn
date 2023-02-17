@@ -2151,7 +2151,7 @@ _PlayerKeyHandle_Drop(playerid)
 	// TODO: Replace this bit with some more abstracted code
 	// And improve near-player checks to use button style "near"-indexing.
 	
-	/*new
+	new
 		Float:x,
 		Float:y,
 		Float:z,
@@ -2186,8 +2186,8 @@ _PlayerKeyHandle_Drop(playerid)
 		    
 		if(PlayerGiveItem(playerid, i, 1))
 			return 1;
-	}*/
-
+	}
+	
 	PlayerDropItem(playerid);
 
 	return 1;
@@ -2250,15 +2250,13 @@ _PlayerKeyHandle_Release(playerid)
 	return 1;
 }
 
-/*hook OnPlayerEnterPlayerArea(playerid, targetid)
+hook OnPlayerEnterPlayerArea(playerid, targetid)
 {
     if(!IsPlayerNPC(playerid) && !IsPlayerNPC(targetid))
 	{
 		sif_dp:SIF_DEBUG_LEVEL_CALLBACKS:ITEM_DEBUG("[OnPlayerEnterPlayerArea]")<playerid>;
 		if(Iter_Contains(itm_Index, itm_Holding[playerid]))
-		{
 			ShowActionText(playerid, "Pressione N para dar o item");
-		}
 	}
 	return 1;
 }
@@ -2269,12 +2267,10 @@ hook OnPlayerLeavePlayerArea(playerid, targetid)
 	{
 		sif_dp:SIF_DEBUG_LEVEL_CALLBACKS:ITEM_DEBUG("[OnPlayerLeavePlayerArea]")<playerid>;
 		if(Iter_Contains(itm_Index, itm_Holding[playerid]))
-		{
 			HideActionText(playerid);
-		}
 	}
 	return 1;
-}*/
+}
 
 internal_OnPlayerUseItem(playerid, itemid)
 {
