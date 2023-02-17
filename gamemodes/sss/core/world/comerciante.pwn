@@ -44,7 +44,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
                     Sinalizador\t25 Coins\t1\n\
 					EMP de Proximidade\t25 Coins\t1\n\
                     Teclado Avan�ado\t20 Coins\t1\n\
-                    Lockpick\t20 Coins\t1\n\
+                    Gazua Eletrônica\t20 Coins\t1\n\
                     Molotov\t15 Coins\t1\n\
                     Faca de Combate\t10 Coins\t1\n\
                     Mapa\t10 Coins\t1", ""C_GREEN">", ""C_RED"X");
