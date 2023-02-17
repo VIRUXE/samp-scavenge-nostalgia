@@ -59,9 +59,17 @@ hook OnScriptInit()
 {
 	DirectoryCheck(DIRECTORY_SCRIPTFILES DIRECTORY_VEHICLESPAWNS);
 
-	GetSettingFloat("vehicle-spawn/spawn-chance", 4.0, veh_SpawnChance);
-	GetSettingInt("vehicle-spawn/print-each", false, veh_PrintEach);
-	GetSettingInt("vehicle-spawn/print-total", true, veh_PrintTotal);
+	new Node:vehicle, Node:node;
+
+	JSON_GetObject(Settings, "vehicle", vehicle);
+	JSON_GetObject(vehicle, "spawn", node);
+
+	JSON_GetFloat(node, "chance", veh_SpawnChance);
+	log("[SETTINGS][VEHICLE] spawn chance: %f", veh_SpawnChance);
+	JSON_GetBool(node, "print-each", veh_PrintEach);
+	log("[SETTINGS][VEHICLE] print each: %s", veh_PrintEach ? "true" : "false");
+	JSON_GetBool(node, "print-total", veh_PrintTotal);
+	log("[SETTINGS][VEHICLE] print total: %s", veh_PrintTotal ? "true" : "false");
 }
 
 hook OnGameModeInit()

@@ -62,13 +62,26 @@ forward OnPlayerSpawnNewChar(playerid);
 
 hook OnGameModeInit()
 {
-	GetSettingFloat("spawn/blood", 100.0, spawn_Blood);
-	GetSettingFloat("spawn/food", 80.0, spawn_Food);
-	GetSettingFloat("spawn/bleed", 0.0, spawn_Bleed);
+	new Node:spawn, Node:node;
 
-	GetSettingFloat("spawn/vipblood", 100.0, spawn_VipBlood);
-	GetSettingFloat("spawn/vipfood", 100.0, spawn_VipFood);
-	GetSettingFloat("spawn/vipbleed", 0.0, spawn_VipBleed);
+	JSON_GetObject(Settings, "player", node);
+	JSON_GetObject(node, "spawn", spawn);
+
+	JSON_GetObject(spawn, "bleed", node);
+	JSON_GetFloat(node, "normal", spawn_Bleed);
+	JSON_GetFloat(node, "vip", spawn_VipBleed);
+
+	JSON_GetObject(spawn, "blood", node);
+	JSON_GetFloat(node, "normal", spawn_Blood);
+	JSON_GetFloat(node, "vip", spawn_VipBlood);
+
+	JSON_GetObject(spawn, "food", node);
+	JSON_GetFloat(node, "normal", spawn_Food);
+	JSON_GetFloat(node, "vip", spawn_VipFood);
+
+	log("[SETTINGS][PLAYER] Spawn bleed: %f (vip: %f)", spawn_Bleed, spawn_VipBleed);
+	log("[SETTINGS][PLAYER] Spawn blood: %f (vip: %f)", spawn_Blood, spawn_VipBlood);
+	log("[SETTINGS][PLAYER] Spawn food: %f (vip: %f)", spawn_Food, spawn_VipFood);
 }
 
 hook OnPlayerConnect(playerid)

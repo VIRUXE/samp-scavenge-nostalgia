@@ -208,7 +208,6 @@ public OnGameModeInit()
 // Files
 #define ACCOUNT_DATABASE			DIRECTORY_MAIN"accounts.db"
 #define WORLD_DATABASE				DIRECTORY_MAIN"world.db"
-#define SETTINGS_FILE				DIRECTORY_MAIN"settings.ini"
 
 
 // Macros
@@ -341,7 +340,6 @@ bool:   gCombatLogWindow,
 // INTERNAL
 new
 		gBigString[MAX_PLAYERS][4096],
-		gTotalRules,
 		gTotalStaff;
 
 new stock
@@ -726,7 +724,12 @@ OnGameModeInit_Setup()
 
 	SendRconCommand(sprintf("mapname %s", GetMapName()));
 
-	GetSettingInt("server/global-debug-level", 0, gGlobalDebugLevel);
+	// * Estou preguiçoso hoje, então vou deixar assim mesmo. :D
+	new Node:node;
+	JSON_GetObject(Settings, "server", node);
+	JSON_GetInt(node, "global-debug-level", gGlobalDebugLevel);
+	log("[SETTINGS] Global debug level: %d", gGlobalDebugLevel);
+
 	debug_set_level("global", gGlobalDebugLevel);
 	
 	RestartCount				=TextDrawCreate(18.400001, 433.100067, "Respawn em: ~r~~h~~h~00:00");
