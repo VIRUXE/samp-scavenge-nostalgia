@@ -161,7 +161,6 @@ public OnGameModeInit()
 #include <easyDialog>				// By Emmet_:				https://github.com/Awsomedude/easyDialog
 #include <progress2>				// By Toribio/Southclaw:	https://github.com/Southclaws/progress2
 #include <FileManager>				// By JaTochNietDan, 1.5:	https://github.com/JaTochNietDan/SA-MP-FileManager
-#include <SimpleINI>				// By Southclaw:   			https://github.com/Southclaws/SimpleINI
 #include <modio>					// By Southclaw:			https://github.com/Southclaws/modio
 #include <SIF>						// By Southclaw:			https://github.com/Southclaws/SIF
 #include <WeaponData>				// By Southclaw:   			https://github.com/Southclaws/AdvancedWeaponData
