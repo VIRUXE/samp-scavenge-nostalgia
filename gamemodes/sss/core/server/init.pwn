@@ -959,7 +959,7 @@ public OnScriptInit()
 	item_Locker			= DefineItemType("Armário",				"Locker",			11729,	12,	0.0, 0.0, 0.0,			0.0,	.longpickup = true,	.maxhitpoints = 10);
 	item_GearBox		= DefineItemType("Caixinha",			"GearBox",			19918,	5,	0.0, 0.0, 0.0,			-0.0361,0.073999, -0.039000, -0.169000,  73.400024, -173.499984, 80.899993, .longpickup = true, .maxhitpoints = 4);
 	item_ToolBox		= DefineItemType("Caixa de Ferramentas",			"ToolBox",			19921,	7,	0.0, 0.0, 0.0,			0.0541,	-0.209000, 0.052999, -0.231000,  73.400024, -173.499984, 80.899993, true, .longpickup = true, .maxhitpoints = 8);
-	item_LockBreaker	= DefineItemType("Electronic Lockpick",	"LockBreaker",		1952,	2,	0.0, 0.0, 0.0,			0.001,	0.098000, 0.039999, 0.085000,  -94.900032, -177.600021, 18.499980, .maxhitpoints = 2);
+	item_LockBreaker	= DefineItemType("Gazua Eletrônica",	"LockBreaker",		1952,	2,	0.0, 0.0, 0.0,			0.001,	0.098000, 0.039999, 0.085000,  -94.900032, -177.600021, 18.499980, .maxhitpoints = 2);
 	item_PoliceHelm		= DefineItemType("Capacete de Pol�cial",		"PoliceHelm",		19200,	1,	0.0, 0.0, 0.0,			0.05,	0.173000, -0.010000, -0.020000,  -90.299995, 0.000000, 0.000000, .maxhitpoints = 1);
 	item_ControlBox		= DefineItemType("Caixa de Controle",			"ControlBox",		1958,	2,	0.0, 0.0, 0.0,			0.0211);
 	item_Computer		= DefineItemType("Computador",			"Computer",			1719,	2,	0.0, 0.0, 0.0,			0.0251);
