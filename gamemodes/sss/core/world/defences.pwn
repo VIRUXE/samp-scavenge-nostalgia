@@ -237,6 +237,18 @@ DeconstructDefence(itemid)
 
 ==============================================================================*/
 
+hook OnPlayerDroppedItem(playerid, itemid)
+{
+	new ItemType:itemtype = GetItemType(itemid);
+
+	if(def_ItemTypeDefenceType[itemtype] != INVALID_DEFENCE_TYPE)
+	{
+		new Float:x, Float:y, Float:z;
+		GetPlayerPos(playerid, x, y, z);
+		CA_RayCastLine(x, y, z, x, y, z - 2.0, z, z, z);
+		SetItemPos(itemid, x, y, z + 0.15);
+	}
+}
 
 hook OnPlayerPickUpItem(playerid, itemid)
 {
