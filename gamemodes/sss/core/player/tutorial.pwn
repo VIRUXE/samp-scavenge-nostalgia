@@ -202,13 +202,9 @@ hook OnPlayerDisconnect(playerid, reason)
 
 ExitTutorial(playerid)
 {
-	if(!PlayerInTutorial[playerid])
-		return 0;
+	if(!PlayerInTutorial[playerid]) return 0;
 		
-	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--)
-	{
-		RemoveItemFromInventory(playerid, i);
-	}
+	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
 	RemovePlayerBag(playerid);
 	RemovePlayerHolsterItem(playerid);
@@ -220,8 +216,7 @@ ExitTutorial(playerid)
 	PlayerCreateNewCharacter(playerid);
 	SetPlayerBrightness(playerid, 0);
 
-	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++)
-		DestroyItem(PlayerTutorial_Item[i][playerid]);
+	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) DestroyItem(PlayerTutorial_Item[i][playerid]);
 		
 	DestroyWorldVehicle(PlayerTutorialVehicle[playerid], true);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
@@ -229,11 +224,10 @@ ExitTutorial(playerid)
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			GetLanguageString(playerid, "TUTORIEXIT", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-	for(new i = 0; i < 20; i++)
-		SendClientMessage(playerid, GREEN, "");
+	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
+	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
-	return 1;
+	return ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
 }
 
 hook OnPlayerWearBag(playerid, itemid)
@@ -462,4 +456,13 @@ stock IsPlayerInTutorial(playerid)
 	if(PlayerInTutorial[playerid]) return 1;
 
 	return 0;
+}
+
+// Para os admins poderem sair do tutorial
+CMD:exittutorial(playerid) {
+	if(!IsPlayerAdmin(playerid)) return 0;
+
+	ExitTutorial(playerid);
+
+	return 1;
 }
