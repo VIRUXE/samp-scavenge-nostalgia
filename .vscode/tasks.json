@@ -27,14 +27,7 @@
     {
       "label": "Compilar Gamemode",
       "type": "shell",
-      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
-      "args": [
-        "'ScavengeSurvive.pwn'",
-        "'-Dgamemodes'",
-        "'-;+'",
-        "'-(+'",
-        "'-d3'"
-      ],
+      "command": "${workspaceRoot}\\build.bat",
       "group": {
         "kind": "build",
         "isDefault": true
