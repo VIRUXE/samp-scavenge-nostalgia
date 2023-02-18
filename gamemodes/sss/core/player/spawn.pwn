@@ -161,7 +161,11 @@ PrepareForSpawn(playerid)
 	gettime(hour, minute);
 
 	SetPlayerTime(playerid, hour, minute);
-	SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+
+	new Node:node, weather;
+	JSON_GetObject(Settings, "world", node);
+	JSON_GetInt(node, "weather", weather);
+	SetPlayerWeather(playerid, weather);
 
 	LoadPlayerHUD(playerid);
 	SetPlayerSpawnedState(playerid, true);

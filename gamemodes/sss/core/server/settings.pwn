@@ -58,6 +58,9 @@ LoadSettings()
 					"knock-mult", JSON_Float(1.0),
 					"bleed-mult", JSON_Float(1.0)
 				)
+			),
+			"world", JSON_Object(
+				"weather", JSON_Int(4)
 			)
 		);
 
