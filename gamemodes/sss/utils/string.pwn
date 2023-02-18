@@ -69,3 +69,35 @@ stock atosr(a[], size = sizeof(a))
 	atos(a, size, s);
 	return s;
 }
+
+strsplit(const str[], const delim[], strSplit[][32], &count) {
+	new i, j, k, len, delimLen, found;
+
+	len = strlen(str);
+	delimLen = strlen(delim);
+
+	count = 0;
+
+	for(i = 0; i < len; i++) {
+		found = 0;
+
+		for(j = 0; j < delimLen; j++) {
+			if(str[i] == delim[j]) {
+				found = 1;
+				break;
+			}
+		}
+
+		if(found) {
+			strSplit[count][k] = '\0';
+			count++;
+			k = 0;
+		} else {
+			strSplit[count][k] = str[i];
+			k++;
+		}
+	}
+
+	strSplit[count][k] = '\0';
+	count++;
+}

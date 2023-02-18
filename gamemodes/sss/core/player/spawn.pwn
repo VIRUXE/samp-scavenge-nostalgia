@@ -162,10 +162,7 @@ PrepareForSpawn(playerid)
 
 	SetPlayerTime(playerid, hour, minute);
 
-	new Node:node, weather;
-	JSON_GetObject(Settings, "world", node);
-	JSON_GetInt(node, "weather", weather);
-	SetPlayerWeather(playerid, weather);
+	SetPlayerWeather(playerid, GetSettingInt("world/weather")); 
 
 	LoadPlayerHUD(playerid);
 	SetPlayerSpawnedState(playerid, true);

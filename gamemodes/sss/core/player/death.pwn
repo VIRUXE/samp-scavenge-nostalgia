@@ -134,10 +134,7 @@ _OnDeath(playerid, killerid)
 //	SetPlayerTime(playerid, dini_Int("Servidor.ini", "Hora"), 0);
 
 	// Define o clima para o jogador
-	new Node:node, weather;
-	JSON_GetObject(Settings, "world", node);
-	JSON_GetInt(node, "weather", weather);
-	SetPlayerWeather(playerid, weather);
+	SetPlayerWeather(playerid, GetSettingInt("world/weather"));
 
 	SpawnPlayer(playerid);
 

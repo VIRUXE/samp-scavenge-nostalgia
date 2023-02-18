@@ -117,3 +117,47 @@ LoadSettings()
 	JSON_GetInt(node, "ping-limit", gPingLimit);
 	log("[SETTINGS] Limite de ping: %d", gPingLimit);
 }
+
+
+stock GetSettingInt(const name[]) {
+	new Node:node, Node:temp, i, result;
+	new nameSplit[32][32], nameSplitCount;
+
+	strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
+
+	// Get the first level
+	JSON_GetObject(Settings, nameSplit[0], node);
+
+	// Go through each level
+	for(i = 1; i < nameSplitCount; i++) {
+		JSON_GetObject(node, nameSplit[i], temp);
+		node = temp;
+	}
+
+	// Get the value
+	JSON_GetNodeInt(node, result);
+
+	return result;
+}
+
+stock Float:GetSettingFloat(const name[]) {
+	new Node:node, Node:temp, i;
+	new nameSplit[32][32], nameSplitCount;
+	new Float:result;
+
+	strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
+
+	// Get the first level
+	JSON_GetObject(Settings, nameSplit[0], node);
+
+	// Go through each level
+	for(i = 1; i < nameSplitCount; i++) {
+		JSON_GetObject(node, nameSplit[i], temp);
+		node = temp;
+	}
+
+	// Get the value
+	JSON_GetNodeFloat(node, result);
+
+	return result;
+}

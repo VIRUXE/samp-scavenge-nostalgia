@@ -719,9 +719,7 @@ OnGameModeInit_Setup()
 	SendRconCommand(sprintf("mapname %s", GetMapName()));
 
 	// * Estou preguiçoso hoje, então vou deixar assim mesmo. :D
-	new Node:node;
-	JSON_GetObject(Settings, "server", node);
-	JSON_GetInt(node, "global-debug-level", gGlobalDebugLevel);
+	gGlobalDebugLevel = GetSettingInt("server/global-debug-level");
 	log("[SETTINGS] Global debug level: %d", gGlobalDebugLevel);
 
 	debug_set_level("global", gGlobalDebugLevel);
