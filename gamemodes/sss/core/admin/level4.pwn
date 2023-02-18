@@ -277,34 +277,34 @@ ACMD:deletar[4](playerid, params[])
 
 ACMD:congelarall[4](playerid)
 {
-	for(new i = 0; i < MAX_PLAYERS; i++)
-	TogglePlayerControllable(i, 0);
-	new admNm[24];GetPlayerName(playerid, admNm, 24);
-    ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) congelou todos os players online do servidor!", admNm, playerid);
-	return 1;
+	foreach(new i : Player) TogglePlayerControllable(i, false);
+
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) congelou todos os players online do servidor!", playerid, playerid);
 }
 
 ACMD:descongelarall[4](playerid)
 {
-	for(new i = 0; i < MAX_PLAYERS; i++)
-	TogglePlayerControllable(i, 1);
-	new admNm[24];GetPlayerName(playerid, admNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) descongelou todos os players online do servidor!", admNm, playerid);
-	return 1;
+	foreach(new i : Player) TogglePlayerControllable(i, true);
+
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) descongelou todos os players online do servidor!", playerid, playerid);
 }
 
 ACMD:mudarclima[4](playerid, params[])
 {
 	new clima;
+
 	if(sscanf(params, "d", clima)) return SendClientMessage(playerid, YELLOW, " > Use: /mudarclima [ID do Clima]");
-	if(clima < 0||clima > 45) return ChatMsg(playerid, RED," > Climas : 0 a 45");
+	if(clima < 0||clima > 45) return ChatMsg(playerid, RED," > Climas: 0 a 45");
+
     SetWeather(clima);
-    if(!dini_Exists("Servidor.ini"))
-    dini_Create("Servidor.ini");
-	dini_IntSet("Servidor.ini", "Clima", clima);
-	new admNm[24];GetPlayerName(playerid, admNm, 24);
-    ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) mudou o clima do servidor!", admNm, playerid);
-	return 1;
+
+	new Node:node;
+	JSON_GetObject(Settings, "world", node);
+	JSON_SetInt(node, "weather", clima);
+	JSON_SetObject(Settings, "world", node);
+	JSON_SaveFile("settings.json", Settings, .pretty = true);
+	
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
 /*ACMD:mudarhora[4](playerid, params[])

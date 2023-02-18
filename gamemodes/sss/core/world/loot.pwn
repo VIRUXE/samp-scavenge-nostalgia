@@ -72,7 +72,12 @@ Float:		loot_SpawnMult = 1.0;
 
 hook OnScriptInit()
 {
-	GetSettingFloat("server/loot-spawn-multiplier", 1.0, loot_SpawnMult);
+	new Node:server;
+
+	JSON_GetObject(Settings, "server", server);
+	JSON_GetFloat(server, "loot-spawn-multiplier", loot_SpawnMult);
+
+	log("[SETTINGS][WORLD] Loot spawn multiplier: %f", loot_SpawnMult);
 }
 
 

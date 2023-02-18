@@ -132,7 +132,13 @@ _OnDeath(playerid, killerid)
 	RemovePlayerWeapon(playerid);
 	RemoveAllDrugs(playerid);
 //	SetPlayerTime(playerid, dini_Int("Servidor.ini", "Hora"), 0);
-	SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+
+	// Define o clima para o jogador
+	new Node:node, weather;
+	JSON_GetObject(Settings, "world", node);
+	JSON_GetInt(node, "weather", weather);
+	SetPlayerWeather(playerid, weather);
+
 	SpawnPlayer(playerid);
 
 	KillPlayer(playerid, killerid, deathreason);
@@ -573,4 +579,3 @@ stock SetPlayerSpree(playerid, spree){
 	death_Spree[playerid] = spree;
 	return 1;
 }
-

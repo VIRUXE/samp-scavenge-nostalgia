@@ -161,7 +161,6 @@ public OnGameModeInit()
 #include <easyDialog>				// By Emmet_:				https://github.com/Awsomedude/easyDialog
 #include <progress2>				// By Toribio/Southclaw:	https://github.com/Southclaws/progress2
 #include <FileManager>				// By JaTochNietDan, 1.5:	https://github.com/JaTochNietDan/SA-MP-FileManager
-#include <SimpleINI>				// By Southclaw:   			https://github.com/Southclaws/SimpleINI
 #include <modio>					// By Southclaw:			https://github.com/Southclaws/modio
 #include <SIF>						// By Southclaw:			https://github.com/Southclaws/SIF
 #include <WeaponData>				// By Southclaw:   			https://github.com/Southclaws/AdvancedWeaponData
@@ -174,7 +173,8 @@ public OnGameModeInit()
 #include <attachment-fix>           // By BrunoBM16:            https://github.com/Jelly23/Proper-attachments-fix
 #include <dini2>                    // By Gammix:               https://github.com/Agneese-Saini/SA-MP/blob/master/pawno/include/dini2.inc
 #include <player_geolocation>       // By Twixxx:               https://forum.sa-mp.com/showthread.php?t=658087
-#include <requests>
+#include <json>						// By Southclaw:			https://github.com/Southclaws/pawn-json/releases/tag/1.4.1
+#include <requests>					// By Southclaw:			https://github.com/Southclaws/pawn-requests/releases/tag/0.10.0
 
 /*==============================================================================
 
@@ -187,8 +187,6 @@ public OnGameModeInit()
 #define MAX_WEBSITE_NAME			(64)
 #define MAX_RULE					(24)
 #define MAX_RULE_LEN				(128)
-#define MAX_STAFF					(24)
-#define MAX_STAFF_LEN				(24)
 #define MAX_PLAYER_FILE				(MAX_PLAYER_NAME+16)
 #define MAX_ADMIN					(48)
 #define MAX_PASSWORD_LEN			(129)
@@ -207,7 +205,6 @@ public OnGameModeInit()
 // Files
 #define ACCOUNT_DATABASE			DIRECTORY_MAIN"accounts.db"
 #define WORLD_DATABASE				DIRECTORY_MAIN"world.db"
-#define SETTINGS_FILE				DIRECTORY_MAIN"settings.ini"
 
 
 // Macros
@@ -320,7 +317,7 @@ bool:	gServerRestarting = false,
 		gGlobalDebugLevel;
 
 // DATABASES
-new
+new 
 DB:		gAccounts;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
@@ -329,7 +326,6 @@ new
 		gMessageOfTheDay[MAX_MOTD_LEN],
 		gWebsiteURL[MAX_WEBSITE_NAME],
 		gRuleList[MAX_RULE][MAX_RULE_LEN],
-		gStaffList[MAX_STAFF][MAX_STAFF_LEN],
 
 		// server
 bool:   gCombatLogWindow,
@@ -338,10 +334,7 @@ bool:   gCombatLogWindow,
 		gPingLimit;
 
 // INTERNAL
-new
-		gBigString[MAX_PLAYERS][4096],
-		gTotalRules,
-		gTotalStaff;
+new gBigString[MAX_PLAYERS][4096];
 
 new stock
 		GLOBAL_DEBUG = -1;
@@ -725,7 +718,12 @@ OnGameModeInit_Setup()
 
 	SendRconCommand(sprintf("mapname %s", GetMapName()));
 
-	GetSettingInt("server/global-debug-level", 0, gGlobalDebugLevel);
+	// * Estou preguiçoso hoje, então vou deixar assim mesmo. :D
+	new Node:node;
+	JSON_GetObject(Settings, "server", node);
+	JSON_GetInt(node, "global-debug-level", gGlobalDebugLevel);
+	log("[SETTINGS] Global debug level: %d", gGlobalDebugLevel);
+
 	debug_set_level("global", gGlobalDebugLevel);
 	
 	RestartCount				=TextDrawCreate(18.400001, 433.100067, "Respawn em: ~r~~h~~h~00:00");

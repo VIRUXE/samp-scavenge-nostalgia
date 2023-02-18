@@ -71,6 +71,7 @@ native JsonWebSocketSend(JsonWebSocket:ws, Node:node);
 // JSON API
 // -
 
+#if !defined _json_included // * Account for when the pawn-json package is also used
 enum JSON_NODE {
     JSON_NODE_NUMBER,
     JSON_NODE_BOOLEAN,
@@ -79,6 +80,7 @@ enum JSON_NODE {
     JSON_NODE_ARRAY,
     JSON_NODE_NULL,
 }
+#endif
 
 // JsonParse decodes JSON and stores the root node into `output`.
 native JsonParse(const string[], &Node:output);
@@ -136,7 +138,10 @@ native Node:JsonArray(Node:...);
 // output: [1, 2, 3]
 //
 native Node:JsonAppend(Node:a, Node:b);
+
+#if !defined _json_included // * Account for when the pawn-json package is also used
 native Node:operator+(Node:a, Node:b) = JsonAppend;
+#endif
 
 // JsonSet* functions directly modify nodes by inserting or modifying keys.
 native JsonSetObject(Node:node, const key[], Node:object);
@@ -237,11 +242,13 @@ native JsonToggleGC(Node:node, bool:toggle);
 native JsonCleanup(Node:node, auto = false);
 
 // cleans up nodes once they go out of scope.
+#if !defined _json_included // * Account for when the pawn-json package is also used
 stock operator~(const Node:nodes[], len) {
     for(new i; i < len; ++i) {
         JsonCleanup(nodes[i], true);
     }
 }
+#endif
 
 // -
 // Helpers

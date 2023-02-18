@@ -1,0 +1,52 @@
+{
+  "player": {
+    "combat-log-window": 30,
+    "login-freeze-time": 8,
+    "max-tab-out-time": 60,
+    "ping-limit": 300,
+    "spawn": {
+      "bleed": {
+        "normal": 0.0,
+        "vip": 0.0
+      },
+      "blood": {
+        "normal": 100.0,
+        "vip": 100.0
+      },
+      "food": {
+        "normal": 80.0,
+        "vip": 100.0
+      }
+    }
+  },
+  "server": {
+    "address": "scavengenostalgia.fun",
+    "discord": "http://discord.scavengenostalgia.fun",
+    "global-debug-level": 0,
+    "loot-spawn-multiplier": 0.01,
+    "max-uptime": 14400,
+    "motd": "Bem vindo ao servidor Scavenge Nostalgia!",
+    "rules": [
+      "Não use hacks.",
+      "Não use bugs.",
+      "Não use exploits.",
+      "Não use macros.",
+      "Não use programas de terceiros."
+    ],
+    "website": "http://www.scavengenostalgia.fun"
+  },
+  "vehicle": {
+    "damage": {
+      "bleed-mult": 1.0,
+      "knock-mult": 1.0
+    },
+    "spawn": {
+      "chance": 1.0,
+      "print-each": false,
+      "print-total": true
+    }
+  },
+  "world": {
+    "weather": 4
+  }
+}
