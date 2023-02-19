@@ -132,57 +132,59 @@ EnterTutorial(playerid) {
 	);
 
 	//	Items
-	PlayerTutorial_Item[0][playerid]    = CreateItem(item_CorPanel, 975.1069,2071.6677,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[0][playerid]  = CreatePickup(1559, 8, 975.1069,2071.6677,9.8603, virtualworld);
-	PlayerTutorial_Item[1][playerid]    = CreateItem(item_CorPanel, 973.7677,2075.0117,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[1][playerid]  = CreatePickup(1559, 8, 973.7677,2075.0117,9.8603, virtualworld);
-	PlayerTutorial_Item[2][playerid]    = CreateItem(item_CorPanel, 973.7151,2067.4258,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[2][playerid]  = CreatePickup(1559, 8, 973.7151,2067.4258,9.8603, virtualworld);
-	PlayerTutorial_Item[3][playerid]    = CreateItem(item_Wheel, 951.7727,2068.0540,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[3][playerid]  = CreatePickup(1559, 8, 951.7727,2068.0540,9.8603, virtualworld);
-	PlayerTutorial_Item[4][playerid]    = CreateItem(item_Wheel, 954.4612,2068.2312,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[4][playerid]  = CreatePickup(1559, 8, 954.4612,2068.2312,9.8603, virtualworld);
-	PlayerTutorial_Item[5][playerid]    = CreateItem(item_Wheel, 952.7346,2070.6902,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[5][playerid]  = CreatePickup(1559, 8, 952.7346,2070.6902,9.8603, virtualworld);
-	PlayerTutorial_Item[6][playerid]    = CreateItem(item_Wrench, 948.3666,2069.8452,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[6][playerid]  = CreatePickup(1559, 8, 948.3666,2069.8452,9.8603, virtualworld);
-	PlayerTutorial_Item[7][playerid]    = CreateItem(item_Screwdriver, 946.4836,2069.7207,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[7][playerid]  = CreatePickup(1559, 8, 946.4836,2069.7207,9.8603, virtualworld);
-	PlayerTutorial_Item[8][playerid]    = CreateItem(item_Hammer, 944.1250,2067.6262,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[8][playerid]  = CreatePickup(1559, 8, 944.1250,2067.6262,9.8603, virtualworld);
-	PlayerTutorial_Item[9][playerid]    = CreateItem(item_TentPack, 944.1473,2083.2739,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[9][playerid]  = CreatePickup(1559, 8, 944.1473,2083.2739,9.8603, virtualworld);
-	PlayerTutorial_Item[10][playerid]   = CreateItem(item_Hammer, 949.4579,2082.9829,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[10][playerid] = CreatePickup(1559, 8, 949.4579,2082.9829,9.8603, virtualworld);
-	PlayerTutorial_Item[11][playerid]   = CreateItem(item_Crowbar, 947.3903,2080.4143,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[11][playerid] = CreatePickup(1559, 8, 947.3903,2080.4143,9.8603, virtualworld);
-	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Crowbar, 951.6076,2067.8994,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 951.6076,2067.8994,9.8603, virtualworld);
-	PlayerTutorial_Item[13][playerid]   = CreateItem(item_Keypad, 971.9176,2069.2117,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[13][playerid] = CreatePickup(1559, 8, 971.9176,2069.2117,9.8603, virtualworld);
-	PlayerTutorial_Item[14][playerid]   = CreateItem(item_Motor, 971.4994,2072.1038,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[14][playerid] = CreatePickup(1559, 8, 971.4994,2072.1038,9.8603, virtualworld);
-	PlayerTutorial_Item[15][playerid]   = CreateItem(item_Rucksack, 931.9263,2081.7053,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[15][playerid] = CreatePickup(1559, 8, 931.9263,2081.7053,9.8603, virtualworld);
-	PlayerTutorial_Item[16][playerid]   = CreateItem(item_LargeBox, 927.8030,2058.6838,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[16][playerid] = CreatePickup(1559, 8, 927.8030,2058.6838,9.8603, virtualworld);
-	PlayerTutorial_Item[17][playerid]   = CreateItem(item_MediumBox, 929.4532,2058.3926,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[17][playerid] = CreatePickup(1559, 8, 929.4532,2058.3926,9.8603, virtualworld);
-	PlayerTutorial_Item[18][playerid]   = CreateItem(item_SmallBox, 932.5464,2058.3267,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[18][playerid] = CreatePickup(1559, 8, 932.5464,2058.3267,9.8603, virtualworld);
-	PlayerTutorial_Item[19][playerid]   = CreateItem(item_PumpShotgun, 959.1787,2082.9680,9.8603, .rz = frandom(360.0), .world = virtualworld);
-	// PlayerTutorial_Pickup[19][playerid] = CreatePickup(1559, 8, 959.1787,2082.9680,9.8603, virtualworld);
+	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
+
+	PlayerTutorial_Item[0][playerid]    = CreateItem(item_CorPanel, 975.1069,2071.6677, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[0][playerid]  = CreatePickup(1559, 8, 975.1069,2071.6677, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[1][playerid]    = CreateItem(item_CorPanel, 973.7677,2075.0117, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[1][playerid]  = CreatePickup(1559, 8, 973.7677,2075.0117, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[2][playerid]    = CreateItem(item_CorPanel, 973.7151,2067.4258, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[2][playerid]  = CreatePickup(1559, 8, 973.7151,2067.4258, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[3][playerid]    = CreateItem(item_Wheel, 951.7727,2068.0540, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[3][playerid]  = CreatePickup(1559, 8, 951.7727,2068.0540, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[4][playerid]    = CreateItem(item_Wheel, 954.4612,2068.2312, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[4][playerid]  = CreatePickup(1559, 8, 954.4612,2068.2312, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[5][playerid]    = CreateItem(item_Wheel, 952.7346,2070.6902, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[5][playerid]  = CreatePickup(1559, 8, 952.7346,2070.6902, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[6][playerid]    = CreateItem(item_Wrench, 948.3666,2069.8452, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[6][playerid]  = CreatePickup(1559, 8, 948.3666,2069.8452, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[7][playerid]    = CreateItem(item_Screwdriver, 946.4836,2069.7207, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[7][playerid]  = CreatePickup(1559, 8, 946.4836,2069.7207, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[8][playerid]    = CreateItem(item_Hammer, 944.1250,2067.6262, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[8][playerid]  = CreatePickup(1559, 8, 944.1250,2067.6262, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[9][playerid]    = CreateItem(item_TentPack, 944.1473,2083.2739, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[9][playerid]  = CreatePickup(1559, 8, 944.1473,2083.2739, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[10][playerid]   = CreateItem(item_Hammer, 949.4579,2082.9829, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[10][playerid] = CreatePickup(1559, 8, 949.4579,2082.9829, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[11][playerid]   = CreateItem(item_Crowbar, 947.3903,2080.4143, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[11][playerid] = CreatePickup(1559, 8, 947.3903,2080.4143, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Crowbar, 951.6076,2067.8994, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 951.6076,2067.8994, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[13][playerid]   = CreateItem(item_Keypad, 971.9176,2069.2117, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[13][playerid] = CreatePickup(1559, 8, 971.9176,2069.2117, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[14][playerid]   = CreateItem(item_Motor, 971.4994,2072.1038, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[14][playerid] = CreatePickup(1559, 8, 971.4994,2072.1038, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[15][playerid]   = CreateItem(item_Rucksack, 931.9263,2081.7053, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[15][playerid] = CreatePickup(1559, 8, 931.9263,2081.7053, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[16][playerid]   = CreateItem(item_LargeBox, 927.8030,2058.6838, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[16][playerid] = CreatePickup(1559, 8, 927.8030,2058.6838, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[17][playerid]   = CreateItem(item_MediumBox, 929.4532,2058.3926, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[17][playerid] = CreatePickup(1559, 8, 929.4532,2058.3926, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[18][playerid]   = CreateItem(item_SmallBox, 932.5464,2058.3267, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[18][playerid] = CreatePickup(1559, 8, 932.5464,2058.3267, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[19][playerid]   = CreateItem(item_PumpShotgun, 959.1787,2082.9680, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[19][playerid] = CreatePickup(1559, 8, 959.1787,2082.9680, PICKUP_Z, virtualworld);
 
 	// Shotgun?
-	PlayerTutorial_Item[20][playerid]   = CreateItem(item_AmmoBuck, 961.2108,2083.3938,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Item[20][playerid]   = CreateItem(item_AmmoBuck, 961.2108,2083.3938, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	SetItemWeaponItemMagAmmo(PlayerTutorial_Item[20][playerid], 12);
-	// PlayerTutorial_Pickup[20][playerid] = CreatePickup(1559, 8, 961.2108,2083.3938,9.8603, virtualworld);
+	PlayerTutorial_Pickup[20][playerid] = CreatePickup(1559, 8, 961.2108,2083.3938, PICKUP_Z, virtualworld);
 	
 	// Galão de Gasolina
-	PlayerTutorial_Item[21][playerid]   = CreateItem(item_GasCan, 938.4733,2063.2769,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Item[21][playerid]   = CreateItem(item_GasCan, 938.4733,2063.2769, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	SetLiquidItemLiquidType(PlayerTutorial_Item[21][playerid], liquid_Petrol);
 	SetLiquidItemLiquidAmount(PlayerTutorial_Item[21][playerid], 15);
-	// PlayerTutorial_Pickup[21][playerid] = CreatePickup(1559, 8, 938.4733,2063.2769,9.8603, virtualworld);
+	PlayerTutorial_Pickup[21][playerid] = CreatePickup(1559, 8, 938.4733,2063.2769, PICKUP_Z, virtualworld);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "IDIOMAID")));
 
@@ -251,7 +253,11 @@ ExitTutorial(playerid)
 	PlayerCreateNewCharacter(playerid);
 	SetPlayerBrightness(playerid, 0);
 
-	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) DestroyItem(PlayerTutorial_Item[i][playerid]);
+	// Destroi os itens e pickups do tutorial
+	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) {
+		DestroyItem(PlayerTutorial_Item[i][playerid]);
+		DestroyPickup(PlayerTutorial_Pickup[i][playerid]);
+	}
 		
 	DestroyWorldVehicle(PlayerTutorialVehicle[playerid], true);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
