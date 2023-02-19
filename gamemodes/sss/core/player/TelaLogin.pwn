@@ -26,6 +26,7 @@ public SetPlayerInCenario(playerid) {
 
     SetPlayerTime(playerid, 0, 0);
     SetPlayerWeather(playerid, 20);
+    SetPlayerVirtualWorld(playerid, 5);
   
     new scenario = random(sizeof(scenarios) - 1);
     SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
