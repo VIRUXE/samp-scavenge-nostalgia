@@ -831,7 +831,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 			HidePlayerHealthInfo(playerid);
 			ClosePlayerInventory(playerid);
 			inv_EscInventory[playerid] = true;
-			ClearAnimations(playerid);
+//			ClearAnimations(playerid);
 			// DisplayPlayerInventory(playerid);
 		}
 
@@ -840,7 +840,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 			HidePlayerGear(playerid);
 			HidePlayerHealthInfo(playerid);
 			ClosePlayerContainer(playerid);
-			ClearAnimations(playerid);
+//			ClearAnimations(playerid);
 			inv_EscContainer[playerid] = true;
 			// DisplayContainerInventory(playerid, GetPlayerCurrentContainer(playerid));
 		}

@@ -661,7 +661,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 
 	if(IsValidItem(bag_CurrentBag[playerid]))
 	{
-		ClearAnimations(playerid);
+//		ClearAnimations(playerid);
 		bag_CurrentBag[playerid] = INVALID_ITEM_ID;
 		bag_LookingInBag[playerid] = -1;
 	}
