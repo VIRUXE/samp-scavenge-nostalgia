@@ -24,28 +24,30 @@
 
 #include "sss/world/spawn.pwn"
 
-#include "sss/world/zones/ls.pwn"
-#include "sss/world/zones/sf.pwn"
-#include "sss/world/zones/lv.pwn"
-#include "sss/world/zones/rc.pwn"
-#include "sss/world/zones/fc.pwn"
-#include "sss/world/zones/bc.pwn"
-#include "sss/world/zones/tr.pwn"
-#include "sss/world/zones/novos.pwn"
+#if defined WORLD_GENERATE
+	#include "sss/world/zones/ls.pwn"
+	#include "sss/world/zones/sf.pwn"
+	#include "sss/world/zones/lv.pwn"
+	#include "sss/world/zones/rc.pwn"
+	#include "sss/world/zones/fc.pwn"
+	#include "sss/world/zones/bc.pwn"
+	#include "sss/world/zones/tr.pwn"
+	#include "sss/world/zones/novos.pwn"
 
-//#include "sss/world/misc/ls_apartments1.pwn"
-//#include "sss/world/misc/ls_apartments2.pwn"
-//#include "sss/world/misc/ls_beachside.pwn"
-//#include "sss/world/misc/sf_zombotech.pwn"
+	//#include "sss/world/misc/ls_apartments1.pwn"
+	//#include "sss/world/misc/ls_apartments2.pwn"
+	//#include "sss/world/misc/ls_beachside.pwn"
+	//#include "sss/world/misc/sf_zombotech.pwn"
 
-// #include "sss/world/misc/.pwn"
-#include "sss/world/puzzles/area69.pwn"
-//#include "sss/world/puzzles/ranch.pwn"
-#include "sss/world/puzzles/mtchill.pwn"
-//#include "sss/world/puzzles/codehunt.pwn"
+	// #include "sss/world/misc/.pwn"
+	#include "sss/world/puzzles/area69.pwn"
+	//#include "sss/world/puzzles/ranch.pwn"
+	#include "sss/world/puzzles/mtchill.pwn"
+	//#include "sss/world/puzzles/codehunt.pwn"
 
-#include "sss/world/houseloot.pwn"
-//#include "sss/world/xmas.pwn"
+	#include "sss/world/houseloot.pwn"
+	//#include "sss/world/xmas.pwn"
+#endif
 
 static
 	MapName[32] = "San Androcalypse",
@@ -86,6 +88,7 @@ hook OnGameModeInit()
 		ItemCounts[i] = GetItemTypeCount(i);
 	}
 
+#if defined WORLD_GENERATE
 	Load_LS();
 	Load_SF();
 	Load_LV();
@@ -95,6 +98,7 @@ hook OnGameModeInit()
 	Load_TR();
 	Load_Novos();
 	Load_HouseLoot();
+#endif
 
 	new itemtypename[ITM_MAX_NAME];
 
