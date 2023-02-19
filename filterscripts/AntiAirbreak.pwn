@@ -90,7 +90,7 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 	
 	if(id && id != WATER_OBJECT){
 		ClearAnimations(playerid);
-//		printf("> ID: %d", id);
+		printf("> ID: %d na posição: %d, %d, %d", id, ox, oy, oz);
 	    SetPlayerVelocity(playerid, 0.0, 0.0, 0.0);
 	    ab_Check[playerid] = true;
         
