@@ -187,11 +187,9 @@ hook OnPlayerConnect(playerid)
 
 LoadAccount(playerid)
 {
-    if(!IsPlayerNPC(playerid))
-	{
+    if(IsPlayerNPC(playerid)) return 0;
 
-	if(CallLocalFunction("OnPlayerLoadAccount", "d", playerid))
-		return -1;
+	if(CallLocalFunction("OnPlayerLoadAccount", "d", playerid)) return -1;
 
 	new
 		name[MAX_PLAYER_NAME],
@@ -213,19 +211,19 @@ LoadAccount(playerid)
 
 	if(!stmt_execute(stmt_AccountExists))
 	{
-		err("[LoadAccount] executing statement 'stmt_AccountExists'.");
+		err("[ACCOUNT] executing statement 'stmt_AccountExists'.");
 		return -1;
 	}
 
 	if(!stmt_fetch_row(stmt_AccountExists))
 	{
-		err("[LoadAccount] fetching statement result 'stmt_AccountExists'.");
+		err("[ACCOUNT] fetching statement result 'stmt_AccountExists'.");
 		return -1;
 	}
 
 	if(exists == 0)
 	{
-		log("[LoadAccount] %p (account does not exist)", playerid);
+		log("[ACCOUNT] %p (%d) (conta não existe)", playerid, playerid);
 		return 0;
 	}
 
@@ -242,19 +240,19 @@ LoadAccount(playerid)
 
 	if(!stmt_execute(stmt_AccountLoad))
 	{
-		err("[LoadAccount] executing statement 'stmt_AccountLoad'.");
+		err("[ACCOUNT] executing statement 'stmt_AccountLoad'.");
 		return -1;
 	}
 
 	if(!stmt_fetch_row(stmt_AccountLoad))
 	{
-		err("[LoadAccount] fetching statement result 'stmt_AccountLoad'.");
+		err("[ACCOUNT] fetching statement result 'stmt_AccountLoad'.");
 		return -1;
 	}
 
 	if(!active)
 	{
-		log("[LoadAccount] %p (account inactive) Alive: %d Last login: %T", playerid, alive, lastlog);
+		log("[ACCOUNT] %p (%d) (conta inativa) Vivo?: %s Último Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
 		return 4;
 	}
 
@@ -271,12 +269,12 @@ LoadAccount(playerid)
 
 //	if(GetPlayerIpAsInt(playerid) == ipv4)
 //	{
-//		log("[LoadAccount] %p (account exists, auto login)", playerid);
+//		log("[ACCOUNT] %p (account exists, auto login)", playerid);
 //		return 2;
 //	}
 
-	log("[LoadAccount] %p (account exists, prompting login) Alive: %d Last login: %T", playerid, alive, lastlog);
-	}
+	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
+
 	return 1;
 }
 
@@ -290,49 +288,51 @@ LoadAccount(playerid)
 
 CreateAccount(playerid, password[])
 {
-    if(!IsPlayerNPC(playerid))
+    if(IsPlayerNPC(playerid)) return 0;
+
+	TogglePlayerSpectating(playerid, false);
+
+	new name[MAX_PLAYER_NAME];
+	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+	
+	new serial[MAX_GPCI_LEN];
+	gpci(playerid, serial, MAX_GPCI_LEN);
+	
+	log("[REGISTER] %p registered", playerid);
+
+	stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		name, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
+	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
+	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	gettime());
+	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime());
+	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
+
+	if(!stmt_execute(stmt_AccountCreate))
 	{
-		TogglePlayerSpectating(playerid, false);
-
-		new name[MAX_PLAYER_NAME];
-		GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-		
-		new serial[MAX_GPCI_LEN];
-		gpci(playerid, serial, MAX_GPCI_LEN);
-		
-		log("[REGISTER] %p registered", playerid);
-
-		stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		name, MAX_PLAYER_NAME);
-		stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
-		stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
-		stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	gettime());
-		stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime());
-		stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
-
-		if(!stmt_execute(stmt_AccountCreate))
-		{
-			err("[CreateAccount] executing statement 'stmt_AccountCreate'.");
-			KickPlayer(playerid, "An error occurred while executing statement 'stmt_AccountCreate'. Please contact an admin on IRC or the forum.");
-			return 0;
-		}
-		
-		//SetPlayerAimShoutText(playerid, "Largue sua arma");
-		
-		CheckAdminLevel(playerid);
-
-		if(GetPlayerAdminLevel(playerid) > 0)
-			ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
-
-		acc_IsNewPlayer[playerid] = true;
-		acc_HasAccount[playerid] = true;
-		acc_LoggedIn[playerid] = true;
-		SetPlayerToolTips(playerid, true);
-		SetPlayerChatMode(playerid, 0);
-		PlayerCreateNewCharacter(playerid);
-		SetPlayerScore(playerid, 0);
-		StopAudioStreamForPlayer(playerid);
-		CallLocalFunction("OnPlayerRegister", "d", playerid);
+		err("[CreateAccount] executing statement 'stmt_AccountCreate'.");
+		KickPlayer(playerid, "An error occurred while executing statement 'stmt_AccountCreate'. Please contact an admin on IRC or the forum.");
+		return 0;
 	}
+	
+	//SetPlayerAimShoutText(playerid, "Largue sua arma");
+	
+	CheckAdminLevel(playerid);
+
+	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
+
+	acc_IsNewPlayer[playerid] = true;
+	acc_HasAccount[playerid]  = true;
+	acc_LoggedIn[playerid]    = true;
+	SetPlayerToolTips(playerid, true);
+	SetPlayerChatMode(playerid, 0);
+	  // PlayerCreateNewCharacter(playerid);
+	SetPlayerScore(playerid, 0);
+	StopAudioStreamForPlayer(playerid);
+
+	EnterTutorial(playerid);
+
+	CallLocalFunction("OnPlayerRegister", "d", playerid);
+
 	return 1;
 }
 
@@ -367,10 +367,8 @@ Dialog:RegisterPrompt(playerid, response, listitem, inputtext[])
 		log("[RegisterPrompt] CreateAccount %d", playerid);
 		CreateAccount(playerid, buffer);
 	}
-	else
-	{
-		Kick(playerid);
-	}
+	else Kick(playerid);
+
 	return 0;
 }
 
@@ -380,7 +378,6 @@ DisplayLoginPrompt(playerid, badpass = 0)
 
 	if(badpass)
 		format(str, 200, ls(playerid, "ACCLOGWROPW"), acc_LoginAttempts[playerid]);
-
 	else
 		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", true), playerid);
 
@@ -397,18 +394,11 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 
 	if(response)
 	{
-		if(strlen(inputtext) < 4)
+		if(strlen(inputtext) < 4) // Chave muito curta
 		{
 			acc_LoginAttempts[playerid]++;
 
-			if(acc_LoginAttempts[playerid] < 5)
-			{
-				DisplayLoginPrompt(playerid, 1);
-			}
-			else
-			{
-				Kick(playerid);
-			}
+			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
 
 			return 1;
 		}
@@ -420,28 +410,16 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 		WP_Hash(inputhash, MAX_PASSWORD_LEN, inputtext);
 		GetPlayerPassHash(playerid, storedhash);
 
-		if(!strcmp(inputhash, storedhash)){
-		    Login(playerid);
-		}
-		else{
+		if(!strcmp(inputhash, storedhash)) Login(playerid); // Chave correta
+		else {
 			acc_LoginAttempts[playerid]++;
 
-			if(acc_LoginAttempts[playerid] < 5)
-			{
-				DisplayLoginPrompt(playerid, 1);
-			}
-			else
-			{
-				Kick(playerid);
-			}
+			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
 
 			return 1;
 		}
 	}
-	else
-	{
-		Kick(playerid);
-	}
+	else Kick(playerid);
 
 	return 0;
 }
@@ -513,8 +491,7 @@ Login(playerid)
 
 Logout(playerid, docombatlogcheck = 1)
 {
-    if(IsPlayerNPC(playerid))
-		return 0;
+    if(IsPlayerNPC(playerid)) return 0;
 		
 	if(!acc_LoggedIn[playerid])
 	{
@@ -522,18 +499,13 @@ Logout(playerid, docombatlogcheck = 1)
 		return 0;
 	}
 
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+	new Float:x, Float:y, Float:z, Float:r;
 
     GetPlayerPos(playerid, x, y, z);
     
 	GetPlayerFacingAngle(playerid, r);
 
-	log("[LOGOUT] %p logged out at %.1f, %.1f, %.1f (%.1f) Logged In: %d Alive: %d Knocked Out: %d",
-		playerid, x, y, z, r, acc_LoggedIn[playerid], IsPlayerAlive(playerid), IsPlayerKnockedOut(playerid));
+	log("[LOGOUT] %p logged out at %.1f, %.1f, %.1f (%.1f) Logged In: %d Alive: %d Knocked Out: %d", playerid, x, y, z, r, acc_LoggedIn[playerid], IsPlayerAlive(playerid), IsPlayerKnockedOut(playerid));
 
 	if(IsPlayerOnAdminDuty(playerid))
 	{
@@ -613,14 +585,11 @@ Logout(playerid, docombatlogcheck = 1)
 		RemovePlayerHolsterItem(playerid);
 		RemovePlayerWeapon(playerid);
 
-		for(new i; i < INV_MAX_SLOTS; i++)
-			DestroyItem(GetInventorySlotItem(playerid, 0));
+		for(new i; i < INV_MAX_SLOTS; i++) DestroyItem(GetInventorySlotItem(playerid, 0));
 
-		if(IsValidItem(GetPlayerHatItem(playerid)))
-			RemovePlayerHatItem(playerid);
+		if(IsValidItem(GetPlayerHatItem(playerid))) RemovePlayerHatItem(playerid);
 
-		if(IsValidItem(GetPlayerMaskItem(playerid)))
-			RemovePlayerMaskItem(playerid);
+		if(IsValidItem(GetPlayerMaskItem(playerid))) RemovePlayerMaskItem(playerid);
 
 		if(IsPlayerInAnyVehicle(playerid))
 		{
@@ -630,14 +599,10 @@ Logout(playerid, docombatlogcheck = 1)
 
 			GetVehicleHealth(vehicleid, health);
 
-			if(IsVehicleUpsideDown(vehicleid) || health < 300.0)
-			{
-				DestroyVehicle(vehicleid);
-			}
+			if(IsVehicleUpsideDown(vehicleid) || health < 300.0) DestroyVehicle(vehicleid);
 			else
 			{
-				if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-					SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
+				if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
 			}
 
 			SaveVehicle(vehicleid);
@@ -657,8 +622,8 @@ Logout(playerid, docombatlogcheck = 1)
 
 SavePlayerData(playerid)
 {
-    if(!IsPlayerNPC(playerid))
- {
+    if(IsPlayerNPC(playerid)) return 0;
+
 	dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[SavePlayerData] Saving '%p'", playerid);
 
 	if(!acc_LoggedIn[playerid])
@@ -673,11 +638,7 @@ SavePlayerData(playerid)
 		return 0;
 	}
 
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+	new Float:x, Float:y, Float:z, Float:r;
 
  	GetPlayerPos(playerid, x, y, z);
         
@@ -691,8 +652,8 @@ SavePlayerData(playerid)
 
 	//SaveBlockAreaCheck(x, y, z);
 
-	if(IsPlayerInAnyVehicle(playerid))
-		x += 1.5;
+	// Coloca o jogador para cima se ele estiver dentro de um veículo
+	if(IsPlayerInAnyVehicle(playerid)) x += 1.5;
 
 	if(IsPlayerAlive(playerid))
 	{
@@ -717,10 +678,7 @@ SavePlayerData(playerid)
 		stmt_bind_value(stmt_AccountUpdate, 1, DB::TYPE_INTEGER, GetPlayerWarnings(playerid));
 		stmt_bind_value(stmt_AccountUpdate, 2, DB::TYPE_PLAYER_NAME, playerid);
 
-		if(!stmt_execute(stmt_AccountUpdate))
-		{
-			err("Statement 'stmt_AccountUpdate' failed to execute.");
-		}
+		if(!stmt_execute(stmt_AccountUpdate)) err("Statement 'stmt_AccountUpdate' failed to execute.");
 
 		dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Saving character data");
 		SavePlayerChar(playerid);
@@ -732,12 +690,9 @@ SavePlayerData(playerid)
 		stmt_bind_value(stmt_AccountUpdate, 1, DB::TYPE_INTEGER, GetPlayerWarnings(playerid));
 		stmt_bind_value(stmt_AccountUpdate, 2, DB::TYPE_PLAYER_NAME, playerid);
 
-		if(!stmt_execute(stmt_AccountUpdate))
-		{
-			err("Statement 'stmt_AccountUpdate' failed to execute.");
-		}
+		if(!stmt_execute(stmt_AccountUpdate)) err("Statement 'stmt_AccountUpdate' failed to execute.");
 	}
- }
+
 	return 1;
 }
 

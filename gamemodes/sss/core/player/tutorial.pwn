@@ -31,6 +31,7 @@ PlayerText:	ClassButtonTutorial		[MAX_PLAYERS],
 bool:		PlayerInTutorial		[MAX_PLAYERS],
 			PlayerTutorialVehicle	[MAX_PLAYERS],
 			PlayerTutorial_Item     [MAX_TUTORIAL_ITEMS][MAX_PLAYERS],
+			PlayerTutorial_Pickup   [MAX_TUTORIAL_ITEMS][MAX_PLAYERS],
 bool:		PlayerTutorial_VozInv   [MAX_PLAYERS],
 bool:		PlayerTutorial_VozCnt   [MAX_PLAYERS];
 
@@ -69,119 +70,151 @@ hook OnPlayerCreateChar(playerid)
 	PlayerTextDrawShow(playerid, ClassButtonTutorial[playerid]);
 }
 
+EnterTutorial(playerid) {
+	log("[TUTORIAL] Jogador %p (%d) entrou no tutorial.", playerid, playerid);
+
+	new virtualworld = playerid + 1;
+
+	// Um armazém vermelho em Las Venturas
+	SetPlayerPos(playerid, 928.8049,2072.3174,10.8203);
+	SetPlayerFacingAngle(playerid, 269.3244);
+	SetPlayerVirtualWorld(playerid, virtualworld);
+
+	// Define uma roupa aleatória
+	new skin;
+	switch(random(14))
+	{
+		case 0 : skin = skin_Civ0M;
+		case 1 : skin = skin_Civ1M;
+		case 2 : skin = skin_Civ2M;
+		case 3 : skin = skin_Civ3M;
+		case 4 : skin = skin_Civ4M;
+		case 5 : skin = skin_MechM;
+		case 6 : skin = skin_BikeM;
+		case 7 : skin = skin_Civ0F;
+		case 8 : skin = skin_Civ1F;
+		case 9 : skin = skin_Civ2F;
+		case 10: skin = skin_Civ3F;
+		case 11: skin = skin_Civ4F;
+		case 12: skin = skin_ArmyF;
+		case 13: skin = skin_IndiF;
+	}
+	SetPlayerClothesID(playerid, skin);
+
+	SetPlayerHP(playerid, 100.0);
+	SetPlayerAP(playerid, 0.0);
+	SetPlayerFP(playerid, 80.0);
+	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
+	SetPlayerGender(playerid, GetClothesGender(GetPlayerClothesID(playerid)));
+	SetPlayerBleedRate(playerid, 0.0);
+
+	SetPlayerAliveState(playerid, false);
+	SetPlayerSpawnedState(playerid, false);
+
+	FreezePlayer(playerid, gLoginFreezeTime * 1000);
+	PrepareForSpawn(playerid);
+
+	PlayerInTutorial[playerid] = true;
+	
+	PlayerTutorial_VozInv[playerid] = false;
+	PlayerTutorial_VozCnt[playerid] = false;
+
+	//	Vehicle
+	PlayerTutorialVehicle[playerid] = CreateWorldVehicle(veht_Bobcat, 949.1641,2060.3074,10.8203, 272.1444, random(100), random(100), .world = virtualworld);
+	SetVehicleHealth(PlayerTutorialVehicle[playerid], 321.9);
+	SetVehicleFuel(PlayerTutorialVehicle[playerid], frandom(1.0));
+	FillContainerWithLoot(GetVehicleContainer(PlayerTutorialVehicle[playerid]), 5, GetLootIndexFromName("world_civilian"));
+	SetVehicleDamageData(PlayerTutorialVehicle[playerid],
+		encode_panels(random(4), random(4), random(4), random(4), random(4), random(4), random(4)),
+		encode_doors(random(5), random(5), random(5), random(5)),
+		encode_lights(random(2), random(2), random(2), random(2)),
+		encode_tires(0, 1, 1, 0)
+	);
+
+	//	Items
+	PlayerTutorial_Item[0][playerid]    = CreateItem(item_CorPanel, 975.1069,2071.6677,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[0][playerid]  = CreatePickup(1559, 8, 975.1069,2071.6677,9.8603, virtualworld);
+	PlayerTutorial_Item[1][playerid]    = CreateItem(item_CorPanel, 973.7677,2075.0117,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[1][playerid]  = CreatePickup(1559, 8, 973.7677,2075.0117,9.8603, virtualworld);
+	PlayerTutorial_Item[2][playerid]    = CreateItem(item_CorPanel, 973.7151,2067.4258,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[2][playerid]  = CreatePickup(1559, 8, 973.7151,2067.4258,9.8603, virtualworld);
+	PlayerTutorial_Item[3][playerid]    = CreateItem(item_Wheel, 951.7727,2068.0540,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[3][playerid]  = CreatePickup(1559, 8, 951.7727,2068.0540,9.8603, virtualworld);
+	PlayerTutorial_Item[4][playerid]    = CreateItem(item_Wheel, 954.4612,2068.2312,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[4][playerid]  = CreatePickup(1559, 8, 954.4612,2068.2312,9.8603, virtualworld);
+	PlayerTutorial_Item[5][playerid]    = CreateItem(item_Wheel, 952.7346,2070.6902,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[5][playerid]  = CreatePickup(1559, 8, 952.7346,2070.6902,9.8603, virtualworld);
+	PlayerTutorial_Item[6][playerid]    = CreateItem(item_Wrench, 948.3666,2069.8452,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[6][playerid]  = CreatePickup(1559, 8, 948.3666,2069.8452,9.8603, virtualworld);
+	PlayerTutorial_Item[7][playerid]    = CreateItem(item_Screwdriver, 946.4836,2069.7207,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[7][playerid]  = CreatePickup(1559, 8, 946.4836,2069.7207,9.8603, virtualworld);
+	PlayerTutorial_Item[8][playerid]    = CreateItem(item_Hammer, 944.1250,2067.6262,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[8][playerid]  = CreatePickup(1559, 8, 944.1250,2067.6262,9.8603, virtualworld);
+	PlayerTutorial_Item[9][playerid]    = CreateItem(item_TentPack, 944.1473,2083.2739,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[9][playerid]  = CreatePickup(1559, 8, 944.1473,2083.2739,9.8603, virtualworld);
+	PlayerTutorial_Item[10][playerid]   = CreateItem(item_Hammer, 949.4579,2082.9829,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[10][playerid] = CreatePickup(1559, 8, 949.4579,2082.9829,9.8603, virtualworld);
+	PlayerTutorial_Item[11][playerid]   = CreateItem(item_Crowbar, 947.3903,2080.4143,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[11][playerid] = CreatePickup(1559, 8, 947.3903,2080.4143,9.8603, virtualworld);
+	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Crowbar, 951.6076,2067.8994,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 951.6076,2067.8994,9.8603, virtualworld);
+	PlayerTutorial_Item[13][playerid]   = CreateItem(item_Keypad, 971.9176,2069.2117,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[13][playerid] = CreatePickup(1559, 8, 971.9176,2069.2117,9.8603, virtualworld);
+	PlayerTutorial_Item[14][playerid]   = CreateItem(item_Motor, 971.4994,2072.1038,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[14][playerid] = CreatePickup(1559, 8, 971.4994,2072.1038,9.8603, virtualworld);
+	PlayerTutorial_Item[15][playerid]   = CreateItem(item_Rucksack, 931.9263,2081.7053,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[15][playerid] = CreatePickup(1559, 8, 931.9263,2081.7053,9.8603, virtualworld);
+	PlayerTutorial_Item[16][playerid]   = CreateItem(item_LargeBox, 927.8030,2058.6838,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[16][playerid] = CreatePickup(1559, 8, 927.8030,2058.6838,9.8603, virtualworld);
+	PlayerTutorial_Item[17][playerid]   = CreateItem(item_MediumBox, 929.4532,2058.3926,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[17][playerid] = CreatePickup(1559, 8, 929.4532,2058.3926,9.8603, virtualworld);
+	PlayerTutorial_Item[18][playerid]   = CreateItem(item_SmallBox, 932.5464,2058.3267,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[18][playerid] = CreatePickup(1559, 8, 932.5464,2058.3267,9.8603, virtualworld);
+	PlayerTutorial_Item[19][playerid]   = CreateItem(item_PumpShotgun, 959.1787,2082.9680,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	// PlayerTutorial_Pickup[19][playerid] = CreatePickup(1559, 8, 959.1787,2082.9680,9.8603, virtualworld);
+
+	// Shotgun?
+	PlayerTutorial_Item[20][playerid]   = CreateItem(item_AmmoBuck, 961.2108,2083.3938,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	SetItemWeaponItemMagAmmo(PlayerTutorial_Item[20][playerid], 12);
+	// PlayerTutorial_Pickup[20][playerid] = CreatePickup(1559, 8, 961.2108,2083.3938,9.8603, virtualworld);
+	
+	// Galão de Gasolina
+	PlayerTutorial_Item[21][playerid]   = CreateItem(item_GasCan, 938.4733,2063.2769,9.8603, .rz = frandom(360.0), .world = virtualworld);
+	SetLiquidItemLiquidType(PlayerTutorial_Item[21][playerid], liquid_Petrol);
+	SetLiquidItemLiquidAmount(PlayerTutorial_Item[21][playerid], 15);
+	// PlayerTutorial_Pickup[21][playerid] = CreatePickup(1559, 8, 938.4733,2063.2769,9.8603, virtualworld);
+
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "IDIOMAID")));
+
+	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
+
+	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
+}
+
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
 	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/tutorial.pwn");
 
 	dbg("gamemodes/sss/core/player/tutorial.pwn", 1, "[OnPlayerClickPlayerTD]");
+
 	if(playertextid == ClassButtonTutorial[playerid])
 	{
-		SetPlayerPos(playerid, 928.8049,2072.3174,10.8203);
-		SetPlayerFacingAngle(playerid, 269.3244);
-		SetPlayerVirtualWorld(playerid, playerid + 1);
+		EnterTutorial(playerid);
 
-		switch(random(14))
-		{
-			case 0: SetPlayerClothesID(playerid, skin_Civ0M);
-			case 1: SetPlayerClothesID(playerid, skin_Civ1M);
-			case 2: SetPlayerClothesID(playerid, skin_Civ2M);
-			case 3: SetPlayerClothesID(playerid, skin_Civ3M);
-			case 4: SetPlayerClothesID(playerid, skin_Civ4M);
-			case 5: SetPlayerClothesID(playerid, skin_MechM);
-			case 6: SetPlayerClothesID(playerid, skin_BikeM);
-			case 7: SetPlayerClothesID(playerid, skin_Civ0F);
-			case 8: SetPlayerClothesID(playerid, skin_Civ1F);
-			case 9: SetPlayerClothesID(playerid, skin_Civ2F);
-			case 10: SetPlayerClothesID(playerid, skin_Civ3F);
-			case 11: SetPlayerClothesID(playerid, skin_Civ4F);
-			case 12: SetPlayerClothesID(playerid, skin_ArmyF);
-			case 13: SetPlayerClothesID(playerid, skin_IndiF);
-		}
-
-		SetPlayerHP(playerid, 100.0);
-		SetPlayerAP(playerid, 0.0);
-		SetPlayerFP(playerid, 80.0);
-		SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
-		SetPlayerGender(playerid, GetClothesGender(GetPlayerClothesID(playerid)));
-		SetPlayerBleedRate(playerid, 0.0);
-
-		SetPlayerAliveState(playerid, false);
-		SetPlayerSpawnedState(playerid, false);
-
-		FreezePlayer(playerid, gLoginFreezeTime * 1000);
-		PrepareForSpawn(playerid);
-
+		// Esconde os textdraws de escolha
 		PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
 		PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
 		PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
 
+		// Remove a tela preta
 		SetPlayerBrightness(playerid, 255);
-
-		PlayerInTutorial[playerid] = true;
-		
-		PlayerTutorial_VozInv[playerid] = false;
-		PlayerTutorial_VozCnt[playerid] = false;
-
-
-		//	Vehicle
-		
-		PlayerTutorialVehicle[playerid] = CreateWorldVehicle(veht_Bobcat, 949.1641,2060.3074,10.8203, 272.1444, random(100), random(100), .world = playerid + 1);
-		SetVehicleHealth(PlayerTutorialVehicle[playerid], 321.9);
-		SetVehicleFuel(PlayerTutorialVehicle[playerid], frandom(1.0));
-		FillContainerWithLoot(GetVehicleContainer(PlayerTutorialVehicle[playerid]), 5, GetLootIndexFromName("world_civilian"));
-		SetVehicleDamageData(PlayerTutorialVehicle[playerid],
-			encode_panels(random(4), random(4), random(4), random(4), random(4), random(4), random(4)),
-			encode_doors(random(5), random(5), random(5), random(5)),
-			encode_lights(random(2), random(2), random(2), random(2)),
-			encode_tires(0, 1, 1, 0) );
-
-		//	Items
-		
-		PlayerTutorial_Item[0][playerid] = CreateItem(item_CorPanel, 975.1069,2071.6677,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[1][playerid] = CreateItem(item_CorPanel, 973.7677,2075.0117,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[2][playerid] = CreateItem(item_CorPanel, 973.7151,2067.4258,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[3][playerid] = CreateItem(item_Wheel, 951.7727,2068.0540,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[4][playerid] = CreateItem(item_Wheel, 954.4612,2068.2312,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[5][playerid] = CreateItem(item_Wheel, 952.7346,2070.6902,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[6][playerid] = CreateItem(item_Wrench, 948.3666,2069.8452,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[7][playerid] = CreateItem(item_Screwdriver, 946.4836,2069.7207,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[8][playerid] = CreateItem(item_Hammer, 944.1250,2067.6262,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[9][playerid] = CreateItem(item_TentPack, 944.1473,2083.2739,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[10][playerid] = CreateItem(item_Hammer, 949.4579,2082.9829,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[11][playerid] = CreateItem(item_Crowbar, 947.3903,2080.4143,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[12][playerid] = CreateItem(item_Crowbar, 951.6076,2067.8994,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		PlayerTutorial_Item[13][playerid] = CreateItem(item_Keypad, 971.9176,2069.2117,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[14][playerid] = CreateItem(item_Motor, 971.4994,2072.1038,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[15][playerid] = CreateItem(item_Rucksack, 931.9263,2081.7053,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[16][playerid] = CreateItem(item_LargeBox, 927.8030,2058.6838,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[17][playerid] = CreateItem(item_MediumBox, 929.4532,2058.3926,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[18][playerid] = CreateItem(item_SmallBox, 932.5464,2058.3267,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[19][playerid] = CreateItem(item_PumpShotgun, 959.1787,2082.9680,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        PlayerTutorial_Item[20][playerid] = CreateItem(item_AmmoBuck, 961.2108,2083.3938,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-        SetItemWeaponItemMagAmmo(PlayerTutorial_Item[20][playerid], 12);
-		PlayerTutorial_Item[21][playerid] = CreateItem(item_GasCan, 938.4733,2063.2769,9.8603, .rz = frandom(360.0), .world = playerid + 1);
-		SetLiquidItemLiquidType(PlayerTutorial_Item[21][playerid], liquid_Petrol);
-        SetLiquidItemLiquidAmount(PlayerTutorial_Item[21][playerid], 15);
-
-	    // Message
-	    
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			ls(playerid, "TUTORINTROD"), ls(playerid, "IDIOMAID")));
-
-        for(new i = 0; i < 20; i++)
-        	SendClientMessage(playerid, GREEN, "");
-
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 	}
 }
 
 hook OnVehicleSave(vehicleid)
 {
 	foreach(new i : Player)
-	{
-		if(vehicleid == PlayerTutorialVehicle[i])
-			return Y_HOOKS_BREAK_RETURN_1;
-	}
+		if(vehicleid == PlayerTutorialVehicle[i]) return Y_HOOKS_BREAK_RETURN_1;
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -203,6 +236,8 @@ hook OnPlayerDisconnect(playerid, reason)
 ExitTutorial(playerid)
 {
 	if(!PlayerInTutorial[playerid]) return 0;
+
+	log("[TUTORIAL] Jogador %p (%d) saiu do tutorial.", playerid, playerid);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
@@ -221,8 +256,7 @@ ExitTutorial(playerid)
 	DestroyWorldVehicle(PlayerTutorialVehicle[playerid], true);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
 
-	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORIEXIT", true), GetLanguageString(playerid, "IDIOMAID", true)));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", GetLanguageString(playerid, "TUTORIEXIT", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
@@ -236,11 +270,9 @@ hook OnPlayerWearBag(playerid, itemid)
 
 	if(PlayerInTutorial[playerid])
 	{
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORACCBAG", true), GetLanguageString(playerid, "IDIOMAID", true)));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", GetLanguageString(playerid, "TUTORACCBAG", true), GetLanguageString(playerid, "IDIOMAID", true)));
         	
-  		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+  		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 		
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
 	}
@@ -261,15 +293,14 @@ hook OnPlayerOpenInventory(playerid)
 
             PlayerTutorial_VozInv[playerid] = true;
 		}
-  		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+
+  		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 			
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
-
 
 hook OnPlayerOpenContainer(playerid, containerid)
 {
@@ -281,14 +312,12 @@ hook OnPlayerOpenContainer(playerid, containerid)
 		{
 		    if(!PlayerTutorial_VozCnt[playerid])
 		    {
-  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-					ls(playerid, "TUTORINTBAG"), ls(playerid, "IDIOMAID")));
+  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTBAG"), ls(playerid, "IDIOMAID")));
 
                 PlayerTutorial_VozCnt[playerid] = true;
 			}
 			
-  			for(new i = 0; i < 20; i++)
-				SendClientMessage(playerid, GREEN, "");
+  			for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 			
 			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
 		}

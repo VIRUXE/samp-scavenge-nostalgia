@@ -121,19 +121,20 @@ hook OnPlayerConnect(playerid)
 
 SpawnLoggedInPlayer(playerid)
 {
+	// ! Essa merda é um pouco estranha
+	
+	log("[SPAWN] Spawning logged in player %p (%d)", playerid, playerid);
+
 	if(IsPlayerAlive(playerid))
 	{
-		new ret = PlayerSpawnExistingCharacter(playerid);
-
-		if(!ret)
+		if(!PlayerSpawnExistingCharacter(playerid))
 		{
 			SetPlayerBrightness(playerid, 255);
 			return 1;
 		}
 	}
 
-	PlayerCreateNewCharacter(playerid);
-	SetPlayerBrightness(playerid, 255);
+	EnterTutorial(playerid);
 
 	return 0;
 }
@@ -181,17 +182,11 @@ PrepareForSpawn(playerid)
 
 PlayerSpawnExistingCharacter(playerid)
 {
-	if(IsPlayerSpawned(playerid))
-		return 1;
+	if(IsPlayerSpawned(playerid)) return 1;
 
-	if(!LoadPlayerChar(playerid))
-		return 2;
+	if(!LoadPlayerChar(playerid)) return 2;
 
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+	new Float:x, Float:y, Float:z, Float:r;
 
 	GetPlayerSpawnPos(playerid, x, y, z);
 	GetPlayerSpawnRot(playerid, r);
@@ -204,8 +199,7 @@ PlayerSpawnExistingCharacter(playerid)
 
 	if(GetPlayerWarnings(playerid) > 0)
 	{
-		if(GetPlayerWarnings(playerid) >= 5)
-			SetPlayerWarnings(playerid, 0);
+		if(GetPlayerWarnings(playerid) >= 5) SetPlayerWarnings(playerid, 0);
 
 		ChatMsgLang(playerid, YELLOW, "WARNCOUNTER", GetPlayerWarnings(playerid));
 	}
@@ -216,10 +210,8 @@ PlayerSpawnExistingCharacter(playerid)
 
 	if(GetPlayerStance(playerid) == 1)
 		ApplyAnimation(playerid, "SUNBATHE", "PARKSIT_M_OUT", 4.0, 0, 0, 0, 0, 0);
-
 	else if(GetPlayerStance(playerid) == 2)
 		ApplyAnimation(playerid, "SUNBATHE", "PARKSIT_M_OUT", 4.0, 0, 0, 0, 0, 0);
-
 	else if(GetPlayerStance(playerid) == 3)
 		ApplyAnimation(playerid, "ROB_BANK", "SHP_HandsUp_Scr", 4.0, 0, 1, 1, 1, 0);
 
@@ -236,7 +228,7 @@ PlayerSpawnExistingCharacter(playerid)
 
 PlayerCreateNewCharacter(playerid)
 {
-	log("[NEWCHAR] %p creating new character", playerid);
+	log("[NEWCHAR] %p (%d) creating new character", playerid, playerid);
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
 	SetPlayerFacingAngle(playerid, 0.0);
@@ -250,7 +242,7 @@ PlayerCreateNewCharacter(playerid)
 	SetPlayerBrightness(playerid, 255);
 	TogglePlayerControllable(playerid, false);
 
-	if(IsPlayerLoggedIn(playerid) && GetPlayerTotalSpawns(playerid) > 0) // If they are logged in a have spawned before
+	if(IsPlayerLoggedIn(playerid))
 	{
 		PlayerTextDrawSetString(playerid, ClassButtonMale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "GENDER_M")));
 		PlayerTextDrawSetString(playerid, ClassButtonFemale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "GENDER_F")));
