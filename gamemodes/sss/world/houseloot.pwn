@@ -110,7 +110,7 @@ Load_HouseLoot()
 							LootOffsets[j][k][0], LootOffsets[j][k][1], LootOffsets[j][k][2],
 							x, y, z);
 
-						//CreateStaticLootSpawn(x, y, z, GetLootIndexFromName("world_civilian"), 30);
+						//CreateStaticLootSpawn(x, y, z, world_civilian, 30);
 					}
 				}
 			}
@@ -135,4 +135,3 @@ stock GetAttachedObjectPos(
 	y = object_py + offset_x * cos_y * sin_z + offset_x * sin_x * sin_y * cos_z + offset_y * cos_x * cos_z + offset_z * sin_y * sin_z - offset_z * sin_x * cos_y * cos_z;
 	z = object_pz - offset_x * cos_x * sin_y + offset_y * sin_x + offset_z * cos_x * cos_y;
 }
-

@@ -70,11 +70,6 @@ hook OnGameModeInit()
 	buttonid2[1] = CreateButton(-2111.8342, 2699.4351, 175.3425, "Pressione F para descer"); // 
 	LinkTP(buttonid2[0], buttonid2[1]);*/
     
-	defer LoadWorld();
-}
-
-timer LoadWorld[10]()
-{
 	gServerInitialising = true;
 
 	SetGameModeText("Scavenge Survive");
@@ -91,60 +86,14 @@ timer LoadWorld[10]()
 		ItemCounts[i] = GetItemTypeCount(i);
 	}
 
-	defer _Load_LS();
-}
-
-timer _Load_LS[500]()
-{
 	Load_LS();
-	defer _Load_SF();
-}
-
-timer _Load_SF[500]()
-{
 	Load_SF();
-	defer _Load_LV();
-}
-
-timer _Load_LV[500]()
-{
 	Load_LV();
-	defer _Load_RC();
-}
-
-timer _Load_RC[500]()
-{
 	Load_RC();
-	defer _Load_FC();
-}
-
-timer _Load_FC[500]()
-{
 	Load_FC();
-	defer _Load_BC();
-}
-
-timer _Load_BC[500]()
-{
 	Load_BC();
-	defer _Load_TR();
-}
-
-timer _Load_TR[500]()
-{
 	Load_TR();
-	defer _Load_Novos();
-}
-
-timer _Load_Novos[500]()
-{
 	Load_Novos();
-	defer _Finalise();
-}
-
-
-timer _Finalise[500]()
-{
 	Load_HouseLoot();
 
 	new itemtypename[ITM_MAX_NAME];
@@ -176,7 +125,6 @@ timer _Finalise[500]()
 	// Calculate the amount of time it takes to load the server
 	gServerLoadTime = GetTickCount() - gServerLoadTime_Start;
 	log("\nServer load time: %d seconds", gServerLoadTime /= 1000);
-	// MAX_PLAYERS
 	log("MAX_PLAYERS: %d", MAX_PLAYERS);
 }
 

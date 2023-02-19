@@ -48,7 +48,7 @@ CreateXmasTree(Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz)
 	CreateDynamicObject(xmas_presents[random(4)], box_x, box_y, box_z, 0.0, 0.0, frandom(360.0));
 	containerid = CreateContainer("Presente de Natal", 10, CreateButton(box_x, box_y, box_z + 1.0, "Feliz Natal!"));
 
-	FillContainerWithLoot(containerid, random(10) + 1, GetLootIndexFromName("world_military"));
+	FillContainerWithLoot(containerid, random(10) + 1, world_military);
 
 	if(random(100) < 10)
 		AddItemToContainer(containerid, CreateItem(item_XmasHat));
