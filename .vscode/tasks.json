@@ -40,6 +40,21 @@
       "problemMatcher": "$pawncc"
     },
     {
+      "label": "Upload",
+      "type": "shell",
+      "command": "py ${workspaceRoot}\\upload.py",
+      "isBackground": false,
+      "group": {
+        "kind": "none",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
       "type": "vsls",
       "taskUid": "shell:build",
       "problemMatcher": [
