@@ -24,7 +24,7 @@
 
 #include "sss/world/spawn.pwn"
 
-#if defined WORLD_GENERATE
+#if defined GENERATE_WORLD
 	#include "sss/world/zones/ls.pwn"
 	#include "sss/world/zones/sf.pwn"
 	#include "sss/world/zones/lv.pwn"
@@ -88,7 +88,7 @@ hook OnGameModeInit()
 		ItemCounts[i] = GetItemTypeCount(i);
 	}
 
-#if defined WORLD_GENERATE
+#if defined GENERATE_WORLD
 	Load_LS();
 	Load_SF();
 	Load_LV();
