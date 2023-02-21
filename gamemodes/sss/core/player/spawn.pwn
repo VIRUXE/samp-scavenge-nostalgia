@@ -182,9 +182,11 @@ PrepareForSpawn(playerid)
 
 PlayerSpawnExistingCharacter(playerid)
 {
-	if(IsPlayerSpawned(playerid)) return 1;
+	if(IsPlayerSpawned(playerid))
+		return 1;
 
-	if(!LoadPlayerChar(playerid)) return 2;
+	if(!LoadPlayerChar(playerid)) 
+		return 2;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
