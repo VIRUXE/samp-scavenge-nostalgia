@@ -34,19 +34,14 @@
 	#include "sss/world/zones/tr.pwn"
 	#include "sss/world/zones/novos.pwn"
 
-	//#include "sss/world/misc/ls_apartments1.pwn"
-	//#include "sss/world/misc/ls_apartments2.pwn"
-	//#include "sss/world/misc/ls_beachside.pwn"
-	//#include "sss/world/misc/sf_zombotech.pwn"
-
-	// #include "sss/world/misc/.pwn"
-	#include "sss/world/puzzles/area69.pwn"
-	//#include "sss/world/puzzles/ranch.pwn"
 	#include "sss/world/puzzles/mtchill.pwn"
-	//#include "sss/world/puzzles/codehunt.pwn"
+//	#include "sss/world/puzzles/area69.pwn"
+//	#include "sss/world/puzzles/ranch.pwn"
+//	#include "sss/world/puzzles/codehunt.pwn"
 
 	#include "sss/world/houseloot.pwn"
 	//#include "sss/world/xmas.pwn"
+	
 #endif
 
 static
@@ -57,21 +52,7 @@ static
 
 
 hook OnGameModeInit()
-{
-	// Esgoto:
-
-/*	new buttonid[2];
-	buttonid[0] = CreateButton(-2587.3052, 1162.3717, 55.4375, "Pressione F para entrar"); // 
-	buttonid[1] = CreateButton(-2578.5449, 1143.6442, 40.1459, "Pressione F para sair"); //
-	LinkTP(buttonid[0], buttonid[1]);
-
-	// CasaArvore:
-
-	new buttonid2[2];
-	buttonid2[0] = CreateButton(-2111.9375, 2699.9778, 160.6714, "Pressione F para subir"); // 
-	buttonid2[1] = CreateButton(-2111.8342, 2699.4351, 175.3425, "Pressione F para descer"); // 
-	LinkTP(buttonid2[0], buttonid2[1]);*/
-    
+{   
 	gServerInitialising = true;
 
 	SetGameModeText("Scavenge Survive");
