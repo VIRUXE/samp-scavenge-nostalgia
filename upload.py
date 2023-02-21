@@ -16,7 +16,7 @@ cnopts = sftp.CnOpts()
 cnopts.hostkeys = None
 
 # Connect to the server
-with sftp.Connection('216.238.105.153', username='root', password='viadoviado', cnopts=cnopts) as sftp:
+with sftp.Connection('sv.scavengenostalgia.fun', username=input('Usuário: '), password=input('Chave: '), cnopts=cnopts) as sftp:
     print('Ligaçao estabelecida.')
     sftp.cwd('samp/nostalgia/gamemodes')
     
