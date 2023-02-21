@@ -5,6 +5,8 @@ LoadSettings()
 	new result;
 	new Node:node, length;
 
+	log("[SETTINGS] Carregando configurações...");
+
 	result = JSON_ParseFile("settings.json", Settings);
 	if(result) // Não foi possível carregar o arquivo
 	{

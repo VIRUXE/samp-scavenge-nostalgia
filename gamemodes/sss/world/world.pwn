@@ -122,13 +122,22 @@ hook OnGameModeInit()
 	// I'd still like to be credited for my work. Many servers have claimed
 	// they are the sole creator of the mode and this makes me sad and very
 	// hesitant to release my work completely free of charge.
-	SetGameModeText("Scavenge Survive");
 	SendRconCommand("hostname Nostalgia ~ Scavenge");
-	SendRconCommand("password 0"); // Removes the password
+
+	new Node:node, result, password[24];
+	JSON_GetObject(Settings, "server", node);
+	result = JSON_GetString(node, "password", password);
+	if(result || isempty(password)) { // Configuracao nao existe no arquivo ou esta vazia
+		log("[INFO] Nenhuma senha definida no arquivo de configuracao. Senha inicial removida.");
+		SendRconCommand("password 0"); // Remove a senha inicial
+	} else {
+		log("[INFO] Senha carregada com sucesso.");
+		SendRconCommand(sprintf("password %s", password));
+	}
 	
 	// Calculate the amount of time it takes to load the server
 	gServerLoadTime = GetTickCount() - gServerLoadTime_Start;
-	log("\nServer load time: %d seconds", gServerLoadTime /= 1000);
+	log("\nTempo de Carregamento: %d segundos", gServerLoadTime /= 1000);
 	log("MAX_PLAYERS: %d", MAX_PLAYERS);
 }
 
