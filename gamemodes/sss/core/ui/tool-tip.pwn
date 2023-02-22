@@ -31,7 +31,7 @@ static
 	Timer:      ToolTipeTimer[MAX_PLAYERS],
 	MsgAuto = 0;
 
-task SendAutoMessage[5 * 60000](){
+task SendAutoMessage[MIN(5)]() {
 	foreach(new i : Player)
 	    if(ToolTips[i])
 	    	ChatMsg(i, BLUE, ""C_BLUE"%s", ls(i, sprintf("AUTOMSG%d", MsgAuto)));
@@ -43,16 +43,14 @@ task SendAutoMessage[5 * 60000](){
 
 ShowHelpTip(playerid, text[], time = 0)
 {
-	if(!ToolTips[playerid])
-		return 0;
+	if(!ToolTips[playerid]) return 0;
 
 	PlayerTextDrawSetString(playerid, ToolTipText[playerid], text);
 	PlayerTextDrawShow(playerid, ToolTipText[playerid]);
 
 	stop ToolTipeTimer[playerid];
 	
-	if(time > 0)
-		ToolTipeTimer[playerid] = defer HideHelpTip_Delay(playerid, time);
+	if(time > 0) ToolTipeTimer[playerid] = defer HideHelpTip_Delay(playerid, time);
 
 	return 1;
 }
@@ -96,25 +94,19 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 		
 		if(IsItemTypeDefence(itype))
 			ShowHelpTip(playerid, GetLanguageString(playerid, "DEFENCE_T", true), 20000);
-
 		else if(IsItemTypeSafebox(itype))
 			ShowHelpTip(playerid, GetLanguageString(playerid, "SAFEBOX_T", true), 20000);
-
 		else if(IsItemTypeBag(itype))
 			ShowHelpTip(playerid, GetLanguageString(playerid, "BAG_T", true), 20000);
-
 		else if(GetHatFromItem(itype) != -1)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "HAT_T", true), 20000);
-
 		else if(GetMaskFromItem(itype) != -1)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "MASK_T", true), 20000);
 
 		if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "LIQUID_T", true), 20000);
-
 		else if(IsItemTypeFood(itype))
 			ShowHelpTip(playerid, GetLanguageString(playerid, "FOOD_T", true), 20000);
-
 		else {
 			new itemname[ITM_MAX_NAME],
 				itemtipkey[12],
@@ -122,8 +114,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 			GetItemTypeUniqueName(GetItemType(itemid), itemname);
 
-			if(strlen(itemname) > 9)
-				itemname[9] = EOS;
+			if(strlen(itemname) > 9) itemname[9] = EOS;
 
 			format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
 			itemtipkey[11] = EOS;
@@ -139,27 +130,23 @@ hook OnPlayerDropItem(playerid, itemid)
 {
 	dbg("global", CORE, "[OnPlayerDropItem] in /gamemodes/sss/core/player/tool-tips.pwn");
 
-	if(ToolTips[playerid])
-		HideHelpTip(playerid);
+	if(ToolTips[playerid]) HideHelpTip(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 stock IsPlayerToolTipsOn(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ToolTips[playerid];
 }
 
 stock SetPlayerToolTips(playerid, bool:st)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(!st)
-	    HideHelpTip(playerid);
+	if(!st) HideHelpTip(playerid);
 	    
 	ToolTips[playerid] = st;
 

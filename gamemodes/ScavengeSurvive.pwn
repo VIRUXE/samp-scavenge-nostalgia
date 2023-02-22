@@ -34,7 +34,9 @@
 
 ==============================================================================*/
 
-#define BUILD_MINIMAL // Constroi o servidor com menos recursos. Para que o carregamento seja mais rapido.
+// ! Mais para a frente vou colocar de outra forma. Alias, ja se encontra de outra forma, mas noutra branch. Tem que aguardar.
+// #define BUILD_MINIMAL // Constroi o servidor com menos recursos. Para que o carregamento seja mais rapido.
+#define GENERATE_WORLD
 
 native IsValidVehicle(vehicleid);
 native gpci(playerid, serial[], len);
@@ -51,6 +53,9 @@ forward Float:GetPlayerTotalVelocity(playerid);
 forward ItemType:GetItemWeaponItemAmmoItem(itemid);
 forward Float:GetPlayerBleedRate(playerid);
 forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
+
+#define SEC(%0) 1000 * %0
+#define MIN(%0) SEC(%0) * 60
 
 #define _DEBUG							0 // YSI
 #define DB_DEBUG						false // SQLitei
@@ -73,20 +78,16 @@ forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 #define MAX_SKINS                       (312)
 
 #if defined BUILD_MINIMAL
-
 	#define BTN_MAX							(4096) // SIF/Button
 	#define ITM_MAX							(4096) // SIF/Item
 	#define CNT_MAX_SLOTS					(10)
 	#define MAX_MODIO_STACK_SIZE			(1024)
 	#define MAX_MODIO_SESSION				(2)
-
 #else
-
 	#define BTN_MAX							(32768) // SIF/Button
 	#define ITM_MAX							(32768) // SIF/Item
 	#define CNT_MAX_SLOTS					(80)
 	#define MAX_MODIO_SESSION				(2048) // modio
-
 #endif
 
 #define ls(%0,%1) GetLanguageString(GetPlayerLanguage(%0), %1)
@@ -123,7 +124,6 @@ public OnGameModeInit()
 	print("[OnGameModeInit] Initialising 'Main'...");
 
 	OnGameModeInit_Setup();
-
 
 	#if defined main_OnGameModeInit
 		return main_OnGameModeInit();
@@ -718,7 +718,6 @@ OnGameModeInit_Setup()
 
 	SendRconCommand(sprintf("mapname %s", GetMapName()));
 
-	// * Estou preguiçoso hoje, então vou deixar assim mesmo. :D
 	gGlobalDebugLevel = GetSettingInt("server/global-debug-level");
 	log("[SETTINGS] Global debug level: %d", gGlobalDebugLevel);
 
@@ -794,11 +793,11 @@ RestartGamemode()
 	defer ServerGMX();
 }
 
-timer ServerGMX[10000](){
+timer ServerGMX[SEC(10)]() {
     SendRconCommand("gmx");
 }
 
-task RestartUpdate[1000]()
+task RestartUpdate[SEC(1)]()
 {
 	if(gServerMaxUptime > 0)
 	{

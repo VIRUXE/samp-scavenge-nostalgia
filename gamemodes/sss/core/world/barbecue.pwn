@@ -263,7 +263,7 @@ _LightBBQ(itemid)
 	return 1;
 }
 
-timer bbq_FinishCooking[30000](itemid)
+timer bbq_FinishCooking[SEC(30)](itemid)
 {
 	dbg("gamemodes/sss/core/world/barbecue.pwn", 1, "[bbq_FinishCooking] itemid: %d", itemid);
 

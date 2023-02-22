@@ -116,7 +116,7 @@ CMD:avip(playerid, params[])
 	return 1;
 }
 
-timer DesTempAVip[3000](playerid)
+timer DesTempAVip[SEC(3)](playerid)
 {
     aviptimer[playerid] = false;
 }

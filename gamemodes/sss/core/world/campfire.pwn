@@ -147,7 +147,7 @@ timer cmp_BurnOut[time](itemid, time)
 	CreateItem(item_BurntLog, x - 0.25 + frandom(0.5), y - 0.25 + frandom(0.5), z, .rz = random(360));
 }
 
-timer cmp_FinishCooking[60000](itemid)
+timer cmp_FinishCooking[MIN(1)](itemid)
 {
 	new
 		Float:x,

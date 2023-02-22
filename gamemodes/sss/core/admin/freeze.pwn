@@ -76,8 +76,7 @@ UnfreezePlayer(playerid, msg = 0)
 	stop frz_DelayTimer[playerid];
 	stop frz_CheckTimer[playerid];
 
-	if(msg)
-		ChatMsgLang(playerid, YELLOW, "FREEZEFROZE");
+	if(msg) ChatMsgLang(playerid, YELLOW, "FREEZEFROZE");
 }
 
 timer UnfreezePlayer_delay[time](playerid, time, msg)
@@ -87,19 +86,15 @@ timer UnfreezePlayer_delay[time](playerid, time, msg)
 	UnfreezePlayer(playerid, msg);
 }
 
-timer UnfreezePlayer_check[4000](playerid)
+timer UnfreezePlayer_check[SEC(4)](playerid)
 {
-	if(GetPlayerAnimationIndex(playerid) == 1130) // Player is falling
-		return;
-
+	if(GetPlayerAnimationIndex(playerid) == 1130) return; // Animação de queda
+		
 	new Float:z;
 
 	GetPlayerCameraFrontVector(playerid, z, z, z);
 
-	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946)
-	{
-		ChatMsgAdmins(2, YELLOW, " >  Poss�vel �suario de mod: "C_ORANGE"%p (%d)", playerid, playerid);
-	}
+	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946) ChatMsgAdmins(2, YELLOW, " >  Possível Usuário de s0beit: "C_ORANGE"%p (%d)", playerid, playerid);
 
 	return;
 }

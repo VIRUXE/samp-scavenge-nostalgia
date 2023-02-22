@@ -303,7 +303,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true)
 
 stock IsPlayerKicked(playerid) return admin_PlayerKicked[playerid];
 
-timer KickPlayerDelay[1000](playerid)
+timer KickPlayerDelay[SEC(1)](playerid)
 {
 	Kick(playerid);
 	admin_PlayerKicked[playerid] = false;

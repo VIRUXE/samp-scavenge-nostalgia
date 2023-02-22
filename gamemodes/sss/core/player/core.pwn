@@ -208,7 +208,7 @@ stock GetTotalPlayers()
 	return count;
 }
 
-timer LoadAccountDelay[6000](playerid)
+timer LoadAccountDelay[SEC(6)](playerid)
 {
 	if(!IsPlayerConnected(playerid))
 	{
@@ -362,7 +362,7 @@ ptask PlayerUpdateFast[100](playerid)
 	return;
 }
 
-ptask PlayerUpdateSlow[1000](playerid)
+ptask PlayerUpdateSlow[SEC(1)](playerid)
 {
 	CallLocalFunction("OnPlayerScriptUpdate", "d", playerid);
 }

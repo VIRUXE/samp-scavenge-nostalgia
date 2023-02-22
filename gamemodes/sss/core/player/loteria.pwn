@@ -3,7 +3,7 @@ static
 	Timer:AnuncioLot,
 	AnuncioCount;
 
-task Loteria[3600000](){
+task Loteria[MIN(60)]() { 
     LoteriaNumero = random(100);
 	ChatMsgAll(0x0cfcecFF, "[Loteria]: Acerte o n�mero de 0 a 100 e ganhe um item aleat�rio ou score.");
     ChatMsgAll(0x0cfcecFF, "[Loteria]: Para apostar digite: {FFFFFF}/Loteria [n�mero]");
@@ -11,7 +11,7 @@ task Loteria[3600000](){
 	AnuncioLot = defer AnunciarLoteria();
 }
 
-timer AnunciarLoteria[60000](){
+timer AnunciarLoteria[MIN(1)](){
 	if(LoteriaNumero == -1)
 	    return;
 

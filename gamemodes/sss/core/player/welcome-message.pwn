@@ -38,7 +38,7 @@ hook OnPlayerConnect(playerid)
 	return 1;
 }
 
-timer ShowWelcomeMessage[1000](playerid, count)
+timer ShowWelcomeMessage[SEC(1)](playerid, count)
 {
 	new
 		str[559],

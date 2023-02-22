@@ -89,7 +89,7 @@ CMD:dormir(playerid)
 	return 1;
 }
 
-timer CheckPlayerSlep[1000](playerid)
+timer CheckPlayerSlep[SEC(1)](playerid)
 {
 	ApplyAnimation(playerid,"CRACK","crckdeth2", 10.1, 0, 1, 1, 1, 0, 1);
 }
@@ -100,7 +100,7 @@ timer SleepingBrightness[300](playerid)
     if(GetPlayerBrightness(playerid) < 200) Bed_SleepingBrightness[playerid] = defer SleepingBrightness(playerid);
 }
 
-timer Stop_Sleeping[TIME_SLEEP * 1000](playerid, Float:x, Float:y, Float:z)
+timer Stop_Sleeping[TIME_SLEEP * SEC(1)](playerid, Float:x, Float:y, Float:z)
 {
     Bed_PlayerSleeping[playerid] = 0;
 	ClearAnimations(playerid);

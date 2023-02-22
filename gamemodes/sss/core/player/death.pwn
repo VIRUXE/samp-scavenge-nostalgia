@@ -88,7 +88,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 	return 1;
 }
 
-ptask UpdatePlayerAliveTime[1000](playerid)
+ptask UpdatePlayerAliveTime[SEC(1)](playerid)
 {
     AliveTime[playerid] ++;
 }

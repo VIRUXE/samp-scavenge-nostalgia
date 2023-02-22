@@ -351,18 +351,14 @@ PlayerSpawnNewCharacter(playerid, gender)
 }
 
 
-timer CheckBug[3000](playerid){
-	if(GetInventoryFreeSlots(playerid) != INV_MAX_SLOTS)
-	    defer DestroyPlayerInventoryItems(playerid);
+timer CheckBug[SEC(3)](playerid){
+	if(GetInventoryFreeSlots(playerid) != INV_MAX_SLOTS) defer DestroyPlayerInventoryItems(playerid);
 	
-	if(GetPlayerItem(playerid) != INVALID_ITEM_ID)
-		DestroyItem(GetPlayerItem(playerid));
+	if(GetPlayerItem(playerid) != INVALID_ITEM_ID) DestroyItem(GetPlayerItem(playerid));
 		
-	if(GetPlayerBagItem(playerid) != INVALID_ITEM_ID)
-    	DestroyPlayerBag(playerid);
+	if(GetPlayerBagItem(playerid) != INVALID_ITEM_ID) DestroyPlayerBag(playerid);
 
-	if(GetPlayerHolsterItem(playerid) != INVALID_ITEM_ID)
-	    DestroyItem(GetPlayerHolsterItem(playerid));
+	if(GetPlayerHolsterItem(playerid) != INVALID_ITEM_ID) DestroyItem(GetPlayerHolsterItem(playerid));
 }
 
 /*==============================================================================

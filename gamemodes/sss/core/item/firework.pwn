@@ -127,7 +127,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 }
 
 
-timer FireworkLaunch[6000](itemid)
+timer FireworkLaunch[SEC(6)](itemid)
 {
 	new
 		Float:x,

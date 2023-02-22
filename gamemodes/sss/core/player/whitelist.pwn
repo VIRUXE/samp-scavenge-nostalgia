@@ -310,7 +310,7 @@ stock ToggleAutoWhitelist(bool:toggle)
 */
 
 
-timer _UpdateWhitelistCountdown[1000](playerid)
+timer _UpdateWhitelistCountdown[SEC(1)](playerid)
 {
 	if(!IsPlayerLoggedIn(playerid))
 	{

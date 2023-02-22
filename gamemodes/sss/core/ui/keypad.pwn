@@ -215,7 +215,7 @@ timer HackKeypadUpdate[100](playerid, keypadid, match)
 	return;
 }
 
-timer HackKeypadFinish[1000](playerid, keypadid, code, match)
+timer HackKeypadFinish[SEC(1)](playerid, keypadid, code, match)
 {
 	CallLocalFunction("OnPlayerKeypadEnter", "dddd", playerid, keypadid, code, match);
 }

@@ -121,7 +121,7 @@ stock GivePlayerConquista(playerid, conquista)
 	return 1;
 }
 
-timer HideConquistaText[4000](playerid)
+timer HideConquistaText[SEC(4)](playerid)
 {
     PlayerTextDrawHide(playerid, TextConqusita);
 }
@@ -135,4 +135,3 @@ hook OnPlayerLoad(playerid, filename[])
 {
 	modio_read(filename, _T<C,Q,T,A>, MAX_CONQUISTAS, Conquista[playerid]);
 }
-
