@@ -1,33 +1,9 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 Load_LV()
 {
-    print("\n[OnGameModeInit] Initialising 'World/LV'...");
+    log("\n[WORLD] Carregando Las Venturas...");
+
 	CreateFuelOutlet(2120.82031, 914.718750, 11.25781, 2.0, 100.0, frandom(25.0));
 	CreateFuelOutlet(2114.90625, 914.718750, 11.25781, 2.0, 100.0, frandom(25.0));
 	CreateFuelOutlet(2109.04688, 914.718750, 11.25781, 2.0, 100.0, frandom(25.0));
@@ -66,25 +42,15 @@ Load_LV()
 	CreateLadder(1177.6424, -1305.6337, 13.9241, 29.0859, 0.0);
 
 	LV_District_Housing1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 26%)");
 	LV_District_Housing2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 27%)");
 	LV_District_Housing3();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 28%)");
 	LV_District_KACC();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 29%)");
 	LV_District_City1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 30%)");
 	LV_District_City2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 31%)");
 	LV_District_Strip();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 32%)");
 	LV_District_Airport();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 33%)");
 	LV_District_Industrial1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 34%)");
 	LV_District_Industrial2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 35%)");
 
 	DefineSupplyDropPos("Las Venturas Stadium", 1344.11108, 2149.04517, 9.93602);
 	DefineSupplyDropPos("Las Venturas North Strip Motel", 2080.01758, 2172.97900, 9.76857);
@@ -103,7 +69,7 @@ Load_LV()
 
 LV_District_Housing1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Housing1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte de Casas");
 
 	CreateStaticLootSpawn(1499.182250, 2031.240844, 13.726090,		world_civilian, 12.0);
 	CreateStaticLootSpawn(1538.948486, 2031.298095, 13.724539,		world_civilian, 12.0);
@@ -316,7 +282,7 @@ LV_District_Housing1()
 
 LV_District_Housing2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Housing2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte das Casas");
 
 	CreateStaticLootSpawn(1028.403442, 1926.650634, 10.447250,		world_civilian, 12.0);
 	CreateStaticLootSpawn(1027.309082, 1906.812133, 10.447699,		world_civilian, 12.0);
@@ -465,7 +431,7 @@ LV_District_Housing2()
 
 LV_District_Housing3()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Housing3' {1589FF}por favor, aguarde...");
+	log("[WORLD] 3a parte das Casas");
 
 	CreateStaticLootSpawn(1761.792846, 2870.549804, 13.252360,		world_civilian, 12.0);
 	CreateStaticLootSpawn(1750.769042, 2867.018798, 10.322710,		world_civilian, 12.0);
@@ -706,7 +672,7 @@ LV_District_Housing3()
 
 LV_District_KACC()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_KACC' {1589FF}por favor, aguarde...");
+	log("[WORLD] KACC");
 
 	new buttonid[1];
 
@@ -786,7 +752,7 @@ LV_District_KACC()
 
 LV_District_City1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_City1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte da Cidade");
 
 //	CreateItem(ItemType:11, 2543.21313, 1025.56433, 11.10866, 66.0000, 4.0, 0.0);
 
@@ -1059,7 +1025,7 @@ LV_District_City1()
 
 LV_District_City2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_City2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte da Cidade");
 
 	CreateStaticLootSpawn(2463.546630, 2244.506103, 9.816020,		world_civilian, 12.0);
 	CreateStaticLootSpawn(2453.842529, 2244.573730, 9.812159,		world_civilian, 12.0);
@@ -1483,7 +1449,7 @@ LV_District_City2()
 
 LV_District_Strip()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Strip' {1589FF}por favor, aguarde...");
+	log("[WORLD] Las Vegas Strip");
 
 	CreateStaticLootSpawn(2097.565917, 1158.830932, 10.643070,		world_civilian, 12.0);
 	CreateStaticLootSpawn(2151.691162, 987.570556, 9.797989,		world_civilian, 12.0);
@@ -1700,7 +1666,7 @@ LV_District_Strip()
 
 LV_District_Airport()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Airport' {1589FF}por favor, aguarde...");
+	log("[WORLD] Aeroporto");
 
 	CreateStaticLootSpawn(1673.578491, 1393.108276, 9.757200,		world_civilian, 12.0);
 	CreateStaticLootSpawn(1670.696411, 1398.275146, 9.767149,		world_civilian, 12.0);
@@ -1789,7 +1755,7 @@ LV_District_Airport()
 
 LV_District_Industrial1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Industrial1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte da Zona Industrial");
 
 	CreateStaticLootSpawn(1558.014892, 1091.526245, 9.810159,		world_civilian, 12.0);
 	CreateStaticLootSpawn(1556.855834, 1073.391357, 9.808629,		world_civilian, 12.0);
@@ -1968,7 +1934,7 @@ LV_District_Industrial1()
 
 LV_District_Industrial2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LV_District_Industrial2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte da Zona Industrial");
 
 	CreateStaticLootSpawn(2529.212402, 746.210388, 13.727939,		world_civilian, 12.0);
 	CreateStaticLootSpawn(2536.050048, 716.275268, 9.810350,		world_civilian, 12.0);

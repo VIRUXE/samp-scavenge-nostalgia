@@ -1,33 +1,8 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 Load_FC()
 {
-    print("\n[OnGameModeInit] Initialising 'World/FC'...");
+    print("\n[WORLD] Carregando Fort Carson...");
     
 	CreateFuelOutlet(-2246.7031, -2559.7109, 31.0625, 2.0, 100.0, frandom(50.0));
 	CreateFuelOutlet(-2241.7188, -2562.2891, 31.0625, 2.0, 100.0, frandom(50.0));
@@ -54,19 +29,12 @@ Load_FC()
 	CreateLadder(-1013.4467, -719.3651, 32.0078, 54.7115, 180.0);
 
 	FC_District_Chilliad();
- 	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 43%)");
 	FC_District_AngelPine();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 44%)");
 	FC_District_Scrapyard();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 45%)");
 	FC_District_Farms();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 46%)");
 	FC_District_EasterChem();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 47%)");
 	FC_District_FallenTree();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 48%)");
 	FC_District_FlintGen();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 49%)");
 
 	DefineSupplyDropPos("Back-o-Beyond", -638.19598, -2442.45068, 30.10299);
 	DefineSupplyDropPos("Flint Range", -519.18439, -1633.60962, 8.71135);
@@ -79,7 +47,7 @@ Load_FC()
 
 FC_District_Chilliad()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_Chilliad' {1589FF}por favor, aguarde...");
+	log("[WORLD] Chilliad");
 
 	CreateStaticLootSpawn(-2404.725585, -2176.453125, 32.303958,	world_civilian, 20.0);
 	CreateStaticLootSpawn(-2391.212158, -2216.532714, 32.308551,	world_civilian, 20.0);
@@ -118,9 +86,10 @@ FC_District_Chilliad()
 	CreateStaticLootSpawn(-2234.550048, -1743.220458, 479.868347,	world_survivor, 10.0);
 	CreateStaticLootSpawn(-2265.114013, -1688.054687, 479.846588,	world_survivor, 10.0);
 }
+
 FC_District_AngelPine()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_AngelPine' {1589FF}por favor, aguarde...");
+	log("[WORLD] Angel Pine");
 
 	CreateItem(item_Workbench, -2176.33765, -2536.95630, 29.59808, 0.0, 0.0, -219.05981);
 
@@ -239,9 +208,10 @@ FC_District_AngelPine()
 	CreateStaticLootSpawn(-2084.549804, -2498.692871, 29.610559,	world_survivor, 10.0);
 	CreateStaticLootSpawn(-2182.736572, -2416.976318, 34.285480,	world_survivor, 10.0);
 }
+
 FC_District_Scrapyard()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_Scrapyard' {1589FF}por favor, aguarde...");
+	log("[WORLD] Lixo Velho");
 
 	CreateItem(item_ScrapMachine, -1888.26416, -1636.40588, 21.21387, 0.0, 0.0, 0.0);
 	CreateItem(item_RefineMachine, -1848.56006, -1685.39380, 22.97520, 0.0, 0.0, -54.0);
@@ -282,7 +252,7 @@ FC_District_Scrapyard()
 }
 FC_District_Farms()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_Farms' {1589FF}por favor, aguarde...");
+	log("[WORLD] Fazendas");
 
 	CreateItem(item_Workbench, -392.98178, -1433.41199, 24.67424, 0.0, 0.0, 0.00000);
 	CreateItem(item_Workbench, -372.71423, -1040.36572, 58.21876, 0.0, 0.0, 95.58000);
@@ -372,9 +342,10 @@ FC_District_Farms()
 
 	//CreateHackerTrap(-362.127227, -1060.984008, 58.241569,			world_survivor);
 }
+
 FC_District_EasterChem()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_EasterChem' {1589FF}por favor, aguarde...");
+	log("[WORLD] EasterChem District");
 
 	CreateStaticLootSpawn(-983.560485, -676.974487, 30.980920,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-1007.987182, -672.090942, 30.984039,		world_civilian, 20.0);
@@ -490,9 +461,10 @@ FC_District_EasterChem()
 	CreateStaticLootSpawn(-1054.842041, -620.321838, 128.858871,	world_survivor, 10.0);
 	CreateStaticLootSpawn(-1058.432495, -696.342041, 66.116462,		world_survivor, 10.0);
 }
+
 FC_District_FallenTree()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_FallenTree' {1589FF}por favor, aguarde...");
+	log("[WORLD] Fallen Tree District");
 
 	CreateStaticLootSpawn(-552.575927, -504.346130, 24.501939,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-569.084838, -502.943481, 24.501260,		world_civilian, 20.0);
@@ -524,7 +496,7 @@ FC_District_FallenTree()
 }
 FC_District_FlintGen()
 {
-	ChatMsgAll(LBLUE, " >  Carregando região do mundo: {FF8A14}'FC_District_FlintGen' {1589FF}por favor, aguarde...");
+	log("[WORLD] Flint");
 
 	CreateStaticLootSpawn(-283.446838, -2174.875244, 27.649789,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-396.378906, -426.530273, 15.193169,		world_civilian, 20.0);

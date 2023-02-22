@@ -1,33 +1,12 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
+/* 
+	Mapa de Bone County
+ */
 
 #include <YSI\y_hooks>
 
-
 Load_BC()
 {
-    print("\n[OnGameModeInit] Initialising 'World/BC'...");
+    print("\n[WORLD] Carregando Bone County...");
     
 	CreateFuelOutlet(603.48438, 1707.23438, 6.17969, 2.0, 130.0, frandom(40));
 	CreateFuelOutlet(606.89844, 1702.21875, 6.17969, 2.0, 130.0, frandom(40));
@@ -49,30 +28,21 @@ Load_BC()
 	LinkTP(buttonid[0], buttonid[1]);
 */
 
-//	CreateTurret(287.0, 2047.0, 17.5, 270.0, .type = 1);
-//	CreateTurret(335.0, 1843.0, 17.5, 270.0, .type = 1);
-//	CreateTurret(10.0, 1805.0, 17.40, 180.0, .type = 1);
+	// ? Turret? Area 69?
+	// CreateTurret(287.0, 2047.0, 17.5, 270.0, .type = 1);
+	// CreateTurret(335.0, 1843.0, 17.5, 270.0, .type = 1);
+	// CreateTurret(10.0, 1805.0, 17.40, 180.0, .type = 1);
 
 	BC_District_Payasdas();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 50%)");
 	BC_District_Verdant();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 51%)");
 	BC_District_Area69();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 52%)");
 	BC_District_BoneEast();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 53%)");
 	BC_District_BigEar();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 54%)");
 	BC_District_Probe();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 55%)");
 	BC_District_Octane();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 59%)");
 	BC_District_Carson();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 60%)");
 	BC_District_Hunter();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 65%)");
 	BC_District_BoneGen();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 69%)");
 
 	DefineSupplyDropPos("Fort Carson", 7.24142, 959.94550, 18.55249);
 	DefineSupplyDropPos("Bone County East", 631.26288, 1587.61060, 6.64180);
@@ -83,7 +53,7 @@ Load_BC()
 
 BC_District_Payasdas()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Payasdas' {1589FF}por favor, aguarde...");
+	log("[WORLD] Payasdas");
 
 	CreateStaticLootSpawn(-162.708709, 2764.035888, 61.619419,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-168.285522, 2727.203857, 61.401859,		world_civilian, 20.0);
@@ -118,9 +88,10 @@ BC_District_Payasdas()
 	CreateStaticLootSpawn(-218.358703, 2718.873779, 65.796173,		world_police, 20.0);
 	CreateStaticLootSpawn(-237.108871, 2664.212402, 72.680557,		world_survivor, 10.0);
 }
+
 BC_District_Verdant()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Verdant' {1589FF}por favor, aguarde...");
+	log("[WORLD] Verdant Meadows");
 
 	CreateStaticLootSpawn(377.433288, 2594.337890, 15.473210,		world_civilian, 20.0);
 	CreateStaticLootSpawn(413.673675, 2536.922363, 18.147050,		world_civilian, 20.0);
@@ -177,7 +148,7 @@ BC_District_Verdant()
 }
 BC_District_Area69()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Area69' {1589FF}por favor, aguarde...");
+	log("[WORLD] Area 69");
 
 	CreateStaticLootSpawn(211.756774, 1859.329711, 12.133520,		world_industrial, 20.0);
 	CreateStaticLootSpawn(222.789550, 1855.840698, 11.984900,		world_industrial, 20.0);
@@ -292,7 +263,7 @@ BC_District_Area69()
 }
 BC_District_BoneEast()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_BoneEast' {1589FF}por favor, aguarde...");
+	log("[WORLD] Distrito Este");
 
 	CreateStaticLootSpawn(790.219055, 1990.437377, 4.361800,		world_civilian, 20.0);
 	CreateStaticLootSpawn(701.584167, 1992.585693, 4.535160,		world_civilian, 20.0);
@@ -328,7 +299,7 @@ BC_District_BoneEast()
 }
 BC_District_BigEar()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_BigEar' {1589FF}por favor, aguarde...");
+	log("[WORLD] Distrito Big Ear");
 
 	CreateStaticLootSpawn(-299.839294, 1577.899414, 74.346000,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-324.601623, 1535.770629, 74.552757,		world_civilian, 20.0);
@@ -350,7 +321,7 @@ BC_District_BigEar()
 }
 BC_District_Probe()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Probe' {1589FF}por favor, aguarde...");
+	log("[WORLD] Distrito Probe");
 
 	CreateStaticLootSpawn(-226.105682, 1405.623779, 26.767429,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-16.725469, 1385.647094, 8.141059,		world_civilian, 20.0);
@@ -375,7 +346,7 @@ BC_District_Probe()
 }
 BC_District_Octane()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Octane' {1589FF}por favor, aguarde...");
+	log("[WORLD] Distrito Octane");
 
 	CreateStaticLootSpawn(406.390502, 1161.583251, 6.903639,		world_civilian, 20.0);
 	CreateStaticLootSpawn(502.410369, 1119.108764, 13.740139,		world_civilian, 20.0);
@@ -430,7 +401,7 @@ BC_District_Octane()
 }
 BC_District_Carson()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Carson' {1589FF}por favor, aguarde...");
+	log("[WORLD] Forte Carson");
 
 	CreateItem(item_Workbench, 318.60028, 1145.81543, 7.54844, 0.0, 0.0, -181.56007);
 
@@ -598,9 +569,10 @@ BC_District_Carson()
 	CreateStaticLootSpawn(-245.723236, 1068.867797, 18.658399,		world_industrial, 20.0);
 
 }
+
 BC_District_Hunter()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_Hunter' {1589FF}por favor, aguarde...");
+	log("[WORLD] Hunter");
 
 	CreateItem(item_Workbench, 585.17377, 873.72583, -43.51944, 0.0, 0.0, 94.26003);
 
@@ -624,9 +596,10 @@ BC_District_Hunter()
 	CreateStaticLootSpawn(568.314575, 824.260559, -23.132759,		world_survivor, 10.0);
 	CreateStaticLootSpawn(495.127593, 785.502502, -23.075759,		world_survivor, 10.0);
 }
+
 BC_District_BoneGen()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'BC_District_BoneGen' {1589FF}por favor, aguarde...");
+	log("[WORLD] BoneGen");
 
 	CreateItem(item_Workbench, -371.56595, 2235.98975, 41.43906, 0.0, 0.0, 12.84000);
 
@@ -706,5 +679,4 @@ BC_District_BoneGen()
 	CreateStaticLootSpawn(-417.139739, 1356.921264, 11.771269,		world_survivor, 10.0);
 	CreateStaticLootSpawn(-555.274108, 2580.320312, 64.810043,		world_survivor, 10.0);
 	CreateStaticLootSpawn(-9.954810, 2336.925292, 23.302459,		world_survivor, 10.0);
-
 }

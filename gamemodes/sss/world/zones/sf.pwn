@@ -1,72 +1,33 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 Load_SF()
 {
-    print("\n[OnGameModeInit] Initialising 'World/SF'...");
+    log("\n[WORLD] Carregando San Fierro..."); 
 
 	CreateLadder(-1164.6187, 370.0174, 1.9609, 14.1484, 221.1218);
 	CreateLadder(-1182.6258, 60.4429, 1.9609, 14.1484, 134.2914);
 	CreateLadder(-1736.4494, -445.9549, 1.9609, 14.1484, 270.7138);
 
 	SF_District_Housing1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 13%)");
 	SF_District_Housing2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 14%)");
 	SF_District_Bayfront();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 15%)");
 	SF_District_City1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 16%)");
 	SF_District_City2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 17%)");
 	SF_District_Naval();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 18%)");
 	SF_District_Police();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 19%)");
 	SF_District_Industrial();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 20%)");
 	SF_District_SfAirport();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 21%)");
 	SF_District_MontFoster();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 22%)");
 	SF_District_Ship1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 23%)");
 	SF_District_Ship2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 24%)");
 
 	// Esgoto:
-
 	new buttonid[2];
 	buttonid[0] = CreateButton(-2587.3052, 1162.3717, 55.4375, "Pressione F para entrar"); // 
 	buttonid[1] = CreateButton(-2578.5449, 1143.6442, 40.1459, "Pressione F para sair"); //
 	LinkTP(buttonid[0], buttonid[1]);
 
 	// CasaArvore:
-
 	new buttonid2[2];
 	buttonid2[0] = CreateButton(-2111.9375, 2699.9778, 160.6714, "Pressione F para subir"); // 
 	buttonid2[1] = CreateButton(-2111.8342, 2699.4351, 175.3425, "Pressione F para descer"); // 
@@ -92,10 +53,9 @@ Load_SF()
 	DefineSupplyDropPos("San Fierro Promenade", -1587.81201, 1180.50891, 5.97472);
 }
 
-
 SF_District_Housing1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Housing1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte de Casas");
 
 	//CreateSaveBlockArea(CreateDynamicCube(-2521.3608, 286.6024, 1035.3081, -2478.7195, 328.1099, 1039.7107), -2499.1262, 315.1892, 29.4147);
 
@@ -683,7 +643,7 @@ SF_District_Housing1()
 }
 SF_District_Housing2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Housing2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte de Casas");
 
 	CreateItem(item_Barbecue, -2701.1328, 845.7422, 70.3828, 171.0);
 
@@ -1392,7 +1352,7 @@ SF_District_Housing2()
 }
 SF_District_Bayfront()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Bayfront' {1589FF}por favor, aguarde...");
+	log("[WORLD] Bayfront");
 
 	DefineWeaponsCachePos(-1838.79651, 1543.79602, 6.11533);
 	DefineWeaponsCachePos(-1791.30994, 1543.37488, 6.12531);
@@ -1636,10 +1596,9 @@ SF_District_Bayfront()
 }
 SF_District_City1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_City1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte da Cidade");
 
-	new
-		buttonid[2];
+	new buttonid[2];
 
 	buttonid[0] = CreateButton(-2208.2568, 579.8558, 35.7653, "Pressione F para ativar", 0);
 	buttonid[1] = CreateButton(-2208.2561, 584.4679, 35.7653, "Pressione F para ativar", 0);
@@ -2140,9 +2099,10 @@ SF_District_City1()
 	CreateStaticLootSpawn(-2241.687011, 633.751098, 59.171951, world_survivor, 10);
 	CreateStaticLootSpawn(-2240.537597, 580.481689, 56.630069, world_survivor, 10);
 }
+
 SF_District_City2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_City2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte da Cidade");
 
 /*
 	LinkTP(
@@ -2751,7 +2711,7 @@ SF_District_City2()
 }
 SF_District_Naval()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Naval' {1589FF}por favor, aguarde...");
+	log("[WORLD] Base Naval");
 
 	new buttonid[1];
 
@@ -2808,9 +2768,10 @@ SF_District_Naval()
 	CreateStaticLootSpawn(-1341.034763, 493.847340, 32.344374,		world_survivor, 8.0);
 	CreateStaticLootSpawn(-1383.904763, 493.747340, 26.94374,		world_survivor, 8.0);
 }
+
 SF_District_Police()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Police' {1589FF}por favor, aguarde...");
+	log("[WORLD] Policia");
 
 	CreateStaticLootSpawn(-1615.52000, 685.33000, 6.48000,			world_police, 10.0);
 	CreateStaticLootSpawn(-1590.78000, 716.26000, -6.15000,			world_police, 10.0);
@@ -2818,9 +2779,10 @@ SF_District_Police()
 	CreateStaticLootSpawn(-1576.75000, 683.36000, 6.33000,			world_police, 10.0);
 	CreateStaticLootSpawn(-1670.43000, 696.55000, 29.70000,			world_police, 10.0);
 }
+
 SF_District_Industrial()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Industrial' {1589FF}por favor, aguarde...");
+	log("[WORLD] Zone industrial");
 
 //	CreateDynamicObject(2002, -1978.52356, 131.39619, 26.68210, 0.00000, 0.00000, 90.00000);
 //	CreateDynamic3DTextLabel("XBOX ONE", YELLOW, -1978.52356, 131.39619, 28.2150, 10.0);
@@ -3175,7 +3137,7 @@ SF_District_Industrial()
 }
 SF_District_SfAirport()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_SfAirport' {1589FF}por favor, aguarde...");
+	log("[WORLD] Aeroporto");
 
 	DefineWeaponsCachePos(-1237.20361, 52.09208, 13.13244);
 	DefineWeaponsCachePos(-1279.19019, 45.46248, 13.13572);
@@ -3256,7 +3218,7 @@ SF_District_SfAirport()
 }
 SF_District_MontFoster()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_MontFoster' {1589FF}por favor, aguarde...");
+	log("[WORLD] MontFoster");
 
 	DefineWeaponsCachePos(-2150.16040, -408.60284, 34.30775);
 	DefineWeaponsCachePos(-1986.81006, -497.92313, 34.31303);
@@ -3598,7 +3560,7 @@ SF_District_MontFoster()
 }
 SF_District_Ship1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Ship1' {1589FF}por favor, aguarde...");
+	log("[WORLD] Navio");
 
 	CreateStaticLootSpawn(-2401.805908, 1551.141357, 25.033910, world_industrial, 35);
 	CreateStaticLootSpawn(-2416.135498, 1539.008911, 25.036119, world_industrial, 35);
@@ -3642,9 +3604,10 @@ SF_District_Ship1()
 	CreateStaticLootSpawn(-2485.095458, 1534.834472, 26.851079, world_survivor, 10);
 	CreateStaticLootSpawn(-2493.454345, 1534.742187, 23.154979, world_survivor, 10);
 }
+
 SF_District_Ship2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'SF_District_Ship2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte do Navio");
 
 	CreateStaticLootSpawn(-1415.532470, 1489.697140, 6.093890, world_civilian, 30.000000, 3);
 	CreateStaticLootSpawn(-1456.652100, 1497.540530, 6.092340, world_civilian, 30.000000, 3);
