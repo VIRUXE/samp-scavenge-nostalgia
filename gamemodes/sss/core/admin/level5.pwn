@@ -1,7 +1,6 @@
 ACMD:gamename[5](playerid,params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid,YELLOW," >  Usage: /gamename [name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /gamename [name]");
 
 	SetGameModeText(params);
 	ChatMsg(playerid, YELLOW, " >  GameMode name set to "C_BLUE"%s", params);
@@ -11,8 +10,7 @@ ACMD:gamename[5](playerid,params[])
 
 ACMD:hostname[5](playerid,params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid,YELLOW," >  Usage: /hostname [name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /hostname [name]");
 
 	new str[74];
 	format(str, sizeof(str), "hostname %s", params);
@@ -25,8 +23,7 @@ ACMD:hostname[5](playerid,params[])
 
 ACMD:mapname[5](playerid,params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid,YELLOW," >  Usage: /mapname [name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /mapname [name]");
 
 	new str[74];
 	format(str, sizeof(str), "mapname %s", params);
@@ -43,8 +40,7 @@ ACMD:gmx[5](playerid)
 
 ACMD:loadfs[5](playerid, params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	new str[64];
 	format(str, sizeof(str), "loadfs %s", params);
@@ -56,8 +52,7 @@ ACMD:loadfs[5](playerid, params[])
 
 ACMD:reloadfs[5](playerid, params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	new str[64];
 	format(str, sizeof(str), "reloadfs %s", params);
@@ -69,8 +64,7 @@ ACMD:reloadfs[5](playerid, params[])
 
 ACMD:unloadfs[5](playerid, params[])
 {
-	if(!(0 < strlen(params) < 64))
-		return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
+	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	new str[64];
 	format(str, sizeof(str), "unloadfs %s", params);
@@ -82,26 +76,20 @@ ACMD:unloadfs[5](playerid, params[])
 
 ACMD:setplayerscore[5](playerid,params[])
 {
-	new playerid2, score;
-	if(sscanf(params, "dd", playerid2, score))
-	{
-		return ChatMsg(playerid,YELLOW," >  Use: /setplayerscore [id] [score]");
-	}
+	new targetPlayerId, score;
+	if(sscanf(params, "dd", targetPlayerId, score)) return ChatMsg(playerid,YELLOW," >  Use: /setplayerscore [id] [score]");
 	
-	SetPlayerScore(playerid2, score);
+	SetPlayerScore(targetPlayerId, score);
 
-	ChatMsg(playerid, YELLOW, " >  Score de %d %P "C_YELLOW"setado para "C_BLUE"%d", playerid2, playerid2, score);
-	ChatMsg(playerid2, YELLOW, " >  Seu score foi setado para "C_BLUE"%d", score);
+	ChatMsg(playerid, YELLOW, " >  Score de %d %P "C_YELLOW"setado para "C_BLUE"%d", targetPlayerId, targetPlayerId, score);
+	ChatMsg(targetPlayerId, YELLOW, " >  Seu score foi setado para "C_BLUE"%d", score);
 
 	return 1;
 }
 
-ACMD:hud[5](playerid)
+ACMD:hud[5](playerid) // * Na realidade isso deveria estar disponivel para os players
 {
-	if(IsPlayerHudOn(playerid))
-		TogglePlayerHUD(playerid, false);
-
-	else TogglePlayerHUD(playerid, true);
+	TogglePlayerHUD(playerid, !IsPlayerHudOn(playerid));
 }
 
 /*ACMD:nametags[5](playerid, params[])

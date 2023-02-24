@@ -316,9 +316,11 @@ bool:	gServerRestarting = false,
 		gServerUptime,
 		gGlobalDebugLevel;
 
-// DATABASES
-new 
-DB:		gAccounts;
+// Textdraws para o Relogio de REstart
+new Text:RestartCount = Text:INVALID_TEXT_DRAW, Text:ClockRestart = Text:INVALID_TEXT_DRAW;
+
+// Banco de Dados
+new DB:gAccounts;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
 new
@@ -336,8 +338,7 @@ bool:   gCombatLogWindow,
 // INTERNAL
 new gBigString[MAX_PLAYERS][4096];
 
-new stock
-		GLOBAL_DEBUG = -1;
+new stock GLOBAL_DEBUG = -1;
 
 // pawn-requestss
 new RequestsClient:client;
@@ -670,12 +671,6 @@ new RequestsClient:client;
 	#error World script MUST have a "GenerateSpawnPoint" function!
 #endif
 
-static
-Text:RestartCount = Text:INVALID_TEXT_DRAW,
-Text:RestartCount2 = Text:INVALID_TEXT_DRAW,
-
-Text:ClockRestart = Text:INVALID_TEXT_DRAW,
-Text:ClockRestart2 = Text:INVALID_TEXT_DRAW;
 
 main()
 {
@@ -731,37 +726,17 @@ OnGameModeInit_Setup()
 	TextDrawSetOutline			(RestartCount, 1);
 	TextDrawSetProportional		(RestartCount, 1);
 	
-	RestartCount2				=TextDrawCreate(18.400001, 433.100067, "Respawn em: ~y~00:00");
-	TextDrawBackgroundColor		(RestartCount2, 255);
-	TextDrawFont				(RestartCount2, 2);
-	TextDrawLetterSize			(RestartCount2, 0.180000, 1.199998);
-	TextDrawColor				(RestartCount2, -1);
-	TextDrawSetOutline			(RestartCount2, 1);
-	TextDrawSetProportional		(RestartCount2, 1);
-
 	ClockRestart 				= TextDrawCreate(16.000000, 430.000000, "LD_GRAV:timer");
 	TextDrawBackgroundColor		(ClockRestart, 255);
 	TextDrawFont				(ClockRestart, 4);
 	TextDrawLetterSize			(ClockRestart, 0.180000, 1.199998);
-	TextDrawColor				(ClockRestart, 0xFF0000FF);
+	TextDrawColor				(ClockRestart, 0xFFFFFFFF);
 	TextDrawSetOutline			(ClockRestart, 1);
 	TextDrawSetProportional		(ClockRestart, 1);
 	TextDrawUseBox				(ClockRestart, 1);
 	TextDrawBoxColor			(ClockRestart, 255);
 	TextDrawTextSize			(ClockRestart, -13.000000, 15.000000);
 	TextDrawSetSelectable		(ClockRestart, 0);
-
-	ClockRestart2 				= TextDrawCreate(16.000000, 430.000000, "LD_GRAV:timer");
-	TextDrawBackgroundColor		(ClockRestart2, 255);
-	TextDrawFont				(ClockRestart2, 4);
-	TextDrawLetterSize			(ClockRestart2, 0.180000, 1.199998);
-	TextDrawColor				(ClockRestart2, -1);
-	TextDrawSetOutline			(ClockRestart2, 1);
-	TextDrawSetProportional		(ClockRestart2, 1);
-	TextDrawUseBox				(ClockRestart2, 1);
-	TextDrawBoxColor			(ClockRestart2, 255);
-	TextDrawTextSize			(ClockRestart2, -13.000000, 15.000000);
-	TextDrawSetSelectable		(ClockRestart2, 0);
 }
 
 public OnGameModeExit()
@@ -779,87 +754,58 @@ public OnScriptExit()
 forward SetRestart(seconds);
 public SetRestart(seconds)
 {
-	log("Restarting server in: %ds", seconds);
+	log("[INFO] Efetuando restart em: %ds", seconds);
 	gServerUptime = gServerMaxUptime - seconds;
 }
 
 RestartGamemode()
 {
-	printf("\n[RestartGamemode] Initialising gamemode restart...\n");
+	printf("\n[INFO] Efetuando restart!\n");
 
 	foreach(new i : Player) Kick(i);
 	
     gServerRestarting = true;
-	defer ServerGMX();
+	defer ServerGMX(); // ? Tempo de kickar todos os players?
 }
 
-timer ServerGMX[SEC(10)]() {
-    SendRconCommand("gmx");
-}
+timer ServerGMX[SEC(10)]() SendRconCommand("gmx");
 
 task RestartUpdate[SEC(1)]()
 {
 	if(gServerMaxUptime > 0)
 	{
-		if(gServerUptime >= gServerMaxUptime) RestartGamemode();
+		log("gServerUptime %d - gServerMaxUptime %d", gServerUptime, gServerMaxUptime);
+		if(gServerUptime >= gServerMaxUptime) {
+			RestartGamemode();
+		}
 
-		new hours, minutes, seconds;
+		new restartStr[36], hours, minutes, seconds;
 
 		minutes = (gServerMaxUptime - gServerUptime) / 60;
 		seconds = (gServerMaxUptime - gServerUptime) % 60;
 		hours   = minutes / 60;
 		minutes = minutes % 60;
-	
-		new str[64];
-		format(str, 64, "Respawn em: ~r~~h~~h~ %02d:%02d:%02d", hours, minutes, seconds);
-		TextDrawSetString(RestartCount, str);
-		
-		new str2[64];
-		format(str2, 64, "Respawn em: ~y~ %02d:%02d:%02d", hours, minutes, seconds);
-		TextDrawSetString(RestartCount2, str2);
 
-		foreach(new i : Player)
-		{
-			if(IsPlayerHudOn(i) && IsPlayerSpawned(i))
-			{
-				if(gServerUptime <= gServerMaxUptime - 600)
-				{
-					TextDrawHideForPlayer(i, RestartCount);
-					TextDrawHideForPlayer(i, ClockRestart);
+		if(gServerUptime <= gServerMaxUptime - 600) { // Faltam 10 ou menos minutos para o restart
+			if(gServerUptime == gServerMaxUptime - 600) { // Se for a primeira vez que estamos aqui alteramos a cor do texto e avisamos os players
+				TextDrawColor(RestartCount, 0xFF0000FF);
+				TextDrawColor(ClockRestart, 0xFF0000FF);
 
-					TextDrawShowForPlayer(i, RestartCount2);
-					TextDrawShowForPlayer(i, ClockRestart2);
-				}
-				
-				if(gServerUptime > gServerMaxUptime - 600)
-				{
-					TextDrawHideForPlayer(i, RestartCount2);
-					TextDrawHideForPlayer(i, ClockRestart2);
-
-					TextDrawShowForPlayer(i, RestartCount);
-					TextDrawShowForPlayer(i, ClockRestart);
+				foreach(new i : Player) {
+					ChatMsg(i, RED, "");
+					ChatMsgLang(i, RED, "RESPAWNWRNTXT");
+					ChatMsg(i, RED, "");
 				}
 			}
-			else
-			{
-				TextDrawHideForPlayer(i, RestartCount);
-				TextDrawHideForPlayer(i, RestartCount2);
-
-				TextDrawHideForPlayer(i, ClockRestart);
-				TextDrawHideForPlayer(i, ClockRestart2);
-			}
+			
+			format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
+		} else {
+			format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
 		}
+	
+		TextDrawSetString(RestartCount, restartStr);
 	}
 	
-	// Avisa os jogadores pelo chat 1 minuto antes de reiniciar o servidor
-	if(gServerUptime == gServerMaxUptime - 60) {
-		foreach(new i : Player) {
-			ChatMsg(i, RED, "");
-			ChatMsgLang(i, RED, "RESPAWNWRNTXT");
-			ChatMsg(i, RED, "");
-		}
-	}
-
 	gServerUptime++;
 }
 

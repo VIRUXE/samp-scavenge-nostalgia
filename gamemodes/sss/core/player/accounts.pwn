@@ -433,53 +433,56 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 
 Login(playerid)
 {
-    if(!IsPlayerNPC(playerid))
+    if(IsPlayerNPC(playerid)) return 0;
+	
+	TogglePlayerSpectating(playerid, false);
+
+	new serial[MAX_GPCI_LEN];
+	gpci(playerid, serial, MAX_GPCI_LEN);
+	
+	log("[LOGIN] %p logged in, alive: %d", playerid, IsPlayerAlive(playerid));
+
+	// TODO: move to a single query
+	stmt_bind_value(stmt_AccountSetIpv4, 0, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerid));
+	stmt_bind_value(stmt_AccountSetIpv4, 1, DB::TYPE_PLAYER_NAME, playerid);
+	stmt_execute(stmt_AccountSetIpv4);
+
+	stmt_bind_value(stmt_AccountSetGpci, 0, DB::TYPE_STRING, serial);
+	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
+	stmt_execute(stmt_AccountSetGpci);
+
+	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
+	stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_PLAYER_NAME, playerid);
+	stmt_execute(stmt_AccountSetLastLog);
+
+	CheckAdminLevel(playerid);
+
+	if(GetPlayerAdminLevel(playerid) > 0)
 	{
-		TogglePlayerSpectating(playerid, false);
+		new
+			reports = GetUnreadReports(),
+			issues  = GetBugReports();
 
-		new serial[MAX_GPCI_LEN];
-		gpci(playerid, serial, MAX_GPCI_LEN);
-		
-		log("[LOGIN] %p logged in, alive: %d", playerid, IsPlayerAlive(playerid));
+		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
-		// TODO: move to a single query
-		stmt_bind_value(stmt_AccountSetIpv4, 0, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerid));
-		stmt_bind_value(stmt_AccountSetIpv4, 1, DB::TYPE_PLAYER_NAME, playerid);
-		stmt_execute(stmt_AccountSetIpv4);
+		if(reports > 0) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 
-		stmt_bind_value(stmt_AccountSetGpci, 0, DB::TYPE_STRING, serial);
-		stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
-		stmt_execute(stmt_AccountSetGpci);
-
-		stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
-		stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_PLAYER_NAME, playerid);
-		stmt_execute(stmt_AccountSetLastLog);
-
-		CheckAdminLevel(playerid);
-
-		if(GetPlayerAdminLevel(playerid) > 0)
-		{
-			new
-				reports = GetUnreadReports(),
-				issues = GetBugReports();
-
-			ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
-
-			if(reports > 0)
-				ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
-
-			if(issues > 0)
-				ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
-		}
-
-		acc_LoggedIn[playerid] = true;
-		acc_LoginAttempts[playerid] = 0;
-
-		SetPlayerBrightness(playerid, 255);
-		SpawnLoggedInPlayer(playerid);
-		StopAudioStreamForPlayer(playerid);
-		CallLocalFunction("OnPlayerLogin", "d", playerid);
+		if(issues > 0) ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
 	}
+
+	acc_LoggedIn[playerid] = true;
+	acc_LoginAttempts[playerid] = 0;
+
+	SetPlayerBrightness(playerid, 255);
+	SpawnLoggedInPlayer(playerid);
+	StopAudioStreamForPlayer(playerid);
+
+	TextDrawShowForPlayer(playerid, RestartCount);
+	TextDrawShowForPlayer(playerid, ClockRestart);
+
+	CallLocalFunction("OnPlayerLogin", "d", playerid);
+
+	return 1;
 }
 
 /*==============================================================================

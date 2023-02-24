@@ -653,18 +653,24 @@ stock SetPlayerAliveState(playerid, bool:st)
 // ply_ShowHUD
 stock IsPlayerHudOn(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_ShowHUD];
 }
 
-stock TogglePlayerHUD(playerid, bool:st)
+stock TogglePlayerHUD(playerid, bool:toggle)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	ply_Data[playerid][ply_ShowHUD] = st;
+	if(toggle) { // Mostrar Textdraws de Restart
+		TextDrawShowForPlayer(playerid, RestartCount);
+		TextDrawShowForPlayer(playerid, ClockRestart);
+	} else { // Esconder Textdraws de Restart
+		TextDrawHideForPlayer(playerid, RestartCount);
+		TextDrawHideForPlayer(playerid, ClockRestart);
+	}
+
+	ply_Data[playerid][ply_ShowHUD] = toggle;
 
 	return 1;
 }
@@ -673,8 +679,7 @@ stock TogglePlayerHUD(playerid, bool:st)
 forward Float:GetPlayerHP(playerid);
 stock Float:GetPlayerHP(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return ply_Data[playerid][ply_HitPoints];
 }
