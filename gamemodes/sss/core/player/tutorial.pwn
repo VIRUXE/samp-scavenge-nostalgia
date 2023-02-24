@@ -50,7 +50,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawBoxColor			(playerid, ClassButtonTutorial[playerid], 255);
 	PlayerTextDrawTextSize			(playerid, ClassButtonTutorial[playerid], 34.000000, 155.000000);
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonTutorial[playerid], true);
-	PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
+	PlayerTextDrawHide     			(playerid, ClassButtonTutorial[playerid]);
 }
 
 hook OnPlayerSpawnChar(playerid)
@@ -60,23 +60,61 @@ hook OnPlayerSpawnChar(playerid)
 	PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
 }
 
-hook OnPlayerSpawnNewChar(playerid)
-{
+hook OnPlayerSpawnNewChar(playerid) {
 	PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
 }
 
-hook OnPlayerCreateChar(playerid)
-{
+hook OnPlayerCreateChar(playerid) {
 	PlayerTextDrawShow(playerid, ClassButtonTutorial[playerid]);
 }
 
-hook OnPlayerRegister(playerid)
-{
+hook OnPlayerRegister(playerid) {
 	EnterTutorial(playerid);
 }
 
+hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
+{
+	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/tutorial.pwn");
+
+	dbg("gamemodes/sss/core/player/tutorial.pwn", 1, "[OnPlayerClickPlayerTD]");
+
+	if(playertextid == ClassButtonTutorial[playerid])
+	{
+		EnterTutorial(playerid);
+
+		// Esconde os textdraws de escolha
+		PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
+		PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
+		PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
+
+		// Remove a tela preta
+		SetPlayerBrightness(playerid, 255);
+	}
+}
+
+hook OnVehicleSave(vehicleid) {
+	// Não salvar veículos do tutorial
+	foreach(new i : Player) if(vehicleid == PlayerTutorialVehicle[i]) return Y_HOOKS_BREAK_RETURN_1;
+
+	return Y_HOOKS_CONTINUE_RETURN_0;
+}
+
+hook OnPlayerDeath(playerid)
+{
+	dbg("global", CORE, "[OnPlayerDeath] in /gamemodes/sss/core/player/tutorial.pwn");
+
+	ExitTutorial(playerid);
+}
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/player/tutorial.pwn");
+
+	ExitTutorial(playerid);
+}
+
 EnterTutorial(playerid) {
-	log("[TUTORIAL] Jogador %p (%d) entrou no tutorial.", playerid, playerid);
+	log("[TUTORIAL] %p (%d) entrou no tutorial.", playerid, playerid);
 
 	new virtualworld = playerid + 1;
 
@@ -198,53 +236,11 @@ EnterTutorial(playerid) {
 	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 }
 
-hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
-{
-	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/tutorial.pwn");
-
-	dbg("gamemodes/sss/core/player/tutorial.pwn", 1, "[OnPlayerClickPlayerTD]");
-
-	if(playertextid == ClassButtonTutorial[playerid])
-	{
-		EnterTutorial(playerid);
-
-		// Esconde os textdraws de escolha
-		PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
-		PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
-		PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
-
-		// Remove a tela preta
-		SetPlayerBrightness(playerid, 255);
-	}
-}
-
-hook OnVehicleSave(vehicleid)
-{
-	foreach(new i : Player)
-		if(vehicleid == PlayerTutorialVehicle[i]) return Y_HOOKS_BREAK_RETURN_1;
-
-	return Y_HOOKS_CONTINUE_RETURN_0;
-}
-
-hook OnPlayerDeath(playerid)
-{
-	dbg("global", CORE, "[OnPlayerDeath] in /gamemodes/sss/core/player/tutorial.pwn");
-
-	ExitTutorial(playerid);
-}
-
-hook OnPlayerDisconnect(playerid, reason)
-{
-	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/player/tutorial.pwn");
-
-	ExitTutorial(playerid);
-}
-
 ExitTutorial(playerid)
 {
 	if(!PlayerInTutorial[playerid]) return 0;
 
-	log("[TUTORIAL] Jogador %p (%d) saiu do tutorial.", playerid, playerid);
+	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
@@ -253,10 +249,10 @@ ExitTutorial(playerid)
 	
 	PlayerInTutorial[playerid] = false;
 	SetPlayerSpawnedState(playerid, false);
-	SetPlayerAliveState(playerid, false);
+	SetPlayerAliveState(playerid, true);
 	SetPlayerVirtualWorld(playerid, 0);
+	
 	PlayerCreateNewCharacter(playerid);
-	SetPlayerBrightness(playerid, 0);
 
 	// Destroi os itens e pickups do tutorial
 	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) {
@@ -348,8 +344,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
   			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 				GetLanguageString(playerid, "TUTORITMOPT", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-  			for(new i = 0; i < 20; i++)
-				SendClientMessage(playerid, GREEN, "");
+  			for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 		}
@@ -367,8 +362,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			GetLanguageString(playerid, "TUTORDROITM", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
 	}
@@ -385,8 +379,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			GetLanguageString(playerid, "TUTORINVADD", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
 	}
@@ -403,8 +396,7 @@ hook OnPlayerViewInvOpt(playerid)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			GetLanguageString(playerid, "TUTORITMOPT", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 	}
@@ -425,8 +417,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 					GetLanguageString(playerid, "TUTORADDBAG", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-				for(new i = 0; i < 20; i++)
-					SendClientMessage(playerid, GREEN, "");
+				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 				ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
 			}
@@ -435,8 +426,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 					GetLanguageString(playerid, "TUTORADDCNT", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-				for(new i = 0; i < 20; i++)
-					SendClientMessage(playerid, GREEN, "");
+				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 				ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
 			}
@@ -455,8 +445,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			GetLanguageString(playerid, "TUTORITMHOL", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
 	}
@@ -470,8 +459,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 	if(PlayerInTutorial[playerid])
 	{
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
 	}
@@ -484,8 +472,7 @@ hook OnItemTweakFinish(playerid, itemid)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORIDEF"), ls(playerid, "IDIOMAID")));
 
-		for(new i = 0; i < 20; i++)
-			SendClientMessage(playerid, GREEN, "");
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
 	}
@@ -500,7 +487,7 @@ stock IsPlayerInTutorial(playerid)
 
 // Para os admins poderem sair do tutorial
 CMD:exittutorial(playerid) {
-	if(!IsPlayerAdmin(playerid)) return 0;
+	// if(!IsPlayerAdmin(playerid)) return 0;
 
 	ExitTutorial(playerid);
 

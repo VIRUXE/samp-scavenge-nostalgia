@@ -124,19 +124,20 @@ ACMD:spec[3](playerid, params[])
 
 			EnterSpectateMode(playerid, targetId);
 		}
-	}
-	else{
-		new targetId = strval(params);
+	} else {
+		new targetId = INVALID_PLAYER_ID;
+
+		if(isnumeric(params)) targetId = strval(params);
+		else targetId = GetPlayerIDFromName(params);
 
 		if(IsPlayerConnected(targetId) && targetId != playerid) {
 			// Não pode observar admins
-			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) {
-				ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
-				return 1;
-			}
+			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) 
+				return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
 
-            ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Está observando "C_BLUE"%p(id:%d)", playerid, playerid, targetId, targetId);
 			EnterSpectateMode(playerid, targetId);
+
+            ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) está observando %P (%d)", playerid, playerid, targetId, targetId);
 		}
 	}
 
@@ -145,12 +146,10 @@ ACMD:spec[3](playerid, params[])
 
 ACMD:free[3](playerid)
 {
-	if(!IsPlayerOnAdminDuty(playerid))
-		return 6;
+	if(!IsPlayerOnAdminDuty(playerid)) return 6;
 
 	if(GetPlayerSpectateType(playerid) == SPECTATE_TYPE_FREE)
 		ExitFreeMode(playerid);
-
 	else
 		EnterFreeMode(playerid);
 
@@ -200,31 +199,22 @@ ACMD:ip[3](playerid, params[])
 
 ACMD:veiculo[3](playerid, params[])
 {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)
-		return 6;
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new
 		command[30],
 		vehicleid;
 
-	if(sscanf(params, "s[30]D(-1)", command, vehicleid))
+	if(sscanf(params, "s[30]D(-1)", command, vehicleid)) 
+		return ChatMsg(playerid, YELLOW, " >  Use: /veiculo [puxar/ir/entrar/deletar/respawnar/resetar/trancar/destrancar/removerchave/destruir] [id]");
+
+	if(vehicleid == -1) vehicleid = GetPlayerVehicleID(playerid);
+
+	if(!IsValidVehicle(vehicleid)) return 4;
+
+	if(isequal(command, "puxar", true))
 	{
-		ChatMsg(playerid, YELLOW, " >  Use: /veiculo [puxar/ir/entrar/deletar/respawnar/resetar/trancar/destrancar/removerchave/destruir] [id]");
-		return 1;
-	}
-
-	if(vehicleid == -1)
-		vehicleid = GetPlayerVehicleID(playerid);
-
-	if(!IsValidVehicle(vehicleid))
-		return 4;
-
-	if(!strcmp(command, "puxar"))
-	{
-		new
-			Float:x,
-			Float:y,
-			Float:z;
+		new Float:x, Float:y, Float:z;
 
 		GetPlayerPos(playerid, x, y, z);
 		PutPlayerInVehicle(playerid, vehicleid, 0);
@@ -234,107 +224,78 @@ ACMD:veiculo[3](playerid, params[])
 
 		return 1;
 	}
-
-	if(!strcmp(command, "ir"))
+	else if(isequal(command, "ir", true))
 	{
-		new
-			Float:x,
-			Float:y,
-			Float:z;
+		new Float:x, Float:y, Float:z;
 
 		GetVehiclePos(vehicleid, x, y, z);
 		SetPlayerPos(playerid, x, y, z);
 
 		return 1;
 	}
-
-	if(!strcmp(command, "entrar"))
+	else if(isequal(command, "entrar", true))
 	{
 		PutPlayerInVehicle(playerid, vehicleid, 0);
 
 		return 1;
 	}
-
-	if(!strcmp(command, "deletar"))
+	else if(isequal(command, "deletar", true))
 	{
 		DestroyWorldVehicle(vehicleid, true);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d deletado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d deletado", vehicleid);
 	}
-
-	if(!strcmp(command, "respawnar"))
+	else if(isequal(command, "respawnar", true))
 	{
 		RespawnVehicle(vehicleid);
 		
 		SaveVehicle(vehicleid);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d respawnado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d respawnado", vehicleid);
 	}
-
-	if(!strcmp(command, "resetar"))
+	else if(isequal(command, "resetar", true))
 	{
 		ResetVehicle(vehicleid);
 		
 		SaveVehicle(vehicleid);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d resetado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d resetado", vehicleid);
 	}
-
-	if(!strcmp(command, "trancar"))
+	else if(isequal(command, "trancar", true))
 	{
 		SetVehicleExternalLock(vehicleid, E_LOCK_STATE_EXTERNAL);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d trancado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d trancado", vehicleid);
 	}
-
-	if(!strcmp(command, "destrancar"))
+	else if(isequal(command, "destrancar", true))
 	{
 		SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d destrancado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destrancado", vehicleid);
 	}
-
-	if(!strcmp(command, "removerchave"))
+	else if(isequal(command, "removerchave", true))
 	{
 		SetVehicleKey(vehicleid, 0);
 
-		ChatMsg(playerid, YELLOW, " >  Removido a chave do veiculo %d", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Removido a chave do veiculo %d", vehicleid);
 	}
-
-	if(!strcmp(command, "destruir"))
+	else if(isequal(command, "destruir", true))
 	{
 		SetVehicleHealth(vehicleid, 0.0);
 		
 		SaveVehicle(vehicleid);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d destruido", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destruido", vehicleid);
 	}
-
 	// Reparar completamente o veiculo
-	if(!strcmp(command, "reparar"))
+	else if(isequal(command, "reparar", true))
 	{
 		SetVehicleHealth(vehicleid, 1000.0);
 		RepairVehicle(vehicleid); // Repara a lataria
 		
 		SaveVehicle(vehicleid);
 
-		ChatMsg(playerid, YELLOW, " >  Veiculo %d reparado", vehicleid);
-
-		return 1;
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d reparado", vehicleid);
 	}
 
 	ChatMsg(playerid, YELLOW, " >  Use: /veiculo [puxar/ir/entrar/deletar/respawnar/resetar/trancar/destrancar/removerchave/destruir] [id]");
@@ -344,8 +305,7 @@ ACMD:veiculo[3](playerid, params[])
 
 ACMD:move[3](playerid, params[])
 {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)
-		return 6;
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new
 		direction[10],
@@ -353,11 +313,7 @@ ACMD:move[3](playerid, params[])
 
 	if(!sscanf(params, "s[10]F(2.0)", direction, amount))
 	{
-		new
-			Float:x,
-			Float:y,
-			Float:z,
-			Float:r;
+		new Float:x, Float:y, Float:z, Float:r;
 
 		GetPlayerPos(playerid, x, y, z);
 		GetPlayerFacingAngle(playerid, r);
@@ -387,11 +343,7 @@ ACMD:move[3](playerid, params[])
 
 ACMD:resetarsenha[3](playerid, params[])
 {
-	if(isnull(params))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /resetarsenha [Nick]");
-		return 1;
-	}
+	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /resetarsenha [Nick]");
 
 	new buffer[129];
 
@@ -399,7 +351,6 @@ ACMD:resetarsenha[3](playerid, params[])
 
 	if(SetAccountPassword(params, buffer))
 		ChatMsg(playerid, YELLOW, " >  A senha de '%s' foi resetada. Nova senha: password", params);
-
 	else
 		ChatMsg(playerid, RED, " >  Ocorreu um erro.");
 
@@ -412,39 +363,24 @@ ACMD:setactive[3](playerid, params[])
 		name[MAX_PLAYER_NAME],
 		active;
 
-	if(sscanf(params, "s[24]d", name, active))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
-		return 1;
-	}
+	if(sscanf(params, "s[24]d", name, active)) return ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
 
-	if(!AccountExists(name))
-	{
-		ChatMsg(playerid, RED, " >  Essa conta não existe.");
-		return 1;
-	}
+	if(!AccountExists(name)) return ChatMsg(playerid, RED, " >  Essa conta não existe.");
 
-    if(!active)
-		ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Desativou a conta %s!", playerid, playerid, name);
-	else
-		ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Ativou a conta %s!", playerid, playerid, name);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) %s a conta %s!", playerid, playerid, active ? ("ativou") : ("desativou"), name);
 
 	SetAccountActiveState(name, active);
 
-	ChatMsg(playerid, YELLOW, " >  %s "C_BLUE"'%s' "C_YELLOW"conta.", active ? ("Activated") : ("Deactivated"), name);
+	ChatMsg(playerid, YELLOW, " >  Conta %s %s.", name, active ? ("Ativada") : ("Desativada"));
 
 	return 1;
 }
 
 ACMD:irpos[3](playerid, params[])
 {
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)
-		return 6;
+    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 		
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+	new Float:x, Float:y, Float:z;
 
 	if(sscanf(params, "fff", x, y, z) && sscanf(params, "p<,>fff", x, y, z))
 		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem vírgulas)");
@@ -461,11 +397,7 @@ ACMD:banir[3](playerid, params[])
 {
 	new name[MAX_PLAYER_NAME];
 
-	if(sscanf(params, "s[24]", name))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /banir [playerid/nome]");
-		return 1;
-	}
+	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /banir [playerid/nome]");
 
 	if(isnumeric(name))
 	{
@@ -473,19 +405,13 @@ ACMD:banir[3](playerid, params[])
 
 		if(IsPlayerConnected(targetid))
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-
 		else
 			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 	}
 
-	if(!AccountExists(name))
-	{
-		ChatMsg(playerid, YELLOW, " > a conta '%s' não existe.", name);
-		return 1;
-	}
+	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " > a conta '%s' não existe.", name);
 
-	if(GetAdminLevelByName(name) > STAFF_LEVEL_NONE)
-		return 2;
+	if(GetAdminLevelByName(name) > STAFF_LEVEL_NONE) return 2;
 
 	BanAndEnterInfo(playerid, name);
 
@@ -498,12 +424,10 @@ ACMD:desbanir[3](playerid, params[])
 {
 	new name[MAX_PLAYER_NAME];
 
-	if(sscanf(params, "s[24]", name))
-		return ChatMsg(playerid, YELLOW, " >  Use: /desbanir [Nick]");
+	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /desbanir [Nick]");
 
 	if(UnBanPlayer(name))
 		ChatMsg(playerid, YELLOW, " >  A conta "C_BLUE"%s"C_YELLOW" foi desbanida.", name);
-
 	else
 		ChatMsg(playerid, YELLOW, " >  A conta '%s' não está banida.");
 
@@ -512,24 +436,35 @@ ACMD:desbanir[3](playerid, params[])
 
 ACMD:banidos[3](playerid, params[])
 {
-	new ret = ShowListOfBans(playerid, 0);
+	new result = ShowListOfBans(playerid, 0);
 
-	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
+	if(result == 0) ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
 
-	if(ret == -1)
-//		ChatMsg(playerid, YELLOW, " >  Ocorreu um erro ao executar 'stmt_BanGetList'.");
-		ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
+	if(result == -1) ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
+
+	return 1;
+}
+
+ACMD:sethp[3](playerid, params[]) {
+	new targetId, hp;
+
+	if(sscanf(params, "dd", targetId, hp)) return ChatMsg(playerid, YELLOW, " >  Use: /sethp [playerid] [hp]");
+
+	if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online.", targetId);
+
+	SetPlayerHealth(targetId, hp);
+
+	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) setou a vida de %P (%d) para %d", playerid, playerid, targetId, targetId, hp);
 
 	return 1;
 }
 
 ACMD:bb[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
+    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER) return 6;
 
     ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /bb", playerid, playerid);
     SetPlayerPos(playerid,0.22, 0.21, 3.11);
+
 	return 1;
 }
 
@@ -765,6 +700,7 @@ ACMD:teleportes[3](playerid)
     strcat(stringtp, ""C_BLUE"Ilha LV - /ilhalv\n");
     strcat(stringtp, ""C_BLUE"Ilha SF - /ilhasf\n");
     ShowPlayerDialog(playerid, 11478, DIALOG_STYLE_MSGBOX, "Teleportes", stringtp, "Fechar", "");
+
 	return 1;
 }
 
@@ -785,5 +721,6 @@ ACMD:comandoslvl3[3](playerid)
     strcat(stringlvl3, ""C_BLUE"/teleportes - Ver os comandos de teleportes\n");
     strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");
     ShowPlayerDialog(playerid, 12403, DIALOG_STYLE_MSGBOX, "Admin 3", stringlvl3, "Fechar", "");
+
     return 1;
 }

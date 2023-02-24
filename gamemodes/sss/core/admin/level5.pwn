@@ -197,22 +197,6 @@ ACMD:iw[5](playerid, params[])
 	return 1;
 }
 
-ACMD:health[5](playerid, params[])
-{
-	new Float:value;
-
-	if(sscanf(params, "f", value))
-	{
-		ChatMsg(playerid, YELLOW, "Current health %f", GetPlayerHP(playerid));
-		return 1;
-	}
-
-	SetPlayerHP(playerid, value);
-	ChatMsg(playerid, YELLOW, "Set health to %f", value);
-
-	return 1;
-}
-
 ACMD:food[5](playerid, params[])
 {
 	new Float:value;

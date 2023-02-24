@@ -163,24 +163,14 @@ public OnPlayerConnect(playerid)
 
 	new result = LoadAccount(playerid);
 
-	if(result == -1) // LoadAccount aborted, kick player.
-	{
-		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
-	}
-	else if(result == 0) // Account does not exist
-	{
-		ShowLanguageMenu(playerid);
-	}
-	else if(result == 1) // Account does exist, prompt login
-	{
-		DisplayLoginPrompt(playerid);
-	}
-	/* else if(result == 2) // Account does exist, auto login
-	{
-		Login(playerid);
-	} */
-	else if(result == 4) // Account does exists, but is disabled
-	{
+	// Carregamento abertado
+	if(result == -1) KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
+	// Conta nao existe
+	else if(result == 0) ShowLanguageMenu(playerid);
+	// Conta existe
+	else if(result == 1) DisplayLoginPrompt(playerid);
+	// Conta existe mas esta desativada
+	else if(result == 4) {
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
 		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
