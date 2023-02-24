@@ -467,6 +467,8 @@ new RequestsClient:client;
 #include "sss/core/player/TextDraw.pwn"
 #include "sss/core/player/TelaLogin.pwn"
 #include "sss/core/player/Coins.pwn"
+#include "sss/core/player/votekick.pwn"
+
 #include "sss/core/world/comerciante.pwn"
 
 // CHARACTER SCRIPTS
