@@ -310,7 +310,6 @@ enum
 
 new
 bool:	gServerInitialising = true,
-		gServerInitialiseTick,
 bool:	gServerRestarting = false,
 		gServerMaxUptime,
 		gServerUptime,
@@ -683,7 +682,6 @@ main()
 	log("================================================================================");
 
 	gServerInitialising = false;
-	gServerInitialiseTick = GetTickCount();
 }
 
 /*
@@ -774,8 +772,8 @@ task RestartUpdate[SEC(1)]()
 {
 	if(gServerMaxUptime > 0)
 	{
-		log("gServerUptime %d - gServerMaxUptime %d", gServerUptime, gServerMaxUptime);
 		if(gServerUptime >= gServerMaxUptime) {
+			log("gServerUptime %d - gServerMaxUptime %d", gServerUptime, gServerMaxUptime);
 			RestartGamemode();
 		}
 

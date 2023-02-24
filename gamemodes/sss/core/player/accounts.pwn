@@ -29,6 +29,7 @@
 #define FIELD_PLAYER_NAME			"name"		// 00
 #define FIELD_PLAYER_PASS			"pass"		// 01
 #define FIELD_PLAYER_IPV4			"ipv4"		// 02
+#define FIELD_PLAYER_LANGUAGE		"language"	// 02
 #define FIELD_PLAYER_ALIVE			"alive"		// 03
 #define FIELD_PLAYER_REGDATE		"regdate"	// 04
 #define FIELD_PLAYER_LASTLOG		"lastlog"	// 05
@@ -43,6 +44,7 @@ enum
 	FIELD_ID_PLAYER_NAME,
 	FIELD_ID_PLAYER_PASS,
 	FIELD_ID_PLAYER_IPV4,
+	FIELD_ID_PLAYER_LANGUAGE,
 	FIELD_ID_PLAYER_ALIVE,
 	FIELD_ID_PLAYER_REGDATE,
 	FIELD_ID_PLAYER_LASTLOG,
@@ -111,6 +113,7 @@ hook OnGameModeInit()
 		"FIELD_PLAYER_NAME" TEXT,\
 		"FIELD_PLAYER_PASS" TEXT,\
 		"FIELD_PLAYER_IPV4" INTEGER,\
+		"FIELD_PLAYER_LANGUAGE" INTEGER,\
 		"FIELD_PLAYER_ALIVE" INTEGER,\
 		"FIELD_PLAYER_REGDATE" INTEGER,\
 		"FIELD_PLAYER_LASTLOG" INTEGER,\
@@ -122,10 +125,10 @@ hook OnGameModeInit()
 
 	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS "ACCOUNTS_TABLE_PLAYER"_index ON "ACCOUNTS_TABLE_PLAYER"("FIELD_PLAYER_NAME")");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_PLAYER, 11);
+	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_PLAYER, 12);
 
 	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_PLAYER" VALUES(?,?,?,1,?,?,0,0,0,?,1)");
+	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_PLAYER" VALUES(?,?,?,?,1,?,?,0,0,0,?,1)");
 	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_ALIVE"=?, "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
@@ -167,14 +170,16 @@ hook OnGameModeInit()
 
 hook OnPlayerConnect(playerid)
 {
+	if(IsPlayerNPC(playerid)) return Y_HOOKS_CONTINUE_RETURN_0;
+
 	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/accounts.pwn");
-	if(!IsPlayerNPC(playerid))
-	{
-		acc_LoginAttempts[playerid] = 0;
-		acc_IsNewPlayer[playerid] = false;
-		acc_HasAccount[playerid] = false;
-		acc_LoggedIn[playerid] = false;
-	}
+
+	acc_LoginAttempts[playerid] = 0;
+	acc_IsNewPlayer[playerid]   = false;
+	acc_HasAccount[playerid]    = false;
+	acc_LoggedIn[playerid]      = false;
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 
@@ -196,6 +201,7 @@ LoadAccount(playerid)
 		exists,
 		password[MAX_PASSWORD_LEN],
 		ipv4,
+		language,
 		bool:alive,
 		regdate,
 		lastlog,
@@ -230,6 +236,7 @@ LoadAccount(playerid)
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_PASS, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_IPV4, DB::TYPE_INTEGER, ipv4);
+	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_LANGUAGE, DB::TYPE_INTEGER, language);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ALIVE, DB::TYPE_INTEGER, alive);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_REGDATE, DB::TYPE_INTEGER, regdate);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_LASTLOG, DB::TYPE_INTEGER, lastlog);
@@ -252,9 +259,11 @@ LoadAccount(playerid)
 
 	if(!active)
 	{
-		log("[ACCOUNT] %p (%d) (conta inativa) Vivo?: %s Último Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
+		log("[ACCOUNT] %p (%d) (conta inativa) Vivo?: %s, Último Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
 		return 4;
 	}
+
+	SetPlayerLanguage(playerid, language);
 
 	SetPlayerAliveState(playerid, alive);
 	acc_IsNewPlayer[playerid] = false;
@@ -273,7 +282,7 @@ LoadAccount(playerid)
 //		return 2;
 //	}
 
-	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
+	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s, Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
 
 	return 1;
 }
@@ -297,20 +306,19 @@ CreateAccount(playerid, password[])
 	
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
-	
-	log("[REGISTER] %p registered", playerid);
 
 	stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		name, MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
-	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	gettime());
+	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	GetPlayerLanguage(playerid));
 	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime());
-	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
+	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime());
+	stmt_bind_value(stmt_AccountCreate, 6, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
 
 	if(!stmt_execute(stmt_AccountCreate))
 	{
 		err("[CreateAccount] executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "An error occurred while executing statement 'stmt_AccountCreate'. Please contact an admin on IRC or the forum.");
+		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.");
 		return 0;
 	}
 	
@@ -325,12 +333,11 @@ CreateAccount(playerid, password[])
 	acc_LoggedIn[playerid]    = true;
 	SetPlayerToolTips(playerid, true);
 	SetPlayerChatMode(playerid, 0);
-	  // PlayerCreateNewCharacter(playerid);
 	SetPlayerScore(playerid, 0);
 	StopAudioStreamForPlayer(playerid);
 
-	EnterTutorial(playerid);
-
+	log("[ACCOUNTS] %p (%d) registrou.", playerid, playerid);
+	
 	CallLocalFunction("OnPlayerRegister", "d", playerid);
 
 	return 1;
@@ -440,7 +447,7 @@ Login(playerid)
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
 	
-	log("[LOGIN] %p logged in, alive: %d", playerid, IsPlayerAlive(playerid));
+	log("[ACCOUNT] %p (%d) efetuou login. Vivo?: %s", playerid, playerid, IsPlayerAlive(playerid) ? "Sim" : "Não");
 
 	// TODO: move to a single query
 	stmt_bind_value(stmt_AccountSetIpv4, 0, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerid));
@@ -466,7 +473,6 @@ Login(playerid)
 		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
 		if(reports > 0) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
-
 		if(issues > 0) ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
 	}
 
@@ -479,6 +485,18 @@ Login(playerid)
 
 	TextDrawShowForPlayer(playerid, RestartCount);
 	TextDrawShowForPlayer(playerid, ClockRestart);
+
+	// Mostra na tela para os outros jogadores que o jogador entrou no servidor e qual o idioma escolhido. (Apenas depois de carregar a conta)
+	// Mensagem personalizada para cada player no final do texto
+	new lang_name[3];
+
+	if(GetPlayerLanguage(playerid) == 0) lang_name = "EN"; else lang_name = "PT";
+	
+	// Mostra a entrada do jogador no chat para os outros jogadores
+	new playerName[MAX_PLAYER_NAME], frase[MAX_FRASE_LEN];
+	GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+	format(frase, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini", playerName));
+	foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
 
 	CallLocalFunction("OnPlayerLogin", "d", playerid);
 

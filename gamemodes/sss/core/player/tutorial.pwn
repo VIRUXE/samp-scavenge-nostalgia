@@ -70,6 +70,11 @@ hook OnPlayerCreateChar(playerid)
 	PlayerTextDrawShow(playerid, ClassButtonTutorial[playerid]);
 }
 
+hook OnPlayerRegister(playerid)
+{
+	EnterTutorial(playerid);
+}
+
 EnterTutorial(playerid) {
 	log("[TUTORIAL] Jogador %p (%d) entrou no tutorial.", playerid, playerid);
 

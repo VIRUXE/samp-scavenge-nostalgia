@@ -113,7 +113,7 @@ ACMD:spec[3](playerid, params[])
 	if(!(IsPlayerOnAdminDuty(playerid))) return 6;
 
 	// If there's only one player, don't do anything
-	if(GetTotalPlayers() == 1) return 1;
+	if(Iter_Count(Player) == 1) return 1;
 
 	if(isnull(params)) {
 		if(IsPlayerSpectating(playerid)) ExitSpectateMode(playerid); // If player is spectating, exit spectate mode
