@@ -211,7 +211,7 @@ hook OnPlayerDrugWearOff(playerid, drugtype)
 		gettime(hour, minute);
 
 		SetPlayerTime(playerid, hour, minute);
-		SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+		SetPlayerWeather(playerid, GetSettingInt("world/weather"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;

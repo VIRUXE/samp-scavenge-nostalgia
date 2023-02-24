@@ -307,20 +307,6 @@ ACMD:mudarclima[4](playerid, params[])
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
-/*ACMD:mudarhora[4](playerid, params[])
-{
-	new hora;
-	if(sscanf(params, "i", hora)) return SendClientMessage(playerid, YELLOW," > Use: /mudarhora [Hor�rio]");
-	if(hora < 0 || hora > 23) return ChatMsg(playerid, RED," > O hor�rio tem que ser entre 0 a 23.");
-	SetWorldTime(hora);
-	if(!dini_Exists("Servidor.ini"))
-    dini_Create("Servidor.ini");
-	dini_IntSet("Servidor.ini", "Hora", hora);
-	new admNm[24];GetPlayerName(playerid, admNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) mudou a hora do servidor!", admNm, playerid);
-    return 1;
-}*/
-
 ACMD:tapa[4](playerid, params[])
 {
     if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)

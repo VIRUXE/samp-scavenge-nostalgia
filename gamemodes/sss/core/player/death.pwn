@@ -131,7 +131,6 @@ _OnDeath(playerid, killerid)
 	DropItems(playerid, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid], true);
 	RemovePlayerWeapon(playerid);
 	RemoveAllDrugs(playerid);
-//	SetPlayerTime(playerid, dini_Int("Servidor.ini", "Hora"), 0);
 
 	// Define o clima para o jogador
 	SetPlayerWeather(playerid, GetSettingInt("world/weather"));

@@ -168,16 +168,12 @@ hook OnPlayerDrugWearOff(playerid, drugtype)
 
 	if(drugtype == drug_Lsd)
 	{
-        new
-			hour,
-			minute;
+        new hour, minute;
 
 		gettime(hour, minute);
 		
 		SetPlayerTime(playerid, hour, minute);
-		SetPlayerWeather(playerid, 10);
-//		SetPlayerTime(playerid, dini_Int("Servidor.ini", "Hora"), 0);
-	    SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+	    SetPlayerWeather(playerid, GetSettingInt("world/weather"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
