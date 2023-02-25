@@ -52,7 +52,6 @@ forward Float:GetPlayerFP(playerid);
 forward Float:GetPlayerTotalVelocity(playerid);
 forward ItemType:GetItemWeaponItemAmmoItem(itemid);
 forward Float:GetPlayerBleedRate(playerid);
-forward GetPlayerBedPos(playerid, &Float:x, &Float:y, &Float:z);
 
 #define SEC(%0) 1000 * %0
 #define MIN(%0) SEC(%0) * 60

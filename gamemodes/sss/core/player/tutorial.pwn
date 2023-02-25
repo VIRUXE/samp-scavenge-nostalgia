@@ -119,9 +119,10 @@ EnterTutorial(playerid) {
 	new virtualworld = playerid + 1;
 
 	// Um armazém vermelho em Las Venturas
-	SetPlayerPos(playerid, 928.8049,2072.3174,10.8203);
+	SetPlayerPos(playerid, 928.8049, 2072.3174, 10.8203);
 	SetPlayerFacingAngle(playerid, 269.3244);
 	SetPlayerVirtualWorld(playerid, virtualworld);
+	// SetPlayerWorldBounds(playerid, 2054.0671, 2086.1921, 977.0759, 925.0547); // ? Caralho não sei como colocar correto
 
 	// Define uma roupa aleatória
 	new skin;
@@ -241,6 +242,8 @@ ExitTutorial(playerid)
 	if(!PlayerInTutorial[playerid]) return 0;
 
 	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
+
+	SetPlayerWorldBounds(playerid, 20000.0000, -20000.0000, 20000.0000, -20000.0000);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
