@@ -251,17 +251,18 @@ ResetVariables(playerid)
 
 ptask PlayerUpdateFast[100](playerid)
 {
-	new pinglimit = (Iter_Count(Player) > 10) ? (gPingLimit) : (gPingLimit + 100);
+	new ping = GetPlayerPing(playerid);
 
-	if(GetPlayerPing(playerid) > pinglimit && GetPlayerAdminLevel(playerid) == 0)
+	if(ping > gPingLimit && GetPlayerAdminLevel(playerid) == 0)
 	{
-		if(GetTickCountDifference(GetTickCount(), ply_Data[playerid][ply_JoinTick]) > 10000)
+		if(GetTickCountDifference(GetTickCount(), ply_Data[playerid][ply_JoinTick]) > SEC(10)) // Ignorar o ping dos primeiros 10 segundos
 		{
 			ply_Data[playerid][ply_PingLimitStrikes]++;
 
-			if(ply_Data[playerid][ply_PingLimitStrikes] == 30)
+			// Remover o jogador se o ping continuar alto, após 3 segundos
+			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
 			{
-				KickPlayer(playerid, sprintf("Ping muito alto: %d limite: %d.", GetPlayerPing(playerid), pinglimit));
+				TimeoutPlayer(playerid, sprintf("Ping muito alto: %d/%d. Normalize o mesmo e volte dentro de 1 minuto.", ping, gPingLimit), MIN(1));
 
 				ply_Data[playerid][ply_PingLimitStrikes] = 0;
 
@@ -269,7 +270,8 @@ ptask PlayerUpdateFast[100](playerid)
 			}
 		}
 	}
-	else ply_Data[playerid][ply_PingLimitStrikes] = 0;
+	else if(ply_Data[playerid][ply_PingLimitStrikes]) // Resetar o contador de strikes do ping
+		ply_Data[playerid][ply_PingLimitStrikes] = 0;
 
 	/*if(NetStats_MessagesRecvPerSecond(playerid) > 200)
 	{
@@ -282,15 +284,6 @@ ptask PlayerUpdateFast[100](playerid)
 	if(IsPlayerInAnyVehicle(playerid)) PlayerVehicleUpdate(playerid);
 
 	PlayerBagUpdate(playerid);
-
-
-/*	new
-		hour,
-		minute;
-
-	gettime(hour, minute);
-	
-	SetPlayerTime(playerid, hour, minute);*/
 
 	return;
 }
