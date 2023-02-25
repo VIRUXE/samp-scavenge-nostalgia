@@ -344,10 +344,10 @@ CreateAccount(playerid, password[])
 DisplayRegisterPrompt(playerid)
 {
 	new str[250];
-	format(str, 250, GetLanguageString(playerid, "ACCREGIBODY", true), playerid);
+	format(str, 250, GetLanguageString(playerid, "ACCREGIBODY", false), playerid);
 
 	log("[DisplayRegisterPrompt] %p is registering", playerid);
-	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCREGITITL"), str, ""C_GREEN">", ""C_RED"X");
+	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCREGITITL"), str, "Registrar", "Cancelar");
 
 	return 1;
 }
@@ -384,11 +384,11 @@ DisplayLoginPrompt(playerid, badpass = 0)
 	if(badpass)
 		format(str, 200, ls(playerid, "ACCLOGWROPW"), acc_LoginAttempts[playerid]);
 	else
-		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", true), playerid);
+		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", false), playerid);
 
 	log("[DisplayLoginPrompt] %p is logging in", playerid);
 
-	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCLOGITITL"), str, ""C_GREEN">", ""C_RED"X");
+	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCLOGITITL"), str, "Entrar", "Cancelar");
 
 	return 1;
 }
@@ -462,6 +462,23 @@ Login(playerid)
 
 	CheckAdminLevel(playerid);
 
+	acc_LoggedIn[playerid] = true;
+	acc_LoginAttempts[playerid] = 0;
+
+	SetPlayerBrightness(playerid, 255);
+	SpawnLoggedInPlayer(playerid);
+	StopAudioStreamForPlayer(playerid);
+
+	TextDrawShowForPlayer(playerid, RestartCount);
+	TextDrawShowForPlayer(playerid, ClockRestart);
+
+	CallLocalFunction("OnPlayerLogin", "d", playerid);
+
+	return 1;
+}
+
+// Chamado após o jogador logar
+public OnPlayerLogin(playerid) {
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
 		new
@@ -474,19 +491,7 @@ Login(playerid)
 		if(issues > 0) ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
 	}
 
-	acc_LoggedIn[playerid] = true;
-	acc_LoginAttempts[playerid] = 0;
-
-	SetPlayerBrightness(playerid, 255);
-	SpawnLoggedInPlayer(playerid);
-	StopAudioStreamForPlayer(playerid);
-
-	TextDrawShowForPlayer(playerid, RestartCount);
-	TextDrawShowForPlayer(playerid, ClockRestart);
-
 	ChatMsg(playerid, BLUE, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
-
-	CallLocalFunction("OnPlayerLogin", "d", playerid);
 
 	return 1;
 }

@@ -89,7 +89,7 @@ stock SetPlayerLanguage(playerid, langid)
 
 	lang_PlayerLanguage[playerid] = langid;
 
-	log("[LANGUAGE] %p (%d) definiu idioma para %d", playerid, playerid, langid);
+	log("[LANGUAGE] %p (%d) definiu idioma para '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
 
 	return 1;
 }
@@ -105,7 +105,7 @@ ShowLanguageMenu(playerid)
 
 	for(new i; i < langcount; i++) format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
 
-	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, ""C_GREEN">", "");
+	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, "OK", "");
 }
 
 Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
@@ -114,9 +114,29 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
 
 		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
 
-		DisplayRegisterPrompt(playerid);
+		// Mostra uma mensagem de boas-vindas
+		// Convem providenciar algum contexto sobre que tipo de gamemode é, antes que eles registem simplesmente para ver como é
+		if(listitem == 0)
+			Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Bem-vindo ao \"Scavenge and Survive\"",
+			C_WHITE"Este é um servidor de sobrevivência onde você deve sobreviver e explorar o mundo.\n\
+			Você é colocado num ambiente de PvP, onde tem que se defender de outros jogadores e procurar formas de abrigo, bem como manter sua saúde.\n\n\
+			Deseja proseguir? Se sim terá que registrar sua conta e completar o Tutorial.",
+			"Continuar", "Sair");
+		else
+			Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Welcome to \"Scavenge and Survive\"",
+			C_WHITE"This is a survival server where you must survive and explore the world.\n\
+			You will be pinned in a Player versus Player environment.\n\n\
+			Would you like to proceed? If you do, you will be prompted to register for an account.",
+			"Continue", "Sair");
 	}
-	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
+	else ShowLanguageMenu(playerid); // Dialog cancelado, mostra novamente o menu de idiomas
+}
+
+Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
+	if(response)
+		DisplayRegisterPrompt(playerid);
+	else
+		Kick(playerid);
 }
 
 public OnPlayerConnect(playerid)
