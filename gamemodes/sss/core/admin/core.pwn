@@ -280,7 +280,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true)
 	defer KickPlayerDelay(playerid);
 	admin_PlayerKicked[playerid] = true;
 
-	log("[KICK] %p (%d), razão: %s", playerid, reason);
+	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
