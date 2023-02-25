@@ -376,12 +376,8 @@ new RequestsClient:client;
 #include "sss/core/server/text-tags.pwn"
 #include "sss/core/server/weather.pwn"
 //#include "sss/core/server/save-block.pwn"
-//#include "sss/core/server/info-message.pwn"
 #include "sss/core/server/language.pwn"
 #include "sss/core/server/anti-cheat.pwn"
-//#include "sss/core/player/language.pwn"
-#include "sss/core/player/frase.pwn"
-#include "sss/core/player/ped.pwn"
 
 /*
 	PARENT SYSTEMS
@@ -445,7 +441,7 @@ new RequestsClient:client;
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/death.pwn"
 #include "sss/core/player/tutorial.pwn"
-//#include "sss/core/player/welcome-message.pwn"
+// #include "sss/core/player/welcome-message.pwn"
 #include "sss/core/player/chat.pwn"
 #include "sss/core/player/cmd-process.pwn"
 #include "sss/core/player/commands.pwn"
@@ -456,6 +452,8 @@ new RequestsClient:client;
 #include "sss/core/player/recipes.pwn"
 
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
+#include "sss/core/player/frase.pwn"
+#include "sss/core/player/ped.pwn"
 #include "sss/core/player/clan.pwn" // By Kolorado
 #include "sss/core/player/ini.pwn" // By Kolorado
 //#include "sss/core/player/interior.pwn" // By Kolorado
