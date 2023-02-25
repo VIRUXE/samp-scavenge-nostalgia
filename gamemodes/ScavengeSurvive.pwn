@@ -55,6 +55,7 @@ forward Float:GetPlayerBleedRate(playerid);
 
 #define SEC(%0) 1000 * %0
 #define MIN(%0) SEC(%0) * 60
+#define HOUR(%0) MIN(%0) * 60
 
 #define _DEBUG							0 // YSI
 #define DB_DEBUG						false // SQLitei
