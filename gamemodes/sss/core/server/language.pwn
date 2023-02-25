@@ -123,12 +123,12 @@ stock LoadAllLanguages()
 	}
 
 	// Force load English first since that's the default language.
-	default_entries = LoadLanguage(DIRECTORY_LANGUAGES"English", "English");
-	log("Default language (English) has %d entries.", default_entries);
+	default_entries = LoadLanguage(DIRECTORY_LANGUAGES"Portugues", "Português");
+	log("Default language (Português) has %d entries.", default_entries);
 
 	if(default_entries == 0)
 	{
-		err("No default entries loaded! Please add the 'English' langfile to '%s'.", directory_with_root);
+		err("O arquivo de Portugues está em falta '%s'.", directory_with_root);
 		return 0;
 	}
 
@@ -136,7 +136,7 @@ stock LoadAllLanguages()
 	{
 		if(type == FM_FILE)
 		{
-			if(!strcmp(item, "English")) continue; // Already loaded by default.
+			if(!strcmp(item, "Portugues")) continue; // Already loaded by default.
 
 			// Don't load files that have an extension. (probably a tool and not a language file)
 			if(strfind(item, ".") != -1) continue;
@@ -148,17 +148,17 @@ stock LoadAllLanguages()
             
 			if(entries > 0)
 			{
-				log("Loaded language %s: %d entries, %d missing entries", item, entries, default_entries - entries);
+				log("[LANGUAGE] Carregou %s com %d entradas. %d em falta.", item, entries, default_entries - entries);
 				languages++;
 				lang_entries[languages] = entries;
 			}
-			else err("No entries loaded from language file '%s'", item);
+			else err("Linguagem sem entradas '%s'", item);
 		}
 	}
 
 	dir_close(dirhandle);
 
-	log("Loaded %d language(s).", languages);
+	log("[LANGUAGE] %d linguagens carregadas.", languages);
 
 	return 1;
 }
@@ -456,11 +456,10 @@ stock ConvertEncoding(string[])
 
 stock GetLanguageList(list[][])
 {
-	// Reverse the list, so that Portugues is first
-	for(new lang = lang_Total - 1, i = 0; lang >= 0; lang--, i++)
+	for(new i; i < lang_Total; i++)
 	{
 		list[i][0] = EOS;
-		strcat(list[i], lang_Name[lang], MAX_LANGUAGE_NAME);
+		strcat(list[i], lang_Name[i], MAX_LANGUAGE_NAME);
 	}
 
 	return lang_Total;

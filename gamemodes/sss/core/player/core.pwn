@@ -89,7 +89,7 @@ stock SetPlayerLanguage(playerid, langid)
 
 	lang_PlayerLanguage[playerid] = langid;
 
-	log("[LANG] %p (%d) definiu idioma para %d", playerid, playerid, langid);
+	log("[LANGUAGE] %p (%d) definiu idioma para %d", playerid, playerid, langid);
 
 	return 1;
 }
@@ -108,20 +108,13 @@ ShowLanguageMenu(playerid)
 	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, ""C_GREEN">", "");
 }
 
-Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
+Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
 	if(response) {
-		// O primeiro idioma é sempre o Português, o segundo o Inglês
-		// Mas internamente o primeiro idioma é Inglês, o segundo Português
-
-		listitem = listitem == 0 ? 1 : 0; // Aqui invertemos o valor para ficar igual ao que esta no array de idiomas
-
 		SetPlayerLanguage(playerid, listitem);
 
 		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
 
 		DisplayRegisterPrompt(playerid);
-
-		
 	}
 	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
 }

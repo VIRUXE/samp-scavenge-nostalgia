@@ -24,11 +24,11 @@ forward OnPlayerSendChat(playerid, text[], Float:frequency);
 
 ACMD:setglobal[2](playerid, params[])
 {
-	new time;
+	new timeOff;
 
-	if(sscanf(params, "d", time)) return ChatMsg(playerid, YELLOW, " >  Use: /setglobal [tempo] (0 para desativar)");
+	if(sscanf(params, "d", timeOff)) return ChatMsg(playerid, YELLOW, " >  Use: /setglobal [tempo] (0 para desativar)");
 
-	if(time == 0)
+	if(timeOff == 0)
 	{
 	    ChatMsg(playerid, YELLOW, " > Chat Global desativado.");
 	    GlobalTime2 = 0;
@@ -36,9 +36,9 @@ ACMD:setglobal[2](playerid, params[])
 	}
 	else
 	{
-	    ChatMsg(playerid, YELLOW, " > Tempo para usar o chat setado para %d segundos", time);
+	    ChatMsg(playerid, YELLOW, " > Tempo para usar o chat setado para %d segundos", timeOff);
 	    GlobalOff = false;
-	    GlobalTime2 = time;
+	    GlobalTime2 = timeOff;
 	}
 
 	return 1;
@@ -76,7 +76,7 @@ hook OnPlayerText(playerid, text[])
 			{
 				TogglePlayerMute(playerid, true, 30);
 				ChatMsgLang(playerid, RED, "MUTEDFLOODM");
-				
+
 				return 0;
 			}
 		}
@@ -109,9 +109,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
     if(!IsPlayerSpawned(playerid)) return 0;
 
-	new
-		line1[256],
-		line2[128];
+	new line1[256], line2[128];
 
 	if(frequency == 0.0)
 	{
@@ -121,25 +119,11 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		GetPlayerPos(playerid, x, y, z);
 
-		switch(GetPlayerLanguage(playerid))
-		{
-			case 0:
-			{
-				format(line1, 256, "[L] [%s] (%d) %P"C_WHITE": %s",
-					"EN",
-					playerid,
-					playerid,
-					TagScan(chat));
-			}
-			case 1:
-			{
-				format(line1, 256, "[L] [%s] (%d) %P"C_WHITE": %s",
-					"PT",
-					playerid,
-					playerid,
-					TagScan(chat));
-			}
-		}
+		format(line1, 256, "[L][%s] (%d) %P"C_WHITE": %s",
+			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
+			playerid,
+			playerid,
+			TagScan(chat));
 
 		TruncateChatMessage(line1, line2);
 
@@ -156,9 +140,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		//SetPlayerChatBubble(playerid, TagScan(chat), WHITE, 40.0, 10000);
 
 		return 1;
-	}
-	else if(frequency == 1.0)
-	{
+	} else if(frequency == 1.0) {
  		if(GlobalOff) return ChatMsg(playerid, RED, " > Chat global desativado.");
 
 	    if(GlobalTime[playerid] != 0) return ChatMsg(playerid, RED, " > Você pode usar o chat global novamente em %d segundos.", GlobalTime[playerid]);
@@ -168,25 +150,11 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		
 		log("[CHAT][GLOBAL] [%p]: %s", playerid, chat);
 
-		switch(GetPlayerLanguage(playerid))
-		{
-			case 0:
-			{
-				format(line1, 256, "[GLOBAL] [%s] (%d) %P"C_WHITE": %s",
-					"EN",
-					playerid,
-					playerid,
-					TagScan(chat));
-			}
-			case 1:
-			{
-				format(line1, 256, "[GLOBAL] [%s] (%d) %P"C_WHITE": %s",
-					"PT",
-					playerid,
-					playerid,
-					TagScan(chat));
-			}
-		}
+		format(line1, 256, "[GLOBAL][%s] (%d) %P"C_WHITE": %s",
+			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
+			playerid,
+			playerid,
+			TagScan(chat));
 
 		TruncateChatMessage(line1, line2);
 
@@ -204,9 +172,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		//SetPlayerChatBubble(playerid, TagScan(chat), WHITE, 40.0, 10000);
 
 		return 1;
-	}
-	else if(frequency == 2.0)
-	{
+	} else if(frequency == 2.0) {
 		log("[CHAT][LOCALME] [%p]: %s", playerid, chat);
 
 		new Float:x, Float:y, Float:z;
