@@ -25,19 +25,19 @@
 #include <YSI\y_hooks>
 
 
-#define ACCOUNTS_TABLE_PLAYER		"Player"
-#define FIELD_PLAYER_NAME			"name"		// 00
-#define FIELD_PLAYER_PASS			"pass"		// 01
-#define FIELD_PLAYER_IPV4			"ipv4"		// 02
-#define FIELD_PLAYER_LANGUAGE		"language"	// 02
-#define FIELD_PLAYER_ALIVE			"alive"		// 03
-#define FIELD_PLAYER_REGDATE		"regdate"	// 04
-#define FIELD_PLAYER_LASTLOG		"lastlog"	// 05
-#define FIELD_PLAYER_SPAWNTIME		"spawntime"	// 06
-#define FIELD_PLAYER_TOTALSPAWNS	"spawns"	// 07
-#define FIELD_PLAYER_WARNINGS		"warnings"	// 08
-#define FIELD_PLAYER_GPCI			"gpci"		// 19
-#define FIELD_PLAYER_ACTIVE			"active"	// 10
+#define FIELD_PLAYER_NAME			"name"	
+#define FIELD_PLAYER_PASS			"pass"	
+#define FIELD_PLAYER_IPV4			"ipv4"	
+#define FIELD_PLAYER_LANGUAGE		"language"
+#define FIELD_PLAYER_ALIVE			"alive"	
+#define FIELD_PLAYER_REGDATE		"regdate"
+#define FIELD_PLAYER_LASTLOG		"lastlog"
+#define FIELD_PLAYER_SPAWNTIME		"spawntime"
+#define FIELD_PLAYER_TOTALSPAWNS	"spawns"
+#define FIELD_PLAYER_WARNINGS		"warnings"
+#define FIELD_PLAYER_GPCI			"gpci"	
+#define FIELD_PLAYER_JOINSENTENCE	"joinsentence"	
+#define FIELD_PLAYER_ACTIVE			"active"
 
 enum
 {
@@ -52,6 +52,7 @@ enum
 	FIELD_ID_PLAYER_TOTALSPAWNS,
 	FIELD_ID_PLAYER_WARNINGS,
 	FIELD_ID_PLAYER_GPCI,
+	FIELD_ID_PLAYER_JOINSENTENCE,
 	FIELD_ID_PLAYER_ACTIVE
 }
 
@@ -109,62 +110,64 @@ forward OnPlayerLogin(playerid);
 
 hook OnGameModeInit()
 {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_PLAYER" (\
-		"FIELD_PLAYER_NAME" TEXT,\
-		"FIELD_PLAYER_PASS" TEXT,\
-		"FIELD_PLAYER_IPV4" INTEGER,\
-		"FIELD_PLAYER_LANGUAGE" INTEGER,\
-		"FIELD_PLAYER_ALIVE" INTEGER,\
-		"FIELD_PLAYER_REGDATE" INTEGER,\
-		"FIELD_PLAYER_LASTLOG" INTEGER,\
-		"FIELD_PLAYER_SPAWNTIME" INTEGER,\
-		"FIELD_PLAYER_TOTALSPAWNS" INTEGER,\
-		"FIELD_PLAYER_WARNINGS" INTEGER,\
-		"FIELD_PLAYER_GPCI" TEXT,\
-		"FIELD_PLAYER_ACTIVE")");
+	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS Player (\
+		"FIELD_PLAYER_NAME" TEXT NOT NULL,\
+		"FIELD_PLAYER_PASS" TEXT NOT NULL,\
+		"FIELD_PLAYER_IPV4" INTEGER NOT NULL,\
+		"FIELD_PLAYER_LANGUAGE" INTEGER NOT NULL,\
+		"FIELD_PLAYER_ALIVE" INTEGER NOT NULL,\
+		"FIELD_PLAYER_REGDATE" INTEGER NOT NULL,\
+		"FIELD_PLAYER_LASTLOG" INTEGER NOT NULL,\
+		"FIELD_PLAYER_SPAWNTIME" INTEGER NOT NULL,\
+		"FIELD_PLAYER_TOTALSPAWNS" INTEGER NOT NULL,\
+		"FIELD_PLAYER_WARNINGS" INTEGER NOT NULL,\
+		"FIELD_PLAYER_GPCI" TEXT NOT NULL,\
+		"FIELD_PLAYER_JOINSENTENCE" TEXT,\
+		"FIELD_PLAYER_ACTIVE" INTEGER NOT NULL)");
 
-	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS "ACCOUNTS_TABLE_PLAYER"_index ON "ACCOUNTS_TABLE_PLAYER"("FIELD_PLAYER_NAME")");
+	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS Player_index ON Player("FIELD_PLAYER_NAME")");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_PLAYER, 12);
+	DatabaseTableCheck(gAccounts, "Player", 13);
 
-	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_PLAYER" VALUES(?,?,?,?,1,?,?,0,0,0,?,1)");
-	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_ALIVE"=?, "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+								// name, pass, ipv4, language, alive, regdate, lastlog, spawntime, spawns, warnings, gpci, joinsentence, active
+	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO Player VALUES(?,?,?,?,0,?,?,0,0,0,?,'',1)");
+	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_ALIVE"=?, "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetPassword		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_PASS" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetPassword		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_PASS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetPassword		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_PASS" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetPassword		= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_PASS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetIpv4			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetIpv4			= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_IPV4"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetIpv4			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetIpv4			= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_IPV4"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ALIVE" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_ALIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ALIVE" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_ALIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_REGDATE" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_REGDATE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_REGDATE" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_REGDATE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_LASTLOG" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_LASTLOG"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_LASTLOG" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_LASTLOG"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_SPAWNTIME" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_SPAWNTIME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_SPAWNTIME" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_SPAWNTIME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_TOTALSPAWNS" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_TOTALSPAWNS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_TOTALSPAWNS" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_TOTALSPAWNS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_WARNINGS" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_WARNINGS" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetGpci			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_GPCI" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetGpci			= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_GPCI"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetGpci			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_GPCI" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetGpci			= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_GPCI"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetActiveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ACTIVE" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetActiveState	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_ACTIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetActiveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ACTIVE" FROM Player WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountSetActiveState	= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_ACTIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
-	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4", "FIELD_PLAYER_PASS", "FIELD_PLAYER_GPCI" FROM "ACCOUNTS_TABLE_PLAYER" WHERE "FIELD_PLAYER_NAME"=? AND "FIELD_PLAYER_ACTIVE" COLLATE NOCASE");
+	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4", "FIELD_PLAYER_PASS", "FIELD_PLAYER_GPCI" FROM Player WHERE "FIELD_PLAYER_NAME"=? AND "FIELD_PLAYER_ACTIVE" COLLATE NOCASE");
 
-    stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_PLAYER" SET "FIELD_PLAYER_NAME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+    stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_NAME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
 }
 
@@ -276,12 +279,6 @@ LoadAccount(playerid)
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
 
-//	if(GetPlayerIpAsInt(playerid) == ipv4)
-//	{
-//		log("[ACCOUNT] %p (account exists, auto login)", playerid);
-//		return 2;
-//	}
-
 	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s, Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
 
 	return 1;
@@ -311,14 +308,15 @@ CreateAccount(playerid, password[])
 	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
 	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	GetPlayerLanguage(playerid));
-	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime());
-	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime());
+	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime()); // regdate
+	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime()); // lastlog
 	stmt_bind_value(stmt_AccountCreate, 6, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
 
 	if(!stmt_execute(stmt_AccountCreate))
 	{
-		err("[CreateAccount] executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.");
+		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
+		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.", true);
+
 		return 0;
 	}
 	
@@ -486,17 +484,7 @@ Login(playerid)
 	TextDrawShowForPlayer(playerid, RestartCount);
 	TextDrawShowForPlayer(playerid, ClockRestart);
 
-	// Mostra na tela para os outros jogadores que o jogador entrou no servidor e qual o idioma escolhido. (Apenas depois de carregar a conta)
-	// Mensagem personalizada para cada player no final do texto
-	new lang_name[3];
-
-	if(GetPlayerLanguage(playerid) == 0) lang_name = "EN"; else lang_name = "PT";
-	
-	// Mostra a entrada do jogador no chat para os outros jogadores
-	new playerName[MAX_PLAYER_NAME], frase[MAX_FRASE_LEN];
-	GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
-	format(frase, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini", playerName));
-	foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
+	ChatMsg(playerid, BLUE, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
 
 	CallLocalFunction("OnPlayerLogin", "d", playerid);
 
