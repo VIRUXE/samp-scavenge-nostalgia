@@ -190,12 +190,12 @@ public OnPlayerDisconnect(playerid, reason)
 
 	if(reason != 2) foreach(new i : Player) ChatMsgLang(i, WHITE, "PLEFTSV", playerid, playerid);
 	    
-	SetTimerEx("OnPlayerDisconnected", 100, false, "dd", playerid, reason);
+	SetTimerEx("OnPlayerDisconnected", 100, false, "d", playerid);
 
 	return 1;
 }
 
-hook OnPlayerDisconnected(playerid, reason)
+public OnPlayerDisconnected(playerid)
 {
 	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/player/core.pwn");
 
