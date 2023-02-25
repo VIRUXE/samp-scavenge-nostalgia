@@ -1,3 +1,6 @@
+#include <YSI\y_hooks>
+#include <YSI\y_timers>
+
 #define MAX_VOTEKICK_REASON 144 // Tamanho máximo do motivo da votação.
 #define MAX_VOTING_TIME 60 // Tempo máximo da votação, em segundos.
 
@@ -11,24 +14,31 @@ static
     votekick_start  = 0,
     votekick_player = INVALID_PLAYER_ID,
     votekick_reason[MAX_VOTEKICK_REASON],
-    votekick_votes[MAX_PLAYERS];
+    votekick_votes[MAX_PLAYERS] = {VOTE_NULL, ...},
+    Timer:votekick_timer;
 
 timer VoteKickTimer[SEC(10)]() {
-    if(votekick_player == INVALID_PLAYER_ID) return; // Se não houver votação em andamento, o timer é cancelado.
+    if(!IsPlayerConnected(votekick_player)) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação é cancelada.
 
     if (GetTickCount() - votekick_start >= SEC(MAX_VOTING_TIME)) { // Se o tempo máximo da votação for atingido, a votação é cancelada.
         ChatMsgAll(WHITE, "O tempo máximo da votação foi atingido. O jogador %P não foi expulso.", votekick_player);
         
-        ResetVoting();
+        EndVoting();
     } else {
         ChatMsgAll(WHITE, "A votação para expulsar o jogador %P está em andamento. Motivo: %s", votekick_player, votekick_reason);
         ChatMsgAll(WHITE, "Use /vote [sim/não] para votar.");
     }
-
-    return;
 }
 
-ResetVoting() {
+hook OnPlayerDisconnect(playerid, reason) {
+    if(votekick_player == playerid) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação é cancelada.
+}
+
+EndVoting() {
+    stop votekick_timer;
+
+    log("[VOTEKICK] Votação cancelada para expulsar %p (%d). Motivo: %s", votekick_player, votekick_player, votekick_reason);
+
     votekick_start  = 0;
     votekick_player = INVALID_PLAYER_ID;
     votekick_reason = "";
@@ -51,11 +61,15 @@ CMD:votekick(playerid, params[]) {
 
     new targetId = INVALID_PLAYER_ID, reason[MAX_VOTEKICK_REASON];
 
-    if(!sscanf(params, "us", targetId, reason)) return ChatMsg(playerid, RED, "Use: /votekick [Nick/Id] [Motivo]");
+    if(!sscanf(params, "us[114]", targetId, reason)) return ChatMsg(playerid, RED, "Use: /votekick [id/nick] [motivo]");
+
+    log("targetId: %d, reason: %s, strlen(reason): %d", targetId, reason, strlen(reason));
+    
+    if(isempty(reason)) return ChatMsg(playerid, RED, "Você deve especificar um motivo.");
+
+    if(targetId == INVALID_PLAYER_ID || !IsPlayerConnected(targetId)) return ChatMsg(playerid, RED, "Jogador não encontrado.");
 
     if(targetId == playerid) return ChatMsg(playerid, RED, "Você não pode votar contra si mesmo.");
-
-    if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, RED, "Jogador não encontrado.");
 
     if(GetPlayerAdminLevel(targetId)) return ChatMsg(playerid, RED, "Você não pode votar contra um administrador.");   
 
@@ -64,10 +78,12 @@ CMD:votekick(playerid, params[]) {
     votekick_reason          = reason;
     votekick_votes[playerid] = VOTE_YES; // O jogador que iniciou a votação já vota sim.
 
-    defer VoteKickTimer();
+    votekick_timer = defer VoteKickTimer();
 
     ChatMsgAll(WHITE, "O jogador %P iniciou uma votação para expulsar o jogador %P. Motivo: %s", playerid, targetId, reason);
     ChatMsgAll(WHITE, "Use /vote [sim/não] para votar.");
+
+    log("[VOTEKICK] %p (%d) iniciou uma votação para expulsar %p (%d). Motivo: %s", playerid, playerid, targetId, targetId, reason);
 
     return 1;
 }
@@ -75,7 +91,7 @@ CMD:votekick(playerid, params[]) {
 CMD:vote(playerid, params[]) {
     if(votekick_player == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, "Não existe nenhuma votação em andamento.");
 
-    if(votekick_votes[playerid] != -1) return ChatMsg(playerid, RED, "Você já votou.");
+    if(votekick_votes[playerid] != VOTE_NULL) return ChatMsg(playerid, RED, "Você já votou.");
 
     if(isequal(params, "sim", true)) {
         votekick_votes[playerid] = VOTE_YES;
@@ -102,13 +118,13 @@ CMD:vote(playerid, params[]) {
 
         log("[VOTEKICK] %p (%d) foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);
         
-        ResetVoting();
+        EndVoting();
     } else if(CountVotes(VOTE_NO) >= players / 2) { // Se a metade dos jogadores votarem não, a votação é cancelada.
         ChatMsgAll(WHITE, "A votação foi reprovada. O jogador %P não foi expulso.", votekick_player);
 
         log("[VOTEKICK] %p (%d) não foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);
         
-        ResetVoting();
+        EndVoting();
     }
 
     return 1;
