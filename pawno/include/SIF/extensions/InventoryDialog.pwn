@@ -177,12 +177,8 @@ static
 hook OnScriptInit()
 {
 	for(new i; i < MAX_PLAYERS; i++)
-	{
 		for(new j; j < INV_MAX_SLOTS; j++)
-		{
 			inv_SelectedSlot[i] = -1;
-		}
-	}
 }
 
 hook OnPlayerConnect(playerid)
@@ -190,9 +186,7 @@ hook OnPlayerConnect(playerid)
 	if(!IsPlayerNPC(playerid))
 	{
 		for(new j; j < INV_MAX_SLOTS; j++)
-		{
 			inv_SelectedSlot[playerid] = -1;
-		}
 	}
 }
 
@@ -206,8 +200,7 @@ hook OnPlayerConnect(playerid)
 
 stock DisplayPlayerInventory(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	new
 		title[30],
@@ -221,8 +214,7 @@ stock DisplayPlayerInventory(playerid)
 	{
 		itemid = GetInventorySlotItem(playerid, i);
 
-		if(!IsValidItem(itemid))
-			break;
+		if(!IsValidItem(itemid)) break;
 
 		GetItemNameDialog(itemid, tmp);
 
@@ -239,15 +231,14 @@ stock DisplayPlayerInventory(playerid)
 	inv_ExtraItemList[playerid][0] = EOS;
 	inv_ExtraItemCount[playerid] = 0;
 
-	if(CallLocalFunction("OnPlayerOpenInventory", "d", playerid))
-		return 0;
+	if(CallLocalFunction("OnPlayerOpenInventory", "d", playerid)) return 0;
 
-	if(!isnull(inv_ExtraItemList[playerid]))
-		strcat(list, inv_ExtraItemList[playerid]);
+	if(!isnull(inv_ExtraItemList[playerid])) strcat(list, inv_ExtraItemList[playerid]);
 
-	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", true), GetPlayerInventorySize(playerid) - GetInventoryFreeSlots(playerid), GetPlayerInventorySize(playerid));
+	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", false), GetPlayerInventorySize(playerid) - GetInventoryFreeSlots(playerid), GetPlayerInventorySize(playerid));
     inv_ViewingInventory[playerid] = true;
-	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, GetLanguageString(playerid, "BUTTONOPT", true), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, GetLanguageString(playerid, "BUTTONOPT", false), ls(playerid, "BUTTONCLS"));
+
 	return 1;
 }
 
