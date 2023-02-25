@@ -252,7 +252,7 @@ CheckAdminLevel(playerid)
 	}
 }
 
-TimeoutPlayer(playerid, reason[])
+TimeoutPlayer(playerid, reason[], time = HOUR(1))
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
@@ -260,7 +260,7 @@ TimeoutPlayer(playerid, reason[])
 
 	new ip[16];
 	GetPlayerIp(playerid, ip, sizeof(ip));
-	BlockIpAddress(ip, 11500);
+	BlockIpAddress(ip, time);
 
 	admin_PlayerKicked[playerid] = true;
 
