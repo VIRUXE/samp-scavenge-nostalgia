@@ -204,8 +204,6 @@ public OnGameModeInit()
 
 // Files
 #define ACCOUNT_DATABASE			DIRECTORY_MAIN"accounts.db"
-#define WORLD_DATABASE				DIRECTORY_MAIN"world.db"
-
 
 // Macros
 #define CMD:%1(%2)					forward cmd_%1(%2);\
