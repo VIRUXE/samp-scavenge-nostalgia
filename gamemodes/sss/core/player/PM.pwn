@@ -10,72 +10,36 @@ hook OnPlayerConnect(playerid)
 CMD:pm(playerid, params[])
 {
 	if(!IsPlayerSpawned(playerid)) return 1;
-	new
-		giveplayerid = -1,
-		menssagem[300],
-		string[300],
-		playername[24],
-		giveplayername[24];
+
+	new targetId, mensagem[300];
 	
-    if(sscanf(params, "ds[300]", giveplayerid, menssagem)) return SendClientMessage(playerid, RED, "[PM]: Use /pm [id] [mensagem]");
+    if(sscanf(params, "us[300]", targetId, mensagem)) return SendClientMessage(playerid, RED, "[PM]: Use /pm [id/nick] [mensagem]");
 
-    GetPlayerName(playerid, playername, sizeof(playername));
-    GetPlayerName(giveplayerid, giveplayername, sizeof(giveplayername));
+    if(targetId == INVALID_PLAYER_ID) return 3;
 
+    if(targetId == playerid) return SendClientMessage(playerid, RED, "[PM]: Você não pode enviar uma mensagem para você mesmo!");
 
-    if(IsPlayerConnected(giveplayerid))
-	{
-	    GetPlayerName(playerid, playername, sizeof(playername));
-	    GetPlayerName(giveplayerid, giveplayername, sizeof(giveplayername));
-        if(PmBlock[playerid])
-		{
-            format(string,sizeof(string),"[PM]: Voc� n�o pode enviar uma menssagem pois usou /blockpm!");
-            SendClientMessage(playerid, RED, string);
-            return 1;
-        }
-        if(PmBlock[giveplayerid])
-		{
-            format(string,sizeof(string),"[PM]: Voc� n�o pode enviar uma menssagem para %s pois ele est� com o PM Bloqueado!", giveplayername);
-            SendClientMessage(playerid, RED, string);
-            return 1;
-        }
-        if(!strlen(menssagem))
-		{
-            SendClientMessage(playerid, RED, "[PM]: Uso Correto: /pm [id do player] [menssagem]");
-            return 1;
-        }
-        format(string,sizeof(string),"[PM PARA %s(id:%d)]: {00AA00}%s", giveplayername, giveplayerid, menssagem);
-        SendClientMessage(playerid, RED, string);
+    if(PmBlock[playerid]) return SendClientMessage(playerid, RED, "[PM]: Você não pode enviar uma mensagem pois usou /blockpm!");
+
+    if(PmBlock[targetId]) return ChatMsg(playerid, RED, "[PM]: Você não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId]);
+
+    if(strlen(mensagem) > 300) return SendClientMessage(playerid, RED, "[PM]: A mensagem não pode ter mais de 300 caracteres!");
+
+    ChatMsg(playerid, RED, "[PM PARA %P (%d)"C_RED"]: {00AA00}%s", targetId, mensagem);
+
+    ChatMsg(targetId, 0x555555AA, "[PM DE %P (%d)"C_RED"]: {00AA00}%s", playername, playerid, mensagem);
         
-        format(string,sizeof(string),"[PM DE %s(id:%d)]: {00AA00}%s", playername, playerid, menssagem);
-        SendClientMessage(giveplayerid,0x555555AA,string);
-        
-        GameTextForPlayer(giveplayerid, "~G~~H~ MENSAGEM RECEBIDA!", 3000, 1);
-        
-        PlayerPlaySound(giveplayerid,5205,0.0,0.0,0.0);
-    	PlayerPlaySound(playerid,5205,0.0,0.0,0.0);
+    GameTextForPlayer(targetId, "~G~~H~ MENSAGEM RECEBIDA!", 3000, 1);
+    
+    PlayerPlaySound(targetId,5205,0.0,0.0,0.0);
+    PlayerPlaySound(playerid,5205,0.0,0.0,0.0);
 
-    }
-    else
-	{
-        format(string, sizeof(string), "[PM]: O ID %d n�o est� online.", giveplayerid);
-        SendClientMessage(playerid, RED, string);
-    }
     return 1;
 }
 	
 CMD:blockpm(playerid)
 {
-    if(!PmBlock[playerid])
-	{
-        SendClientMessage(playerid, 0xFF80808B, "[PM]: Mensagens bloqueadas!");
-        PmBlock[playerid] = true;
-    }
-    else
-	{
-        SendClientMessage(playerid, 0xFF80808B, "[PM]: Mensagens desbloqueadas!");
-        PmBlock[playerid] = false;
-        return 1;
-    }
-    return 1;
+    PmBlock[playerid] = !PmBlock[playerid];
+    
+    return ChatMsg(playerid, RED, "[PM]: Mensagens privadas %sbloqueadas!", PmBlock[playerid] ? "des" : "");
 }
