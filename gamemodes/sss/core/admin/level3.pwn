@@ -380,19 +380,17 @@ ACMD:resetarsenha[3](playerid, params[])
 
 ACMD:setactive[3](playerid, params[])
 {
-	new
-		name[MAX_PLAYER_NAME],
-		active;
+	new name[MAX_PLAYER_NAME], active;
 
 	if(sscanf(params, "s[24]d", name, active)) return ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
 
 	if(!AccountExists(name)) return ChatMsg(playerid, RED, " >  Essa conta não existe.");
 
-	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) %s a conta %s!", playerid, playerid, active ? ("ativou") : ("desativou"), name);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" %s a conta '%s'!", playerid, playerid, active ? ("ativou") : ("desativou"), name);
 
 	SetAccountActiveState(name, active);
 
-	ChatMsg(playerid, YELLOW, " >  Conta %s %s.", name, active ? ("Ativada") : ("Desativada"));
+	ChatMsg(playerid, YELLOW, " >  Conta '%s' %s.", name, active ? ("Ativada") : ("Desativada"));
 
 	return 1;
 }
@@ -406,10 +404,9 @@ ACMD:irpos[3](playerid, params[])
 	if(sscanf(params, "fff", x, y, z) && sscanf(params, "p<,>fff", x, y, z))
 		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem vírgulas)");
 
-//	ChatMsg(playerid, YELLOW, " >  Teleportado para %f, %f, %f", x, y, z);
 	SetPlayerPos(playerid, x, y, z);
 
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Foi até a posição: %0.2f, %0.2f, %0.2f", playerid, playerid, x, y, z);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" teleportou para "C_WHITE"%0.2f, %0.2f, %0.2f", playerid, playerid, x, y, z);
 
 	return 1;
 }
@@ -469,15 +466,15 @@ ACMD:banidos[3](playerid, params[])
 ACMD:sethp[3](playerid, params[]) {
 	new targetId, hp;
 
-	if(sscanf(params, "dd", targetId, hp)) return ChatMsg(playerid, YELLOW, " >  Use: /sethp [playerid] [hp]");
+	if(sscanf(params, "ud", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [playerid] [hp]");
 
-	if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online.", targetId);
+	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " >  Jogador inválido.");
+
+	if(hp < 0 || hp > 100) return ChatMsg(playerid, RED, " >  HP tem que ser entre 0 e 100.");
 
 	SetPlayerHealth(targetId, hp);
 
-	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) setou a vida de %P (%d) para %d", playerid, playerid, targetId, targetId, hp);
-
-	return 1;
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" setou a vida de %P (%d)"C_BLUE" para %d", playerid, playerid, targetId, targetId, hp);
 }
 
 ACMD:bb[3](playerid){
