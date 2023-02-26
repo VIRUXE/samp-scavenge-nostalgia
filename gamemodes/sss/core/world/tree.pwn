@@ -249,7 +249,7 @@ DestroyTree(index)
 ==============================================================================*/
 
 
-timer _UpdateTreePos[1000](treeid) // time = distance / speed | (0.0001 / 0.0001 = 1 seconds)
+timer _UpdateTreePos[SEC(1)](treeid) // time = distance / speed | (0.0001 / 0.0001 = 1 seconds)
 {
 	new
 		Float:x,
@@ -271,7 +271,7 @@ timer _UpdateTreePos[1000](treeid) // time = distance / speed | (0.0001 / 0.0001
 	defer _DeleteTree(treeid, x, y, z);
 }
 
-timer _DeleteTree[2000](treeid, Float:x, Float:y, Float:z)
+timer _DeleteTree[SEC(2)](treeid, Float:x, Float:y, Float:z)
 {
 	new
 		Float:woodAngle,

@@ -1,11 +1,14 @@
-stock GetPlayerPED(playerid){
-	new ped, Float:x, Float:y, Float:z;
-	GetPlayerPos(playerid, x, y, z);
+stock GetPlayerPED(playerid) {
+	new ped;
 
-	foreach(new i : Player) if(GetPlayerDistanceFromPoint(i, x, y, z) < 300.0 && i != playerid)
+	foreach(new i : Player) {
+		if(i == playerid) continue; // skip self
+		if(!IsPlayerStreamedIn(i, playerid)) continue; // skip if not streamed in
+		if(IsPlayerOnAdminDuty(i)) continue; // skip if admin
+		if(!IsPlayerSpawned(i)) continue;
 
-	if(!IsPlayerOnAdminDuty(i) && GetPlayerSkin(i) != 0)
 		ped++;
+	}
 		
 	return ped;
 }

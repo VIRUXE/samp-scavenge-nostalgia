@@ -1,32 +1,9 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 Load_TR()
 {
-    print("\n[OnGameModeInit] Initialising 'World/TR'...");
+    log("\n[WORLD] Carregando Tierra Robada...");
+
 	CreateFuelOutlet(-1465.4766, 1868.2734, 32.8203, 2.0, 100.0, frandom(40.0));
 	CreateFuelOutlet(-1464.9375, 1860.5625, 32.8203, 2.0, 100.0, frandom(40.0));
 	CreateFuelOutlet(-1477.8516, 1867.3125, 32.8203, 2.0, 100.0, frandom(40.0));
@@ -38,25 +15,19 @@ Load_TR()
 	CreateFuelOutlet(-1329.2031, 2669.2813, 50.4531, 2.0, 100.0, frandom(40.0));
 
 	TR_District_Bayside();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 70%)");
 	TR_District_Quebrados();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 79%)");
 	TR_District_Barancas();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 88%)");
 	TR_District_Sherman();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 95%)");
 	TR_District_RobadaGen();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 99%)");
 
 	DefineSupplyDropPos("Tierra Robada South", -720.72766, 972.52899, 11.04721);
 	DefineSupplyDropPos("Tierra Robada Midland", -1484.86084, 1977.28833, 46.76990);
 	DefineSupplyDropPos("Tierra Robada North Freeway", -2547.67798, 2614.91919, 59.90747);
 }
 
-
 TR_District_Bayside()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'TR_District_Bayside' {1589FF}por favor, aguarde...");
+	log("[WORLD] Bayside");
 
 	CreateStaticLootSpawn(-2560.33521, 2256.71069, 4.03032,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-2526.42236, 2230.25171, 3.97745,		world_civilian, 20.0);
@@ -132,7 +103,7 @@ TR_District_Bayside()
 
 TR_District_Quebrados()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'TR_District_Quebrados' {1589FF}por favor, aguarde...");
+	log("[WORLD] Quebrados");
 
 	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	world_civilian, 20.0);
 	CreateStaticLootSpawn(-1589.21973, 2705.65381, 55.16963,	world_civilian, 20.0);
@@ -178,7 +149,7 @@ TR_District_Quebrados()
 
 TR_District_Barancas()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'TR_District_Barancas' {1589FF}por favor, aguarde...");
+	log("[WORLD] Barancas");
 
 	CreateStaticLootSpawn(-637.60626, 1442.92505, 12.60786,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-654.76465, 1446.82837, 12.60757,		world_civilian, 20.0);
@@ -201,7 +172,7 @@ TR_District_Barancas()
 
 TR_District_Sherman()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'TR_District_Sherman' {1589FF}por favor, aguarde...");
+	log("[WORLD] Sherman");
 
 	CreateStaticLootSpawn(-897.95825, 1976.49341, 59.62031,		world_civilian, 20.0);
 	CreateStaticLootSpawn(-895.60889, 1967.39795, 59.62622,		world_civilian, 20.0);
@@ -242,7 +213,7 @@ TR_District_Sherman()
 
 TR_District_RobadaGen()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'TR_District_RobadaGen' {1589FF}por favor, aguarde...");
+	log("[WORLD] Robada");
 
 	CreateItem(item_Workbench, -1513.53040, 1978.50232, 47.35660, 0.0, 0.0, 85.37996);
 

@@ -54,8 +54,9 @@ hook OnGameModeInit()
 	repeat AddLoot();
 }
 
+// ? wtf que merda é essa??
 new Float:LootAngle;
-timer AddLoot[60000]()
+timer AddLoot[MIN(1)]()
 {
 	CreateStaticLootSpawn(
 		-2460.0 + (frandom(8.0) * floatsin(LootAngle, degrees)),

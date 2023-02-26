@@ -1,33 +1,9 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 Load_RC()
 {
-    print("\n[OnGameModeInit] Initialising 'World/RC'...");
+    log("\n[WORLD] Carregando Red County...");
+
 	CreateFuelOutlet(1378.96094, 461.03906, 19.32813, 2.0, 100.0, frandom(40.0));
 	CreateFuelOutlet(1380.63281, 460.27344, 19.32813, 2.0, 100.0, frandom(40.0));
 	CreateFuelOutlet(1383.39844, 459.07031, 19.32813, 2.0, 100.0, frandom(40.0));
@@ -39,30 +15,22 @@ Load_RC()
 	CreateFuelOutlet(655.66406, -571.21094, 15.35938, 2.0, 100.0, frandom(40.0));
 
 	RC_District_LogCamp();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 36%)");
 	RC_District_BlueberryAcres();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 37%)");
 	RC_District_BlueberryTown();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 38%)");
 	RC_District_Dillmore();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 39%)");
 	RC_District_Montgomery();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 40%)");
 	RC_District_Palomino();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 41%)");
 	RC_District_RedGen();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 42%)");
 
-//	DefineSupplyDropPos("Fisher's Lagoon", 1920.21, -347.60, 16.50);
+	//	DefineSupplyDropPos("Fisher's Lagoon", 1920.21, -347.60, 16.50);
 	DefineSupplyDropPos("Montgomery", 1332.75269, 346.71506, 18.34710);
 	DefineSupplyDropPos("Dillimore", 642.83069, -594.28088, 15.15962);
 	DefineSupplyDropPos("Blueberry", 204.94981, -261.21274, 0.52650);
 }
 
-
 RC_District_LogCamp()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_LogCamp' {1589FF}por favor, aguarde...");
+	log("[WORLD] Campo de Madeira");
 
 	CreateStaticLootSpawn(-535.624877, -102.932212, 62.287090,		world_industrial, 15.0);
 	CreateStaticLootSpawn(-488.137359, -171.310974, 77.203811,		world_industrial, 15.0);
@@ -84,7 +52,7 @@ RC_District_LogCamp()
 }
 RC_District_BlueberryAcres()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_BlueberryAcres' {1589FF}por favor, aguarde...");
+	log("[WORLD] Blueberry Acres");
 
 	CreateItem(item_Workbench, 94.44927, -168.05229, 1.55108, 0.0, 0.0, -180.77998);
 
@@ -121,7 +89,7 @@ RC_District_BlueberryAcres()
 }	
 RC_District_BlueberryTown()
 {	
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_BlueberryTown' {1589FF}por favor, aguarde...");
+	log("[WORLD] Blueberry Town");
 
 	CreateStaticLootSpawn(195.407531, -119.271759, 3.895359,		world_civilian, 20.0);
 	CreateStaticLootSpawn(207.479248, -107.625923, 3.894959,		world_civilian, 20.0);
@@ -286,7 +254,7 @@ RC_District_BlueberryTown()
 }
 RC_District_Dillmore()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_Dillmore' {1589FF}por favor, aguarde...");
+	log("[WORLD] Dillmore");
 
 	CreateStaticLootSpawn(747.589782, -499.690704, 16.324209,		world_civilian, 20.0);
 	CreateStaticLootSpawn(690.599609, -506.115722, 15.331480,		world_civilian, 20.0);
@@ -381,7 +349,7 @@ RC_District_Dillmore()
 }
 RC_District_Montgomery()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_Montgomery' {1589FF}por favor, aguarde...");
+	log("[WORLD] Montgomery");
 
 	CreateStaticLootSpawn(1367.052734, 258.962219, 18.549060,		world_civilian, 20.0);
 	CreateStaticLootSpawn(1355.000488, 242.343338, 18.548120,		world_civilian, 20.0);
@@ -554,7 +522,7 @@ RC_District_Montgomery()
 }
 RC_District_Palomino()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_Palomino' {1589FF}por favor, aguarde...");
+	log("[WORLD] Palomino");
 
 	CreateItem(item_Workbench, 2560.82031, 73.39390, 25.42815, 0.0, 0.0, 0.00000);
 
@@ -693,7 +661,7 @@ RC_District_Palomino()
 }
 RC_District_RedGen()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'RC_District_RedGen' {1589FF}por favor, aguarde...");
+	log("[WORLD] Red Generator District");
 
 	CreateStaticLootSpawn(1549.540283, 13.358389, 23.150590,		world_civilian, 20.0);
 	CreateStaticLootSpawn(1111.852172, -354.848999, 72.989982,		world_civilian, 20.0);

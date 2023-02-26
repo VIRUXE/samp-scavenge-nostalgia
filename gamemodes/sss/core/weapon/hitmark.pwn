@@ -85,7 +85,7 @@ ShowHitMarker(playerid, weapon)
 	return 1;
 }
 
-timer HideHitMark[5000](playerid, Text:hitmark)
+timer HideHitMark[SEC(5)](playerid, Text:hitmark)
 	TextDrawHideForPlayer(playerid, hitmark);
 
 hook OnGameModeInit()

@@ -2,7 +2,7 @@
 
 Load_Novos()
 {
-    print("\n[OnGameModeInit] Initialising 'World/Novos'...");
+    log("[WORLD] Carregando Mapas Exclusivos...");
 
 	MapasNovos_Ilhas();
 	MapasNovos_LS();
@@ -12,13 +12,11 @@ Load_Novos()
 //	DefineSupplyDropPos("Tierra Robada South", -720.72766, 972.52899, 11.04721);
 }
 
-
 MapasNovos_Ilhas()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'Mapas Novos - Ilhas' {1589FF}por favor, aguarde...");
+	log("[WORLD] Ilhas");
 
-// ILHA SF
-
+	// ILHA SF
 	CreateStaticLootSpawn(-4425.3447, 460.5740,	22.7710 - FLOOR_OFFSET,	 	world_military, 20, 3);
 	CreateStaticLootSpawn(-4512.9307, 469.8408,	22.7110 - FLOOR_OFFSET,	 	world_military, 20, 3);
 	CreateStaticLootSpawn(-4396.7983, 523.4403,	3.0859 - FLOOR_OFFSET,		world_industrial, 20, 3);
@@ -35,13 +33,11 @@ MapasNovos_Ilhas()
 	CreateStaticLootSpawn(-4409.5850, 442.3405, 18.2439 - FLOOR_OFFSET,		world_survivor, 20, 3);
 	CreateStaticLootSpawn(-4410.8896, 440.9623, 14.1439 - FLOOR_OFFSET,		world_survivor, 20, 3);
 
-// ILHA LV
-
+	// ILHA LV
 	CreateStaticLootSpawn(258.2236 ,4292.7227, 7.3132 - FLOOR_OFFSET, 		world_survivor, 20, 3);
 	CreateStaticLootSpawn(256.5936, 4331.7617, 2.4708 - FLOOR_OFFSET,		world_civilian, 20, 3);
 
-// ILHA LS
-
+	// ILHA LS
 	CreateStaticLootSpawn(4479.7085, -1708.5898, 7.2346 - FLOOR_OFFSET, 	world_military, 20, 3);
 	CreateStaticLootSpawn(4496.0098, -1709.1809, 6.6759 - FLOOR_OFFSET,		world_military, 20, 3);
 	CreateStaticLootSpawn(4606.2061, -1628.6632, 10.6546 - FLOOR_OFFSET, 	world_military, 20, 3);
@@ -63,25 +59,17 @@ MapasNovos_Ilhas()
 	CreateStaticLootSpawn(4462.8931, -1733.2615, 14.4024 - FLOOR_OFFSET,	world_military, 20, 3);
 }
 
-
 MapasNovos_LS()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'Mapas Novos - LS' {1589FF}por favor, aguarde...");
-
-//	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	world_civilian, 20.0);
+	//	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	world_civilian, 20.0);
 }
 
 MapasNovos_LV()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'Mapas Novos - LV' {1589FF}por favor, aguarde...");
-
-//	CreateStaticLootSpawn(-692.57898, 1549.16516, 81.65029,		world_survivor, 10.0);
+	//	CreateStaticLootSpawn(-692.57898, 1549.16516, 81.65029,		world_survivor, 10.0);
 }
 
 MapasNovos_SF()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'Mapas Novos - SF' {1589FF}por favor, aguarde...");
-
-//	CreateStaticLootSpawn(-881.05548, 1998.04822, 59.19070,		world_survivor, 10.0);
-
+	//	CreateStaticLootSpawn(-881.05548, 1998.04822, 59.19070,		world_survivor, 10.0);
 }

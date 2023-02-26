@@ -1,33 +1,7 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 static
 			BrightnessLevel[MAX_PLAYERS],
-//			BrightnessFade[MAX_PLAYERS],
 PlayerText:	BrightnessUI[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 
 
@@ -53,17 +27,13 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize			(playerid, BrightnessUI[playerid], 640.000000, 0.000000);
 }
 
-stock GetPlayerBrightness(playerid)
-{
-	return BrightnessLevel[playerid];
-}
+stock GetPlayerBrightness(playerid) return BrightnessLevel[playerid];
+
 ptask BrightnessUpdate[100](playerid)
 {
-	if(!IsPlayerSpawned(playerid))
-		return;
+	if(!IsPlayerSpawned(playerid)) return;
 
-	if(IsPlayerSleeping(playerid))
-	    return;
+	if(IsPlayerSleeping(playerid)) return;
 	    
 	new Float:hp = GetPlayerHP(playerid);
 
@@ -74,12 +44,11 @@ ptask BrightnessUpdate[100](playerid)
 
 		BrightnessLevel[playerid] -= 4;
 
-		if(BrightnessLevel[playerid] < 0)
-			BrightnessLevel[playerid] = 0;
+		if(BrightnessLevel[playerid] < 0) BrightnessLevel[playerid] = 0;
 
 		if(hp <= 40.0)
 		{
-			if(BrightnessLevel[playerid] <= floatround((40.0 - hp) * 4.4))
+			if(BrightnessLevel[playerid] <= floatround((40.0 - hp) * 4.4)) 
 				BrightnessLevel[playerid] = 0;
 		}
 
@@ -88,20 +57,13 @@ ptask BrightnessUpdate[100](playerid)
 
 	if(hp >= 40.0)
 	{
-		if(IsPlayerSpawned(playerid))
-			PlayerTextDrawBoxColor(playerid, BrightnessUI[playerid], 0);
+		if(IsPlayerSpawned(playerid)) PlayerTextDrawBoxColor(playerid, BrightnessUI[playerid], 0);
 
 		return;
 	}
 
-	if(IsPlayerUnderDrugEffect(playerid, drug_Painkill))
-	{
-		PlayerTextDrawHide(playerid, BrightnessUI[playerid]);
-	}
-	else if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-	{
-		PlayerTextDrawHide(playerid, BrightnessUI[playerid]);
-	}
+	if(IsPlayerUnderDrugEffect(playerid, drug_Painkill)) PlayerTextDrawHide(playerid, BrightnessUI[playerid]);
+	else if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) PlayerTextDrawHide(playerid, BrightnessUI[playerid]);
 	else
 	{
 		PlayerTextDrawBoxColor(playerid, BrightnessUI[playerid], floatround((40.0 - hp) * 4.4));
@@ -130,14 +92,13 @@ ptask BrightnessUpdate[100](playerid)
 
 stock SetPlayerBrightness(playerid, level)
 {
-    if(!IsPlayerConnected(playerid))
-		return 0;
+    if(!IsPlayerConnected(playerid)) return 0;
 		
-	if(level > 255)
-		level = 255;
+	if(level > 255) level = 255;
 
-	if(level < 0)
-		level = 0;
+	if(level < 0) level = 0;
+
+	log("[BRIGHTNESS] %p (%d) -> %d", playerid, playerid, level);
 
 	BrightnessLevel[playerid] = level;
 
@@ -147,15 +108,3 @@ stock SetPlayerBrightness(playerid, level)
 
 	return 1;
 }
-/*
-stock SetPlayerBrightnessFade(playerid, amount)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
-
-	BrightnessFade[playerid] = amount;
-
-	return 1;
-}
-*/
-

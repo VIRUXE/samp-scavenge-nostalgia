@@ -808,7 +808,7 @@ ACMD:addex[2](playerid, params[])
 	return 1;
 }
 
-timer CheckPlayerInvadeField[2000](playerid)
+timer CheckPlayerInvadeField[SEC(2)](playerid)
 {
     new
 		IsIn = 0,

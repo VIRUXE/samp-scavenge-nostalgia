@@ -65,7 +65,7 @@ public OnPlayerAirbreak(playerid, Float:x, Float:y, Float:z, Float:ox, Float:oy,
 
 ==============================================================================*/
 
-ptask player_Check[1000](playerid)
+ptask player_Check[SEC(1)](playerid)
 {
     /*==========================================================================
     
@@ -174,7 +174,7 @@ ptask player_Check[1000](playerid)
 	CameraDistanceCheck(playerid);
 }
 
-timer vh_ResetVehiclePosition[1000](vehicleid)
+timer vh_ResetVehiclePosition[SEC(1)](vehicleid)
 {
 	SetVehicleHealth(vehicleid, 300.0);
 }
@@ -225,7 +225,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 	return 1;
 }
 
-timer StillInVeh[1000](playerid, vehicleid, ls)
+timer StillInVeh[SEC(1)](playerid, vehicleid, ls)
 {
 	if(!IsPlayerConnected(playerid))
 		return;

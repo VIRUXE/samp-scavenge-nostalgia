@@ -39,53 +39,41 @@ ACMD:duty[2](playerid, params[])
 
 ACMD:ir[2](playerid, params[])
 {
-	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)
-		return 6;
+	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new targetid;
 
-	if(sscanf(params, "u", targetid))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
-		return 1;
-	}
+	if(sscanf(params, "u", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
-	if(GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O jogador está no modo /spec. Você não pode ir até ele.");
+	if(GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O admin está no modo /spec. Você não pode ir até ele.");
 
 	TeleportPlayerToPlayer(playerid, targetid);
 
 //	ChatMsg(playerid, YELLOW, " >  Você teleportou até %P", targetid);
 	//ChatMsgLang(targetid, YELLOW, "TELEPORTEDT", playerid);
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Teleportou-se até %p(id:%d)", playerid, playerid, targetid, targetid);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
 
 	return 1;
 }
 
 ACMD:puxar[2](playerid, params[])
 {
-	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET)
-		return 6;
+	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new targetid;
 
-	if(sscanf(params, "u", targetid))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
-		return 1;
-	}
+	if(sscanf(params, "u", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
 	if(GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O jogador está no modo /spec. Você não pode puxar ele.");
 
 	TeleportPlayerToPlayer(targetid, playerid);
 
-//	ChatMsg(playerid, YELLOW, " >  Você puxou: %P", targetid);
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) Puxou "C_BLUE"%p(id:%d)", playerid, playerid, targetid, targetid);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) puxou %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
+
 	return 1;
 }
 
@@ -93,24 +81,18 @@ ACMD:congelar[2](playerid, params[])
 {
 	new targetid, delay;
 
-	if(sscanf(params, "dD(0)", targetid, delay))
-		return ChatMsg(playerid, YELLOW, " >  Use: /congelar [playerid] [segundos]");
+	if(sscanf(params, "dD(0)", targetid, delay)) return ChatMsg(playerid, YELLOW, " >  Use: /congelar [playerid] [segundos]");
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid)
-		return 3;
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
 	FreezePlayer(targetid, delay * 1000, true);
 	
-	if(delay > 0)
-	{
-		ChatMsg(playerid, YELLOW, " >  Você congelou %P por %d segundos", targetid, delay);
+	if(delay > 0) {
+		ChatMsg(playerid, YELLOW, " >  Você congelou %P"C_YELLOW" por %d segundos", targetid, delay);
 		ChatMsgLang(targetid, YELLOW, "FREEZETIMER", delay);
-	}
-	else
-	{
+	} else {
 		ChatMsg(playerid, YELLOW, " >  Você congelou %P", targetid);
 		ChatMsgLang(targetid, YELLOW, "FREEZEFROZE");
 	}
@@ -122,11 +104,9 @@ ACMD:descongelar[2](playerid, params[])
 {
 	new targetid;
 
-	if(sscanf(params, "d", targetid))
-		return ChatMsg(playerid, YELLOW, " >  Use: /descongelar [playerid]");
+	if(sscanf(params, "d", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /descongelar [playerid]");
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
 	UnfreezePlayer(targetid);
 
@@ -138,11 +118,7 @@ ACMD:descongelar[2](playerid, params[])
 
 ACMD:verban[2](playerid, params[])
 {
-	if(!(3 < strlen(params) < MAX_PLAYER_NAME))
-	{
-		ChatMsg(playerid, RED, " >  Nome de player inválido: '%s'.", params);
-		return 1;
-	}
+	if(!(3 < strlen(params) < MAX_PLAYER_NAME)) return ChatMsg(playerid, RED, " >  Nome de player inválido: '%s'.", params);
 
 	new name[MAX_PLAYER_NAME];
 
@@ -150,7 +126,6 @@ ACMD:verban[2](playerid, params[])
 
 	if(IsPlayerBanned(name))
 		ShowBanInfo(playerid, name);
-
 	else
 		ChatMsg(playerid, YELLOW, " >  O jogador '%s' "C_BLUE"não está "C_YELLOW"banido.", name);
 
@@ -159,14 +134,9 @@ ACMD:verban[2](playerid, params[])
 
 ACMD:setmotd[2](playerid, params[])
 {
-	if(sscanf(params, "s[128]", gMessageOfTheDay))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /setmotd [Mensagem]");
-		return 1;
-	}
+	if(sscanf(params, "s[128]", gMessageOfTheDay)) return ChatMsg(playerid, YELLOW, " >  Use: /setmotd [Mensagem]");
 
-	new admNm[24];GetPlayerName(playerid, admNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) atualizou o motd para: "C_WHITE"%s", admNm, playerid, gMessageOfTheDay);
+	ChatMsgAll(0xC457EBAA, "[Admin] %P{0xC457EBAA} (%d) atualizou o motd para: "C_WHITE"%s", playerid, playerid, gMessageOfTheDay);
 
 	return 1;
 }

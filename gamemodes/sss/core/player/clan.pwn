@@ -354,7 +354,7 @@ CMD:recusar(playerid)
 	return 1;
 }
 
-ptask ClanNameTagUpdate_t[5000](playerid)
+ptask ClanNameTagUpdate_t[SEC(5)](playerid)
 {
     ClanNameTagUpdate(playerid);
 }

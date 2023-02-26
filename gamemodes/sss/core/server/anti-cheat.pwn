@@ -29,7 +29,7 @@ hook OnPlayerLogin(playerid)
 
 forward OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen);
 public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
-	log("OnGetData: %d, %d, %s, %d", _:id, _:status, data, dataLen);
+	// log("OnGetData: %d, %d, %s, %d", _:id, _:status, data, dataLen);
 
 	new playerid = INVALID_PLAYER_ID;
 

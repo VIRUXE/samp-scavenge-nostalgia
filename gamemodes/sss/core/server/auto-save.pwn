@@ -35,7 +35,7 @@ hook OnScriptInit()
 	defer AutoSave();
 }
 
-timer AutoSave[70000]()
+timer AutoSave[MIN(1) + SEC(10)]()
 {
 	if(Iter_Count(Player) == 0)
 	{
@@ -43,8 +43,7 @@ timer AutoSave[70000]()
 		return;
 	}
 
-	if(gServerUptime > gServerMaxUptime - 40)
-		return;
+	if(gServerUptime > gServerMaxUptime - 40) return; // don't save during shutdown
 
 	AutoSave_Player();
 

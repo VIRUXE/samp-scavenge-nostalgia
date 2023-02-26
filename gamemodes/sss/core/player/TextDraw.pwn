@@ -30,7 +30,7 @@ HideWatch(playerid)
 }
 
 
-ptask ShowStatus[1000](playerid)
+ptask ShowStatus[SEC(1)](playerid)
 {
 	if(!IsPlayerSpawned(playerid))
 	    return;

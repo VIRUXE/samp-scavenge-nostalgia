@@ -27,7 +27,7 @@
 static
 	PlayerText:p_StatusText[MAX_PLAYERS]= {PlayerText:INVALID_TEXT_DRAW, ...};
 
-ptask ShowStatus[1000](playerid)
+ptask ShowStatus[SEC(1)](playerid)
 {
 	if(!IsPlayerSpawned(playerid))
 	    return;

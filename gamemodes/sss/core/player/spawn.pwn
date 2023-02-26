@@ -64,6 +64,8 @@ hook OnGameModeInit()
 {
 	new Node:spawn, Node:node;
 
+	log("[SPAWN] Carregando configurações de spawn...");
+
 	JSON_GetObject(Settings, "player", node);
 	JSON_GetObject(node, "spawn", spawn);
 
@@ -79,9 +81,9 @@ hook OnGameModeInit()
 	JSON_GetFloat(node, "normal", spawn_Food);
 	JSON_GetFloat(node, "vip", spawn_VipFood);
 
-	log("[SETTINGS][PLAYER] Spawn bleed: %f (vip: %f)", spawn_Bleed, spawn_VipBleed);
-	log("[SETTINGS][PLAYER] Spawn blood: %f (vip: %f)", spawn_Blood, spawn_VipBlood);
-	log("[SETTINGS][PLAYER] Spawn food: %f (vip: %f)", spawn_Food, spawn_VipFood);
+	log("[SPAWN][SETTINGS] Taxa de Sangramento: %.2f (vip: %.2f)", spawn_Bleed, spawn_VipBleed);
+	log("[SPAWN][SETTINGS] Quantidade de Sangue: %.2f (vip: %.2f)", spawn_Blood, spawn_VipBlood);
+	log("[SPAWN][SETTINGS] Pontos de Comida: %.2f (vip: %f)", spawn_Food, spawn_VipFood);
 }
 
 hook OnPlayerConnect(playerid)
@@ -123,17 +125,16 @@ SpawnLoggedInPlayer(playerid)
 {
 	// ! Essa merda é um pouco estranha
 	
-	log("[SPAWN] Spawning logged in player %p (%d)", playerid, playerid);
+	log("[SPAWN] Efetuando spawn para %p (%d)", playerid, playerid);
 
-	if(IsPlayerAlive(playerid))
+	if(IsPlayerAlive(playerid) && !PlayerSpawnExistingCharacter(playerid)) // Se o player já está vivo e não deu para spawnar o personagem existente
 	{
-		if(!PlayerSpawnExistingCharacter(playerid))
-		{
-			SetPlayerBrightness(playerid, 255);
-			return 1;
-		}
+		log("[SPAWN] Spawnando personagem existente para %p (%d)", playerid, playerid);
+		SetPlayerBrightness(playerid, 255);
+		return 1;
 	}
 
+	log("[SPAWN] Colocando %p (%d) no tutorial", playerid, playerid);
 	EnterTutorial(playerid);
 
 	return 0;
@@ -149,8 +150,7 @@ stock PlayerMapCheck(playerid)
         itemid = GetInventorySlotItem(playerid, i);
         new ItemType:itemtype = GetItemType(itemid);
 
-        if(itemtype == item_Map) 
-            player_hasMap[playerid] = true;
+        if(itemtype == item_Map) player_hasMap[playerid] = true;
     }
 
     return player_hasMap[playerid];
@@ -170,23 +170,21 @@ PrepareForSpawn(playerid)
 	SetCameraBehindPlayer(playerid);
 	SetAllWeaponSkills(playerid, 500);
 
-	if(!PlayerMapCheck(playerid))
-		GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-	else{
+	if(!PlayerMapCheck(playerid)) GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
+	else {
 		ShowSupplyIconSpawn(playerid);
 		WCIconSpawn(playerid);
 		HideWatch(playerid);
 	}
+
 	CancelSelectTextDraw(playerid);
 }
 
 PlayerSpawnExistingCharacter(playerid)
 {
-	if(IsPlayerSpawned(playerid))
-		return 1;
+	if(IsPlayerSpawned(playerid)) return 1;
 
-	if(!LoadPlayerChar(playerid)) 
-		return 2;
+	if(!LoadPlayerChar(playerid)) return 2;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
@@ -217,7 +215,7 @@ PlayerSpawnExistingCharacter(playerid)
 	else if(GetPlayerStance(playerid) == 3)
 		ApplyAnimation(playerid, "ROB_BANK", "SHP_HandsUp_Scr", 4.0, 0, 1, 1, 1, 0);
 
-	log("[SPAWN] %p spawned existing character at %.1f, %.1f, %.1f (%.1f)", playerid, x, y, z, r);
+	log("[SPAWN] %p (%d) spawnou personagem existente em %.1f, %.1f, %.1f (%.1f)", playerid, playerid, x, y, z, r);
 	
 	CallLocalFunction("OnPlayerSpawnChar", "d", playerid);
 	
@@ -230,7 +228,7 @@ PlayerSpawnExistingCharacter(playerid)
 
 PlayerCreateNewCharacter(playerid)
 {
-	log("[NEWCHAR] %p (%d) creating new character", playerid, playerid);
+	log("[SPAWN] %p (%d) está a criar um novo personagem", playerid, playerid);
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
 	SetPlayerFacingAngle(playerid, 0.0);
@@ -241,7 +239,7 @@ PlayerCreateNewCharacter(playerid)
 	SetPlayerCameraPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z - 1.0);
 	Streamer_UpdateEx(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
 
-	SetPlayerBrightness(playerid, 255);
+	SetPlayerBrightness(playerid, 0);
 	TogglePlayerControllable(playerid, false);
 
 	if(IsPlayerLoggedIn(playerid))
@@ -266,11 +264,9 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
 PlayerSpawnNewCharacter(playerid, gender)
 {
-	if(IsPlayerSpawned(playerid))
-		return 0;
+	if(IsPlayerSpawned(playerid)) return 0;
 
 	new name[MAX_PLAYER_NAME];
-
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
 	SetPlayerTotalSpawns(playerid, GetPlayerTotalSpawns(playerid) + 1);
@@ -278,11 +274,7 @@ PlayerSpawnNewCharacter(playerid, gender)
 	SetAccountLastSpawnTimestamp(name, gettime());
 	SetAccountTotalSpawns(name, GetPlayerTotalSpawns(playerid));
 
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+	new Float:x, Float:y, Float:z, Float:r;
 
 	GenerateSpawnPoint(playerid, x, y, z, r);
 	Streamer_UpdateEx(playerid, x, y, z, 0, 0);
@@ -291,42 +283,38 @@ PlayerSpawnNewCharacter(playerid, gender)
 	SetPlayerVirtualWorld(playerid, 0);
 	SetPlayerInterior(playerid, 0);
 
+	new skin;
 	if(gender == GENDER_MALE)
 	{
 		switch(random(6))
 		{
-			case 0: SetPlayerClothesID(playerid, skin_Civ0M);
-			case 1: SetPlayerClothesID(playerid, skin_Civ1M);
-			case 2: SetPlayerClothesID(playerid, skin_Civ2M);
-			case 3: SetPlayerClothesID(playerid, skin_Civ3M);
-			case 4: SetPlayerClothesID(playerid, skin_Civ4M);
-			case 5: SetPlayerClothesID(playerid, skin_MechM);
-			case 6: SetPlayerClothesID(playerid, skin_BikeM);
+			case 0: skin = skin_Civ0M;
+			case 1: skin = skin_Civ1M;
+			case 2: skin = skin_Civ2M;
+			case 3: skin = skin_Civ3M;
+			case 4: skin = skin_Civ4M;
+			case 5: skin = skin_MechM;
+			case 6: skin = skin_BikeM;
 		}
 	}
 	else
 	{
 		switch(random(6))
 		{
-			case 0: SetPlayerClothesID(playerid, skin_Civ0F);
-			case 1: SetPlayerClothesID(playerid, skin_Civ1F);
-			case 2: SetPlayerClothesID(playerid, skin_Civ2F);
-			case 3: SetPlayerClothesID(playerid, skin_Civ3F);
-			case 4: SetPlayerClothesID(playerid, skin_Civ4F);
-			case 5: SetPlayerClothesID(playerid, skin_ArmyF);
-			case 6: SetPlayerClothesID(playerid, skin_IndiF);
+			case 0: skin = skin_Civ0F;
+			case 1: skin = skin_Civ1F;
+			case 2: skin = skin_Civ2F;
+			case 3: skin = skin_Civ3F;
+			case 4: skin = skin_Civ4F;
+			case 5: skin = skin_ArmyF;
+			case 6: skin = skin_IndiF;
 		}
 	}
+	SetPlayerClothesID(playerid, skin);
 
-	if(PlayerVip[playerid]){
-		SetPlayerHP(playerid, spawn_VipBlood);
-		SetPlayerFP(playerid, spawn_VipFood);
-		SetPlayerBleedRate(playerid, spawn_VipBleed);
-	}else{
-		SetPlayerHP(playerid, spawn_Blood);
-		SetPlayerFP(playerid, spawn_Food);
-		SetPlayerBleedRate(playerid, spawn_Bleed);
-	}
+	SetPlayerHP(playerid, IsPlayerVip(playerid) ? spawn_VipBlood : spawn_Blood);
+	SetPlayerFP(playerid, IsPlayerVip(playerid) ? spawn_VipFood : spawn_Food);
+	SetPlayerBleedRate(playerid, IsPlayerVip(playerid) ? spawn_VipBleed : spawn_Bleed);
 
 	SetPlayerAP(playerid, 0.0);
 	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
@@ -343,26 +331,22 @@ PlayerSpawnNewCharacter(playerid, gender)
 
 	SetPlayerBrightness(playerid, 255);
 
-	CallLocalFunction("OnPlayerSpawnNewChar", "d", playerid);
+	log("[SPAWN] %p (%d) criou um novo personagem em %.2f, %.2f, %.2f (%.2f)", playerid, playerid, x, y, z, r);
     
-	log("[SPAWN] %p spawned new character at %.1f, %.1f, %.1f (%.1f)", playerid, x, y, z, r);
+	CallLocalFunction("OnPlayerSpawnNewChar", "d", playerid);
 
 	return 1;
 }
 
-
-timer CheckBug[3000](playerid){
-	if(GetInventoryFreeSlots(playerid) != INV_MAX_SLOTS)
-	    defer DestroyPlayerInventoryItems(playerid);
+// ? Que merda é essa?
+timer CheckBug[SEC(3)](playerid) {
+	if(GetInventoryFreeSlots(playerid) != INV_MAX_SLOTS) defer DestroyPlayerInventoryItems(playerid);
 	
-	if(GetPlayerItem(playerid) != INVALID_ITEM_ID)
-		DestroyItem(GetPlayerItem(playerid));
+	if(GetPlayerItem(playerid) != INVALID_ITEM_ID) DestroyItem(GetPlayerItem(playerid));
 		
-	if(GetPlayerBagItem(playerid) != INVALID_ITEM_ID)
-    	DestroyPlayerBag(playerid);
+	if(GetPlayerBagItem(playerid) != INVALID_ITEM_ID) DestroyPlayerBag(playerid);
 
-	if(GetPlayerHolsterItem(playerid) != INVALID_ITEM_ID)
-	    DestroyItem(GetPlayerHolsterItem(playerid));
+	if(GetPlayerHolsterItem(playerid) != INVALID_ITEM_ID) DestroyItem(GetPlayerHolsterItem(playerid));
 }
 
 /*==============================================================================
@@ -374,29 +358,23 @@ timer CheckBug[3000](playerid){
 // spawn_State
 stock IsPlayerSpawned(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return spawn_State[playerid];
 }
 
 stock SetPlayerSpawnedState(playerid, bool:st)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	spawn_State[playerid] = st;
 
 	return 1;
 }
 
-// spawn_PosX
-// spawn_PosY
-// spawn_PosZ
 stock GetPlayerSpawnPos(playerid, &Float:x, &Float:y, &Float:z)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	x = spawn_PosX[playerid];
 	y = spawn_PosY[playerid];
@@ -407,8 +385,7 @@ stock GetPlayerSpawnPos(playerid, &Float:x, &Float:y, &Float:z)
 
 stock SetPlayerSpawnPos(playerid, Float:x, Float:y, Float:z)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	spawn_PosX[playerid] = x;
 	spawn_PosY[playerid] = y;
@@ -420,8 +397,7 @@ stock SetPlayerSpawnPos(playerid, Float:x, Float:y, Float:z)
 // spawn_RotZ
 stock GetPlayerSpawnRot(playerid, &Float:r)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	r = spawn_RotZ[playerid];
 
@@ -430,8 +406,7 @@ stock GetPlayerSpawnRot(playerid, &Float:r)
 
 stock SetPlayerSpawnRot(playerid, Float:r)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	spawn_RotZ[playerid] = r;
 
@@ -440,16 +415,14 @@ stock SetPlayerSpawnRot(playerid, Float:r)
 
 IsAtDefaultPos(Float:x, Float:y, Float:z)
 {
-	if(Distance(x, y, z, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z) < 10.0)
-		return 1;
+	if(Distance(x, y, z, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z) < 10.0) return 1;
 
 	return 0;
 }
 
 IsAtConnectionPos(Float:x, Float:y, Float:z)
 {
-	if(1133.05 < x < 1133.059999 && -2038.40 < y < -2038.409999 && 69.09 < z < 69.099999)
-		return 1;
+	if(1133.05 < x < 1133.059999 && -2038.40 < y < -2038.409999 && 69.09 < z < 69.099999) return 1;
 
 	return 0;
 }

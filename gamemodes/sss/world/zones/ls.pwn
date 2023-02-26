@@ -1,34 +1,8 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 Load_LS()
 {
-    //SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 0%)");
-    print("\n[OnGameModeInit] Initialising 'World/LS'...");
+    log("\n[WORLD] Carregando Los Santos...");
     
 	CreateFuelOutlet(1941.65625, -1778.45313, 14.14063, 2.0, 100.0, frandom(40.0));
 	CreateFuelOutlet(1941.65625, -1774.31250, 14.14063, 2.0, 100.0, frandom(40.0));
@@ -48,29 +22,17 @@ Load_LS()
 		2200.78, -1096.47, 42.13);
 
 	LS_District_Housing1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 1%)");
 	LS_District_Housing2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 2%)");
 	LS_District_Housing3();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 3%)");
 	LS_District_Housing4();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 4%)");
 	LS_District_EastBeach();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 5%)");
 	LS_District_Industrial();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 6%)");
 	LS_District_Docks();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 7%)");
 	LS_District_Airport();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 8%)");
 	LS_District_SantaMaria();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 9%)");
 	LS_District_City1();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 10%)");
 	LS_District_City2();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 11%)");
 	LS_District_City3();
-	//SendRconCommand("hostname Scavenge And Survive - Apocalypse (Respawn 12%)");
 
 	DefineSupplyDropPos("Los Santos Docks", 2760.28491, -2443.92456, 12.47645);
 	DefineSupplyDropPos("Los Santos Airport", 2092.42188, -2219.47021, 12.50092);
@@ -87,10 +49,9 @@ Load_LS()
 	DefineWeaponsCachePos(291.2510, -788.3774, 96.4609);
 }
 
-
 LS_District_Housing1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Housing1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte de Casas");
 
 	CreateStaticLootSpawn(2241.932128, -1258.510009, 22.936239,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(2244.920898, -1245.123657, 24.416099,	world_civilian, 20, 3);
@@ -631,7 +592,7 @@ LS_District_Housing1()
 
 LS_District_Housing2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Housing2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte de Casas");
 
 	CreateItem(item_Workbench, 2458.86377, -1974.19800, 12.45251, 0.0, 0.0, -91.14005);
 
@@ -1145,7 +1106,7 @@ LS_District_Housing2()
 
 LS_District_Housing3()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Housing3' {1589FF}por favor, aguarde...");
+	log("[WORLD] 3a parte de Casas");
 
 	CreateStaticLootSpawn(2459.707275, -948.579895, 79.067253,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(2455.191162, -965.123168, 79.059082,	world_civilian, 20, 3);
@@ -1358,7 +1319,7 @@ LS_District_Housing3()
 
 LS_District_Housing4()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Housing4' {1589FF}por favor, aguarde...");
+	log("[WORLD] 4 parte de Casas");
 
 	CreateStaticLootSpawn(2529.212402, 746.210388, 13.727939,		world_civilian, 20, 3);
 	CreateStaticLootSpawn(2536.050048, 716.275268, 9.810350,		world_civilian, 20, 3);
@@ -1757,7 +1718,7 @@ LS_District_Housing4()
 
 LS_District_EastBeach()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_EastBeach' {1589FF}por favor, aguarde...");
+	log("[WORLD] Praia Este");
 
 	CreateStaticLootSpawn(2824.011718, -1722.606323, 8.960789,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(2809.209960, -1832.113403, 8.885160,	world_civilian, 20, 3);
@@ -2036,7 +1997,7 @@ LS_District_EastBeach()
 
 LS_District_Industrial()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Industrial' {1589FF}por favor, aguarde...");
+	log("[WORLD] Zona Industrial");
 
 	CreateStaticLootSpawn(1920.410156, -1992.947387, 12.532649,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(1898.591552, -1986.132934, 12.530599,	world_civilian, 20, 3);
@@ -2291,7 +2252,7 @@ LS_District_Industrial()
 
 LS_District_Docks()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Docks' {1589FF}por favor, aguarde...");
+	log("[WORLD] Docas");
 
 	CreateStaticLootSpawn(2415.879150, -2230.404052, 12.547030,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(2392.702636, -2251.687744, 12.547300,	world_civilian, 20, 3);
@@ -2487,7 +2448,7 @@ LS_District_Docks()
 
 LS_District_Airport()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_Airport' {1589FF}por favor, aguarde...");
+	log("[WORLD] Aeroporto");
 
 	CreateStaticLootSpawn(1644.251831, -2293.599609, -2.209739,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(1644.311645, -2285.240234, -2.209310,	world_civilian, 20, 3);
@@ -2597,7 +2558,7 @@ LS_District_Airport()
 
 LS_District_SantaMaria()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_SantaMaria' {1589FF}por favor, aguarde...");
+	log("[WORLD] Santa Maria");
 
 	CreateStaticLootSpawn(633.160339, -1776.954956, 13.092240,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(521.011291, -1810.802246, 5.574220,		world_civilian, 20, 3);
@@ -2866,7 +2827,7 @@ LS_District_SantaMaria()
 
 LS_District_City1()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_City1' {1589FF}por favor, aguarde...");
+	log("[WORLD] 1a parte");
 
 	CreateStaticLootSpawn(1045.579833, -1285.196533, 12.542830,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(1045.177124, -1308.799194, 12.542539,	world_civilian, 20, 3);
@@ -2914,21 +2875,21 @@ LS_District_City1()
 	CreateStaticLootSpawn(740.688598, -1442.293457, 16.681909,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(725.616088, -1440.215942, 12.536479,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(709.837829, -1475.167602, 16.684520,	world_civilian, 20, 3);
-	CreateStaticLootSpawn(732.379211, -1476.477294, 4.459090,		world_civilian, 20, 3);
+	CreateStaticLootSpawn(732.379211, -1476.477294, 4.459090,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(725.585571, -1450.424560, 16.679029,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(758.023193, -1383.373901, 12.671799,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(647.804626, -1353.831665, 12.540280,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(753.292114, -1358.206787, 16.298780,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(739.262451, -1358.358764, 20.627510,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(739.761718, -1355.973754, 12.485409,	world_civilian, 20, 3);
-	CreateStaticLootSpawn(718.765808, -1476.600341, 4.457950,		world_civilian, 20, 3);
+	CreateStaticLootSpawn(718.765808, -1476.600341, 4.457950,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(784.181823, -1464.415649, 12.543430,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(772.805725, -1511.092163, 12.537170,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(785.759704, -1436.156127, 12.544469,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(739.190185, -1417.296508, 12.516409,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(739.406738, -1430.340332, 12.511830,	world_civilian, 20, 3);
-	CreateStaticLootSpawn(713.878540, -1488.770874, 0.735899,		world_civilian, 20, 3);
-	CreateStaticLootSpawn(706.335815, -1475.098999, 4.458340,		world_civilian, 20, 3);
+	CreateStaticLootSpawn(713.878540, -1488.770874, 0.735899,	world_civilian, 20, 3);
+	CreateStaticLootSpawn(706.335815, -1475.098999, 4.458340,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(759.829650, -1508.190551, 12.539349,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(762.932678, -1563.908813, 12.540690,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(748.325012, -1566.944335, 12.544179,	world_civilian, 20, 3);
@@ -3013,7 +2974,7 @@ LS_District_City1()
 	CreateStaticLootSpawn(849.428344, -1336.625610, 12.557399,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(892.675170, -1335.804077, 12.539409,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(881.416137, -1336.328125, 12.538470,	world_civilian, 20, 3);
-	CreateStaticLootSpawn(839.273193, -1342.738769, 6.172530,		world_civilian, 20, 3);
+	CreateStaticLootSpawn(839.273193, -1342.738769, 6.172530,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(825.441650, -1354.438476, 12.534999,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(809.578369, -1347.388549, -1.517850,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(790.078613, -1329.879272, -1.528239,	world_civilian, 20, 3);
@@ -3204,8 +3165,8 @@ LS_District_City1()
 	CreateStaticLootSpawn(973.050659, -1254.671386, 15.929780,	world_industrial, 15, 3);
 	CreateStaticLootSpawn(979.682739, -1255.083251, 15.932009,	world_industrial, 15, 3);
 	CreateStaticLootSpawn(552.795410, -1358.464721, 14.324440,	world_industrial, 15, 3);
-	CreateStaticLootSpawn(722.756530, -1494.767578, 0.739440,		world_industrial, 15, 3);
-	CreateStaticLootSpawn(731.334655, -1483.474609, 0.960219,		world_industrial, 15, 3);
+	CreateStaticLootSpawn(722.756530, -1494.767578, 0.739440,	world_industrial, 15, 3);
+	CreateStaticLootSpawn(731.334655, -1483.474609, 0.960219,	world_industrial, 15, 3);
 	CreateStaticLootSpawn(648.836120, -1459.635986, 13.731719,	world_industrial, 15, 3);
 	CreateStaticLootSpawn(650.003662, -1513.765258, 13.825079,	world_industrial, 15, 3);
 	CreateStaticLootSpawn(733.401733, -1343.283081, 12.503089,	world_industrial, 15, 3);
@@ -3254,7 +3215,7 @@ LS_District_City1()
 
 LS_District_City2()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_City2' {1589FF}por favor, aguarde...");
+	log("[WORLD] 2a parte da Cidade");
 
 	CreateStaticLootSpawn(1063.092407, -1562.838867, 12.538769,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(1077.335205, -1563.072265, 12.538629,	world_civilian, 20, 3);
@@ -3490,7 +3451,7 @@ LS_District_City2()
 	CreateStaticLootSpawn(939.057800, -1023.003662, 30.892669,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(899.477050, -1069.614746, 23.429740,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(953.575195, -1001.005126, 34.800910,	world_civilian, 20, 3);
-	CreateStaticLootSpawn(951.405517, -985.865600, 37.877609,		world_civilian, 20, 3);
+	CreateStaticLootSpawn(951.405517, -985.865600, 37.877609,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(916.434875, -1002.831298, 36.998229,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(953.835449, -1034.509521, 29.231430,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(952.540283, -1021.374938, 30.816719,	world_civilian, 20, 3);
@@ -3682,7 +3643,7 @@ LS_District_City2()
 
 LS_District_City3()
 {
-	ChatMsgAll(LBLUE, " >  Carregando regi�o do mundo: {FF8A14}'LS_District_City3' {1589FF}por favor, aguarde...");
+	log("[WORLD] 3a parte");
 
 	CreateStaticLootSpawn(1791.184448, -1426.041015, 12.536760,	world_civilian, 20, 3);
 	CreateStaticLootSpawn(1822.370361, -1379.691406, 13.407770,	world_civilian, 20, 3);

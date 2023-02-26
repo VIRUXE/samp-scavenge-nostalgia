@@ -139,9 +139,10 @@ StopRepairingVehicle(playerid)
 
 	if(fix_Progress[playerid] >= 988.0)
 	{
-		if(IsPlayerVip(playerid)){
+		if(IsPlayerVip(playerid)) {
        		// Reparar lataria do veículo    
 			new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
+
 			GetVehicleHealth(fix_TargetVehicle[playerid], lataria);
 			GetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
 			GetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
@@ -151,6 +152,7 @@ StopRepairingVehicle(playerid)
 			UpdateVehicleDamageStatus(fix_TargetVehicle[playerid], 0, 0, luzes, pneus);
 			SetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
 			SetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
+			
 			ShowActionText(playerid, GetLanguageString(playerid, "VEHICLEBODY", true), 5000);
 		}
 		

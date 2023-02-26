@@ -120,7 +120,7 @@ CMD:relatorio(playerid, params[])
 hook OnPlayerConnect(playerid){
 	RelatorioBlock[playerid] = false;
 }
-timer RelatorioFalse[1000](playerid)
+timer RelatorioFalse[SEC(1)](playerid)
 {
 	if(RelatorioTempo2[playerid] > 0)
 	{

@@ -575,17 +575,13 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 
 	if(newstate == PLAYER_STATE_DRIVER)
 	{
-		new
-			Float:x,
-			Float:y,
-			Float:z;
+		new Float:x, Float:y, Float:z;
 
 		veh_Current[playerid] = GetPlayerVehicleID(playerid);
 		GetVehiclePos(veh_Current[playerid], x, y, z);
 
 		if(GetVehicleTypeCategory(GetVehicleType(veh_Current[playerid])) == VEHICLE_CATEGORY_PUSHBIKE)
 			SetVehicleEngine(veh_Current[playerid], 1);
-
 		else
 			VehicleEngineState(veh_Current[playerid], veh_Data[veh_Current[playerid]][veh_engine]);
 
@@ -597,6 +593,23 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 		veh_EnterTick[playerid] = GetTickCount();
 
 		log("[VEHICLE] %p entered %s (%d) as driver at %f, %f, %f", playerid, GetVehicleGEID(veh_Current[playerid]), veh_Current[playerid], x, y, z);
+	} else if(newstate == PLAYER_STATE_PASSENGER) {
+		new
+			
+			vehicletype,
+			vehiclename[32],
+			Float:x,
+			Float:y,
+			Float:z;
+
+		veh_Current[playerid] = GetPlayerVehicleID(playerid);
+		vehicletype = GetVehicleType(veh_Current[playerid]);
+		GetVehicleTypeName(vehicletype, vehiclename);
+		GetVehiclePos(veh_Current[playerid], x, y, z);
+
+		ShowVehicleUI(playerid, GetPlayerVehicleID(playerid));
+
+		log("[VEHICLE] %p entered %s (%d) as passenger at %f, %f, %f", playerid, GetVehicleGEID(veh_Current[playerid]), veh_Current[playerid], x, y, z);
 	}
 
 	if(oldstate == PLAYER_STATE_DRIVER)
@@ -618,30 +631,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 		HideVehicleUI(playerid);
 
 		log("[VEHICLE] %p exited %s (%d) as driver at %f, %f, %f", playerid, GetVehicleGEID(veh_Current[playerid]), veh_Current[playerid], veh_Data[veh_Current[playerid]][veh_spawnX], veh_Data[veh_Current[playerid]][veh_spawnY], veh_Data[veh_Current[playerid]][veh_spawnZ]);
-	}
-
-	if(newstate == PLAYER_STATE_PASSENGER)
-	{
-		new
-			
-			vehicletype,
-			vehiclename[32],
-			Float:x,
-			Float:y,
-			Float:z;
-
-		veh_Current[playerid] = GetPlayerVehicleID(playerid);
-		vehicletype = GetVehicleType(veh_Current[playerid]);
-		GetVehicleTypeName(vehicletype, vehiclename);
-		GetVehiclePos(veh_Current[playerid], x, y, z);
-
-		ShowVehicleUI(playerid, GetPlayerVehicleID(playerid));
-
-		log("[VEHICLE] %p entered %s (%d) as passenger at %f, %f, %f", playerid, GetVehicleGEID(veh_Current[playerid]), veh_Current[playerid], x, y, z);
-	}
-
-	if(oldstate == PLAYER_STATE_PASSENGER)
-	{
+	} else if(oldstate == PLAYER_STATE_PASSENGER) {
 		if(!IsValidVehicle(veh_Current[playerid]))
 		{
 			err("player state changed from vehicle but veh_Current is invalid", veh_Current[playerid]);
@@ -675,7 +665,6 @@ ShowVehicleUI(playerid, vehicleid)
 
 	PlayerTextDrawSetString(playerid, veh_NameUI[playerid], vehiclename);
 	
-	PlayerTextDrawSetString(playerid, veh_DamageUI[playerid], ls(playerid, "VEHDMG"));
     PlayerTextDrawSetString(playerid, veh_EngineUI[playerid], ls(playerid, "VEHENG"));
     PlayerTextDrawSetString(playerid, veh_DoorsUI[playerid], ls(playerid, "VEHDOR"));
     
@@ -703,11 +692,9 @@ HideVehicleUI(playerid)
 
 public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
-	if(IsItemTypeCarry(ItemType:GetItemType(GetPlayerItem(playerid))))
-		PlayerDropItem(playerid);
+	if(IsItemTypeCarry(ItemType:GetItemType(GetPlayerItem(playerid)))) PlayerDropItem(playerid);
 	
-	if(!ispassenger)
-		veh_Entering[playerid] = vehicleid;
+	if(!ispassenger) veh_Entering[playerid] = vehicleid;
 
 	return 1;
 }
@@ -810,11 +797,8 @@ IsVehicleValidOutOfBounds(vehicleid)
 	{
 		switch(GetVehicleTypeCategory(GetVehicleType(vehicleid)))
 		{
-			case VEHICLE_CATEGORY_HELICOPTER, VEHICLE_CATEGORY_PLANE, VEHICLE_CATEGORY_BOAT:
-				return 1;
-
-			default:
-				return 0;
+			case VEHICLE_CATEGORY_HELICOPTER, VEHICLE_CATEGORY_PLANE, VEHICLE_CATEGORY_BOAT: return 1;
+			default: return 0;
 		}
 	}
 
@@ -829,14 +813,11 @@ IsVehicleValidOutOfBounds(vehicleid)
 */
 public OnVehicleDeath(vehicleid, killerid)
 {
-	new name[MAX_PLAYER_NAME];
-
-	GetPlayerName(killerid, name, MAX_PLAYER_NAME);
 	GetVehiclePos(vehicleid, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
 
 	veh_Data[vehicleid][veh_state] = VEHICLE_STATE_DYING;
 
-	log("[OnVehicleDeath] Vehicle %s (%d) killed by %s at %f %f %f", GetVehicleGEID(vehicleid), vehicleid, name, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
+	log("[VEHICLE][DEATH] %s (%d) killed by %p -> %f %f %f", GetVehicleGEID(vehicleid), vehicleid, killerid, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
 }
 
 public OnVehicleSpawn(vehicleid)
@@ -845,14 +826,14 @@ public OnVehicleSpawn(vehicleid)
 	{
 		if(IsVehicleValidOutOfBounds(vehicleid))
 		{
-			log("Dead Vehicle %s (%d) Spawned out of bounds - probably glitched vehicle death, respawning.", GetVehicleGEID(vehicleid), vehicleid);
+			log("[VEHICLE][DEATH] Dead Vehicle %s (%d) Spawned out of bounds - probably glitched vehicle death, respawning.", GetVehicleGEID(vehicleid), vehicleid);
 
 			veh_Data[vehicleid][veh_state] = VEHICLE_STATE_ALIVE;
 			ResetVehicle(vehicleid);
 		}
 		else
 		{
-			log("Dead Vehicle %s (%d) Spawned, setting as inactive.", GetVehicleGEID(vehicleid), vehicleid);
+			log("[VEHICLE][DEATH] Dead Vehicle %s (%d) Spawned, setting as inactive.", GetVehicleGEID(vehicleid), vehicleid);
 
 			veh_Data[vehicleid][veh_health] = 300.0;
 			ResetVehicle(vehicleid);
@@ -894,8 +875,7 @@ stock vti_CreateVehicle(vehicletype, Float:x, Float:y, Float:z, Float:rotation, 
 // veh_type
 stock GetVehicleType(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return INVALID_VEHICLE_TYPE;
+	if(!IsValidVehicle(vehicleid)) return INVALID_VEHICLE_TYPE;
 
 	return veh_Data[vehicleid][veh_type];
 }
@@ -903,16 +883,14 @@ stock GetVehicleType(vehicleid)
 // veh_health
 stock Float:GetVehicleHP(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0.0;
+	if(!IsValidVehicle(vehicleid)) return 0.0;
 
 	return veh_Data[vehicleid][veh_health];
 }
 
 stock SetVehicleHP(vehicleid, Float:health)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	veh_Data[vehicleid][veh_health] = health;
 	_veh_SyncData(vehicleid); // hotfix
@@ -924,24 +902,20 @@ stock SetVehicleHP(vehicleid, Float:health)
 forward Float:GetVehicleFuel(vehicleid);
 stock Float:GetVehicleFuel(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0.0;
+	if(!IsValidVehicle(vehicleid)) return 0.0;
 
-	if(veh_Data[vehicleid][veh_Fuel] < 0.0)
-		veh_Data[vehicleid][veh_Fuel] = 0.0;
+	if(veh_Data[vehicleid][veh_Fuel] < 0.0) veh_Data[vehicleid][veh_Fuel] = 0.0;
 
 	return veh_Data[vehicleid][veh_Fuel];
 }
 
 stock SetVehicleFuel(vehicleid, Float:amount)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	new Float:maxfuel = GetVehicleTypeMaxFuel(GetVehicleType(vehicleid));
 
-	if(amount > maxfuel)
-		amount = maxfuel;
+	if(amount > maxfuel) amount = maxfuel;
 
 	veh_Data[vehicleid][veh_Fuel] = amount;
 
@@ -950,15 +924,13 @@ stock SetVehicleFuel(vehicleid, Float:amount)
 
 stock GiveVehicleFuel(vehicleid, Float:amount)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	new maxfuel = GetVehicleTypeMaxFuel(GetVehicleType(vehicleid));
 
 	veh_Data[vehicleid][veh_Fuel] += amount;
 
-	if(veh_Data[vehicleid][veh_Fuel] > maxfuel)
-		veh_Data[vehicleid][veh_Fuel] = maxfuel;
+	if(veh_Data[vehicleid][veh_Fuel] > maxfuel) veh_Data[vehicleid][veh_Fuel] = maxfuel;
 
 	return 1;
 }
@@ -966,16 +938,14 @@ stock GiveVehicleFuel(vehicleid, Float:amount)
 // veh_key
 stock GetVehicleKey(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return -1;
+	if(!IsValidVehicle(vehicleid)) return -1;
 
 	return veh_Data[vehicleid][veh_key];
 }
 
 stock SetVehicleKey(vehicleid, key)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	veh_Data[vehicleid][veh_key] = key;
 
@@ -985,16 +955,14 @@ stock SetVehicleKey(vehicleid, key)
 // veh_engine
 stock GetVehicleEngine(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	return veh_Data[vehicleid][veh_engine];
 }
 
 stock SetVehicleEngine(vehicleid, toggle)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0; 
 
 	veh_Data[vehicleid][veh_engine] = toggle;
 	VehicleEngineState(vehicleid, toggle);
@@ -1008,8 +976,7 @@ stock SetVehicleEngine(vehicleid, toggle)
 // veh_tires
 stock SetVehicleDamageData(vehicleid, panels, doors, lights, tires)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	veh_Data[vehicleid][veh_panels] = panels;
 	veh_Data[vehicleid][veh_doors] = doors;
@@ -1027,8 +994,7 @@ stock SetVehicleDamageData(vehicleid, panels, doors, lights, tires)
 // veh_colour2
 stock GetVehicleColours(vehicleid, &colour1, &colour2)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	colour1 = veh_Data[vehicleid][veh_colour1];
 	colour2 = veh_Data[vehicleid][veh_colour2];
@@ -1038,8 +1004,7 @@ stock GetVehicleColours(vehicleid, &colour1, &colour2)
 
 stock SetVehicleColours(vehicleid, colour1, colour2)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	veh_Data[vehicleid][veh_colour1] = colour1;
 	veh_Data[vehicleid][veh_colour2] = colour2;
@@ -1053,8 +1018,7 @@ stock SetVehicleColours(vehicleid, colour1, colour2)
 // veh_spawnR
 stock SetVehicleSpawnPoint(vehicleid, Float:x, Float:y, Float:z, Float:r)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	veh_Data[vehicleid][veh_spawnX] = x;
 	veh_Data[vehicleid][veh_spawnY] = y;
@@ -1066,8 +1030,7 @@ stock SetVehicleSpawnPoint(vehicleid, Float:x, Float:y, Float:z, Float:r)
 
 stock GetVehicleSpawnPoint(vehicleid, &Float:x, &Float:y, &Float:z, &Float:r)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	x = veh_Data[vehicleid][veh_spawnX];
 	y = veh_Data[vehicleid][veh_spawnY];
@@ -1080,8 +1043,7 @@ stock GetVehicleSpawnPoint(vehicleid, &Float:x, &Float:y, &Float:z, &Float:r)
 // veh_lastUsed
 stock GetVehicleLastUseTick(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	return veh_Data[vehicleid][veh_lastUsed];
 }
@@ -1089,8 +1051,7 @@ stock GetVehicleLastUseTick(vehicleid)
 // veh_used
 stock IsVehicleUsed(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	return veh_Data[vehicleid][veh_used];
 }
@@ -1098,8 +1059,7 @@ stock IsVehicleUsed(vehicleid)
 // veh_occupied
 stock IsVehicleOccupied(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	return veh_Data[vehicleid][veh_occupied];
 }
@@ -1108,8 +1068,7 @@ stock IsVehicleOccupied(vehicleid)
 // veh_state
 stock IsVehicleDead(vehicleid)
 {
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+	if(!IsValidVehicle(vehicleid)) return 0;
 
 	return veh_Data[vehicleid][veh_state] == VEHICLE_STATE_DEAD;
 }
@@ -1119,8 +1078,7 @@ stock GetVehicleGEID(vehicleid)
 {
 	new geid[GEID_LEN];
 
-	if(!IsValidVehicle(vehicleid))
-		return geid;
+	if(!IsValidVehicle(vehicleid)) return geid;
 
 	strcat(geid, veh_Data[vehicleid][veh_geid], GEID_LEN);
 
@@ -1130,8 +1088,7 @@ stock GetVehicleGEID(vehicleid)
 // veh_TypeCount
 stock GetVehicleTypeCount(vehicletype)
 {
-	if(!(0 <= vehicletype < veh_TypeTotal))
-		return 0;
+	if(!(0 <= vehicletype < veh_TypeTotal)) return 0;
 
 	return veh_TypeCount[vehicletype];
 }
@@ -1139,8 +1096,7 @@ stock GetVehicleTypeCount(vehicletype)
 // veh_Current
 stock GetPlayerLastVehicle(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return veh_Current[playerid];
 }
@@ -1148,8 +1104,7 @@ stock GetPlayerLastVehicle(playerid)
 // veh_Entering
 stock GetPlayerEnteringVehicle(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return veh_Entering[playerid];
 }
@@ -1157,8 +1112,7 @@ stock GetPlayerEnteringVehicle(playerid)
 // veh_EnterTick
 stock GetPlayerVehicleEnterTick(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return veh_EnterTick[playerid];
 }
@@ -1166,8 +1120,7 @@ stock GetPlayerVehicleEnterTick(playerid)
 // veh_ExitTick
 stock GetPlayerVehicleExitTick(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0; 
 
 	return veh_ExitTick[playerid];
 }

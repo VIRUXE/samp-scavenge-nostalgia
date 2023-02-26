@@ -312,8 +312,7 @@ timer HolsterItemDelay[time](playerid, itemid, time)
 {
 	#pragma unused time
 
-	if(!IsValidItem(itemid))
-		return 0;
+	if(!IsValidItem(itemid)) return 0;
 
 	new currentitem = hols_Item[playerid];
 
@@ -331,22 +330,16 @@ timer HolsterItemDelay[time](playerid, itemid, time)
 	{
 		GiveWorldItemToPlayer(playerid, currentitem);
 		
-		switch(GetPlayerLanguage(playerid)){
-	         case 0: ShowActionText(playerid, "Changed", 3000, 70);
-	         case 1: ShowActionText(playerid, "Trocado", 3000, 70);
-    	}
+		ShowActionText(playerid, GetPlayerLanguage(playerid) == 0 ? "Trocado" : "Changed", 3000, 70);
 		
 		CallLocalFunction("OnPlayerUnHolsteredItem", "dd", playerid, currentitem);
 	}
 	else
 	{
-		switch(GetPlayerLanguage(playerid)){
-	         case 0: ShowActionText(playerid, "Weapon put in the holster", 3000, 70);
-	         case 1: ShowActionText(playerid, "Arma colocada no coldre", 3000, 70);
-    	}
-	}
+		ShowActionText(playerid, GetPlayerLanguage(playerid) == 0 ? "Arma colocada no coldre" : "Weapon put in the holster", 3000, 70);
 
-	CallLocalFunction("OnPlayerHolsteredItem", "dd", playerid, itemid);
+		CallLocalFunction("OnPlayerHolsteredItem", "dd", playerid, itemid);
+	}
 
 	return 1;
 }
@@ -375,16 +368,12 @@ timer UnholsterItemDelay[time](playerid, time)
 {
 	#pragma unused time
 
-	if(!IsValidItem(hols_Item[playerid]))
-		return 0;
+	if(!IsValidItem(hols_Item[playerid])) return 0;
 
 	CreateItemInWorld(hols_Item[playerid]);
 	GiveWorldItemToPlayer(playerid, hols_Item[playerid]);
 
-	switch(GetPlayerLanguage(playerid)){
-		case 0: ShowActionText(playerid, "Equipped", 3000, 70);
-        case 1: ShowActionText(playerid, "Equipado", 3000, 70);
-	}
+	ShowActionText(playerid, GetPlayerLanguage(playerid) == 0 ? "Equipado" : "Equipped", 3000, 70);
     	
 	CallLocalFunction("OnPlayerUnHolsteredItem", "dd", playerid, hols_Item[playerid]);
 
@@ -397,8 +386,7 @@ hook OnPlayerPickUpItem(playerid, itemid)
 {
 	dbg("global", CORE, "[OnPlayerPickUpItem] in /gamemodes/sss/core/char/holster.pwn");
 
-	if(GetTickCountDifference(GetTickCount(), hols_LastHolster[playerid]) < 1000)
-		return Y_HOOKS_BREAK_RETURN_1;
+	if(GetTickCountDifference(GetTickCount(), hols_LastHolster[playerid]) < 1000) return Y_HOOKS_BREAK_RETURN_1;
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
