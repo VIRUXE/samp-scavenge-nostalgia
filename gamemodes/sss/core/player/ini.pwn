@@ -1,6 +1,8 @@
 
 #include <YSI\y_hooks>
 
+// TODO: Passar essa merda para o banco de dados
+
 hook OnPlayerConnect(playerid)
 {
     SetPlayerVip(playerid, false);
@@ -29,15 +31,6 @@ hook OnPlayerConnect(playerid)
 		SetPlayerClan(playerid, "");
 		SetPlayerClanOwner(playerid, false);
         dini_Create(file);
-	}
-
-	if(Iter_Count(Player) > 35 && !IsPlayerVip(playerid))
-	{
-		ChatMsg(playerid, RED, " ");
-		ChatMsg(playerid, RED, " ");
-		ChatMsg(playerid, RED, " ");
-		ChatMsg(playerid, RED, "> Kickado por o servidor estar lotado com 35 online. VIPS possuem 5 slots reservados!");
-		KickPlayer(playerid, "O servidor est� lotado com 35 online. VIPS possuem 5 slots reservados!");
 	}
 }
 

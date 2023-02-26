@@ -200,6 +200,11 @@ CMD:mudarnick(playerid,params[])
 	return 1;
 }
 
+hook OnPlayerConnect(playerid) {
+	if(GetPlayerAdminLevel(playerid) == 0 && Iter_Count(Player) >= 35 && !IsPlayerVip(playerid)) 
+		return KickPlayer(playerid, "O servidor está lotado com 35 online. VIPS possuem 5 slots reservados!", true);
+}
+
 hook OnPlayerLogin(playerid) {
 	if(VIP[playerid]) {
 		SetPlayerColor(playerid, VIP_COLOR);
