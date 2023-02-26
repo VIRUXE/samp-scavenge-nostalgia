@@ -102,8 +102,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "HAT_T", true), 20000);
 		else if(GetMaskFromItem(itype) != -1)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "MASK_T", true), 20000);
-
-		if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
+		else if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
 			ShowHelpTip(playerid, GetLanguageString(playerid, "LIQUID_T", true), 20000);
 		else if(IsItemTypeFood(itype))
 			ShowHelpTip(playerid, GetLanguageString(playerid, "FOOD_T", true), 20000);

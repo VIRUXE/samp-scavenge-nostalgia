@@ -239,10 +239,10 @@ ExitTutorial(playerid)
 		DestroyPickup(PlayerTutorial_Pickup[i][playerid]);
 	}
 		
-	DestroyWorldVehicle(PlayerTutorialVehicle[playerid], true);
+	DestroyWorldVehicle(PlayerTutorialVehicle[playerid]);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
 
-	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", GetLanguageString(playerid, "TUTORIEXIT", true), GetLanguageString(playerid, "IDIOMAID", true)));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));
 
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
@@ -256,7 +256,7 @@ hook OnPlayerWearBag(playerid, itemid)
 
 	if(PlayerInTutorial[playerid])
 	{
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", GetLanguageString(playerid, "TUTORACCBAG", true), GetLanguageString(playerid, "IDIOMAID", true)));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORACCBAG"), ls(playerid, "IDIOMAID")));
         	
   		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 		
@@ -274,8 +274,8 @@ hook OnPlayerOpenInventory(playerid)
 	{
 	    if(!PlayerTutorial_VozInv[playerid])
 	    {
-	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-				GetLanguageString(playerid, "TUTORINTINV", true), GetLanguageString(playerid, "IDIOMAID", true)));
+	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=Windows1252&q=%s&tl=%s-TW&client=tw-ob",
+				ls(playerid, "TUTORINTINV"), ls(playerid, "IDIOMAID")));
 
             PlayerTutorial_VozInv[playerid] = true;
 		}
@@ -321,7 +321,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 		if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
 		{
   			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-				GetLanguageString(playerid, "TUTORITMOPT", true), GetLanguageString(playerid, "IDIOMAID", true)));
+				ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
 
   			for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -339,7 +339,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 	if(PlayerInTutorial[playerid])
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORDROITM", true), GetLanguageString(playerid, "IDIOMAID", true)));
+			ls(playerid, "TUTORDROITM"), ls(playerid, "IDIOMAID")));
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -356,7 +356,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 	if(PlayerInTutorial[playerid])
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORINVADD", true), GetLanguageString(playerid, "IDIOMAID", true)));
+			ls(playerid, "TUTORINVADD"), ls(playerid, "IDIOMAID")));
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -373,7 +373,7 @@ hook OnPlayerViewInvOpt(playerid)
 	if(PlayerInTutorial[playerid])
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORITMOPT", true), GetLanguageString(playerid, "IDIOMAID", true)));
+			ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -394,7 +394,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 			if(containerid == GetItemArrayDataAtCell(GetPlayerBagItem(playerid), 1))
 			{
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-					GetLanguageString(playerid, "TUTORADDBAG", true), GetLanguageString(playerid, "IDIOMAID", true)));
+					ls(playerid, "TUTORADDBAG"), ls(playerid, "IDIOMAID")));
 
 				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -403,7 +403,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 			else
 			{
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-					GetLanguageString(playerid, "TUTORADDCNT", true), GetLanguageString(playerid, "IDIOMAID", true)));
+					ls(playerid, "TUTORADDCNT"), ls(playerid, "IDIOMAID")));
 
 				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -422,7 +422,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 	if(PlayerInTutorial[playerid])
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
-			GetLanguageString(playerid, "TUTORITMHOL", true), GetLanguageString(playerid, "IDIOMAID", true)));
+			ls(playerid, "TUTORITMHOL"), ls(playerid, "IDIOMAID")));
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 

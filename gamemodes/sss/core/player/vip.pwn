@@ -188,7 +188,7 @@ CMD:mudarnick(playerid,params[])
 
 	SetPlayerName(playerid, nick);
 
-	ChatMsgAll(RED, "  > %P (%d)"C_RED" alterou seu nickname para '%s' (usando /mudarnick)", playerid, playerid, nick);
+	ChatMsgAll(RED, "  > %P(%d)"C_RED" alterou seu nickname para '%s' (usando /mudarnick)", playerid, playerid, nick);
 
 	log("[NICK] %p alterou o nick para '%s'", playerid, nick);
 
@@ -203,6 +203,8 @@ CMD:mudarnick(playerid,params[])
 hook OnPlayerConnect(playerid) {
 	if(GetPlayerAdminLevel(playerid) == 0 && Iter_Count(Player) >= 35 && !IsPlayerVip(playerid)) 
 		return KickPlayer(playerid, "O servidor está lotado com 35 online. VIPS possuem 5 slots reservados!", true);
+
+	return 1;
 }
 
 hook OnPlayerLogin(playerid) {
