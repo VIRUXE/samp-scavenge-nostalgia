@@ -356,6 +356,7 @@ hook OnPlayerCloseInventory(playerid)
 {
 	dbg("global", CORE, "[OnPlayerCloseInventory] in /gamemodes/sss/core/char/inventory.pwn");
 
+	ClearAnimations(playerid);
 	HidePlayerGear(playerid);
 	HidePlayerHealthInfo(playerid);
 
