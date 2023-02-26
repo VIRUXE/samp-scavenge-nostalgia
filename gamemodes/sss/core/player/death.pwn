@@ -95,15 +95,9 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid)
 
 _OnDeath(playerid, killerid)
 {
-	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid))
-	{
-		return 0;
-	}
+	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
 
-    if(gServerMaxUptime - gServerUptime < 30)
-	{
-	    return 0;
-	}
+    if(gServerMaxUptime - gServerUptime < 30) return 0; // Menos de 30 segundos para o servidor fechar
 	
 	AliveTime[playerid] = 0;
 	
@@ -143,16 +137,12 @@ _OnDeath(playerid, killerid)
 	{
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		if(PlayerVip[killerid])
-			SetPlayerScore(killerid, GetPlayerScore(killerid) + 2);
-		else
-			SetPlayerScore(killerid, GetPlayerScore(killerid) + 1);
+		SetPlayerScore(killerid, GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1);
 		
 		death_Spree[killerid] ++;
 		death_Spree[playerid] = 0;
 		
-		foreach(new i : Player)
-			ChatMsgLang(i, RED, "CHATKILLMSG", killerid, playerid);
+		foreach(new i : Player) ChatMsgLang(i, RED, "CHATKILLMSG", killerid, playerid);
 		
 		SavePlayerIniData(playerid);
 		SavePlayerIniData(killerid);
@@ -186,9 +176,7 @@ _OnDeath(playerid, killerid)
 			default:
 				deathreasonstring = "Sangrou at� a morte";
 		}
-	}
-	else
-	{
+	} else {
 		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 
 		death_LastKilledBy[playerid][0] = EOS;
