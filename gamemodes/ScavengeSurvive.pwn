@@ -768,41 +768,38 @@ timer ServerGMX[SEC(10)]() SendRconCommand("gmx");
 
 task RestartUpdate[SEC(1)]()
 {
-	if(gServerMaxUptime > 0)
-	{
-		if(gServerUptime >= gServerMaxUptime) {
-			log("gServerUptime %d - gServerMaxUptime %d", gServerUptime, gServerMaxUptime);
-			RestartGamemode();
-		}
-
-		new restartStr[36], hours, minutes, seconds;
-
-		minutes = (gServerMaxUptime - gServerUptime) / 60;
-		seconds = (gServerMaxUptime - gServerUptime) % 60;
-		hours   = minutes / 60;
-		minutes = minutes % 60;
-
-		if(gServerUptime <= gServerMaxUptime - 600) { // Faltam 10 ou menos minutos para o restart
-			if(gServerUptime == gServerMaxUptime - 600) { // Se for a primeira vez que estamos aqui alteramos a cor do texto e avisamos os players
-				TextDrawColor(RestartCount, 0xFF0000FF);
-				TextDrawColor(ClockRestart, 0xFF0000FF);
-
-				foreach(new i : Player) {
-					ChatMsg(i, RED, "");
-					ChatMsgLang(i, RED, "RESPAWNWRNTXT");
-					ChatMsg(i, RED, "");
-				}
-			}
-			
-			format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
-		} else {
-			format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
-		}
-	
-		TextDrawSetString(RestartCount, restartStr);
-	}
-	
 	gServerUptime++;
+
+	if(!gServerMaxUptime) return;
+
+	// Reiniciar o servidor, caso o tempo limite tenha sido atingido
+	if(gServerUptime == gServerMaxUptime) RestartGamemode();
+
+	new restartStr[36], hours, minutes, seconds;
+
+	minutes = (gServerMaxUptime - gServerUptime) / 60;
+	seconds = (gServerMaxUptime - gServerUptime) % 60;
+	hours   = minutes / 60;
+	minutes = minutes % 60;
+
+	if(gServerUptime <= gServerMaxUptime - 600) { // Faltam 10 ou menos minutos para o restart
+		if(gServerUptime == gServerMaxUptime - 600) { // Se for a primeira vez que estamos aqui alteramos a cor do texto e avisamos os players
+			TextDrawColor(RestartCount, 0xFF0000FF);
+			TextDrawColor(ClockRestart, 0xFF0000FF);
+
+			foreach(new i : Player) {
+				ChatMsg(i, RED, "");
+				ChatMsgLang(i, RED, "RESPAWNWRNTXT");
+				ChatMsg(i, RED, "");
+			}
+		}
+		
+		format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
+	} else {
+		format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
+	}
+
+	TextDrawSetString(RestartCount, restartStr);
 }
 
 DirectoryCheck(directory[])
