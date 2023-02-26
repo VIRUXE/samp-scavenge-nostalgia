@@ -192,7 +192,7 @@ stock DisplayContainerInventory(playerid, containerid)
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], GetLanguageString(playerid, "OPENINVO", true));
+	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -203,7 +203,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	format(title, sizeof(title), "{DEB887}%s (%d/%d)", containername, GetContainerSize(containerid) - GetContainerFreeSlots(containerid), GetContainerSize(containerid));
 
-	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], GetLanguageString(playerid, "BUTTONOPT", true), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
 
 	return 1;
 }
@@ -212,15 +212,11 @@ Dialog:SIF_Container(playerid, response, listitem, inputtext[])
 {
 	if(response)
 	{
-		if(!IsValidContainer(cnt_CurrentContainer[playerid]))
-			return 0;
+		if(!IsValidContainer(cnt_CurrentContainer[playerid])) return 0;
 
-		printf("listitem %d total %d itemcount %d freeslots %d", listitem, cnt_ItemListTotal[playerid], GetContainerItemCount(cnt_CurrentContainer[playerid]), GetContainerFreeSlots(cnt_CurrentContainer[playerid]));
+		// printf("listitem %d total %d itemcount %d freeslots %d", listitem, cnt_ItemListTotal[playerid], GetContainerItemCount(cnt_CurrentContainer[playerid]), GetContainerFreeSlots(cnt_CurrentContainer[playerid]));
 
-		if(listitem >= cnt_ItemListTotal[playerid])
-		{
-			DisplayPlayerInventory(playerid);
-		}
+		if(listitem >= cnt_ItemListTotal[playerid]) DisplayPlayerInventory(playerid);
 		else
 		{
 			if(!(0 <= listitem < CNT_MAX_SLOTS))
@@ -229,10 +225,7 @@ Dialog:SIF_Container(playerid, response, listitem, inputtext[])
 				return 0;
 			}
 
-			if(!IsValidItem(cnt_Items[cnt_CurrentContainer[playerid]][listitem]))
-			{
-				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
-			}
+			if(!IsValidItem(cnt_Items[cnt_CurrentContainer[playerid]][listitem])) DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			else
 			{
 				cnt_SelectedSlot[playerid] = listitem;
@@ -240,10 +233,7 @@ Dialog:SIF_Container(playerid, response, listitem, inputtext[])
 			}
 		}
 	}
-	else
-	{
-		ClosePlayerContainer(playerid, true);
-	}
+	else ClosePlayerContainer(playerid, true);
 
 	return 1;
 }

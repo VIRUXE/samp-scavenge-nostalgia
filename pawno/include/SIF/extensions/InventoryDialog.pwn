@@ -235,9 +235,12 @@ stock DisplayPlayerInventory(playerid)
 
 	if(!isnull(inv_ExtraItemList[playerid])) strcat(list, inv_ExtraItemList[playerid]);
 
-	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", false), GetPlayerInventorySize(playerid) - GetInventoryFreeSlots(playerid), GetPlayerInventorySize(playerid));
+	// Constroi o titulo do dialog com o nome do container/inventario e os slots ocupados e totais
+	new inventorySize = GetPlayerInventorySize(playerid);
+	format(title, sizeof(title), ls(playerid, "INVNAME"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
     inv_ViewingInventory[playerid] = true;
-	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, GetLanguageString(playerid, "BUTTONOPT", false), ls(playerid, "BUTTONCLS"));
+
+	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
 
 	return 1;
 }
