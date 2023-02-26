@@ -127,7 +127,7 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
 			C_WHITE"This is a survival server where you must survive and explore the world.\n\
 			You will be pinned in a Player versus Player environment.\n\n\
 			Would you like to proceed? If you do, you will be prompted to register for an account.",
-			"Continue", "Sair");
+			"Continue", "Exit");
 	}
 	else ShowLanguageMenu(playerid); // Dialog cancelado, mostra novamente o menu de idiomas
 }
@@ -147,8 +147,9 @@ public OnPlayerConnect(playerid)
     SetPlayerColor(playerid, 0xB8B8B800);
 
 	// Coloca o jogador no cenario aleatorio
-	TogglePlayerSpectating(playerid, true);
-	SetTimerEx("SetPlayerInCenario", 2000, false, "d", playerid);
+//	TogglePlayerSpectating(playerid, true);
+	SetPlayerVirtualWorld(playerid, playerid + 1);
+	SetTimerEx("SetPlayerInCenario", 50, false, "d", playerid);
 
 	// ResetVariables(playerid); // ? Porque é que resetamos no connect quando já o fazemos no disconnect?
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
@@ -173,6 +174,7 @@ public OnPlayerConnect(playerid)
 	TogglePlayerControllable(playerid, false);
 	Streamer_ToggleIdleUpdate(playerid, true);
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
+	SpawnPlayer(playerid);
 
 	new result = LoadAccount(playerid);
 

@@ -158,6 +158,8 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
+	SetPlayerVirtualWorld(playerid, 0);
+	
 	new hour, minute;
 	gettime(hour, minute);
 
@@ -182,9 +184,11 @@ PrepareForSpawn(playerid)
 
 PlayerSpawnExistingCharacter(playerid)
 {
-	if(IsPlayerSpawned(playerid)) return 1;
+	if(IsPlayerSpawned(playerid)) 
+		return 1;
 
-	if(!LoadPlayerChar(playerid)) return 2;
+	if(!LoadPlayerChar(playerid)) 
+		return 2;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
@@ -232,7 +236,6 @@ PlayerCreateNewCharacter(playerid)
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
 	SetPlayerFacingAngle(playerid, 0.0);
-	SetPlayerVirtualWorld(playerid, 0);
 	SetPlayerInterior(playerid, 0);
 
 	SetPlayerCameraLookAt(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
@@ -280,7 +283,6 @@ PlayerSpawnNewCharacter(playerid, gender)
 	Streamer_UpdateEx(playerid, x, y, z, 0, 0);
 	SetPlayerPos(playerid, x, y, z);
 	SetPlayerFacingAngle(playerid, r);
-	SetPlayerVirtualWorld(playerid, 0);
 	SetPlayerInterior(playerid, 0);
 
 	new skin;

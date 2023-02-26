@@ -23,15 +23,15 @@ public SetPlayerInCenario(playerid) {
     format(soundURL, sizeof(soundURL), "https://dl.dropboxusercontent.com/s/%s", sounds[random(sizeof(sounds) - 1)]);
 
     PlayAudioStreamForPlayer(playerid, soundURL);
+    SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
 
     SetPlayerTime(playerid, 0, 0);
     SetPlayerWeather(playerid, 20);
-    SetPlayerVirtualWorld(playerid, 5);
   
     new scenario = random(sizeof(scenarios) - 1);
     SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
     SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
-    SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2]);
+    SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2] - 100);
 
     return 1;
 }

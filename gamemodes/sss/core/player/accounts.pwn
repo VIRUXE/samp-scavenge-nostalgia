@@ -295,7 +295,7 @@ CreateAccount(playerid, password[])
 {
     if(IsPlayerNPC(playerid)) return 0;
 
-	TogglePlayerSpectating(playerid, false);
+//	TogglePlayerSpectating(playerid, false);
 
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -437,7 +437,7 @@ Login(playerid)
 {
     if(IsPlayerNPC(playerid)) return 0;
 	
-	TogglePlayerSpectating(playerid, false);
+//	TogglePlayerSpectating(playerid, false);
 
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
