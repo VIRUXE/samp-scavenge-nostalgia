@@ -168,7 +168,6 @@ hook OnGameModeInit()
 	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4", "FIELD_PLAYER_PASS", "FIELD_PLAYER_GPCI" FROM Player WHERE "FIELD_PLAYER_NAME"=? AND "FIELD_PLAYER_ACTIVE" COLLATE NOCASE");
 
     stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE Player SET "FIELD_PLAYER_NAME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-
 }
 
 hook OnPlayerConnect(playerid)
@@ -408,14 +407,12 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 			return 1;
 		}
 
-		new
-			inputhash[MAX_PASSWORD_LEN],
-			storedhash[MAX_PASSWORD_LEN];
+		new inputhash[MAX_PASSWORD_LEN], storedhash[MAX_PASSWORD_LEN];
 
 		WP_Hash(inputhash, MAX_PASSWORD_LEN, inputtext);
 		GetPlayerPassHash(playerid, storedhash);
 
-		if(!strcmp(inputhash, storedhash)) Login(playerid); // Chave correta
+		if(isequal(inputhash, storedhash)) Login(playerid); // Chave correta
 		else {
 			acc_LoginAttempts[playerid]++;
 
