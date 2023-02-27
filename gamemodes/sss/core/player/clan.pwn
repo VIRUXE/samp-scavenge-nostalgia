@@ -28,6 +28,9 @@ GetClanTag(const clan[MAX_CLAN_NAME]) {
 	return tag;
 }
 
+ToggleClanTag(playerid, toggle) {
+}
+
 // Obtem o nome do dono ou simplesmente para saber se o clan existe
 GetClanOwner(const clan[MAX_CLAN_NAME]) {
 	// Consulta o banco de dados e retorna o nome do dono do clan
@@ -79,9 +82,7 @@ CMD:clan(playerid, params[])
 
 	new command[9]; // 8 é o tamanho máximo de um comando
 
-	if(sscanf(params, "s[*] ", sizeof(command), command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
-
-	log("[CLAN] Command: %s", command);
+	if(sscanf(params, "s[9] ", command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
 
 	if(isequal(command, "ajuda", true)) {
 		ShowPlayerDialog(playerid, 9147, DIALOG_STYLE_MSGBOX, "Ajuda CLAN:", 
@@ -93,7 +94,11 @@ CMD:clan(playerid, params[])
 	} else if(isequal(command, "criar", true)) {
 		new clanName[MAX_CLAN_NAME], clanTag[MAX_CLAN_TAG];
 
-		if(sscanf(params, "{s[*]}s[*]s[*]", sizeof(command), MAX_CLAN_NAME, clanName, MAX_CLAN_TAG, clanTag)) return ChatMsg(playerid, RED, " > Use: /clan criar [nome(5-16)] [tag(3)]");
+		log("params = %s", params);
+
+		if(sscanf(params, "{s[9]}s[17]s[4]", clanName, clanTag)) return ChatMsg(playerid, RED, " > Use: /clan criar [nome(5-16)] [tag(3)]");
+
+		log("strlen(clanName) = %d, strlen(clanTag) = %d", strlen(clanName), strlen(clanTag));
 
 		if(strlen(clanName) < MIN_CLAN_NAME || strlen(clanName) > MAX_CLAN_NAME) return ChatMsg(playerid, RED, " > O nome do clan deve ter de 5 a 16 caracteres.");
 
