@@ -264,7 +264,7 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1))
 
 	admin_PlayerKicked[playerid] = true;
 
-	log("[TIMEOUT] %p (%d) razão: %s", playerid, reason);
+	log("[TIMEOUT] %p (%d) razão: %s", playerid, playerid, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" desconectado, motivo: "C_BLUE"%s", playerid, reason);
 
