@@ -476,6 +476,8 @@ Login(playerid)
 
 // Chamado após o jogador logar
 public OnPlayerLogin(playerid) {
+	ChatMsg(playerid, BLUE, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
+
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
 		new
@@ -487,8 +489,6 @@ public OnPlayerLogin(playerid) {
 		if(reports > 0) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 		if(issues > 0) ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
 	}
-
-	ChatMsg(playerid, BLUE, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
 
 	return 1;
 }
