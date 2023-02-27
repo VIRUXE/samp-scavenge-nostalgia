@@ -76,8 +76,8 @@ CMD:votekick(playerid, params[]) {
 
     votekick_timer = defer VoteKickTimer();
 
-    ChatMsgAll(WHITE, "O jogador %P iniciou uma votação para expulsar o jogador %P. Motivo: %s", playerid, targetId, reason);
-    ChatMsgAll(WHITE, "Use /vote [sim/não] para votar.");
+    ChatMsgAll(YELLOW, "Vote Kick: O jogador %P"C_YELLOW" iniciou uma votação para expulsar o jogador %P"C_YELLOW". Motivo: "C_WHITE"%s", playerid, targetId, reason);
+    ChatMsgAll(WHITE, "Vote Kick: Use /vote [sim/não] para votar.");
 
     log("[VOTEKICK] %p (%d) iniciou uma votação para expulsar %p (%d). Motivo: %s", playerid, playerid, targetId, targetId, reason);
 
@@ -94,13 +94,13 @@ CMD:vote(playerid, params[]) {
     if(isequal(params, "sim", true)) {
         votekick_votes[playerid] = VOTE_YES;
 
-        ChatMsgAll(WHITE, "O jogador %P"C_WHITE" votou SIM.", playerid);
+        ChatMsgAll(GREEN, "Vote Kick: O jogador %P"C_GREEN" votou SIM.", playerid);
 
-        log("[VOTEKICK] %p (%d) votou SIM (%d/%d), para expulsar %p (%d). Motivo: %s", playerid, playerid, CountVotes(VOTE_YES), CountVotes(VOTE_NO), votekick_player, votekick_player, votekick_reason);
+        log("[VOTEKICK] Vote Kick: %p (%d) votou SIM (%d/%d), para expulsar %p (%d). Motivo: %s", playerid, playerid, CountVotes(VOTE_YES), CountVotes(VOTE_NO), votekick_player, votekick_player, votekick_reason);
     } else if(isequal(params, "não", true)) {
         votekick_votes[playerid] = VOTE_NO;
 
-        ChatMsgAll(WHITE, "O jogador %P"C_WHITE" votou NÃO.", playerid);
+        ChatMsgAll(RED, "Vote Kick: O jogador %P"C_RED" votou NÃO.", playerid);
 
         log("[VOTEKICK] %p (%d) votou NÃO (%d/%d), para expulsar %p (%d). Motivo: %s", playerid, playerid, CountVotes(VOTE_NO), CountVotes(VOTE_YES), votekick_player, votekick_player, votekick_reason);
     } else
@@ -109,7 +109,7 @@ CMD:vote(playerid, params[]) {
     new players = Iter_Count(Player);
 
     if(CountVotes(VOTE_YES) >= players / 2) { // Se a metade dos jogadores votarem sim, o jogador é expulso.
-        ChatMsgAll(WHITE, "A votação foi aprovada. O jogador %P"C_WHITE" foi expulso.", votekick_player);
+        ChatMsgAll(GREEN, "Vote Kick: A votação foi aprovada. O jogador %P"C_GREEN" foi expulso.", votekick_player);
 
         // Prefix the reason with "Vote Kick: "
         new reason[MAX_VOTEKICK_REASON + 12];
@@ -122,7 +122,7 @@ CMD:vote(playerid, params[]) {
         
         EndVoting();
     } else if(CountVotes(VOTE_NO) >= players / 2) { // Se a metade dos jogadores votarem não, a votação é cancelada.
-        ChatMsgAll(WHITE, "A votação foi reprovada. O jogador %P"C_WHITE" não foi expulso.", votekick_player);
+        ChatMsgAll(RED, "A votação foi reprovada. O jogador %P"C_RED" não foi expulso.", votekick_player);
 
         log("[VOTEKICK] %p (%d) não foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);
         
