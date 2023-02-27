@@ -223,7 +223,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 	}
 	else
 	{
-		log("[CHAT][CLAN] [%.2f] [%p]: %s", frequency, playerid, chat);
+		/* log("[CHAT][CLAN] [%.2f] [%p]: %s", frequency, playerid, chat);
 
 		format(line1, 256, "[CLAN] (%d) %P"C_WHITE": %s", playerid, playerid, TagScan(chat));
 
@@ -236,7 +236,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 			SendClientMessage(i, CHAT_CLAN, line1);
 
 			if(!isnull(line2)) SendClientMessage(i, CHAT_CLAN, line2);
-		}
+		} */
 
 		//SetPlayerChatBubble(playerid, TagScan(chat), WHITE, 40.0, 10000);
 
