@@ -32,6 +32,7 @@
 enum E_PLAYER_DATA
 {
 			// Database Account Data
+			ply_Name[MAX_PLAYER_NAME],
 			ply_Password[MAX_PASSWORD_LEN],
 			ply_IP,
 			ply_RegisterTimestamp,
@@ -219,6 +220,7 @@ public OnPlayerDisconnected(playerid)
 
 ResetVariables(playerid)
 {
+	ply_Data[playerid][ply_Name][0]				= EOS;
 	ply_Data[playerid][ply_Password][0]			= EOS;
 	ply_Data[playerid][ply_IP]					= 0;
 	ply_Data[playerid][ply_Warnings]			= 0;
