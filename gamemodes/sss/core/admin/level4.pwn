@@ -264,7 +264,7 @@ ACMD:tapa[4](playerid, params[])
 		
     new targetid = strval(params);
 	
-	if(sscanf(params, "u", targetid)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
+	if(sscanf(params, "r", targetid)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
 
 	if(GetPlayerAdminLevel(targetid) > 1) return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
 

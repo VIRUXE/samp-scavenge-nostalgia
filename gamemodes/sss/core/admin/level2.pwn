@@ -43,7 +43,7 @@ ACMD:ir[2](playerid, params[])
 
 	new targetid;
 
-	if(sscanf(params, "u", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
+	if(sscanf(params, "r", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
 
 	if(!IsPlayerConnected(targetid)) return 4;
 
@@ -64,7 +64,7 @@ ACMD:puxar[2](playerid, params[])
 
 	new targetid;
 
-	if(sscanf(params, "u", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
+	if(sscanf(params, "r", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
 
 	if(!IsPlayerConnected(targetid)) return 4;
 

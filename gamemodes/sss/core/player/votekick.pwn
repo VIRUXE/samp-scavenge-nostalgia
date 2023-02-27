@@ -61,7 +61,7 @@ CMD:votekick(playerid, params[]) {
 
     new targetId, reason[MAX_VOTEKICK_REASON];
 
-    if(sscanf(params, "us[114]", targetId, reason)) return SendClientMessage(playerid, RED, "Use: /votekick [id/nick] [motivo]");
+    if(sscanf(params, "rs[114]", targetId, reason)) return SendClientMessage(playerid, RED, "Use: /votekick [id/nick] [motivo]");
 
     if(targetId == INVALID_PLAYER_ID) return SendClientMessage(playerid, RED, "Jogador não encontrado.");
 

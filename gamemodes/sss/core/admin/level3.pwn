@@ -12,7 +12,7 @@ ACMD:idioma[3](playerid, params[])
 
 	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
 
-	sscanf(params, "us[2]", targetId, lang);
+	sscanf(params, "rs[2]", targetId, lang);
 
 	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador não existe.");
 
@@ -466,7 +466,7 @@ ACMD:banidos[3](playerid, params[])
 ACMD:sethp[3](playerid, params[]) {
 	new targetId, hp;
 
-	if(sscanf(params, "ud", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [playerid] [hp]");
+	if(sscanf(params, "rd", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [playerid] [hp]");
 
 	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " >  Jogador inválido.");
 

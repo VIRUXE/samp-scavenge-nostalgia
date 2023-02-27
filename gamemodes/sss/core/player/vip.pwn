@@ -8,7 +8,7 @@ ACMD:setvip[5](playerid, params[])
 {
 	new targetId;
 
-	if(sscanf(params, "u", targetId)) return ChatMsg(playerid, RED, " > Use: /setVIP [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setVIP [playerid]");
 	
 	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " > Esse jogador não se encontra online.");
 	    

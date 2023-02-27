@@ -9,7 +9,7 @@ CMD:pm(playerid, params[]) {
 
 	new targetId, mensagem[300];
 	
-    if(sscanf(params, "us[300]", targetId, mensagem)) return SendClientMessage(playerid, RED, "[PM]: Use /pm [id/nick] [mensagem]");
+    if(sscanf(params, "rs[300]", targetId, mensagem)) return SendClientMessage(playerid, RED, "[PM]: Use /pm [id/nick] [mensagem]");
 
     if(targetId == INVALID_PLAYER_ID) return 4;
 
