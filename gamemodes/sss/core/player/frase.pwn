@@ -30,5 +30,11 @@ CMD:frase(playerid, params[])
 
 	db_query(gAccounts, sprintf("UPDATE Player SET joinsentence = '%s' WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
 
+	SetJoinSentence(playerid, params);
+
 	return ChatMsg(playerid, GREEN, " >  Frase de entrada alterada para: "C_WHITE"%s", params);
+}
+
+SetJoinSentence(playerid, const sentence[]) {
+	db_query(gAccounts, sprintf("UPDATE Player SET joinsentence = '%s' WHERE name = '%s';", sentence, GetPlayerNameEx(playerid)));
 }
