@@ -2,6 +2,14 @@ stock isalphabetic(chr) return 'a' <= chr <= 'z' || 'A' <= chr <= 'Z' ? 1 : 0;
 
 stock isalphanumeric(chr) return 'a' <= chr <= 'z' || 'A' <= chr <= 'Z' || '0' <= chr <= '9' ? 1 : 0;
 
+isstringalphanumeric(str[]) { // * Que nome de merda
+	for (new i = 0; i < strlen(str); i++)
+		if (!isalphanumeric(str[i]))
+			return 0;
+
+	return 1;
+}
+
 FormatSpecifier<'T'>(output[], timestamp)
 {
 	strcat(output, TimestampToDateTime(timestamp, "%A %b %d %Y at %X"));
