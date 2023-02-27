@@ -150,7 +150,6 @@ public OnPlayerConnect(playerid)
 	// Coloca o jogador no cenario aleatorio
 //	TogglePlayerSpectating(playerid, true);
 	SetPlayerVirtualWorld(playerid, playerid + 1);
-	SetTimerEx("SetPlayerInCenario", 50, false, "d", playerid);
 
 	// ResetVariables(playerid); // ? Porque é que resetamos no connect quando já o fazemos no disconnect?
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
@@ -176,6 +175,8 @@ public OnPlayerConnect(playerid)
 	Streamer_ToggleIdleUpdate(playerid, true);
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
 	SpawnPlayer(playerid);
+	
+	SetTimerEx("SetPlayerInCenario", 50, false, "d", playerid);
 
 	new result = LoadAccount(playerid);
 

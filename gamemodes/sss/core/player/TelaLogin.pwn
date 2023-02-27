@@ -23,7 +23,6 @@ public SetPlayerInCenario(playerid) {
     format(soundURL, sizeof(soundURL), "https://dl.dropboxusercontent.com/s/%s", sounds[random(sizeof(sounds) - 1)]);
 
     PlayAudioStreamForPlayer(playerid, soundURL);
-    SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
 
     SetPlayerTime(playerid, 0, 0);
     SetPlayerWeather(playerid, 20);
