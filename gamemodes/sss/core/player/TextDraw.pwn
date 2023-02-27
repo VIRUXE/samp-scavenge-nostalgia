@@ -68,7 +68,7 @@ ptask ShowStatus[SEC(1)](playerid)
 	PlayerTextDrawSetString(playerid, Interface4[playerid], str);
 	PlayerTextDrawShow(playerid, Interface4[playerid]);
 
-	if(bleed > 0.00)
+	if(bleed >= 0.01)
 
 	format(str, sizeof(str), ls(playerid, "STTSANGUE2"), GetPlayerBleedRate(playerid));
 
