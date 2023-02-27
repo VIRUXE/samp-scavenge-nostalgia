@@ -10,8 +10,6 @@ static
 SetPlayerClan(playerid, clan[MAX_CLAN_NAME]) {
 	strcpy(Clan[playerid], clan, MAX_CLAN_NAME); // Define na memória
 
-	ToggleClanTag(playerid, !isempty(clan)); // Se o clan não estiver vazio, ativa o tag
-
 	if(isempty(clan)) 
 		log("[CLAN] Clan removido de %p (%d)", playerid, playerid);
 	else
@@ -28,20 +26,6 @@ GetClanTag(const clan[MAX_CLAN_NAME]) {
 	db_get_field(result, 0, tag);
 
 	return tag;
-}
-
-ToggleClanTag(playerid, toggle) {
-	if(toggle) {
-		new clan[MAX_CLAN_NAME];
-
-		clan = GetPlayerClan(playerid);
-
-		if(isempty(clan)) return;
-
-		SetPlayerName(playerid, sprintf("[%s] %s", GetClanTag(clan), GetPlayerOriginalName(playerid)));
-	} else {
-		SetPlayerName(playerid, GetPlayerNameEx(playerid));
-	}
 }
 
 // Obtem o nome do dono ou simplesmente para saber se o clan existe
@@ -65,12 +49,10 @@ AddPlayerToClan(playerid, clan[MAX_CLAN_NAME]) {
 	db_query(gAccounts, sprintf("UPDATE Player SET clan = '%s' WHERE name = '%s'", clan, GetPlayerOriginalName(playerid)));
 
 	SetPlayerClan(playerid, clan);
-	ToggleClanTag(playerid, true);
 }
 
 RemovePlayerFromClan(playerid) {
 	SetPlayerClan(playerid, "");
-	ToggleClanTag(playerid, false);
 }
 
 hook OnGameModeInit() {
@@ -97,7 +79,9 @@ CMD:clan(playerid, params[])
 
 	new command[9]; // 8 é o tamanho máximo de um comando
 
-	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
+	if(sscanf(params, "s[*] ", sizeof(command), command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
+
+	log("[CLAN] Command: %s", command);
 
 	if(isequal(command, "ajuda", true)) {
 		ShowPlayerDialog(playerid, 9147, DIALOG_STYLE_MSGBOX, "Ajuda CLAN:", 
@@ -109,15 +93,17 @@ CMD:clan(playerid, params[])
 	} else if(isequal(command, "criar", true)) {
 		new clanName[MAX_CLAN_NAME], clanTag[MAX_CLAN_TAG];
 
-		if(sscanf(params, "{s[5]}ss", clanName, clanTag)) return ChatMsg(playerid, RED, " > Use: /clan criar [nome(5-16)] [tag(3)]");
+		if(sscanf(params, "{s[*]}s[*]s[*]", sizeof(command), MAX_CLAN_NAME, clanName, MAX_CLAN_TAG, clanTag)) return ChatMsg(playerid, RED, " > Use: /clan criar [nome(5-16)] [tag(3)]");
 
 		if(strlen(clanName) < MIN_CLAN_NAME || strlen(clanName) > MAX_CLAN_NAME) return ChatMsg(playerid, RED, " > O nome do clan deve ter de 5 a 16 caracteres.");
+
+		if(strlen(clanTag) != MAX_CLAN_TAG) return ChatMsg(playerid, RED, " > A tag do clan deve ter 3 caracteres.");
 
 		if(!isstringalphanumeric(clanName)) return ChatMsg(playerid, RED, " > O nome do clan apenas pode conter caracteres alfanuméricos (A-Z, a-z, 0-9).");
 
 		if(!isempty(GetClanOwner(clanName))) return ChatMsg(playerid, RED, " > Este clan já existe.");
 
-		log("[CLAN] Criando clan '%s'...", clanName);
+		log("[CLAN] Criando clan '%s' com tag '%s' para %p (%d)", clanName, clanTag, playerid, playerid);
 		
 	} else if(isequal(command, "convidar", true)) {
 		
