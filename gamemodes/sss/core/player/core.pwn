@@ -61,7 +61,6 @@ Float:		ply_Velocity,
 static
 			ply_Data[MAX_PLAYERS][E_PLAYER_DATA];
 
-GetPlayerOriginalName(playerid) return ply_Data[playerid][ply_Name];
 
 forward OnPlayerScriptUpdate(playerid);
 forward OnPlayerDisconnected(playerid);
