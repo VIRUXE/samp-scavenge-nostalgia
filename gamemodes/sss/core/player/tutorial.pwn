@@ -89,8 +89,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
 timer UpdateTutorialProgress[1000](playerid)
 {
-	if(!PlayerInTutorial[playerid]) 
-		return 0;
+	if(!PlayerInTutorial[playerid]) return 0;
 
 	new str[190] = "____~y~Tarefas do Tutorial:~n~", tentid, progress, Float:health, bool:active;
 
@@ -127,16 +126,16 @@ timer UpdateTutorialProgress[1000](playerid)
 		strcat(str, "~r~X~w~ Colocar arma no Coldre");
 
 	
-	if(progress == 5) 
-		PlayerTextDrawSetString(playerid, TutorialDraw[playerid],
-			"~g~Tarefas concluidas, parabens!~n~Para sair do tutorial use ~w~/sair~n~\
-			~g~Caso tenha alguma duvida, envie um ~w~/relatorio");	
-	else
+	if(progress == 5) {
+	    GameTextForPlayer(playerid, "~G~~H~ TUTORIAL TERMINADO!", 3000, 1);
+		ExitTutorial(playerid);
+	} else
 		PlayerTextDrawSetString(playerid, TutorialDraw[playerid], str);
 
 	PlayerTutorialProgress[playerid] = progress;
 
 	PlayerTextDrawShow(playerid, TutorialDraw[playerid]);
+
 	return 0;
 }
 
@@ -539,18 +538,11 @@ hook OnItemTweakFinish(playerid, itemid)
 stock IsPlayerInTutorial(playerid) return PlayerInTutorial[playerid] ? 1 : 0;
 
 // Para os admins poderem sair do tutorial
-
-CMD:sair(playerid)
+CMD:exittutorial(playerid)
 {
-	if(!IsPlayerInTutorial(playerid))
-		return 0;
+	if(!IsPlayerInTutorial(playerid)) return 0;
 
-	if(IsPlayerAdmin(playerid) || PlayerTutorialProgress[playerid] == 5 || GetPlayerAdminLevel(playerid) > 4)
-		ExitTutorial(playerid);
-
-	else ShowActionText(playerid, "~R~Você precisa fazer as tarefas para sair");
+	if(IsPlayerAdmin(playerid) || GetPlayerAdminLevel(playerid) > 4) ExitTutorial(playerid);
 	
 	return 1;
 }
-
-CMD:exit(playerid) return cmd_sair(playerid);
