@@ -2,57 +2,50 @@
 
 #define VIP_COLOR 0xFFAA0000
 	
-new bool:VIP[MAX_PLAYERS];
+new 
+bool:  	VIP[MAX_PLAYERS],
+		VIP_Anuncio;
 
 ACMD:setvip[5](playerid, params[])
 {
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setVIP [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid]");
 	
-	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " > Esse jogador não se encontra online.");
-	    
-	VIP[targetId] = !VIP[targetId];
-	
-	if(VIP[targetId]) {
-		SetPlayerColor(targetId, VIP_COLOR);
+	if(targetId == INVALID_PLAYER_ID) return 7; // CMD_INVALID_PLAYER
 
-		ChatMsgAll(PINK, " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D", targetId, targetId);
-	} else {
-	    SetPlayerColor(targetId, WHITE);
-	    
-		ChatMsg(targetId, RED, " > Seu vip foi removido.");
-	}
+	SetPlayerVip(targetId, !IsPlayerVip(targetId));
+
+	SetPlayerColor(targetId, IsPlayerVip(targetId) ? VIP_COLOR : WHITE);
+
+	ChatMsgAll(PINK, IsPlayerVip(targetId) ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
 
 	return 1;
 }
 
 CMD:ajudavip(playerid)
 {
-    new stringajudavip[1300];
-
-    strcat(stringajudavip, "{FFFF00}Benefícios dos VIPS: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00\n");
-    strcat(stringajudavip, " \n");
-	strcat(stringajudavip, "{FFAA00}- Tem uma maior variedade de spawns após morrer\n");
-//	strcat(stringajudavip, "{FFAA00}- Consegue trocar o nickname usando {FFFFFF}/mudarnick\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue trocar o estilo de luta usando {FFFFFF}/mudarluta\n");
-	strcat(stringajudavip, "{FFAA00}- Nickname colorido (destacado)\n");
-	strcat(stringajudavip, "{FFAA00}- Cargo VIP permanente no discord\n");
-	strcat(stringajudavip, "{FFAA00}- Chat e canal de voz VIP no discord\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue se matar usando {FFFFFF}/kill\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue fazer um anúncio vip no chat usando {FFFFFF}/avip\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue alterar a cor de veículos usando {FFFFFF}/pintar\n");
-	strcat(stringajudavip, "{FFAA00}- Monta e desmonta estruturas 3x mais rápido\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue consertar o veículo 3x mais rápido\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue resetar o status (Score, Spree, Mortes) com {FFFFFF}/resetarstatus\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue colocar uma frase de login destacada para todos com {FFFFFF}/frase\n");
-	strcat(stringajudavip, "{FFAA00}- Spawna sem fome (jogadores sem vip nascem com 20% de fome faltando)\n");
-	strcat(stringajudavip, "{FFAA00}- Recebe o dobro de kills (score) ao eliminar algum jogador\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue trocar a skin usando {FFFFFF}/skin\n");
-	strcat(stringajudavip, "{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bastão\n");
-	strcat(stringajudavip, "{FFAA00}- Consegue reparar a lataria do veículo ao finalizar o reparo com ferramentas.\n");
-
-    ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", stringajudavip, "Fechar", "");
+    ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:",
+    "{FFFF00}Benefícios dos VIPS: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00\n\n\
+	{FFAA00}- Tem uma maior variedade de spawns após morrer\n\
+	{FFAA00}- Consegue trocar o nickname usando {FFFFFF}/mudarnick\n\
+	{FFAA00}- Consegue trocar o estilo de luta usando {FFFFFF}/mudarluta\n\
+	{FFAA00}- Nickname colorido (destacado)\n\
+	{FFAA00}- Cargo VIP permanente no discord\n\
+	{FFAA00}- Chat e canal de voz VIP no discord\n\
+	{FFAA00}- Consegue se matar usando {FFFFFF}/kill\n\
+	{FFAA00}- Consegue fazer um anúncio vip no chat usando {FFFFFF}/avip\n\
+	{FFAA00}- Consegue alterar a cor de veículos usando {FFFFFF}/pintar\n\
+	{FFAA00}- Monta e desmonta estruturas 3x mais rápido\n\
+	{FFAA00}- Consegue consertar o veículo 3x mais rápido\n\
+	{FFAA00}- Consegue resetar o status (Score, Spree, Mortes) com {FFFFFF}/resetarstatus\n\
+	{FFAA00}- Consegue colocar uma frase de login destacada para todos com {FFFFFF}/frase\n\
+	{FFAA00}- Spawna sem fome (jogadores sem vip nascem com 20% de fome faltando)\n\
+	{FFAA00}- Recebe o dobro de kills (score) ao eliminar algum jogador\n\
+	{FFAA00}- Consegue trocar a skin usando {FFFFFF}/skin\n\
+	{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bastão\n\
+	{FFAA00}- Consegue reparar a lataria do veículo ao finalizar o reparo com ferramentas.",
+	"Fechar", "");
 
     return 1;
 }
@@ -63,33 +56,26 @@ CMD:ajudavip(playerid)
 
 ==============================================================================*/
 
-new bool:aviptimer[MAX_PLAYERS];
-
 CMD:avip(playerid, params[])
 {
-    if(!VIP[playerid]) return ChatMsg(playerid, RED, "> Esse comando é apenas para jogadores VIP.");
+    if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, "> Esse comando é apenas para jogadores VIP.");
 
-	if(aviptimer[playerid] == true) return ChatMsg(playerid, RED, "Erro: aguarde 3 minutos para usar esse comando novamente.");
+	// Espera 3 segundos para fazer outro anúncio
+	if(GetTickCountDifference(VIP_Anuncio, GetTickCount()) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
 
     new anuncio[150];
 
 	if(sscanf(params, "s[150]", anuncio)) return ChatMsg(playerid, RED, " > Use: /avip [anúncio]");
 
-	ChatMsgAll(VIP_COLOR, "[Anúncio-VIP] {FFFFFF}%p(id:%d): {FFAA00}%s", playerid, playerid, anuncio);
+	ChatMsgAll(VIP_COLOR, "[Anúncio VIP] "C_WHITE"%P (%d): {FFAA00}%s", playerid, playerid, anuncio);
 
-	aviptimer[playerid] = true;
-	defer DesTempAVip(playerid);
+	VIP_Anuncio = GetTickCount();
 
 	return 1;
 }
 
-timer DesTempAVip[SEC(3)](playerid)
-{
-    aviptimer[playerid] = false;
-}
-
-CMD:resetarstatus(playerid){
-	if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+CMD:resetarstatus(playerid) {
+	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
 
 	SetPlayerScore(playerid, 0);
 	SetPlayerDeathCount(playerid, 0);
@@ -100,17 +86,15 @@ CMD:resetarstatus(playerid){
 }
 
 CMD:skin(playerid, params[]) {
-	new skinid;
-
-    if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+    if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
 
 	if(GetPlayerSkin(playerid) == 287) return ChatMsg(playerid, RED, " > Você não pode trocar sua skin usando uma Camuflagem.");
 
+	new skinid;
+
     if(sscanf(params, "d", skinid)) return ChatMsg(playerid, RED, " > Use: /skin [ID]");
 
-	if(skinid > 311 || skinid < 1) return ChatMsg(playerid, RED, " > ID de skin inválido.");
-
-	if(skinid == 211 || skinid == 217 || skinid == 287) return ChatMsg(playerid, RED, " > ID de skin inválido.");
+	if(skinid > 311 || skinid < 1 || skinid == 211 || skinid == 217 || skinid == 287) return ChatMsg(playerid, RED, " > ID de skin inválido.");
 
 	SetPlayerSkin(playerid, skinid);
 
@@ -118,17 +102,15 @@ CMD:skin(playerid, params[]) {
 }
 
 CMD:pintar(playerid, params[]) {
-    if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+    if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
 
     if(!IsPlayerInAnyVehicle(playerid)) return ChatMsg(playerid, RED, " > Você precisa estár dentro de um veículo.");
 
-    new cor1 = strval(params), cor2 = strval(params);
+    new cor1, cor2;
 
-    if(sscanf(params, "ii", cor1, cor2)) return ChatMsg(playerid, RED, " > Use : /pintar [0-255][0-255]");
+    if(sscanf(params, "I(*)I(*)", random(255), cor1, random(255), cor2)) return ChatMsg(playerid, RED, " > Use : /pintar (0-255) (0-255)");
 
-    if(cor1 < 0 || cor1 > 255) return ChatMsg(playerid, -1, "{FFAA00}Cores de 0 a 255!");
-
-    if(cor2 < 0 || cor2 > 255) return ChatMsg(playerid, -1, "{FFAA00}Cores de 0 a 255!");
+    if(cor1 < 0 || cor1 > 255 || cor2 < 0 || cor2 > 255) return ChatMsg(playerid, RED, "Cores de 0 a 255!");
 
     ChangeVehicleColor(GetPlayerVehicleID(playerid), cor1, cor2);
 
@@ -139,7 +121,7 @@ CMD:pintar(playerid, params[]) {
 
 CMD:kill(playerid)
 {
-	if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
 	
 	// Tem que aguardar 1 minuto
 	if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < MIN(1)) return 2;
@@ -150,7 +132,7 @@ CMD:kill(playerid)
 }
 
 CMD:mudarluta(playerid, params[]){
-    if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+    if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
     
 	new luta;
 
@@ -170,19 +152,19 @@ CMD:mudarluta(playerid, params[]){
 
 CMD:mudarnick(playerid,params[])
 {
-    if(!VIP[playerid]) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+    if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
     
-	new nick[MAX_PLAYER_NAME];
-
 	if(!IsPlayerLoggedIn(playerid)) return ChatMsgLang(playerid, YELLOW, "LOGGEDINREQ");
 
-	if(sscanf(params, "s[24]", nick)) return ChatMsg(playerid, YELLOW, "Use: /mudarnick [nick]");
+	new nick[MAX_PLAYER_NAME];
 
-	if(AccountExists(nick)) return ChatMsg(playerid, YELLOW, "Este nick já está registrado no Servidor.");
+	if(sscanf(params, "s[24]", nick)) return ChatMsg(playerid, YELLOW, "Use: /mudarnick [nick]");
 
 	if(strlen(nick) > MAX_PLAYER_NAME || strlen(nick) < 3) return ChatMsg(playerid, YELLOW, "Seu nick deve ter entre 3 e 22 caracteres.");
 
 	if(!IsValidUsername(nick)) return ChatMsg(playerid, YELLOW, "O Nick que você digitou possui algum caracter inválido");
+
+	if(AccountExists(nick)) return ChatMsg(playerid, YELLOW, "Este nick já está registrado no Servidor.");
 
 	SetAccountName(GetPlayerNameEx(playerid), nick);
 
@@ -208,7 +190,7 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerLogin(playerid) {
-	if(VIP[playerid]) {
+	if(IsPlayerVip(playerid)) {
 		SetPlayerColor(playerid, VIP_COLOR);
 
 		ChatMsg(playerid, VIP_COLOR, " > Você é um jogador VIP! Obrigado por apoiar o servidor.");
@@ -216,9 +198,8 @@ hook OnPlayerLogin(playerid) {
 }
 
 hook OnPlayerSpawnNewChar(playerid) {
-    if(VIP[playerid])
-	{
-	    new itemid;
+	if(IsPlayerVip(playerid)) {
+		new itemid;
 
 		itemid = CreateItem(item_Satchel);
 		GivePlayerBag(playerid, itemid);
@@ -226,7 +207,7 @@ hook OnPlayerSpawnNewChar(playerid) {
 		itemid = CreateItem(item_Wrench);
 		AddItemToPlayer(playerid, itemid, true, false);
 
-	    itemid = CreateItem(item_Screwdriver);
+		itemid = CreateItem(item_Screwdriver);
 		AddItemToPlayer(playerid, itemid, true, false);
 
 		itemid = CreateItem(item_Map);
@@ -236,12 +217,6 @@ hook OnPlayerSpawnNewChar(playerid) {
 		GiveWorldItemToPlayer(playerid, itemid);
 	}
 }
-
-/*==============================================================================
-
-	Funções
-
-==============================================================================*/
 
 stock IsPlayerVip(playerid) return VIP[playerid];
 
