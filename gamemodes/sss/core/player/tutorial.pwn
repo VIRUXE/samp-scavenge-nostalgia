@@ -32,16 +32,31 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawHide     			(playerid, ClassButtonTutorial[playerid]);
 
 	TutorialDraw[playerid] = CreatePlayerTextDraw(playerid, 3.0, 339.0, "Play tutorial >");
-	PlayerTextDrawFont(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawLetterSize(playerid, TutorialDraw[playerid], 0.395, 1.58);
 	PlayerTextDrawTextSize(playerid, TutorialDraw[playerid], 190.000000, 17.000000);
-	PlayerTextDrawSetOutline(playerid, TutorialDraw[playerid], 1);
-	PlayerTextDrawSetShadow(playerid, TutorialDraw[playerid], 0);
 	PlayerTextDrawAlignment(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawColor(playerid, TutorialDraw[playerid], -1);
-	PlayerTextDrawBoxColor(playerid, TutorialDraw[playerid], 255);
 	PlayerTextDrawUseBox(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawBoxColor(playerid, TutorialDraw[playerid], 255);
+	PlayerTextDrawSetShadow(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawSetOutline(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawFont(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawSetProportional(playerid, TutorialDraw[playerid], 1);
+
+	
+/*	Text_Global[0] = TextDrawCreate(1.000, 320.000, "_");
+	TextDrawLetterSize(Text_Global[0], 0.230, 15.500);
+	TextDrawTextSize(Text_Global[0], 113.000, 200.000);
+	TextDrawAlignment(Text_Global[0], 1);
+	TextDrawColor(Text_Global[0], 255);
+	TextDrawUseBox(Text_Global[0], 1);
+	TextDrawBoxColor(Text_Global[0], 150);
+	TextDrawSetShadow(Text_Global[0], 1);
+	TextDrawSetOutline(Text_Global[0], 1);
+	TextDrawBackgroundColor(Text_Global[0], 150);
+	TextDrawFont(Text_Global[0], 1);
+	TextDrawSetProportional(Text_Global[0], 1);*/
+
 
 	PlayerTutorialProgress[playerid] = 0;
 }
