@@ -4,12 +4,15 @@
 
 static
 PlayerText:	ClassButtonTutorial		[MAX_PLAYERS],
+PlayerText:	TutorialDraw			[MAX_PLAYERS],
 bool:		PlayerInTutorial		[MAX_PLAYERS],
+			PlayerTutorialProgress	[MAX_PLAYERS],
 			PlayerTutorialVehicle	[MAX_PLAYERS],
 			PlayerTutorial_Item     [MAX_TUTORIAL_ITEMS][MAX_PLAYERS],
 			PlayerTutorial_Pickup   [MAX_TUTORIAL_ITEMS][MAX_PLAYERS],
 bool:		PlayerTutorial_VozInv   [MAX_PLAYERS],
-bool:		PlayerTutorial_VozCnt   [MAX_PLAYERS];
+bool:		PlayerTutorial_VozCnt   [MAX_PLAYERS],
+Timer:		PlayerTutorialUpd		[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid)
 {
@@ -27,6 +30,20 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize			(playerid, ClassButtonTutorial[playerid], 34.000000, 155.000000);
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonTutorial[playerid], true);
 	PlayerTextDrawHide     			(playerid, ClassButtonTutorial[playerid]);
+
+	TutorialDraw[playerid] = CreatePlayerTextDraw(playerid, 3.0, 339.0, "Play tutorial >");
+	PlayerTextDrawFont(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawLetterSize(playerid, TutorialDraw[playerid], 0.395, 1.58);
+	PlayerTextDrawTextSize(playerid, TutorialDraw[playerid], 190.000000, 17.000000);
+	PlayerTextDrawSetOutline(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawSetShadow(playerid, TutorialDraw[playerid], 0);
+	PlayerTextDrawAlignment(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawColor(playerid, TutorialDraw[playerid], -1);
+	PlayerTextDrawBoxColor(playerid, TutorialDraw[playerid], 255);
+	PlayerTextDrawUseBox(playerid, TutorialDraw[playerid], 1);
+	PlayerTextDrawSetProportional(playerid, TutorialDraw[playerid], 1);
+
+	PlayerTutorialProgress[playerid] = 0;
 }
 
 hook OnPlayerSpawnChar(playerid)
@@ -34,10 +51,12 @@ hook OnPlayerSpawnChar(playerid)
 	dbg("global", CORE, "[OnPlayerSpawnChar] in /gamemodes/sss/core/player/tutorial.pwn");
 
 	PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
+	PlayerTextDrawHide(playerid, TutorialDraw[playerid]);
 }
 
 hook OnPlayerSpawnNewChar(playerid) {
 	PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
+	PlayerTextDrawHide(playerid, TutorialDraw[playerid]);
 }
 
 hook OnPlayerCreateChar(playerid) {
@@ -66,6 +85,59 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 		// Remove a tela preta
 		SetPlayerBrightness(playerid, 255);
 	}
+}
+
+timer UpdateTutorialProgress[1000](playerid)
+{
+	if(!PlayerInTutorial[playerid]) 
+		return 0;
+
+	new str[190] = "____~y~Tarefas do Tutorial:~n~", tentid, progress, Float:health, bool:active;
+
+	if(IsValidItem(GetPlayerBagItem(playerid)))
+		strcat(str, "~g~V Vestir Mochila~n~"), progress++;
+	else
+		strcat(str, "~r~X~w~ Vestir Mochila~n~");
+
+
+	GetVehicleHealth(PlayerTutorialVehicle[playerid], health);
+	if(health >= VEHICLE_HEALTH_CHUNK_3)
+		strcat(str, "~g~V Reparar Veiculo~n~"), progress++;
+	else
+		strcat(str, "~r~X~w~ Reparar Veiculo~n~");
+
+
+	GetItemExtraData(PlayerTutorial_Item[9][playerid]);
+	if(IsValidTent(tentid))
+		strcat(str, "~g~V Montar Tenda~n~"), progress++;
+	else
+		strcat(str, "~r~X~w~ Montar Tenda~n~");
+
+	
+	GetItemArrayDataAtCell(PlayerTutorial_Item[1][playerid], 0);
+	if(active)
+		strcat(str, "~g~V Montar Porta com Chave~n~"), progress ++;
+	else
+		strcat(str, "~r~X~w~ Montar Porta com Chave~n~");
+
+
+	if(IsValidItem(GetPlayerHolsterItem(playerid)))
+		strcat(str, "~g~V Colocar arma no Coldre"), progress++;
+	else
+		strcat(str, "~r~X~w~ Colocar arma no Coldre");
+
+	
+	if(progress == 5) 
+		PlayerTextDrawSetString(playerid, TutorialDraw[playerid],
+			"~g~Tarefas concluidas, parabens!~n~Para sair do tutorial use ~w~/sair~n~\
+			~g~Caso tenha alguma duvida, envie um ~w~/relatorio");	
+	else
+		PlayerTextDrawSetString(playerid, TutorialDraw[playerid], str);
+
+	PlayerTutorialProgress[playerid] = progress;
+
+	PlayerTextDrawShow(playerid, TutorialDraw[playerid]);
+	return 0;
 }
 
 hook OnVehicleSave(vehicleid) {
@@ -211,6 +283,9 @@ EnterTutorial(playerid) {
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
+
+	stop PlayerTutorialUpd[playerid];
+	PlayerTutorialUpd[playerid] = repeat UpdateTutorialProgress(playerid);
 }
 
 ExitTutorial(playerid)
@@ -220,6 +295,9 @@ ExitTutorial(playerid)
 	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
 
 	SetPlayerWorldBounds(playerid, 20000.0000, -20000.0000, 20000.0000, -20000.0000);
+
+	stop PlayerTutorialUpd[playerid];
+	PlayerTextDrawHide(playerid, TutorialDraw[playerid]);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
@@ -461,10 +539,18 @@ hook OnItemTweakFinish(playerid, itemid)
 stock IsPlayerInTutorial(playerid) return PlayerInTutorial[playerid] ? 1 : 0;
 
 // Para os admins poderem sair do tutorial
-CMD:exittutorial(playerid) {
-	if(!IsPlayerAdmin(playerid)) return 0;
 
-	ExitTutorial(playerid);
+CMD:sair(playerid)
+{
+	if(!IsPlayerInTutorial(playerid))
+		return 0;
 
+	if(IsPlayerAdmin(playerid) || PlayerTutorialProgress[playerid] == 5 || GetPlayerAdminLevel(playerid) > 4)
+		ExitTutorial(playerid);
+
+	else ShowActionText(playerid, "~R~Você precisa fazer as tarefas para sair");
+	
 	return 1;
 }
+
+CMD:exit(playerid) return cmd_sair(playerid);
