@@ -158,26 +158,28 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
+	if(IsPlayerInTutorial(playerid)) 
+		LoadPlayerHUD(playerid);
+
+	if(!PlayerMapCheck(playerid)) GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
+	else 
+	{
+		ShowSupplyIconSpawn(playerid);
+		WCIconSpawn(playerid);
+		HideWatch(playerid);
+	}
+
 	SetPlayerVirtualWorld(playerid, 0);
 	
 	new hour, minute;
 	gettime(hour, minute);
 
 	SetPlayerTime(playerid, hour, minute);
-
 	SetPlayerWeather(playerid, GetSettingInt("world/weather")); 
 
-	LoadPlayerHUD(playerid);
 	SetPlayerSpawnedState(playerid, true);
 	SetCameraBehindPlayer(playerid);
 	SetAllWeaponSkills(playerid, 500);
-
-	if(!PlayerMapCheck(playerid)) GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-	else {
-		ShowSupplyIconSpawn(playerid);
-		WCIconSpawn(playerid);
-		HideWatch(playerid);
-	}
 
 	CancelSelectTextDraw(playerid);
 }
@@ -268,6 +270,9 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 PlayerSpawnNewCharacter(playerid, gender)
 {
 	if(IsPlayerSpawned(playerid)) return 0;
+
+	UnloadPlayerHUD(playerid);
+	LoadPlayerHUD(playerid);
 
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);

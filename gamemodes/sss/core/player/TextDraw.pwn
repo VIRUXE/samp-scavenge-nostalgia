@@ -19,21 +19,18 @@ new PlayerText:Interface12[MAX_PLAYERS];
 new PlayerText:Interface13[MAX_PLAYERS];
 new PlayerText:Interface14[MAX_PLAYERS];
 
-ShowWatch(playerid)
-{
+ShowWatch(playerid) 
 	PlayerTextDrawShow(playerid, WatchBackground[playerid]);
-}
 
-HideWatch(playerid)
-{
+HideWatch(playerid) 
 	PlayerTextDrawHide(playerid, WatchBackground[playerid]);
-}
 
 
 ptask ShowStatus[SEC(1)](playerid)
 {
-	if(!IsPlayerSpawned(playerid))
-	    return;
+	if(!IsPlayerSpawned(playerid)) return;
+
+	if(IsPlayerInTutorial(playerid)) return;
 	    
 	new
 		str[150],
