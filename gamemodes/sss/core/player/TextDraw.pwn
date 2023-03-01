@@ -28,14 +28,13 @@ HideWatch(playerid)
 
 ptask ShowStatus[SEC(1)](playerid)
 {
-	if(!IsPlayerSpawned(playerid)) return;
+	if(IsPlayerInTutorial(playerid)) 
+		return 0;
 
-	if(IsPlayerInTutorial(playerid)) return;
-	    
-	new
-		str[150],
-		Float:food,
-		Float:bleed;
+	if(!IsPlayerSpawned(playerid))
+		return 0;
+
+	new str[150], Float:food, Float:bleed;
 		
     food = GetPlayerFP(playerid);
     bleed = GetPlayerBleedRate(playerid);
@@ -98,7 +97,7 @@ ptask ShowStatus[SEC(1)](playerid)
 
 // ---------------------------------------------------------------------------------------
 
-	return;
+	return 1;
 }
 
 hook OnPlayerConnect(playerid)
