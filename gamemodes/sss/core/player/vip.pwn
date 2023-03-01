@@ -3,7 +3,7 @@
 #define VIP_COLOR 0xFFAA0000
 	
 new 
-bool:  	VIP[MAX_PLAYERS],
+bool:	VIP[MAX_PLAYERS],
 		VIP_Anuncio;
 
 ACMD:setvip[5](playerid, params[])
