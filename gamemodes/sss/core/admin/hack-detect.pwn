@@ -20,15 +20,15 @@ AC_KickPlayer(playerid, reason[], info[] = ""){
   		format(str, sizeof(str), "[Anti-Cheat] %s(%d) Foi kickado do servidor. Motivo: %s", name, playerid, reason);
 		SendClientMessageToAll(0xA9C4E4AA, str);
 
-		format(str, sizeof(str), "[Anti-Cheat] Voc� foi kickado do servidor. Motivo: %s", reason);
+		format(str, sizeof(str), "[Anti-Cheat] Você foi kickado do servidor. Motivo: %s", reason);
 		SendClientMessage(playerid, 0xA9C4E4AA, str);
 
-		SendClientMessage(playerid, 0xA9C4E4AA, " > Se voc� acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf");
+		SendClientMessage(playerid, 0xA9C4E4AA, " > Se você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf");
 
 	    KickPlayer(playerid, "Anti-Cheat", false);
     }
     else {
-        format(str, sizeof(str), "[Anti-Cheat] %s(%d) Est� sendo reportado, motivo: %s", name, playerid, reason);
+        format(str, sizeof(str), "[Anti-Cheat] %s(%d) Está sendo reportado, motivo: %s", name, playerid, reason);
 		ChatMsgAdmins(1, 0xA9C4E4AA, str);
     }
     return 1;
@@ -142,7 +142,7 @@ ptask player_Check[SEC(1)](playerid)
 
 	if(component == 1008 || component == 1009 || component == 1010)
 	{
-		BanPlayer(playerid, "Detectado Nitro no ve�culo.", -1, 0);
+		BanPlayer(playerid, "Detectado Nitro no veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleid, CARMODTYPE_NITRO);
 	}
 
@@ -150,7 +150,7 @@ ptask player_Check[SEC(1)](playerid)
 
 	if(component == 1087)
 	{
-		BanPlayer(playerid, "Detectado Hydraulica no ve�culo.", -1, 0);
+		BanPlayer(playerid, "Detectado Hydraulica no veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleid, CARMODTYPE_HYDRAULICS);
 	}
 	
@@ -161,7 +161,7 @@ ptask player_Check[SEC(1)](playerid)
 
 	if(vehiclehp > 990.0 && GetPlayerVehicleSeat(playerid) == 0) // Only check the driver - Checking passengers causes a false ban
 	{
-		AC_KickPlayer(playerid, "Ve�culo Health-Hack");
+		AC_KickPlayer(playerid, "Veículo Health-Hack");
 
 		defer vh_ResetVehiclePosition(GetPlayerVehicleID(playerid));
 	}
@@ -198,7 +198,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 
 		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500)
 		{
-		    AC_KickPlayer(playerid, "Teleporte Ve�culo");
+		    AC_KickPlayer(playerid, "Teleporte Veículo");
 			defer StillInVeh(playerid, vehicleid, _:lockstate);
 
 			return 1;
@@ -216,7 +216,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 
 		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500)
 		{
-			AC_KickPlayer(playerid, "Teleporte Ve�culo");
+			AC_KickPlayer(playerid, "Teleporte Veículo");
 			defer StillInVeh(playerid, vehicleid, _:lockstate);
 			return 1;
 		}
@@ -642,7 +642,7 @@ IPacket:206(playerid, BitStream:bs)
 	BS_ReadBulletSync(bs, bulletData);
 	if(!IsPlayerAdmin(playerid) && bulletData[PR_weaponId] == WEAPON_MINIGUN && GetPlayerWeapon(playerid) != WEAPON_MINIGUN)
 	{
-	    AC_KickPlayer(playerid, "Arma Minigun invis�vel");
+	    AC_KickPlayer(playerid, "Arma Minigun invisível");
 		return 0;
 	}
 	return 1;

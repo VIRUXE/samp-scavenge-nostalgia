@@ -234,7 +234,7 @@ BanCheck(playerid)
 				"C_YELLOW"Data:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Motivo:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Desban:\n\t\t"C_BLUE"%s\n\n\
-				"C_RED"Se voc� acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf",
+				"C_RED"Se você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf",
 				TimestampToDateTime(timestamp),
 				reason,
 				duration ? (TimestampToDateTime(timestamp + duration)) : "Nunca");

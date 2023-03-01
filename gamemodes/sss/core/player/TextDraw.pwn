@@ -235,7 +235,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawBoxColor(playerid, Interface11[playerid], 255);
 	PlayerTextDrawTextSize(playerid, Interface11[playerid], 10.000000, 10.000000);
 
-	Interface12[playerid] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Voc� est� sem um clan.");
+	Interface12[playerid] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Você está sem um clan.");
 	PlayerTextDrawBackgroundColor(playerid, Interface12[playerid], 255);
 	PlayerTextDrawFont(playerid, Interface12[playerid], 1);
 	PlayerTextDrawLetterSize(playerid, Interface12[playerid], 0.160000, 0.899999);

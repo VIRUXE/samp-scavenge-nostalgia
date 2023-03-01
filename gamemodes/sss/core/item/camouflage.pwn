@@ -97,7 +97,7 @@ hook OnPlayerSelectExtraItem(playerid, item){
 			ClosePlayerInventory(playerid, true);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}else{
-			ShowActionText(playerid, "N�o pode pois j� est� segurando um item.", 3000);
+			ShowActionText(playerid, "Não pode pois já está segurando um item.", 3000);
 			ClosePlayerInventory(playerid, true);
 		}
     }

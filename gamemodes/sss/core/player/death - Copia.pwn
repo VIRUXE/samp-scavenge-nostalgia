@@ -227,7 +227,7 @@ _OnDeath(playerid, killerid)
 		{
 			case 2, 4, 6, 7, 9, 10, 12, 14, 16, 18, 20, 25:
 			{
-        		ChatMsgAll(0xFA0505FF, "[SPREE]: {E8F21F}%p j� mandou {FA0505}%d{E8F21F} pra cova!", killerid, Spree[killerid]);
+        		ChatMsgAll(0xFA0505FF, "[SPREE]: {E8F21F}%p já mandou {FA0505}%d{E8F21F} pra cova!", killerid, Spree[killerid]);
 			}
 		}*/
 
@@ -237,37 +237,37 @@ _OnDeath(playerid, killerid)
 		switch(deathreason)
 		{
 			case 0..3, 5..7, 10..15:
-				deathreasonstring = "Espancado at� a morte.";
+				deathreasonstring = "Espancado até a morte.";
 
 			case 4:
 				deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
 
 			case 8:
-				deathreasonstring = "Grandes lacera��es cobrem o tronco e a cabe�a, parece uma espada finamente afiada.";
+				deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
 
 			case 9:
-				deathreasonstring = "H� peda�os em todos os lugares, provavelmente sofreu com uma serra el�trica.";
+				deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
 
 			case 16, 39, 35, 36, 255:
-				deathreasonstring = "Sofreu uma concuss�o maci�a devido a uma explos�o.";
+				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
 
 			case 18, 37:
-				deathreasonstring = "Todo o corpo est� carbonizado e queimado.";
+				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
 
 			case 22..34, 38:
 				deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
 
 			case 41, 42:
-				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma subst�ncia de alta press�o.";
+				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
 
 			case 44, 45:
-				deathreasonstring = "De alguma forma, eles foram mortos por �culos.";
+				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
 
 			case 43:
-				deathreasonstring = "De alguma forma, eles foram mortos por uma c�mera.";
+				deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
 
 			default:
-				deathreasonstring = "Sangrou at� a morte";
+				deathreasonstring = "Sangrou até a morte";
 		}
 	}
 	else
@@ -283,13 +283,13 @@ _OnDeath(playerid, killerid)
 				deathreasonstring = "Se afogou";
 
 			case 54:
-				deathreasonstring = "A maioria dos ossos est�o quebrados, parece que eles ca�ram de uma grande altura.";
+				deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
 
 			case 255:
-				deathreasonstring = "Sofreu uma concuss�o maci�a devido a uma explos�o.";
+				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
 
 			default:
-				deathreasonstring = "Raz�o da morte desconhecida.";
+				deathreasonstring = "Razão da morte desconhecida.";
 		}
 	}
 

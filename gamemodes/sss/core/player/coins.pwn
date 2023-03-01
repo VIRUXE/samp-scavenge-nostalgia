@@ -59,4 +59,4 @@ ACMD:setcoins[5](playerid, params[]){
     return 1;
 }
 
-CMD:coins(playerid) return ChatMsg(playerid, GREEN, " > Voc� possui {FFFF00}%d {33AA33}coins", GetPlayerCoins(playerid));
+CMD:coins(playerid) return ChatMsg(playerid, GREEN, " > Você possui {FFFF00}%d {33AA33}coins", GetPlayerCoins(playerid));

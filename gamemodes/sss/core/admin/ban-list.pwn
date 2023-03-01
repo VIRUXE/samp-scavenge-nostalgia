@@ -119,7 +119,7 @@ ShowBanInfo(playerid, name[MAX_PLAYER_NAME])
 
 	banlist_CurrentName[playerid] = name;
 
-	Dialog_Show(playerid, BanInfo, DIALOG_STYLE_MSGBOX, name, str, "Op��es", "Voltar");
+	Dialog_Show(playerid, BanInfo, DIALOG_STYLE_MSGBOX, name, str, "Opções", "Voltar");
 
 	return 1;
 }
@@ -138,7 +138,7 @@ Dialog:BanInfo(playerid, response, listitem, inputtext[])
 
 ShowBanOptions(playerid)
 {
-	Dialog_Show(playerid, BanOptions, DIALOG_STYLE_LIST, banlist_CurrentName[playerid], "Editar motivo\nEditar dura��o\nSetar a data\nDesbanir\n", "Selecionar", "Voltar");
+	Dialog_Show(playerid, BanOptions, DIALOG_STYLE_LIST, banlist_CurrentName[playerid], "Editar motivo\nEditar duração\nSetar a data\nDesbanir\n", "Selecionar", "Voltar");
 
 	return 1;
 }
@@ -187,7 +187,7 @@ Dialog:BanReasonEdit(playerid, response, listitem, inputtext[])
 
 ShowBanDurationEdit(playerid)
 {
-	Dialog_Show(playerid, BanDurationEdit, DIALOG_STYLE_INPUT, "Editar a dura��o do banimento", "Insira a nova dura��o do banimento abaixo no formato <n�mero> <days/weeks/months>", "Confirmar", "Cancelar");
+	Dialog_Show(playerid, BanDurationEdit, DIALOG_STYLE_INPUT, "Editar a duração do banimento", "Insira a nova duração do banimento abaixo no formato <número> <days/weeks/months>", "Confirmar", "Cancelar");
 
 	return 1;
 }
@@ -206,7 +206,7 @@ Dialog:BanDurationEdit(playerid, response, listitem, inputtext[])
 
 		if(duration == -1)
 		{
-			ChatMsg(playerid, YELLOW, " >  Inv�lido. Use <N�mero> <days/weeks/months>.");
+			ChatMsg(playerid, YELLOW, " >  Inválido. Use <Número> <days/weeks/months>.");
 			ShowBanDurationEdit(playerid);
 		}
 		else

@@ -245,7 +245,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 StartBuildingTent(playerid, itemid)
 {
 	if(GetPlayerInterior(playerid) != 0)
-		return SendClientMessage(playerid, RED, " > Voc� n�o pode construir aqui.");
+		return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
 		
 	if(IsPlayerVip(playerid))
     	StartHoldAction(playerid, 5000);
@@ -257,7 +257,7 @@ StartBuildingTent(playerid, itemid)
 	tnt_CurrentTentItem[playerid] = itemid;
 
 	if(!IsPlayerInvadedField(playerid))
-		ChatMsg(playerid, GREEN, " > [FIELD] Ap�s construir a sua base, chame um admin no /relatorio para por uma prote��o (field) contra hackers.");
+		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
 	return 1;
 }

@@ -48,7 +48,7 @@ hook OnPlayerUpdate(playerid){
 	return 1;
 }
 
-// Corrigir posi��o do objeto
+// Corrigir posição do objeto
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
 	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID){
 	    TweakResetItemPos(playerid);
@@ -86,7 +86,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
         if(Distance(x, y, z, ix, iy, iz) > 10.0){
             GetItemPos(twk_Item[playerid], x, y, z);
 	    	GetItemRot(twk_Item[playerid], rx, ry, rz);
-            ChatMsg(playerid, RED, " > Voc� moveu o item longe demais e a posi��o foi resetada.");
+            ChatMsg(playerid, RED, " > Você moveu o item longe demais e a posição foi resetada.");
         }
 	    SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
@@ -98,7 +98,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 
         SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
-		ChatMsg(playerid, RED, " > Edi��o cancelada.");
+		ChatMsg(playerid, RED, " > Edição cancelada.");
 		TweakFinalise(playerid);
 	}
 	else if(response == EDIT_RESPONSE_UPDATE){
@@ -112,8 +112,8 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 		/*if(Distance(x, y, z, ix, iy, iz) > 8.0)
 		    ShowHelpTip(playerid, "~r~Voce moveu muito longe do local de origem.");
 		else
-		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua posi��o original\
-			~n~~y~Use ESPACO para mover a c�mera~n~~y~~h~Esta proibido grifar a base de outros jogadores.");*/
+		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua posição original\
+			~n~~y~Use ESPACO para mover a câmera~n~~y~~h~Esta proibido grifar a base de outros jogadores.");*/
 	    
 	}
 	return 1;

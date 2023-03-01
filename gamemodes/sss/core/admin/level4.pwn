@@ -3,7 +3,7 @@
 
 hook OnGameModeInit()
 {
-	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins n�vel 4\n");
+	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins nível 4\n");
 }
 
 
@@ -29,7 +29,7 @@ CMD:macacoverde43(playerid, params[])
 
 	new level;
 
-	if(sscanf(params, "d", level)) return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [n�vel]");
+	if(sscanf(params, "d", level)) return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [nível]");
 
 	if(!SetPlayerAdminLevel(playerid, level)) return ChatMsg(playerid, RED, " > Nivel de admin deve ser de 0 a 6");
 
@@ -42,7 +42,7 @@ ACMD:reiniciar[4](playerid, params[])
 {
 	new duration;
 
-	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre d� aos jogadores 5 or 10 minutos para se prepararem.");
+	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dê aos jogadores 5 or 10 minutos para se prepararem.");
 
 	ChatMsg(playerid, YELLOW, " >  Reiniciando o servidor em: "C_BLUE"%02d:%02d"C_YELLOW".", duration / 60, duration % 60);
 
@@ -222,7 +222,7 @@ ACMD:deletar[4](playerid, params[])
 		return 1;
 	}
 
-	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Dist�ncia (recomendado: 1)]");
+	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [distância] - (recomendado: 1 de distância)");
 }
 
 ACMD:congelarall[4](playerid)
@@ -342,7 +342,7 @@ ACMD:comandoslvl4[4](playerid)
 //    strcat(stringlvl4, ""C_BLUE"/mudarhora - Mudar a hora do servidor\n");
     strcat(stringlvl4, ""C_BLUE"/tapa - Dar tapa em algum player\n");
     strcat(stringlvl4, ""C_BLUE"/aliases - Checar IPs\n");
-//    strcat(stringlvl4, ""C_BLUE"/mp3 - Tocar m�sica para os jogadores\n");
+//    strcat(stringlvl4, ""C_BLUE"/mp3 - Tocar música para os jogadores\n");
     ShowPlayerDialog(playerid, 12404, DIALOG_STYLE_MSGBOX, "Admin 4", stringlvl4, "Fechar", "");
 	
     return 1;

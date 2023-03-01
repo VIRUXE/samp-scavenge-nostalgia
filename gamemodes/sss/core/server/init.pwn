@@ -68,7 +68,7 @@ new stock
 	skin_FreeM,  //156,	"Morgan Freeman",	0, 0.01,	true, true);
 	skin_police,  //300,	"Policial",			0, 0.5,		true, true);
 	skin_12	,  //22,		"12",				0, 0.3,		true, true);
-	skin_medico,  //70,		"M�dico",			0, 0.5,		true, true);
+	skin_medico,  //70,		"Médico",			0, 0.5,		true, true);
 
 	// female civilian
 	skin_Civ0F,  //192,	"Civilian",			1, 1.0,		true, true);
@@ -666,7 +666,7 @@ public OnScriptInit()
 	item_Spade			= DefineItemType("Pá",				"Spade",			337,	3,	90.0, .maxhitpoints = 3);
 	item_PoolCue		= DefineItemType("Taco de Sinuca",			"PoolCue",			338,	4,	90.0, .maxhitpoints = 4);
 	item_Sword			= DefineItemType("Espada",				"Sword",			339,	4,	90.0, .maxhitpoints = 4);
-	item_Chainsaw		= DefineItemType("Serra El�trica",			"Chainsaw",			341,	5,	90.0, .maxhitpoints = 5);
+	item_Chainsaw		= DefineItemType("Serra Elétrica",			"Chainsaw",			341,	5,	90.0, .maxhitpoints = 5);
 // 10
 	item_Dildo1			= DefineItemType("Dildo",				"Dildo1",			321,	1,	90.0, .maxhitpoints = 1);
 	item_Dildo2			= DefineItemType("Dildo",				"Dildo2",			322,	1,	90.0, .maxhitpoints = 1);
@@ -712,7 +712,7 @@ public OnScriptInit()
 	item_HardDrive		= DefineItemType("Disco Rígido",			"HardDrive",		328,	1,	90.0, 0.0, 0.0,			0.0,	.maxhitpoints = 1);
 	item_Key			= DefineItemType("Chave",					"Key",				11746,	1,	90.0, 0.0, 0.0,			0.08,	.maxhitpoints = 1);
 // 50
-	item_FireworkBox	= DefineItemType("Fogos de Artif�cio",			"FireworkBox",		2039,	2,	0.0, 0.0, 0.0,			0.0,	0.096996, 0.044811, 0.035688, 4.759557, 255.625167, 0.000000, .maxhitpoints = 2);
+	item_FireworkBox	= DefineItemType("Fogos de Artifício",			"FireworkBox",		2039,	2,	0.0, 0.0, 0.0,			0.0,	0.096996, 0.044811, 0.035688, 4.759557, 255.625167, 0.000000, .maxhitpoints = 2);
 	item_FireLighter	= DefineItemType("Isqueiro",				"FireLighter",		19998,	1,	0.0, 0.0, 0.0,			0.0,	.maxhitpoints = 1);
 	item_Timer			= DefineItemType("Temporizador",			"Timer",			2922,	2,	90.0, 0.0, 0.0,			0.0,	0.231612, 0.050027, 0.017069, 0.000000, 343.020019, 180.000000, .maxhitpoints = 2);
 	item_Explosive		= DefineItemType("TNT",					"Explosive",		1576,	2,	0.0, 0.0, 0.0,			0.0,	0.269091, 0.166367, 0.000000, 90.000000, 0.000000, 0.000000, .maxhitpoints = 2);
@@ -750,7 +750,7 @@ public OnScriptInit()
 	item_Satchel		= DefineItemType("Mochila Pequena",			"Satchel",			363,	2,	270.0, 0.0, 0.0,		0.0,	0.052853, 0.034967, -0.177413, 0.000000, 261.397491, 349.759826, .longpickup = true, .maxhitpoints = 2);
 	item_Wheel			= DefineItemType("Pneu",				"Wheel",			1079,	5,	0.0, 0.0, 90.0,			0.436,	-0.098016, 0.356168, -0.309851, 258.455596, 346.618103, 354.313049, true, .maxhitpoints = 5);
 	item_MotionSense	= DefineItemType("Sensor de Movimento",		"MotionSense",		327,	1,	0.0, 0.0, 0.0,			0.0,	0.008151, 0.012682, -0.050635, 0.000000, 0.000000, 0.000000, .maxhitpoints = 1);
-	item_Accelerometer	= DefineItemType("Aceler�metro",		"Accelerometer",	327,	1,	0.0, 0.0, 0.0,			0.0,	0.008151, 0.012682, -0.050635, 0.000000, 0.000000, 0.000000, .maxhitpoints = 1);
+	item_Accelerometer	= DefineItemType("Acelerômetro",		"Accelerometer",	327,	1,	0.0, 0.0, 0.0,			0.0,	0.008151, 0.012682, -0.050635, 0.000000, 0.000000, 0.000000, .maxhitpoints = 1);
 	item_TntProxMine	= DefineItemType("Proximity TNT",		"TntProxMine",		1576,	2,	0.0, 0.0, 0.0,			0.0,	0.269091, 0.166367, 0.000000, 90.000000, 0.000000, 0.000000, .maxhitpoints = 2);
 	item_IedBomb		= DefineItemType("IED",					"IedBomb",			2033,	2,	0.0, 0.0, 0.0,			0.0,	0.100000, 0.055999, 0.000000,  -86.099967, -112.099975, 100.099891, .maxhitpoints = 2);
 	item_Pizza			= DefineItemType("Pizza",				"Pizza",			1582,	2,	0.0, 0.0, 0.0,			0.0,	0.320344, 0.064041, 0.168296, 92.941909, 358.492523, 14.915378, .maxhitpoints = 2);
@@ -797,12 +797,12 @@ public OnScriptInit()
 	item_Keypad			= DefineItemType("Teclado",				"Keypad",			19273,	2,	270.0, 0.0, 0.0,		0.0,	0.198234, 0.101531, 0.095477, 0.000000, 343.020019, 0.000000, .maxhitpoints = 2);
 	item_TentPack		= DefineItemType("Tenda",			"TentPack",			1279,	6,	0.0, 0.0, 0.0,			0.0,	0.106261, 0.004634, -0.144552, 246.614654, 345.892211, 258.267395, true, .maxhitpoints = 6);
 	item_Campfire		= DefineItemType("Fogueira",			"Campfire",			19632,	5,	0.0, 0.0, 0.0,			0.0,	0.106261, 0.004634, -0.144552, 246.614654, 345.892211, 258.267395, true, .maxhitpoints = 5);
-	item_CowboyHat		= DefineItemType("Chapéu de Caub�i",			"CowboyHat",		18962,	1,	0.0, 270.0, 0.0,		0.0427,	0.232999, 0.032000, 0.016000, 0.000000, 2.700027, -67.300010, .maxhitpoints = 1);
+	item_CowboyHat		= DefineItemType("Chapéu de Caubói",			"CowboyHat",		18962,	1,	0.0, 270.0, 0.0,		0.0427,	0.232999, 0.032000, 0.016000, 0.000000, 2.700027, -67.300010, .maxhitpoints = 1);
 	item_TruckCap		= DefineItemType("Boné Caminhoneiro",			"TruckCap",			18961,	1,	0.0, 0.0, 0.0,			0.01,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 1);
 	item_BoaterHat		= DefineItemType("Chapéu do Barqueiro",			"BoaterHat",		18946,	1,	-12.18, 268.14, 0.0,	0.318,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 1);
 	item_BowlerHat		= DefineItemType("Chapéu Preto",			"BowlerHat",		18947,	1,	-12.18, 268.14, 0.0,	0.01,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 1);
 //140
-	item_PoliceCap		= DefineItemType("Boné de Pol�cia",			"PoliceCap",		18636,	1,	0.0, 0.0, 0.0,			0.05,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 1);
+	item_PoliceCap		= DefineItemType("Boné de Polícia",			"PoliceCap",		18636,	1,	0.0, 0.0, 0.0,			0.05,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 1);
 	item_TopHat			= DefineItemType("Cartola",				"TopHat",			19352,	2,	0.0, 0.0, 0.0,			-0.023,	0.225000, 0.034000, 0.014000, 81.799942, 7.699998, 179.999954, .maxhitpoints = 2);
 	item_Ammo9mm		= DefineItemType("Munição 9mm",			"Ammo9mm",			2037,	2,	0.0, 0.0, 0.0,			0.082,	0.221075, 0.067746, 0.037494, 87.375968, 305.182189, 5.691741, .maxhitpoints = 2);
 	item_Ammo50			= DefineItemType("Munição .50",			"Ammo50",			2037,	2,	0.0, 0.0, 0.0,			0.082,	0.221075, 0.067746, 0.037494, 87.375968, 305.182189, 5.691741, .maxhitpoints = 2);
@@ -821,7 +821,7 @@ public OnScriptInit()
 	item_DataInterface	= DefineItemType("Interface de Dados",		"DataInterface",	19273,	1,	270.0, 0.0, 0.0,		0.0,	0.198234, 0.101531, 0.095477, 0.000000, 343.020019, 0.000000, .maxhitpoints = 1);
 	item_HackDevice		= DefineItemType("Hack Interface",		"HackDevice",		364,	1,	0.0, 0.0, 0.0,			0.0,	0.134000, 0.080000, -0.037000,  84.299949, 3.399998, 9.400002, .maxhitpoints = 1);
 	item_PlantPot		= DefineItemType("Vaso",			"PlantPot",			2203,	4,	0.0, 0.0, 0.0,			0.138,	-0.027872, 0.145617, -0.246524, 243.789840, 347.397491, 349.931610, true, .longpickup = true, .maxhitpoints = 4);
-	item_HerpDerp		= DefineItemType("Unidade de Certifica��o",	"HerpDerp",			19513,	1,	0.0, 0.0, 0.0,			0.0,	0.103904, -0.003697, -0.015173, 94.655189, 184.031860, 0.000000, .maxhitpoints = 1);
+	item_HerpDerp		= DefineItemType("Unidade de Certificação",	"HerpDerp",			19513,	1,	0.0, 0.0, 0.0,			0.0,	0.103904, -0.003697, -0.015173, 94.655189, 184.031860, 0.000000, .maxhitpoints = 1);
 	item_Parrot			= DefineItemType("Papagaio",			"Parrot",			19078,	2,	0.0, 0.0, 0.0,			0.0,	0.131000, 0.021000, 0.005999,  -86.000091, 6.700000, -106.300018, .maxhitpoints = 2);
 // 160
 	item_TntTripMine	= DefineItemType("Trip Mine TNT",		"TntTripMine",		1576,	2,	0.0, 0.0, 0.0,			0.0,	0.269091, 0.166367, 0.000000, 90.000000, 0.000000, 0.000000, .maxhitpoints = 1);
@@ -844,7 +844,7 @@ public OnScriptInit()
 	item_LocksmithKit	= DefineItemType("Kit Chaveiro",		"LocksmithKit",		1210,	3,	0.0, 0.0, 90.0,			0.0,	0.285915, 0.078406, -0.009429, 0.000000, 270.000000, 0.000000, false, 0xFFF4A460, .maxhitpoints = 3);
 	item_XmasHat		= DefineItemType("Gorro",		"XmasHat",			19066,	1,	0.0, 0.0, 0.0,			0.0,	0.135000, -0.018001, -0.002000,  90.000000, 174.500061, 9.600001, .maxhitpoints = 1);
 	item_VehicleWeapon	= DefineItemType("VEHICLE_WEAPON",		"VehicleWeapon",	356,	99,	90.0,							.maxhitpoints = 99);
-	item_AdvancedKeypad	= DefineItemType("Teclado Avan�ado",		"AdvancedKeypad",	19273,	2,	270.0, 0.0, 0.0,		0.0,	0.198234, 0.101531, 0.095477, 0.000000, 343.020019, 0.000000, .maxhitpoints = 2);
+	item_AdvancedKeypad	= DefineItemType("Teclado Avançado",		"AdvancedKeypad",	19273,	2,	270.0, 0.0, 0.0,		0.0,	0.198234, 0.101531, 0.095477, 0.000000, 343.020019, 0.000000, .maxhitpoints = 2);
 // 180
 	item_Ammo9mmFMJ		= DefineItemType("Munição 9mm",			"Ammo9mmFMJ",		2037,	2,	0.0, 0.0, 0.0,			0.082,	0.221075, 0.067746, 0.037494, 87.375968, 305.182189, 5.691741, .maxhitpoints = 2);
 	item_AmmoFlechette	= DefineItemType("Munição de Shotgun",		"AmmoFlechette",	2038,	2,	0.0, 0.0, 0.0,			0.082,	0.221075, 0.067746, 0.037494, 87.375968, 305.182189, 5.691741, .maxhitpoints = 2);
@@ -868,7 +868,7 @@ public OnScriptInit()
 	item_Note			= DefineItemType("Nota",				"Note",				2953,	1,	0.0, 0.0, 0.0,			0.0,	0.083999, 0.022000, -0.013000,  -82.300018, -14.900006, -83.200042, false, 0xCAFFFFFF, .maxhitpoints = 1);
 	item_Tomato			= DefineItemType("Tomate",				"Tomato",			19577,	1,	170.0, 0.0, 0.0,		0.03,	0.054000, 0.055999, 0.013999, 0.000000, 0.000003, 0.000003, .maxhitpoints = 1);
 // 200
-	item_HeartShapedBox	= DefineItemType("Mochila Cora��o",	"HeartShapedBox",	1240,	1,	90.0, 0.0, 0.0,			-0.02,	0.171999, 0.077999, -0.016999,  0.000000, 0.000000, 10.200000, .longpickup = true, .maxhitpoints = 1);
+	item_HeartShapedBox	= DefineItemType("Mochila Coração",	"HeartShapedBox",	1240,	1,	90.0, 0.0, 0.0,			-0.02,	0.171999, 0.077999, -0.016999,  0.000000, 0.000000, 10.200000, .longpickup = true, .maxhitpoints = 1);
 	item_AntiSepBandage	= DefineItemType("Bandagem",	"AntiSepBandage",	11748,	2,	0.0, 0.0, 0.0,			0.01,	0.072000, 0.041999, 0.000000,  90.299995, 1.500011, 103.599960, .maxhitpoints = 2);
 	item_WoodLog		= DefineItemType("Madeiras",			"WoodLog",			19793,	1,	0.0, 0.0, 0.0,			0.000,	0.034999, 0.018998, -0.150000,  -74.199989, -110.000022, -54.900020, .maxhitpoints = 1);
 	item_Sledgehammer	= DefineItemType("Marreta",		"Sledgehammer",		19631,	6,	0.0, 90.0, 0.0,			0.000,	0.075000, -0.004000, 0.269000,  -84.600021, -70.899993, 0.000000, .maxhitpoints = 7);
@@ -876,7 +876,7 @@ public OnScriptInit()
 	item_Spanner		= DefineItemType("Chave Inglesa",				"Spanner",			19627,	1,	0.0, 0.0, 0.0,			0.000,	0.073000, 0.022000, 0.035000,  -84.299980, -75.299972, 103.100028, .maxhitpoints = 1);
 	item_Suitcase		= DefineItemType("Mala de Viagem",			"Suitcase",			19624,	4,	0.0, 0.0, 0.0,			0.371,	0.086000, 0.022000, 0.022000,  -84.299980, -75.299972, 103.100028, .longpickup = true, .maxhitpoints = 4);
 	item_OilCan			= DefineItemType("Lata de Óleo",				"OilCan",			19621,	2,	0.0, 0.0, 0.0,			0.060,	0.075999, 0.022000, 0.011000,  7.800007, -11.899963, 81.800025, .maxhitpoints = 2);
-	item_RadioBox		= DefineItemType("Pequeno Amp�re",			"RadioBox",			19612,	8,	0.0, 0.0, 0.0,			-0.020,	-0.090000, 0.132999, -0.202000,  63.499916, 108.599983, 95.499877, .maxhitpoints = 8);
+	item_RadioBox		= DefineItemType("Pequeno Ampére",			"RadioBox",			19612,	8,	0.0, 0.0, 0.0,			-0.020,	-0.090000, 0.132999, -0.202000,  63.499916, 108.599983, 95.499877, .maxhitpoints = 8);
 	item_BigSword		= DefineItemType("Espada Grande",		"BigSword",			19590,	3,	0.0, 90.0, 0.0,			-0.019,	0.069000, 0.030999, 0.012000,  53.499919, -99.100090, 146.499862, .maxhitpoints = 3);
 // 210
 	item_Microphone		= DefineItemType("Microfone",			"Microphone",		19610,	1,	0.0, 0.0, 0.0,			0.000,	0.078000, 0.030999, 0.012000,  53.499919, -99.100090, -46.300144, .maxhitpoints = 1);
@@ -951,8 +951,8 @@ public OnScriptInit()
 	item_Locator		= DefineItemType("Localizador",				"Locator",			2967,	1,	0.0, 0.0, 0.0,			0.0,	0.095999, 0.064999, 0.000000, -1.300025, -67.899948, -92.999908, .maxhitpoints = 1);
 	item_PlotPole		= DefineItemType("Pólo",			"PlotPole",			3221,	3,	0.0, 0.0, 0.0,			0.0,	0.081356, 0.034642, -0.167247, 0.000000, 0.000000, 240.265777, .maxhitpoints = 3);
 	item_ScrapMachine	= DefineItemType("Máquina de Sucata",		"ScrapMachine",		920,	12,	0.0, 0.0, 0.0,			0.4344,	.maxhitpoints = 12);
-	item_RefineMachine	= DefineItemType("Máquina de Refina��o",	"RefineMachine",	943,	12,	0.0, 0.0, 0.0,			0.7208,	.maxhitpoints = 12);
-	item_WaterMachine	= DefineItemType("Purificador de �gua",		"WaterMachine",		958,	12,	0.0, 0.0, 0.0,			0.8195,	.maxhitpoints = 12);
+	item_RefineMachine	= DefineItemType("Máquina de Refinação",	"RefineMachine",	943,	12,	0.0, 0.0, 0.0,			0.7208,	.maxhitpoints = 12);
+	item_WaterMachine	= DefineItemType("Purificador de Água",		"WaterMachine",		958,	12,	0.0, 0.0, 0.0,			0.8195,	.maxhitpoints = 12);
 	item_Workbench		= DefineItemType("Mesa de Trabalho",			"Workbench",		936,	12,	0.0, 0.0, 0.0,			0.4434,	.longpickup = true, .maxhitpoints = 12);
 	item_Radio			= DefineItemType("Radio",				"Radio",			2966,	1,	0.0, 0.0, 0.0,			0.0,	0.073999, 0.066999, -0.057000,  101.699996, -151.699951, 0.000000, .maxhitpoints = 1);
 // 280
@@ -960,7 +960,7 @@ public OnScriptInit()
 	item_GearBox		= DefineItemType("Caixinha",			"GearBox",			19918,	5,	0.0, 0.0, 0.0,			-0.0361,0.073999, -0.039000, -0.169000,  73.400024, -173.499984, 80.899993, .longpickup = true, .maxhitpoints = 4);
 	item_ToolBox		= DefineItemType("Caixa de Ferramentas",			"ToolBox",			19921,	7,	0.0, 0.0, 0.0,			0.0541,	-0.209000, 0.052999, -0.231000,  73.400024, -173.499984, 80.899993, true, .longpickup = true, .maxhitpoints = 8);
 	item_LockBreaker	= DefineItemType("Gazua Eletrônica",	"LockBreaker",		1952,	2,	0.0, 0.0, 0.0,			0.001,	0.098000, 0.039999, 0.085000,  -94.900032, -177.600021, 18.499980, .maxhitpoints = 2);
-	item_PoliceHelm		= DefineItemType("Capacete de Pol�cial",		"PoliceHelm",		19200,	1,	0.0, 0.0, 0.0,			0.05,	0.173000, -0.010000, -0.020000,  -90.299995, 0.000000, 0.000000, .maxhitpoints = 1);
+	item_PoliceHelm		= DefineItemType("Capacete de Polícial",		"PoliceHelm",		19200,	1,	0.0, 0.0, 0.0,			0.05,	0.173000, -0.010000, -0.020000,  -90.299995, 0.000000, 0.000000, .maxhitpoints = 1);
 	item_ControlBox		= DefineItemType("Caixa de Controle",			"ControlBox",		1958,	2,	0.0, 0.0, 0.0,			0.0211);
 	item_Computer		= DefineItemType("Computador",			"Computer",			1719,	2,	0.0, 0.0, 0.0,			0.0251);
 	item_TallFrame		= DefineItemType("Estrutura de Metal",			"TallFrame",		3025,	14,	0.0, 180.0, 0.0,			0.0);
@@ -978,7 +978,7 @@ public OnScriptInit()
 	item_BandanaPattern	= DefineItemType("Bandana",				"BandanaPat",		18920,	1,	0.0, 0.0, 0.0,			0.0,	0.095999, 0.064999, 0.000000, -1.300025, -67.899948, -92.999908);
 	item_Bed			= DefineItemType("Cama",				"Bed",			1800,	12, 0.0, 0.0, 0.0, 0.0,    0.0, 0.0, 0.0,     0.0, 0.0, 0.0, .longpickup = true, .maxhitpoints = 10);
     item_Clothes		= DefineItemType("Roupas",				"Clothes",			2891,	2,	0.0, 0.0, 0.0,			0.0,	0.269091, 0.166367, 0.000000, 90.000000, 0.000000, 0.000000, .maxhitpoints = 2);
-    item_DiaboMask		= DefineItemType("Máscara do Di�bo",			"DiaboMask",			11704,	1,	180.0, 0.0, 0.0,		0.0,	0.062216, 0.055396, 0.001138, 90.000000, 0.000000, 180.000000, .maxhitpoints = 1);
+    item_DiaboMask		= DefineItemType("Máscara do Diabo",			"DiaboMask",			11704,	1,	180.0, 0.0, 0.0,		0.0,	0.062216, 0.055396, 0.001138, 90.000000, 0.000000, 180.000000, .maxhitpoints = 1);
     item_CluckinBellHat1 = DefineItemType("Máscara de Galinha",			"CluckinBellHat1",			19137,	1,	180.0, 0.0, 0.0,		0.0,	0.062216, 0.055396, 0.001138, 90.000000, 0.000000, 180.000000, .maxhitpoints = 1);
     item_Balaclava		= DefineItemType("Máscara de Assaltante",			"Balaclava",			19801,	1,	180.0, 0.0, 0.0,		0.0,	0.062216, 0.055396, 0.001138, 90.000000, 0.000000, 180.000000, .maxhitpoints = 1);
     item_fire_hat1		= DefineItemType("Chapéu de Bombeiro",			"fire_hat1",			19330,	1,	180.0, 0.0, 0.0,		0.0,	0.062216, 0.055396, 0.001138, 90.000000, 0.000000, 180.000000, .maxhitpoints = 1);
@@ -1151,7 +1151,7 @@ public OnScriptInit()
 	calibre_357		= DefineAmmoCalibre(".357",		0.36);
 	calibre_762		= DefineAmmoCalibre("7.62",		0.32);
 	calibre_rpg		= DefineAmmoCalibre("RPG",		0.0);
-	calibre_fuel	= DefineAmmoCalibre("Combust�vel",		0.0);
+	calibre_fuel	= DefineAmmoCalibre("Combustível",		0.0);
 	calibre_film	= DefineAmmoCalibre("Filme",		0.0);
 	calibre_50bmg	= DefineAmmoCalibre(".50",		0.63);
 	calibre_308		= DefineAmmoCalibre(".308",		0.43);
@@ -1306,7 +1306,7 @@ public OnScriptInit()
 	*/
 	//					itemtype				name				calibre			bld		ko		pen		size
 	DefineItemTypeAmmo(item_Ammo9mm,			"Ponta Oca",		calibre_9mm,	1.0,	1.0,	0.2,	20);
-	DefineItemTypeAmmo(item_Ammo50,				"A��o Express",		calibre_50cae,	1.0,	1.5,	0.9,	28);
+	DefineItemTypeAmmo(item_Ammo50,				"Ação Express",		calibre_50cae,	1.0,	1.5,	0.9,	28);
 	DefineItemTypeAmmo(item_AmmoBuck,			"No. 1",			calibre_12g,	1.3,	1.4,	0.6,	24);
 	DefineItemTypeAmmo(item_Ammo556,			"FMJ",				calibre_556,	1.1,	1.2,	0.8,	30);
 	DefineItemTypeAmmo(item_Ammo357,			"FMJ",				calibre_357,	1.2,	1.1,	0.9,	10);
@@ -1315,9 +1315,9 @@ public OnScriptInit()
 	DefineItemTypeAmmo(item_Ammo9mmFMJ,			"FMJ",				calibre_9mm,	1.2,	0.5,	0.8,	20);
 	DefineItemTypeAmmo(item_AmmoFlechette,		"Flechette",		calibre_12g,	1.0,	0.6,	0.2,	8);
 	DefineItemTypeAmmo(item_AmmoHomeBuck,		"Improvisado",		calibre_12g,	1.2,	0.8,	0.4,	14);
-	DefineItemTypeAmmo(item_Ammo556Tracer,		"Tra�ante",			calibre_556,	0.9,	1.1,	0.5,	30);
+	DefineItemTypeAmmo(item_Ammo556Tracer,		"Traçante",			calibre_556,	0.9,	1.1,	0.5,	30);
 	DefineItemTypeAmmo(item_Ammo556HP,			"Ponta Oca",		calibre_556,	1.3,	1.6,	0.4,	30);
-	DefineItemTypeAmmo(item_Ammo357Tracer,		"Tra�ante",			calibre_357,	1.2,	1.1,	0.6,	10);
+	DefineItemTypeAmmo(item_Ammo357Tracer,		"Traçante",			calibre_357,	1.2,	1.1,	0.6,	10);
 	DefineItemTypeAmmo(item_Ammo762,			"FMJ",				calibre_762,	1.3,	1.1,	0.9,	30);
 	DefineItemTypeAmmo(item_Ammo50BMG,			"BMG",				calibre_50bmg,	1.8,	1.8,	1.0,	16);
 	DefineItemTypeAmmo(item_Ammo308,			"FMJ",				calibre_308,	1.2,	1.1,	0.8,	10);
@@ -1509,7 +1509,7 @@ public OnScriptInit()
 
     // SUPPLY DROP TYPE DEFINITIONS
     
-	DefineSupplyDropType("Alimenta��o e Medicina", "airdrop_food_medical",		900,	600,	3);
+	DefineSupplyDropType("Alimentação e Medicina", "airdrop_food_medical",		900,	600,	3);
 	DefineSupplyDropType("Armas de Baixo Grau", "airdrop_low_weapons",			2400,	1200,	4);
 	DefineSupplyDropType("Armas Militares", "airdrop_military_weapons",			4200,	1800,	6);
 	DefineSupplyDropType("Suprimentos Industriais", "airdrop_industrial",		2000,	900,	5);
@@ -1587,7 +1587,7 @@ public OnScriptInit()
 	drug_Air		= DefineDrugType("Ar",			300000);
 	drug_Morphine	= DefineDrugType("Morfina",		300000);
 	drug_Adrenaline	= DefineDrugType("Adrenalina",	300000);
-	drug_Heroin		= DefineDrugType("Hero�na",		300000);
+	drug_Heroin		= DefineDrugType("Heroína",		300000);
 
 
 	// LIQUID TYPE DEFINITIONS
@@ -1603,21 +1603,21 @@ public OnScriptInit()
 	liquid_Champagne		= DefineLiquidType("Champanhe",				0.2);
 	liquid_Ethanol			= DefineLiquidType("Etanol",				-44.1);
 	liquid_Turpentine		= DefineLiquidType("Terebintina",			-101.0);
-	liquid_HydroAcid		= DefineLiquidType("Ácido cloródrico",		-101.0);
+	liquid_HydroAcid		= DefineLiquidType("Ácido Cloródrico",		-101.0);
 	liquid_CarbonatedWater	= DefineLiquidType("Água com Gás",		0.1);
 	liquid_Lemon			= DefineLiquidType("Suco de Limão",			2.1);
 	liquid_Sugar			= DefineLiquidType("Açucar",					0.8);
 	liquid_Petrol			= DefineLiquidType("Gasolina",				-8.0);
 	liquid_Diesel			= DefineLiquidType("Diesel",				-8.0);
 	liquid_Oil				= DefineLiquidType("Óleo",					-8.0);
-	liquid_BakingSoda		= DefineLiquidType("Bicarbonato de s�dio",			0.1);
-	liquid_ProteinPowder	= DefineLiquidType("Proteína em Pó em p�",		4.5);
-	liquid_IronPowder		= DefineLiquidType("P� de Ferro",			0.0);
-	liquid_IronOxide		= DefineLiquidType("�xido de ferro",			-5.0);
-	liquid_CopperOxide		= DefineLiquidType("�xido de cobre",			-5.0);
-	liquid_Magnesium		= DefineLiquidType("Magn�sio",				0.0);
-	liquid_StrongWhiskey	= DefineLiquidType("Whisky �cido",			-5.0,	liquid_Whiskey, liquid_Ethanol);
-	liquid_Fun				= DefineLiquidType("Divers�o",					-7.0,	liquid_Ethanol, liquid_Turpentine, liquid_HydroAcid);
+	liquid_BakingSoda		= DefineLiquidType("Bicarbonato de Sódio",			0.1);
+	liquid_ProteinPowder	= DefineLiquidType("Proteína em Pó",		4.5);
+	liquid_IronPowder		= DefineLiquidType("Pó de Ferro",			0.0);
+	liquid_IronOxide		= DefineLiquidType("Óxido de Ferro",			-5.0);
+	liquid_CopperOxide		= DefineLiquidType("Óxido de Cobre",			-5.0);
+	liquid_Magnesium		= DefineLiquidType("Magnésio",				0.0);
+	liquid_StrongWhiskey	= DefineLiquidType("Whisky Ácido",			-5.0,	liquid_Whiskey, liquid_Ethanol);
+	liquid_Fun				= DefineLiquidType("Diversão",					-7.0,	liquid_Ethanol, liquid_Turpentine, liquid_HydroAcid);
 	liquid_Lemonade			= DefineLiquidType("Limonada",				2.1,	liquid_CarbonatedWater, liquid_Lemon, liquid_Sugar);
 	liquid_Orangeade		= DefineLiquidType("Laranjada",				2.5,	liquid_CarbonatedWater, liquid_Orange, liquid_Sugar);
 	liquid_Thermite			= DefineLiquidType("Thermite Mix I",		-101.0,	liquid_IronPowder, liquid_IronOxide, liquid_Magnesium);
