@@ -31,9 +31,9 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonTutorial[playerid], true);
 	PlayerTextDrawHide     			(playerid, ClassButtonTutorial[playerid]);
 
-	TutorialDraw[playerid] = CreatePlayerTextDraw(playerid, 3.0, 339.0, "Play tutorial >");
+	TutorialDraw[playerid] = CreatePlayerTextDraw(playerid, 3.0, 327.0, "Play tutorial >");
 	PlayerTextDrawLetterSize(playerid, TutorialDraw[playerid], 0.395, 1.58);
-	PlayerTextDrawTextSize(playerid, TutorialDraw[playerid], 190.000000, 17.000000);
+	PlayerTextDrawTextSize(playerid, TutorialDraw[playerid], 190.000000, 40.000000);
 	PlayerTextDrawAlignment(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawColor(playerid, TutorialDraw[playerid], -1);
 	PlayerTextDrawUseBox(playerid, TutorialDraw[playerid], 1);
@@ -42,21 +42,6 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetOutline(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawFont(playerid, TutorialDraw[playerid], 1);
 	PlayerTextDrawSetProportional(playerid, TutorialDraw[playerid], 1);
-
-	
-/*	Text_Global[0] = TextDrawCreate(1.000, 320.000, "_");
-	TextDrawLetterSize(Text_Global[0], 0.230, 15.500);
-	TextDrawTextSize(Text_Global[0], 113.000, 200.000);
-	TextDrawAlignment(Text_Global[0], 1);
-	TextDrawColor(Text_Global[0], 255);
-	TextDrawUseBox(Text_Global[0], 1);
-	TextDrawBoxColor(Text_Global[0], 150);
-	TextDrawSetShadow(Text_Global[0], 1);
-	TextDrawSetOutline(Text_Global[0], 1);
-	TextDrawBackgroundColor(Text_Global[0], 150);
-	TextDrawFont(Text_Global[0], 1);
-	TextDrawSetProportional(Text_Global[0], 1);*/
-
 
 	PlayerTutorialProgress[playerid] = 0;
 }
@@ -106,12 +91,12 @@ timer UpdateTutorialProgress[1000](playerid)
 {
 	if(!PlayerInTutorial[playerid]) return 0;
 
-	new str[190] = "____~y~Tarefas do Tutorial:~n~", tentid, progress, Float:health, bool:active;
+	new str[190] = "____~y~Tarefas do Tutorial:~n~~n~", tentid, progress, Float:health, bool:active;
 
 	if(IsValidItem(GetPlayerBagItem(playerid)))
-		strcat(str, "~g~V Vestir Mochila~n~"), progress++;
+		strcat(str, "~g~V Equipar Mochila~n~"), progress++;
 	else
-		strcat(str, "~r~X~w~ Vestir Mochila~n~");
+		strcat(str, "~r~X~w~ Equipar Mochila~n~");
 
 
 	GetVehicleHealth(PlayerTutorialVehicle[playerid], health);
@@ -136,11 +121,10 @@ timer UpdateTutorialProgress[1000](playerid)
 
 
 	if(IsValidItem(GetPlayerHolsterItem(playerid)))
-		strcat(str, "~g~V Colocar arma no Coldre"), progress++;
+		strcat(str, "~g~V Colocar Arma no Coldre"), progress++;
 	else
-		strcat(str, "~r~X~w~ Colocar arma no Coldre");
+		strcat(str, "~r~X~w~ Colocar Arma no Coldre");
 
-	
 	if(progress == 5) {
 	    GameTextForPlayer(playerid, "~G~~H~ TUTORIAL TERMINADO!", 3000, 1);
 		ExitTutorial(playerid);
