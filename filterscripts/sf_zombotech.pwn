@@ -314,7 +314,7 @@ public OnObjectMoved(objectid)
 	    Floor_OpenDoors(ElevatorFloor);
 
 	    GetObjectPos(Obj_Elevator, x, y, z);
-	    Label_Elevator	= Create3DTextLabel("{CCCCCC}Press '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' to use elevator", 0xCCCCCCAA, X_ELEVATOR_POS - 1.8, Y_ELEVATOR_POS + 1.6, z - 0.6, 4.0, 0, 1);
+	    Label_Elevator	= Create3DTextLabel("{CCCCCC}Pressione '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' para usar o elevador", 0xCCCCCCAA, X_ELEVATOR_POS - 1.8, Y_ELEVATOR_POS + 1.6, z - 0.6, 4.0, 0, 1);
 
 	    ElevatorState 	= ELEVATOR_STATE_WAITING;
 	    SetTimer("Elevator_TurnToIdle", ELEVATOR_WAIT_TIME, 0);
@@ -331,9 +331,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             return 0;
 
         if(FloorRequestedBy[listitem] != INVALID_PLAYER_ID || IsFloorInQueue(listitem))
-            GameTextForPlayer(playerid, "~r~The floor is already in the queue", 3500, 4);
+            GameTextForPlayer(playerid, "~r~O elevador já está em espera neste andar.", 3500, 4);
 		else if(DidPlayerRequestElevator(playerid))
-		    GameTextForPlayer(playerid, "~r~You already requested the elevator", 3500, 4);
+		    GameTextForPlayer(playerid, "~r~Você já chamou o elevador.", 3500, 4);
 		else
 	        CallElevator(playerid, listitem);
 
@@ -374,14 +374,14 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		        if (ElevatorState != ELEVATOR_STATE_MOVING && ElevatorFloor == i)
 		        {
 		            // Display a gametext message and exit here
-		            GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~r~ZomboTech Elevator~n~~r~Is Already On~n~~r~This Floor!", 3000, 5);
+		            GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~r~Elevador da Zombotech ~n~~r~Já está~n~~r~Neste Andar!", 3000, 5);
 		            return 1;
 		        }
 				
 			    //printf("Call Elevator to Floor %i", i);
 			    
 				CallElevator(playerid, i);
-				GameTextForPlayer(playerid, "~r~Elevator called", 3500, 4);
+				GameTextForPlayer(playerid, "~r~Elevador Chamado", 3500, 4);
 		    }
 		}
 	}
@@ -398,7 +398,7 @@ stock Elevator_Initialize()
 	Obj_ElevatorDoors[0] 	= CreateObject(18757, X_ELEVATOR_POS, Y_ELEVATOR_POS, GROUND_Z_COORD, 0.000000, 0.000000, 270.000000);
 	Obj_ElevatorDoors[1] 	= CreateObject(18756, X_ELEVATOR_POS, Y_ELEVATOR_POS, GROUND_Z_COORD, 0.000000, 0.000000, 270.000000);
 
-	Label_Elevator          = Create3DTextLabel("{CCCCCC}Press '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' to use elevator", 0xCCCCCCAA, X_ELEVATOR_POS - 1.8, Y_ELEVATOR_POS + 1.6, GROUND_Z_COORD - 0.6, 4.0, 0, 1);
+	Label_Elevator          = Create3DTextLabel("{CCCCCC}Pressione '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' para usar o elevador", 0xCCCCCCAA, X_ELEVATOR_POS - 1.8, Y_ELEVATOR_POS + 1.6, GROUND_Z_COORD - 0.6, 4.0, 0, 1);
 
 	new string[128],
 		Float:z;
@@ -408,7 +408,7 @@ stock Elevator_Initialize()
 	    Obj_FloorDoors[i][0] 	= CreateObject(18757, X_ELEVATOR_POS, Y_ELEVATOR_POS + 0.245, GetDoorsZCoordForFloor(i), 0.000000, 0.000000, 270.000000);
 		Obj_FloorDoors[i][1] 	= CreateObject(18756, X_ELEVATOR_POS, Y_ELEVATOR_POS + 0.245, GetDoorsZCoordForFloor(i), 0.000000, 0.000000, 270.000000);
 
-		format(string, sizeof(string), "{CCCCCC}[%s]\n{CCCCCC}Press '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' to call", FloorNames[i]);
+		format(string, sizeof(string), "{CCCCCC}[%s]\n{CCCCCC}Pressione '{FFFFFF}~k~~CONVERSATION_YES~{CCCCCC}' para chamar", FloorNames[i]);
 
 		if(i == 0)
 		    z = 47.460277;
