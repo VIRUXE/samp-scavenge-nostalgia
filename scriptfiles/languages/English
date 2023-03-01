@@ -240,7 +240,7 @@ FUELNOTPETR=Fuel can does not contain petrol
 DISARMEDBOM=Disarmed explosive
 TREECUTINFO=Hold {KEYTEXT_INTERACT} with a %s to harvest %s
 
-TUTORPROMPT=Play tutorial
+TUTORPROMPT=[JOIN TUTORIAL]
 TUTORIEXIT=You left the tutorial, to return you will have to die.
 TUTORINTROD=Welcome to the tutorial! Look around and try things. Help messages will appear here!
 TUTORACCBAG=You can access your bag by pressing H and clicking the Bag icon at the bottom right.
