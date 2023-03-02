@@ -5,8 +5,6 @@
 
 hook OnPlayerConnect(playerid)
 {
-    SetPlayerVip(playerid, false);
-    
 	new
 		name[MAX_PLAYER_NAME],
 		file[16 + MAX_PLAYER_NAME];
