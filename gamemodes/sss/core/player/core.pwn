@@ -151,7 +151,12 @@ public OnPlayerConnect(playerid)
 //	TogglePlayerSpectating(playerid, true);
 	SetPlayerVirtualWorld(playerid, playerid + 1);
 
-	// ResetVariables(playerid); // ? Porque é que resetamos no connect quando já o fazemos no disconnect?
+	/* 
+		Aparentemente essa merda é mesmo necessária, senão o spawn fica bugado.
+		Idealmente o reset de varíaveis deveria ser feito no OnPlayerDisconnect, mas por alguma razão está assim.
+		Não vale a pena estar a mexer nisso agora.
+	 */
+	ResetVariables(playerid);
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
 
 	// Obtemos o IP para verificar se o jogador esta banido ou nao
