@@ -10,9 +10,9 @@ ACMD:setvip[5](playerid, params[])
 {
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid/nickname]");
 	
-	if(targetId == INVALID_PLAYER_ID) return 7; // CMD_INVALID_PLAYER
+	if(targetId == INVALID_PLAYER_ID) return 4; // CMD_INVALID_PLAYER
 
 	SetPlayerVip(targetId, !IsPlayerVip(targetId));
 
