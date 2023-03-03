@@ -161,7 +161,7 @@ hook OnPlayerDisconnect(playerid, reason)
 
 EnterTutorial(playerid) {
 	log("[TUTORIAL] %p (%d) entrou no tutorial.", playerid, playerid);
-
+	
 	new virtualworld = playerid + 1;
 
 	// Um armazém vermelho em Las Venturas
@@ -351,8 +351,8 @@ hook OnPlayerOpenInventory(playerid)
 	{
 	    if(!PlayerTutorial_VozInv[playerid])
 	    {
-	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=Windows1252&q=%s&tl=%s-TW&client=tw-ob",
-				ls(playerid, "TUTORINTINV"), ls(playerid, "IDIOMAID")));
+	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
+				GetLanguageString(playerid, "TUTORINTINV", true), GetLanguageString(playerid, "IDIOMAID", true)));
 
             PlayerTutorial_VozInv[playerid] = true;
 		}
