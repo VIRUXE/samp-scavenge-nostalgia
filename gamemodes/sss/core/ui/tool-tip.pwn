@@ -62,9 +62,7 @@ timer HideHelpTip_Delay[time](playerid, time)
 }
 
 HideHelpTip(playerid)
-{
 	PlayerTextDrawHide(playerid, ToolTipText[playerid]);
-}
 
 hook OnPlayerConnect(playerid)
 {
@@ -90,26 +88,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 	if(ToolTips[playerid])
 	{
-		new ItemType:itype = GetItemType(itemid);
-		
-		if(IsItemTypeDefence(itype))
-			ShowHelpTip(playerid, GetLanguageString(playerid, "DEFENCE_T", true), 20000);
-		else if(IsItemTypeSafebox(itype))
-			ShowHelpTip(playerid, GetLanguageString(playerid, "SAFEBOX_T", true), 20000);
-		else if(IsItemTypeBag(itype))
-			ShowHelpTip(playerid, GetLanguageString(playerid, "BAG_T", true), 20000);
-		else if(GetHatFromItem(itype) != -1)
-			ShowHelpTip(playerid, GetLanguageString(playerid, "HAT_T", true), 20000);
-		else if(GetMaskFromItem(itype) != -1)
-			ShowHelpTip(playerid, GetLanguageString(playerid, "MASK_T", true), 20000);
-		else if(GetItemTypeLiquidContainerType(itype) != -1 && itype != item_GasCan && itype != item_OilCan)
-			ShowHelpTip(playerid, GetLanguageString(playerid, "LIQUID_T", true), 20000);
-		else if(IsItemTypeFood(itype))
-			ShowHelpTip(playerid, GetLanguageString(playerid, "FOOD_T", true), 20000);
-		else {
-			new itemname[ITM_MAX_NAME],
-				itemtipkey[12],
-				str[288];
+			new itemname[ITM_MAX_NAME], itemtipkey[12], str[288];
 
 			GetItemTypeUniqueName(GetItemType(itemid), itemname);
 
@@ -121,7 +100,6 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 			format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(playerid, itemtipkey, true));
 
 			ShowHelpTip(playerid, str, 20000);
-		}
 	}
 }
 
