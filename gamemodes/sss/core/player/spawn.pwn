@@ -158,18 +158,20 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
-	if(IsPlayerInTutorial(playerid)) 
+	if(IsPlayerInTutorial(playerid))
+	{
 		LoadPlayerHUD(playerid);
+		SetPlayerVirtualWorld(playerid, 0);
+	}
 
 	if(!PlayerMapCheck(playerid)) GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
+
 	else 
 	{
 		ShowSupplyIconSpawn(playerid);
 		WCIconSpawn(playerid);
 		HideWatch(playerid);
 	}
-
-	SetPlayerVirtualWorld(playerid, 0);
 	
 	new hour, minute;
 	gettime(hour, minute);
