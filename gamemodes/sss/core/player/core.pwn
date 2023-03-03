@@ -146,7 +146,6 @@ public OnPlayerConnect(playerid)
 
 	log("[JOIN] %p (%d) entrou.", playerid, playerid);
 	SetPlayerColor(playerid, 0xB8B8B800);
-//	SetPlayerVirtualWorld(playerid, playerid + 1);
 
 	/* 
 		Aparentemente essa merda é mesmo necessária, senão o spawn fica bugado.
