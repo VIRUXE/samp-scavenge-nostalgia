@@ -54,10 +54,7 @@ ItemType:	mask_ItemType[MAX_MASK_ITEMS],
 
 
 hook OnPlayerConnect(playerid)
-{
 	mask_CurrentMaskItem[playerid] = -1;
-}
-
 
 // Core
 
@@ -152,9 +149,7 @@ hook OnPlayerUseItem(playerid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-
 // Interface
-
 
 stock IsValidMask(maskid)
 {

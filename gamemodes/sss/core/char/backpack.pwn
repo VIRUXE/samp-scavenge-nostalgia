@@ -307,15 +307,9 @@ stock AddItemToPlayer(playerid, itemid, useinventory = false, playeraction = tru
 			bag_PuttingInBag[playerid] = true;
 			defer bag_PutItemIn(playerid, itemid, containerid);
 		}
-		else
-		{
-		    ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), itemsize), 3000, 150);
-		}
+		else ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), itemsize), 3000, 150);
 	}
-	else
-	{
-		return AddItemToContainer(containerid, itemid, playerid);
-	}
+	else return AddItemToContainer(containerid, itemid, playerid);
 
 	return 0;
 }

@@ -96,13 +96,13 @@ timer pop_DropMask[500](o, it, Float:x, Float:y, Float:z, Float:r)
 	CreateItemInWorld(it, x, y, z - FLOOR_OFFSET, 0.0, 0.0, r);
 }
 
-CMD:pophat(playerid, params[])
+CMD:pophat(playerid)
 {
 	PopHat(playerid);
 	return 1;
 }
 
-CMD:popmask(playerid, params[])
+CMD:popmask(playerid)
 {
 	PopMask(playerid);
 	return 1;

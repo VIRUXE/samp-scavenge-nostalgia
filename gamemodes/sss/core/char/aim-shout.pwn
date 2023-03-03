@@ -91,9 +91,7 @@ stock SetPlayerAimShoutText(playerid, string[])
 }
 
 hook OnPlayerSave(playerid, filename[])
-{
 	modio_push(filename, _T<S,H,O,U>, strlen(aimshout_Text[playerid]), aimshout_Text[playerid]);
-}
 
 hook OnPlayerLoad(playerid, filename[])
 {

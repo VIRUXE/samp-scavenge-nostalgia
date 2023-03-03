@@ -134,10 +134,8 @@ Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
 }
 
 Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
-	if(response)
-		DisplayRegisterPrompt(playerid);
-	else
-		Kick(playerid);
+	if(response) DisplayRegisterPrompt(playerid);
+	else Kick(playerid);
 }
 
 public OnPlayerConnect(playerid)

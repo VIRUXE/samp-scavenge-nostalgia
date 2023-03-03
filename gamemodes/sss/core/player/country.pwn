@@ -37,28 +37,23 @@ public MyHttpResponse(playerid, response_code, data[])
 {
 	new ip[16];
 	GetPlayerIp(playerid, ip, sizeof ip);
+
 	if(strcmp(ip, "127.0.0.1", true) == 0)
-	{
-        return 1;
-	}
+		return 1;
+
 	if(response_code == 200)
 	{
 		if(data[0] == 'Y')
 		{
 		    if(GetAdminsOnline() == 0)
-		    {
 				AntiCheaterKick(playerid, "Proxy/VPN ip alterado");
-			}
+
 			else ChatMsgAdmins(1, YELLOW, "[Anti-Proxy/VPN] %P (id:%d) Provevelmente está usando proxy ou VPN, ip alterado!", playerid, playerid);
-		}
+
 		if(data[0] == 'X')
-		{
 			printf("WRONG IP FORMAT");
-		}
-		else
-		{
-			printf("The request failed! The response code was: %d", response_code);
-		}
+
+		else printf("The request failed! The response code was: %d", response_code);
 	}
 	return 1;
 }

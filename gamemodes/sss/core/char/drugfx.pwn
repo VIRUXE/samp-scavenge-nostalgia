@@ -54,14 +54,11 @@ hook OnPlayerScriptUpdate(playerid)
 		{
 			SetPlayerDrunkLevel(playerid, 100000);
 
-			if(random(100) < 50)
-				GivePlayerHP(playerid, -1.0);
+			if(random(100) < 50) GivePlayerHP(playerid, -1.0);
 		}
 
-		if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-		{
+		if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) 
 			GivePlayerHP(playerid, 0.01);
-		}
 
 		if(IsPlayerUnderDrugEffect(playerid, drug_Air))
 		{
@@ -72,8 +69,6 @@ hook OnPlayerScriptUpdate(playerid)
 		}
 
 		if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-		{
 			GivePlayerHP(playerid, 0.01);
-		}
 	}
 }

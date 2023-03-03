@@ -51,9 +51,7 @@ static
 forward CreatePlayerTile(playerid, &PlayerText:title, &PlayerText:tile, &PlayerText:item, Float:x, Float:y, Float:width, Float:height, colour, overlaycolour);
 
 hook OnPlayerConnect(playerid)
-{
 	if(!IsPlayerNPC(playerid)) defer CreateTitles(playerid);
-}
 
 timer CreateTitles[100](playerid)
 {
@@ -396,9 +394,7 @@ hook OnItemRemoveFromCnt(containerid, slotid, playerid)
 	dbg("global", CORE, "[OnItemRemoveFromCnt] in /gamemodes/sss/core/char/inventory.pwn");
 
 	if(IsPlayerConnected(playerid))
-	{
 		if(containerid == GetBagItemContainerID(GetPlayerBagItem(playerid))) UpdatePlayerGear(playerid);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }

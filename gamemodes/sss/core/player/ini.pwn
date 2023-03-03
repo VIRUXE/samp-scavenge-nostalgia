@@ -50,10 +50,7 @@ stock SavePlayerIniData(playerid)
 
 hook OnPlayerDisconnect(playerid)
 {
-	if(SavePlayerIniData(playerid))
-	{
-		SetPlayerCoins(playerid, 0);
-	}
+	if(SavePlayerIniData(playerid)) SetPlayerCoins(playerid, 0);
 
 	return 1;
 }

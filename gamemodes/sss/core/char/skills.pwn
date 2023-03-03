@@ -104,9 +104,7 @@ stock PlayerGainSkillExperience(playerid, skillname[], Float:mult = 0.0)
 }
 
 timer skl_HideUI[5000](playerid)
-{
 	PlayerTextDrawHide(playerid, skl_PlayerNotification);
-}
 
 stock GetPlayerSkillTimeModifier(playerid, time, skillname[])
 {

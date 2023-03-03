@@ -372,12 +372,9 @@ stock IsPlayerCuffed(playerid)
 {
 	new bool:cuffedp;
     if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED)
-	{
         cuffedp = true;
-	}
-	else
-	{
-	    cuffedp = false;
-	}
+
+	else cuffedp = false;
+	
 	return cuffedp;
 }

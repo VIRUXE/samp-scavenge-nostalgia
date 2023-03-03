@@ -117,9 +117,7 @@ hook OnPlayerScriptUpdate(playerid)
 				TravelStats[playerid][STAT_TIME_RUNNING] += tick_diff;
 
 				if(floatround(TravelStats[playerid][STAT_DIST_RUNNING] / 10) % 50 == 0 && GetTickCountDifference(tick, ExpGainCooldown[playerid]) > 10000)
-				{
 					ExpGainCooldown[playerid] = tick;
-				}
 			}
 		}
 		else if(animidx == 1159 || animidx == 1274) // crouch moving
@@ -133,9 +131,7 @@ hook OnPlayerScriptUpdate(playerid)
 			TravelStats[playerid][STAT_TIME_SWIMMING] += tick_diff;
 
 			if(floatround(TravelStats[playerid][STAT_DIST_SWIMMING] / 10) % 20 == 0 && GetTickCountDifference(tick, ExpGainCooldown[playerid]) > 10000)
-			{
 				ExpGainCooldown[playerid] = tick;
-			}
 		}
 		else if(animidx == 1541 || animidx == 1544) // swimming under water
 		{
@@ -143,9 +139,7 @@ hook OnPlayerScriptUpdate(playerid)
 			TravelStats[playerid][STAT_TIME_UNDERWATER] += tick_diff;
 
 			if(floatround(TravelStats[playerid][STAT_DIST_UNDERWATER] / 10) % 20 == 0 && GetTickCountDifference(tick, ExpGainCooldown[playerid]) > 10000)
-			{
 				ExpGainCooldown[playerid] = tick;
-			}
 		}
 		else if(animidx == 1195 || animidx == 1197 || animidx == 1130 || animidx == 1132) // falling
 		{
@@ -155,9 +149,7 @@ hook OnPlayerScriptUpdate(playerid)
 	}
 
 	if(IsPlayerKnockedOut(playerid))
-	{
 		TravelStats[playerid][STAT_TIME_KNOCKED_OUT] += tick_diff;
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -171,9 +163,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		new animidx = GetPlayerAnimationIndex(playerid);
 
 		if(animidx == 1195 || animidx == 1197)
-		{
 			AlreadyJumping[playerid] = true;
-		}
 	}
 
 	if(oldkeys & KEY_JUMP)
@@ -181,29 +171,21 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		if(!AlreadyJumping[playerid])
 		{
 			new animidx = GetPlayerAnimationIndex(playerid);
+
 			if(animidx == 1195 || animidx == 1197)
-			{
 				TravelStats[playerid][STAT_JUMPS] += 1;
-			}
 		}
-		else
-		{
-			AlreadyJumping[playerid] = false;
-		}
+		else AlreadyJumping[playerid] = false;
 	}
 }
 
 hook OnPlayerSave(playerid, filename[])
-{
 	modio_push(filename, _T<T,R,A,V>, _:e_TRAVEL_STATS, TravelStats[playerid]);
-}
 
 hook OnPlayerLoad(playerid, filename[])
-{
 	modio_read(filename, _T<T,R,A,V>, _:e_TRAVEL_STATS, TravelStats[playerid]);
-}
 
-CMD:mstats(playerid, params[])
+CMD:mstats(playerid)
 {
 	new str[400];
 	format(str, sizeof(str),

@@ -5,7 +5,6 @@
 CMD:rank(playerid)
 {
     ShowRankingDialog(playerid);
-
 	return 1;
 }
 
@@ -46,9 +45,7 @@ stock ShowTopTenATForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerAliveTime(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -206,9 +203,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerScore(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -379,9 +374,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerSpree(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -539,9 +532,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerDeathCount(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
