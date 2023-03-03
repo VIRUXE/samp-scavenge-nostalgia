@@ -62,9 +62,7 @@ stock HidePlayerKeyActionUI(playerid)
 }
 
 stock ClearPlayerKeyActionUI(playerid)
-{
 	KeyActionsText[playerid][0] = EOS;
-}
 
 stock AddToolTipText(playerid, key[], use[])
 {
@@ -83,87 +81,55 @@ stock AddToolTipText(playerid, key[], use[])
 
 // Enter/exit inventory
 hook OnPlayerOpenInventory(playerid)
-{
 	HidePlayerKeyActionUI(playerid);
-}
 
 hook OnPlayerCloseInventory(playerid)
-{
 	_UpdateKeyActions(playerid);
-}
-
+	
 hook OnPlayerOpenContainer(playerid, containerid)
-{
 	HidePlayerKeyActionUI(playerid);
-}
 
 hook OnPlayerCloseContainer(playerid, containerid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerAddToInventory(playerid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnItemRemovedFromInv(playerid, itemid, slot)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnItemRemovedFromPlayer(playerid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 // Pickup/drop item
 hook OnPlayerPickedUpItem(playerid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerDroppedItem(playerid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerGetItem(playerid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerGiveItem(playerid, targetid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerGivenItem(playerid, targetid, itemid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 // Vehicles
 hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerExitVehicle(playerid, vehicleid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 // Areas
 hook OnPlayerEnterDynArea(playerid, areaid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 hook OnPlayerLeaveDynArea(playerid, areaid)
-{
 	_UpdateKeyActions(playerid);
-}
 
 // State change
 hook OnPlayerStateChange(playerid, newstate, oldstate)
@@ -263,9 +229,7 @@ _UpdateKeyActions(playerid)
 		}
 
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(playerid, "KA_OPENINV", true));
-		
-		//AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
-		    
+				    
 		if(IsValidItem(GetPlayerBagItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_REMOVEBAG"));
 
@@ -277,30 +241,26 @@ _UpdateKeyActions(playerid)
 	new ItemType:itemtype = GetItemType(itemid);
 
 	if(itemtype == item_Sign)
-	{
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_PPLACA"));
-	}
+
 	else if(itemtype == item_Armour)
-	{
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEARMOUR"));
-	}
+
 	else if(itemtype == item_Crowbar)
-	{
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_DESMONT"));
-	}
+		
 	else if(itemtype == item_Shield)
-	{
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COLOCE"));
-	}
+
 	else if(itemtype == item_HandCuffs)
 	{
 		if(inplayerarea != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ALGP"));
 	}
+
 	else if(itemtype == item_Wheel)
-	{
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW", true));
-	}
+
 	else if(itemtype == item_GasCan)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
@@ -399,15 +359,12 @@ _UpdateKeyActions(playerid)
 			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1329.2031, 2669.2813, 50.4531)) pInB = 1;
 
 			if(pInB == 1)
-			{
 				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_REFULLG", true));
-			}
-			else
-			{
+
+			else {
 			    if(GetLiquidItemLiquidAmount(GetPlayerItem(playerid)) <= 0.0)
-				{
 				    ShowHelpTip(playerid, GetLanguageString(playerid, "KA_GOTOPOST", true));
-				}
+
 				else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV"));
 			}
 		}
@@ -429,16 +386,14 @@ _UpdateKeyActions(playerid)
 		if(inplayerarea == -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INJECT"));
 
-		else
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INJECTOTHER"));
+		else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INJECTOTHER"));
 	}
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
 	{
 		if(inplayerarea != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CUREP"));
 		
-		else
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CUREME"));
+		else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CUREME"));
 	}
 	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer)
 	{
@@ -451,30 +406,25 @@ _UpdateKeyActions(playerid)
 	else
 	{
 		if(IsItemTypeFood(itemtype))
-		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COMER"));
-		}
+
 		else if(IsItemTypeBag(itemtype))
 		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENBAG"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_USE"));
 		}
+
 		else if(GetHatFromItem(itemtype) != -1)
-		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_USEAC", true));
-		}
+
 		else if(GetMaskFromItem(itemtype) != -1)
-		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
-		}
+
 		else if(GetItemTypeExplosiveType(itemtype) != -1)
-		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ARMEXP"));
-		}
-		else if(GetItemTypeLiquidContainerType(itemtype) != -1)
-		{
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));
-		}
+
+/*		else if(GetItemTypeLiquidContainerType(itemtype) != -1)
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));*/
 	}
 	
 	if(GetItemTypeWeapon(itemtype) != -1)
@@ -494,19 +444,13 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DERECARRG"));
 		AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 	}
-	else
-	{
-		AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_GUARD"));
-	}
+	else AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_GUARD"));
 	
 	if(inplayerarea == -1)
 	{
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 	}
-	else
-	{
-		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_GIVEITEM"));
-	}
+	else AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_GIVEITEM"));
 
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 		    
@@ -542,6 +486,6 @@ _ShowRepairTip(playerid, vehicleid)
 		ShowHelpTip(playerid, GetLanguageString(playerid, "TUTORVEHSLI", true));
 		return;
 	}
-
+		
 	return;
 }
