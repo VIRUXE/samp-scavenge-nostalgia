@@ -510,7 +510,7 @@ _UpdateKeyActions(playerid)
 
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 		    
-	AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));
+	AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(playerid, "KA_OPENINV", true));
 	ShowPlayerKeyActionUI(playerid);
 	}
 	return;
