@@ -6,7 +6,7 @@ hook OnPlayerLogin(playerid)
 {
 	new DBResult:result, frase[MAX_FRASE_LEN];
 
-	result = db_query(gAccounts, sprintf("SELECT joinsentence FROM Player WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	result = db_query(gAccounts, sprintf("SELECT joinsentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	db_get_field(result, 0, frase, sizeof(frase));
 	db_free_result(result);
