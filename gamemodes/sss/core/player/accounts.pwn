@@ -54,6 +54,7 @@ enum
 	FIELD_ID_PLAYER_GPCI,
 	FIELD_ID_PLAYER_JOINSENTENCE,
 	FIELD_ID_PLAYER_CLAN,
+	FIELD_ID_PLAYER_VIP,
 	FIELD_ID_PLAYER_ACTIVE
 }
 
@@ -125,15 +126,16 @@ hook OnGameModeInit()
 		"FIELD_PLAYER_GPCI" TEXT NOT NULL,\
 		"FIELD_PLAYER_JOINSENTENCE" TEXT,\
 		clan TEXT,\
+		vip INTEGER,\
 		"FIELD_PLAYER_ACTIVE" INTEGER NOT NULL)");
 
 	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS player_index ON players("FIELD_PLAYER_NAME")");
 
-	DatabaseTableCheck(gAccounts, "players", 14);
+	DatabaseTableCheck(gAccounts, "players", 15);
 
 	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-								// name, pass, ipv4, language, alive, regdate, lastlog, spawntime, spawns, warnings, gpci, joinsentence, clan, active
-	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',1)");
+								// name, pass, ipv4, language, alive, regdate, lastlog, spawntime, spawns, warnings, gpci, joinsentence, clan, vip, active
+	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,1)");
 	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_ALIVE"=?, "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
 
@@ -213,6 +215,7 @@ LoadAccount(playerid)
 		spawns,
 		warnings,
 		clan[16], // MAX_CLAN_NAME
+		bool:vip,
 		active;
 
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -249,6 +252,7 @@ LoadAccount(playerid)
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_TOTALSPAWNS, DB::TYPE_INTEGER, spawns);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_WARNINGS, DB::TYPE_INTEGER, warnings);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_CLAN, DB::TYPE_STRING, clan, sizeof(clan));
+	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_VIP, DB::TYPE_INTEGER, vip);
 	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ACTIVE, DB::TYPE_INTEGER, active);
 
 	if(!stmt_execute(stmt_AccountLoad))
@@ -281,6 +285,7 @@ LoadAccount(playerid)
 	SetPlayerCreationTimestamp(playerid, spawntime);
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
+	SetPlayerVip(playerid, vip);
 
 	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s, Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
 
