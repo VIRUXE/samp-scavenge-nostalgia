@@ -13,11 +13,11 @@ new PlayerText:Interface6[MAX_PLAYERS];	// TextDraw do valor das kills (numéric
 new PlayerText:Interface7[MAX_PLAYERS];	// TextDraw do sprite do ped (personagem laranja)
 new PlayerText:Interface8[MAX_PLAYERS];	// TextDraw do valor do ped (numérico)
 new PlayerText:Interface9[MAX_PLAYERS];	// TextDraw de fundo de onde fica o clan (sprite e nome)
-new PlayerText:Interface10[MAX_PLAYERS]; // TextDraw de box (fundo)
+new PlayerText:Interface10[MAX_PLAYERS]; // TextDraw decorativa de barra preta na esquerda fundo de onde fica o status 
 new PlayerText:Interface11[MAX_PLAYERS]; // TextDraw do sprite do clan (personagem verde)
 new PlayerText:Interface12[MAX_PLAYERS]; // TextDraw do valor do clan (nome)
-new PlayerText:Interface13[MAX_PLAYERS]; // TextDraw de box (fundo)
-new PlayerText:Interface14[MAX_PLAYERS]; // TextDraw de box (fundo)
+new PlayerText:Interface13[MAX_PLAYERS]; // TextDraw decorativa de barra preta na esquerda fundo de onde fica o clan
+new PlayerText:Interface14[MAX_PLAYERS]; // TextDraw decorativa de barra divisória preta no meio do fundo de onde fica o status
 
 ShowWatch(playerid) 
 	PlayerTextDrawShow(playerid, WatchBackground[playerid]);
