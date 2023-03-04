@@ -170,7 +170,6 @@ BC_District_Area69()
 	
 	CreateStaticLootSpawn(284.797668, 2036.117919, 16.633859,		world_police, 40.0);
 
-
 	// Entry only with the 'Hack Interface' item from here:
 
 	CreateStaticLootSpawn(282.037750, 1817.693603, 0.360879,		world_industrial, 100.0, 3);
