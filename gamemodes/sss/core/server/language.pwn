@@ -24,7 +24,7 @@
 
 #define DIRECTORY_LANGUAGES			"languages/"
 #define MAX_LANGUAGE				(2)
-#define MAX_LANGUAGE_ENTRIES		(600) // De momento temos cerca de 550 entradas 05/02/23
+#define MAX_LANGUAGE_ENTRIES		(630) // De momento temos cerca de 550 entradas 05/02/23
 #define MAX_LANGUAGE_KEY_LEN		(20)
 #define MAX_LANGUAGE_ENTRY_LENGTH	(768)
 #define MAX_LANGUAGE_NAME			(32)
