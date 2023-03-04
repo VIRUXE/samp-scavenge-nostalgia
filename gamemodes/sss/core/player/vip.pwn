@@ -16,6 +16,8 @@ ACMD:setvip[5](playerid, params[])
 
 	SetPlayerVip(targetId, !IsPlayerVip(targetId));
 
+	db_query(gAccounts, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", IsPlayerVip(targetId) ? 1 : 0, GetPlayerNameEx(playerid)));
+
 	SetPlayerColor(targetId, IsPlayerVip(targetId) ? VIP_COLOR : WHITE);
 
 	ChatMsgAll(PINK, IsPlayerVip(targetId) ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
@@ -193,7 +195,7 @@ hook OnPlayerLogin(playerid) {
 	if(IsPlayerVip(playerid)) {
 		SetPlayerColor(playerid, VIP_COLOR);
 
-		ChatMsg(playerid, VIP_COLOR, " > Você é um jogador VIP! Obrigado por apoiar o servidor.");
+		ChatMsg(playerid, VIP_COLOR, " >  Você é um jogador VIP. Obrigado por apoiar o servidor!");
 	}
 }
 
