@@ -57,7 +57,26 @@ static
 
     lang_entries[MAX_LANGUAGE],
 	lang_Name[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
-	lang_Total;
+	lang_Total,
+	lang_PlayerLanguage[MAX_PLAYERS];
+
+stock GetPlayerLanguage(playerid)
+{
+	if(!IsPlayerConnected(playerid)) return -1;
+
+	return lang_PlayerLanguage[playerid];
+}
+
+stock SetPlayerLanguage(playerid, langid)
+{
+	if(!IsPlayerConnected(playerid)) return -1;
+
+	lang_PlayerLanguage[playerid] = langid;
+
+	log("[LANGUAGE] %p (%d) definiu idioma para '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
+
+	return 1;
+}
 
 hook OnGameModeInit()
 {

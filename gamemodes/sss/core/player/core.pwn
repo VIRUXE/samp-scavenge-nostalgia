@@ -75,26 +75,6 @@ public OnPlayerRequestClass(playerid, classid)
 	return 0;
 }
 
-static lang_PlayerLanguage[MAX_PLAYERS];
-
-stock GetPlayerLanguage(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return -1;
-
-	return lang_PlayerLanguage[playerid];
-}
-
-stock SetPlayerLanguage(playerid, langid)
-{
-	if(!IsPlayerConnected(playerid)) return -1;
-
-	lang_PlayerLanguage[playerid] = langid;
-
-	log("[LANGUAGE] %p (%d) definiu idioma para '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
-
-	return 1;
-}
-
 ShowLanguageMenu(playerid)
 {
 	new
