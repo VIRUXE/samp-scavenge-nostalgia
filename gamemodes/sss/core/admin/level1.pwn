@@ -108,48 +108,6 @@ ACMD:msg[1](playerid, params[])
 	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EBAA} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
 }
 
-ACMD:country[1](playerid, params[])
-{
-	if(isnumeric(params))
-	{
-		new targetid = strval(params);
-
-		if(!IsPlayerConnected(targetid))
-		{
-			if(targetid > 99) // ! Que merda é essa caralho
-				ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
-			else
-				return 4;
-		}
-
-		if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Aguarde o jogador spawnar.!");
-		
-		new str[520];
-		format(str, sizeof(str), "%s\tPaís: %s", str, GetPlayerCountry(targetid));
-   	 	format(str, sizeof(str), "%s\tCidade: %s", str, GetPlayerCity(targetid));
-    	format(str, sizeof(str), "%s\tLatitude: %s", str, GetPlayerLatitude(targetid));
-    	format(str, sizeof(str), "%s\tLongititude: %s", str, GetPlayerLongtitude(targetid));
-    	format(str, sizeof(str), "%s\tProvedor/ISP: %s", str, GetPlayerProvider(targetid));
-    	format(str, sizeof(str), "%s\tProxy: %s", str, GetPlayerProxyStatus(targetid));
-    	
-		ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "IP Data", str, "Fechar", "");
-	}
-	else ChatMsg(playerid, YELLOW, " >  ID de jogador inválido.", params);
-
-	return 1;
-}
-
-ACMD:allcountry[1](playerid)
-{
-	new list[(MAX_PLAYER_NAME + 3 + MAX_PLAYERS + 1) * MAX_PLAYERS];
-
-	foreach(new i : Player) format(list, sizeof(list), "%s%p - %s\n", list, i, GetPlayerCountry(playerid));
-
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_LIST, "Paises dos players", list, "Fechar", "");
-
-	return 1;
-}
-
 ACMD:cc[1](playerid)
 {
 	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
