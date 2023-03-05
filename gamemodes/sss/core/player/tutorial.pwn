@@ -14,6 +14,8 @@ bool:		PlayerTutorial_VozInv   [MAX_PLAYERS],
 bool:		PlayerTutorial_VozCnt   [MAX_PLAYERS],
 Timer:		PlayerTutorialUpd		[MAX_PLAYERS];
 
+new wall[MAX_PLAYERS];
+
 hook OnPlayerConnect(playerid)
 {
 	ClassButtonTutorial[playerid]	=CreatePlayerTextDraw(playerid, 320.000000, 300.000000, ls(playerid, "TUTORPROMPT"));
@@ -168,7 +170,6 @@ EnterTutorial(playerid) {
 	SetPlayerPos(playerid, 928.8049, 2072.3174, 10.8203);
 	SetPlayerFacingAngle(playerid, 269.3244);
 	SetPlayerVirtualWorld(playerid, virtualworld);
-	// SetPlayerWorldBounds(playerid, 2054.0671, 2086.1921, 977.0759, 925.0547); // ? Caralho não sei como colocar correto
 
 	// Define uma roupa aleatória
 	new skin;
@@ -221,6 +222,11 @@ EnterTutorial(playerid) {
 		encode_tires(0, 1, 1, 0)
 	);
 
+	// Block the door from container 
+
+	wall[playerid] = CreatePlayerObject(playerid, 19377, 977.524291, 2073.096923, 8.900295, 0.000000, 0.000000, 0.000000, 300.0);
+	SetObjectMaterial(wall[playerid], 0, 5710, "cemetery_law", "conc_wall2_128H", 0x00000000);
+
 	//	Items
 	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
 
@@ -248,8 +254,8 @@ EnterTutorial(playerid) {
 	PlayerTutorial_Pickup[10][playerid] = CreatePickup(1559, 8, 949.4579,2082.9829, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[11][playerid]   = CreateItem(item_Crowbar, 947.3903,2080.4143, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	PlayerTutorial_Pickup[11][playerid] = CreatePickup(1559, 8, 947.3903,2080.4143, PICKUP_Z, virtualworld);
-	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Crowbar, 951.6076,2067.8994, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
-	PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 951.6076,2067.8994, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Spanner, 947.2153,2067.1333, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 947.2153,2067.1333, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[13][playerid]   = CreateItem(item_Keypad, 971.9176,2069.2117, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	PlayerTutorial_Pickup[13][playerid] = CreatePickup(1559, 8, 971.9176,2069.2117, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[14][playerid]   = CreateItem(item_Motor, 971.4994,2072.1038, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
@@ -277,6 +283,8 @@ EnterTutorial(playerid) {
 	PlayerTutorial_Pickup[21][playerid] = CreatePickup(1559, 8, 938.4733,2063.2769, PICKUP_Z, virtualworld);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "IDIOMAID")));
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerão aqui!&tl=PT-TW&client=tw-ob
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=Welcome to the tutorial! Look around and try things. Help messages will appear here!&tl=EN-TW&client=tw-ob
 
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -291,8 +299,6 @@ ExitTutorial(playerid)
 	if(!PlayerInTutorial[playerid]) return 0;
 
 	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
-
-	SetPlayerWorldBounds(playerid, 20000.0000, -20000.0000, 20000.0000, -20000.0000);
 
 	stop PlayerTutorialUpd[playerid];
 	PlayerTextDrawHide(playerid, TutorialDraw[playerid]);
@@ -317,9 +323,12 @@ ExitTutorial(playerid)
 	}
 		
 	DestroyWorldVehicle(PlayerTutorialVehicle[playerid]);
+	DestroyPlayerObject(playerid, wall[playerid]);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
@@ -334,7 +343,9 @@ hook OnPlayerWearBag(playerid, itemid)
 	if(PlayerInTutorial[playerid])
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORACCBAG"), ls(playerid, "IDIOMAID")));
-        	
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
+
   		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 		
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
@@ -353,6 +364,9 @@ hook OnPlayerOpenInventory(playerid)
 	    {
 	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
 				GetLanguageString(playerid, "TUTORINTINV", true), GetLanguageString(playerid, "IDIOMAID", true)));
+
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Este é o seu inventário. Também conhecido como seus bolsos. Esta não é sua mochila.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
 
             PlayerTutorial_VozInv[playerid] = true;
 		}
@@ -376,6 +390,8 @@ hook OnPlayerOpenContainer(playerid, containerid)
 		    if(!PlayerTutorial_VozCnt[playerid])
 		    {
   				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTBAG"), ls(playerid, "IDIOMAID")));
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Esta é a sua Mochila. Elas são armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=This is your bag. Bags are extra storage. There are many different types of bags with different sizes.&tl=EN-TW&client=tw-ob
 
                 PlayerTutorial_VozCnt[playerid] = true;
 			}
@@ -400,6 +416,9 @@ hook OnPlayerViewCntOpt(playerid, containerid)
   			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 				ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
 
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
+
   			for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
@@ -418,6 +437,10 @@ hook OnPlayerDroppedItem(playerid, itemid)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORDROITM"), ls(playerid, "IDIOMAID")));
 
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando você soltar um item, outros jogadores podem pegá-lo.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=When you drop an item, other players can pick it up.&tl=EN-TW&client=tw-ob
+
+
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
@@ -435,6 +458,9 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORINVADD"), ls(playerid, "IDIOMAID")));
 
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item ao seu inventário. Se o seu inventário estiver cheio, o item será colocado na sua Mochila.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your inventory. If your inventory is full, the item will be put in your bag.&tl=EN-TW&client=tw-ob
+
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
@@ -451,6 +477,9 @@ hook OnPlayerViewInvOpt(playerid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
+
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -473,6 +502,9 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 					ls(playerid, "TUTORADDBAG"), ls(playerid, "IDIOMAID")));
 
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
+
 				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 				ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
@@ -481,6 +513,9 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 			{
  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 					ls(playerid, "TUTORADDCNT"), ls(playerid, "IDIOMAID")));
+
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
 				for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -500,6 +535,9 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORITMHOL"), ls(playerid, "IDIOMAID")));
+
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
@@ -527,6 +565,9 @@ hook OnItemTweakFinish(playerid, itemid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob",
 			ls(playerid, "TUTORIDEF"), ls(playerid, "IDIOMAID")));
+
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Finished defense finished. Install a motor and then a keyboard in your defense.&tl=EN-TW&client=tw-ob
 
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
