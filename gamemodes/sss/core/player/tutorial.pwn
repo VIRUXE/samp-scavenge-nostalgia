@@ -14,6 +14,8 @@ bool:		PlayerTutorial_VozInv   [MAX_PLAYERS],
 bool:		PlayerTutorial_VozCnt   [MAX_PLAYERS],
 Timer:		PlayerTutorialUpd		[MAX_PLAYERS];
 
+new wall[MAX_PLAYERS];
+
 hook OnPlayerConnect(playerid)
 {
 	ClassButtonTutorial[playerid]	=CreatePlayerTextDraw(playerid, 320.000000, 300.000000, ls(playerid, "TUTORPROMPT"));
@@ -168,7 +170,6 @@ EnterTutorial(playerid) {
 	SetPlayerPos(playerid, 928.8049, 2072.3174, 10.8203);
 	SetPlayerFacingAngle(playerid, 269.3244);
 	SetPlayerVirtualWorld(playerid, virtualworld);
-	// SetPlayerWorldBounds(playerid, 2054.0671, 2086.1921, 977.0759, 925.0547); // ? Caralho não sei como colocar correto
 
 	// Define uma roupa aleatória
 	new skin;
@@ -220,6 +221,11 @@ EnterTutorial(playerid) {
 		encode_lights(random(2), random(2), random(2), random(2)),
 		encode_tires(0, 1, 1, 0)
 	);
+
+	// Block the door from container 
+
+	wall[playerid] = CreatePlayerObject(playerid, 19377, 977.524291, 2073.096923, 8.900295, 0.000000, 0.000000, 0.000000, 300.0);
+	SetObjectMaterial(wall[playerid], 0, 5710, "cemetery_law", "conc_wall2_128H", 0x00000000);
 
 	//	Items
 	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
@@ -294,8 +300,6 @@ ExitTutorial(playerid)
 
 	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
 
-	SetPlayerWorldBounds(playerid, 20000.0000, -20000.0000, 20000.0000, -20000.0000);
-
 	stop PlayerTutorialUpd[playerid];
 	PlayerTextDrawHide(playerid, TutorialDraw[playerid]);
 		
@@ -319,6 +323,7 @@ ExitTutorial(playerid)
 	}
 		
 	DestroyWorldVehicle(PlayerTutorialVehicle[playerid]);
+	DestroyPlayerObject(playerid, wall[playerid]);
 	PlayerTutorialVehicle[playerid] = INVALID_VEHICLE_ID;
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));
