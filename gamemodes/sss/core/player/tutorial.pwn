@@ -248,8 +248,8 @@ EnterTutorial(playerid) {
 	PlayerTutorial_Pickup[10][playerid] = CreatePickup(1559, 8, 949.4579,2082.9829, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[11][playerid]   = CreateItem(item_Crowbar, 947.3903,2080.4143, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	PlayerTutorial_Pickup[11][playerid] = CreatePickup(1559, 8, 947.3903,2080.4143, PICKUP_Z, virtualworld);
-	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Crowbar, 951.6076,2067.8994, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
-	PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 951.6076,2067.8994, PICKUP_Z, virtualworld);
+	PlayerTutorial_Item[12][playerid]   = CreateItem(item_Spanner, 947.2153,2067.1333, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	PlayerTutorial_Pickup[12][playerid] = CreatePickup(1559, 8, 947.2153,2067.1333, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[13][playerid]   = CreateItem(item_Keypad, 971.9176,2069.2117, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	PlayerTutorial_Pickup[13][playerid] = CreatePickup(1559, 8, 971.9176,2069.2117, PICKUP_Z, virtualworld);
 	PlayerTutorial_Item[14][playerid]   = CreateItem(item_Motor, 971.4994,2072.1038, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
