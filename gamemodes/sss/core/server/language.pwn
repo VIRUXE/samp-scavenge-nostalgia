@@ -60,14 +60,44 @@ static
 	lang_Total,
 	lang_PlayerLanguage[MAX_PLAYERS];
 
-stock GetPlayerLanguage(playerid)
+enum {
+	LANG_PT,
+	LANG_EN
+};
+
+// TODO: Criar um comando para alterar o idioma do jogador.
+
+Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		SetPlayerLanguage(playerid, listitem);
+
+		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
+
+	}
+}
+
+ShowLanguageMenu(playerid)
+{
+	new
+		languages[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
+		langlist[MAX_LANGUAGE * (MAX_LANGUAGE_NAME + 1)],
+		langcount;
+
+	langcount = GetLanguageList(languages);
+
+	for(new i; i < langcount; i++) format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
+
+	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, "OK", "");
+}
+
+GetPlayerLanguage(playerid)
 {
 	if(!IsPlayerConnected(playerid)) return -1;
 
 	return lang_PlayerLanguage[playerid];
 }
 
-stock SetPlayerLanguage(playerid, langid)
+SetPlayerLanguage(playerid, langid)
 {
 	if(!IsPlayerConnected(playerid)) return -1;
 

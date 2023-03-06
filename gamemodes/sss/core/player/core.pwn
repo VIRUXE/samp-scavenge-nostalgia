@@ -75,44 +75,6 @@ public OnPlayerRequestClass(playerid, classid)
 	return 0;
 }
 
-ShowLanguageMenu(playerid)
-{
-	new
-		languages[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
-		langlist[MAX_LANGUAGE * (MAX_LANGUAGE_NAME + 1)],
-		langcount;
-
-	langcount = GetLanguageList(languages);
-
-	for(new i; i < langcount; i++) format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
-
-	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, "OK", "");
-}
-
-Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
-	if(response) {
-		SetPlayerLanguage(playerid, listitem);
-
-		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
-
-		// Mostra uma mensagem de boas-vindas
-		// Convem providenciar algum contexto sobre que tipo de gamemode é, antes que eles registem simplesmente para ver como é
-		if(listitem == 0)
-			Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Bem-vindo ao \"Scavenge and Survive\"",
-			C_WHITE"Este é um servidor de sobrevivência onde você deve sobreviver e explorar o mundo.\n\
-			Você é colocado num ambiente de PvP, onde tem que se defender de outros jogadores e procurar formas de abrigo, bem como manter sua saúde.\n\n\
-			Deseja proseguir? Se sim terá que registrar sua conta e completar o Tutorial.",
-			"Continuar", "Sair");
-		else
-			Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Welcome to \"Scavenge and Survive\"",
-			C_WHITE"This is a survival server where you must survive and explore the world.\n\
-			You will be pinned in a Player versus Player environment.\n\n\
-			Would you like to proceed? If you do, you will be prompted to register for an account.",
-			"Continue", "Exit");
-	}
-	else ShowLanguageMenu(playerid); // Dialog cancelado, mostra novamente o menu de idiomas
-}
-
 Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
 	if(response) DisplayRegisterPrompt(playerid);
 	else Kick(playerid);
@@ -166,7 +128,11 @@ public OnPlayerConnect(playerid)
 	// Carregamento abortado
 	if(result == -1) KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
 	// Conta nao existe
-	else if(result == 0) ShowLanguageMenu(playerid);
+	else if(result == 0) {
+		// * Um bocado gambiarra, mas pronto
+		// Como é necessário esperar pela resposta da API então por enquanto vai assim
+		GetPlayerGeo(playerid, ipstring);
+	}
 	// Conta existe
 	else if(result == 1) DisplayLoginPrompt(playerid);
 	// Conta existe mas esta desativada

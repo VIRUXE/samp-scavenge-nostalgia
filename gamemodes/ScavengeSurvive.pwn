@@ -386,6 +386,7 @@ new RequestsClient:client;
 //#include "sss/core/vehicle/carmour.pwn" ///////////////////////////
 #include "sss/core/vehicle/lock.pwn"
 #include "sss/core/vehicle/core.pwn"
+#include "sss/core/player/geo.pwn"
 #include "sss/core/player/core.pwn"
 #include "sss/core/player/save-load.pwn"
 #include "sss/core/admin/core.pwn"
@@ -429,7 +430,6 @@ new RequestsClient:client;
 #include "sss/core/vehicle/spawn.pwn"
 
 // PLAYER INTERNAL SCRIPTS
-#include "sss/core/player/geo.pwn"
 #include "sss/core/player/accounts.pwn"
 #include "sss/core/player/aliases.pwn"
 #include "sss/core/player/ipv4-log.pwn"
