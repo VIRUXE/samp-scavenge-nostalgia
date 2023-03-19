@@ -484,47 +484,40 @@ PlayerVehicleUpdate(playerid)
 //		}
 //	}
 
-	if(health <= VEHICLE_HEALTH_CHUNK_1) // 300.0
+	if(health <= VEHICLE_HEALTH_CHUNK_2) // 300.0
 	{
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], VEHICLE_TOOL_RED);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
 	}
-	else if(health <= VEHICLE_HEALTH_CHUNK_2) // 450.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health <= VEHICLE_HEALTH_CHUNK_3) // 650.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health <= VEHICLE_HEALTH_CHUNK_4) // 800.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health < VEHICLE_HEALTH_MAX)
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health == VEHICLE_HEALTH_MAX)
+	else if(health >= VEHICLE_HEALTH_MAX - 3.0)
 	{
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], -1);
 		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], -1);
+	}
+	else if(health >= VEHICLE_HEALTH_CHUNK_4 - 3.0) // 800.0
+	{
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], -1);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
+	}
+	else if(health >= VEHICLE_HEALTH_CHUNK_3 - 3.0) // 650.0
+	{
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
+	}
+	else if(health >= VEHICLE_HEALTH_CHUNK_2 - 3.0) // 450.0
+	{
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], VEHICLE_TOOL_RED);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
+		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
 	}
 
 	if(maxfuel > 0.0) // If the vehicle is a fuel powered vehicle
@@ -762,6 +755,12 @@ public OnPlayerExitVehicle(playerid, vehicleid)
 public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 {
 	// TODO: Some anticheat magic before syncing.
+
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][3]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][1]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][2]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][4]);
+	
 	GetVehicleDamageStatus(vehicleid,
 		veh_Data[vehicleid][veh_panels],
 		veh_Data[vehicleid][veh_doors],
