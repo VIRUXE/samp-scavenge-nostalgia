@@ -74,5 +74,5 @@ TheTrapHasSprung(playerid)
 	GetPlayerPos(playerid, x, y, z);
 
 	ReportPlayer(name, "Pegou um item de uma trap para hackers", -1, REPORT_TYPE_HACKTRAP, x, y, z, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), "");
-	BanPlayer(playerid, "Pegou um item de uma armadilha para hackers, pegando um item inacess�vel!", -1, 0);
+	BanPlayer(playerid, "Pegou um item de uma armadilha para hackers, pegando um item inacessível!", -1, 0);
 }

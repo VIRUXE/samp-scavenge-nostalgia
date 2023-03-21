@@ -47,45 +47,32 @@ hook OnPlayerScriptUpdate(playerid)
 	food = GetPlayerFP(playerid);
 
 	if(intensity)
-	{
 		food -= IDLE_FOOD_RATE;
-	}
 
 	if(animidx == 43) // Sitting
-	{
 		food -= IDLE_FOOD_RATE * 0.2;
-	}
+
 	else if(animidx == 1159) // Crouching
-	{
 		food -= IDLE_FOOD_RATE * 1.1;
-	}
+
 	else if(animidx == 1195) // Jumping
-	{
 		food -= IDLE_FOOD_RATE * 3.2;	
-	}
+
 	else if(animidx == 1231) // Running
 	{
 		if(k & KEY_WALK) // Walking
-		{
 			food -= IDLE_FOOD_RATE * 1.2;
-		}
+
 		else if(k & KEY_SPRINT) // Sprinting
-		{
 			food -= IDLE_FOOD_RATE * 2.2;
-		}
+
 		else if(k & KEY_JUMP) // Jump
-		{
 			food -= IDLE_FOOD_RATE * 3.2;
-		}
+
 		else
-		{
 			food -= IDLE_FOOD_RATE * 2.0;
-		}
 	}
-	else
-	{
-		food -= IDLE_FOOD_RATE;
-	}
+	else food -= IDLE_FOOD_RATE;
 
 	if(food > 100.0)
 		food = 100.0;
@@ -99,16 +86,9 @@ hook OnPlayerScriptUpdate(playerid)
 				if(intensity == 0)
 					SetPlayerDrunkLevel(playerid, 0);
 			}
-			else
-			{
-				SetPlayerDrunkLevel(playerid, 2000 + floatround((31.0 - food) * 300.0));
-			}
+			else SetPlayerDrunkLevel(playerid, 2000 + floatround((31.0 - food) * 300.0));
 		}
-		else
-		{
-			if(intensity == 0)
-				SetPlayerDrunkLevel(playerid, 0);
-		}
+		else if(intensity == 0) SetPlayerDrunkLevel(playerid, 0);
 	}
 
 	if(food < 20.0)

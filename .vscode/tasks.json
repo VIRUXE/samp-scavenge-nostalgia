@@ -27,14 +27,7 @@
     {
       "label": "Compilar Gamemode",
       "type": "shell",
-      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
-      "args": [
-        "'ScavengeSurvive.pwn'",
-        "'-Dgamemodes'",
-        "'-;+'",
-        "'-(+'",
-        "'-d3'"
-      ],
+      "command": "${workspaceRoot}\\build.bat",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -45,6 +38,21 @@
         "panel": "dedicated"
       },
       "problemMatcher": "$pawncc"
+    },
+    {
+      "label": "Upload",
+      "type": "shell",
+      "command": "py ${workspaceRoot}\\upload.py",
+      "isBackground": false,
+      "group": {
+        "kind": "none",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
     },
     {
       "type": "vsls",

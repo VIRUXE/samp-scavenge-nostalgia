@@ -82,19 +82,12 @@ hook OnItemCreate(itemid)
 			idx,
 			skinid;
 
-		for(new i; i < skin_Total; i++)
-		{
-			if(frandom(1.0) < skin_Data[i][skin_lootSpawnChance])
-			{
-				list[idx++] = i;
-			}
-		}
+		for(new i; i < skin_Total; i++) if(frandom(1.0) < skin_Data[i][skin_lootSpawnChance])
+			list[idx++] = i;
 
 		skinid = list[random(idx)];
 
-		while(skinid == 287) {
-			skinid = list[random(idx)];
-		}
+		while(skinid == 287) skinid = list[random(idx)];
 
 		SetItemExtraData(itemid, skinid);
 	}
@@ -114,8 +107,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		if(skin_Data[GetItemExtraData(itemid)][skin_gender] == GENDER_MALE)
 			strcat(exname, "Masculino ");
 
-		else
-			strcat(exname, "Feminino ");
+		else strcat(exname, "Feminino ");
 
 		strcat(exname, skin_Data[GetItemExtraData(itemid)][skin_name]);
 
@@ -139,23 +131,15 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			if(skin_Data[skinid][skin_gender] == GetPlayerGender(playerid))
 			{
-				if(GetPlayerSkin(playerid) == 287){
-					ShowActionText(playerid, "Não pode usar isso com essa skin!", 3000);
-				}else
-					StartUsingClothes(playerid, itemid);
+				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, "Não pode usar isso com essa skin!", 3000);
+				else StartUsingClothes(playerid, itemid);
 			}
-			else
-				ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESWRGE", true), 3000, 130);
+			else ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESWRGE", true), 3000, 130);
 		}
 	}
 
 	if(oldkeys == 16)
-	{
-		if(skin_CurrentlyUsing[playerid] != INVALID_ITEM_ID)
-		{
-			StopUsingClothes(playerid);
-		}
-	}
+		if(skin_CurrentlyUsing[playerid] != INVALID_ITEM_ID) StopUsingClothes(playerid);
 
 	return 1;
 }

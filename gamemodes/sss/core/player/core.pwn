@@ -32,6 +32,7 @@
 enum E_PLAYER_DATA
 {
 			// Database Account Data
+			ply_Name[MAX_PLAYER_NAME],
 			ply_Password[MAX_PASSWORD_LEN],
 			ply_IP,
 			ply_RegisterTimestamp,
@@ -74,88 +75,28 @@ public OnPlayerRequestClass(playerid, classid)
 	return 0;
 }
 
-static
-	lang_PlayerLanguage[MAX_PLAYERS];
-
-stock GetPlayerLanguage(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return -1;
-
-	return lang_PlayerLanguage[playerid];
-}
-
-stock SetPlayerLanguage(playerid, langid)
-{
-	if(!IsPlayerConnected(playerid))
-		return -1;
-
-	lang_PlayerLanguage[playerid] = langid;
-	return 1;
-}
-
-ShowLanguageMenu(playerid)
-{
-	new
-		languages[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
-		langlist[MAX_LANGUAGE * (MAX_LANGUAGE_NAME + 1)],
-		langcount;
-
-	langcount = GetLanguageList(languages);
-
-	for(new i; i < langcount; i++)
-		format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
-
-	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, ""C_GREEN">", "");
-}
-
-Dialog:LanguageMenu(playerid, response, listitem, inputtext[]){
-	if(response) {
-		// O primeiro idioma é sempre o Português, o segundo o Inglês
-		// Mas internamente o primeiro idioma é Inglês, o segundo Português
-
-		listitem = listitem == 0 ? 1 : 0; // Aqui invertemos o valor para ficar igual ao que esta no array de idiomas
-
-		SetPlayerLanguage(playerid, listitem);
-
-		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
-
-		defer LoadAccountDelay(playerid);
-
-		// Mostra na tela para os outros jogadores que o jogador entrou no servidor e qual o idioma escolhido. (Apenas depois de carregar a conta)
-		// Mensagem personalizada para cada player no final do texto
-		new lang_name[3];
-
-		if(listitem == 0) lang_name = "EN"; else lang_name = "PT";
-		
-		// Mostra a entrada do jogador no chat para os outros jogadores
-        new playerName[MAX_PLAYER_NAME], frase[MAX_FRASE_LEN];
-		GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
-		format(frase, MAX_FRASE_LEN, "%s", dini_Get("Frases.ini", playerName));
-		foreach(new i : Player) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, lang_name, frase);
-	}
-	else ShowLanguageMenu(playerid); // Player cancelled the dialog. Show it again.
+Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
+	if(response) DisplayRegisterPrompt(playerid);
+	else Kick(playerid);
 }
 
 public OnPlayerConnect(playerid)
 {
-    if(IsPlayerNPC(playerid))
-		return 1;
+	if(IsPlayerNPC(playerid)) return 0;
 
-	TogglePlayerSpectating(playerid, true);
-	SetTimerEx("SetPlayerInCenario", 2000, false, "d", playerid);
+	log("[JOIN] %p (%d) entrou.", playerid, playerid);
+	SetPlayerColor(playerid, 0xB8B8B800);
 
-    ShowLanguageMenu(playerid);
-    
-    log("[JOIN] %p joined", playerid);
-    SetPlayerColor(playerid, 0xB8B8B800);
-
+	/* 
+		Aparentemente essa merda é mesmo necessária, senão o spawn fica bugado.
+		Idealmente o reset de varíaveis deveria ser feito no OnPlayerDisconnect, mas por alguma razão está assim.
+		Não vale a pena estar a mexer nisso agora.
+	 */
 	ResetVariables(playerid);
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
 
- 	new
-		ipstring[16],
-		ipbyte[4];
+	// Obtemos o IP para verificar se o jogador esta banido ou nao
+ 	new ipstring[16], ipbyte[4];
 
 	GetPlayerIp(playerid, ipstring, 16);
 
@@ -169,15 +110,38 @@ public OnPlayerConnect(playerid)
 		return 0;
 	}
 
-//	SetPlayerBrightness(playerid, 255);
+	for(new i;i<10;i++) SendClientMessage(playerid, WHITE, "");
 
 	TogglePlayerControllable(playerid, false);
 	Streamer_ToggleIdleUpdate(playerid, true);
-	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
-//	SpawnPlayer(playerid);
 
-    for(new i;i<10;i++)
-		SendClientMessage(playerid, WHITE, "");
+	// Primeiro colocamos o jogador no mundo
+ 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
+	SpawnPlayer(playerid);
+
+	// Agora colocamos o jogador no cenario aleatorio. (Onde ele vai ser colocado no mapa)
+	defer SetJoinScenario(playerid);
+
+	// E depois sim, verificamos a conta do jogador
+	new result = LoadAccount(playerid);
+
+	// Carregamento abortado
+	if(result == -1) KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
+	// Conta nao existe
+	else if(result == 0) {
+		// * Um bocado gambiarra, mas pronto
+		// Como é necessário esperar pela resposta da API então por enquanto vai assim
+		GetPlayerGeo(playerid, ipstring);
+	}
+	// Conta existe
+	else if(result == 1) DisplayLoginPrompt(playerid);
+	// Conta existe mas esta desativada
+	else if(result == 4) {
+		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
+		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
+		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
+		KickPlayer(playerid, "Conta inativa", false);
+	}
 
 	ply_Data[playerid][ply_ShowHUD] = true;
 
@@ -186,92 +150,18 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerDisconnect(playerid, reason)
 {
-	if(gServerRestarting)
-		return 0;
+	if(gServerRestarting) return 0;
 
 	Logout(playerid);
 
-	if(reason != 2)
-		foreach(new i : Player) ChatMsgLang(i, WHITE, "PLEFTSV", playerid, playerid);
-	    
-	SetTimerEx("OnPlayerDisconnected", 100, false, "dd", playerid, reason);
+	if(reason != 2) foreach(new i : Player) ChatMsgLang(i, WHITE, "PLEFTSV", playerid, playerid);
+		
+	SetTimerEx("OnPlayerDisconnected", 100, false, "d", playerid);
 
 	return 1;
 }
 
-stock GetTotalPlayers()
-{
-	new count = 0;
-
-	foreach(new i : Player) count++;
-
-	return count;
-}
-
-timer LoadAccountDelay[6000](playerid)
-{
-	if(!IsPlayerConnected(playerid))
-	{
-		log("[LoadAccountDelay] Player %d not connected any more.", playerid);
-		return;
-	}
-
-	if(gServerInitialising || GetTickCountDifference(GetTickCount(), gServerInitialiseTick) < 5000)
-	{
-		ChatMsg(playerid, WHITE, "Servidor a iniciar, por favor aguarde...");
-		defer LoadAccountDelay(playerid);
-		return;
-	}
-
-	new ip[16];
-	GetPlayerIp(playerid, ip, sizeof ip);
-	if(strcmp(ip, "127.0.0.1", true) == 1)
-	{
-        if(!strcmp(GetPlayerProxyStatus(playerid), "true"))
-	    	AC_KickPlayer(playerid, "Proxy/VPN");
-	}
-	
-    for(new i;i<10;i++)
-		SendClientMessage(playerid, WHITE, "");
-
-	
-	new loadresult = LoadAccount(playerid);
-
-	if(loadresult == -1) // LoadAccount aborted, kick player.
-	{
-		KickPlayer(playerid, "Account load failed");
-		return;
-	}
-
-	if(loadresult == 0) // Account does not exist
-	{
-	    DisplayRegisterPrompt(playerid);
-	}
-
-	if(loadresult == 1) // Account does exist, prompt login
-	{
-		DisplayLoginPrompt(playerid);
-	}
-
-	if(loadresult == 2) // Account does exist, auto login
-	{
-		Login(playerid);
-	}
-
-	if(loadresult == 4) // Account does exists, but is disabled
-	{
-		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
-		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
-		KickPlayer(playerid, "Conta inativa", false);
-	}
-	
-//	SpawnPlayer(playerid);
-
-	return;
-}
-
-hook OnPlayerDisconnected(playerid)
+public OnPlayerDisconnected(playerid)
 {
 	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/player/core.pwn");
 
@@ -280,6 +170,7 @@ hook OnPlayerDisconnected(playerid)
 
 ResetVariables(playerid)
 {
+	ply_Data[playerid][ply_Name][0]				= EOS;
 	ply_Data[playerid][ply_Password][0]			= EOS;
 	ply_Data[playerid][ply_IP]					= 0;
 	ply_Data[playerid][ply_Warnings]			= 0;
@@ -307,23 +198,25 @@ ResetVariables(playerid)
 	SetPlayerSkillLevel(playerid, WEAPONSKILL_SHOTGUN, 			999);
 	SetPlayerSkillLevel(playerid, WEAPONSKILL_DESERT_EAGLE, 	999);*/
 
-	for(new i; i < 10; i++)
-		RemovePlayerAttachedObject(playerid, i);
+	for(new i; i < 10; i++) RemovePlayerAttachedObject(playerid, i);
+
+	log("[INFO] Variaveis resetadas para o jogador %d.", playerid);
 }
 
 ptask PlayerUpdateFast[100](playerid)
 {
-	new pinglimit = (Iter_Count(Player) > 10) ? (gPingLimit) : (gPingLimit + 100);
+	new ping = GetPlayerPing(playerid);
 
-	if(GetPlayerPing(playerid) > pinglimit && GetPlayerAdminLevel(playerid) == 0)
+	if(ping > gPingLimit && GetPlayerAdminLevel(playerid) == 0)
 	{
-		if(GetTickCountDifference(GetTickCount(), ply_Data[playerid][ply_JoinTick]) > 10000)
+		if(GetTickCountDifference(GetTickCount(), ply_Data[playerid][ply_JoinTick]) > SEC(10)) // Ignorar o ping dos primeiros 10 segundos
 		{
 			ply_Data[playerid][ply_PingLimitStrikes]++;
 
-			if(ply_Data[playerid][ply_PingLimitStrikes] == 30)
+			// Remover o jogador se o ping continuar alto, após 3 segundos
+			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
 			{
-				KickPlayer(playerid, sprintf("Ping muito alto: %d limite: %d.", GetPlayerPing(playerid), pinglimit));
+				TimeoutPlayer(playerid, sprintf("Ping muito alto: %d/%d. Normalize o mesmo e volte dentro de 1 minuto.", ping, gPingLimit), MIN(1));
 
 				ply_Data[playerid][ply_PingLimitStrikes] = 0;
 
@@ -331,10 +224,8 @@ ptask PlayerUpdateFast[100](playerid)
 			}
 		}
 	}
-	else
-	{
+	else if(ply_Data[playerid][ply_PingLimitStrikes]) // Resetar o contador de strikes do ping
 		ply_Data[playerid][ply_PingLimitStrikes] = 0;
-	}
 
 	/*if(NetStats_MessagesRecvPerSecond(playerid) > 200)
 	{
@@ -342,34 +233,21 @@ ptask PlayerUpdateFast[100](playerid)
 		return;
 	}*/
 
-	if(!IsPlayerSpawned(playerid))
-		return;
+	if(!IsPlayerSpawned(playerid)) return;
 
-	if(IsPlayerInAnyVehicle(playerid))
-		PlayerVehicleUpdate(playerid);
+	if(IsPlayerInAnyVehicle(playerid)) PlayerVehicleUpdate(playerid);
 
 	PlayerBagUpdate(playerid);
-
-
-/*	new
-		hour,
-		minute;
-
-	gettime(hour, minute);
-	
-	SetPlayerTime(playerid, hour, minute);*/
 
 	return;
 }
 
-ptask PlayerUpdateSlow[1000](playerid)
-{
-	CallLocalFunction("OnPlayerScriptUpdate", "d", playerid);
-}
+ptask PlayerUpdateSlow[SEC(1)](playerid) CallLocalFunction("OnPlayerScriptUpdate", "d", playerid);
 
 public OnPlayerRequestSpawn(playerid)
 {
-	if(IsPlayerNPC(playerid))return 1;
+	if(IsPlayerNPC(playerid)) return 1;
+
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
 
 	return 1;
@@ -379,10 +257,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
 	if(clickedid == Text:65535)
 	{
-		if(IsPlayerDead(playerid) && !IsPlayerSpawned(playerid))
-		{
-			SelectTextDraw(playerid, 0xFFFFFF88);
-		}
+		if(IsPlayerDead(playerid) && !IsPlayerSpawned(playerid)) SelectTextDraw(playerid, 0xFFFFFF88);
 	}
 
 	return 1;
@@ -390,8 +265,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
 
 public OnPlayerSpawn(playerid)
 {
-	if(IsPlayerNPC(playerid))
-		return 1;
+	if(IsPlayerNPC(playerid)) return 1;
 
 	if(IsPlayerOnAdminDuty(playerid))
 	{
@@ -400,7 +274,7 @@ public OnPlayerSpawn(playerid)
 	}
 
 //	SetPlayerPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
-    
+	
 	ply_Data[playerid][ply_SpawnTick] = GetTickCount();
 
 	SetAllWeaponSkills(playerid, 500);
@@ -428,11 +302,7 @@ public OnPlayerUpdate(playerid)
 {
 	if(IsPlayerInAnyVehicle(playerid))
 	{
-		static
-			str[8],
-			Float:vx,
-			Float:vy,
-			Float:vz;
+		static str[8], Float:vx, Float:vy, Float:vz;
 
 		GetVehicleVelocity(GetPlayerLastVehicle(playerid), vx, vy, vz);
 		ply_Data[playerid][ply_Velocity] = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
@@ -441,10 +311,7 @@ public OnPlayerUpdate(playerid)
 	}
 	else
 	{
-		static
-			Float:vx,
-			Float:vy,
-			Float:vz;
+		static Float:vx, Float:vy, Float:vz;
 
 		GetPlayerVelocity(playerid, vx, vy, vz);
 		ply_Data[playerid][ply_Velocity] = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
@@ -452,25 +319,20 @@ public OnPlayerUpdate(playerid)
 
 	if(ply_Data[playerid][ply_Alive])
 	{
-		if(IsPlayerOnAdminDuty(playerid))
-			ply_Data[playerid][ply_HitPoints] = 250.0;
+		if(IsPlayerOnAdminDuty(playerid)) ply_Data[playerid][ply_HitPoints] = 250.0;
 
 		SetPlayerHealth(playerid, ply_Data[playerid][ply_HitPoints]);
 		SetPlayerArmour(playerid, ply_Data[playerid][ply_ArmourPoints]);
 	}
-	else
-	{
-		SetPlayerHealth(playerid, 100.0);
-	}
+	else SetPlayerHealth(playerid, 100.0);
 
 	return 1;
 }
 
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	if(IsPlayerKnockedOut(playerid))
-		return 0;
-	    
+	if(IsPlayerKnockedOut(playerid)) return 0;
+		
 	return 1;
 }
 
@@ -491,29 +353,18 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
 	dbg("global", CORE, "[OnPlayerEnterVehicle] in /gamemodes/sss/core/player/core.pwn");
 
-	if(IsPlayerKnockedOut(playerid))
-		CancelPlayerMovement(playerid);
+	if(IsPlayerKnockedOut(playerid)) CancelPlayerMovement(playerid);
 
-	if(GetPlayerSurfingVehicleID(playerid) == vehicleid)
-		CancelPlayerMovement(playerid);
+	if(GetPlayerSurfingVehicleID(playerid) == vehicleid) CancelPlayerMovement(playerid);
 
 	if(ispassenger)
 	{
 		new driverid = -1;
 
 		foreach(new i : Player)
-		{
-			if(IsPlayerInVehicle(i, vehicleid))
-			{
-				if(GetPlayerState(i) == PLAYER_STATE_DRIVER)
-				{
-					driverid = i;
-				}
-			}
-		}
+			if(IsPlayerInVehicle(i, vehicleid) && GetPlayerState(i) == PLAYER_STATE_DRIVER) driverid = i;
 
-		if(driverid == -1)
-			CancelPlayerMovement(playerid);
+		if(driverid == -1) CancelPlayerMovement(playerid);
 	}
 
 	return 1;
@@ -527,8 +378,7 @@ KillPlayer(playerid, killerid, deathreason)
 // ply_Password
 stock GetPlayerPassHash(playerid, string[MAX_PASSWORD_LEN])
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	string[0] = EOS;
 	strcat(string, ply_Data[playerid][ply_Password]);
@@ -538,8 +388,7 @@ stock GetPlayerPassHash(playerid, string[MAX_PASSWORD_LEN])
 
 stock SetPlayerPassHash(playerid, string[MAX_PASSWORD_LEN])
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Password] = string;
 
@@ -549,8 +398,7 @@ stock SetPlayerPassHash(playerid, string[MAX_PASSWORD_LEN])
 // ply_IP
 stock GetPlayerIpAsInt(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_IP];
 }
@@ -558,16 +406,14 @@ stock GetPlayerIpAsInt(playerid)
 // ply_RegisterTimestamp
 stock GetPlayerRegTimestamp(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_RegisterTimestamp];
 }
 
 stock SetPlayerRegTimestamp(playerid, timestamp)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_RegisterTimestamp] = timestamp;
 
@@ -577,16 +423,14 @@ stock SetPlayerRegTimestamp(playerid, timestamp)
 // ply_LastLogin
 stock GetPlayerLastLogin(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_LastLogin];
 }
 
 stock SetPlayerLastLogin(playerid, timestamp)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_LastLogin] = timestamp;
 
@@ -596,16 +440,14 @@ stock SetPlayerLastLogin(playerid, timestamp)
 // ply_TotalSpawns
 stock GetPlayerTotalSpawns(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_TotalSpawns];
 }
 
 stock SetPlayerTotalSpawns(playerid, amount)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_TotalSpawns] = amount;
 
@@ -615,16 +457,14 @@ stock SetPlayerTotalSpawns(playerid, amount)
 // ply_Warnings
 stock GetPlayerWarnings(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_Warnings];
 }
 
 stock SetPlayerWarnings(playerid, timestamp)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Warnings] = timestamp;
 
@@ -634,16 +474,14 @@ stock SetPlayerWarnings(playerid, timestamp)
 // ply_Alive
 stock IsPlayerAlive(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_Alive];
 }
 
 stock SetPlayerAliveState(playerid, bool:st)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Alive] = st;
 
@@ -653,18 +491,24 @@ stock SetPlayerAliveState(playerid, bool:st)
 // ply_ShowHUD
 stock IsPlayerHudOn(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_ShowHUD];
 }
 
-stock TogglePlayerHUD(playerid, bool:st)
+stock TogglePlayerHUD(playerid, bool:toggle)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	ply_Data[playerid][ply_ShowHUD] = st;
+	if(toggle) { // Mostrar Textdraws de Restart
+		TextDrawShowForPlayer(playerid, RestartCount);
+		TextDrawShowForPlayer(playerid, ClockRestart);
+	} else { // Esconder Textdraws de Restart
+		TextDrawHideForPlayer(playerid, RestartCount);
+		TextDrawHideForPlayer(playerid, ClockRestart);
+	}
+
+	ply_Data[playerid][ply_ShowHUD] = toggle;
 
 	return 1;
 }
@@ -673,19 +517,16 @@ stock TogglePlayerHUD(playerid, bool:st)
 forward Float:GetPlayerHP(playerid);
 stock Float:GetPlayerHP(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return ply_Data[playerid][ply_HitPoints];
 }
 
 stock SetPlayerHP(playerid, Float:hp)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(hp > 100.0)
-		hp = 100.0;
+	if(hp > 100.0) hp = 100.0;
 
 	ply_Data[playerid][ply_HitPoints] = hp;
 
@@ -696,16 +537,14 @@ stock SetPlayerHP(playerid, Float:hp)
 forward Float:GetPlayerAP(playerid);
 stock Float:GetPlayerAP(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return ply_Data[playerid][ply_ArmourPoints];
 }
 
 stock SetPlayerAP(playerid, Float:amount)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_ArmourPoints] = amount;
 
@@ -716,16 +555,14 @@ stock SetPlayerAP(playerid, Float:amount)
 forward Float:GetPlayerFP(playerid);
 stock Float:GetPlayerFP(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return ply_Data[playerid][ply_FoodPoints];
 }
 
 stock SetPlayerFP(playerid, Float:food)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_FoodPoints] = food;
 
@@ -735,16 +572,14 @@ stock SetPlayerFP(playerid, Float:food)
 // ply_Clothes
 stock GetPlayerClothesID(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_Clothes];
 }
 
 stock SetPlayerClothesID(playerid, id)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Clothes] = id;
 
@@ -754,16 +589,14 @@ stock SetPlayerClothesID(playerid, id)
 // ply_Gender
 stock GetPlayerGender(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_Gender];
 }
 
 stock SetPlayerGender(playerid, gender)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Gender] = gender;
 
@@ -774,8 +607,7 @@ stock SetPlayerGender(playerid, gender)
 forward Float:GetPlayerTotalVelocity(playerid);
 Float:GetPlayerTotalVelocity(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return ply_Data[playerid][ply_Velocity];
 }
@@ -783,16 +615,14 @@ Float:GetPlayerTotalVelocity(playerid)
 // ply_CreationTimestamp
 stock GetPlayerCreationTimestamp(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_CreationTimestamp];
 }
 
 stock SetPlayerCreationTimestamp(playerid, timestamp)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_CreationTimestamp] = timestamp;
 
@@ -803,16 +633,14 @@ stock SetPlayerCreationTimestamp(playerid, timestamp)
 // ply_stance
 stock GetPlayerStance(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_stance];
 }
 
 stock SetPlayerStance(playerid, stance)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_stance] = stance;
 
@@ -822,8 +650,7 @@ stock SetPlayerStance(playerid, stance)
 // ply_JoinTick
 stock GetPlayerServerJoinTick(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_JoinTick];
 }
@@ -831,8 +658,43 @@ stock GetPlayerServerJoinTick(playerid)
 // ply_SpawnTick
 stock GetPlayerSpawnTick(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ply_Data[playerid][ply_SpawnTick];
+}
+
+timer SetJoinScenario[20](playerid) {
+	new Float:scenarios[][3][3] = {
+		// SetPlayerCameraPos, SetPlayerCameraLookAt, SetPlayerPos
+		{{-4402.01, 438.92, 19.86},  {-4407.65, 440.87, 19.31},  {-4407.65, 440.87, 19.31}},  // Ilha de San Fierro
+		{{1568.44, -1618.81, 18.85}, {1573.13, -1622.37, 17.68}, {1573.13, -1622.37, 17.68}}, // DP Los Santos
+		{{2476.43, -2245.37, 39.12}, {2477.57, -2251.09, 37.70}, {2477.57, -2251.09, 37.70}}, // Ponte das Docas
+		{{-1988.27, 134.76, 34.10},  {-1993.59, 137.42, 33.33},  {-1993.59, 137.42, 33.33}},  // Posto de Gasolina CJ
+		{{-2702.09, 2084.70, 63.86}, {-2698.83, 2089.62, 62.80}, {-2698.83, 2089.62, 62.80}}, // Ponte Bayside
+		{{-2303.76, 2676.05, 57.35}, {-2298.30, 2673.60, 56.99}, {-2298.30, 2673.60, 56.99}}, // Ponte Bayside 2
+		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
+	};
+
+	new sounds[][] = {
+		"uw3jdo6s0u9urgu/NS.mp3",
+		"b0yozgytqbvqhch/NS2.mp3",
+		"3d2s9x1ay0jgefq/NS3.mp3",
+		"eh9w2adw0vp2yvd/NS4.mp3",
+		"m0ub0mve3q8m0wi/NS5.mp3"
+	};
+
+	new soundURL[1 + 36 + 23]; // 1 for null terminator, 36 for "https://dl.dropboxusercontent.com/s/", and 23 for the longest sound name
+	format(soundURL, sizeof(soundURL), "https://dl.dropboxusercontent.com/s/%s", sounds[random(sizeof(sounds) - 1)]);
+
+	PlayAudioStreamForPlayer(playerid, soundURL);
+
+	SetPlayerTime(playerid, 0, 0);
+	SetPlayerWeather(playerid, 20);
+  
+	new scenario = random(sizeof(scenarios) - 1);
+	SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
+	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
+	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2] - 100);
+
+	log("[JOIN] %p (%d) foi para o cenário %d", playerid, playerid, scenario);
 }

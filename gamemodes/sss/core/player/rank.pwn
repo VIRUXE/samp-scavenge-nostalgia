@@ -5,7 +5,6 @@
 CMD:rank(playerid)
 {
     ShowRankingDialog(playerid);
-
 	return 1;
 }
 
@@ -46,9 +45,7 @@ stock ShowTopTenATForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerAliveTime(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -103,7 +100,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[4] != -1) OnTheRank[MaxDataID[4]] = true;
 
-	foreach(new i : Player) // Posição 5º
+	foreach(new i : Player) // Posição 5
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -116,7 +113,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
 
-	foreach(new i : Player) // Posição 6�
+	foreach(new i : Player) // Posição 6
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -129,7 +126,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
 
-	foreach(new i : Player) // Posição 7�
+	foreach(new i : Player) // Posição 7
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -142,7 +139,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
 
-	foreach(new i : Player) // Posição 8�
+	foreach(new i : Player) // Posição 8
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -155,7 +152,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
 
-	foreach(new i : Player) // Posição 9�
+	foreach(new i : Player) // Posição 9
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -168,7 +165,7 @@ stock ShowTopTenATForPlayer(playerid)
 	}
 	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
 
-	foreach(new i : Player) // Posição 10�
+	foreach(new i : Player) // Posição 10
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -206,9 +203,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerScore(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -276,7 +271,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 		}
 	}
 	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
-	foreach(new i : Player) // Posição 6�
+	foreach(new i : Player) // Posição 6
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -288,7 +283,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 		}
 	}
 	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
-	foreach(new i : Player) // Posição 7�
+	foreach(new i : Player) // Posição 7
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -301,7 +296,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	}
 	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
 
-	foreach(new i : Player) // Posição 8�
+	foreach(new i : Player) // Posição 8
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -314,7 +309,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	}
 	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
 
-	foreach(new i : Player) // Posição 9�
+	foreach(new i : Player) // Posição 9
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -327,7 +322,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	}
 	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
 
-	foreach(new i : Player) // Posição 10�
+	foreach(new i : Player) // Posição 10
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -379,9 +374,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerSpree(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -449,7 +442,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	}
 	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
 
-	foreach(new i : Player) // Posição 6�
+	foreach(new i : Player) // Posição 6
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -462,7 +455,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	}
 	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
 
-	foreach(new i : Player) // Posição 7�
+	foreach(new i : Player) // Posição 7
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -475,7 +468,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	}
 	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
 
-	foreach(new i : Player) // Posição 8�
+	foreach(new i : Player) // Posição 8
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -488,7 +481,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	}
 	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
 
-	foreach(new i : Player) // Posição 9�
+	foreach(new i : Player) // Posição 9
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -501,7 +494,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	}
 	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
 
-	foreach(new i : Player) // Posição 10�
+	foreach(new i : Player) // Posição 10
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -525,7 +518,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 		}
 	}
 
-	//format(DialogString, sizeof(DialogString), "%s\n\n{FFFF00}Esta lista exibe somente quem est� online\nKills Spree � quantos voc� matou sem morrer.",Ranking);
+	//format(DialogString, sizeof(DialogString), "%s\n\n{FFFF00}Esta lista exibe somente quem está online\nKills Spree é quantos você matou sem morrer.",Ranking);
 	Dialog_Show(playerid, RankingShow, DIALOG_STYLE_LIST, "{B4E070}Ranking de Kills Spree", Ranking, "Sair", "Voltar");
 	return 1;
 }
@@ -539,9 +532,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	new Ranking[570];
 
 	foreach(new i : Player)
-	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerDeathCount(i); //FONTE DE DADOS DO RANKING
-	}
 
 	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
 
@@ -610,7 +601,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	}
 	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
 
-	foreach(new i : Player) // Posição 6�
+	foreach(new i : Player) // Posição 6
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -623,7 +614,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	}
 	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
 
-	foreach(new i : Player) // Posição 7�
+	foreach(new i : Player) // Posição 7
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -636,7 +627,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	}
 	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
 
-	foreach(new i : Player) // Posição 8�
+	foreach(new i : Player) // Posição 8
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -649,7 +640,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	}
 	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
 
-	foreach(new i : Player) // Posição 9�
+	foreach(new i : Player) // Posição 9
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -662,7 +653,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	}
 	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
 
-	foreach(new i : Player) // Posição 10�
+	foreach(new i : Player) // Posição 10
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -770,7 +761,7 @@ stock ShowTopTenPingForPlayer(playerid)
 	}
 	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
 
-	foreach(new i : Player) // Posição 6�
+	foreach(new i : Player) // Posição 6
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -783,7 +774,7 @@ stock ShowTopTenPingForPlayer(playerid)
 	}
 	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
 
-	foreach(new i : Player) // Posição 7�
+	foreach(new i : Player) // Posição 7
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -796,7 +787,7 @@ stock ShowTopTenPingForPlayer(playerid)
 	}
 	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
 
-	foreach(new i : Player) // Posição 8�
+	foreach(new i : Player) // Posição 8
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -809,7 +800,7 @@ stock ShowTopTenPingForPlayer(playerid)
 	}
 	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
 
-	foreach(new i : Player) // Posição 9�
+	foreach(new i : Player) // Posição 9
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -822,7 +813,7 @@ stock ShowTopTenPingForPlayer(playerid)
 	}
 	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
 
-	foreach(new i : Player) // Posição 10�
+	foreach(new i : Player) // Posição 10
 	{
 		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
 		{
@@ -890,10 +881,10 @@ task ShowRandomRank[60000 * 6]()
 
 	switch (random(6))
 	{
-		case 0: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior número de Score. Com{35B330} %d {B4E070}Assassinatos.", id, MaxScore);
-		case 1: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior número de Mortes. Com{35B330} %d {B4E070}Mortes.", id2, MaxMortes);
-		case 2: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o melhor Killing Spree do server com{35B330} %d {B4E070}Spree!", id3, MaxSpree);
-		case 3: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p É o mais lagado online, com{35B330} %d {B4E070}de Ping!", id4, MaxPing);
-		default: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070} %p Tem o maior tempo vivo, {35B330}%d minutos{B4E070} Vivo!", id5, (MaxHS / 60));
+		case 0: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070}%P{35B330} tem o maior número de Score. Com{35B330} %d {B4E070}Assassinatos.", id, MaxScore);
+		case 1: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070}%P{35B330} tem o maior número de Mortes. Com{35B330} %d {B4E070}Mortes.", id2, MaxMortes);
+		case 2: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070}%P{35B330} tem o melhor Killing Spree do server com{35B330} %d {B4E070}Spree!", id3, MaxSpree);
+		case 3: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070}%P{35B330} é o mais lagado online, com{35B330} %d {B4E070}de Ping!", id4, MaxPing);
+		default: ChatMsgAll(0x35B330ff, "[Rank]: {B4E070}%P{35B330} tem o maior tempo vivo, {35B330}%d minutos{B4E070} Vivo!", id5, (MaxHS / 60));
 	}
 }

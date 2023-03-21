@@ -154,7 +154,7 @@ stock GetTrailerVehicleID(vehicleid)
 	also cleared on the server side (so the server doesn't still think the
 	trailer is attached).
 */
-task _trailerSync[1000]()
+task _trailerSync[SEC(1)]()
 {
 	new trailerid;
 

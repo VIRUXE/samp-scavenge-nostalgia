@@ -1,26 +1,12 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
+enum {
+	CMD_INVALID,
+	CMD_VALID,
+	CMD_CANT_USE,
+	CMD_CANT_USE_ON,
+	CMD_INVALID_PLAYER,
+	CMD_NOT_ADMIN,
+	CMD_NOT_DUTY
+};
 
 public OnPlayerCommandText(playerid, cmdtext[])
 {
@@ -32,8 +18,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	sscanf(cmdtext, "s[30]s[127]", cmd, params);
 
-	for (new i, j = strlen(cmd); i < j; i++)
-		cmd[i] = tolower(cmd[i]);
+	for (new i, j = strlen(cmd); i < j; i++) cmd[i] = tolower(cmd[i]);
 
 	format(cmdfunction, 64, "cmd_%s", cmd[1]); // Format the standard command function name
 
@@ -55,19 +40,17 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 		// If iLoop was 0 after the loop that means it above completed it's last itteration and never found an existing function
 
-		if(iLoop == 0)
-			result = 0;
+		if(iLoop == 0) result = 0;
 
 		// If the players level was below where the loop found the existing function,
 		// that means the number in the function is higher than the player id
 		// Give a 'not high enough admin level' error
 
-		if(iLvl < iLoop)
-			result = 5;
+		if(iLvl < iLoop) result = 5;
 	}
 	if(result == 1)
 	{
-		if(isnull(params))result = CallLocalFunction(cmdfunction, "is", playerid, "\1");
+		if(isnull(params)) result = CallLocalFunction(cmdfunction, "is", playerid, "\1");
 		else result = CallLocalFunction(cmdfunction, "is", playerid, params);
 	}
 
@@ -81,16 +64,15 @@ public OnPlayerCommandText(playerid, cmdtext[])
 	// Only log successful commands
 	// If a command returns 7, don't log it.
 
-	if(0 < result < 7)
-		log("[COMMAND] [%p]: %s", playerid, cmdtext);
+	if(0 < result < 7) log("[COMMAND][%p (%d)]: %s", playerid, playerid, cmdtext);
 
-	if		(result == 0) ChatMsgLang(playerid, ORANGE, "CMDERROR0");
-	else if	(result == 1) return 1; // valid command, do nothing.
-	else if	(result == 2) ChatMsgLang(playerid, ORANGE, "CMDERROR1");
-	else if	(result == 3) ChatMsgLang(playerid, RED, "CMDERROR2");
-	else if	(result == 4) ChatMsgLang(playerid, RED, "CMDERROR3");
-	else if	(result == 5) ChatMsgLang(playerid, RED, "CMDERROR4");
-	else if	(result == 6) ChatMsgLang(playerid, RED, "CMDERROR5");
+	if		(result == CMD_INVALID) ChatMsgLang(playerid, ORANGE, "CMDERROR0"); // invalid command
+	else if	(result == CMD_VALID) return 1; // valid command, do nothing.
+	else if	(result == CMD_CANT_USE) ChatMsgLang(playerid, ORANGE, "CMDERROR1"); // cant use command
+	else if	(result == CMD_CANT_USE_ON) ChatMsgLang(playerid, RED, "CMDERROR2"); // cant use command on that player
+	else if	(result == CMD_INVALID_PLAYER) ChatMsgLang(playerid, RED, "CMDERROR3"); // invalid player
+	else if	(result == CMD_NOT_ADMIN) ChatMsgLang(playerid, RED, "CMDERROR4"); // not high enough admin level
+	else if	(result == CMD_NOT_DUTY) ChatMsgLang(playerid, RED, "CMDERROR5"); // only usable in duty
 
 	return 1;
 }

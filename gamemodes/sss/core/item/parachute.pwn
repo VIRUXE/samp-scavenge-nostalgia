@@ -25,8 +25,7 @@
 #include <YSI\y_hooks>
 
 
-new
-	bool:para_TakingOff[MAX_PLAYERS];
+new bool:para_TakingOff[MAX_PLAYERS];
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
@@ -39,9 +38,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		if(GetItemType(itemid) == item_Parachute)
 		{
 			if(!IsValidItem(GetPlayerBagItem(playerid)))
-			{
 				_EquipParachute(playerid);
-			}
 		}
 	}
 	if(newkeys & KEY_NO)
@@ -74,7 +71,4 @@ hook OnPlayerDropItem(playerid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-_EquipParachute(playerid)
-{
-	ChatMsg(playerid, YELLOW, " >  N�o implementado.");
-}
+_EquipParachute(playerid) return ChatMsg(playerid, YELLOW, " >  Não implementado.");

@@ -91,13 +91,7 @@ BanPlayer(playerid, reason[], byid, duration)
 {
 	new name[MAX_PLAYER_NAME];
 
-	if(byid == -1)
-		name = "Server";
-
-	else
-		GetPlayerName(byid, name, MAX_PLAYER_NAME);
-
-    ChatMsgAll(0xC457EBAA, "[Admin]: {C457EB}%p(id:%d) Foi banido pelo admin %s(id:%d)!", playerid, playerid, name, byid);
+    ChatMsgAll(0xC457EBAA, "[Admin]: {C457EB}%p (%d) foi banido!", playerid, playerid);
 
     GetPlayerName(playerid, name, MAX_PLAYER_NAME);
     CallLocalFunction("OnPlayerBan", "s", name);
@@ -131,14 +125,10 @@ BanPlayerByName(name[], reason[], byid, duration)
 
 	if(byid == -1)
 		byname = "Server";
-
 	else
 		GetPlayerName(byid, byname, MAX_PLAYER_NAME);
 
-    if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID)
-	{
-	    ChatMsgAll(0xC457EBAA, "[Admin]: %s Foi banido pelo admin %s(id:%d)!", name, byname, byid);
-	}
+    if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID) ChatMsgAll(0xC457EBAA, "[Admin]: %s foi banido!", name);
 	
 	foreach(new i : Player)
 	{
@@ -244,7 +234,7 @@ BanCheck(playerid)
 				"C_YELLOW"Data:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Motivo:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Desban:\n\t\t"C_BLUE"%s\n\n\
-				"C_RED"Se voc� acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf",
+				"C_RED"Se você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf",
 				TimestampToDateTime(timestamp),
 				reason,
 				duration ? (TimestampToDateTime(timestamp + duration)) : "Nunca");

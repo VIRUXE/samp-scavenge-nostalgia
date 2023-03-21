@@ -150,10 +150,7 @@ LoadAdminData()
 
 				admin_Total++;
 			}
-			else
-			{
-				RemoveAdminFromDatabase(name);
-			}
+			else RemoveAdminFromDatabase(name);
 		}
 	}
 
@@ -162,8 +159,7 @@ LoadAdminData()
 
 UpdateAdmin(name[MAX_PLAYER_NAME], level)
 {
-	if(level == 0)
-		return RemoveAdminFromDatabase(name);
+	if(level == 0) return RemoveAdminFromDatabase(name);
 
 	new count;
 
@@ -200,7 +196,6 @@ UpdateAdmin(name[MAX_PLAYER_NAME], level)
 				if(!strcmp(name, admin_Data[i][admin_Name]))
 				{
 					admin_Data[i][admin_Rank] = level;
-
 					break;
 				}
 			}
@@ -224,8 +219,7 @@ RemoveAdminFromDatabase(name[])
 
 		for(new i; i < admin_Total; i++)
 		{
-			if(!strcmp(name, admin_Data[i][admin_Name]))
-				found = true;
+			if(!strcmp(name, admin_Data[i][admin_Name])) found = true;
 
 			if(found && i < MAX_ADMIN-1)
 			{
@@ -258,22 +252,19 @@ CheckAdminLevel(playerid)
 	}
 }
 
-TimeoutPlayer(playerid, reason[])
+TimeoutPlayer(playerid, reason[], time = HOUR(1))
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(admin_PlayerKicked[playerid])
-		return 0;
+	if(admin_PlayerKicked[playerid]) return 0;
 
 	new ip[16];
-
 	GetPlayerIp(playerid, ip, sizeof(ip));
+	BlockIpAddress(ip, time);
 
-	BlockIpAddress(ip, 11500);
 	admin_PlayerKicked[playerid] = true;
 
-	log("[PART] %p (timeout: %s)", playerid, reason);
+	log("[TIMEOUT] %p (%d) razão: %s", playerid, playerid, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" desconectado, motivo: "C_BLUE"%s", playerid, reason);
 
@@ -282,28 +273,25 @@ TimeoutPlayer(playerid, reason[])
 
 KickPlayer(playerid, reason[], bool:tellplayer = true)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(admin_PlayerKicked[playerid])
-		return 0;
+	if(admin_PlayerKicked[playerid]) return 0;
 
 	defer KickPlayerDelay(playerid);
 	admin_PlayerKicked[playerid] = true;
 
-	log("[PART] %p (kick: %s)", playerid, reason);
+	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer)
-		ChatMsgLang(playerid, GREY, "KICKMESSAGE", reason);
+	if(tellplayer) ChatMsgLang(playerid, GREY, "KICKMESSAGE", reason);
 
 	return 1;
 }
 
 stock IsPlayerKicked(playerid) return admin_PlayerKicked[playerid];
 
-timer KickPlayerDelay[1000](playerid)
+timer KickPlayerDelay[SEC(1)](playerid)
 {
 	Kick(playerid);
 	admin_PlayerKicked[playerid] = false;
@@ -337,8 +325,7 @@ ChatMsgAdminsFlat(level, colour, string[])
 
 		foreach(new i : Player)
 		{
-			if(admin_Level[i] < level)
-				continue;
+			if(admin_Level[i] < level) continue;
 
 			SendClientMessage(i, colour, string);
 			SendClientMessage(i, colour, string2);
@@ -348,8 +335,7 @@ ChatMsgAdminsFlat(level, colour, string[])
 	{
 		foreach(new i : Player)
 		{
-			if(admin_Level[i] < level)
-				continue;
+			if(admin_Level[i] < level) continue;
 
 			SendClientMessage(i, colour, string);
 		}
@@ -375,8 +361,8 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 		GetPlayerPos(playerid, x, y, z);
 		SetPlayerSpawnPos(playerid, x, y, z);
 
-		if(IsItemTypeSafebox(itemtype) || IsItemTypeBag(itemtype))
-			if(!IsContainerEmpty(GetItemExtraData(itemid))) CreateItemInWorld(itemid, x, y, z - FLOOR_OFFSET);
+		// Se o admin estiver com uma mochila ou caixa na mao, colocamos no chao
+		if((IsItemTypeSafebox(itemtype) || IsItemTypeBag(itemtype) && !IsContainerEmpty(GetItemExtraData(itemid)))) CreateItemInWorld(itemid, x, y, z - FLOOR_OFFSET);
 
 		Logout(playerid, 0); // docombatlogcheck = 0
 
@@ -390,10 +376,7 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 	}
 	else
 	{
-		new
-			Float:x,
-			Float:y,
-			Float:z;
+		new Float:x, Float:y, Float:z;
 
 		// Se voltamos para o local onde entramos no duty...
 		if(goBack) {
@@ -416,9 +399,7 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 	}
 }
 
-timer PlayerDutyFalse[1500](playerid){
-    admin_OnDuty[playerid] = false;
-}
+timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
 
 /*==============================================================================
 
@@ -429,8 +410,7 @@ timer PlayerDutyFalse[1500](playerid){
 
 stock SetPlayerAdminLevel(playerid, level)
 {
-	if(!(0 <= level < MAX_ADMIN_LEVELS))
-		return 0;
+	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;
 
 	new name[MAX_PLAYER_NAME];
 
@@ -445,8 +425,7 @@ stock SetPlayerAdminLevel(playerid, level)
 
 stock GetPlayerAdminLevel(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return admin_Level[playerid];
 }
@@ -483,24 +462,21 @@ stock GetAdminsOnline(from = 1, to = 6)
 
 stock GetAdminRankName(rank)
 {
-	if(!(0 < rank < MAX_ADMIN_LEVELS))
-		return admin_Names[0];
+	if(!(0 < rank < MAX_ADMIN_LEVELS)) return admin_Names[0];
 
 	return admin_Names[rank];
 }
 
 stock GetAdminRankColour(rank)
 {
-	if(!(0 < rank < MAX_ADMIN_LEVELS))
-		return admin_Colours[0];
+	if(!(0 < rank < MAX_ADMIN_LEVELS)) return admin_Colours[0];
 
 	return admin_Colours[rank];
 }
 
 stock IsPlayerOnAdminDuty(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return admin_OnDuty[playerid];
 }
@@ -571,8 +547,7 @@ ACMD:adminlist[1](playerid)
 
 	for(new i; i < admin_Total; i++)
 	{
-		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET)
-			continue;
+		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
 		format(line, sizeof(line), "%s %C(%d-%s)\n",
 			admin_Data[i][admin_Name],
@@ -580,8 +555,7 @@ ACMD:adminlist[1](playerid)
 			admin_Data[i][admin_Rank],
 			admin_Names[admin_Data[i][admin_Rank]]);
 
-		if(GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID)
-			strcat(gBigString[playerid], " >  ");
+		if(GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID) strcat(gBigString[playerid], " >  ");
 
 		strcat(gBigString[playerid], line);
 	}

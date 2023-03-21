@@ -1,3 +1,4 @@
+_backups
 server_log.txt
 crashinfo.txt
 *.amx
@@ -12,6 +13,7 @@ pawno/new.pwn
 pawno/pawn.ico
 pawno/pawno.rar
 scriptfiles/colandreas
+scriptfiles/data/settings.ini
 scriptfiles/data/defences
 scriptfiles/data/player
 scriptfiles/data/tents
@@ -20,3 +22,4 @@ scriptfiles/data/safebox
 scriptfiles/data/sign
 scriptfiles/INI_Clan
 scriptfiles/INI_Data
+*.log

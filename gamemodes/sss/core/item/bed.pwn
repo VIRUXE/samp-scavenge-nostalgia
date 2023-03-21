@@ -48,7 +48,7 @@ CMD:dormir(playerid)
 	}
 
 	if(!Bed_ItemID)
-	    return ChatMsg(playerid, PINK, " > N�o h� nenhuma cama por perto");
+	    return ChatMsg(playerid, PINK, " > Não há nenhuma cama por perto");
 
     foreach(new i : Player)
 	{
@@ -56,7 +56,7 @@ CMD:dormir(playerid)
 	    	Bed_ItemID = 0;
 	}
 
-	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Algu�m est� dormindo nesta cama.");
+	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Alguém está dormindo nesta cama.");
 
  	GetItemPos(Bed_ItemID, x, y, z);
  	GetItemPos(Bed_ItemID, x2, y2, z2);
@@ -89,7 +89,7 @@ CMD:dormir(playerid)
 	return 1;
 }
 
-timer CheckPlayerSlep[1000](playerid)
+timer CheckPlayerSlep[SEC(1)](playerid)
 {
 	ApplyAnimation(playerid,"CRACK","crckdeth2", 10.1, 0, 1, 1, 1, 0, 1);
 }
@@ -100,13 +100,13 @@ timer SleepingBrightness[300](playerid)
     if(GetPlayerBrightness(playerid) < 200) Bed_SleepingBrightness[playerid] = defer SleepingBrightness(playerid);
 }
 
-timer Stop_Sleeping[TIME_SLEEP * 1000](playerid, Float:x, Float:y, Float:z)
+timer Stop_Sleeping[TIME_SLEEP * SEC(1)](playerid, Float:x, Float:y, Float:z)
 {
     Bed_PlayerSleeping[playerid] = 0;
 	ClearAnimations(playerid);
 	SetPlayerPos(playerid, x, y, z + 1.0);
 	SetPlayerHP(playerid, 100.0);
-	ChatMsg(playerid, PINK, " > Voc� dormiu e recuperou a vida. Quando voc� morrer nascer� aqui.");
+	ChatMsg(playerid, PINK, " > Você dormiu e recuperou a vida. Quando você morrer nascerá aqui.");
 }
 
 hook OnPlayerPickUpItem(playerid, itemid)

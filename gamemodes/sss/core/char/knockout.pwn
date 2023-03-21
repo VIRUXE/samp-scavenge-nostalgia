@@ -96,9 +96,8 @@ stock KnockOutPlayer(playerid, duration)
 	}
 
 	if(knockout_KnockedOut[playerid])
-	{
 		knockout_Duration[playerid] += duration;
-	}
+
 	else
 	{
 		knockout_Tick[playerid] = GetTickCount();
@@ -196,9 +195,8 @@ timer KnockOutUpdate[100](playerid)
 _PlayKnockOutAnimation(playerid)
 {
 	if(!IsPlayerInAnyVehicle(playerid))
-	{
 		ApplyAnimation(playerid, "PED", "KO_SHOT_STOM", 4.0, 0, 1, 1, 1, 0, 1);
-	}
+
 	else
 	{
 		new vehicleid = GetPlayerVehicleID(playerid);
@@ -221,10 +219,7 @@ _PlayKnockOutAnimation(playerid)
 				ApplyAnimation(playerid, "PED", "BIKE_fall_off", 4.0, 0, 1, 1, 0, 0, 1);
 			}
 
-			default:
-			{
-				ApplyAnimation(playerid, "PED", "CAR_DEAD_LHS", 4.0, 0, 1, 1, 1, 0, 1);
-			}
+			default: ApplyAnimation(playerid, "PED", "CAR_DEAD_LHS", 4.0, 0, 1, 1, 1, 0, 1);
 		}
 	}
 }
@@ -233,20 +228,14 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
 	dbg("global", CORE, "[OnPlayerEnterVehicle] in /gamemodes/sss/core/char/knockout.pwn");
 
-	if(knockout_KnockedOut[playerid])
-	{
-		_vehicleCheck(playerid);
-	}
+	if(knockout_KnockedOut[playerid]) _vehicleCheck(playerid);
 }
 
 hook OnPlayerExitVehicle(playerid, vehicleid)
 {
 	dbg("global", CORE, "[OnPlayerExitVehicle] in /gamemodes/sss/core/char/knockout.pwn");
 
-	if(knockout_KnockedOut[playerid])
-	{
-		_vehicleCheck(playerid);
-	}
+	if(knockout_KnockedOut[playerid]) _vehicleCheck(playerid);
 }
 
 //PlayerExitVehicle
@@ -266,9 +255,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/char/knockout.pwn");
 
 	if(knockout_KnockedOut[playerid])
-	{
 		_vehicleCheck(playerid);
-	}
 }
 
 _vehicleCheck(playerid)
@@ -286,10 +273,7 @@ _vehicleCheck(playerid)
 		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 			SetVehicleEngine(knockout_InVehicleID[playerid], 0);
 	}
-	else
-	{
-		RemovePlayerFromVehicle(playerid);
-	}
+	else RemovePlayerFromVehicle(playerid);
 
 	new animidx = GetPlayerAnimationIndex(playerid);
 

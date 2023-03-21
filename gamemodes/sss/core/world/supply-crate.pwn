@@ -435,7 +435,7 @@ stock GetTotalSupplyDropLocations()
 stock CallDropWithFlareGun(playerid) 
 {
 	if(sup_CurrentType != -1) {
-		ChatMsg(playerid, RED, " > Voc� n�o pode chamar um drop no momento pois outro j� est� caindo!");
+		ChatMsg(playerid, RED, " > Você não pode chamar um drop no momento pois outro já está caindo!");
 		return false;	
 	} 
 	else{

@@ -82,9 +82,7 @@ timer OverheatUpdate[100](playerid)
 	}
 
 	if(Overheat[playerid] > HEAT_MAX * 0.8)
-	{
 		GameTextForPlayer(playerid, "~n~~r~Superaquecimento!", 3000, 5);
-	}
 
 	if(Overheat[playerid] > HEAT_MAX)
 	{
@@ -119,10 +117,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	if(model != 432 && model != 425 && model != 520)
 		return 1;
 
-	if(newkeys & 4)
-	{
-		Overheat[playerid] += 20.0;
-	}
+	if(newkeys & 4) Overheat[playerid] += 20.0;
 
 	return 1;
 }

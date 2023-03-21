@@ -1,41 +1,13 @@
-/*==============================================================================
+stock isalphabetic(chr) return 'a' <= chr <= 'z' || 'A' <= chr <= 'Z' ? 1 : 0;
 
+stock isalphanumeric(chr) return 'a' <= chr <= 'z' || 'A' <= chr <= 'Z' || '0' <= chr <= '9' ? 1 : 0;
 
-	Southclaw's Scavenge and Survive
+isstringalphanumeric(str[]) { // * Que nome de merda
+	for (new i = 0; i < strlen(str); i++)
+		if (!isalphanumeric(str[i]))
+			return 0;
 
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
-stock isalphabetic(chr)
-{
-	if('a' <= chr <= 'z' || 'A' <= chr <= 'Z')
-		return 1;
-
-	return 0;
-}
-
-stock isalphanumeric(chr)
-{
-	if('a' <= chr <= 'z' || 'A' <= chr <= 'Z' || '0' <= chr <= '9')
-		return 1;
-
-	return 0;
+	return 1;
 }
 
 FormatSpecifier<'T'>(output[], timestamp)
@@ -48,14 +20,13 @@ FormatSpecifier<'M'>(output[], millisecond)
 	strcat(output, MsToString(millisecond, "%h:%m:%s.%d"));
 }
 
-stock atos(a[], size, s[], len = sizeof(s))
+stock atos(a[], size, s[], len = sizeof(s)) // array to string
 {
 	s[0] = '[';
 
 	for(new i; i < size; i++)
 	{
-		if(i != 0)
-			strcat(s, ", ", len);
+		if(i != 0) strcat(s, ", ", len);
 
 		format(s, len, "%s%d", s, a[i]);
 	}
@@ -63,9 +34,42 @@ stock atos(a[], size, s[], len = sizeof(s))
 	s[strlen(s)] = ']';
 }
 
-stock atosr(a[], size = sizeof(a))
+stock atosr(a[], size = sizeof(a)) // array to string (return)
 {
 	new s[256];
 	atos(a, size, s);
+	
 	return s;
+}
+
+strsplit(const str[], const delim[], strSplit[][32], &count) {
+	new i, j, k, len, delimLen, found;
+
+	len = strlen(str);
+	delimLen = strlen(delim);
+
+	count = 0;
+
+	for(i = 0; i < len; i++) {
+		found = 0;
+
+		for(j = 0; j < delimLen; j++) {
+			if(str[i] == delim[j]) {
+				found = 1;
+				break;
+			}
+		}
+
+		if(found) {
+			strSplit[count][k] = '\0';
+			count++;
+			k = 0;
+		} else {
+			strSplit[count][k] = str[i];
+			k++;
+		}
+	}
+
+	strSplit[count][k] = '\0';
+	count++;
 }

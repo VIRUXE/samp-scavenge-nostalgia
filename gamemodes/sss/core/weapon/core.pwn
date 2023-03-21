@@ -353,7 +353,7 @@ _FastUpdateHandler(playerid)
 	return;
 }
 
-timer _RepeatingFire[1000](playerid)
+timer _RepeatingFire[SEC(1)](playerid)
 {
 	new
 		itemid,
@@ -689,7 +689,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-timer DestroyThrowable[1000](playerid, itemid)
+timer DestroyThrowable[SEC(1)](playerid, itemid)
 {
 	DestroyItem(itemid);
 	ResetPlayerWeapons(playerid);
@@ -1098,4 +1098,3 @@ stock GetPlayerTotalAmmo(playerid)
 
 	return GetItemWeaponItemMagAmmo(itemid) + GetItemWeaponItemReserve(itemid);
 }
-

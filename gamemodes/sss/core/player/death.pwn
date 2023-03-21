@@ -88,22 +88,16 @@ public OnPlayerDeath(playerid, killerid, reason)
 	return 1;
 }
 
-ptask UpdatePlayerAliveTime[1000](playerid)
+ptask UpdatePlayerAliveTime[SEC(1)](playerid)
 {
     AliveTime[playerid] ++;
 }
 
 _OnDeath(playerid, killerid)
 {
-	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid))
-	{
-		return 0;
-	}
+	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
 
-    if(gServerMaxUptime - gServerUptime < 30)
-	{
-	    return 0;
-	}
+    if(gServerMaxUptime - gServerUptime < 30) return 0; // Menos de 30 segundos para o servidor fechar
 	
 	AliveTime[playerid] = 0;
 	
@@ -131,8 +125,10 @@ _OnDeath(playerid, killerid)
 	DropItems(playerid, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid], true);
 	RemovePlayerWeapon(playerid);
 	RemoveAllDrugs(playerid);
-//	SetPlayerTime(playerid, dini_Int("Servidor.ini", "Hora"), 0);
-	SetPlayerWeather(playerid, dini_Int("Servidor.ini", "Clima"));
+
+	// Define o clima para o jogador
+	SetPlayerWeather(playerid, GetSettingInt("world/weather"));
+
 	SpawnPlayer(playerid);
 
 	KillPlayer(playerid, killerid, deathreason);
@@ -141,16 +137,12 @@ _OnDeath(playerid, killerid)
 	{
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		if(PlayerVip[killerid])
-			SetPlayerScore(killerid, GetPlayerScore(killerid) + 2);
-		else
-			SetPlayerScore(killerid, GetPlayerScore(killerid) + 1);
+		SetPlayerScore(killerid, GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1);
 		
 		death_Spree[killerid] ++;
 		death_Spree[playerid] = 0;
 		
-		foreach(new i : Player)
-			ChatMsgLang(i, RED, "CHATKILLMSG", killerid, playerid);
+		foreach(new i : Player) ChatMsgLang(i, RED, "CHATKILLMSG", killerid, playerid);
 		
 		SavePlayerIniData(playerid);
 		SavePlayerIniData(killerid);
@@ -162,31 +154,29 @@ _OnDeath(playerid, killerid)
 		switch(deathreason)
 		{
 			case 0..3, 5..7, 10..15:
-				deathreasonstring = "Espancado at� a morte.";
+				deathreasonstring = "Espancado até a morte.";
 			case 4:
 				deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
 			case 8:
-				deathreasonstring = "Grandes lacera��es cobrem o tronco e a cabe�a, parece uma espada finamente afiada.";
+				deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
 			case 9:
-				deathreasonstring = "H� peda�os em todos os lugares, provavelmente sofreu com uma serra el�trica.";
+				deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
 			case 16, 39, 35, 36, 255:
-				deathreasonstring = "Sofreu uma concuss�o maci�a devido a uma explos�o.";
+				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
 			case 18, 37:
-				deathreasonstring = "Todo o corpo est� carbonizado e queimado.";
+				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
 			case 22..34, 38:
 				deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
 			case 41, 42:
-				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma subst�ncia de alta press�o.";
+				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
 			case 44, 45:
-				deathreasonstring = "De alguma forma, eles foram mortos por �culos.";
+				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
 			case 43:
-				deathreasonstring = "De alguma forma, eles foram mortos por uma c�mera.";
+				deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
 			default:
-				deathreasonstring = "Sangrou at� a morte";
+				deathreasonstring = "Sangrou até a morte";
 		}
-	}
-	else
-	{
+	} else {
 		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 
 		death_LastKilledBy[playerid][0] = EOS;
@@ -197,11 +187,11 @@ _OnDeath(playerid, killerid)
 			case 53:
 				deathreasonstring = "Se afogou";
 			case 54:
-				deathreasonstring = "A maioria dos ossos est�o quebrados, parece que eles ca�ram de uma grande altura.";
+				deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
 			case 255:
-				deathreasonstring = "Sofreu uma concuss�o maci�a devido a uma explos�o.";
+				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
 			default:
-				deathreasonstring = "Raz�o da morte desconhecida.";
+				deathreasonstring = "Razão da morte desconhecida.";
 		}
 	}
 
@@ -573,4 +563,3 @@ stock SetPlayerSpree(playerid, spree){
 	death_Spree[playerid] = spree;
 	return 1;
 }
-

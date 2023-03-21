@@ -44,27 +44,22 @@ static
 
 static Text3D: radio_Nametag[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID, ...};
 
-ptask RadioNameTagUpdate[5000](playerid)
+ptask RadioNameTagUpdate[SEC(5)](playerid)
 {
-	if(radio_Nametag[playerid] != Text3D:INVALID_3DTEXT_ID){
+	if(radio_Nametag[playerid] != Text3D:INVALID_3DTEXT_ID) {
 	    DestroyDynamic3DTextLabel(radio_Nametag[playerid]);
 		radio_Nametag[playerid] = Text3D:INVALID_3DTEXT_ID;
 	}
 	
-    if(GetPlayerRadioFrequency(playerid) == 0.0)
-	    return;
+    if(GetPlayerRadioFrequency(playerid) == 0.0) return;
 
-    if(GetPlayerRadioFrequency(playerid) == 1.0)
-	    return;
+    if(GetPlayerRadioFrequency(playerid) == 1.0) return;
 
-    if(GetPlayerRadioFrequency(playerid) == 2.0)
-	    return;
+    if(GetPlayerRadioFrequency(playerid) == 2.0) return;
 
-    if(GetPlayerRadioFrequency(playerid) == 3.0)
-	    return;
+    if(GetPlayerRadioFrequency(playerid) == 3.0) return;
 		    
-    if(!IsPlayerSpawned(playerid))
-		return;
+    if(!IsPlayerSpawned(playerid)) return;
 			
 	new
 		players[MAX_PLAYERS],
@@ -74,14 +69,11 @@ ptask RadioNameTagUpdate[5000](playerid)
 	GetPlayerName(playerid, name, 24);
 
 	foreach(new i : Player){
-		if(i == playerid)
-			continue;
+		if(i == playerid) continue;
 			
-		if(!IsPlayerSpawned(i))
-			continue;
+		if(!IsPlayerSpawned(i)) continue;
 			
-	    if(GetPlayerRadioFrequency(playerid) == GetPlayerRadioFrequency(i))
-			players[maxplayers++] = i;
+	    if(GetPlayerRadioFrequency(playerid) == GetPlayerRadioFrequency(i)) players[maxplayers++] = i;
 	}
 
 	radio_Nametag[playerid] = CreateDynamic3DTextLabelEx(
@@ -127,11 +119,8 @@ HideRadioUI(playerid)
 	PlayerTextDrawHide(playerid, RadioUI_Power[playerid]);
 	PlayerTextDrawHide(playerid, RadioUI_Back[playerid]);
 
-	if(!IsPlayerInAnyVehicle(playerid))
-		DisplayPlayerInventory(playerid);
-
-	else
-		CancelSelectTextDraw(playerid);
+	if(!IsPlayerInAnyVehicle(playerid)) DisplayPlayerInventory(playerid);
+	else CancelSelectTextDraw(playerid);
 
 	rad_ViewingRadio[playerid] = false;
 }
@@ -147,11 +136,7 @@ UpdateRadioUI(playerid)
 	{
 		PlayerTextDrawSetString(playerid, RadioUI_Power[playerid], "off");
 
-		if(rad_OldMode[playerid] == CHAT_MODE_GLOBAL)
-			PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], "global");
-
-		else
-			PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], "freq");
+		PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], rad_OldMode[playerid] == CHAT_MODE_GLOBAL ? "global" : "freq");
 	}
 
 	if(GetPlayerChatMode(playerid) == CHAT_MODE_GLOBAL)
@@ -175,7 +160,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	{
 		if(GetPlayerRadioFrequency(playerid) - 0.5 <= MIN_RADIO_FREQ)
 			SetPlayerRadioFrequency(playerid, MIN_RADIO_FREQ);
-
 		else
 			SetPlayerRadioFrequency(playerid, GetPlayerRadioFrequency(playerid) - 0.5);
 
@@ -185,7 +169,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	{
 		if(GetPlayerRadioFrequency(playerid) + 0.5 >= MAX_RADIO_FREQ)
 			SetPlayerRadioFrequency(playerid, MAX_RADIO_FREQ);
-
 		else
 			SetPlayerRadioFrequency(playerid, GetPlayerRadioFrequency(playerid) + 0.5);
 
@@ -195,7 +178,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	{
 		if(GetPlayerChatMode(playerid) == CHAT_MODE_GLOBAL)
 			SetPlayerChatMode(playerid, CHAT_MODE_RADIO);
-
 		else if(GetPlayerChatMode(playerid) == CHAT_MODE_RADIO)
 			SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
 
@@ -209,11 +191,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	{
 		if(GetPlayerChatMode(playerid) == CHAT_MODE_LOCAL)
 		{
-			if(rad_OldMode[playerid] == CHAT_MODE_GLOBAL)
-				SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
-
-			else
-				SetPlayerChatMode(playerid, CHAT_MODE_RADIO);
+			SetPlayerChatMode(playerid, rad_OldMode[playerid] == CHAT_MODE_GLOBAL ? CHAT_MODE_GLOBAL : CHAT_MODE_RADIO);
 		}
 		else
 		{
@@ -223,10 +201,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
 		UpdateRadioUI(playerid);
 	}
-	if(playertextid == RadioUI_Back[playerid])
-	{
-		HideRadioUI(playerid);
-	}
+	if(playertextid == RadioUI_Back[playerid]) HideRadioUI(playerid);
 
 	return 1;
 }
@@ -251,15 +226,9 @@ Dialog:Frequency(playerid, response, listitem, inputtext[])
 				log("%p updated frequency to %.2f", playerid, frequency);
 				UpdateRadioUI(playerid);
 			}
-			else
-			{
-				ShowFrequencyDialog(playerid);
-			}
+			else ShowFrequencyDialog(playerid);
 		}
-		else
-		{
-			ShowFrequencyDialog(playerid);
-		}
+		else ShowFrequencyDialog(playerid);
 	}
 }
 
@@ -267,13 +236,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
 	dbg("global", CORE, "[OnPlayerClickTextDraw] in /gamemodes/sss/core/ui/radio.pwn");
 
-	if(clickedid == Text:65535)
-	{
-		if(rad_ViewingRadio[playerid])
-		{
-			SelectTextDraw(playerid, 0xFFFFFF88);
-		}
-	}
+	if(clickedid == Text:65535 && rad_ViewingRadio[playerid]) SelectTextDraw(playerid, 0xFFFFFF88);
 }
 
 
@@ -290,10 +253,7 @@ hook OnPlayerSelectExtraItem(playerid, item)
 {
 	dbg("global", CORE, "[OnPlayerSelectExtraItem] in /gamemodes/sss/core/ui/radio.pwn");
 
-	if(item == rad_InventoryItem[playerid])
-	{
-		ShowRadioUI(playerid);
-	}
+	if(item == rad_InventoryItem[playerid]) ShowRadioUI(playerid);}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }

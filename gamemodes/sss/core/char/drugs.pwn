@@ -274,9 +274,7 @@ stock SetPlayerDrugsFromArray(playerid, input[], length)
 	}
 
 	for(new i = 1; i < input[0] * 2; i += 2)
-	{
 		ApplyDrug(playerid, input[i], input[i + 1]);
-	}
 
 	return 1;
 }
@@ -319,7 +317,7 @@ hook OnPlayerLoad(playerid, filename[])
 	SetPlayerDrugsFromArray(playerid, data, length);
 }
 
-CMD:druginfo(playerid, params[])
+CMD:druginfo(playerid)
 {
 	gBigString[playerid][0] = EOS;
 

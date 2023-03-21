@@ -1,58 +1,30 @@
-/*==============================================================================
-
-
-	Southclaws' Scavenge and Survive
-
-		Copyright (C) 2017 Barnaby "Southclaws" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 // Directory for storing player-saved vehicles
 #define DIRECTORY_VEHICLE			DIRECTORY_MAIN"vehicle/"
 
-
 enum
 {
-		VEH_CELL_TYPE,		// 00
-		VEH_CELL_HEALTH,	// 01
-		VEH_CELL_FUEL,		// 02
-		VEH_CELL_POSX,		// 03
-		VEH_CELL_POSY,		// 04
-		VEH_CELL_POSZ,		// 05
-		VEH_CELL_ROTZ,		// 06
-		VEH_CELL_COL1,		// 07
-		VEH_CELL_COL2,		// 08
-		VEH_CELL_PANELS,	// 09
-		VEH_CELL_DOORS,		// 10
-		VEH_CELL_LIGHTS,	// 11
-		VEH_CELL_TIRES,		// 12
-		VEH_CELL_ARMOUR,	// 13
-		VEH_CELL_KEY,		// 14
-		VEH_CELL_LOCKED,	// 15
-		VEH_CELL_END
+	VEH_CELL_TYPE,		// 00
+	VEH_CELL_HEALTH,	// 01
+	VEH_CELL_FUEL,		// 02
+	VEH_CELL_POSX,		// 03
+	VEH_CELL_POSY,		// 04
+	VEH_CELL_POSZ,		// 05
+	VEH_CELL_ROTZ,		// 06
+	VEH_CELL_COL1,		// 07
+	VEH_CELL_COL2,		// 08
+	VEH_CELL_PANELS,	// 09
+	VEH_CELL_DOORS,		// 10
+	VEH_CELL_LIGHTS,	// 11
+	VEH_CELL_TIRES,		// 12
+	VEH_CELL_ARMOUR,	// 13
+	VEH_CELL_KEY,		// 14
+	VEH_CELL_LOCKED,	// 15
+	VEH_CELL_END
 }
 
-
 forward OnVehicleSave(vehicleid);
-
 
 hook OnScriptInit()
 {
@@ -60,19 +32,6 @@ hook OnScriptInit()
 }
 
 hook OnGameModeInit()
-{
-	LoadPlayerVehicles();
-}
-
-
-/*==============================================================================
-
-	Loading
-
-==============================================================================*/
-
-
-LoadPlayerVehicles()
 {
 	DirectoryCheck(DIRECTORY_SCRIPTFILES DIRECTORY_VEHICLE);
 
@@ -103,11 +62,8 @@ LoadPlayerVehicles()
 
 	dir_close(direc);
 
-	log("Loaded %d vehicles", Iter_Count(veh_Index));
-
-	return 1;
+	log("[VEHICLE] %d veículos de jogador carregados.", Iter_Count(veh_Index));
 }
-
 
 /*==============================================================================
 
@@ -363,14 +319,6 @@ LoadPlayerVehicle(filename[])
 	return 1;
 }
 
-
-/*==============================================================================
-
-	Write vehicle data to file
-
-==============================================================================*/
-
-
 _SaveVehicle(vehicleid)
 {
 	if(CallLocalFunction("OnVehicleSave", "d", vehicleid))
@@ -498,17 +446,10 @@ _SaveVehicle(vehicleid)
 
 	if(active[0])
 	{
-		log("[SAVE] Vehicle %s (%d) L:%d %d items: %s at %.2f, %.2f, %.2f",
-			geid,
-			vehicleid,
-			_:GetVehicleLockState(vehicleid),
-			itemcount,
-			vehiclename,
-			Float:data[VEH_CELL_POSX],
-			Float:data[VEH_CELL_POSY],
-			Float:data[VEH_CELL_POSZ]);
+		log("[VEHICLE][SAVE] Veículo %s (%s; %d) - Fechado?: %s com %d itens -> %.2f, %.2f, %.2f",
+			geid, vehiclename, vehicleid, (_:GetVehicleLockState(vehicleid) ? "Sim" : "Não"), itemcount, Float:data[VEH_CELL_POSX], Float:data[VEH_CELL_POSY], Float:data[VEH_CELL_POSZ]);
 	}
-	else log("[DELT] Removing player vehicle %d.", vehicleid);
+	else log("[VEHICLE][DELETE] Removendo veículo de jogador: %d.", vehicleid);
 	
 	return 1;
 }
@@ -531,6 +472,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "VEHICLSAVED", true), vehiclename), 5000);
 		_SaveVehicle(GetPlayerVehicleID(playerid));
 	}
+
 	if(oldstate == PLAYER_STATE_DRIVER)
 	{
 		if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleEnterTick(playerid)) > 1000)

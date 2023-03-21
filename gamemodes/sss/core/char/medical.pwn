@@ -93,10 +93,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			PlayerStartHeal(playerid, med_HealTarget[playerid]);
 		}
-		if(oldkeys == 16)
-		{
-			PlayerStopHeal(playerid);
-		}
+		if(oldkeys == 16) PlayerStopHeal(playerid);
 	}
 
 	return 1;
@@ -116,18 +113,12 @@ PlayerStartHeal(playerid, target)
 			ApplyAnimation(playerid, "MEDIC", "CPR", 4.0, 1, 0, 0, 0, 0);
 			duration = REVIVE_PROGRESS_MAX;
 		}
-		else
-		{
-			ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
-		}
+		else ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
 		SetPlayerProgressBarMaxValue(target, ActionBar, duration);
 		SetPlayerProgressBarValue(target, ActionBar, 0.0);
 	}
-	else
-	{
-		ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
-	}
+	else ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
 
 	StartHoldAction(playerid, duration);
 }
@@ -275,14 +266,9 @@ hook OnHoldActionFinish(playerid)
 
 			GetItemArrayData(itemid, data);
 
-			if(data[0] > 1)
-			{
-				SetItemArrayDataAtCell(itemid, data[0] - 1, 0);
-			}
-			else
-			{
-				DestroyItem(itemid);
-			}
+			if(data[0] > 1) SetItemArrayDataAtCell(itemid, data[0] - 1, 0);
+
+			else DestroyItem(itemid);
 
 			ApplyDrug(med_HealTarget[playerid], data[1]);
 		}

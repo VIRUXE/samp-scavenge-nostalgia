@@ -6,30 +6,18 @@ hook OnGameModeInit()
 	RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, ""C_BLUE"/comandoslvl1 - Ver a lista de comandos dos admins nível 1\n");
 }
 
-
 ACMD:calar[1](playerid, params[])
 {
-	new
-		targetid,
-		delay,
-		reason[128];
+	new targetid, delay, reason[128];
 
-	if(sscanf(params, "dds[128]", targetid, delay, reason))
-		return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
+	if(sscanf(params, "dds[128]", targetid, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
 
-	if(!IsPlayerConnected(targetid))
-		return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
+	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid))
-		return 3;
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid)) return 3;
 
-	if(IsPlayerMuted(targetid))
-		return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
+	if(IsPlayerMuted(targetid)) return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
 
-    new admNm[24];GetPlayerName(playerid, admNm, 24);
-    new pNm[24];GetPlayerName(targetid, pNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) calou %s(id:%d)! "C_WHITE"[Segundos: %d]", admNm, playerid, pNm, targetid, delay);
-	
 	if(delay > 0)
 	{
 		TogglePlayerMute(targetid, true, delay);
@@ -43,21 +31,18 @@ ACMD:calar[1](playerid, params[])
 		ChatMsgLang(targetid, YELLOW, "MUTEDREASON", reason);
 	}
 
-	return 1;
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) calou %P (%d)! "C_WHITE"[Segundos: %d]", playerid, playerid, targetid, targetid, delay);
 }
 
 ACMD:descalar[1](playerid, params[])
 {
 	new targetid;
 
-	if(sscanf(params, "d", targetid))
-		return ChatMsg(playerid, YELLOW, " >  Use: /descalar [playerid]");
+	if(sscanf(params, "d", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /descalar [playerid]");
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid)
-		return 3;
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
 	TogglePlayerMute(targetid, false);
 
@@ -69,28 +54,19 @@ ACMD:descalar[1](playerid, params[])
 
 ACMD:avisar[1](playerid, params[])
 {
-	new
-		targetid,
-		reason[128];
+	new targetid, reason[128];
 
-	if(sscanf(params, "ds[128]", targetid, reason))
-		return ChatMsg(playerid, YELLOW, " >  Use: /avisar [playerid] [motivo]");
+	if(sscanf(params, "ds[128]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /avisar [playerid] [motivo]");
 
-	if(!IsPlayerConnected(targetid))
-		return ChatMsg(playerid,RED, " >  Esse player não está conectado");
+	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player não está conectado");
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid)
-		return 3;
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
 	new warnings = GetPlayerWarnings(targetid) + 1;
 
 	SetPlayerWarnings(targetid, warnings);
-
-    new admNm[24];GetPlayerName(playerid, admNm, 24);
-    new pNm[24];GetPlayerName(targetid, pNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) avisou %s(id:%d)! "C_WHITE"[Motivo: %s]", admNm, playerid, pNm, targetid, reason);
 	
-	ChatMsg(playerid, ORANGE, " >  %P"C_YELLOW" Levou um aviso. (%d/3) Motivo: %s", targetid, warnings, reason);
+	ChatMsg(playerid, ORANGE, " >  %P"C_YELLOW" levou um aviso. (%d/3) Motivo: %s", targetid, warnings, reason);
 	ChatMsgLang(targetid, ORANGE, "WARNEDMESSG", warnings, reason);
 
 	if(warnings >= 3)
@@ -98,112 +74,45 @@ ACMD:avisar[1](playerid, params[])
 	    SetPlayerWarnings(targetid, 0);
 		KickPlayer(targetid, "Atingiu 3 avisos da administração.");
 	}
-	return 1;
+
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) avisou %P (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
 ACMD:kick[1](playerid, params[])
 {
-	new
-		targetid,
-		reason[64],
-		highestadmin;
+	new targetid, reason[64], highestadmin;
 
-	foreach(new i : Player)
-	{
-		if(GetPlayerAdminLevel(i) > GetPlayerAdminLevel(highestadmin))
-			highestadmin = i;
-	}
+	foreach(new i : Player) if(GetPlayerAdminLevel(i) > GetPlayerAdminLevel(highestadmin)) highestadmin = i;
 
-	if(sscanf(params, "ds[64]", targetid, reason))
-		return ChatMsg(playerid, YELLOW, " >  Use: /kick [playerid] [motivo]");
+	if(sscanf(params, "ds[64]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /kick [playerid] [motivo]");
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid)
-		return 3;
+	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" você não pode kickar a si mesmo", playerid);
 
-	if(!IsPlayerConnected(targetid))
-		return 4;
+	if(!IsPlayerConnected(targetid)) return 4;
 
-    new admNm[24];GetPlayerName(playerid, admNm, 24);
-    new pNm[24];GetPlayerName(targetid, pNm, 24);
-	ChatMsgAll(0xC457EBAA, "[Admin]: %s(id:%d) kickou %s(id:%d)! "C_WHITE"[Motivo: %s]", admNm, playerid, pNm, targetid, reason);
-	
-	if(GetPlayerAdminLevel(playerid) != GetPlayerAdminLevel(highestadmin))
-		ChatMsg(highestadmin, YELLOW, " >  %p kickou o player: (%d)%p motivo: %s", playerid, targetid, targetid, reason);
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
-	if(playerid == targetid)
-		ChatMsg(playerid, PINK, " >  %P"C_PINK" você não pode kickar a si mesmo", playerid);
+	if(GetPlayerAdminLevel(playerid) != GetPlayerAdminLevel(highestadmin)) ChatMsg(highestadmin, YELLOW, " >  %p kickou o player: (%d)%p motivo: %s", playerid, targetid, targetid, reason);
 
-	KickPlayer(targetid, reason);
+	KickPlayer(targetid, reason, true);
 
-	return 1;
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) kickou %P (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
 ACMD:msg[1](playerid, params[])
 {
 	new anuncio[255];
 
-	if(sscanf(params, "s[255]", anuncio)){
-		ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
-		return 1;
-	}
+	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
 
-	ChatMsgAll(0xC457EBAA, "[Aviso-Admin] %p(id:%d): diz: {FFFFFF}%s", playerid, playerid, anuncio);
-	return 1;
-}
-
-ACMD:country[1](playerid, params[])
-{
-	if(isnumeric(params))
-	{
-		new targetid = strval(params);
-
-		if(!IsPlayerConnected(targetid))
-		{
-			if(targetid > 99)
-				ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
-
-			else
-				return 4;
-		}
-		if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Aguarde o jogador spawnar.!");
-		
-		new str[520];
-		format(str, sizeof(str), "%s\tPaís: %s", str, GetPlayerCountry(targetid));
-   	 	format(str, sizeof(str), "%s\tCidade: %s", str, GetPlayerCity(targetid));
-    	format(str, sizeof(str), "%s\tLatitude: %s", str, GetPlayerLatitude(targetid));
-    	format(str, sizeof(str), "%s\tLongititude: %s", str, GetPlayerLongtitude(targetid));
-    	format(str, sizeof(str), "%s\tProvedor/ISP: %s", str, GetPlayerProvider(targetid));
-    	format(str, sizeof(str), "%s\tProxy: %s", str, GetPlayerProxyStatus(targetid));
-    	
-		ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "IP Data", str, "Fechar", "");
-	}
-	else ChatMsg(playerid, YELLOW, " >  ID de jogador inválido.", params);
-
-	return 1;
-}
-
-ACMD:allcountry[1](playerid)
-{
-	new
-		list[(MAX_PLAYER_NAME + 3 + MAX_PLAYERS + 1) * MAX_PLAYERS];
-
-	foreach(new i : Player)
-	{
-		format(list, sizeof(list), "%s%p - %s\n", list, i, GetPlayerCountry(playerid));
-	}
-
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_LIST, "Paises dos players", list, "Fechar", "");
-
-	return 1;
+	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EBAA} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
 }
 
 ACMD:cc[1](playerid)
 {
-	for(new i;i<100;i++)
-		ChatMsgAll(WHITE, " ");
+	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
 
-	ChatMsgAll(0xC457EBAA, "[Admin]: %p(id:%d) limpou o chat!", playerid, playerid);
-	return 1;
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EBAA} (%d) limpou o chat!", playerid, playerid);
 }
 
 ACMD:history[1](playerid, params[])
@@ -213,11 +122,7 @@ ACMD:history[1](playerid, params[])
 		type,
 		lookup;
 
-	if(sscanf(params, "s[24]C(a)C()", name, type, lookup))
-	{
-		ChatMsg(playerid, YELLOW, " >  Use: /history [playerid/name] [i/h] [n]");
-		return 1;
-	}
+	if(sscanf(params, "s[24]C(a)C()", name, type, lookup)) return ChatMsg(playerid, YELLOW, " >  Use: /history [playerid/name] [i/h] [n]");
 
 	if(isnumeric(name))
 	{
@@ -225,39 +130,25 @@ ACMD:history[1](playerid, params[])
 
 		if(IsPlayerConnected(targetid))
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-
 		else if(targetid > 99)
 			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
-
 		else
 			return 4;
 	}
 
-	if(!AccountExists(name))
-	{
-		ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
-		return 1;
-	}
+	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 
 	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid))
 	{
 		new playername[MAX_PLAYER_NAME];
-
 		GetPlayerName(playerid, playername, MAX_PLAYER_NAME);
 
-		if(strcmp(name, playername))
-		{
-			ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
-			return 1;
-		}
+		if(strcmp(name, playername)) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
 	}
 
 	if(type == 'i')
 	{
-		if(lookup == 'n')
-		{
-			ShowAccountIPHistoryFromName(playerid, name);
-		}
+		if(lookup == 'n') ShowAccountIPHistoryFromName(playerid, name);
 		else
 		{
 			new ip;
@@ -267,10 +158,7 @@ ACMD:history[1](playerid, params[])
 	}
 	else if(type == 'h')
 	{
-		if(lookup == 'n')
-		{
-			ShowAccountGpciHistoryFromName(playerid, name);
-		}
+		if(lookup == 'n') ShowAccountGpciHistoryFromName(playerid, name);
 		else
 		{
 			new hash[MAX_GPCI_LEN];
@@ -278,11 +166,7 @@ ACMD:history[1](playerid, params[])
 			ShowAccountGpciHistoryFromGpci(playerid, hash);
 		}
 	}
-	else
-	{
-		ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parâmetro opcional 'n' lista o histórico apenas para esse jogador.");
-		return 1;
-	}
+	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parâmetro opcional 'n' lista o histórico apenas para esse jogador.");
 
 	return 1;
 }
@@ -290,6 +174,7 @@ ACMD:history[1](playerid, params[])
 ACMD:comandoslvl1[1](playerid)
 {
     new stringlvl1[800];
+
     strcat(stringlvl1, "{FFFF00}Comandos dos Admins Nivel 1:\n");
     strcat(stringlvl1, "{FF0000}\n");
     strcat(stringlvl1, ""C_BLUE"/(des)calar - calar/descalar um player\n");
@@ -300,6 +185,8 @@ ACMD:comandoslvl1[1](playerid)
     strcat(stringlvl1, ""C_BLUE"/cc - Limpar o chat\n");
     strcat(stringlvl1, ""C_BLUE"/rr - Responder relatórios\n");
     strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear alguém de enviar relatório\n");
+	
     ShowPlayerDialog(playerid, 12401, DIALOG_STYLE_MSGBOX, "Admin 1", stringlvl1, "Fechar", "");
+
     return 1;
 }

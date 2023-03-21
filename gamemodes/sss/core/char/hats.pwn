@@ -54,10 +54,7 @@ ItemType:	hat_ItemType[MAX_HAT_ITEMS],
 
 
 hook OnPlayerConnect(playerid)
-{
 	hat_CurrentHatItem[playerid] = INVALID_ITEM_ID;
-}
-
 
 // Core
 

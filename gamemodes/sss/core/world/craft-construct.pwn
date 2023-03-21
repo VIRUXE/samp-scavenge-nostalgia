@@ -249,7 +249,7 @@ hook OnHoldActionFinish(playerid)
 		
 		if(random(10) == 5){
 			DestroyItem(GetPlayerItem(playerid));
-			ChatMsg(playerid, YELLOW, " > Sua ferramenta quebrou.");
+			ShowActionText(playerid, "~r~Sua ferramenta quebrou.");
 		}
 
 		for( ; count < cons_SelectedItemCount[playerid] && cons_SelectedItems[playerid][count][cft_selectedItemID] != INVALID_ITEM_ID; count++)

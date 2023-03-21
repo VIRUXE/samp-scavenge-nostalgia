@@ -266,7 +266,7 @@ Dialog:Friend_Remove(playerid, response, listitem, inputtext[]){
 }
 
 
-ptask ClanNameTagUpdate_t[5000](playerid)
+ptask ClanNameTagUpdate_t[SEC(5)](playerid)
 {
     ClanNameTagUpdate(playerid);
 }

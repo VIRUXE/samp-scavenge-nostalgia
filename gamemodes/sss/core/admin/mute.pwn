@@ -122,9 +122,3 @@ stock GetPlayerMuteRemainder(playerid)
 
 	return mute_Duration[playerid] - (gettime() - mute_StartTime[playerid]);
 }
-
-/*CMD:testmute(playerid, params[])
-{
-	TogglePlayerMute(playerid, true, strval(params));
-	return 1;
-}*/

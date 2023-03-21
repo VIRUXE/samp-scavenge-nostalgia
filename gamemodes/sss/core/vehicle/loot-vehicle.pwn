@@ -86,9 +86,9 @@ GenerateVehicleData(vehicleid)
 		trunksize,
 		chance;
 
-	type = GetVehicleType(vehicleid);
+	type     = GetVehicleType(vehicleid);
 	category = GetVehicleTypeCategory(type);
-	maxfuel = GetVehicleTypeMaxFuel(type);
+	maxfuel  = GetVehicleTypeMaxFuel(type);
 	GetVehicleTypeLootIndex(type, lootindexname);
 	lootindex = GetLootIndexFromName(lootindexname);
 	trunksize = GetVehicleTypeTrunkSize(type);
@@ -98,9 +98,7 @@ GenerateVehicleData(vehicleid)
 	chance = random(100);
 
 	if(chance < 1) SetVehicleHP(vehicleid, 500 + random(200));
-
 	else if(chance < 5) SetVehicleHP(vehicleid, 400 + random(200));
-
 	else SetVehicleHP(vehicleid, 300 + random(200));
 
 // Fuel
@@ -108,11 +106,8 @@ GenerateVehicleData(vehicleid)
 	chance = random(100);
 
 	if(chance < 1) SetVehicleFuel(vehicleid, maxfuel / 2 + frandom(maxfuel / 2));
-
 	else if(chance < 5) SetVehicleFuel(vehicleid, maxfuel / 4 + frandom(maxfuel / 3));
-
 	else if(chance < 10) SetVehicleFuel(vehicleid, maxfuel / 8 + frandom(maxfuel / 4));
-
 	else SetVehicleFuel(vehicleid, frandom(1.0));
 
 // Visual Damage
@@ -131,22 +126,17 @@ GenerateVehicleData(vehicleid)
 
 // Locks
 
-		if(maxfuel == 0.0)
-			SetVehicleParamsEx(vehicleid, 1, 0, 0, 0, 0, 0, 0);
-
-		else{
+		if(maxfuel == 0.0) SetVehicleParamsEx(vehicleid, 1, 0, 0, 0, 0, 0, 0);
+		else {
 			new locked;
 
-			if(doors)
-				locked = random(2);
+			if(doors) locked = random(2);
 
-			if(panels)
-				SetVehicleTrunkLock(vehicleid, random(2));
+			if(panels) SetVehicleTrunkLock(vehicleid, random(2));
 
 			SetVehicleParamsEx(vehicleid, 0, random(2), !random(100), locked, random(2), random(2), 0);
 
-			if(locked)
-				SetVehicleExternalLock(vehicleid, E_LOCK_STATE_DEFAULT);
+			if(locked) SetVehicleExternalLock(vehicleid, E_LOCK_STATE_DEFAULT);
 		}
 	}
 

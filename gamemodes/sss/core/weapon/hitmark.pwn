@@ -71,8 +71,8 @@ GivePlayerHP(playerid, Float:hp)
 
 ShowHitMarker(playerid, weapon)
 {
-	if(weapon == 0 || IsWeaponMelee(weapon))
-		return 0;
+/*	if(weapon == 0 || IsWeaponMelee(weapon))
+		return 0;*/
 
 	if(weapon == 34 || weapon == 35){
 		TextDrawShowForPlayer(playerid, HitMark_centre);
@@ -85,7 +85,7 @@ ShowHitMarker(playerid, weapon)
 	return 1;
 }
 
-timer HideHitMark[5000](playerid, Text:hitmark)
+timer HideHitMark[SEC(5)](playerid, Text:hitmark)
 	TextDrawHideForPlayer(playerid, hitmark);
 
 hook OnGameModeInit()

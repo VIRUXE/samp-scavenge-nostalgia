@@ -38,8 +38,16 @@ forward OnPlayerVehicleCollide(playerid, targetid, Float:bleedrate, Float:knockm
 
 hook OnScriptInit()
 {
-	GetSettingFloat("vehicle.damage/knock-mult", 1.0, dmg_VehicleVelocityKnockMult);
-	GetSettingFloat("vehicle.damage/bleed-mult", 1.0, dmg_VehicleVelocityBleedMult);
+	new Node:vehicle, Node:node;
+
+	JSON_GetObject(Settings, "vehicle", vehicle);
+	JSON_GetObject(vehicle, "damage", node);
+
+	JSON_GetFloat(node, "knock-mult", dmg_VehicleVelocityKnockMult);
+	JSON_GetFloat(node, "bleed-mult", dmg_VehicleVelocityBleedMult);
+
+	log("[SETTINGS][VEHICLE] Knock Mult: %f", dmg_VehicleVelocityKnockMult);
+	log("[SETTINGS][VEHICLE] Bleed Mult: %f", dmg_VehicleVelocityBleedMult);
 }
 
 hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
@@ -84,7 +92,7 @@ _DoVehicleCollisionDamage(playerid, targetid)
 	if(dmg_ReturnKnockMult[targetid] != knockmult)
 		knockmult = dmg_ReturnKnockMult[targetid];
 
-	PlayerInflictWound(playerid, targetid, E_WOUND_MELEE, bleedrate, 0, NO_CALIBRE, random(2) ? (BODY_PART_TORSO) : (random(2) ? (BODY_PART_RIGHT_LEG) : (BODY_PART_LEFT_LEG)), "Colis�o");
+	PlayerInflictWound(playerid, targetid, E_WOUND_MELEE, bleedrate, 0, NO_CALIBRE, random(2) ? (BODY_PART_TORSO) : (random(2) ? (BODY_PART_RIGHT_LEG) : (BODY_PART_LEFT_LEG)), "Colisão");
 
 	return 1;
 }

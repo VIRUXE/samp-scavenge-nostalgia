@@ -1,7 +1,6 @@
 #include <YSI_Coding\y_hooks>
 
-static 
-	PlayerUpdateWheel[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
+static PlayerUpdateWheel[MAX_PLAYERS] = {INVALID_VEHICLE_ID, ...};
 
 new Timer:UpdateVehWheel[MAX_PLAYERS];
 
@@ -16,9 +15,8 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 	dbg("global", CORE, "[OnPlayerInteractVehicle] in /gamemodes/sss/core/item/wheel.pwn");
 
 	new itemid = GetPlayerItem(playerid);
-	if(GetItemType(itemid) == item_Wheel && PlayerUpdateWheel[playerid] == INVALID_VEHICLE_ID){
-		_WheelRepair(playerid, vehicleid);
-	}
+	if(GetItemType(itemid) == item_Wheel && PlayerUpdateWheel[playerid] == INVALID_VEHICLE_ID) _WheelRepair(playerid, vehicleid);
+
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
@@ -68,10 +66,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSMID_LEFT, WHEELSMID_RIGHT, WHEELSREAR_LEFT, WHEELSREAR_RIGHT: // back
@@ -86,14 +81,10 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
-			default:
-				return 0;
+			default: return 0;
 		}
 	}
 	else
@@ -112,10 +103,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSFRONT_RIGHT:
@@ -130,10 +118,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSREAR_LEFT:
@@ -148,10 +133,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSREAR_RIGHT:
@@ -166,41 +148,26 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else
-				{
-					ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
-				}
+				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
 			}
 
-			default:
-				return 0;
+			default: return 0;
 		}
 	}
 
 	return 1;
 }
 
-timer upVehWheel[7000](playerid, vehicleid, wheelpos) {
+timer upVehWheel[SEC(7)](playerid, vehicleid, wheelpos) {
 
 	new panels, doors, lights, tires;
 	GetVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 
 	switch(wheelpos) {
-		case 0: {
-			UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b0111);
-		}
-		
-		case 1: {
-			UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1101);
-		}
-
-		case 2: {
-			UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1011);
-		}
-
-		case 3: {
-			UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1110);
-		}
+		case 0: UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b0111);
+		case 1: UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1101);
+		case 2: UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1011);
+		case 3: UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires & 0b1110);
 	}
 
 	StopHoldAction(playerid);
@@ -209,39 +176,33 @@ timer upVehWheel[7000](playerid, vehicleid, wheelpos) {
 	
 	ShowActionText(playerid, ls(playerid, "TIREREPP", true), 2000);
 
-	if(GetItemType(GetPlayerItem(playerid)) == item_Wheel)
-		DestroyItem(GetPlayerItem(playerid));
+	if(GetItemType(GetPlayerItem(playerid)) == item_Wheel) DestroyItem(GetPlayerItem(playerid));
 }
 
 hook OnPlayerOpenInventory(playerid){
-	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID)
-		StopInstallWheel(playerid);
+	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) StopInstallWheel(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerOpenContainer(playerid, containerid){
-	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID)
-		StopInstallWheel(playerid);
+	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) StopInstallWheel(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerDropItem(playerid, itemid){
-	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID)
-		StopInstallWheel(playerid);
+	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) StopInstallWheel(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnItemRemovedFromPlayer(playerid, itemid){
-	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID)
-		StopInstallWheel(playerid);
+	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) StopInstallWheel(playerid);
 }
 
-hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger){
-	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID)
-		StopInstallWheel(playerid);
+hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
+	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) StopInstallWheel(playerid);
 
 	return 1;
 }
@@ -249,6 +210,7 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger){
 hook OnPlayerDroppedItem(playerid, itemid){
 	if(GetItemType(itemid) == item_Wheel) {
 		new Float:x, Float:y, Float:z, Float:r;
+
 		GetItemPos(itemid, x, y, z);
 		GetPlayerFacingAngle(playerid, r);
 
@@ -264,12 +226,14 @@ StopInstallWheel(playerid){
 	ClearAnimations(playerid);
 }
 
+// Instalação de rodas
 hook OnHoldActionUpdate(playerid, progress){
 	if(PlayerUpdateWheel[playerid] != INVALID_VEHICLE_ID) {
-		if(GetPlayerTotalVelocity(playerid) > 1.0){
+		if(GetPlayerTotalVelocity(playerid) > 1.0) {
 			StopInstallWheel(playerid);
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
+
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 		return Y_HOOKS_BREAK_RETURN_0;
 	}

@@ -42,7 +42,6 @@ enum
 	PLY_CELL_FOOD,
 	PLY_CELL_SKIN,
 	PLY_CELL_HAT,
-	PLY_CELL_CAMOU,
 	PLY_CELL_HOLST,
 	PLY_CELL_HOLSTEX,
 	PLY_CELL_HELD,
@@ -115,7 +114,6 @@ SavePlayerChar(playerid)
 	data[PLY_CELL_SKIN]		= GetPlayerClothes(playerid);
 	data[PLY_CELL_HAT]		= _:GetItemType(GetPlayerHatItem(playerid));
 
-	//data[PLY_CELL_CAMOU]	= _:GetItemType(GetPlayerHatItem(playerid));
 
 	dbg("gamemodes/sss/core/player/save-load.pwn", 1, "[SAVE:%p] CHR %.1f, %.1f, %.1f, %d, %d", playerid, data[PLY_CELL_HEALTH], data[PLY_CELL_ARMOUR], data[PLY_CELL_FOOD], data[PLY_CELL_SKIN], data[PLY_CELL_HAT]);
 

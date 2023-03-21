@@ -33,7 +33,7 @@ CMD:crafts(playerid, params[])
 
 ShowCraftTypes(playerid)
 {
-	Dialog_Show(playerid, CraftTypes, DIALOG_STYLE_LIST, "Combina��es", "No invent�rio\nNo ch�o\n"C_GREEN"Ajuda", "Selecionar", "Fechar");
+	Dialog_Show(playerid, CraftTypes, DIALOG_STYLE_LIST, "Combinações", "No inventário\nNo chão\n"C_GREEN"Ajuda", "Selecionar", "Fechar");
 }
 
 Dialog:CraftTypes(playerid, response, listitem, inputtext[])
@@ -161,24 +161,24 @@ ShowCraftHelp(playerid)
 {
 	gBigString[playerid][0] = EOS;
 
-	strcat(gBigString[playerid], "Crafting � uma forma de criar novos itens a partir de itens existentes.\n");
-	strcat(gBigString[playerid], "Existem tr�s maneiras de combinar itens em Scavenge e Survive:\n\n");
+	strcat(gBigString[playerid], "Crafting há uma forma de criar novos itens a partir de itens existentes.\n");
+	strcat(gBigString[playerid], "Existem três maneiras de combinar itens em Scavenge e Survive:\n\n");
 
-	strcat(gBigString[playerid], C_YELLOW"Em Telas de Invent�rio (Craftando ou Combinando):\n\n");
-	strcat(gBigString[playerid], C_WHITE"Ao ver o seu invent�rio ou um container (porta malas, caixas, mochilas, etc)\n");
-	strcat(gBigString[playerid], C_WHITE"Selecione 'Combinar' nas op��es do item\n");
-	strcat(gBigString[playerid], C_WHITE"Volte e abra as op��es para outro item\n");
+	strcat(gBigString[playerid], C_YELLOW"Em Telas de inventário (Craftando ou Combinando):\n\n");
+	strcat(gBigString[playerid], C_WHITE"Ao ver o seu inventário ou um container (porta malas, caixas, mochilas, etc)\n");
+	strcat(gBigString[playerid], C_WHITE"Selecione 'Combinar' nas opções do item\n");
+	strcat(gBigString[playerid], C_WHITE"Volte e abra as opções para outro item\n");
 	strcat(gBigString[playerid], C_WHITE"Selecione 'Combinar com ...' para combinar os itens juntos\n");
-	strcat(gBigString[playerid], C_WHITE"Se uma combina��o precisar de mais de dois itens, basta repetir.\n\n");
+	strcat(gBigString[playerid], C_WHITE"Se uma combinação precisar de mais de dois itens, basta repetir.\n\n");
 
-	strcat(gBigString[playerid], C_GREEN"No ch�o (Constru��o):\n\n");
-	strcat(gBigString[playerid], C_WHITE"Coloque todos os ingredientes no ch�o\n");
-	strcat(gBigString[playerid], C_WHITE"Equipar o item 'Ferramenta' especificado na p�gina da combina��o\n");
-	strcat(gBigString[playerid], C_WHITE"Segure a tecla F enquanto est� perto dos ingredientes\n\n");
+	strcat(gBigString[playerid], C_GREEN"No chão (Construção):\n\n");
+	strcat(gBigString[playerid], C_WHITE"Coloque todos os ingredientes no chão\n");
+	strcat(gBigString[playerid], C_WHITE"Equipar o item 'Ferramenta' especificado na página da combinação\n");
+	strcat(gBigString[playerid], C_WHITE"Segure a tecla F enquanto está perto dos ingredientes\n\n");
 
 	strcat(gBigString[playerid], C_BLUE"Mesa de Trabalho:\n\n");
 	strcat(gBigString[playerid], C_WHITE"Coloque todos os itens de ingrediente na Mesa de Trabalho (A Mesa de Trabalho atua como uma caixa)\n");
-	strcat(gBigString[playerid], C_WHITE"Equipar o item 'Ferramenta' especificado na p�gina da Combina��o\n");
+	strcat(gBigString[playerid], C_WHITE"Equipar o item 'Ferramenta' especificado na página da Combinação\n");
 	strcat(gBigString[playerid], C_WHITE"Segure a tecla F proximo da Mesa de Trabalho");
 
 	Dialog_Show(playerid, CraftHelp, DIALOG_STYLE_MSGBOX, "Crafting Help", gBigString[playerid], "Voltar", "Cancelar");

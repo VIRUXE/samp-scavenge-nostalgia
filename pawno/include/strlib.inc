@@ -1,3 +1,8 @@
+#if defined STRLIB_INC
+	#endinput
+#endif
+#define STRLIB_INC
+
 #include <a_samp>
 
 #if !defined STRLIB_BUFFER_SIZE
@@ -103,6 +108,20 @@ forward bool:isempty(const string[]);
  *   True if equal, otherwise false.
  */
 forward bool:isequal(const str1[], const str2[], bool:ignorecase = false);
+
+/*
+ * Compare two strings, return Levenshtein distance between the two
+ *
+ * Parameters:
+ *   str1[] - The first string.
+ *   str2[] - The second string.
+ *   ignorecase - Whether to compare them in a case-insensitive manner.
+ *
+ * Returns:
+ *   Number of changes between the two strings.
+ *   This includes insertions, removals, and added characters (in that order I believe).
+ */
+forward strdistance(const str1[], const str2[], bool:ignorecase = false);
 
 /*
  * Split a string by a given delimiter.
@@ -356,7 +375,7 @@ forward _strlib_funcinc();
 public _strlib_funcinc() {
 	new temp[1];
 	
-	format(!"", 0, !"");
+	format(!temp, 0, !temp);
 	strcat(temp, temp);
 	strpack(temp, temp);
 	strunpack(temp, temp);
@@ -471,8 +490,10 @@ static stock IsOverlapping(const str1[], size1 = sizeof(str1), const str2[], siz
 }
 
 // strlib functions
-#define ispacked(%1) \
-	((%1)[0] > 255)
+#if !defined ispacked
+    #define ispacked(%1) \
+        ((%1)[0] > 255)
+#endif
 
 stock strgetfirstc(const string[]) {
 	return ispacked(string) ? string{0} : string[0];
@@ -516,6 +537,64 @@ stock bool:isequal(const str1[], const str2[], bool:ignorecase = false) {
         return false;
 
     return !strcmp(str1, str2, ignorecase);
+}
+
+stock strdistance(const str1[], const str2[], bool:ignorecase = false) {
+	// If they are equal, theres no distance anyways
+	if(isequal(str1, str2, ignorecase))
+		return 0;
+
+	static data[128][128];
+
+	new bool:pack1 = ispacked(str1),
+		bool:pack2 = ispacked(str2);
+
+	new size1 = strlen(str1),
+		size2 = strlen(str2);
+
+	// Zero-length strings would return the size of the other string, because it's that many insertions
+	if (size1 == 0)
+		return size2;
+
+	if (size2 == 0)
+		return size1;
+
+	// Intitalize data array
+	for (new i; i <= size1; i++)
+		data[i][0] = i;
+
+	for (new j; j <= size2; j++)
+		data[0][j] = j;
+
+	// Loop through both strings, comparing each character to each character in the other string (think matrix)
+	for (new j = 1; j <= size2; j++) {
+		for (new i = 1; i <= size1; i++) {
+			new char1 = pack1 ? str1{i - 1} : str1[i - 1],
+				char2 = pack2 ? str2{j - 1} : str2[j - 1];
+
+			// If ignorecase, make chars lower case.
+			if(ignorecase) {
+				if (65 <= char1 <= 90)
+					char1 += 32;
+
+				if (65 <= char2 <= 90)
+					char2 += 32;
+			}
+
+			if (char1 == char2)
+				data[i][j] = data[i - 1][j - 1];
+			else {
+				new l1 = data[i - 1][j] + 1,
+				l2 = data[i][j - 1] + 1,
+				l3 = data[i - 1][j - 1] + 1;
+
+				l2 = (l1 > l2 ? l2 : l1);
+				data[i][j] = (l3 > l2 ? l2 : l3);
+			}
+		}
+	}
+
+	return data[size1][size2];
 }
 
 stock strimplode(const glue[], output[], maxlength = sizeof(output), ...) {
@@ -1351,19 +1430,19 @@ stock utf8decode(dest[], const source[], maxlength = sizeof(dest)) {
 		if (c & 0b10000000) {
 			if (c & 0b11100000 == 0b11000000) {
 				// 2 byte
-				if (i + 3 >= len) continue;
+				if (i + 1 >= len) continue;
 				
 				dest[idx++] = (c & 0b00011111) << 6 | (source[++i] & 0b00111111);
 			} else if (c & 0b11110000 == 0b11100000) {
 				// 3 byte
-				if (i + 4 >= len) continue;
+				if (i + 2 >= len) continue;
 				
 				dest[idx++] = (c & 0b00001111) << 12 |
 				              (source[++i] & 0b00111111) << 6 |
 				              (source[++i] & 0b00111111);
 			} else if (c & 0b11111000 == 0b11110000) {
 				// 4 byte
-				if (i + 5 >= len) continue;
+				if (i + 3 >= len) continue;
 				
 				dest[idx++] = (c & 0b00000111) << 18 |
 				              (source[++i] & 0b00111111) << 12 |
@@ -1371,7 +1450,7 @@ stock utf8decode(dest[], const source[], maxlength = sizeof(dest)) {
 				              (source[++i] & 0b00111111);
 			} else if (c & 0b11111100 == 0b11111000) {
 				// 5 byte
-				if (i + 6 >= len) continue;
+				if (i + 4 >= len) continue;
 				
 				dest[idx++] = (c & 0b00000011) << 24 |
 				              (source[++i] & 0b00111111) << 18 |
@@ -1380,7 +1459,7 @@ stock utf8decode(dest[], const source[], maxlength = sizeof(dest)) {
 				              (source[++i] & 0b00111111);
 			} else if (c & 0b11111110 == 0b11111100) {
 				// 6 byte
-				if (i + 7 >= len) continue;
+				if (i + 5 >= len) continue;
 				
 				dest[idx++] = (c & 0b00000001) << 30 |
 				              (source[++i] & 0b00111111) << 24 |
@@ -1654,6 +1733,9 @@ stock sprintf(const fmat[], {Float, _}:...) {
 	#emit CONST.alt  frm_header
 	#emit MOVS       12
 	
+	// Remember the parameter count
+	#emit LOAD.S.alt  8
+
 	// Change the stack pointer to FRM + 12
 	#emit ADD.C    12 // pri is FRM (see above)
 	#emit SCTRL    4
@@ -1665,7 +1747,7 @@ stock sprintf(const fmat[], {Float, _}:...) {
 	#emit PUSH.C      output
 	
 	// Push the argument count
-	#emit LOAD.S.pri  8
+	#emit MOVE.pri
 	#emit ADD.C       8
 	#emit PUSH.pri
 	

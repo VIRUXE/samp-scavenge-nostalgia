@@ -158,7 +158,7 @@ hook OnHoldActionFinish(playerid)
 
 			GetPlayerPos(playerid, x, y, z);
 
-		    CreateStaticLootSpawn(x, y, z - FLOOR_OFFSET, GetLootIndexFromName("world_civilian"), 30, 4);
+		    CreateStaticLootSpawn(x, y, z - FLOOR_OFFSET, world_civilian, 30, 4);
 	    }
 
 	    ClearAnimations(playerid);
@@ -168,4 +168,3 @@ hook OnHoldActionFinish(playerid)
 	}
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
-

@@ -1,44 +1,36 @@
 #include <YSI\y_hooks>
 
 static
-	PlayerText:	WatchBackground[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+	PlayerText:	WatchBackground[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...}; // TextDraw cobrindo o mapa (só funciona fora do /widescreen)
 
-new PlayerText:Interface0[MAX_PLAYERS];
-new PlayerText:Interface1[MAX_PLAYERS];
-new PlayerText:Interface2[MAX_PLAYERS];
-new PlayerText:Interface3[MAX_PLAYERS];
-new PlayerText:Interface4[MAX_PLAYERS];
-new PlayerText:Interface5[MAX_PLAYERS];
-new PlayerText:Interface6[MAX_PLAYERS];
-new PlayerText:Interface7[MAX_PLAYERS];
-new PlayerText:Interface8[MAX_PLAYERS];
-new PlayerText:Interface9[MAX_PLAYERS];
-new PlayerText:Interface10[MAX_PLAYERS];
-new PlayerText:Interface11[MAX_PLAYERS];
-new PlayerText:Interface12[MAX_PLAYERS];
-new PlayerText:Interface13[MAX_PLAYERS];
-new PlayerText:Interface14[MAX_PLAYERS];
+new PlayerText:Interface0[MAX_PLAYERS];	// TextDraw de fundo de onde fica o status (sprites, fome, kills, sangramento e ped)
+new PlayerText:Interface1[MAX_PLAYERS];	// TextDraw do sprite da fome (burger)
+new PlayerText:Interface2[MAX_PLAYERS];	// TextDraw do valor da fome (numérico)
+new PlayerText:Interface3[MAX_PLAYERS];	// TextDraw do sprite do sangramento (sangue)
+new PlayerText:Interface4[MAX_PLAYERS];	// TextDraw do valor do sangramento (numérico)
+new PlayerText:Interface5[MAX_PLAYERS];	// TextDraw do sprite das kills (arma)
+new PlayerText:Interface6[MAX_PLAYERS];	// TextDraw do valor das kills (numérico)
+new PlayerText:Interface7[MAX_PLAYERS];	// TextDraw do sprite do ped (personagem laranja)
+new PlayerText:Interface8[MAX_PLAYERS];	// TextDraw do valor do ped (numérico)
+new PlayerText:Interface9[MAX_PLAYERS];	// TextDraw de fundo de onde fica o clan (sprite e nome)
+new PlayerText:Interface10[MAX_PLAYERS]; // TextDraw decorativa de barra preta na esquerda fundo de onde fica o status 
+new PlayerText:Interface11[MAX_PLAYERS]; // TextDraw do sprite do clan (personagem verde)
+new PlayerText:Interface12[MAX_PLAYERS]; // TextDraw do valor do clan (nome)
+new PlayerText:Interface13[MAX_PLAYERS]; // TextDraw decorativa de barra preta na esquerda fundo de onde fica o clan
+new PlayerText:Interface14[MAX_PLAYERS]; // TextDraw decorativa de barra divisória preta no meio do fundo de onde fica o status
 
-ShowWatch(playerid)
-{
+ShowWatch(playerid) 
 	PlayerTextDrawShow(playerid, WatchBackground[playerid]);
-}
 
-HideWatch(playerid)
-{
+HideWatch(playerid) 
 	PlayerTextDrawHide(playerid, WatchBackground[playerid]);
-}
 
 
-ptask ShowStatus[1000](playerid)
+ptask ShowStatus[SEC(1)](playerid)
 {
-	if(!IsPlayerSpawned(playerid))
-	    return;
-	    
-	new
-		str[150],
-		Float:food,
-		Float:bleed;
+	if(IsPlayerInTutorial(playerid) || !IsPlayerAlive(playerid) || !IsPlayerSpawned(playerid)) return 0; 
+
+	new str[150], Float:food, Float:bleed;
 		
     food = GetPlayerFP(playerid);
     bleed = GetPlayerBleedRate(playerid);
@@ -68,7 +60,7 @@ ptask ShowStatus[1000](playerid)
 	PlayerTextDrawSetString(playerid, Interface4[playerid], str);
 	PlayerTextDrawShow(playerid, Interface4[playerid]);
 
-	if(bleed > 0.00)
+	if(bleed >= 0.01)
 
 	format(str, sizeof(str), ls(playerid, "STTSANGUE2"), GetPlayerBleedRate(playerid));
 
@@ -101,7 +93,7 @@ ptask ShowStatus[1000](playerid)
 
 // ---------------------------------------------------------------------------------------
 
-	return;
+	return 1;
 }
 
 hook OnPlayerConnect(playerid)
@@ -238,7 +230,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawBoxColor(playerid, Interface11[playerid], 255);
 	PlayerTextDrawTextSize(playerid, Interface11[playerid], 10.000000, 10.000000);
 
-	Interface12[playerid] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Voc� est� sem um clan.");
+	Interface12[playerid] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Você está sem um clan.");
 	PlayerTextDrawBackgroundColor(playerid, Interface12[playerid], 255);
 	PlayerTextDrawFont(playerid, Interface12[playerid], 1);
 	PlayerTextDrawLetterSize(playerid, Interface12[playerid], 0.160000, 0.899999);

@@ -2,7 +2,7 @@
 
 hook OnGameModeInit(){
 	new tmp;
-	tmp = DefineBagType("Mochila Cora��o",			item_HeartShapedBox,6);
+	tmp = DefineBagType("Mochila Coração",			item_HeartShapedBox,6);
 
 	SetBagOffsetsForSkin(tmp, 60, 0.121852, -0.110032, -0.009413,  0.000000, 90.000000, 0.000000, 1.000000, 1.000000, 1.000000);
 	SetBagOffsetsForSkin(tmp, 170, 0.121852, -0.110032, -0.009413,  0.000000, 90.000000, 0.000000, 1.000000, 1.000000, 1.000000);

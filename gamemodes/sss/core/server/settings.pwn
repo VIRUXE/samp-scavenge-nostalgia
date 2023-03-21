@@ -1,253 +1,165 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
+new Node:Settings;
 
 LoadSettings()
 {
-	if(!fexist(SETTINGS_FILE))
-	{
-		err("Settings file '"SETTINGS_FILE"' not found. Creating and using default values.");
+	new result;
+	new Node:node, length;
 
-		fclose(fopen(SETTINGS_FILE, io_write));
+	log("[SETTINGS] Carregando configurações...");
+
+	result = JSON_ParseFile("settings.json", Settings);
+	if(result) // Não foi possível carregar o arquivo
+	{
+		log("[SETTINGS] Erro: Não foi possível carregar o arquivo de configurações. Usando as configurações padrão.");
+
+		Settings = JSON_Object(
+			"server", JSON_Object(
+				"motd", JSON_String("Bem vindo ao servidor Scavenge Nostalgia!"),
+				"address", JSON_String("scavengenostalgia.fun"),
+				"website", JSON_String("http://www.scavengenostalgia.fun"),
+				"discord", JSON_String("http://discord.scavengenostalgia.fun"),
+				"global-debug-level", JSON_Int(0),
+				"loot-spawn-multiplier", JSON_Float(0.010000),
+				"max-uptime", JSON_Int(14400), // 4 horas em segundos
+				"rules", JSON_Array(
+					JSON_String("Não use hacks."),
+					JSON_String("Não use bugs."),
+					JSON_String("Não use exploits."),
+					JSON_String("Não use macros."),
+					JSON_String("Não use programas de terceiros.")
+				)
+			),
+			"player", JSON_Object(
+				"combat-log-window", JSON_Int(30),
+				"login-freeze-time", JSON_Int(8),
+				"max-tab-out-time", JSON_Int(60),
+				"ping-limit", JSON_Int(300),
+				"spawn", JSON_Object(
+					// Normal e VIP
+					"blood", JSON_Object(
+						"normal", JSON_Float(100.0),
+						"vip", JSON_Float(100.0)
+					),
+					"food", JSON_Object(
+						"normal", JSON_Float(80.0),
+						"vip", JSON_Float(100.0)
+					),
+					"bleed", JSON_Object(
+						"normal", JSON_Float(0.0),
+						"vip", JSON_Float(0.0)
+					)
+				)
+			),
+			"vehicle", JSON_Object(
+				"spawn", JSON_Object(
+					"chance", JSON_Float(1.0),
+					"print-each", JSON_Bool(false),
+					"print-total", JSON_Bool(true)
+				),
+				"damage", JSON_Object(
+					"knock-mult", JSON_Float(1.0),
+					"bleed-mult", JSON_Float(1.0)
+				)
+			),
+			"world", JSON_Object(
+				"weather", JSON_Int(4)
+			)
+		);
+
+		JSON_SaveFile("settings.json", Settings, .pretty = true);
 	}
 
-	GetSettingString("server/motd", " > Entre em nosso discord para ver as novidades: https://discord.gg/jduSSH2Ezf", gMessageOfTheDay);
-	GetSettingString("server/website", "https://discord.gg/jduSSH2Ezf", gWebsiteURL);
+	// ! Sem validação mesmo, se o cara colocar um valor errado, vai dar merda. Que se foda.
 
-	GetSettingStringArray("server/rules", "Please update the 'server/rules' array in '"SETTINGS_FILE"'.", MAX_RULE, gRuleList, gTotalRules, MAX_RULE_LEN);
-	GetSettingStringArray("server/staff", "StaffName", MAX_STAFF, gStaffList, gTotalStaff, MAX_STAFF_LEN);
+	// Carrega as configurações do servidor
+	JSON_GetObject(Settings, "server", node);
 
-	GetSettingInt("server/max-uptime", 14400, gServerMaxUptime);
-	GetSettingInt("player/combat-log-window", 30, gCombatLogWindow);
-	GetSettingInt("player/login-freeze-time", 8, gLoginFreezeTime);
-	GetSettingInt("player/max-tab-out-time", 60, gMaxTaboutTime);
-	GetSettingInt("player/ping-limit", 300, gPingLimit);
+	JSON_GetString(node, "motd", gMessageOfTheDay);
+	log("[SETTINGS] Mensagem do dia: %s", gMessageOfTheDay);
+
+	JSON_GetString(node, "website", gWebsiteURL);
+	log("[SETTINGS] Website: %s", gWebsiteURL);
+
+	// Podemos carregar ate 24 regras (MAX_RULE)
+	new Node:rules;
+
+	JSON_GetArray(node, "rules", rules);
+	JSON_ArrayLength(rules, length);
+
+	// Certificar de que não tentamos carregar mais regras do que o máximo permitido (MAX_RULE)
+	if(length > MAX_RULE) {
+		length = MAX_RULE;
+		log("[SETTINGS] Aviso: O número de regras excede o máximo permitido. As regras extras serão ignoradas.");
+	}
+
+	for(new i = 0; i < length; i++) {
+		new Node:rule;
+
+		JSON_ArrayObject(rules, i, rule);
+		JSON_GetNodeString(rule, gRuleList[i], MAX_RULE_LEN);
+
+		log("[SETTINGS] Regra %d: %s", i + 1, gRuleList[i]);
+	}
+
+	JSON_GetInt(node, "max-uptime", gServerMaxUptime);
+	log("[SETTINGS] Ciclo de Restart: %d horas", gServerMaxUptime / 3600);
+
+	// Carrega as configurações do jogador
+	JSON_GetObject(Settings, "player", node);
+
+	JSON_GetInt(node, "combat-log-window", gCombatLogWindow);
+	log("[SETTINGS] Janela de Log de Combate: %d segundos", gCombatLogWindow);
+
+	JSON_GetInt(node, "login-freeze-time", gLoginFreezeTime);
+	log("[SETTINGS] Tempo de congelamento de login: %d segundos", gLoginFreezeTime);
+
+	JSON_GetInt(node, "max-tab-out-time", gMaxTaboutTime);
+	log("[SETTINGS] Tempo máximo de tab-out: %d segundos", gMaxTaboutTime);
+
+	JSON_GetInt(node, "ping-limit", gPingLimit);
+	log("[SETTINGS] Limite de ping: %d", gPingLimit);
 }
 
 
-stock GetSettingInt(path[], defaultvalue, &output, printsetting = true, openfile = true)
-{
-	if(openfile)
-		file_Open(SETTINGS_FILE);
+stock GetSettingInt(const name[]) {
+	new Node:node, Node:temp, i, result;
+	new nameSplit[32][32], nameSplitCount;
 
-	if(!file_IsKey(path))
-	{
-		file_SetVal(path, defaultvalue);
-		output = defaultvalue;
-		file_Save(SETTINGS_FILE);
+	strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
 
-		if(printsetting)
-			log("[DEFAULT] %s: %d", path, output);
-	}
-	else
-	{
-		output = file_GetVal(path);
+	// Get the first level
+	JSON_GetObject(Settings, nameSplit[0], node);
 
-		if(printsetting)
-			log("[SETTING] %s: %d", path, output);
+	// Go through each level
+	for(i = 1; i < nameSplitCount; i++) {
+		JSON_GetObject(node, nameSplit[i], temp);
+		node = temp;
 	}
 
-	if(openfile)
-		file_Close();
+	// Get the value
+	JSON_GetNodeInt(node, result);
+
+	return result;
 }
 
-stock GetSettingFloat(path[], Float:defaultvalue, &Float:output, printsetting = true, openfile = true)
-{
-	if(openfile)
-		file_Open(SETTINGS_FILE);
+stock Float:GetSettingFloat(const name[]) {
+	new Node:node, Node:temp, i;
+	new nameSplit[32][32], nameSplitCount;
+	new Float:result;
 
-	if(!file_IsKey(path))
-	{
-		file_SetFloat(path, defaultvalue);
-		output = defaultvalue;
-		file_Save(SETTINGS_FILE);
+	strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
 
-		if(printsetting)
-			log("[DEFAULT] %s: %f", path, output);
-	}
-	else
-	{
-		output = file_GetFloat(path);
+	// Get the first level
+	JSON_GetObject(Settings, nameSplit[0], node);
 
-		if(printsetting)
-			log("[SETTING] %s: %f", path, output);
+	// Go through each level
+	for(i = 1; i < nameSplitCount; i++) {
+		JSON_GetObject(node, nameSplit[i], temp);
+		node = temp;
 	}
 
-	if(openfile)
-		file_Close();
-}
+	// Get the value
+	JSON_GetNodeFloat(node, result);
 
-stock GetSettingString(path[], defaultvalue[], output[], maxsize = sizeof(output), printsetting = true, openfile = true)
-{
-	if(openfile)
-		file_Open(SETTINGS_FILE);
-
-	if(!file_IsKey(path))
-	{
-		file_SetStr(path, defaultvalue);
-		output[0] = EOS;
-		strcat(output, defaultvalue, maxsize);
-		file_Save(SETTINGS_FILE);
-
-		if(printsetting)
-			log("[DEFAULT] %s: %s", path, output);
-	}
-	else
-	{
-		file_GetStr(path, output, maxsize);
-
-		if(printsetting)
-			log("[SETTING] %s: %s", path, output);
-	}
-
-	if(openfile)
-		file_Close();
-}
-
-
-/*
-	Arrays
-*/
-
-stock GetSettingIntArray(path[], defaultvalue, max, output[], &outputtotal, printsetting = true)
-{
-	file_Open(SETTINGS_FILE);
-
-	new tmpkey[MAX_KEY_LENGTH];
-
-	while(outputtotal < max)
-	{
-		format(tmpkey, sizeof(tmpkey), "%s/%d", path, outputtotal);
-
-		if(!file_IsKey(tmpkey))
-		{
-			if(outputtotal == 0)
-			{
-				file_SetInt(tmpkey, defaultvalue);
-				file_Save(SETTINGS_FILE);
-				output[0] = defaultvalue;
-
-				if(printsetting)
-					log("[DEFAULT] %s: %d", tmpkey, output[0]);
-			}
-
-			break;
-		}
-
-		GetSettingInt(tmpkey, defaultvalue, output[outputtotal], printsetting, false);
-
-		outputtotal++;
-	}
-
-	file_Close();
-}
-
-stock GetSettingFloatArray(path[], Float:defaultvalue, max, Float:output[], &outputtotal, printsetting = true)
-{
-	file_Open(SETTINGS_FILE);
-
-	new tmpkey[MAX_KEY_LENGTH];
-
-	while(outputtotal < max)
-	{
-		format(tmpkey, sizeof(tmpkey), "%s/%d", path, outputtotal);
-
-		if(!file_IsKey(tmpkey))
-		{
-			if(outputtotal == 0)
-			{
-				file_SetFloat(tmpkey, defaultvalue);
-				file_Save(SETTINGS_FILE);
-				output[0] = defaultvalue;
-
-				if(printsetting)
-					log("[DEFAULT] %s: %f", tmpkey, output[0]);
-			}
-
-			break;
-		}
-
-		GetSettingFloat(tmpkey, defaultvalue, output[outputtotal], printsetting, false);
-
-		outputtotal++;
-	}
-
-	file_Close();
-}
-
-stock GetSettingStringArray(path[], defaultvalue[], max, output[][], &outputtotal, outputmaxsize, printsetting = true)
-{
-	file_Open(SETTINGS_FILE);
-
-	new tmpkey[MAX_KEY_LENGTH];
-
-	while(outputtotal < max)
-	{
-		format(tmpkey, sizeof(tmpkey), "%s/%d", path, outputtotal);
-
-		if(!file_IsKey(tmpkey))
-		{
-			if(outputtotal == 0)
-			{
-				file_SetStr(tmpkey, defaultvalue);
-				file_Save(SETTINGS_FILE);
-				output[0][0] = EOS;
-				strcat(output[0], defaultvalue, outputmaxsize);
-
-				if(printsetting)
-					log("[DEFAULT] %s: %s", tmpkey, output[0]);
-			}
-
-			break;
-		}
-
-		GetSettingString(tmpkey, defaultvalue, output[outputtotal], outputmaxsize, printsetting, false);
-
-		outputtotal++;
-	}
-
-	file_Close();
-}
-
-stock UpdateSettingInt(path[], value)
-{
-	file_Open(SETTINGS_FILE);
-	file_SetVal(path, value);
-	file_Save(SETTINGS_FILE);
-	file_Close();
-}
-
-stock UpdateSettingFloat(path[], Float:value)
-{
-	file_Open(SETTINGS_FILE);
-	file_SetFloat(path, value);
-	file_Save(SETTINGS_FILE);
-	file_Close();
-}
-
-stock UpdateSettingString(path[], value[])
-{
-	file_Open(SETTINGS_FILE);
-	file_SetStr(path, value);
-	file_Save(SETTINGS_FILE);
-	file_Close();
+	return result;
 }
