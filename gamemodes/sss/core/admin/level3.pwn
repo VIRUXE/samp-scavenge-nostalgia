@@ -325,7 +325,7 @@ ACMD:veiculo[3](playerid, params[])
 	// Reparar completamente o veiculo
 	else if(isequal(command, "reparar", true))
 	{
-		SetVehicleHealth(vehicleid, 1000.0);
+		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o veículo mais do que 990.0. Mais do que isso é hack.
 		RepairVehicle(vehicleid); // Repara a lataria
 		
 		SaveVehicle(vehicleid);
