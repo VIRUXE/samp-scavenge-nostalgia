@@ -325,8 +325,35 @@ ACMD:veiculo[3](playerid, params[])
 	// Reparar completamente o veiculo
 	else if(isequal(command, "reparar", true))
 	{
-		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o veículo mais do que 990.0. Mais do que isso é hack.
+		/* 
+			Como o RepairVehicle coloca o veículo com 1000.0 de vida,
+			precisamos colocar 990.0 para não ser declarado como hack.
+		 */
+		// Primeiro removemos os jogadores do veículo, para o servidor não os declarar como hack
+		// Armazemos os jogadores em um array, para os colocarmos de volta depois
+		new occupants[4] = {...INVALID_PLAYER_ID}; // 4 é o máximo de jogadores que podem estar em um veículo
+		
+		for(new i : Player) {
+			if(GetPlayerVehicleID(i) == vehicleid) {
+				new seat = GetPlayerVehicleSeat(i);
+
+				if(seat == -1) continue; // Se por alguma razão o jogador já não estiver mais no veículo, continuamos
+
+				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua posição no veículo
+
+				RemovePlayerFromVehicle(i);
+			}
+		}
+
 		RepairVehicle(vehicleid); // Repara a lataria
+		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o veículo mais do que 990.0. Mais do que isso é hack.
+
+		// Colocamos os jogadores de volta no veículo
+		for(new i = 0; i < sizeof(occupants); i++) {
+			if(!IsPlayerConnected(occupants[i])) continue;
+
+			PutPlayerInVehicle(occupants[i], vehicleid, i);
+		}
 		
 		SaveVehicle(vehicleid);
 
