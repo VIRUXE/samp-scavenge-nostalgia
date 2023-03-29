@@ -24,8 +24,6 @@
 
 #include <YSI\y_hooks>
 
-#define VEHICLE_TOOL_RED		0xFF0000FF
-
 #define VEHICLE_HEALTH_CHUNK_1				(300.0)
 #define VEHICLE_HEALTH_CHUNK_2				(450.0)
 #define VEHICLE_HEALTH_CHUNK_3				(650.0)
@@ -68,16 +66,24 @@ enum E_VEHICLE_DATA {
 	veh_geid[GEID_LEN]
 }
 
+enum E_VEHICLE_TOOLS {
+	PlayerText:VEH_TOOL_WRENCH,
+	PlayerText:VEH_TOOL_SCREWDRIVER,
+	PlayerText:VEH_TOOL_HAMMER,
+	PlayerText:VEH_TOOL_SPANNER
+}
+
 static
 	veh_Data[MAX_VEHICLES][E_VEHICLE_DATA],
-	veh_TypeCount[MAX_VEHICLE_TYPE];
+	veh_TypeCount[MAX_VEHICLE_TYPE],
+	bool:veh_ShowingRepairStatus[MAX_PLAYERS]; // Para evitar que se esteja que se repita mostrar o ui de reparação
 
 new
 	Iterator:veh_Index<MAX_VEHICLES>;
 
 static
 PlayerText:	veh_FuelUI				[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
-PlayerText: veh_DmgUI				[MAX_PLAYERS][5] = {PlayerText:INVALID_TEXT_DRAW, ...},
+PlayerText: veh_DmgUI				[MAX_PLAYERS][E_VEHICLE_TOOLS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 PlayerText:	veh_EngineUI			[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 PlayerText:	veh_DoorsUI				[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 PlayerText:	veh_NameUI				[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
@@ -138,56 +144,56 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawFont				(playerid, veh_FuelUI[playerid], 2);
 	PlayerTextDrawSetProportional	(playerid, veh_FuelUI[playerid], 1);
 
-	veh_DmgUI[playerid][1] = CreatePlayerTextDraw(playerid, 266.500, 373.000, "_");
-	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][1], 90.000, 90.000);
-	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][1], 1);
-	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], RED);
-	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][1], 0);
-	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][1], 0);
-	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][1], 0);
-	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][1], 5);
-	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][1], 0);
-	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][1], 18644);
-	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][1], 0.000, 180.000, 4.000, 2.000);
+	veh_DmgUI[playerid][VEH_TOOL_WRENCH] = CreatePlayerTextDraw(playerid, 246.500, 360.000, "_");
+	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 90.000, 90.000);
+	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 1);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], RED);
+	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0);
+	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0);
+	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0);
+	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 5);
+	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0);
+	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 18633);
+	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0.000, 90.000, 90.000, 2.000);
+	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 0, 0);
 
-	veh_DmgUI[playerid][2] = CreatePlayerTextDraw(playerid, 274.500, 350.000, "_");
-	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][2], 90.000, 90.000);
-	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][2], 1);
-	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], RED);
-	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][2], 0);
-	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][2], 0);
-	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][2], 0);
-	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][2], 5);
-	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][2], 0);
-	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][2], 18635);
-	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][2], 0.000, -6.000, 180.000, 2.000);
-	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][2], 0, 0);
+	veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER] = CreatePlayerTextDraw(playerid, 266.500, 373.000, "_");
+	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 90.000, 90.000);
+	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 1);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], RED);
+	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 0);
+	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 0);
+	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 0);
+	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 5);
+	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 0);
+	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 18644);
+	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 0.000, 180.000, 4.000, 2.000);
 
-	veh_DmgUI[playerid][3] = CreatePlayerTextDraw(playerid, 246.500, 360.000, "_");
-	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][3], 90.000, 90.000);
-	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][3], 1);
-	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], RED);
-	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][3], 0);
-	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][3], 0);
-	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][3], 0);
-	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][3], 5);
-	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][3], 0);
-	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][3], 18633);
-	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][3], 0.000, 90.000, 90.000, 2.000);
-	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][3], 0, 0);
+	veh_DmgUI[playerid][VEH_TOOL_HAMMER] = CreatePlayerTextDraw(playerid, 274.500, 350.000, "_");
+	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 90.000, 90.000);
+	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 1);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], RED);
+	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0);
+	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0);
+	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0);
+	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 5);
+	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0);
+	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 18635);
+	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0.000, -6.000, 180.000, 2.000);
+	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 0, 0);
 
-	veh_DmgUI[playerid][4] = CreatePlayerTextDraw(playerid, 300.500, 350.000, "_");
-	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][4], 90.000, 90.000);
-	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][4], 1);
-	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], RED);
-	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][4], 0);
-	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][4], 0);
-	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][4], 0);
-	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][4], 5);
-	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][4], 0);
-	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][4], 19627);
-	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][4], -90.000, -180.000, -90.000, 2.000);
-	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][4], 0, 0);
+	veh_DmgUI[playerid][VEH_TOOL_SPANNER] = CreatePlayerTextDraw(playerid, 300.500, 350.000, "_");
+	PlayerTextDrawTextSize(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 90.000, 90.000);
+	PlayerTextDrawAlignment(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 1);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], RED);
+	PlayerTextDrawSetShadow(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 0);
+	PlayerTextDrawSetOutline(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 0);
+	PlayerTextDrawBackgroundColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 0);
+	PlayerTextDrawFont(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 5);
+	PlayerTextDrawSetProportional(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 0);
+	PlayerTextDrawSetPreviewModel(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 19627);
+	PlayerTextDrawSetPreviewRot(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], -90.000, -180.000, -90.000, 2.000);
+	PlayerTextDrawSetPreviewVehCol(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 0, 0);
 
 	veh_EngineUI[playerid] 			= CreatePlayerTextDraw(playerid, 297.790, 432.000, "MOTOR");
 	PlayerTextDrawLetterSize		(playerid, veh_EngineUI[playerid], 0.230, 1.299);
@@ -431,10 +437,62 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	return 1;
 }
 
+// Esconde o status de reparo do veículo, após 3 segundos.
+timer HideRepairStatus[SEC(3)](playerid) {
+	// printf("HideRepairStatus(%d)", playerid);
+
+	veh_ShowingRepairStatus[playerid] = false;
+
+	// Esconde as textdraws veh_DmgUI
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER]);
+	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER]);
+}
+
+UpdateRepairStatus(playerid, vehicleid) {
+	// Prepara as cores de acordo com o reparo necessário.
+	new Float:health;
+
+	GetVehicleHealth(vehicleid, health);
+
+	// printf("UpdateRepairStatus(%d, %d) - Health: %.1f", playerid, vehicleid, health);
+
+	/* 
+		Chunk 1: 300.0 - Motor não liga mais
+		Chunk 2: 450.0 - Menos do que isso, o motor vai falhar
+		Chunk 3: 650.0
+		Chunk 4: 800.0
+		Max Health: 990.0
+	 */
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH], 		health >= 448.0 ? -1 : 0xFF0000FF);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER], 	health >= 648.0 ? -1 : 0xFF0000FF);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER], 		health >= 798.0 ? -1 : 0xFF0000FF);
+	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 		health >= 988.0 ? -1 : 0xFF0000FF);
+}
+
+// Mostra o status de reparo do veículo, durante 3 segundos.
+ShowRepairStatus(playerid, vehicleid, bool:hide = true) {
+	if(veh_ShowingRepairStatus[playerid]) return;
+
+	// printf("ShowRepairStatus(%d, %d)", playerid, vehicleid);
+
+	veh_ShowingRepairStatus[playerid] = true;
+
+	UpdateRepairStatus(playerid, vehicleid);
+
+	// Mostra as textdraws veh_DmgUI
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER]);
+
+	if(hide)
+		defer HideRepairStatus(playerid); // Esconde o status de reparo do veículo, após 3 segundos.
+}
+
 PlayerVehicleUpdate(playerid)
 {
-	log("PlayerVehicleUpdate %d", playerid);
-	
 	new
 		vehicleid,
 		vehicletype,
@@ -472,59 +530,27 @@ PlayerVehicleUpdate(playerid)
 		else SetVehicleHealth(vehicleid, 299.0);
 	}
 
-//	if(velocitychange > 70.0)
-//	{
-//		switch(GetVehicleTypeCategory(vehicletype))
-//		{
-//			case VEHICLE_CATEGORY_HELICOPTER, VEHICLE_CATEGORY_PLANE:
-//				SetVehicleAngularVelocity(vehicleid, 0.0, 0.0, 1.0);
-//
-//			default:
-//				PlayerInflictWound(INVALID_PLAYER_ID, playerid, E_WND_TYPE:1, velocitychange * 0.0001136, velocitychange * 0.00166, -1, BODY_PART_HEAD, "Collision");
-//		}
-//	}
+	// Faz o jogador sofrer dano de acordo com a velocidade do embate.
+/* 	if(velocitychange > 70.0)
+	{
+		switch(GetVehicleTypeCategory(vehicletype))
+		{
+			case VEHICLE_CATEGORY_HELICOPTER, VEHICLE_CATEGORY_PLANE:
+				SetVehicleAngularVelocity(vehicleid, 0.0, 0.0, 1.0);
 
-	if(health <= VEHICLE_HEALTH_CHUNK_2) // 300.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health >= VEHICLE_HEALTH_MAX - 3.0)
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], -1);
-	}
-	else if(health >= VEHICLE_HEALTH_CHUNK_4 - 3.0) // 800.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health >= VEHICLE_HEALTH_CHUNK_3 - 3.0) // 650.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], -1);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
-	else if(health >= VEHICLE_HEALTH_CHUNK_2 - 3.0) // 450.0
-	{
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][3], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][1], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][2], VEHICLE_TOOL_RED);
-		PlayerTextDrawColor(playerid, veh_DmgUI[playerid][4], VEHICLE_TOOL_RED);
-	}
+			default:
+				PlayerInflictWound(INVALID_PLAYER_ID, playerid, E_WND_TYPE:1, velocitychange * 0.0001136, velocitychange * 0.00166, -1, BODY_PART_HEAD, "Collision");
+		}
+	} */
 
 	if(maxfuel > 0.0) // If the vehicle is a fuel powered vehicle
 	{
 		new
 			Float:fuel = GetVehicleFuel(vehicleid),
 			str[18];
+		
+		// Se utiliza combustível então podemos mostrar o estado do motor (ferramentas).
+		UpdateRepairStatus(playerid, vehicleid);
 
 		if(fuel <= 0.0)
 		{
@@ -593,7 +619,7 @@ PlayerVehicleUpdate(playerid)
 	}
 
 	veh_TempVelocity[playerid] = GetPlayerTotalVelocity(playerid);
-	veh_TempHealth[playerid] = health;
+	veh_TempHealth[playerid]   = health;
 
 	return;
 }
@@ -697,7 +723,7 @@ ShowVehicleUI(playerid, vehicleid)
 
 	PlayerTextDrawSetString(playerid, veh_NameUI[playerid], vehiclename);
 	
-//	PlayerTextDrawSetString(playerid, veh_DmgUI[playerid][4], ls(playerid, "VEHDMG"));
+//	PlayerTextDrawSetString(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], ls(playerid, "VEHDMG"));
     PlayerTextDrawSetString(playerid, veh_EngineUI[playerid], ls(playerid, "VEHENG"));
     PlayerTextDrawSetString(playerid, veh_DoorsUI[playerid], ls(playerid, "VEHDOR"));
     
@@ -707,10 +733,7 @@ ShowVehicleUI(playerid, vehicleid)
 
 	if(GetVehicleTypeCategory(GetVehicleType(vehicleid)) != VEHICLE_CATEGORY_PUSHBIKE)
 	{
-		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][3]);
-		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][1]);
-		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][2]);
-		PlayerTextDrawShow(playerid, veh_DmgUI[playerid][4]);
+		ShowRepairStatus(playerid, vehicleid, false);
 
 		PlayerTextDrawShow(playerid, veh_FuelUI[playerid]);
 		PlayerTextDrawShow(playerid, veh_EngineUI[playerid]);
@@ -721,10 +744,8 @@ ShowVehicleUI(playerid, vehicleid)
 
 HideVehicleUI(playerid)
 {
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][3]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][1]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][2]);
-	PlayerTextDrawHide(playerid, veh_DmgUI[playerid][4]);
+	HideRepairStatus(playerid);
+
 	PlayerTextDrawHide(playerid, veh_NameUI[playerid]);
 	//PlayerTextDrawHide(playerid, veh_SpeedUI[playerid]);
 	PlayerTextDrawHide(playerid, veh_FuelUI[playerid]);
@@ -752,10 +773,10 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 {
 	// TODO: Some anticheat magic before syncing.
 
-	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][3]);
-	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][1]);
-	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][2]);
-	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][4]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_WRENCH]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_SCREWDRIVER]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_HAMMER]);
+	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER]);
 	
 	GetVehicleDamageStatus(vehicleid,
 		veh_Data[vehicleid][veh_panels],

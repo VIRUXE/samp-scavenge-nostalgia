@@ -331,9 +331,9 @@ ACMD:veiculo[3](playerid, params[])
 		 */
 		// Primeiro removemos os jogadores do veículo, para o servidor não os declarar como hack
 		// Armazemos os jogadores em um array, para os colocarmos de volta depois
-		new occupants[4] = {...INVALID_PLAYER_ID}; // 4 é o máximo de jogadores que podem estar em um veículo
+		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o máximo de jogadores que podem estar em um veículo
 		
-		for(new i : Player) {
+		foreach(new i : Player) {
 			if(GetPlayerVehicleID(i) == vehicleid) {
 				new seat = GetPlayerVehicleSeat(i);
 
@@ -352,6 +352,7 @@ ACMD:veiculo[3](playerid, params[])
 		for(new i = 0; i < sizeof(occupants); i++) {
 			if(!IsPlayerConnected(occupants[i])) continue;
 
+			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocá-lo de volta no veículo no preciso momento.
 			PutPlayerInVehicle(occupants[i], vehicleid, i);
 		}
 		

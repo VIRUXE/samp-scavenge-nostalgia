@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaws' Scavenge and Survive
-
-		Copyright (C) 2017 Barnaby "Southclaws" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -37,8 +13,6 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 {
-
-
 	if(angle < 25.0 || angle > 335.0)
 	{
 		new
@@ -48,45 +22,67 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		GetVehicleHealth(vehicleid, vehiclehealth);
 		itemtype = GetItemType(GetPlayerItem(playerid));
 
+		/* if(vehiclehealth >= VEHICLE_HEALTH_MAX) { // Não precisa de reparos.
+			CancelPlayerMovement(playerid);
+			ShowRepairStatus(playerid, vehicleid);
+			return Y_HOOKS_CONTINUE_RETURN_0;
+		} */
+
 		if(itemtype == item_Wrench)
 		{
+			CancelPlayerMovement(playerid);
+
 			if(VEHICLE_HEALTH_CHUNK_1 - 2.0 <= vehiclehealth <= VEHICLE_HEALTH_CHUNK_2)
 			{
-				CancelPlayerMovement(playerid);
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			else {
+				ShowRepairStatus(playerid, vehicleid);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			}
 		}	
 		else if(itemtype == item_Screwdriver)
 		{
+			CancelPlayerMovement(playerid);
+
 			if(VEHICLE_HEALTH_CHUNK_2 - 2.0 <= vehiclehealth <= VEHICLE_HEALTH_CHUNK_3)
 			{
-				CancelPlayerMovement(playerid);
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			else {
+				ShowRepairStatus(playerid, vehicleid);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			}
 		}	
 		else if(itemtype == item_Hammer)
 		{
+			CancelPlayerMovement(playerid);
+
 			if(VEHICLE_HEALTH_CHUNK_3 - 2.0 <= vehiclehealth <= VEHICLE_HEALTH_CHUNK_4)
 			{
-				CancelPlayerMovement(playerid);
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			else {
+				ShowRepairStatus(playerid, vehicleid);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			}
 		}
 		else if(itemtype == item_Spanner)
 		{
+			CancelPlayerMovement(playerid);
+
 			if(VEHICLE_HEALTH_CHUNK_4 - 2.0 <= vehiclehealth <= VEHICLE_HEALTH_MAX)
 			{
-				CancelPlayerMovement(playerid);
 				StartRepairingVehicle(playerid, vehicleid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			else {
+				ShowRepairStatus(playerid, vehicleid);
+				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+			}
 		}
 		else if(itemtype == item_Wheel)
 		{
@@ -97,6 +93,9 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			CancelPlayerMovement(playerid);
 			ShowLightList(playerid, vehicleid);
+		} else { // Útil para mostrar as ferramentas necessárias para reparar o veículo
+			CancelPlayerMovement(playerid);
+			ShowRepairStatus(playerid, vehicleid);
 		}
 	}
 
@@ -105,12 +104,13 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-
-
-	if(oldkeys & 16)
+	if(oldkeys & KEY_SECONDARY_ATTACK) // * Botao direito do mouse? Em caso de querer mirar?
 	{
-		StopRepairingVehicle(playerid);
-		StopRefuellingVehicle(playerid);
+		if(fix_TargetVehicle[playerid] != INVALID_VEHICLE_ID)
+		{
+			StopRepairingVehicle(playerid);
+			StopRefuellingVehicle(playerid);
+		}
 	}
 }
 
@@ -121,12 +121,11 @@ StartRepairingVehicle(playerid, vehicleid)
 	if(fix_Progress[playerid] >= 990.0) return 0;
 
 	ApplyAnimation(playerid, "INT_SHOP", "SHOP_CASHIER", 4.0, 1, 0, 0, 0, 0, 1);
-	VehicleBonnetState(fix_TargetVehicle[playerid], 1);
+	VehicleBonnetState(fix_TargetVehicle[playerid], 1); // Abre o capô do veículo
 
-	if(IsPlayerVip(playerid))
-    	StartHoldAction(playerid, 38000, floatround(fix_Progress[playerid] * 38));
-	else
-    	StartHoldAction(playerid, 50000, floatround(fix_Progress[playerid] * 50));
+	new buildtime = IsPlayerVip(playerid) ? 38 : 50;
+
+   	StartHoldAction(playerid, buildtime * 1000, floatround(fix_Progress[playerid] * buildtime));
 
 	fix_TargetVehicle[playerid] = vehicleid;
 
@@ -159,9 +158,11 @@ StopRepairingVehicle(playerid)
         SetVehicleHealth(fix_TargetVehicle[playerid], 990.0);
  	}
 
-	VehicleBonnetState(fix_TargetVehicle[playerid], 0);
+	VehicleBonnetState(fix_TargetVehicle[playerid], 0); // Fecha o capô do veículo
 	StopHoldAction(playerid);
 	ClearAnimations(playerid);
+
+	ShowRepairStatus(playerid, fix_TargetVehicle[playerid]);
 
 	fix_TargetVehicle[playerid] = INVALID_VEHICLE_ID;
 
