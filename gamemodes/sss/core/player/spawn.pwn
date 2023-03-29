@@ -212,7 +212,11 @@ PlayerSpawnExistingCharacter(playerid)
 		ChatMsgLang(playerid, YELLOW, "WARNCOUNTER", GetPlayerWarnings(playerid));
 	}
 
-	FreezePlayer(playerid, gLoginFreezeTime * 1000);
+	// Congelar se não for admin nível 6
+	if(GetPlayerAdminLevel(playerid) != 6)
+		defer UnfreezePlayer_delay(playerid, SEC(gLoginFreezeTime), 0);
+	else
+		UnfreezePlayer(playerid);
 
 	PrepareForSpawn(playerid);
 
@@ -331,7 +335,11 @@ PlayerSpawnNewCharacter(playerid, gender)
 
 	SetPlayerAliveState(playerid, true);
 
-	FreezePlayer(playerid, gLoginFreezeTime * 1000);
+	// Congelar se não for admin nível 6
+	if(GetPlayerAdminLevel(playerid) != 6)
+		defer UnfreezePlayer_delay(playerid, SEC(gLoginFreezeTime), 0);
+	else
+		UnfreezePlayer(playerid);
     
 	PrepareForSpawn(playerid);
 

@@ -51,6 +51,8 @@ hook OnPlayerDisconnect(playerid, reason)
 
 FreezePlayer(playerid, duration = 0, msg = 0)
 {
+	log("[FREEZE] %p (%d) foi congelado por %d segundos", playerid, playerid, duration);
+
 	TogglePlayerControllable(playerid, false);
 	frz_Frozen[playerid] = true;
 
