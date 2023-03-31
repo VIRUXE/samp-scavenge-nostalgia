@@ -7,7 +7,7 @@ hook OnItemAddToInventory(playerid, itemid)
         GangZoneHideForPlayer(playerid, MiniMapOverlay);
         WCIconSpawn(playerid);
         ShowSupplyIconSpawn(playerid);
-        HideWatch(playerid);
+        ToggleHudComponent(playerid, HUD_RADAR, false);
     }
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -20,7 +20,7 @@ hook OnItemRemoveFInventory(playerid, itemid)
 	if(itemtype == item_Map) 
     {
         GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-        ShowWatch(playerid);
+        ToggleHudComponent(playerid, HUD_RADAR, true);
 
         if(WCDropped == 1)
             RemovePlayerMapIcon(playerid, ICON_WC);
@@ -36,5 +36,5 @@ hook OnItemRemoveFInventory(playerid, itemid)
 stock HideDutyGangZone(playerid)
 {
     GangZoneHideForPlayer(playerid, MiniMapOverlay);
-    ShowWatch(playerid);
+    ToggleHudComponent(playerid, HUD_RADAR, true);
 }

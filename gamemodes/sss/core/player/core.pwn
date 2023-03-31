@@ -508,6 +508,9 @@ stock IsPlayerHudOn(playerid)
 	return ply_Data[playerid][ply_ShowHUD];
 }
 
+/* 
+	TODO: Refatorar essa merda. Esta dividido
+ */
 stock TogglePlayerHUD(playerid, bool:toggle)
 {
 	if(!IsPlayerConnected(playerid)) return 0;

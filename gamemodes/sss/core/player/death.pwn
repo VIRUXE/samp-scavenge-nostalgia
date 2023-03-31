@@ -121,7 +121,7 @@ _OnDeath(playerid, killerid)
 		death_PosZ[playerid] += 0.5;
 	}
 
-	UnloadPlayerHUD(playerid);
+	ToggleHud(playerid, false);
 	DropItems(playerid, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid], true);
 	RemovePlayerWeapon(playerid);
 	RemoveAllDrugs(playerid);

@@ -285,16 +285,36 @@ public OnGameModeInit()
 #define KEYTEXT_LIGHTS				"~k~~CONVERSATION_NO~"
 #define KEYTEXT_DOORS				"~k~~TOGGLE_SUBMISSIONS~"
 
+// HUD Components
+#define MAX_HUD_COMPONENTS 16
+
+#define HUD_RADAR 0 					// Cobre o radar
+#define HUD_STATUS_BG 1 				// Fundo dos textos do status
+#define HUD_STATUS_FOOD_SPRITE 2 		// Hamburguer
+#define HUD_STATUS_FOOD_VALUE 3 		// Valor da fome
+#define HUD_STATUS_BLEED_SPRITE 4 		// Sangue
+#define HUD_STATUS_BLEED_VALUE 5 		// Valor do sangramento
+#define HUD_STATUS_KILLS_SPRITE 6 		// Arma
+#define HUD_STATUS_KILLS_VALUE 7 		// Valor das kills
+#define HUD_STATUS_PED_SPRITE 8 		// Personagem laranja
+#define HUD_STATUS_PED_VALUE 9 			// Valor do ped
+#define HUD_STATUS_CLAN_BG 10 			// Fundo dos texto do clan
+#define HUD_STATUS_CLAN_BORDER_LEFT 11  // Barra preta na esquerda do fundo do clan
+#define HUD_STATUS_CLAN_SPRITE 12 		// Personagem verde
+#define HUD_STATUS_CLAN_VALUE 13 		// Nome do clan
+#define HUD_STATUS_BORDER_LEFT 14 		// Barra preta na esquerda do fundo do status
+#define HUD_STATUS_DIVIDER 15 			// Barra divisória preta no meio do fundo do status
+
 // Attachment slots
 enum
 {
-	ATTACHSLOT_ITEM,		// 0 - Same as SIF/Item
-	ATTACHSLOT_BAG,			// 1 - Bag on back
-	ATTACHSLOT_HOLSTER,		// 2 - Item holstering
-	ATTACHSLOT_HAT,			// 3 - Head-wear slot
-	ATTACHSLOT_FACE,		// 4 - Face-wear slot
-	ATTACHSLOT_BLOOD,		// 5 - Bleeding particle effect
-	ATTACHSLOT_ARMOUR		// 6 - Armour model slot
+	ATTACHSLOT_ITEM,	// 0 - Same as SIF/Item
+	ATTACHSLOT_BAG,		// 1 - Bag on back
+	ATTACHSLOT_HOLSTER,	// 2 - Item holstering
+	ATTACHSLOT_HAT,		// 3 - Head-wear slot
+	ATTACHSLOT_FACE,	// 4 - Face-wear slot
+	ATTACHSLOT_BLOOD,	// 5 - Bleeding particle effect
+	ATTACHSLOT_ARMOUR	// 6 - Armour model slot
 }
 
 

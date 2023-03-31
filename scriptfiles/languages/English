@@ -274,17 +274,6 @@ STATUSUPD=~y~~h~Score: ~w~%d  ~y~~h~Deaths: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Ble
 STATUSUPD2=~y~~h~Score: ~w~%d  ~y~~h~Deaths: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Bleeding: ~r~~h~~h~%0.2f  ~y~~h~Hunger: ~r~~h~~h~%0.1f
 STATUSUPD3=~y~~h~Score: ~w~%d  ~y~~h~Deaths: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Bleeding: ~g~~h~~h~%0.2f  ~y~~h~Hunger: ~r~~h~~h~%0.1f
 STATUSUPD4=~y~~h~Score: ~w~%d  ~y~~h~Deaths: ~w~%d  ~y~~h~Spree: ~w~%d  ~y~~h~Bleeding: ~r~~h~~h~%0.2f  ~y~~h~Hunger: ~g~~h~~h~%0.1f
-
-STTSCORE=~w~%d
-STTPED=~w~%d
-STTCLAN=~w~%s
-
-STTFOME=~g~~h~~h~%0.1f
-STTFOME2=~r~~h~~h~%0.1f
-
-STTSANGUE=%0.2f
-STTSANGUE2=~r~~h~~h~%0.2f
-
 LOCKBREAKNO=This vehicle has been locked with a crafted lock and cannot be broken
 LOCKBREAKDR=Breaking open door
 LOCKBREAKTR=Breaking open trunk

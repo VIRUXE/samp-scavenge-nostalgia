@@ -158,19 +158,20 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
+	ToggleHud(playerid, true);
+
 	if(IsPlayerInTutorial(playerid))
 	{
-		LoadPlayerHUD(playerid);
 		SetPlayerVirtualWorld(playerid, 0);
 	}
 
-	if(!PlayerMapCheck(playerid)) GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-
+	if(!PlayerMapCheck(playerid))
+		GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
 	else 
 	{
 		ShowSupplyIconSpawn(playerid);
 		WCIconSpawn(playerid);
-		HideWatch(playerid);
+		ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false);
 	}
 	
 	new hour, minute;
@@ -269,16 +270,15 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
 	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/spawn.pwn");
 
-	if(playertextid == ClassButtonMale[playerid]) PlayerSpawnNewCharacter(playerid, GENDER_MALE);
-	else if(playertextid == ClassButtonFemale[playerid]) PlayerSpawnNewCharacter(playerid, GENDER_FEMALE);
+	if(playertextid == ClassButtonMale[playerid])
+		PlayerSpawnNewCharacter(playerid, GENDER_MALE);
+	else if(playertextid == ClassButtonFemale[playerid])
+		PlayerSpawnNewCharacter(playerid, GENDER_FEMALE);
 }
 
 PlayerSpawnNewCharacter(playerid, gender)
 {
 	if(IsPlayerSpawned(playerid)) return 0;
-
-	UnloadPlayerHUD(playerid);
-	LoadPlayerHUD(playerid);
 
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
