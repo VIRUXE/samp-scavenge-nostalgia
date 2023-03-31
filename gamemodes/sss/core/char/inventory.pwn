@@ -372,6 +372,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 	UpdatePlayerGear(playerid);
 	ShowPlayerHealthInfo(playerid);
 	SelectTextDraw(playerid, 0xFFFF00FF);
+	HideHelpTip(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
