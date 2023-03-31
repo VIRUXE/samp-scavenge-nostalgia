@@ -62,7 +62,7 @@ public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
 				player_AntiCheat[playerid] = 2;
 
 				foreach(new p : Player) {
-					if(p != playerid) ChatMsg(p, YELLOW, "[Anti-Cheat] %P (id:%d) nao esta autorizado a entrar!", playerid, playerid);
+					if(p != playerid) ChatMsg(p, YELLOW, "[Anti-Cheat] %P (%d)"C_YELLOW" nao esta autorizado a entrar!", playerid, playerid);
 				}
 
 				log("[ANTICHEAT] Nao autorizado: %s (%d)", GetPlayerNameEx(playerid), playerid);
@@ -72,7 +72,7 @@ public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
 
 				// Tell all the players that this player joined without using the anti-cheat
 				foreach(new p : Player) {
-					if(p != playerid) ChatMsg(p, YELLOW, "[Anti-Cheat] %P (id:%d) entrou sem usar o anti-cheat!", playerid, playerid);
+					if(p != playerid) ChatMsg(p, YELLOW, "[Anti-Cheat] %P (%d)"C_YELLOW" entrou sem usar o anti-cheat!", playerid, playerid);
 				}
 
 				log("[ANTICHEAT] Nao iniciado: %s (%d)", GetPlayerNameEx(playerid), playerid);
