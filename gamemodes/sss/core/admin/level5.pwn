@@ -87,11 +87,6 @@ ACMD:setplayerscore[5](playerid,params[])
 	return 1;
 }
 
-ACMD:hud[5](playerid) // * Na realidade isso deveria estar disponivel para os players
-{
-	TogglePlayerHUD(playerid, !IsPlayerHudOn(playerid));
-}
-
 /*ACMD:nametags[5](playerid, params[])
 {
 	ToggleNameTagsForPlayer(playerid, !GetPlayerNameTagsToggle(playerid));
