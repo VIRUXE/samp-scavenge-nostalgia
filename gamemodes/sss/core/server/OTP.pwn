@@ -9,7 +9,7 @@ enum E_OTP {
 };
 
 static 
-    bool:otp_mode = true,
+    bool:otp_mode = false,
     otp[MAX_PLAYERS][E_OTP];
 
 timer InvalidateOTPCode[MIN(1)](playerid) {
@@ -26,7 +26,6 @@ timer InvalidateOTPCode[MIN(1)](playerid) {
 hook OnGameModeInit() {
     // Load Setting
     new Node:node, bool:setting;
-
 
     JSON_GetObject(Settings, "server", node);
     JSON_GetObject(node, "otp", node);
@@ -88,6 +87,9 @@ stock GenerateOTP(playerid) {
 
     defer InvalidateOTPCode(playerid);
 
+    // Atualiza o banco de dados
+    Request(client, sprintf("nostalgia/otp.php?nick=%s&code=%s", GetPlayerNameEx(playerid), otp[playerid][otp_code]), HTTP_METHOD_GET, "");
+
     printf("[OTP] Chave unica gerada para o jogador '%p' (%d): %s", playerid, playerid, otp[playerid][otp_code]);
 }
 
@@ -96,7 +98,10 @@ stock bool:IsPlayerWaitingOTP(playerid) {
 }
 
 Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
-    if(IsPlayerAdmin(playerid)) return;
+    if(IsPlayerAdmin(playerid)) {
+        _OnPlayerConnect(playerid);
+        return;
+    }
 
     new elapsed_time = GetTickCountDifference(GetTickCount(), otp[playerid][otp_response_tick]);
 
