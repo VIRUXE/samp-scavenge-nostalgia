@@ -28,7 +28,7 @@ HideWatch(playerid)
 
 ptask ShowStatus[SEC(1)](playerid)
 {
-	if(IsPlayerInTutorial(playerid) || !IsPlayerAlive(playerid) || !IsPlayerSpawned(playerid)) return 0; 
+	if(!IsPlayerAlive(playerid) || !IsPlayerSpawned(playerid)) return 0;
 
 	new str[150], Float:food, Float:bleed;
 		
