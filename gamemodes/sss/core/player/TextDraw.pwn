@@ -215,6 +215,24 @@ ToggleHudComponent(playerid, componentid, bool:toggle)
 
 ToggleHud(playerid, bool:toggle)
 {
-	for(new i = 0; i < MAX_HUD_COMPONENTS-1; i++)
-		ToggleHudComponent(playerid, i, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_BG, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_FOOD_SPRITE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_FOOD_VALUE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_BLEED_SPRITE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_BLEED_VALUE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_KILLS_SPRITE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_KILLS_VALUE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_PED_SPRITE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_PED_VALUE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_CLAN_BG, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_CLAN_BORDER_LEFT, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_CLAN_SPRITE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_CLAN_VALUE, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_BORDER_LEFT, toggle);
+	ToggleHudComponent(playerid, HUD_STATUS_DIVIDER, toggle);
 }
+
+/* CMD:hud(playerid, params[]) {
+
+	ToggleHud(playerid, true, false);
+} */
