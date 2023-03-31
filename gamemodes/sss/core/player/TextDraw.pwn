@@ -205,7 +205,10 @@ hook OnPlayerConnect(playerid)
 
 ToggleHudComponent(playerid, componentid, bool:toggle)
 {
-	if(componentid >= MAX_HUD_COMPONENTS) return;
+	if(componentid >= MAX_HUD_COMPONENTS) {
+		printf("ToggleHudComponent: Invalid component id %d", componentid);
+		return;
+	}
 
 	if(toggle)
 		PlayerTextDrawShow(playerid, HUD[playerid][componentid]);
