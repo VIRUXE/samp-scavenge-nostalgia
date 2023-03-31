@@ -130,7 +130,7 @@ SpawnLoggedInPlayer(playerid)
 	if(IsPlayerAlive(playerid) && !PlayerSpawnExistingCharacter(playerid)) // Se o player já está vivo e não deu para spawnar o personagem existente
 	{
 		log("[SPAWN] Spawnando personagem existente para %p (%d)", playerid, playerid);
-		SetPlayerBrightness(playerid, 255);
+		SetPlayerScreenFade(playerid, 255);
 		return 1;
 	}
 
@@ -250,7 +250,7 @@ PlayerCreateNewCharacter(playerid)
 	SetPlayerCameraPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z - 1.0);
 	Streamer_UpdateEx(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
 
-	SetPlayerBrightness(playerid, 0);
+	SetPlayerScreenFade(playerid, 0);
 	TogglePlayerControllable(playerid, false);
 
 	if(IsPlayerLoggedIn(playerid))
@@ -346,7 +346,7 @@ PlayerSpawnNewCharacter(playerid, gender)
 	PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
 	PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
 
-	SetPlayerBrightness(playerid, 255);
+	SetPlayerScreenFade(playerid, 255);
 
 	log("[SPAWN] %p (%d) criou um novo personagem em %.2f, %.2f, %.2f (%.2f)", playerid, playerid, x, y, z, r);
     

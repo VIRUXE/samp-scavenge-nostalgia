@@ -117,7 +117,7 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
             // Remove the code from memory
             otp[playerid][otp_code][0] = EOS;
 
-            SetPlayerBrightness(playerid, 0);
+            SetPlayerScreenFade(playerid, 0);
             _OnPlayerConnect(playerid);
         } else {
             printf("[OTP] Chave unica para o jogador '%p' (%d) invalida.", playerid, playerid);

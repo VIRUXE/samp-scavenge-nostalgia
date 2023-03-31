@@ -436,7 +436,7 @@ new RequestsClient:client;
 #include "sss/core/player/ipv4-log.pwn"
 #include "sss/core/player/gpci-log.pwn"
 //#include "sss/core/player/gpci-whitelist.pwn"
-#include "sss/core/player/brightness.pwn"
+#include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/spawn.pwn"
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/death.pwn"

@@ -7,7 +7,7 @@ PlayerText:	BrightnessUI[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/brightness.pwn");
+	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/screenfade.pwn");
 
 	BrightnessLevel[playerid] = 255;
 
@@ -27,7 +27,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize			(playerid, BrightnessUI[playerid], 640.000000, 0.000000);
 }
 
-stock GetPlayerBrightness(playerid) return BrightnessLevel[playerid];
+stock GetPlayerScreenFade(playerid) return BrightnessLevel[playerid];
 
 ptask BrightnessUpdate[100](playerid)
 {
@@ -90,7 +90,13 @@ ptask BrightnessUpdate[100](playerid)
 	return;
 }
 
-stock SetPlayerBrightness(playerid, level)
+/* 
+	Southclaw borrou o cerebro aqui.
+	
+	0 - Tela limpa
+	255 - Tela preta
+ */
+stock SetPlayerScreenFade(playerid, level)
 {
     if(!IsPlayerConnected(playerid)) return 0;
 		

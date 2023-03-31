@@ -474,7 +474,7 @@ Login(playerid)
 	acc_LoggedIn[playerid] = true;
 	acc_LoginAttempts[playerid] = 0;
 
-	SetPlayerBrightness(playerid, 255);
+	SetPlayerScreenFade(playerid, 255);
 	SpawnLoggedInPlayer(playerid);
 	StopAudioStreamForPlayer(playerid);
 

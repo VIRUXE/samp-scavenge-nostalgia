@@ -150,7 +150,7 @@ public OnPlayerConnect(playerid)
 	if(IsPlayerNPC(playerid)) return 0;
 
 	if(IsOTPModeEnabled()) {
-		SetPlayerBrightness(playerid, 255);
+		SetPlayerScreenFade(playerid, 255);
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 	} else {

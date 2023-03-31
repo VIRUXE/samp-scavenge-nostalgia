@@ -85,7 +85,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 		PlayerTextDrawHide(playerid, ClassButtonTutorial[playerid]);
 
 		// Remove a tela preta
-		SetPlayerBrightness(playerid, 255);
+		SetPlayerScreenFade(playerid, 255);
 	}
 }
 
@@ -314,7 +314,7 @@ ExitTutorial(playerid)
 	SetPlayerVirtualWorld(playerid, 0);
 	
 	PlayerCreateNewCharacter(playerid);
-	SetPlayerBrightness(playerid, 255);
+	SetPlayerScreenFade(playerid, 255);
 
 	// Destroi os itens e pickups do tutorial
 	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) {
