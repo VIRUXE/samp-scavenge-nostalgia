@@ -108,7 +108,7 @@ timer UpdateTutorialProgress[1000](playerid)
 		strcat(str, "~r~X~w~ Reparar Veiculo~n~");
 
 
-	GetItemExtraData(PlayerTutorial_Item[9][playerid] == 1);
+	GetItemExtraData(PlayerTutorial_Item[9][playerid]);
 	if(IsValidTent(tentid))
 		strcat(str, "~g~V Montar Tenda~n~"), progress++;
 	else
