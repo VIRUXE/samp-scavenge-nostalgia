@@ -459,3 +459,14 @@ ACMD:dbl[5](playerid)
 
 	return 1;
 }
+
+ACMD:otp[5](playerid)
+{
+	new bool:otp = IsOTPModeEnabled();
+
+	ToggleOTPMode(!otp);
+
+	ChatMsgAdmins(1, YELLOW, " >  Modo de Chave Unica %s", !otp ? "ativado" : "desativado");
+
+	return 1;
+}

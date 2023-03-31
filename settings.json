@@ -33,7 +33,12 @@
       "Não use macros.",
       "Não use programas de terceiros."
     ],
-    "website": "http://www.scavengenostalgia.fun"
+    "website": "http://www.scavengenostalgia.fun",
+    "otp": {
+      "enabled": false,
+      "length": 6,
+      "timeout": 60
+    }
   },
   "vehicle": {
     "damage": {

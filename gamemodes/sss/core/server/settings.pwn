@@ -27,6 +27,11 @@ LoadSettings()
 					JSON_String("Não use exploits."),
 					JSON_String("Não use macros."),
 					JSON_String("Não use programas de terceiros.")
+				),
+				"otp", JSON_Object(
+					"enabled", JSON_Bool(false),
+					"length", JSON_Int(6),
+					"timeout", JSON_Int(60)
 				)
 			),
 			"player", JSON_Object(

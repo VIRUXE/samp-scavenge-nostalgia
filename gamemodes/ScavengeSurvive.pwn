@@ -371,6 +371,7 @@ new RequestsClient:client;
 
 // SERVER CORE
 #include "sss/core/server/settings.pwn"
+#include "sss/core/server/OTP.pwn"
 #include "sss/core/server/text-tags.pwn"
 #include "sss/core/server/weather.pwn"
 //#include "sss/core/server/save-block.pwn"

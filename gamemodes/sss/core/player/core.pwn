@@ -80,10 +80,7 @@ Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
 	else Kick(playerid);
 }
 
-public OnPlayerConnect(playerid)
-{
-	if(IsPlayerNPC(playerid)) return 0;
-
+_OnPlayerConnect(playerid) {
 	log("[JOIN] %p (%d) entrou.", playerid, playerid);
 	SetPlayerColor(playerid, 0xB8B8B800);
 
@@ -144,6 +141,21 @@ public OnPlayerConnect(playerid)
 	}
 
 	ply_Data[playerid][ply_ShowHUD] = true;
+
+	return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+	if(IsPlayerNPC(playerid)) return 0;
+
+	if(IsOTPModeEnabled()) {
+		SetPlayerBrightness(playerid, 255);
+        GenerateOTP(playerid);
+        ShowOTPPrompt(playerid);
+	} else {
+		_OnPlayerConnect(playerid);
+	}
 
 	return 1;
 }
