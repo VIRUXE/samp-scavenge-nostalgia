@@ -24,3 +24,7 @@ scriptfiles/INI_Clan
 scriptfiles/INI_Data
 *.log
 gamemodes/linecount.json
+announce.exe
+samp-npc.exe
+dependencies
+plugins

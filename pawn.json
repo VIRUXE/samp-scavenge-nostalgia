@@ -1,0 +1,23 @@
+{
+	"user": "Oupier",
+	"repo": "Nostalgia---Scavenge",
+	"tag": "0.0.1",
+	"entry": "gamemodes\\ScavengeSurvive.pwn",
+	"output": "gamemodes\\ScavengeSurvive.amx",
+	"dependencies": [
+		"JaTochNietDan/SA-MP-FileManager@v1.5.1",
+		"Y-Less/sscanf@v2.13.8",
+		"Southclaws/pawn-json@v1.4.1",
+		"Southclaws/pawn-requests@0.10.0",
+		"pawn-lang/YSI-Includes@5.06.1932",
+		"Pottus/ColAndreas@1.5.0",
+		"samp-incognito/samp-streamer-plugin@2.9.6",
+		"Southclaws/pawn-ctime@1.2.0",
+		"katursis/Pawn.RakNet@1.6.0",
+		"Southclaws/samp-whirlpool@1.0.0",
+		"Zeex/samp-plugin-profiler@2.15.3",
+		"Zeex/samp-plugin-crashdetect@4.21"
+	],
+	"local": true
+	
+}
