@@ -498,7 +498,12 @@ _ReloadWeapon(playerid)
 		if(magammo == 0)
 		{
 			SetItemWeaponItemAmmoItem(itemid, INVALID_ITEM_TYPE);
+
+			itemid = RemoveCurrentItem(playerid);
+
 			ResetPlayerWeapons(playerid);
+
+			GiveWorldItemToPlayer(playerid, itemid);
 		}
 
 		return 0;
