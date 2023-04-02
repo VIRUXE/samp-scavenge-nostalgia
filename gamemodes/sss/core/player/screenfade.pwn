@@ -104,13 +104,15 @@ stock SetPlayerScreenFade(playerid, level)
 
 	if(level < 0) level = 0;
 
-	log("[BRIGHTNESS] %p (%d) -> %d", playerid, playerid, level);
+	log("[SCREENFADE] %p (%d) -> %d", playerid, playerid, level);
 
 	BrightnessLevel[playerid] = level;
 
 	PlayerTextDrawBoxColor(playerid, BrightnessUI[playerid], BrightnessLevel[playerid]);
         
 	PlayerTextDrawShow(playerid, BrightnessUI[playerid]);
+
+	PrintAmxBacktrace(); // Apenas para ver de onde esta vindo a chamada
 
 	return 1;
 }
