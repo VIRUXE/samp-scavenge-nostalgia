@@ -1,5 +1,6 @@
 #include <YSI\y_hooks>
 
+forward OnVehicleRepairStopped(playerid, vehicleid);
 
 static
 		fix_TargetVehicle[MAX_PLAYERS],
@@ -163,6 +164,9 @@ StopRepairingVehicle(playerid)
 	ClearAnimations(playerid);
 
 	ShowRepairStatus(playerid, fix_TargetVehicle[playerid]);
+
+	// Call callback
+	CallLocalFunction("OnVehicleRepairStopped", "ii", playerid, fix_TargetVehicle[playerid]);
 
 	fix_TargetVehicle[playerid] = INVALID_VEHICLE_ID;
 
