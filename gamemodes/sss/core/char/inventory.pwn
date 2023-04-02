@@ -775,6 +775,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 
 			GetContainerName(inv_TempContainerID[playerid], name);
 			format(str, sizeof(str), "Mover para %s", name);
+			ConvertEncoding(str);
 
 			inv_InventoryOptionID[playerid] = AddContainerOption(playerid, str);
 		}
