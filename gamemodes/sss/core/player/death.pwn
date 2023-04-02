@@ -51,13 +51,9 @@ hook OnPlayerConnect(playerid)
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
-	if(IsPlayerConnected(killerid) && !IsPlayerSpawned(killerid))
-	{
-	    return -1;
-	}
+	if(IsPlayerConnected(killerid) && !IsPlayerSpawned(killerid)) return -1;
 
-    if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < 1000)
-		return -1;
+    if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < 1000) return -1;
 
     if(gServerMaxUptime - gServerUptime > 30)
 	{
@@ -85,11 +81,11 @@ public OnPlayerDeath(playerid, killerid, reason)
 			}
 		}
 	}
+
 	return 1;
 }
 
-ptask UpdatePlayerAliveTime[SEC(1)](playerid)
-{
+ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
     AliveTime[playerid] ++;
 }
 
@@ -443,24 +439,35 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
 	dbg("global", CORE, "[OnPlayerClickTextDraw] in /gamemodes/sss/core/player/death.pwn");
 
-	if(clickedid == DeathButton)
+	if(clickedid == DeathButton) // Se quer se reviver
 	{
-		if(!IsPlayerDead(playerid))
+		if(!IsPlayerDead(playerid)) {
+			printf("[DEATH] %p (%d) tentou se reviver, mas não está morto.", playerid, playerid);
 			return 1;
+		}
 
 		death_Dying[playerid] = false;
-		TogglePlayerSpectating(playerid, false);
+		TogglePlayerSpectating(playerid, false); // ? Porque isso?
+
+		// Esconde a tela actual
 		CancelSelectTextDraw(playerid);
 		TextDrawHideForPlayer(playerid, DeathText);
 		TextDrawHideForPlayer(playerid, DeathButton);
-		SpawnLoggedInPlayer(playerid);
+
+		// Mostra a tela de selecção de personagem
+		ShowCharacterCreationScreen(playerid);
 	}
 
 	return 1;
 }
+/* 
+	TODO: Essas textdraws podem simplesmente ser criadas na morte.
+	Tem vezes que o jogador nem morre na sessao de jogo
 
-hook OnGameModeInit()
-{
+	TODO: Introduzir internacionalizacao
+*/
+hook OnGameModeInit() {
+
 	DeathText					=TextDrawCreate(320.000000, 300.000000, "MORTO!");
 	TextDrawAlignment			(DeathText, 2);
 	TextDrawBackgroundColor		(DeathText, 255);
@@ -489,19 +496,16 @@ hook OnGameModeInit()
 	TextDrawSetSelectable		(DeathButton, true);
 }
 
-
 stock IsPlayerDead(playerid)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return death_Dying[playerid];
 }
 
 stock GetPlayerDeathPos(playerid, &Float:x, &Float:y, &Float:z)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	x = death_PosX[playerid];
 	y = death_PosY[playerid];
@@ -512,8 +516,7 @@ stock GetPlayerDeathPos(playerid, &Float:x, &Float:y, &Float:z)
 
 stock GetPlayerDeathRot(playerid, &Float:r)
 {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	r = death_RotZ;
 

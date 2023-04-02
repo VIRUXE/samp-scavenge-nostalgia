@@ -578,7 +578,7 @@ ExitTutorial(playerid)
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
 	
 	SetPlayerScreenFade(playerid, 255);
-	PlayerCreateNewCharacter(playerid);
+	ShowCharacterCreationScreen(playerid);
 
 	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
