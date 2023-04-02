@@ -96,29 +96,22 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 
 		GetItemArrayData(itemid, seeddata);
 
-		if(seeddata[E_SEED_BAG_AMOUNT] > 0 && 0 <= seeddata[E_SEED_BAG_TYPE] < seed_Total)
-		{
-			SetItemNameExtra(itemid, sprintf("%d, %s", seeddata[E_SEED_BAG_AMOUNT], seed_Data[seeddata[E_SEED_BAG_TYPE]][seed_name]));
+		if(seeddata[E_SEED_BAG_AMOUNT] > 0 && 0 <= seeddata[E_SEED_BAG_TYPE] < seed_Total) {
 			ConvertEncoding(seeddata);
+			SetItemNameExtra(itemid, sprintf("%d, %s", seeddata[E_SEED_BAG_AMOUNT], seed_Data[seeddata[E_SEED_BAG_TYPE]][seed_name]));
 		}
-		else
-		{
+		else {
 			SetItemNameExtra(itemid, "Vazio");
 		}
 	}
 }
 
-
-stock IsValidSeedType(seedtype)
-{
-	return (0 <= seedtype < seed_Total);
-}
+stock IsValidSeedType(seedtype) return (0 <= seedtype < seed_Total);
 
 // seed_name
 stock GetSeedTypeName(seedtype, name[])
 {
-	if(!(0 <= seedtype < seed_Total))
-		return 0;
+	if(!(0 <= seedtype < seed_Total)) return 0;
 
 	name[0] = EOS;
 	strcat(name, seed_Data[seedtype][seed_name], ITM_MAX_NAME);

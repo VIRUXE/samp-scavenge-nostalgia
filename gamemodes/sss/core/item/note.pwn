@@ -93,16 +93,16 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		GetItemArrayData(itemid, string);
 		len = strlen(string);
 
-		if(len == 0)
-		{
+		if(len == 0) {
 			SetItemNameExtra(itemid, "Vazio");
 		}
 		else if(len > 8)
 		{
 			strins(string, "(...)", 8);
 			string[13] = EOS;
-			SetItemNameExtra(itemid, string);
 			ConvertEncoding(string);
+
+			SetItemNameExtra(itemid, string);
 		}
 	}
 }

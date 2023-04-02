@@ -152,10 +152,9 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			new name[MAX_DRUG_NAME];
 
 			GetDrugName(data[1], name);
+			ConvertEncoding(name);
 
 			SetItemNameExtra(itemid, sprintf("%d/3, %s", data, name));
-			ConvertEncoding(data);
-			ConvertEncoding(name);
 		}
 	}
 }
