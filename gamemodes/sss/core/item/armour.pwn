@@ -81,6 +81,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			str[11];
 
 		format(str, sizeof(str), "%d", amount);
+		ConvertEncoding(str);
 
 		SetItemNameExtra(itemid, str);
 	}

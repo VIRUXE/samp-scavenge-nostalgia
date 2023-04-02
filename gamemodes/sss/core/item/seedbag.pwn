@@ -99,6 +99,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		if(seeddata[E_SEED_BAG_AMOUNT] > 0 && 0 <= seeddata[E_SEED_BAG_TYPE] < seed_Total)
 		{
 			SetItemNameExtra(itemid, sprintf("%d, %s", seeddata[E_SEED_BAG_AMOUNT], seed_Data[seeddata[E_SEED_BAG_TYPE]][seed_name]));
+			ConvertEncoding(seeddata);
 		}
 		else
 		{
