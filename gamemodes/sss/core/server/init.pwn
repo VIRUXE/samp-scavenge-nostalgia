@@ -1581,7 +1581,7 @@ public OnScriptInit()
 	skin_BusiF	= DefineClothesType(141,	"Skin:141",			1, 0.1,		true, true);
 	
 	// DRUG TYPE DEFINITIONS
-	drug_Antibiotic	= DefineDrugType("Amtibiótico",	300000);
+	drug_Antibiotic	= DefineDrugType("Antibiótico",	300000);
 	drug_Painkill	= DefineDrugType("Analgésico",	300000);
 	drug_Lsd		= DefineDrugType("Lsd",			300000);
 	drug_Air		= DefineDrugType("Ar",			300000);
