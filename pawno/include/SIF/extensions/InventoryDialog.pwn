@@ -237,7 +237,7 @@ stock DisplayPlayerInventory(playerid)
 
 	// Constroi o titulo do dialog com o nome do container/inventario e os slots ocupados e totais
 	new inventorySize = GetPlayerInventorySize(playerid);
-	format(title, sizeof(title), ls(playerid, "INVNAME"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
+	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", true), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
     inv_ViewingInventory[playerid] = true;
 
 	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
@@ -413,7 +413,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -432,7 +432,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -451,7 +451,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}

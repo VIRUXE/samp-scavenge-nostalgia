@@ -432,11 +432,15 @@ hook OnPlayerViewInvOpt(playerid)
 			GetItemTypeName(cft_SelectedItems[playerid][i][cft_selectedItemType], itemname);
 
 			if(i == 0)
+			{
 				format(string, sizeof(string), "%s%s", string, itemname);
-
+				ConvertEncoding(string);
+			}
 			else
-
+			{
 				format(string, sizeof(string), "%s+%s", string, itemname);
+				ConvertEncoding(string);
+			}
 		}
 		cft_MenuOptionID[playerid] = AddInventoryOption(playerid, string);
 	}
@@ -539,7 +543,7 @@ _cft_AddItemToCraftList(playerid, itemid)
 			_cft_CraftSelected(playerid, craftset);
 
 		else
-			SendClientMessage(playerid, -1, "Essa combinação não parece funcionar ... Tente adicionar mais itens ou fechar o menu para cancelar.");
+			SendClientMessage(playerid, -1, "Essa combinaï¿½ï¿½o nï¿½o parece funcionar ... Tente adicionar mais itens ou fechar o menu para cancelar.");
 	}
 
 	return 1;

@@ -192,7 +192,7 @@ stock DisplayContainerInventory(playerid, containerid)
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
+	strcat(cnt_InventoryString[playerid], GetLanguageString(playerid, "OPENINVO", true));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -337,7 +337,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000, 200);
 				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			}
 		}
@@ -385,9 +385,10 @@ hook OnPlayerViewInvOpt(playerid)
 	if(cnt_CurrentContainer[playerid] != INVALID_CONTAINER_ID)
 	{
 		new str[8 + CNT_MAX_NAME];
-		strcat(str, ls(playerid, "MOVETOO"));
+		strcat(str, GetLanguageString(playerid, "MOVETOO", true));
 		strcat(str, cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]);
 		cnt_InventoryOptionID[playerid] = AddInventoryOption(playerid, str);
+		ConvertEncoding(str);
 	}
 
 	return 0;
@@ -438,6 +439,7 @@ hook OnPlayerOpenInventory(playerid)
 		strcat(str, cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]);
 		strcat(str, " >");
 		cnt_InventoryContainerItem[playerid] = AddInventoryListItem(playerid, str);
+		ConvertEncoding(str);
 	}
 
 	return 0;

@@ -122,6 +122,8 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		clbr_Data[ammo_Data[ammotype][ammo_calibre]][clbr_name],
 		ammo_Data[ammotype][ammo_name]);
 
+	ConvertEncoding(str);
+
 //	if(amount > ammo_Data[ammotype][ammo_size] + 1 && ammo_Data[ammotype][ammo_bleedrateMult] != 0.0)
 //	    SetItemExtraData(itemid, ammo_Data[ammotype][ammo_size] + 1);
 	

@@ -23,6 +23,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype){
 			str[11];
 
 		format(str, sizeof(str), "(%s)", SprayColor[amount]);
+		ConvertEncoding(str);
 
 		SetItemNameExtra(itemid, str);
 	}

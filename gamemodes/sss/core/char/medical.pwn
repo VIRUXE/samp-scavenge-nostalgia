@@ -154,6 +154,8 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			GetDrugName(data[1], name);
 
 			SetItemNameExtra(itemid, sprintf("%d/3, %s", data, name));
+			ConvertEncoding(data);
+			ConvertEncoding(name);
 		}
 	}
 }

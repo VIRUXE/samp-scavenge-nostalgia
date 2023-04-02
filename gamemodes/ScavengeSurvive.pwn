@@ -287,8 +287,7 @@ public OnGameModeInit()
 
 // HUD Components
 #define MAX_HUD_COMPONENTS 16
-
-#define HUD_RADAR 0 					// Cobre o radar
+#define HUD_COMPONENT_RADAR 0 					// Cobre o radar
 #define HUD_STATUS_BG 1 				// Fundo dos textos do status
 #define HUD_STATUS_FOOD_SPRITE 2 		// Hamburguer
 #define HUD_STATUS_FOOD_VALUE 3 		// Valor da fome

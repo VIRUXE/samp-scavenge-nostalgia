@@ -190,17 +190,17 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize(playerid, HUD[playerid][HUD_STATUS_DIVIDER], 598.999023, 0.000000);
 	PlayerTextDrawBoxColor(playerid, HUD[playerid][HUD_STATUS_DIVIDER], 255);
 
-	HUD[playerid][HUD_RADAR]		=CreatePlayerTextDraw(playerid, 33.000000, 338.000000, "LD_POOL:ball");
-	PlayerTextDrawBackgroundColor	(playerid, HUD[playerid][HUD_RADAR], 255);
-	PlayerTextDrawFont				(playerid, HUD[playerid][HUD_RADAR], 4);
-	PlayerTextDrawLetterSize		(playerid, HUD[playerid][HUD_RADAR], 0.500000, 0.000000);
-	PlayerTextDrawColor				(playerid, HUD[playerid][HUD_RADAR], 255);
-	PlayerTextDrawSetOutline		(playerid, HUD[playerid][HUD_RADAR], 0);
-	PlayerTextDrawSetProportional	(playerid, HUD[playerid][HUD_RADAR], 1);
-	PlayerTextDrawSetShadow			(playerid, HUD[playerid][HUD_RADAR], 1);
-	PlayerTextDrawUseBox			(playerid, HUD[playerid][HUD_RADAR], 1);
-	PlayerTextDrawBoxColor			(playerid, HUD[playerid][HUD_RADAR], 255);
-	PlayerTextDrawTextSize			(playerid, HUD[playerid][HUD_RADAR], 108.000000, 89.000000);
+	HUD[playerid][HUD_COMPONENT_RADAR]		=CreatePlayerTextDraw(playerid, 33.000000, 338.000000, "LD_POOL:ball");
+	PlayerTextDrawBackgroundColor	(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 255);
+	PlayerTextDrawFont				(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 4);
+	PlayerTextDrawLetterSize		(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 0.500000, 0.000000);
+	PlayerTextDrawColor				(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 255);
+	PlayerTextDrawSetOutline		(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 0);
+	PlayerTextDrawSetProportional	(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 1);
+	PlayerTextDrawSetShadow			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 1);
+	PlayerTextDrawUseBox			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 1);
+	PlayerTextDrawBoxColor			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 255);
+	PlayerTextDrawTextSize			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 108.000000, 89.000000);
 }
 
 ToggleHudComponent(playerid, componentid, bool:toggle)

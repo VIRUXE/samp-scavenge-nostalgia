@@ -48,7 +48,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerOpenInventory(playerid)
 {
-	cqst_InventoryItem[playerid] = AddInventoryListItem(playerid, "Conquistas >" );
+	cqst_InventoryItem[playerid] = AddInventoryListItem(playerid, "Conquistas" );
 }
 
 hook OnPlayerSelectExtraItem(playerid, item)

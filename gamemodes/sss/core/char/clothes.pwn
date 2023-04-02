@@ -131,7 +131,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			if(skin_Data[skinid][skin_gender] == GetPlayerGender(playerid))
 			{
-				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, "Não pode usar isso com essa skin!", 3000);
+				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESCAMOU", true), 3000);
 				else StartUsingClothes(playerid, itemid);
 			}
 			else ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESWRGE", true), 3000, 130);

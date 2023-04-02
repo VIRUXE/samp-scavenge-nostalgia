@@ -240,8 +240,6 @@ hook OnHoldActionFinish(playerid)
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
-
-
 	if(itemtype == item_Key)
 	{
 		if(GetItemArrayDataAtCell(itemid, 0) != 0)
@@ -258,19 +256,17 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 	{
 		if(GetItemArrayDataAtCell(itemid, 0) == 0)
 		{
-			SetItemNameExtra(itemid, "Uncut");
+			SetItemNameExtra(itemid, "Sem corte");
 		}
 		else
 		{
-			SetItemNameExtra(itemid, "Cut");
+			SetItemNameExtra(itemid, "Cortada");
 		}
 	}
 }
 
 hook OnPlayerCrafted(playerid, craftset, result)
 {
-
-
 	if(GetCraftSetResult(craftset) == item_WheelLock)
 	{
 		SetItemArrayDataAtCell(result, 1, 0);
