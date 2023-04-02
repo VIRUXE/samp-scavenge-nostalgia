@@ -529,15 +529,16 @@ EnterTutorial(playerid) {
 
 	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 
-	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 3.0, 327.0, sprintf("(0/%d) Tarefa: Abrir Inventário", MAX_TUTORIAL_STEPS));
-	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.395, 1.58);
-	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 190.000000, 40.000000);
+	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 4.000, 283.000, sprintf("~y~(0/%d) ~w~Tarefa: Abrir 'Opcoes' no Inventario", MAX_TUTORIAL_STEPS));
+	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.345, 1.680);
+	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 185.000, 0.000);
 	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 1);
 	PlayerTextDrawColor(playerid, Tutorial[playerid][TUT_STATUS], -1);
 	PlayerTextDrawUseBox(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 255);
+	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 153);
 	PlayerTextDrawSetShadow(playerid, Tutorial[playerid][TUT_STATUS], 1);
 	PlayerTextDrawSetOutline(playerid, Tutorial[playerid][TUT_STATUS], 1);
+	PlayerTextDrawBackgroundColor(playerid, Tutorial[playerid][TUT_STATUS], 0);
 	PlayerTextDrawFont(playerid, Tutorial[playerid][TUT_STATUS], 1);
 	PlayerTextDrawSetProportional(playerid, Tutorial[playerid][TUT_STATUS], 1);
 
