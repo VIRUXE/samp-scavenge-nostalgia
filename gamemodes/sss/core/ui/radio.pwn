@@ -244,7 +244,7 @@ hook OnPlayerOpenInventory(playerid)
 {
 	dbg("global", CORE, "[OnPlayerOpenInventory] in /gamemodes/sss/core/ui/radio.pwn");
 
-	rad_InventoryItem[playerid] = AddInventoryListItem(playerid, "Radio >");
+	rad_InventoryItem[playerid] = AddInventoryListItem(playerid, "Radio");
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }

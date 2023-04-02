@@ -215,7 +215,7 @@ hook OnPlayerLoad(playerid, filename[])
 
 hook OnPlayerOpenInventory(playerid)
 {
-	skl_InventoryItem[playerid] = AddInventoryListItem(playerid, "Skills >");
+	skl_InventoryItem[playerid] = AddInventoryListItem(playerid, "Skills");
 }
 
 hook OnPlayerSelectExtraItem(playerid, item)
