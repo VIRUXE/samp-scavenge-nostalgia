@@ -104,7 +104,7 @@ stock SetPlayerScreenFade(playerid, level)
 
 	if(level < 0) level = 0;
 
-	log("[SCREENFADE] %p (%d) -> %d", playerid, playerid, level);
+	log("[SCREENFADE] %p (%d): %d -> %d", playerid, playerid, BrightnessLevel[playerid], level);
 
 	BrightnessLevel[playerid] = level;
 
