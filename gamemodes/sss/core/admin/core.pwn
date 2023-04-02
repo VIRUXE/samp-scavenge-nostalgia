@@ -391,7 +391,7 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 			ShowSupplyIconSpawn(playerid);
 			WCIconSpawn(playerid);
 			HideDutyGangZone(playerid);
-			ToggleHudComponent(playerid, HUD_RADAR, false); // ? Nao sei qual e o contexto aqui. E preciso verificar
+			ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false); // ? Nao sei qual e o contexto aqui. E preciso verificar
 		}
 
 		//ToggleNameTagsForPlayer(playerid, false);

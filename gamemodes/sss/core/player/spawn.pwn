@@ -171,7 +171,7 @@ PrepareForSpawn(playerid)
 	{
 		ShowSupplyIconSpawn(playerid);
 		WCIconSpawn(playerid);
-		ToggleHudComponent(playerid, HUD_RADAR, false);
+		ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false);
 	}
 	
 	new hour, minute;
