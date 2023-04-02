@@ -512,9 +512,13 @@ ACMD:sethp[3](playerid, params[]) {
 
 	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " >  Jogador inválido.");
 
+	if(!IsPlayerLoggedIn(targetId)) return ChatMsg(playerid, RED, " >  O jogador não está logado.");
+
 	if(hp < 0 || hp > 100) return ChatMsg(playerid, RED, " >  HP tem que ser entre 0 e 100.");
 
 	SetPlayerHealth(targetId, hp);
+
+	printf("[ADMIN] %p (%d) setou a vida de %p (%d) para %d", playerid, playerid, targetId, targetId, hp);
 
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" setou a vida de %P (%d)"C_BLUE" para %d", playerid, playerid, targetId, targetId, hp);
 }
