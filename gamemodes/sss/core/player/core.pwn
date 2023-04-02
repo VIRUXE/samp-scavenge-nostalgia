@@ -65,6 +65,7 @@ static
 forward OnPlayerScriptUpdate(playerid);
 forward OnPlayerDisconnected(playerid);
 forward OnDeath(playerid, killerid, reason);
+forward OnPlayerJoinScenario(playerid);
 
 public OnPlayerRequestClass(playerid, classid)
 {
@@ -107,38 +108,20 @@ _OnPlayerConnect(playerid) {
 		return 0;
 	}
 
+	// Limpa o chat
 	for(new i;i<10;i++) SendClientMessage(playerid, WHITE, "");
-
-	TogglePlayerControllable(playerid, false);
-	Streamer_ToggleIdleUpdate(playerid, true);
 
 	// Primeiro colocamos o jogador no mundo
  	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
 	SpawnPlayer(playerid);
 
+	// Depois desativamos o controle do jogador
+	TogglePlayerControllable(playerid, false);
+	Streamer_ToggleIdleUpdate(playerid, true);
+
 	// Agora colocamos o jogador no cenario aleatorio. (Onde ele vai ser colocado no mapa)
 	defer SetJoinScenario(playerid);
 
-	// E depois sim, verificamos a conta do jogador
-	new result = LoadAccount(playerid);
-
-	// Carregamento abortado
-	if(result == -1) KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
-	// Conta nao existe
-	else if(result == 0) {
-		// * Um bocado gambiarra, mas pronto
-		// Como é necessário esperar pela resposta da API então por enquanto vai assim
-		GetPlayerGeo(playerid, ipstring);
-	}
-	// Conta existe
-	else if(result == 1) DisplayLoginPrompt(playerid);
-	// Conta existe mas esta desativada
-	else if(result == 4) {
-		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
-		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
-		KickPlayer(playerid, "Conta inativa", false);
-	}
 
 	ply_Data[playerid][ply_ShowHUD] = true;
 
@@ -149,11 +132,13 @@ public OnPlayerConnect(playerid)
 {
 	if(IsPlayerNPC(playerid)) return 0;
 
+	SetPlayerScreenFade(playerid, 255);
+
 	if(IsOTPModeEnabled()) {
-		SetPlayerScreenFade(playerid, 255);
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 	} else {
+		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
 	}
 
@@ -178,6 +163,35 @@ public OnPlayerDisconnected(playerid)
 	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/player/core.pwn");
 
 	ResetVariables(playerid);
+}
+
+/* 
+	Esta função é chamada quando o jogador entra num cenario, após o OnPlayerConnect.
+
+	Esta função é chamada apenas uma vez, e é responsável por carregar a conta do jogador, ou criar uma nova conta.
+ */
+public OnPlayerJoinScenario(playerid) {
+	new result = LoadAccount(playerid);
+
+	// Carregamento abortado
+	if(result == -1) 
+		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
+	// Conta nao existe
+	else if(result == 0) {
+		// * Um bocado gambiarra, mas pronto
+		// Como é necessário esperar pela resposta da API então por enquanto vai assim
+		GetPlayerGeo(playerid);
+	}
+	// Conta existe
+	else if(result == 1) 
+		DisplayLoginPrompt(playerid);
+	// Conta existe mas esta desativada
+	else if(result == 4) {
+		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
+		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
+		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
+		KickPlayer(playerid, "Conta inativa", false);
+	}
 }
 
 ResetVariables(playerid)
@@ -212,7 +226,7 @@ ResetVariables(playerid)
 
 	for(new i; i < 10; i++) RemovePlayerAttachedObject(playerid, i);
 
-	log("[INFO] Variaveis resetadas para o jogador %d.", playerid);
+	// log("[INFO] Variaveis resetadas para o jogador %d.", playerid);
 }
 
 ptask PlayerUpdateFast[100](playerid)
@@ -711,5 +725,7 @@ timer SetJoinScenario[20](playerid) {
 	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
 	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2] - 100);
 
-	log("[JOIN] %p (%d) foi para o cenário %d", playerid, playerid, scenario);
+	// log("[JOIN] %p (%d) foi para o cenário %d", playerid, playerid, scenario);
+
+	CallLocalFunction("OnPlayerJoinScenario", "i", playerid);
 }

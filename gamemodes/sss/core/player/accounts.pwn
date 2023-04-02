@@ -394,9 +394,9 @@ DisplayLoginPrompt(playerid, badpass = 0)
 	else
 		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", false), playerid);
 
-	log("[DisplayLoginPrompt] %p is logging in", playerid);
+	log("[ACCOUNT] %p (%d) está logando.", playerid, playerid);
 
-	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCLOGITITL"), str, "Entrar", "Cancelar");
+	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCLOGITITL"), str, "Entrar", "Cancelar"); // TODO: Colocar internacionalização nos botões
 
 	return 1;
 }
@@ -446,8 +446,6 @@ Login(playerid)
 {
     if(IsPlayerNPC(playerid)) return 0;
 	
-//	TogglePlayerSpectating(playerid, false);
-
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
 	
@@ -475,7 +473,7 @@ Login(playerid)
 	acc_LoginAttempts[playerid] = 0;
 
 	SetPlayerScreenFade(playerid, 255);
-	SpawnLoggedInPlayer(playerid);
+	SpawnCharacter(playerid);
 	StopAudioStreamForPlayer(playerid);
 
 	TextDrawShowForPlayer(playerid, RestartCount);

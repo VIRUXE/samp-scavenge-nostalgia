@@ -26,8 +26,12 @@ GetPlayerCountryCode(playerid, countryCode[], len) {
 	strcpy(countryCode, geo[playerid][GEO_COUNTRY_CODE], len);
 }
 
-stock GetPlayerGeo(playerid, ipstring[16]) {
+stock GetPlayerGeo(playerid) {
+	new ipstring[16];
 	new query[45 + sizeof(ipstring) + 1]; // length of the URL + length of the IP + null terminator
+
+	GetPlayerIp(playerid, ipstring, sizeof(ipstring));
+	
 	format(query, sizeof(query), "/json/%s?fields=country,countryCode&lang=pt-BR", ipstring);
 
 	geo[playerid][GEO_REQUEST_ID] = RequestJSON(geo_client, query, HTTP_METHOD_GET, "OnGeoResponse");

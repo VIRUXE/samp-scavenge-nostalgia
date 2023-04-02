@@ -125,7 +125,7 @@ stock KnockOutPlayer(playerid, duration)
 
 stock WakeUpPlayer(playerid)
 {
-	log("[WAKEUP] Player %p woke up after knockout", playerid);
+	log("[KNOCKOUT] %p (%d) acordou de um knock-out", playerid, playerid);
 
 	stop knockout_Timer[playerid];
 
@@ -134,16 +134,17 @@ stock WakeUpPlayer(playerid)
 	HideActionText(playerid);
 	ApplyAnimation(playerid, "PED", "GETUP_FRONT", 4.0, 0, 1, 1, 0, 0);
 
-	knockout_Tick[playerid] = GetTickCount();
-	knockout_KnockedOut[playerid] = false;
-	knockout_InVehicleID[playerid] = INVALID_VEHICLE_ID;
+	knockout_Tick[playerid]          = GetTickCount();
+	knockout_KnockedOut[playerid]    = false;
+	knockout_InVehicleID[playerid]   = INVALID_VEHICLE_ID;
 	knockout_InVehicleSeat[playerid] = -1;
+
+	PrintAmxBacktrace();
 }
 
 timer KnockOutUpdate[100](playerid)
 {
-	if(!knockout_KnockedOut[playerid])
-		WakeUpPlayer(playerid);
+	if(!knockout_KnockedOut[playerid]) WakeUpPlayer(playerid);
 
 	if(IsPlayerDead(playerid) || GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < 1000 || !IsPlayerSpawned(playerid))
 	{
@@ -152,8 +153,7 @@ timer KnockOutUpdate[100](playerid)
 		return;
 	}
 
-	if(IsPlayerOnAdminDuty(playerid))
-		WakeUpPlayer(playerid);
+	if(IsPlayerOnAdminDuty(playerid)) WakeUpPlayer(playerid);
 
 	if(IsValidVehicle(knockout_InVehicleID[playerid]))
 	{
@@ -163,22 +163,18 @@ timer KnockOutUpdate[100](playerid)
 
 			new animidx = GetPlayerAnimationIndex(playerid);
 
-			if(animidx != 1207 && animidx != 1018 && animidx != 1001)
-				_PlayKnockOutAnimation(playerid);
+			if(animidx != 1207 && animidx != 1018 && animidx != 1001) _PlayKnockOutAnimation(playerid);
 		}
 
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-			SetVehicleEngine(knockout_InVehicleID[playerid], 0);
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) SetVehicleEngine(knockout_InVehicleID[playerid], 0);
 	}
 	else
 	{
-		if(IsPlayerInAnyVehicle(playerid))
-			RemovePlayerFromVehicle(playerid);
+		if(IsPlayerInAnyVehicle(playerid)) RemovePlayerFromVehicle(playerid);
 
 		new animidx = GetPlayerAnimationIndex(playerid);
 
-		if(animidx != 1207 && animidx != 1018 && animidx != 1001)
-			_PlayKnockOutAnimation(playerid);
+		if(animidx != 1207 && animidx != 1018 && animidx != 1001) _PlayKnockOutAnimation(playerid);
 	}
 
 	SetPlayerProgressBarValue(playerid, KnockoutBar, GetTickCountDifference(GetTickCount(), knockout_Tick[playerid]));
@@ -186,32 +182,26 @@ timer KnockOutUpdate[100](playerid)
 
 	//ShowActionText(playerid, sprintf("%s/%s", MsToString(GetTickCountDifference(GetTickCount(), knockout_Tick[playerid]), "%1m:%1s.%1d"), MsToString(knockout_Duration[playerid], "%1m:%1s.%1d")));
 
-	if(GetTickCountDifference(GetTickCount(), knockout_Tick[playerid]) >= knockout_Duration[playerid])
-		WakeUpPlayer(playerid);
+	if(GetTickCountDifference(GetTickCount(), knockout_Tick[playerid]) >= knockout_Duration[playerid]) WakeUpPlayer(playerid);
 
 	return;
 }
 
 _PlayKnockOutAnimation(playerid)
 {
-	if(!IsPlayerInAnyVehicle(playerid))
+	if(!IsPlayerInAnyVehicle(playerid)) 
 		ApplyAnimation(playerid, "PED", "KO_SHOT_STOM", 4.0, 0, 1, 1, 1, 0, 1);
-
 	else
 	{
 		new vehicleid = GetPlayerVehicleID(playerid);
 
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-			SetVehicleEngine(vehicleid, 0);
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) SetVehicleEngine(vehicleid, 0);
 
 		switch(GetVehicleTypeCategory(GetVehicleType(vehicleid)))
 		{
 			case VEHICLE_CATEGORY_MOTORBIKE, VEHICLE_CATEGORY_PUSHBIKE:
 			{
-				new
-					Float:x,
-					Float:y,
-					Float:z;
+				new Float:x, Float:y, Float:z;
 
 				GetVehiclePos(vehicleid, x, y, z);
 				RemovePlayerFromVehicle(playerid);

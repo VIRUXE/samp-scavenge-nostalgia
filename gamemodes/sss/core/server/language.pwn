@@ -103,7 +103,7 @@ SetPlayerLanguage(playerid, langid)
 
 	lang_PlayerLanguage[playerid] = langid;
 
-	log("[LANGUAGE] %p (%d) definiu idioma para '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
+	log("[LANGUAGE] %p (%d) tem o idioma '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
 
 	return 1;
 }

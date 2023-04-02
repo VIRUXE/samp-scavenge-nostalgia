@@ -30,8 +30,8 @@ new
 PlayerText:	ClassButtonMale[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 PlayerText:	ClassButtonFemale[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 
-forward OnPlayerCreateChar(playerid);
-forward OnPlayerSpawnChar(playerid);
+forward OnPlayerCreatingCharacter(playerid);
+forward OnPlayerSpawnCharacter(playerid);
 forward OnPlayerSpawnNewChar(playerid);
 
 
@@ -96,34 +96,13 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonFemale[playerid], true);
 }
 
-SpawnLoggedInPlayer(playerid)
-{
-	// ! Essa merda é um pouco estranha
-	
-	log("[SPAWN] Efetuando spawn para %p (%d)", playerid, playerid);
-
-	if(IsPlayerAlive(playerid) && !PlayerSpawnExistingCharacter(playerid)) // Se o player já está vivo e não deu para spawnar o personagem existente
-	{
-		log("[SPAWN] Spawnando personagem existente para %p (%d)", playerid, playerid);
-		SetPlayerScreenFade(playerid, 255);
-		return 1;
-	}
-
-	log("[SPAWN] Colocando %p (%d) no tutorial", playerid, playerid);
-	EnterTutorial(playerid);
-
-	return 0;
-}
-
 stock PlayerMapCheck(playerid)
 {
 	new bool:player_hasMap[MAX_PLAYERS] = false;
-	new itemid;
 
 	for(new i; i < INV_MAX_SLOTS; i++)
     {
-        itemid = GetInventorySlotItem(playerid, i);
-        new ItemType:itemtype = GetItemType(itemid);
+        new ItemType:itemtype = GetItemType(GetInventorySlotItem(playerid, i));
 
         if(itemtype == item_Map) player_hasMap[playerid] = true;
     }
@@ -133,6 +112,8 @@ stock PlayerMapCheck(playerid)
 
 PrepareForSpawn(playerid)
 {
+	printf("PrepareForSpawn(%d)", playerid);
+
 	ToggleHud(playerid, true);
 
 	if(IsPlayerInTutorial(playerid)) SetPlayerVirtualWorld(playerid, 0);
@@ -159,7 +140,7 @@ PrepareForSpawn(playerid)
 	CancelSelectTextDraw(playerid);
 }
 
-PlayerSpawnExistingCharacter(playerid)
+SpawnCharacter(playerid)
 {
 	if(IsPlayerSpawned(playerid)) return 1;
 	if(!LoadPlayerChar(playerid)) return 2;
@@ -199,18 +180,18 @@ PlayerSpawnExistingCharacter(playerid)
 
 	log("[SPAWN] %p (%d) spawnou personagem existente em %.1f, %.1f, %.1f (%.1f)", playerid, playerid, x, y, z, r);
 	
-	CallLocalFunction("OnPlayerSpawnChar", "d", playerid);
-	
  	ChatMsg(playerid, BLUE, "");
 	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
 	ChatMsg(playerid, BLUE, "");
 	
+	CallLocalFunction("OnPlayerSpawnCharacter", "d", playerid);
+
 	return 0;
 }
 
-PlayerCreateNewCharacter(playerid)
+ShowCharacterCreationScreen(playerid)
 {
-	log("[SPAWN] %p (%d) está a criar um novo personagem", playerid, playerid);
+	log("[CHARACTER] %p (%d) vai criar um novo personagem.", playerid, playerid);
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
 	SetPlayerFacingAngle(playerid, 0.0);
@@ -232,7 +213,7 @@ PlayerCreateNewCharacter(playerid)
 	}
 	SelectTextDraw(playerid, 0xFFFFFF88);
 
-	CallLocalFunction("OnPlayerCreateChar", "d", playerid);
+	CallLocalFunction("OnPlayerCreatingCharacter", "d", playerid);
 }
 
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
@@ -240,12 +221,12 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/player/spawn.pwn");
 
 	if(playertextid == ClassButtonMale[playerid])
-		PlayerSpawnNewCharacter(playerid, GENDER_MALE);
+		CreateNewCharacter(playerid, GENDER_MALE);
 	else if(playertextid == ClassButtonFemale[playerid])
-		PlayerSpawnNewCharacter(playerid, GENDER_FEMALE);
+		CreateNewCharacter(playerid, GENDER_FEMALE);
 }
 
-PlayerSpawnNewCharacter(playerid, gender)
+CreateNewCharacter(playerid, gender)
 {
 	if(IsPlayerSpawned(playerid)) return 0;
 
@@ -294,8 +275,8 @@ PlayerSpawnNewCharacter(playerid, gender)
 	}
 	SetPlayerClothesID(playerid, skin);
 
-	SetPlayerHP(playerid, IsPlayerVip(playerid) ? spawn_VipBlood : spawn_Blood);
-	SetPlayerFP(playerid, IsPlayerVip(playerid) ? spawn_VipFood : spawn_Food);
+	SetPlayerHP(playerid, 		 IsPlayerVip(playerid) ? spawn_VipBlood : spawn_Blood);
+	SetPlayerFP(playerid, 		 IsPlayerVip(playerid) ? spawn_VipFood  : spawn_Food);
 	SetPlayerBleedRate(playerid, IsPlayerVip(playerid) ? spawn_VipBleed : spawn_Bleed);
 
 	SetPlayerAP(playerid, 0.0);
