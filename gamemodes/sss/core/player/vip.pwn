@@ -152,8 +152,7 @@ CMD:mudarluta(playerid, params[]){
 	return ChatMsg(playerid, VIP_COLOR, " > Estilo de luta alterado com Sucesso.");
 }
 
-CMD:mudarnick(playerid,params[])
-{
+CMD:mudarnick(playerid,params[]) {
     if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
     
 	if(!IsPlayerLoggedIn(playerid)) return ChatMsgLang(playerid, YELLOW, "LOGGEDINREQ");
@@ -201,22 +200,11 @@ hook OnPlayerLogin(playerid) {
 
 hook OnPlayerSpawnNewChar(playerid) {
 	if(IsPlayerVip(playerid)) {
-		new itemid;
-
-		itemid = CreateItem(item_Satchel);
-		GivePlayerBag(playerid, itemid);
-		
-		itemid = CreateItem(item_Wrench);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Screwdriver);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Map);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Bat);
-		GiveWorldItemToPlayer(playerid, itemid);
+		GivePlayerBag(playerid, CreateItem(item_Satchel));
+		AddItemToPlayer(playerid, CreateItem(item_Wrench), true, false);
+		AddItemToPlayer(playerid, CreateItem(item_Screwdriver), true, false);
+		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
+		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
 	}
 }
 
