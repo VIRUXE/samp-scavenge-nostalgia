@@ -78,7 +78,7 @@ hook OnPlayerLogin(playerid) {
 
 CMD:clan(playerid, params[])
 {
-	ChatMsg(playerid, " > Comando desativado temporariamente.");
+	ChatMsg(playerid, WHITE, " > Comando desativado temporariamente.");
 
 /* 	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
 
