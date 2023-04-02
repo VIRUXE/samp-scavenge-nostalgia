@@ -252,23 +252,14 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			SetItemNameExtra(itemid, vehicletypename);
 		}
 	}
-	else if(itemtype == item_WheelLock)
-	{
-		if(GetItemArrayDataAtCell(itemid, 0) == 0)
-		{
-			SetItemNameExtra(itemid, "Sem corte");
-		}
-		else
-		{
-			SetItemNameExtra(itemid, "Cortada");
-		}
+	else if(itemtype == item_WheelLock)	{
+		SetItemNameExtra(itemid, GetItemArrayDataAtCell(itemid, 0) == 0 ? "Sem corte" : "Cortada");
 	}
 }
 
 hook OnPlayerCrafted(playerid, craftset, result)
 {
-	if(GetCraftSetResult(craftset) == item_WheelLock)
-	{
+	if(GetCraftSetResult(craftset) == item_WheelLock) {
 		SetItemArrayDataAtCell(result, 1, 0);
 	}
 
