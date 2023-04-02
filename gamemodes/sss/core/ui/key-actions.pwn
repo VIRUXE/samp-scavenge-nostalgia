@@ -365,7 +365,7 @@ _UpdateKeyActions(playerid)
 			    if(GetLiquidItemLiquidAmount(GetPlayerItem(playerid)) <= 0.0)
 				    ShowHelpTip(playerid, GetLanguageString(playerid, "KA_GOTOPOST", true));
 
-				else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV"));
+				else AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(playerid, "KA_REFULLV", true));
 			}
 		}
 	}
