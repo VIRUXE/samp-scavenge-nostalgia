@@ -78,7 +78,9 @@ hook OnPlayerLogin(playerid) {
 
 CMD:clan(playerid, params[])
 {
-	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+	ChatMsg(playerid, " > Comando desativado temporariamente.");
+
+/* 	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
 
 	new command[9]; // 8 é o tamanho máximo de um comando
 
@@ -120,7 +122,7 @@ CMD:clan(playerid, params[])
 
 	} else {
 		ChatMsg(playerid, RED, " > Use /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
-	}
+	} */
 
 	return 1;
 }
