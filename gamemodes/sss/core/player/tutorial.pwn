@@ -105,9 +105,9 @@ hook OnPlayerWearBag(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
-
 		IncreaseTutorialProgress(playerid, EQUIP_BACKPACK);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
 	}
 }
 
@@ -127,11 +127,9 @@ hook OnPlayerOpenInventory(playerid)
 
 		PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
 
-  		
-			
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
-
 		IncreaseTutorialProgress(playerid, OPEN_INVENTORY);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -163,9 +161,9 @@ hook OnPlayerOpenContainer(playerid, containerid)
 
 			PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
 			
-			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
-
 			IncreaseTutorialProgress(playerid, OPEN_CONTAINER);
+
+			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
 		}
 	}
 
@@ -195,9 +193,9 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
-
 			IncreaseTutorialProgress(playerid, VIEW_CONTAINER_OPTIONS);
+
+			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 		}
 	}
 
@@ -213,9 +211,9 @@ hook OnPlayerDroppedItem(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando você soltar um item, outros jogadores podem pegá-lo.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=When you drop an item, other players can pick it up.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
-
 		IncreaseTutorialProgress(playerid, DROP_ITEM);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -230,9 +228,9 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item ao seu inventário. Se o seu inventário estiver cheio, o item será colocado na sua Mochila.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your inventory. If your inventory is full, the item will be put in your bag.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
-
 		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_INVENTORY);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -247,9 +245,9 @@ hook OnPlayerViewInvOpt(playerid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
-
 		IncreaseTutorialProgress(playerid, VIEW_INVENTORY_OPTIONS);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -259,6 +257,8 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
+		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_CONTAINER);
+
 		if(containerid == GetItemArrayDataAtCell(GetPlayerBagItem(playerid), 1))
 		{
 			// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDBAG"), ls(playerid, "IDIOMAID")));
@@ -266,7 +266,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
+			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
 		}
 		else
 		{
@@ -275,10 +275,8 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
+			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
 		}
-		
-		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_CONTAINER);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -293,9 +291,9 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
-
 		IncreaseTutorialProgress(playerid, HOLSTER_WEAPON);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -305,9 +303,9 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
-
 		IncreaseTutorialProgress(playerid, USE_ITEM_ON_ANOTHER_ITEM);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
 	}
 }
 
@@ -320,9 +318,9 @@ hook OnItemTweakFinish(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Finished defense finished. Install a motor and then a keyboard in your defense.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
-
 		IncreaseTutorialProgress(playerid, FINISH_ITEM_TWEAK);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
 	}
 }
 
@@ -349,9 +347,9 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 			"Equipar Mochila",
 			"Adicionar Item ao Inventario",
 			"Abrir Opcoes do Inventario",
-			"Abrir Container",
-			"Adicionar Item ao Container",
-			"Abrir Opcoes do Container",
+			"Abrir Mochila",
+			"Adicionar Item a Mochila",
+			"Abrir Opcoes da Mochila",
 			"Dropar Item",
 			"Colocar Arma no coldre",
 			"Utilizar Item noutro Item",
@@ -369,7 +367,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 			}
 		}
 
-		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("(%d/%d) Proxima Tarefa: %s", stepscompleted, MAX_TUTORIAL_STEPS, steps[next_step]));
+		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted, MAX_TUTORIAL_STEPS, steps[next_step]));
 	}
 }
 
@@ -531,9 +529,9 @@ EnterTutorial(playerid) {
 
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-	ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
+	ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 
-	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 4.000, 283.000, sprintf("~y~(0/%d) ~w~Tarefa: Abrir 'Opcoes' no Inventario", MAX_TUTORIAL_STEPS));
+	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 4.000, 283.000, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
 	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.345, 1.680);
 	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 185.000, 0.000);
 	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 1);
@@ -592,7 +590,7 @@ ExitTutorial(playerid)
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	return ChatMsg(playerid, WHITE, ""C_GREEN"> "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
+	return ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
 }
 
 IsPlayerInTutorial(playerid) {
