@@ -76,7 +76,7 @@ hook OnGameModeInit()
 
 CMD:bug(playerid)
 {
-	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", GetLanguageString(playerid, "BUGREPORTDI", true), "Confirmar", "Cancelar");
+	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", GetLanguageString(playerid, "BUGREPORTDI", false), "Confirmar", "Cancelar");
     
 	return 1;
 }
