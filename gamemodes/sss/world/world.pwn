@@ -55,11 +55,11 @@ hook OnGameModeInit()
 {   
 	gServerInitialising = true;
 
-	new Node:node, servername[24];
+	new Node:node, servername[32];
 
 	JSON_GetObject(Settings, "server", node);
 	JSON_GetString(node, "name", servername);
-
+	
 	SetGameModeText("Scavenge Survive");
 	SendRconCommand(sprintf("hostname %s (Iniciando)", servername));
 	SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
