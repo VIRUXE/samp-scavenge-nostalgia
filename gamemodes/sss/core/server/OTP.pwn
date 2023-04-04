@@ -135,5 +135,5 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
 stock ShowOTPPrompt(playerid) {
     if(!IsPlayerConnected(playerid)) return;
 
-    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Peça a chave unica para o administrador do servidor e digite-a abaixo (tem 1 minuto):", "OK", "Cancelar");
+    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo (tem 1 minuto):", "OK", "Cancelar");
 }
