@@ -72,7 +72,7 @@ public OnGeoResponse(Request:id, E_HTTP_STATUS:status, Node:node) {
 	// Define o idioma do jogador de acordo com o pais
 	new ip[16];
 	GetPlayerIp(playerid, ip, sizeof(ip));
-	new lang = isequal(ip, "127.0.0.1") ? LANG_PT : isequal(geo[playerid][GEO_COUNTRY_CODE], "BR") ? LANG_PT : LANG_EN;
+	new lang = isequal(ip, "127.0.0.1") ? LANG_PT : isequal(geo[playerid][GEO_COUNTRY_CODE], "BR") || isequal(geo[playerid][GEO_COUNTRY_CODE], "PT") ? LANG_PT : LANG_EN;
 
 	SetPlayerLanguage(playerid, lang);
 	
