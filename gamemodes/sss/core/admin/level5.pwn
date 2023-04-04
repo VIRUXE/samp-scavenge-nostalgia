@@ -465,3 +465,17 @@ ACMD:otp[5](playerid)
 
 	return 1;
 }
+
+ACMD:tutorial[5](playerid, params[]) {
+	new targetId;
+
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /tutorial [id/nome]");
+
+	if (targetId == INVALID_PLAYER_ID) return 4;
+
+	EnterTutorial(targetId);
+
+	ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" colocou %P"C_YELLOW" no tutorial.", playerid, targetId);
+	
+	return 1;
+}
