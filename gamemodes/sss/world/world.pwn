@@ -55,8 +55,13 @@ hook OnGameModeInit()
 {   
 	gServerInitialising = true;
 
+	new Node:node, servername[24];
+
+	JSON_GetObject(Settings, "server", node);
+	JSON_GetString(node, "name", servername);
+
 	SetGameModeText("Scavenge Survive");
-	SendRconCommand("hostname Nostalgia ~ Scavenge (Iniciando)");
+	SendRconCommand(sprintf("hostname %s (Iniciando)", servername));
 	SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
 
 	// store this to a list and compare after
@@ -103,9 +108,9 @@ hook OnGameModeInit()
 	// I'd still like to be credited for my work. Many servers have claimed
 	// they are the sole creator of the mode and this makes me sad and very
 	// hesitant to release my work completely free of charge.
-	SendRconCommand("hostname Nostalgia ~ Scavenge");
+	SendRconCommand(sprintf("hostname %s", servername));
 
-	new Node:node, result, password[24];
+	new result, password[24];
 	JSON_GetObject(Settings, "server", node);
 	result = JSON_GetString(node, "password", password);
 	if(result || isempty(password)) { // Configuracao nao existe no arquivo ou esta vazia

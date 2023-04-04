@@ -122,7 +122,6 @@ _OnPlayerConnect(playerid) {
 	// Agora colocamos o jogador no cenario aleatorio. (Onde ele vai ser colocado no mapa)
 	defer SetJoinScenario(playerid);
 
-
 	ply_Data[playerid][ply_ShowHUD] = true;
 
 	return 1;
