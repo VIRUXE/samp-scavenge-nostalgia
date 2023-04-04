@@ -468,9 +468,9 @@ ACMD:otp[5](playerid, params[])
 	} else {
 		if(!IsPlayerWaitingOTP(targetId)) return ChatMsg(playerid, YELLOW, " >  Este jogador nao esta esperando por uma chave unica.");
 
-		ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" invalidou a chave unica de %P"C_YELLOW".", playerid, targetId);
-
 		PassOTP(targetId);
+
+		ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" invalidou a chave unica de %p.", playerid, targetId);
 	}
 
 	return 1;

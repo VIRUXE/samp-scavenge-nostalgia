@@ -131,7 +131,6 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
     if(response) {
         if(isequal(inputtext, otp[playerid][otp_code])) {
             printf("[OTP] Chave unica para o jogador '%p' (%d) validada com sucesso.", playerid, playerid);
-
             PassOTP(playerid);
         } else {
             printf("[OTP] Chave unica para o jogador '%p' (%d) invalida.", playerid, playerid);
