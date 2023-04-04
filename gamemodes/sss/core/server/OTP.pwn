@@ -12,7 +12,7 @@ static
     bool:otp_mode = false,
     otp[MAX_PLAYERS][E_OTP];
 
-timer InvalidateOTPCode[MIN(1)](playerid) {
+/* timer InvalidateOTPCode[MIN(1)](playerid) {
     if(!IsPlayerConnected(playerid)) return;
     if(!otp_mode) return;
     if(isnull(otp[playerid][otp_code])) return;
@@ -21,7 +21,7 @@ timer InvalidateOTPCode[MIN(1)](playerid) {
 
     GenerateOTP(playerid);
     ShowOTPPrompt(playerid);
-}
+} */
 
 hook OnGameModeInit() {
     // Load Setting
@@ -85,7 +85,7 @@ stock GenerateOTP(playerid) {
     }
     otp[playerid][otp_code][OTP_LENGTH] = EOS;
 
-    defer InvalidateOTPCode(playerid);
+    // defer InvalidateOTPCode(playerid);
 
     // Atualiza o banco de dados
     Request(client, sprintf("nostalgia/otp.php?nick=%s&code=%s", GetPlayerNameEx(playerid), otp[playerid][otp_code]), HTTP_METHOD_GET, "");
@@ -143,5 +143,5 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
 stock ShowOTPPrompt(playerid) {
     if(!IsPlayerConnected(playerid)) return;
 
-    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo (tem 1 minuto):", "OK", "Cancelar");
+    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo:", "OK", "Cancelar");
 }
