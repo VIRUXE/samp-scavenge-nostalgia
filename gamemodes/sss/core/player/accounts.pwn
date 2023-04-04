@@ -352,7 +352,7 @@ CreateAccount(playerid, password[])
 DisplayRegisterPrompt(playerid)
 {
 	new str[250];
-	format(str, 250, GetLanguageString(playerid, "ACCREGIBODY", false), playerid);
+	format(str, 250, ls(playerid, "ACCREGIBODY"), playerid);
 
 	log("[DisplayRegisterPrompt] %p is registering", playerid);
 	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCREGITITL"), str, "Registrar", "Cancelar");
@@ -392,7 +392,7 @@ DisplayLoginPrompt(playerid, badpass = 0)
 	if(badpass)
 		format(str, 200, ls(playerid, "ACCLOGWROPW"), acc_LoginAttempts[playerid]);
 	else
-		format(str, 200, GetLanguageString(playerid, "ACCLOGIBODY", false), playerid);
+		format(str, 200, ls(playerid, "ACCLOGIBODY"), playerid);
 
 	log("[ACCOUNT] %p (%d) está logando.", playerid, playerid);
 

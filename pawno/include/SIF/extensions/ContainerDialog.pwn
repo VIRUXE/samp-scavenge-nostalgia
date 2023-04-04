@@ -192,7 +192,7 @@ stock DisplayContainerInventory(playerid, containerid)
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], GetLanguageString(playerid, "OPENINVO", false));
+	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -304,13 +304,13 @@ DisplayContainerOptions(playerid, slotid)
 	GetItemNameDialog(cnt_Items[cnt_CurrentContainer[playerid]][slotid], tmp);
 
     cnt_OptionsList[playerid] = "";
-	strcat(cnt_OptionsList[playerid], GetLanguageString(playerid, "CNTOPTION", false));
+	strcat(cnt_OptionsList[playerid], ls(playerid, "CNTOPTION"));
 	
 	cnt_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewContainerOpt", "dd", playerid, cnt_CurrentContainer[playerid]);
 
-	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], GetLanguageString(playerid, "BUTTONSLC", false), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
 
 	return 1;
 }
@@ -385,7 +385,7 @@ hook OnPlayerViewInvOpt(playerid)
 	if(cnt_CurrentContainer[playerid] != INVALID_CONTAINER_ID)
 	{
 		new str[8 + CNT_MAX_NAME];
-		strcat(str, GetLanguageString(playerid, "MOVETOO", false));
+		strcat(str, ls(playerid, "MOVETOO"));
 		strcat(str, cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]);
 		cnt_InventoryOptionID[playerid] = AddInventoryOption(playerid, str);
 		ConvertEncoding(str);

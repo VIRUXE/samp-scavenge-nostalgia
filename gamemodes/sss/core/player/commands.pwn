@@ -80,7 +80,7 @@ CMD:pos(playerid){
 
 CMD:ajuda(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações/Informations", GetLanguageString(playerid, "GENCOMDHELP", false), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações/Informations", ls(playerid, "GENCOMDHELP"), "X", "");
 	return 1;
 }
 
@@ -91,7 +91,7 @@ CMD:comandos(playerid) return cmd_ajuda(playerid);
 
 CMD:regras(playerid)
 {
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras/Rules", GetLanguageString(playerid, "RULESLIST", false), "X", "");
+	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras/Rules", ls(playerid, "RULESLIST"), "X", "");
 	return 1;
 }
 
@@ -101,7 +101,7 @@ CMD:rules(playerid) return cmd_regras(playerid);
 
 CMD:explosivos(playerid)
 {
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos/Explosives", GetLanguageString(playerid, "BOMBSLIST", false), "X", "");
+	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos/Explosives", ls(playerid, "BOMBSLIST"), "X", "");
 	return 1;
 }
 
@@ -112,7 +112,7 @@ CMD:bombas(playerid) return cmd_explosivos(playerid);
 
 CMD:metais(playerid)
 {
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defesas/Defences", GetLanguageString(playerid, "DEFENCESLIST", false), "X", "");
+	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defesas/Defences", ls(playerid, "DEFENCESLIST"), "X", "");
 	return 1;
 }
 
@@ -122,7 +122,7 @@ CMD:defences(playerid) return cmd_metais(playerid);
 
 CMD:mochilas(playerid)
 {
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas/Backpacks", GetLanguageString(playerid, "BACKPACKLIST", false), "X", "");
+	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas/Backpacks", ls(playerid, "BACKPACKLIST"), "X", "");
 	return 1;
 }
 
@@ -132,7 +132,7 @@ CMD:backpacks(playerid) return cmd_mochilas(playerid);
 
 CMD:caixas(playerid)
 {
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas/Boxes", GetLanguageString(playerid, "BOXESLIST", false), "X", "");
+	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas/Boxes", ls(playerid, "BOXESLIST"), "X", "");
 	return 1;
 }
 

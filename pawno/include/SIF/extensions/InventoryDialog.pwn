@@ -237,7 +237,7 @@ stock DisplayPlayerInventory(playerid)
 
 	// Constroi o titulo do dialog com o nome do container/inventario e os slots ocupados e totais
 	new inventorySize = GetPlayerInventorySize(playerid);
-	format(title, sizeof(title), GetLanguageString(playerid, "INVNAME", false), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
+	format(title, sizeof(title), ls(playerid, "INVNAME"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
     inv_ViewingInventory[playerid] = true;
 
 	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
@@ -386,7 +386,7 @@ DisplayPlayerInventoryOptions(playerid, slotid)
 
 	CallLocalFunction("OnPlayerViewInventoryOpt", "d", playerid);
 
-	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], GetLanguageString(playerid, "BUTTONSLC", false), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
 
 	return 1;
 }
