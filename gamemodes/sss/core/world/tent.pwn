@@ -33,17 +33,10 @@ new
 
 
 forward OnTentCreate(tentid);
+forward OnTentBuilt(playerid, tentid);
 forward OnTentDestroy(tentid);
 
-
-/*==============================================================================
-
-	Zeroing
-
-==============================================================================*/
-
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
 	tnt_CurrentTentItem[playerid] = INVALID_ITEM_ID;
 }
 
@@ -55,19 +48,9 @@ hook OnItemTypeDefined(uname[])
 
 hook OnItemCreated(itemid)
 {
-	if(GetItemType(itemid) == item_TentPack)
-	{
+	if(GetItemType(itemid) == item_TentPack) 
 		SetItemExtraData(itemid, INVALID_TENT_ID);
-	}
 }
-
-
-/*==============================================================================
-
-	Core
-
-==============================================================================*/
-
 
 stock CreateTentFromItem(itemid)
 {
@@ -157,8 +140,7 @@ stock CreateTentFromItem(itemid)
 
 stock DestroyTent(tentid)
 {
-	if(!Iter_Contains(tnt_Index, tentid))
-		return 0;
+	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	CallLocalFunction("OnTentDestroy", "d", tentid);
 
@@ -225,8 +207,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		{
 			if(GetItemType(itemid) == item_Crowbar)
 			{
-				if(IsBadInteract(playerid))
-					return Y_HOOKS_BREAK_RETURN_0;
+				if(IsBadInteract(playerid)) return Y_HOOKS_BREAK_RETURN_0;
 
 				StartRemovingTent(playerid, withitemid);
 				return Y_HOOKS_BREAK_RETURN_1;
@@ -244,28 +225,22 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 StartBuildingTent(playerid, itemid)
 {
-	if(GetPlayerInterior(playerid) != 0)
-		return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
+	if(GetPlayerInterior(playerid) != 0) return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
 		
-	if(IsPlayerVip(playerid))
-    	StartHoldAction(playerid, 5000);
-	else
-    	StartHoldAction(playerid, 10000);
+	StartHoldAction(playerid, IsPlayerVip(playerid) ? 5000 : 10000);
     	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, ls(playerid, "TENTBUILD", true));
 	tnt_CurrentTentItem[playerid] = itemid;
 
-	if(!IsPlayerInvadedField(playerid))
-		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
+	if(!IsPlayerInvadedField(playerid)) ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
 	return 1;
 }
 
 StopBuildingTent(playerid)
 {
-	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID)
-		return;
+	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID) return;
 
 	StopHoldAction(playerid);
 	ClearAnimations(playerid);
@@ -277,10 +252,7 @@ StopBuildingTent(playerid)
 
 StartRemovingTent(playerid, itemid)
 {
-	if(IsPlayerVip(playerid))
-    	StartHoldAction(playerid, 8000);
-	else
-    	StartHoldAction(playerid, 15000);
+	StartHoldAction(playerid, 15000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, ls(playerid, "TENTREMOVE"));
@@ -289,8 +261,7 @@ StartRemovingTent(playerid, itemid)
 
 StopRemovingTent(playerid)
 {
-	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID)
-		return;
+	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID) return;
 
 	StopHoldAction(playerid);
 	ClearAnimations(playerid);
@@ -309,13 +280,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			new ItemType:itemtype = GetItemType(GetPlayerItem(playerid));
 
 			if(itemtype == item_Hammer)
-			{
 				StopBuildingTent(playerid);
-			}
 			else if(itemtype == item_Crowbar)
-			{
 				StopRemovingTent(playerid);
-			}
 		}
 	}
 
@@ -329,9 +296,11 @@ hook OnHoldActionFinish(playerid)
 		if(GetItemType(GetPlayerItem(playerid)) == item_Hammer)
 		{
 			new tentid = CreateTentFromItem(tnt_CurrentTentItem[playerid]);
-			GetPlayerName(playerid, tnt_Owner[tentid], 24);
+			GetPlayerName(playerid, tnt_Owner[tentid], MAX_PLAYER_NAME);
    			SetItemLabel(tnt_CurrentTentItem[playerid], sprintf("Tenda de ({FFFFFF}%s{FFFF00})", tnt_Owner[tentid]), 0xFFFF00FF, 10.0, true);
 			StopBuildingTent(playerid);
+
+			CallLocalFunction("OnTentBuilt", "ii", playerid, tentid);
 		}
 
 		if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar)

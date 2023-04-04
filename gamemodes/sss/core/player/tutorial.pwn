@@ -54,7 +54,7 @@ static enum E_TUTORIAL_STEPS {
     bool:HOLSTER_WEAPON,
     bool:USE_ITEM_ON_ANOTHER_ITEM,
     bool:FINISH_ITEM_TWEAK,
-    bool:SET_UP_TENT,
+    bool:BUILD_TENT,
     bool:REPAIR_VEHICLE
 };
 
@@ -72,6 +72,18 @@ hook OnPlayerConnect(playerid)
 {
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
 
+	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 400.000, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
+	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.420651, 2.032407);
+	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 445.000, 220.000);
+	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 2);
+	PlayerTextDrawColor(playerid, Tutorial[playerid][TUT_STATUS], -1);
+	PlayerTextDrawUseBox(playerid, Tutorial[playerid][TUT_STATUS], 1);
+	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 0x00000066);
+	PlayerTextDrawSetShadow(playerid, Tutorial[playerid][TUT_STATUS], 1);
+	PlayerTextDrawSetOutline(playerid, Tutorial[playerid][TUT_STATUS], 1);
+	PlayerTextDrawBackgroundColor(playerid, Tutorial[playerid][TUT_STATUS], BLACK);
+	PlayerTextDrawFont(playerid, Tutorial[playerid][TUT_STATUS], 1);
+	PlayerTextDrawSetProportional(playerid, Tutorial[playerid][TUT_STATUS], 1);
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
@@ -125,7 +137,7 @@ hook OnPlayerOpenInventory(playerid)
             PlayerTutorial_VozInv[playerid] = true;
 		} */
 
-		PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
+		// PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
 
 		IncreaseTutorialProgress(playerid, OPEN_INVENTORY);
 
@@ -138,7 +150,7 @@ hook OnPlayerOpenInventory(playerid)
 hook OnPlayerCloseInventory(playerid)
 {
 	if(IsPlayerInTutorial(playerid)) {
-		PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
+		// PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -159,7 +171,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
                 PlayerTutorial_VozCnt[playerid] = true;
 			} */
 
-			PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
+			// PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
 			
 			IncreaseTutorialProgress(playerid, OPEN_CONTAINER);
 
@@ -175,7 +187,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 	if(IsPlayerInTutorial(playerid))
 	{
 		if(containerid == GetItemArrayDataAtCell(GetPlayerBagItem(playerid), 1)) { // ? Container Mochila?
-			PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
+			// PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 		}
 	}
 
@@ -186,8 +198,8 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
-		{
+		// if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
+		// {
   			// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
 
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
@@ -196,7 +208,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 			IncreaseTutorialProgress(playerid, VIEW_CONTAINER_OPTIONS);
 
 			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
-		}
+		// }
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -309,6 +321,16 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	}
 }
 
+hook OnTentBuilt(playerid, tentid) {
+	if(IsPlayerInTutorial(playerid)) {
+		IncreaseTutorialProgress(playerid, BUILD_TENT);
+
+		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMBLD"));
+	}
+
+	return Y_HOOKS_CONTINUE_RETURN_0;
+}
+
 hook OnItemTweakFinish(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
@@ -351,7 +373,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 			"Adicionar Item a Mochila",
 			"Abrir Opcoes da Mochila",
 			"Dropar Item",
-			"Colocar Arma no coldre",
+			"Colocar Arma no Coldre",
 			"Utilizar Item noutro Item",
 			"Terminar Ajuste de Item",
 			"Montar Tenda",
@@ -371,18 +393,25 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 	}
 }
 
+static IsStepCompleted(playerid, E_TUTORIAL_STEPS:step) {
+	return Tutorial[playerid][TUT_STEPS][step];
+}
+
 IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	if(!IsPlayerInTutorial(playerid)) return 0;
+	if(IsStepCompleted(playerid, step)) return 0;
 
 	// Limpa o chat
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
+
+	GameTextForPlayer(playerid, "Tarefa Concluida", 3000, 6);
 
 	Tutorial[playerid][TUT_STEPS][step] = true;
 
 	// Calculate how many steps are completed
 	new stepscompleted = 0;
-	for(new i = 0; i < MAX_TUTORIAL_STEPS; i++) {
-		if(Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:i]) stepscompleted++;
+	for(new s = 0; s < MAX_TUTORIAL_STEPS; s++) {
+		if(IsStepCompleted(playerid, E_TUTORIAL_STEPS:s)) stepscompleted++;
 	}
 
 	CallLocalFunction("OnPlayerProgressTutorial", "ii", playerid, stepscompleted);
@@ -436,7 +465,7 @@ EnterTutorial(playerid) {
 	SetPlayerAliveState(playerid, false);
 	SetPlayerSpawnedState(playerid, false);
 
-	FreezePlayer(playerid, SEC(gLoginFreezeTime));
+	FreezePlayer(playerid, SEC(3));
 	PrepareForSpawn(playerid);
 
 	Tutorial[playerid][TUT_VEHICLE] = CreateWorldVehicle(veht_Bobcat, 949.1641,2060.3074,10.8203, 272.1444, random(100), random(100), .world = virtualworld);
@@ -531,19 +560,6 @@ EnterTutorial(playerid) {
 
 	ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 
-	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 4.000, 283.000, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
-	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.345, 1.680);
-	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 185.000, 0.000);
-	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawColor(playerid, Tutorial[playerid][TUT_STATUS], -1);
-	PlayerTextDrawUseBox(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 153);
-	PlayerTextDrawSetShadow(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawSetOutline(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawBackgroundColor(playerid, Tutorial[playerid][TUT_STATUS], 0);
-	PlayerTextDrawFont(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawSetProportional(playerid, Tutorial[playerid][TUT_STATUS], 1);
-
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
 
@@ -575,6 +591,13 @@ ExitTutorial(playerid)
 	for(new i = 0; i < MAX_TUTORIAL_ITEMS-1; i++) {
 		DestroyItem(Tutorial[playerid][TUT_ITEMS][E_TUTORIAL_ITEMS:i]);
 		DestroyPickup(Tutorial[playerid][TUT_PICKUPS][E_TUTORIAL_ITEMS:i]);
+	}
+
+	if(IsValidTent(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_TENT]))
+		DestroyTent(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_TENT]);
+
+	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) {
+		Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
 	}
 		
 	DestroyWorldVehicle(Tutorial[playerid][TUT_VEHICLE], true);
