@@ -97,9 +97,22 @@ stock bool:IsPlayerWaitingOTP(playerid) {
     return !isnull(otp[playerid][otp_code]);
 }
 
+PassOTP(playerid) {
+    if(!IsPlayerConnected(playerid)) return 0;
+    if(!IsPlayerWaitingOTP(playerid)) return 0;
+
+    // Remove the code from memory
+    otp[playerid][otp_code][0] = EOS;
+
+    SetPlayerScreenFade(playerid, 0);
+    _OnPlayerConnect(playerid);
+
+    return 1;
+}
+
 Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
     if(IsPlayerAdmin(playerid)) {
-        _OnPlayerConnect(playerid);
+        PassOTP(playerid);
         return;
     }
 
@@ -119,11 +132,7 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
         if(isequal(inputtext, otp[playerid][otp_code])) {
             printf("[OTP] Chave unica para o jogador '%p' (%d) validada com sucesso.", playerid, playerid);
 
-            // Remove the code from memory
-            otp[playerid][otp_code][0] = EOS;
-
-            SetPlayerScreenFade(playerid, 0);
-            _OnPlayerConnect(playerid);
+            PassOTP(playerid);
         } else {
             printf("[OTP] Chave unica para o jogador '%p' (%d) invalida.", playerid, playerid);
             ShowOTPPrompt(playerid);

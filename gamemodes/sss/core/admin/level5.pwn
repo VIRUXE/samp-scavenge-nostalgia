@@ -455,13 +455,23 @@ ACMD:dbl[5](playerid)
 	return 1;
 }
 
-ACMD:otp[5](playerid)
+ACMD:otp[5](playerid, params[])
 {
-	new bool:otp = IsOTPModeEnabled();
+	new targetId;
 
-	ToggleOTPMode(!otp);
+	if(sscanf(params, "r", targetId)) { // Se nao especificar um jogador, ativa/desativa o modo de chave unica para o proprio jogador
+		new bool:otp = IsOTPModeEnabled();
 
-	ChatMsgAdmins(1, YELLOW, " >  Modo de Chave Unica %s", !otp ? "ativado" : "desativado");
+		ToggleOTPMode(!otp);
+
+		ChatMsgAdmins(1, YELLOW, " >  Modo de Chave Unica %s", !otp ? "ativado" : "desativado");
+	} else {
+		if(!IsPlayerWaitingOTP(targetId)) return ChatMsg(playerid, YELLOW, " >  Este jogador nao esta esperando por uma chave unica.");
+
+		ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" invalidou a chave unica de %P"C_YELLOW".", playerid, targetId);
+
+		PassOTP(targetId);
+	}
 
 	return 1;
 }
