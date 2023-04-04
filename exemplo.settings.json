@@ -35,7 +35,7 @@
     ],
     "website": "http://www.scavengenostalgia.fun",
     "otp": {
-      "enabled": false,
+      "enabled": true,
       "length": 6,
       "timeout": 60
     }
