@@ -848,35 +848,34 @@ task ShowRandomRank[60000 * 6]()
 
 	foreach(new i : Player)
 	{
-		if(IsPlayerConnected(i) && !IsPlayerInTutorial(i))
-		{
-			if(GetPlayerScore(i) > MaxScore)
-			{
-				MaxScore = GetPlayerScore(i);
-				id = i;
-			}
-			if(GetPlayerDeathCount(i) > MaxMortes)
-			{
-				MaxMortes = GetPlayerDeathCount(i);
-				id2 = i;
-			}
-			if(GetPlayerSpree(i) > MaxSpree)
-			{
-				MaxSpree = GetPlayerSpree(i);
-				id3 = i;
-			}
-			if(GetPlayerPing(i) > MaxPing)
-			{
-				MaxPing = GetPlayerPing(i);
-				id4 = i;
-			}
-			if(GetPlayerAliveTime(i) > MaxHS)
-			{
-				MaxHS = GetPlayerAliveTime(i);
-				id5 = i;
-			}
-	  	}
+		if(!IsPlayerLoggedIn(i)) continue;
+		if(IsPlayerInTutorial(i)) continue;
 
+		if(GetPlayerScore(i) > MaxScore)
+		{
+			MaxScore = GetPlayerScore(i);
+			id = i;
+		}
+		if(GetPlayerDeathCount(i) > MaxMortes)
+		{
+			MaxMortes = GetPlayerDeathCount(i);
+			id2 = i;
+		}
+		if(GetPlayerSpree(i) > MaxSpree)
+		{
+			MaxSpree = GetPlayerSpree(i);
+			id3 = i;
+		}
+		if(GetPlayerPing(i) > MaxPing)
+		{
+			MaxPing = GetPlayerPing(i);
+			id4 = i;
+		}
+		if(GetPlayerAliveTime(i) > MaxHS)
+		{
+			MaxHS = GetPlayerAliveTime(i);
+			id5 = i;
+		}
 	}
 
 	switch (random(6))
