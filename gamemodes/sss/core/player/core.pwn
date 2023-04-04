@@ -134,7 +134,10 @@ public OnPlayerConnect(playerid)
 
 	SetPlayerScreenFade(playerid, 255);
 
-	if(IsOTPModeEnabled()) {
+	new ip[16];
+	GetPlayerIp(playerid, ip, 16);
+
+	if(IsOTPModeEnabled() && !isequal(ip, "127.0.0.1")) {
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 	} else {
