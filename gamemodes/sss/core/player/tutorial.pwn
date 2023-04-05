@@ -393,10 +393,10 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, "> "C_WHITE" Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
+			ChatMsg(playerid, GREEN, "> "C_GOLD" Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
 		}
 
-		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted, MAX_TUTORIAL_STEPS, steps[next_step]));
+		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
 	}
 }
 
