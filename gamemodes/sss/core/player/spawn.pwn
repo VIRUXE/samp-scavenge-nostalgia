@@ -30,7 +30,7 @@ new
 PlayerText:	ClassButtonMale[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 PlayerText:	ClassButtonFemale[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 
-forward OnPlayerCreatingCharacter(playerid);
+forward OnPlayerEnterCharacterCreation(playerid);
 forward OnPlayerSpawnCharacter(playerid);
 forward OnPlayerSpawnNewChar(playerid);
 
@@ -213,7 +213,7 @@ ShowCharacterCreationScreen(playerid)
 	}
 	SelectTextDraw(playerid, 0xFFFFFF88);
 
-	CallLocalFunction("OnPlayerCreatingCharacter", "d", playerid);
+	CallLocalFunction("OnPlayerEnterCharacterCreation", "d", playerid);
 }
 
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
@@ -229,6 +229,9 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 CreateNewCharacter(playerid, gender)
 {
 	if(IsPlayerSpawned(playerid)) return 0;
+
+	PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
+	PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
 
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -283,6 +286,26 @@ CreateNewCharacter(playerid, gender)
 	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
 	SetPlayerGender(playerid, gender);
 
+	// Colocar com Mochila e Chave de Roda
+	GiveWorldItemToPlayer(playerid, CreateItem(IsPlayerVip(playerid) ? item_Backpack : item_Satchel));
+	GiveWorldItemToPlayer(playerid, CreateItem(item_Wrench));
+
+	if(IsPlayerVip(playerid)) {
+		GiveWorldItemToPlayer(playerid, CreateItem(item_Screwdriver));
+		GiveWorldItemToPlayer(playerid, CreateItem(item_Map));
+		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
+	}
+
+	// Chance de 50% de dar uma arma
+	if(random(1)) {
+		if(IsPlayerVip(playerid)) { // Uma 9MM com 2 a 10 munições
+			GiveWorldItemToPlayer(playerid, CreateItem(item_M9Pistol));
+			GiveWorldItemToPlayer(playerid, SetItemExtraData(CreateItem(item_Ammo9mm), 2 + random(9)));
+		} else { // Apenas uma faca
+			GiveWorldItemToPlayer(playerid, CreateItem(item_Knife));
+		}
+	}
+
 	SetPlayerAliveState(playerid, true);
 
 	// Congelar se não for admin nível 6
@@ -292,9 +315,6 @@ CreateNewCharacter(playerid, gender)
 		UnfreezePlayer(playerid);
     
 	PrepareForSpawn(playerid);
-
-	PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
-	PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
 
 	SetPlayerScreenFade(playerid, 255);
 
