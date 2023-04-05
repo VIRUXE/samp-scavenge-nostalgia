@@ -254,6 +254,7 @@ TUTORADDBAG=You added an item to your bag. You can access your bag by pressing H
 TUTORADDCNT=You added an item to a container. Containers are places to store items 
 TUTORITMHOL=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.
 TUTORITMUSE=You tried to use an item with another item because you are holding one already. This can be used sometimes, for example use a lighter with a campfire to light it or use a weapon with ammo to load it.
+TUTORITMBLD=You built a Tent. You can use these to save some of your items.
 TUTORVEHVER=This vehicle is very broken! To fix, equip a wrench and hold F while at the front of the vehicle.
 TUTORVEHBRO=This vehicle is broken! To fix, equip a screwdriver and hold F while at the front of the vehicle.
 TUTORVEHBIT=This vehicle is a bit broken! To fix, equip a hammer and hold F while at the front of the vehicle.

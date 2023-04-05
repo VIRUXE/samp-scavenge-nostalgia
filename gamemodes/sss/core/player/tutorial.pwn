@@ -72,13 +72,13 @@ hook OnPlayerConnect(playerid)
 {
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
 
-	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 400.000, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
-	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.420651, 2.032407);
-	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 445.000, 220.000);
+	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 422.916666, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
+	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.256761, 1.303703);
+	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 450.666666, 128.125);
 	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 2);
 	PlayerTextDrawColor(playerid, Tutorial[playerid][TUT_STATUS], -1);
 	PlayerTextDrawUseBox(playerid, Tutorial[playerid][TUT_STATUS], 1);
-	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 0x00000066);
+	PlayerTextDrawBoxColor(playerid, Tutorial[playerid][TUT_STATUS], 0x00000044);
 	PlayerTextDrawSetShadow(playerid, Tutorial[playerid][TUT_STATUS], 1);
 	PlayerTextDrawSetOutline(playerid, Tutorial[playerid][TUT_STATUS], 1);
 	PlayerTextDrawBackgroundColor(playerid, Tutorial[playerid][TUT_STATUS], BLACK);
@@ -364,6 +364,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 	if(stepscompleted == MAX_TUTORIAL_STEPS) {
 		ExitTutorial(playerid);
 	} else {
+		// TODO: Fazer internacionalizacao
 		new const steps[][] = {
 			"Abrir Inventario",
 			"Equipar Mochila",
@@ -387,6 +388,12 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 				next_step = i;
 				break;
 			}
+		}
+
+		// TODO: Fazer internacionalizacao
+		// Dicas para cada tarefa/passo
+		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
+			ChatMsg(playerid, GREEN, "> "C_WHITE" Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
 		}
 
 		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted, MAX_TUTORIAL_STEPS, steps[next_step]));
@@ -603,7 +610,7 @@ ExitTutorial(playerid)
 	DestroyWorldVehicle(Tutorial[playerid][TUT_VEHICLE], true);
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
 	
-	SetPlayerScreenFade(playerid, 255);
+	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
 
 	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));

@@ -247,6 +247,7 @@ TUTORADDBAG=Você adicionou um item a sua mochila. Você pode acessar sua mochil
 TUTORADDCNT=Você adicionou um item a um container. Os containeres são lugares para armazenar itens
 TUTORITMHOL=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.
 TUTORITMUSE=Você tentou usar um item em outro item. Isso pode ser usado ás vezes, por exemplo, use um isqueiro com uma fogueira para acendê-lo ou usar uma arma com munição para carregá-lo.
+TUTORITMBLD=Você constribui agora uma tenda. Pode utilizar ela para salvar alguns dos seus itens.
 TUTORVEHVER=Este veículo está muito quebrado! Para reparar, equipe uma chave de roda e segure F na frente do veículo.
 TUTORVEHBRO=Este veículo está quebrado! Para reparar, equipe uma chave de fenda e segure F na frente do veículo.
 TUTORVEHBIT=Este veículo está um pouco quebrado! Para reparar, equipe um martelo e segure F na frente do veículo.
