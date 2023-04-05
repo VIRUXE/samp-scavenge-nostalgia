@@ -699,7 +699,7 @@ hook OnPlayerViewInvOpt(playerid)
 
 	if(IsValidItem(bag_PlayerBagID[playerid]) && !IsValidContainer(GetPlayerCurrentContainer(playerid)))
 	{
-		bag_InventoryOptionID[playerid] = AddInventoryOption(playerid, "Mover para mochila");
+		bag_InventoryOptionID[playerid] = AddInventoryOption(playerid, "Mover para a Mochila");
 	}
 }
 
@@ -744,7 +744,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 
 	if(IsValidItem(bag_PlayerBagID[playerid]) && containerid != GetItemArrayDataAtCell(bag_PlayerBagID[playerid], 1))
 	{
-		bag_InventoryOptionID[playerid] = AddContainerOption(playerid, "Mover para mochila >");
+		bag_InventoryOptionID[playerid] = AddContainerOption(playerid, "Mover para a Mochila >");
 	}
 }
 
