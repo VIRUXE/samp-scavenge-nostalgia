@@ -336,12 +336,7 @@ Dialog:ReportReasonInput(playerid, response, listitem, inputtext[])
 
 ACMD:reports[1](playerid, params[])
 {
-	new ret;
-
-	ret = ShowListOfReports(playerid);
-
-	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  Não tem nenhum report para mostrar.");
+	if(ShowListOfReports(playerid) == 0) ChatMsg(playerid, YELLOW, " >  Não existem reports.");
 
 	return 1;
 }
@@ -356,8 +351,7 @@ ShowListOfReports(playerid)
 {
 	new totalreports = GetReportList(report_CurrentReportList[playerid]);
 
-	if(totalreports == 0)
-		return 0;
+	if(totalreports == 0) return 0;
 
 	new
 		colour[9],
@@ -368,13 +362,10 @@ ShowListOfReports(playerid)
 	{
 		if(!strcmp(report_CurrentReportList[playerid][idx][report_type], "R_FIELD"))
             colour = "{33AA33}";
-            
 		else if(IsPlayerBanned(report_CurrentReportList[playerid][idx][report_name]))
 			colour = "{FF0000}";
-
 		else if(!report_CurrentReportList[playerid][idx][report_read])
 			colour = "{FFFF00}";
-
 		else
 			colour = "{FFFFFF}";
 
@@ -397,7 +388,8 @@ Dialog:ListOfReports(playerid, response, listitem, inputtext[])
 		ShowReport(playerid, listitem);
 		HidePlayerPageButtons(playerid);
 		report_CurrentItem[playerid] = listitem;
-	}
+	} else
+		HidePlayerPageButtons(playerid);
 }
 
 
@@ -419,8 +411,7 @@ ShowReport(playerid, reportlistitem)
 		report_CurrentInfo[playerid],
 		reporter);
 
-	if(!ret)
-		return 0;
+	if(!ret) return 0;
 
 	new message[512];
 
@@ -442,13 +433,9 @@ ShowReport(playerid, reportlistitem)
 Dialog:Report(playerid, response, listitem, inputtext[])
 {
 	if(response)
-	{
 		ShowReportOptions(playerid);
-	}
 	else
-	{
 		ShowListOfReports(playerid);
-	}
 }
 
 ShowReportOptions(playerid)
@@ -462,20 +449,15 @@ ShowReportOptions(playerid)
 		strcat(options, "Ir para a posição do report\n");
 
 		if(!strcmp(report_CurrentType[playerid], "TELE"))
-		{
 			strcat(options, "Ir para o destino de teleporte\n");
-		}
 
-		if(!strcmp(report_CurrentType[playerid], "CAM"))
-		{
+		if(!strcmp(report_CurrentType[playerid], "CAM")) {
 			strcat(options, "Ir para o local da câmera\n");
 			strcat(options, "Ver a câmera\n");
 		}
 
 		if(!strcmp(report_CurrentType[playerid], "VTP"))
-		{
 			strcat(options, "Ir para a posição do veículo\n");
-		}
 	}
 
 	HidePlayerPageButtons(playerid);
@@ -490,9 +472,7 @@ Dialog:ReportOptions(playerid, response, listitem, inputtext[])
 		switch(listitem)
 		{
 			case 0:
-			{
 				ShowReportBanPrompt(playerid);
-			}
 			case 1:
 			{
 				DeleteReport(report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_rowid]);
@@ -599,9 +579,7 @@ Dialog:ReportOptions(playerid, response, listitem, inputtext[])
 		}
 	}
 	else
-	{
 		ShowReport(playerid, report_CurrentItem[playerid]);
-	}
 }
 
 ShowReportBanPrompt(playerid)
@@ -625,14 +603,9 @@ Dialog:BanPrompt(playerid, response, listitem, inputtext[])
 	{
 		new duration;
 
-		if(!strcmp(inputtext, "forever", true))
-			duration = 0;
+		duration = !strcmp(inputtext, "forever", true) ? 0 : GetDurationFromString(inputtext);
 
-		else
-			duration = GetDurationFromString(inputtext);
-
-		if(duration == -1)
-		{
+		if(duration == -1) {
 			ShowReportBanPrompt(playerid);
 			return 0;
 		}
@@ -641,9 +614,7 @@ Dialog:BanPrompt(playerid, response, listitem, inputtext[])
 		ShowListOfReports(playerid);
 	}
 	else
-	{
 		ShowReportOptions(playerid);
-	}
 
 	return 0;
 }

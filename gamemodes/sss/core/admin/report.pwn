@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -89,6 +65,7 @@ enum e_report_list_struct
 	report_read,
 	report_rowid
 }
+
 static
 DBStatement:	stmt_ReportInsert,
 DBStatement:	stmt_ReportDelete,
@@ -148,27 +125,21 @@ hook OnGameModeInit()
 
 ReportPlayer(name[], reason[], reporter, type[], Float:posx, Float:posy, Float:posz, world, interior, infostring[])
 {
-	if(strlen(name) < 3)
-	    return 1;
+	if(strlen(name) < 3) return 1;
 	    
-    for(new i = 0; i < MAX_PLAYERS; i++)
-	{
+    for(new i = 0; i < MAX_PLAYERS; i++) {
 	    new nome[24];
 		GetPlayerName(i, nome, 24);
 		
-		if(!strcmp(name, nome) && IsPlayerNPC(i))
-			return 1;
+		if(!strcmp(name, nome) && IsPlayerNPC(i)) return 1;
 	}
 		
 	new reportername[MAX_PLAYER_NAME];
 
-	if(reporter == -1)
-	{
+	if(reporter == -1) {
 		ChatMsgAdmins(1, YELLOW, " >  Servidor reportou %s, Motivo: %s", name, reason);
-		reportername = "Server";
-	}
-	else
-	{
+		reportername = "Servidor";
+	} else {
 		ChatMsgAdmins(1, YELLOW, " >  %p Reportado %s, Motivo: %s", reporter, name, reason);
 		GetPlayerName(reporter, reportername, MAX_PLAYER_NAME);
 	}
@@ -185,18 +156,14 @@ ReportPlayer(name[], reason[], reporter, type[], Float:posx, Float:posy, Float:p
 	stmt_bind_value(stmt_ReportInsert, 9, DB::TYPE_STRING, infostring, MAX_REPORT_INFO_LENGTH);
 	stmt_bind_value(stmt_ReportInsert, 10, DB::TYPE_STRING, reportername, MAX_PLAYER_NAME);
 
-	if(stmt_execute(stmt_ReportInsert))
-	{
-		return 1;
-	}
+	if(stmt_execute(stmt_ReportInsert)) return 1;
 
 	return 0;
 }
 
 ACMD:delreports[3](playerid)
 {
-    for(new i = 0; i < 5000; i++)
-		SetReportRead(i, 1);
+    for(new i = 0; i < 5000; i++) SetReportRead(i, 1); // * 5 mil? caralho
 		
 	ChatMsg(playerid, YELLOW, " >  Todos os reports foram deletados.");
 	DeleteReadReports();
@@ -218,10 +185,7 @@ DeleteReportsOfPlayer(name[])
 	return stmt_execute(stmt_ReportDeleteName);
 }
 
-DeleteReadReports()
-{
-	return stmt_execute(stmt_ReportDeleteRead);
-}
+DeleteReadReports() return stmt_execute(stmt_ReportDeleteRead);
 
 
 /*==============================================================================
@@ -245,8 +209,7 @@ stock GetReportList(list[][e_report_list_struct])
 	stmt_bind_result_field(stmt_ReportList, 2, DB::TYPE_STRING, type, MAX_REPORT_TYPE_LENGTH);
 	stmt_bind_result_field(stmt_ReportList, 3, DB::TYPE_INTEGER, rowid);
 
-	if(!stmt_execute(stmt_ReportList))
-		return 0;
+	if(!stmt_execute(stmt_ReportList)) return 0;
 
 	while(stmt_fetch_row(stmt_ReportList))
 	{
@@ -275,8 +238,7 @@ stock GetReportInfo(rowid, reason[], &date, type[], &Float:posx, &Float:posy, &F
 	stmt_bind_result_field(stmt_ReportInfo, FIELD_ID_REPORTS_INFO, DB::TYPE_STRING, info, MAX_REPORT_INFO_LENGTH);
 	stmt_bind_result_field(stmt_ReportInfo, FIELD_ID_REPORTS_BY, DB::TYPE_STRING, reporter, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_ReportInfo))
-		return 0;
+	if(!stmt_execute(stmt_ReportInfo)) return 0;
 
 	stmt_fetch_row(stmt_ReportInfo);
 
@@ -309,13 +271,11 @@ stock IsPlayerReported(name[])
 	stmt_bind_value(stmt_ReportNameExists, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_ReportNameExists, 0, DB::TYPE_INTEGER, count);
 
-	if(!stmt_execute(stmt_ReportNameExists))
-		return 0;
+	if(!stmt_execute(stmt_ReportNameExists)) return 0;
 
 	stmt_fetch_row(stmt_ReportNameExists);
 
-	if(count > 0)
-		return 1;
+	if(count > 0) return 1;
 
 	return 0;
 }
