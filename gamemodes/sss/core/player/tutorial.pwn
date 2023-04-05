@@ -303,9 +303,9 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
-		IncreaseTutorialProgress(playerid, HOLSTER_WEAPON);
-
 		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
+
+		IncreaseTutorialProgress(playerid, HOLSTER_WEAPON);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -393,7 +393,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, "> "C_GOLD" Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
+			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
 		}
 
 		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
