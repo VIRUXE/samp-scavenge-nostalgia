@@ -5,8 +5,8 @@
 
 #define INVALID_REQUEST_ID -1 // * Idealmente isso deveria ser colocado noutro lado, mas por enquanto fica aqui.
 
-// #define GetPlayerCountry(%1) geo[%1][GEO_COUNTRY]
-// #define GetPlayerCountryCode(%1) geo[%1][GEO_COUNTRY_CODE]
+#define GetPlayerCountry(%1) geo[%1][GEO_COUNTRY]
+#define GetPlayerCountryCode(%1) geo[%1][GEO_COUNTRY_CODE]
 
 enum GEO_DATA {
 	Request:GEO_REQUEST_ID, // Cada jogador tem uma requisicao para ele
@@ -18,13 +18,13 @@ static
 		RequestsClient:geo_client,
 		geo[MAX_PLAYERS][GEO_DATA];
 
-GetPlayerCountry(playerid, country[], len) {
+/* stock GetPlayerCountry(playerid, country[], len) {
 	strcpy(country, geo[playerid][GEO_COUNTRY], len);
 }
 
-GetPlayerCountryCode(playerid, countryCode[], len) {
+stock GetPlayerCountryCode(playerid, countryCode[], len) {
 	strcpy(countryCode, geo[playerid][GEO_COUNTRY_CODE], len);
-}
+} */
 
 stock GetPlayerGeo(playerid) {
 	new ipstring[16];
