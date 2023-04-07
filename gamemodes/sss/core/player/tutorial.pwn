@@ -63,12 +63,11 @@ static enum E_TUTORIAL {
 	TUT_STEPS[E_TUTORIAL_STEPS],
 	TUT_VEHICLE,
 	TUT_ITEMS[E_TUTORIAL_ITEMS],
-	TUT_PICKUPS[E_TUTORIAL_ITEMS]
+	TUT_PICKUPS[E_TUTORIAL_ITEMS],
+	TUT_GATE_OBJ
 }
 
 static Tutorial[MAX_PLAYERS][E_TUTORIAL];
-
-new portaotutorial[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid)
 {
@@ -490,7 +489,7 @@ EnterTutorial(playerid) {
 
 	// Portão bloqueando a entrada do galpão
 
-	portaotutorial[playerid] = CreatePlayerObject(playerid, 971, 977.73792, 2073.38745, 10.37790,   0.00000, 0.00000, 90.00000, 300.0);
+	Tutorial[playerid][TUT_GATE_OBJ] = CreatePlayerObject(playerid, 971, 977.73792, 2073.38745, 10.37790,   0.00000, 0.00000, 90.00000, 300.0);
 
 	//	Items
 	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
@@ -594,27 +593,27 @@ ExitTutorial(playerid)
 	SetPlayerAliveState(playerid, true);
 	SetPlayerVirtualWorld(playerid, 0);
 
+	// Resetar os passos do tutorial
+	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) {
+		Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
+	}
+
 	// Destroi os itens e pickups do tutorial
-	/* 
-		! Essas duas linhas dao tag mismatch, nao sei o motivo
-		* No entanto, creio que funcione normalmente. Mas falta testar.
-	 */
 	for(new i = 0; i < MAX_TUTORIAL_ITEMS-1; i++) {
 		DestroyItem(Tutorial[playerid][TUT_ITEMS][E_TUTORIAL_ITEMS:i]);
 		DestroyPickup(Tutorial[playerid][TUT_PICKUPS][E_TUTORIAL_ITEMS:i]);
 	}
 
+	// Destroi a tenda
 	if(IsValidTent(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_TENT]))
 		DestroyTent(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_TENT]);
-
-	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) {
-		Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
-	}
 		
+	// Destroi o Bobcat
 	DestroyWorldVehicle(Tutorial[playerid][TUT_VEHICLE], true);
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
 
-	DestroyPlayerObject(playerid, portaotutorial[playerid]);
+	// Destroi o Portao
+	DestroyPlayerObject(playerid, Tutorial[playerid][TUT_GATE_OBJ]);
 	
 	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
