@@ -61,8 +61,8 @@ static
 	lang_PlayerLanguage[MAX_PLAYERS];
 
 enum {
-	LANG_PT,
-	LANG_EN
+	PORTUGUESE,
+	ENGLISH
 };
 
 // TODO: Criar um comando para alterar o idioma do jogador.
