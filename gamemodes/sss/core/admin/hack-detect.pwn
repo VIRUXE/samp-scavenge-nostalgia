@@ -73,14 +73,11 @@ ptask player_Check[SEC(1)](playerid)
 
 	==========================================================================*/
 
-	if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) < 10000)
-		return;
+	if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) < 10000) return;
 
-	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
-		return;
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return;
 
-	if(IsPlayerDead(playerid))
-		return;
+	if(IsPlayerDead(playerid)) return;
 		
     if(GetPlayerAdminLevel(playerid) > 0) return;
 
@@ -104,14 +101,11 @@ ptask player_Check[SEC(1)](playerid)
 
 		GetPlayerPos(playerid, x, y, z);
 
-		if(x == 0.0 && y == 0.0 && z == 0.0)
-			return;
+		if(x == 0.0 && y == 0.0 && z == 0.0) return;
 
-		if(-5.0 < (x - DEFAULT_POS_X) < 5.0 && -5.0 < (y - DEFAULT_POS_Y) < 5.0 && -5.0 < (z - DEFAULT_POS_Z) < 5.0)
-			return;
+		if(-5.0 < (x - DEFAULT_POS_X) < 5.0 && -5.0 < (y - DEFAULT_POS_Y) < 5.0 && -5.0 < (z - DEFAULT_POS_Z) < 5.0) return;
 
-		if(z > 5.0 && !IsPosInWater(x, y, z))
-			AC_KickPlayer(playerid, "Fly Hack");
+		if(z > 5.0 && !IsPosInWater(x, y, z)) AC_KickPlayer(playerid, "Fly Hack");
 	}
 
 	/*==========================================================================
@@ -120,11 +114,9 @@ ptask player_Check[SEC(1)](playerid)
 
 	==========================================================================*/
 	
-    if(GetPlayerMoney(playerid) > 0)
-		BanPlayer(playerid, "Money-Hack", -1, 0);
+    if(GetPlayerMoney(playerid) > 0) BanPlayer(playerid, "Money-Hack", -1, 0);
 
-    if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK)
-		BanPlayer(playerid, "JetPack-Hack", -1, 0);
+    if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK) BanPlayer(playerid, "JetPack-Hack", -1, 0);
 		
 	/*==========================================================================
 
@@ -132,24 +124,20 @@ ptask player_Check[SEC(1)](playerid)
 
 	==========================================================================*/
 	
-    new
-		vehicleid,
-		component;
+    new vehicleid, component;
 
 	vehicleid = GetPlayerVehicleID(playerid);
 
 	component = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_NITRO);
 
-	if(component == 1008 || component == 1009 || component == 1010)
-	{
+	if(component == 1008 || component == 1009 || component == 1010) {
 		BanPlayer(playerid, "Detectado Nitro no veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleid, CARMODTYPE_NITRO);
 	}
 
 	component = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_HYDRAULICS);
 
-	if(component == 1087)
-	{
+	if(component == 1087) {
 		BanPlayer(playerid, "Detectado Hydraulica no veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleid, CARMODTYPE_HYDRAULICS);
 	}
@@ -159,8 +147,7 @@ ptask player_Check[SEC(1)](playerid)
 
 	GetVehicleHealth(vehicleid, vehiclehp);
 
-	if(vehiclehp > 990.0 && GetPlayerVehicleSeat(playerid) == 0) // Only check the driver - Checking passengers causes a false ban
-	{
+	if(vehiclehp > 990.0 && GetPlayerVehicleSeat(playerid) == 0) { // Only check the driver - Checking passengers causes a false ban 
 		AC_KickPlayer(playerid, "Veículo Health-Hack");
 
 		defer vh_ResetVehiclePosition(GetPlayerVehicleID(playerid));
@@ -227,8 +214,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 
 timer StillInVeh[SEC(1)](playerid, vehicleid, ls)
 {
-	if(!IsPlayerConnected(playerid))
-		return;
+	if(!IsPlayerConnected(playerid)) return;
 
 	SetVehicleExternalLock(vehicleid, E_LOCK_STATE:ls);
 }
@@ -247,19 +233,16 @@ static
 hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
 {
     if(GetPlayerAdminLevel(playerid) > 0) return 1;
+
 	if(GetTickCountDifference(GetTickCount(), ammo_LastShot[playerid]) < GetWeaponShotInterval(weaponid) + 10)
 	{
 		ammo_ShotCounter[playerid]++;
 
 		if(ammo_ShotCounter[playerid] > GetWeaponMagSize(weaponid))
-		{
 			AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
-		}
 	}
 	else
-	{
 		ammo_ShotCounter[playerid] = 1;
-	}
 
 	ammo_LastShot[playerid] = GetTickCount();
 
@@ -376,45 +359,37 @@ CameraDistanceCheck(playerid)
 		IsPlayerOnZipline(playerid) ||
 		IsValidVehicle(GetPlayerSurfingVehicleID(playerid)) ||
 		IsValidObject(GetPlayerSurfingObjectID(playerid)) ||
-		GetPlayerInterior(playerid) != 0)
+		GetPlayerInterior(playerid) != 0 ||
+		GetPlayerVirtualWorld(playerid) != 0 ||
+		!IsPlayerLoggedIn(playerid)) 
 	{
 		cd_DetectDelay[playerid] = GetTickCount();
 		return;
 	}
 
-	if(GetPlayerInterior(playerid) != 0 || GetPlayerVirtualWorld(playerid) != 0)
-	    return;
+	if(GetPlayerInterior(playerid) != 0 || GetPlayerVirtualWorld(playerid) != 0) return;
 	    
-	if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleExitTick(playerid)) < 5000)
-		return;
+	if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleExitTick(playerid)) < 5000) return;
 
-	if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) < 20000)
-		return;
+	if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) < 20000) return;
 		
-	if(GetTickCountDifference(GetTickCount(), cd_DetectDelay[playerid]) < 5000)
-		return;
+	if(GetTickCountDifference(GetTickCount(), cd_DetectDelay[playerid]) < 5000) return;
 		
-	if(GetTickCountDifference(GetTickCount(), cd_ReportTick[playerid]) < 3000)
-		return;
+	if(GetTickCountDifference(GetTickCount(), cd_ReportTick[playerid]) < 3000) return;
 
-	new
-		Float:vx,
-		Float:vy,
-		Float:vz;
+	new Float:vx, Float:vy, Float:vz;
 
 	if(IsPlayerInAnyVehicle(playerid))
 	{
 		GetVehicleVelocity(GetPlayerVehicleID(playerid), vx, vy, vz);
 
-		if(vz < -1.0)
-			return;
+		if(vz < -1.0) return;
 	}
 	else
 	{
 		GetPlayerVelocity(playerid, vx, vy, vz);
 
-		if(vz < -1.0)
-			return;
+		if(vz < -1.0) return;
 	}
 
 	new
@@ -434,8 +409,7 @@ CameraDistanceCheck(playerid)
 	GetPlayerCameraPos(playerid, cx, cy, cz);
 	GetPlayerCameraFrontVector(playerid, cx_vec, cy_vec, cz_vec);
 
-	if(IsAtDefaultPos(cx, cy, cz))
-		return;
+	if(IsAtDefaultPos(cx, cy, cz)) return;
 
 	if(IsPlayerInAnyVehicle(playerid))
 	{
@@ -497,23 +471,17 @@ CameraDistanceCheck(playerid)
 
 		GetPlayerPos(playerid, px, py, pz);
 
-		if(IsAtDefaultPos(px, py, pz))
-			return;
+		if(IsAtDefaultPos(px, py, pz)) return;
 
-		if(px == 1133.0 && py == -2038.0)
-			return;
+		if(px == 1133.0 && py == -2038.0) return;
 
-		if(px == 0.0 && py == 0.0 && pz == 0.0)
-			return;
+		if(px == 0.0 && py == 0.0 && pz == 0.0) return;
 
-		if(-5.0 < (cx - 1093.0) < 5.0 && -5.0 < (cy - -2036.0) < 5.0 && -5.0 < (cz - 90.0) < 5.0)
-			return;
+		if(-5.0 < (cx - 1093.0) < 5.0 && -5.0 < (cy - -2036.0) < 5.0 && -5.0 < (cz - 90.0) < 5.0) return;
 
-		if(cx == 0.0 && cy == 0.0 && cz == 0.0)
-			return;
+		if(cx == 0.0 && cy == 0.0 && cz == 0.0) return;
 
-		if(pz < -50.0 || cz < 50.0)
-			return;
+		if(pz < -50.0 || cz < 50.0) return;
 
 		type = CAMERA_TYPE_ONFOOT;
 		distance = Distance(px, py, pz, cx, cy, cz);
@@ -661,23 +629,17 @@ static
 
 public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z)
 {
-	if(GetTickCountDifference(GetTickCount(), vt_MovedFarTick[vehicleid]) < 5000)
-		return 1;
+	if(GetTickCountDifference(GetTickCount(), vt_MovedFarTick[vehicleid]) < 5000) return 1;
 
-	if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < 15000)
-		return 1;
+	if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < 15000) return 1;
 
-	if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleExitTick(playerid)) < 10000)
-		return 1;
+	if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleExitTick(playerid)) < 10000) return 1;
 
-	if(GetTickCountDifference(GetTickCount(), GetVehicleLastUseTick(vehicleid)) < 5000)
-		return 1;
+	if(GetTickCountDifference(GetTickCount(), GetVehicleLastUseTick(vehicleid)) < 5000) return 1;
 
-	if(IsVehicleOccupied(vehicleid))
-		return 1;
+	if(IsVehicleOccupied(vehicleid)) return 1;
 
-    if(GetPlayerAdminLevel(playerid) > 0)
-		return 1;
+    if(GetPlayerAdminLevel(playerid) > 0) return 1;
 
 	new
 		Float:x,
@@ -706,10 +668,8 @@ public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_
 			vt_MovedFar[vehicleid] = true;
 			vt_MovedFarTick[vehicleid] = GetTickCount();
 
-			foreach(new i : veh_Index)
-			{
-				if(GetVehicleTrailer(i) == vehicleid)
-					return 1;
+			foreach(new i : veh_Index) {
+				if(GetVehicleTrailer(i) == vehicleid) return 1;
 			}
 
 			new
