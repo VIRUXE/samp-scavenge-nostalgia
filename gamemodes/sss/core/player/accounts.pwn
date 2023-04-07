@@ -486,7 +486,7 @@ Login(playerid)
 
 // Chamado após o jogador logar
 public OnPlayerLogin(playerid) {
-	ChatMsg(playerid, BLUE, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
+	ChatMsg(playerid, 0xC457EBAA, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
 
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
