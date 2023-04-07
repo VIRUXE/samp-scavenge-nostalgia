@@ -23,50 +23,6 @@ static
     ShowOTPPrompt(playerid);
 } */
 
-hook OnGameModeInit() {
-    // Load Setting
-    new Node:node, bool:setting;
-
-    JSON_GetObject(Settings, "server", node);
-    JSON_GetObject(node, "otp", node);
-    JSON_GetBool(node, "enabled", setting);
-
-    if(setting) {
-        otp_mode = true;
-        printf("[OTP] Modo de chave unica ativado");
-    }
-
-    return 1;
-}
-
-/* hook OnPlayerConnect(playerid) {
-    if(otp_mode) {
-        GenerateOTP(playerid);
-        ShowOTPPrompt(playerid);
-
-        return Y_HOOKS_BREAK_RETURN_1;
-    }
-
-    return Y_HOOKS_CONTINUE_RETURN_1;
-} */
-
-hook OnPlayerDisconnect(playerid, reason) {
-    if(otp_mode) {
-        // Remove the code from memory
-        otp[playerid][otp_code][0] = EOS;
-    }
-
-    return 1;
-}
-
-hook OnRconCommand(command[]) {
-    if(isequal(command, "otp")) {
-        ToggleOTPMode(!otp_mode);
-    }
-
-    return 1;
-}
-
 stock bool:IsOTPModeEnabled() {
     return otp_mode;
 }
@@ -110,6 +66,12 @@ PassOTP(playerid) {
     return 1;
 }
 
+stock ShowOTPPrompt(playerid) {
+    if(!IsPlayerConnected(playerid)) return;
+
+    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo:", "OK", "Cancelar");
+}
+
 Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
     if(IsPlayerAdmin(playerid)) {
         PassOTP(playerid);
@@ -140,10 +102,58 @@ Dialog:OTPPrompt(playerid, response, listitem, inputtext[]) {
         Kick(playerid);
 }
 
-stock ShowOTPPrompt(playerid) {
-    if(!IsPlayerConnected(playerid)) return;
+hook OnGameModeInit() {
+    // Load Setting
+    new Node:node, bool:setting;
 
-    Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo:", "OK", "Cancelar");
+    JSON_GetObject(Settings, "server", node);
+    JSON_GetObject(node, "otp", node);
+    JSON_GetBool(node, "enabled", setting);
 
-    ChatMsgAdmins(5, PINK, "[OTP] O jogador %P"C_PINK" (%d) esta tentando entrar no servidor.", playerid, playerid);
+    if(setting) {
+        otp_mode = true;
+        printf("[OTP] Modo de chave unica ativado");
+    }
+
+    return 1;
+}
+
+/* hook OnPlayerConnect(playerid) {
+    if(otp_mode) {
+        GenerateOTP(playerid);
+        ShowOTPPrompt(playerid);
+
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    return Y_HOOKS_CONTINUE_RETURN_1;
+} */
+
+hook OnPlayerDisconnect(playerid, reason) {
+    if(otp_mode) {
+        // Remove the code from memory
+        otp[playerid][otp_code][0] = EOS;
+    }
+
+    return 1;
+}
+
+hook OnPlayerLogin(playerid) {
+    if(otp_mode) {
+        // Find all the players that are waiting for the OTP
+        if(GetPlayerAdminLevel(playerid) >= 5) {
+            foreach(new i : Player) {
+                if(IsPlayerWaitingOTP(i))
+                    ChatMsgAdmins(5, PINK, "[OTP] O jogador %p (%d) esta tentando entrar no servidor.", playerid, playerid);
+            }
+        }
+    }
+}
+
+hook OnRconCommand(command[]) {
+    if(isequal(command, "otp")) {
+        ToggleOTPMode(!otp_mode);
+    }
+
+    return 1;
 }
