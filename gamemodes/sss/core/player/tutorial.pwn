@@ -68,6 +68,8 @@ static enum E_TUTORIAL {
 
 static Tutorial[MAX_PLAYERS][E_TUTORIAL];
 
+new portaotutorial[MAX_PLAYERS];
+
 hook OnPlayerConnect(playerid)
 {
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
@@ -437,7 +439,6 @@ EnterTutorial(playerid) {
 	SetPlayerPos(playerid, 928.8049, 2072.3174, 10.8203);
 	SetPlayerFacingAngle(playerid, 269.3244);
 	SetPlayerVirtualWorld(playerid, virtualworld);
-	SetPlayerWorldBounds(playerid, 978.0, 924.0, 2087.0, 2053.0);
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 
@@ -460,6 +461,7 @@ EnterTutorial(playerid) {
 		case 12: skin = skin_ArmyF;
 		case 13: skin = skin_IndiF;
 	}
+
 	SetPlayerClothesID(playerid, skin);
 
 	SetPlayerHP(playerid, 100.0);
@@ -485,6 +487,10 @@ EnterTutorial(playerid) {
 		encode_lights(random(2), random(2), random(2), random(2)),
 		encode_tires(0, 1, 1, 0)
 	);
+
+	// Portão bloqueando a entrada do galpão
+
+	portaotutorial[playerid] = CreatePlayerObject(playerid, 971, 977.73792, 2073.38745, 10.37790,   0.00000, 0.00000, 90.00000, 300.0);
 
 	//	Items
 	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
@@ -576,8 +582,6 @@ ExitTutorial(playerid)
 
 	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
 
-	SetPlayerWorldBounds(playerid, 20000.0000, -20000.0000, 20000.0000, -20000.0000);
-
 	PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
@@ -609,6 +613,8 @@ ExitTutorial(playerid)
 		
 	DestroyWorldVehicle(Tutorial[playerid][TUT_VEHICLE], true);
 	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
+
+	DestroyPlayerObject(playerid, portaotutorial[playerid]);
 	
 	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
