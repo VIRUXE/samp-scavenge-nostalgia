@@ -23,7 +23,9 @@ task SendAutoMessage[MIN(5)]() {
 				JSON_ArrayObject(node, random(total_tooltips), node);
 				JSON_GetString(node, GetPlayerLanguage(i) == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
 
-				ChatMsg(i, BLUE, tooltip);
+				printf("SendAutoMessage: %s", tooltip);
+
+				ChatMsg(i, GOLD, " -> %s", tooltip);
 			}
 		}
 
@@ -88,7 +90,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 			format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
 			itemtipkey[11] = EOS;
 
-			format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(playerid, itemtipkey, true));
+			format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(GetPlayerLanguage(playerid), itemtipkey, true));
 
 			ShowHelpTip(playerid, str, 20000);
 	}
