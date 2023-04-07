@@ -148,7 +148,7 @@ public OnPlayerConnect(playerid)
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 
-		ChatMsgAdmins(5, WHITE, "%p (%d) está a esperar pela OTP.", playerid, playerid);
+		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) está a esperar pela OTP.", playerid, playerid);
 	} else {
 		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
