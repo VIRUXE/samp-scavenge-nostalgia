@@ -147,6 +147,8 @@ public OnPlayerConnect(playerid)
 	if(IsOTPModeEnabled() && !isequal(ip, "127.0.0.1")) {
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
+
+		ChatMsgAdmins(5, WHITE, "%p (%d) está a esperar pela OTP.", playerid, playerid);
 	} else {
 		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
