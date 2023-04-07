@@ -146,10 +146,9 @@ ACMD:addveiculo[4](playerid, params[])
 	vehicleid = CreateLootVehicle(type, x, y, z, r);
 	SetVehicleFuel(vehicleid, 1000.0);
 	SetVehicleHealth(vehicleid, 990.0);
+	SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
 	
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
-
-	return 1;
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
 }
 
 ACMD:deletar[4](playerid, params[])
