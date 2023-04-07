@@ -44,7 +44,7 @@ ACMD:reiniciar[4](playerid, params[])
 
 	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dê aos jogadores 5 or 10 minutos para se prepararem.");
 
-	ChatMsg(playerid, YELLOW, " >  Reiniciando o servidor em: "C_BLUE"%02d:%02d"C_YELLOW".", duration / 60, duration % 60);
+	ChatMsgAll(RED, " >  O servidor será reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
 
 	SetRestart(duration);
 
