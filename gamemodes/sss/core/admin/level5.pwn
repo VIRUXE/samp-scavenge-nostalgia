@@ -489,3 +489,13 @@ ACMD:tutorial[5](playerid, params[]) {
 	
 	return 1;
 }
+
+ACMD:delreports[5](playerid)
+{
+    for(new i = 0; i < 5000; i++) SetReportRead(i, 1); // * 5 mil? caralho
+		
+	ChatMsg(playerid, YELLOW, " >  Todos os reports foram deletados.");
+	DeleteReadReports();
+
+	return 1;
+}

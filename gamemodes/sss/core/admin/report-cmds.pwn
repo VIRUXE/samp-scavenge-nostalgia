@@ -341,12 +341,6 @@ ACMD:reports[1](playerid, params[])
 	return 1;
 }
 
-ACMD:delreports[5](playerid){
-	DeleteReadReports();
-	ChatMsg(playerid, YELLOW, " >  Todos os reports lidos foram deletados.");
-	return 1;
-}
-
 ShowListOfReports(playerid)
 {
 	new totalreports = GetReportList(report_CurrentReportList[playerid]);
