@@ -144,4 +144,6 @@ stock ShowOTPPrompt(playerid) {
     if(!IsPlayerConnected(playerid)) return;
 
     Dialog_Show(playerid, OTPPrompt, DIALOG_STYLE_INPUT, "Chave Unica", "Permaneça no servidor, peça a chave unica para o administrador e digite-a abaixo:", "OK", "Cancelar");
+
+    ChatMsgAdmins(5, PINK, "[OTP] O jogador %P"C_PINK" (%d) esta tentando entrar no servidor.", playerid, playerid);
 }
