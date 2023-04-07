@@ -190,6 +190,11 @@ hook OnPlayerConnect(playerid) {
 	return 1;
 }
 
+hook OnPlayerDisconnect(playerid, reason) {
+	if(IsPlayerVip(playerid))
+		VIP[playerid] = false;
+}
+
 hook OnPlayerLogin(playerid) {
 	if(IsPlayerVip(playerid)) {
 		SetPlayerColor(playerid, VIP_COLOR);
@@ -201,10 +206,16 @@ hook OnPlayerLogin(playerid) {
 hook OnPlayerSpawnNewChar(playerid) {
 	if(IsPlayerVip(playerid)) {
 		GivePlayerBag(playerid, CreateItem(item_Satchel));
-		AddItemToPlayer(playerid, CreateItem(item_Wrench), true, false);
+		AddItemToPlayer(playerid, CreateItem(item_Hammer), true, false);
 		AddItemToPlayer(playerid, CreateItem(item_Screwdriver), true, false);
 		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
 		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
+
+		// Chance de 50% de dar uma arma
+		if(random(1)) {
+			GiveWorldItemToPlayer(playerid, CreateItem(item_M9Pistol));
+			GiveWorldItemToPlayer(playerid, SetItemExtraData(CreateItem(item_Ammo9mm), 2 + random(9)));
+		}
 	}
 }
 

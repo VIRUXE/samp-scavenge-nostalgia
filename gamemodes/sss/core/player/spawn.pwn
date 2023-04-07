@@ -286,25 +286,7 @@ CreateNewCharacter(playerid, gender)
 	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
 	SetPlayerGender(playerid, gender);
 
-	// Colocar com Mochila e Chave de Roda
-	GiveWorldItemToPlayer(playerid, CreateItem(IsPlayerVip(playerid) ? item_Backpack : item_Satchel));
 	GiveWorldItemToPlayer(playerid, CreateItem(item_Wrench));
-
-	if(IsPlayerVip(playerid)) {
-		GiveWorldItemToPlayer(playerid, CreateItem(item_Screwdriver));
-		GiveWorldItemToPlayer(playerid, CreateItem(item_Map));
-		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
-	}
-
-	// Chance de 50% de dar uma arma
-	if(random(1)) {
-		if(IsPlayerVip(playerid)) { // Uma 9MM com 2 a 10 munições
-			GiveWorldItemToPlayer(playerid, CreateItem(item_M9Pistol));
-			GiveWorldItemToPlayer(playerid, SetItemExtraData(CreateItem(item_Ammo9mm), 2 + random(9)));
-		} else { // Apenas uma faca
-			GiveWorldItemToPlayer(playerid, CreateItem(item_Knife));
-		}
-	}
 
 	SetPlayerAliveState(playerid, true);
 
