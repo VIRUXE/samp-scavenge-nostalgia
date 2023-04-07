@@ -66,7 +66,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSMID_LEFT, WHEELSMID_RIGHT, WHEELSREAR_LEFT, WHEELSREAR_RIGHT: // back
@@ -81,7 +81,7 @@ _WheelRepair(playerid, vehicleid)
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			default: return 0;
@@ -97,13 +97,13 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 0);
-					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPFL", true), 7000);
+					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIREREPFL", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSFRONT_RIGHT:
@@ -112,13 +112,13 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 1);
-					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPFR", true), 7000);
+					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIREREPFR", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSREAR_LEFT:
@@ -127,13 +127,13 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 2);
-					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPBL", true), 7000);
+					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIREREPBL", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			case WHEELSREAR_RIGHT:
@@ -142,13 +142,13 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 3);
-					ShowActionText(playerid, GetLanguageString(playerid, "TIREREPBR", true), 7000);
+					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIREREPBR", true), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
 					StartHoldAction(playerid, 7000, 1);
 				}
-				else ShowActionText(playerid, GetLanguageString(playerid, "TIRENOTBROK", true), 2000);
+				else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIRENOTBROK", true), 2000);
 			}
 
 			default: return 0;

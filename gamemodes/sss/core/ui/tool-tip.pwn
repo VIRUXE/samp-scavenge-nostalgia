@@ -1,29 +1,6 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
+#define MAX_TOOLTIP_SIZE 72 // "Invite your friends to play on the server, playing in a group is more fun and rewarding."
 
 static
 	bool:		ToolTips[MAX_PLAYERS],
@@ -33,8 +10,22 @@ static
 
 task SendAutoMessage[MIN(5)]() {
 	foreach(new i : Player)
-	    if(ToolTips[i])
-	    	ChatMsg(i, BLUE, ""C_BLUE"%s", ls(i, sprintf("AUTOMSG%d", MsgAuto)));
+	    if(ToolTips[i]) {
+			new Node:node, total_tooltips;
+
+			JSON_GetObject(Settings, "player", node);
+			JSON_GetArray(node, "tooltips", node);
+			JSON_ArrayLength(node, total_tooltips);
+
+			if(total_tooltips > 0) {
+				new tooltip[MAX_TOOLTIP_SIZE];
+
+				JSON_ArrayObject(node, random(total_tooltips), node);
+				JSON_GetString(node, GetPlayerLanguage(i) == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
+
+				ChatMsg(i, BLUE, tooltip);
+			}
+		}
 
     MsgAuto++;
 	if(MsgAuto >= 7) MsgAuto = 0;

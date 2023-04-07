@@ -469,7 +469,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 	if(newstate == PLAYER_STATE_DRIVER)
 	{
 		GetVehicleTypeName(GetVehicleType(GetPlayerVehicleID(playerid)), vehiclename);
-		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "VEHICLSAVED", true), vehiclename), 5000);
+		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "VEHICLSAVED", true), vehiclename), 5000);
 		_SaveVehicle(GetPlayerVehicleID(playerid));
 	}
 
@@ -478,7 +478,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 		if(GetTickCountDifference(GetTickCount(), GetPlayerVehicleEnterTick(playerid)) > 1000)
 		{
 		    GetVehicleTypeName(GetVehicleType(GetPlayerLastVehicle(playerid)), vehiclename);
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "VEHICLSAVED", true), vehiclename), 5000);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "VEHICLSAVED", true), vehiclename), 5000);
 			_SaveVehicle(GetPlayerLastVehicle(playerid));
 		}
 	}

@@ -45,7 +45,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 	{
 		if(GetVehicleLockState(vehicleid) == E_LOCK_STATE_EXTERNAL)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "LOCKBREAKNO", true), 8000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKNO", true), 8000);
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 

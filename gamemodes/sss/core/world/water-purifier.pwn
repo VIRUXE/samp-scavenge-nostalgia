@@ -129,7 +129,7 @@ _wm_PlayerUseWaterMachine(playerid, watermachineid, interactiontype)
 
 	if(wm_Data[watermachineid][wm_cooking])
 	{
-		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "MACHPROCESS", true), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
+		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "MACHPROCESS", true), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
 		return 0;
 	}
 
@@ -166,10 +166,10 @@ Dialog:WaterMachine(playerid, response, listitem, inputtext[])
 		new ret = _wm_StartCooking(watermachineid);
 
 		if(ret == 0)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHNOITEMS", true), 5000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHNOITEMS", true), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHRESTART", true), 6000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHRESTART", true), 6000);
 
 		else if(ret == -2)
 			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL", true), WATER_MACHINE_FUEL_USAGE), 6000);

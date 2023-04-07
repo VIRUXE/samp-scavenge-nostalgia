@@ -52,13 +52,13 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(!IsVehicleTypeLockable(vehicletype))
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKNODOORS", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKNODOORS", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(GetVehicleKey(vehicleid) != 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKALREADY", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKALREADY", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -70,13 +70,13 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(GetItemArrayDataAtCell(itemid, 0) == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKCHNOKEY", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKCHNOKEY", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(GetVehicleKey(vehicleid) != 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKALREADY", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKALREADY", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -92,19 +92,19 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 			if(keyid == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKKEYNCUT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKKEYNCUT", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(vehiclekey == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKVNOLOCK", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKVNOLOCK", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(keyid != vehiclekey)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKKEYNFIT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKKEYNFIT", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -137,7 +137,7 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(GetVehicleKey(vehicleid) == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "LOCKVNOLOCK", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKVNOLOCK", true), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 

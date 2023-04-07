@@ -131,7 +131,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 		if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "FUELNOTPETR", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "FUELNOTPETR", true), 3000);
 			return 1;
 		}
 
@@ -148,7 +148,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 		}
 		else
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "PETROLEMPTY", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "PETROLEMPTY", true), 3000);
 		}
 
 		return 1;
@@ -216,7 +216,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 		if(data[bbq_fuel] <= 0)
 		{
 			dbg("gamemodes/sss/core/world/barbecue.pwn", 2, "[_UseBbqHandler] Fuel empty");
-			ShowActionText(playerid, GetLanguageString(playerid, "BBQFUELEMPT", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "BBQFUELEMPT", true), 3000);
 			return 1;
 		}
 

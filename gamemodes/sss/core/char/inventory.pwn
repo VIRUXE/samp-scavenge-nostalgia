@@ -416,7 +416,7 @@ hook OnItemAddToInventory(playerid, itemid, slot)
 	if(IsItemTypeCarry(GetItemType(itemid))) return 1;
 
 	UpdatePlayerGear(playerid, 0);
-	ShowActionText(playerid, GetLanguageString(playerid, "INVADDITEM", true), 3000);
+	ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVADDITEM", true), 3000);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -474,13 +474,13 @@ _inv_HandleGearSlotClick_Head(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
@@ -500,13 +500,13 @@ _inv_HandleGearSlotClick_Head(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToInventory(playerid, itemid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), required), 3000, 150);
+			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
@@ -540,13 +540,13 @@ _inv_HandleGearSlotClick_Face(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
@@ -566,13 +566,13 @@ _inv_HandleGearSlotClick_Face(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToInventory(playerid, itemid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), required), 3000, 150);
+			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
@@ -606,7 +606,7 @@ _inv_HandleGearSlotClick_Hand(playerid)
 
 		if(required > 0)
 		{
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 			return 1;
 		}
 
@@ -618,7 +618,7 @@ _inv_HandleGearSlotClick_Hand(playerid)
 
 		if(required > 0)
 		{
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), required), 3000, 150);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 			return 1;
 		}
 
@@ -644,7 +644,7 @@ _inv_HandleGearSlotClick_Hols(playerid)
 
 		new required = AddItemToContainer(containerid, itemid, playerid);
 
-		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 		else if(required == 0) RemovePlayerHolsterItem(playerid);
 
 		DisplayContainerInventory(playerid, containerid);
@@ -653,7 +653,7 @@ _inv_HandleGearSlotClick_Hols(playerid)
 	{
 		new required = AddItemToInventory(playerid, itemid);
 
-		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), required), 3000, 150);
+		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 		else if(required == 0) RemovePlayerHolsterItem(playerid);
 		
 		DisplayPlayerInventory(playerid);
@@ -678,7 +678,7 @@ _inv_HandleGearSlotClick_Tors(playerid)
 
 		if(required > 0)
 		{
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 
 			if(!IsValidItem(GetPlayerItem(playerid)))
 			{
@@ -687,7 +687,7 @@ _inv_HandleGearSlotClick_Tors(playerid)
 				RemovePlayerArmourItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else if(required == 0)
 		{
@@ -705,7 +705,7 @@ _inv_HandleGearSlotClick_Tors(playerid)
 
 		if(required > 0)
 		{
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "INVEXTRASLO", true), required), 3000, 150);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 
 			if(!IsValidItem(GetPlayerItem(playerid)))
 			{
@@ -714,7 +714,7 @@ _inv_HandleGearSlotClick_Tors(playerid)
 				RemovePlayerArmourItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "INVHOLDINGI", true), 3000);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else if(required == 0)
 		{
@@ -809,7 +809,7 @@ hook OnPlayerSelectCntOpt(playerid, containerid, option)
 
 				new required = AddItemToContainer(inv_TempContainerID[playerid], itemid, playerid);
 
-				if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(playerid, "CNTEXTRASLO", true), required), 3000, 150);
+				if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 				else DisplayContainerInventory(playerid, containerid);
 			}
 		}

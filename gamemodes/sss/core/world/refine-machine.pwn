@@ -96,7 +96,7 @@ _rm_PlayerUseRefineMachine(playerid, itemid, interactiontype)
 
 	if(data[rm_cooking])
 	{
-		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "MACHPROCESS", true), MsToString(data[rm_cookTime] - GetTickCountDifference(GetTickCount(), data[rm_startTime]), "%m minutes %s seconds")), 8000);
+		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "MACHPROCESS", true), MsToString(data[rm_cookTime] - GetTickCountDifference(GetTickCount(), data[rm_startTime]), "%m minutes %s seconds")), 8000);
 		return 0;
 	}
 
@@ -135,10 +135,10 @@ Dialog:RefineMachine(playerid, response, listitem, inputtext[])
 		new ret = _rm_StartCooking(rm_CurrentRefineMachine[playerid]);
 
 		if(ret == 0)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHNOITEMS", true), 5000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHNOITEMS", true), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHRESTART", true), 6000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHRESTART", true), 6000);
 
 		else if(ret == -2)
 			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL", true), REFINE_MACHINE_FUEL_USAGE), 6000);

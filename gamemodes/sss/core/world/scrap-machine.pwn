@@ -119,7 +119,7 @@ _sm_PlayerUseScrapMachine(playerid, itemid, interactiontype)
 
 	if(data[sm_cooking])
 	{
-		ShowActionText(playerid, sprintf(GetLanguageString(playerid, "MACHPROCESS", true), MsToString(data[sm_cookTime] - GetTickCountDifference(GetTickCount(), data[sm_startTime]), "%m minutes %s seconds")), 8000);
+		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "MACHPROCESS", true), MsToString(data[sm_cookTime] - GetTickCountDifference(GetTickCount(), data[sm_startTime]), "%m minutes %s seconds")), 8000);
 		return 0;
 	}
 
@@ -158,10 +158,10 @@ Dialog:ScrapMachine(playerid, response, listitem, inputtext[])
 		new ret = _sm_StartCooking(sm_CurrentScrapMachine[playerid]);
 
 		if(ret == 0)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHNOITEMS", true), 5000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHNOITEMS", true), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, GetLanguageString(playerid, "MACHRESTART", true), 6000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHRESTART", true), 6000);
 
 		else if(ret == -2)
 			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL", true), SCRAP_MACHINE_FUEL_USAGE), 6000);

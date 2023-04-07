@@ -137,7 +137,7 @@ hook OnButtonPress(playerid, buttonid)
 		{
 			if(lck_Data[i][lck_locked])
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "NEARBYKEYP", true));
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEARBYKEYP", true));
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 		}

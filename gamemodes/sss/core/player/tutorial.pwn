@@ -129,7 +129,7 @@ hook OnPlayerOpenInventory(playerid)
 /* 	    if(!PlayerTutorial_VozInv[playerid])
 	    {
 	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
-				GetLanguageString(playerid, "TUTORINTINV", true), GetLanguageString(playerid, "IDIOMAID", true)));
+				GetLanguageString(GetPlayerLanguage(playerid), "TUTORINTINV", true), GetLanguageString(GetPlayerLanguage(playerid), "IDIOMAID", true)));
 
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Este é o seu inventário. Também conhecido como seus bolsos. Esta não é sua mochila.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
@@ -624,6 +624,12 @@ ExitTutorial(playerid)
 }
 
 IsPlayerInTutorial(playerid) {
+	if(playerid >= Iter_Count(Player)) {
+		log("IsPlayerInTutorial: playerid invalido (%d)", playerid);
+		PrintAmxBacktrace();
+		return false;
+	}
+
 	return Tutorial[playerid][TUT_VEHICLE] != INVALID_VEHICLE_ID;
 }
 

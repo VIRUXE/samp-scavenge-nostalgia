@@ -495,7 +495,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	{
 	    if(!def_TypeData[defencetype][def_movable])
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "DEFNOTMOVAB", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DEFNOTMOVAB", true));
 			return 1;
 		}
 		
@@ -527,7 +527,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "DEFNEEDMOTO", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DEFNEEDMOTO", true));
 			return 1;
 		}
 
@@ -556,7 +556,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "DEFNEEDMOTO", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DEFNEEDMOTO", true));
 			return 1;
 		}
 
@@ -704,7 +704,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(itemtype == item_AdvancedKeypad)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "DEFINSTADKP", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DEFINSTADKP", true));
 			ShowSetPassDialog_KeypadAdv(playerid);
 			SetItemArrayDataAtCell(def_CurrentDefenceEdit[playerid], 2, def_keypad);
 			CallLocalFunction("OnDefenceModified", "d", def_CurrentDefenceEdit[playerid]);
@@ -717,7 +717,7 @@ hook OnHoldActionFinish(playerid)
 		{
 			new Float:x, Float:y, Float:z;
 
-			ShowActionText(playerid, GetLanguageString(playerid, "DEFDISMANTL", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DEFDISMANTL", true));
 
 			DeconstructDefence(def_CurrentDefenceEdit[playerid]);
 

@@ -35,7 +35,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 			
 		if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "FUELNOTPETR", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "FUELNOTPETR", true), 3000);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 
@@ -44,7 +44,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 		if(canfuel <= 0.0)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "PETROLEMPTY", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "PETROLEMPTY", true), 3000);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 

@@ -246,25 +246,25 @@ hook OnPlayerUseItem(playerid, itemid)
 
 		if(!IsValidItem(bombitem))
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_ItemTypeExplosive[bombitemtype] == INVALID_EXPLOSIVE_TYPE)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_Data[exp_ItemTypeExplosive[bombitemtype]][exp_trigger] != RADIO)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(GetItemExtraData(bombitem) != 1)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 

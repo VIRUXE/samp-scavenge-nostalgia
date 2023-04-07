@@ -417,6 +417,8 @@ stock GetLanguageString(languageId, key[], bool:encode = false)
 	if(!(0 <= languageId < lang_Total))
 	{
 		err("Invalid language id %d.", languageId);
+		PrintAmxBacktrace();
+
 		return result;
 	}
 

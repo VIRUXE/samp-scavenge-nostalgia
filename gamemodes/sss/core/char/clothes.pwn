@@ -131,10 +131,10 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			if(skin_Data[skinid][skin_gender] == GetPlayerGender(playerid))
 			{
-				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESCAMOU", true), 3000);
+				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "CLOTHESCAMOU", true), 3000);
 				else StartUsingClothes(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(playerid, "CLOTHESWRGE", true), 3000, 130);
+			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "CLOTHESWRGE", true), 3000, 130);
 		}
 	}
 

@@ -40,7 +40,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else {
 				ShowRepairStatus(playerid, vehicleid);
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEEDANOTOOL", true), 3000, 100);
 			}
 		}	
 		else if(itemtype == item_Screwdriver)
@@ -54,7 +54,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else {
 				ShowRepairStatus(playerid, vehicleid);
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEEDANOTOOL", true), 3000, 100);
 			}
 		}	
 		else if(itemtype == item_Hammer)
@@ -68,7 +68,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else {
 				ShowRepairStatus(playerid, vehicleid);
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEEDANOTOOL", true), 3000, 100);
 			}
 		}
 		else if(itemtype == item_Spanner)
@@ -82,7 +82,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			}
 			else {
 				ShowRepairStatus(playerid, vehicleid);
-				ShowActionText(playerid, GetLanguageString(playerid, "NEEDANOTOOL", true), 3000, 100);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEEDANOTOOL", true), 3000, 100);
 			}
 		}
 		else if(itemtype == item_Wheel)
@@ -153,7 +153,7 @@ StopRepairingVehicle(playerid)
 			SetVehicleParamsCarWindows(fix_TargetVehicle[playerid], j1, j2, j3, j4);
 			SetVehicleParamsCarDoors(fix_TargetVehicle[playerid], p1, p2, p3, p4);
 			
-			ShowActionText(playerid, GetLanguageString(playerid, "VEHICLEBODY", true), 5000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "VEHICLEBODY", true), 5000);
 		}
 		
         SetVehicleHealth(fix_TargetVehicle[playerid], 990.0);
