@@ -71,7 +71,8 @@ static Tutorial[MAX_PLAYERS][E_TUTORIAL];
 
 hook OnPlayerConnect(playerid)
 {
-	Tutorial[playerid][TUT_VEHICLE] = INVALID_VEHICLE_ID;
+	Tutorial[playerid][TUT_VEHICLE]  = INVALID_VEHICLE_ID;
+	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
 
 	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 422.916666, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
 	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.256761, 1.303703);
@@ -614,6 +615,7 @@ ExitTutorial(playerid)
 
 	// Destroi o Portao
 	DestroyPlayerObject(playerid, Tutorial[playerid][TUT_GATE_OBJ]);
+	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
 	
 	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
