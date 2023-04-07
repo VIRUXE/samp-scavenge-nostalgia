@@ -192,7 +192,7 @@ public OnPlayerJoinScenario(playerid) {
 	else if(result == 0) {
 		// * Um bocado gambiarra, mas pronto
 		// Como é necessário esperar pela resposta da API então por enquanto vai assim
-		GetPlayerGeo(playerid);
+		RequestPlayerGeo(playerid);
 	}
 	// Conta existe
 	else if(result == 1) 

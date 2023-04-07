@@ -26,7 +26,7 @@ stock GetPlayerCountryCode(playerid, countryCode[], len) {
 	strcpy(countryCode, geo[playerid][GEO_COUNTRY_CODE], len);
 } */
 
-stock GetPlayerGeo(playerid) {
+stock RequestPlayerGeo(playerid) {
 	new ipstring[16];
 	new query[45 + sizeof(ipstring) + 1]; // length of the URL + length of the IP + null terminator
 
@@ -58,27 +58,30 @@ public OnGeoResponse(Request:id, E_HTTP_STATUS:status, Node:node) {
 	geo[playerid][GEO_REQUEST_ID] = Request:INVALID_REQUEST_ID;
 
 	// If the request failed, then we can't do anything.
-	if (status != HTTP_STATUS_OK) return;
+	if (status != HTTP_STATUS_OK) {
+		printf("[GEO] Requisicao falhou para '%p' (%d)", playerid, playerid);
+		SetPlayerLanguage(playerid, PORTUGUESE);
+	} else {
+		// Se chegamos aqui, a requisicao foi bem sucedida. Vamos pegar os dados.
+		JsonGetString(node, "country", geo[playerid][GEO_COUNTRY]);
+		JsonGetString(node, "countryCode", geo[playerid][GEO_COUNTRY_CODE]);
 
-	// Se chegamos aqui, a requisicao foi bem sucedida. Vamos pegar os dados.
-    JsonGetString(node, "country", geo[playerid][GEO_COUNTRY]);
-	JsonGetString(node, "countryCode", geo[playerid][GEO_COUNTRY_CODE]);
+		if(!isempty(geo[playerid][GEO_COUNTRY_CODE]) && !isequal(geo[playerid][GEO_COUNTRY_CODE], "BR"))
+			ChatMsgAdmins(1, ORANGE, "%P (%d) conectou-se do %s (%s)", playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
-	if(!isempty(geo[playerid][GEO_COUNTRY_CODE]) && !isequal(geo[playerid][GEO_COUNTRY_CODE], "BR"))
-		ChatMsgAdmins(1, ORANGE, "%P (%d) conectou-se do %s (%s)", playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
+		log("[GEO][%d] %p (%d) é de %s (%s)", _:id, playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
-	log("[GEO][%d] %p (%d) é de %s (%s)", _:id, playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
+		// Define o idioma do jogador de acordo com o pais
+		new ip[16];
+		GetPlayerIp(playerid, ip, sizeof(ip));
+		new lang = isequal(ip, "127.0.0.1") ? PORTUGUESE : isequal(geo[playerid][GEO_COUNTRY_CODE], "BR") || isequal(geo[playerid][GEO_COUNTRY_CODE], "PT") ? PORTUGUESE : ENGLISH;
 
-	// Define o idioma do jogador de acordo com o pais
-	new ip[16];
-	GetPlayerIp(playerid, ip, sizeof(ip));
-	new lang = isequal(ip, "127.0.0.1") ? LANG_PT : isequal(geo[playerid][GEO_COUNTRY_CODE], "BR") || isequal(geo[playerid][GEO_COUNTRY_CODE], "PT") ? LANG_PT : LANG_EN;
-
-	SetPlayerLanguage(playerid, lang);
+		SetPlayerLanguage(playerid, lang);
+	}
 	
 	// Mostra uma mensagem de boas-vindas
 	// Convem providenciar algum contexto sobre que tipo de gamemode é, antes que eles registem simplesmente para ver como é
-	if(lang == LANG_PT)
+	if(GetPlayerLanguage(playerid) == PORTUGUESE)
 		Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Bem-vindo ao \"Scavenge and Survive\"",
 		C_WHITE"Este é um servidor de sobrevivência onde você deve sobreviver e explorar o mundo.\n\
 		Você é colocado num ambiente de PvP, onde tem que se defender de outros jogadores e procurar formas de abrigo, bem como manter sua saúde.\n\n\
