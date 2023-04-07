@@ -466,6 +466,7 @@ ACMD:otp[5](playerid, params[])
 
 		ChatMsgAdmins(1, YELLOW, " >  Modo de Chave Unica %s", !otp ? "ativado" : "desativado");
 	} else {
+		if (targetId == INVALID_PLAYER_ID) return 4;
 		if(!IsPlayerWaitingOTP(targetId)) return ChatMsg(playerid, YELLOW, " >  Este jogador nao esta esperando por uma chave unica.");
 
 		PassOTP(targetId);
