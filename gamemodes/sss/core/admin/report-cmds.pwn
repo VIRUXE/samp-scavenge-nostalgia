@@ -438,7 +438,7 @@ ShowReportOptions(playerid)
 
 	options = "Banir\nDeletar\nDeletar reports do jogador\nDeixar lido\n";
 
-	if((IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) == STAFF_LEVEL_DEVELOPER)
+	if((IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_DEVELOPER)
 	{
 		strcat(options, "Ir para a posição do report\n");
 
