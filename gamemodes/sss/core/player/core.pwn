@@ -161,9 +161,12 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	if(gServerRestarting) return 0;
 
-	Logout(playerid);
+	if(reason != 2 && IsPlayerLoggedIn(playerid)) {
+		foreach(new i : Player)
+			ChatMsgLang(i, WHITE, "PLEFTSV", playerid, playerid);
+	}
 
-	if(reason != 2) foreach(new i : Player) ChatMsgLang(i, WHITE, "PLEFTSV", playerid, playerid);
+	Logout(playerid);
 		
 	SetTimerEx("OnPlayerDisconnected", 100, false, "d", playerid);
 
