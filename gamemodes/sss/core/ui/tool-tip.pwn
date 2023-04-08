@@ -18,14 +18,14 @@ task SendAutoMessage[MIN(5)]() {
 			JSON_ArrayLength(node, total_tooltips);
 
 			if(total_tooltips > 0) {
-				new tooltip[MAX_TOOLTIP_SIZE];
+				new tooltip[MAX_TOOLTIP_SIZE+1];
 
 				JSON_ArrayObject(node, random(total_tooltips), node);
 				JSON_GetString(node, GetPlayerLanguage(i) == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
 
 				printf("SendAutoMessage: %s", tooltip);
 
-				ChatMsg(i, GOLD, " -> %s", tooltip);
+				ChatMsg(i, GOLD, " > %s", tooltip);
 			}
 		}
 
