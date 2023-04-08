@@ -143,7 +143,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 	} else if(frequency == 1.0) {
  		if(GlobalOff) return ChatMsg(playerid, RED, " > Chat global desativado.");
 
-	    if(GlobalTime[playerid] != 0) return ChatMsg(playerid, RED, " > Você pode usar o chat global novamente em %d segundos.", GlobalTime[playerid]);
+	    if(GlobalTime[playerid] != 0 && !GetPlayerAdminLevel(playerid)) return ChatMsg(playerid, RED, " > Você pode usar o chat global novamente em %d segundo%s.", GlobalTime[playerid], GlobalTime[playerid] > 1 ? "s" : "");
 
 	    GlobalTime[playerid] = GlobalTime2;
 		defer GlobalTimer(playerid);
