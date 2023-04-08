@@ -55,7 +55,7 @@ hook OnGameModeInit()
 {   
 	gServerInitialising = true;
 
-	new Node:node, servername[32];
+	new Node:node, servername[64];
 
 	JSON_GetObject(Settings, "server", node);
 	JSON_GetString(node, "name", servername);
