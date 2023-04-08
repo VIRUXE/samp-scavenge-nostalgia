@@ -300,11 +300,11 @@ _UpdateKeyActions(playerid)
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INSTFAROL"));
 	}
 	else if(itemtype == item_Pills)
-		AddToolTipText(playerid, KEYTEXT_INTERACT,ls(playerid, "KA_TPILULA"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_TPILULA"));
 	else if(itemtype == item_AutoInjec)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea == -1 ? ls(playerid, "KA_INJECT") : ls(playerid, "KA_INJECTOTHER"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER"));
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea != -1 ? ls(playerid,  "KA_CUREP") : ls(playerid, "KA_CUREME"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea != -1 ? "KA_CUREP" : "KA_CUREME"));
 	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
