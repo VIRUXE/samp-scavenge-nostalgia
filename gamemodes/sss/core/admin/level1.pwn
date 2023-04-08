@@ -31,7 +31,7 @@ ACMD:calar[1](playerid, params[])
 		ChatMsgLang(targetid, YELLOW, "MUTEDREASON", reason);
 	}
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) calou %P (%d)! "C_WHITE"[Segundos: %d]", playerid, playerid, targetid, targetid, delay);
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) calou %P{C457EB} (%d)! "C_WHITE"[Segundos: %d]", playerid, playerid, targetid, targetid, delay);
 }
 
 ACMD:descalar[1](playerid, params[])
@@ -75,7 +75,7 @@ ACMD:avisar[1](playerid, params[])
 		KickPlayer(targetid, "Atingiu 3 avisos da administração.");
 	}
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) avisou %P (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) avisou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
 ACMD:kick[1](playerid, params[])
@@ -96,7 +96,7 @@ ACMD:kick[1](playerid, params[])
 
 	KickPlayer(targetid, reason, true);
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P (%d) kickou %P (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) kickou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
 ACMD:msg[1](playerid, params[])
@@ -105,14 +105,14 @@ ACMD:msg[1](playerid, params[])
 
 	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EBA} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
+	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EB} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
 }
 
 ACMD:cc[1](playerid)
 {
 	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EBA} (%d) limpou o chat!", playerid, playerid);
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) limpou o chat!", playerid, playerid);
 }
 
 ACMD:history[1](playerid, params[])
