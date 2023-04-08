@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -246,11 +222,11 @@ UpdatePlayerGear(playerid, show = 1)
 		itemid;
 
 	itemid = GetPlayerHatItem(playerid);
-	ConvertEncoding(tmp);
 
 	if(IsValidItem(itemid))
 	{
 		GetItemTypeName(GetItemType(itemid), tmp);
+		ConvertEncoding(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Head[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Head[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Head[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -265,6 +241,7 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemTypeName(GetItemType(itemid), tmp);
+		ConvertEncoding(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Face[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Face[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Face[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
@@ -279,6 +256,7 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemName(itemid, tmp);
+		ConvertEncoding(tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemid)), tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hand[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hand[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
@@ -294,6 +272,7 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemName(itemid, tmp);
+		ConvertEncoding(tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemid)), tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hols[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hols[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
@@ -321,6 +300,7 @@ UpdatePlayerGear(playerid, show = 1)
 	if(IsValidItem(itemid))
 	{
 		GetItemName(itemid, tmp);
+		ConvertEncoding(tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Back[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Back[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemid)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Back[UI_ELEMENT_TILE], 0.0, 0.0, -45.0, 1.0);
@@ -357,8 +337,10 @@ hook OnPlayerCloseInventory(playerid)
 	HidePlayerGear(playerid);
 	HidePlayerHealthInfo(playerid);
 
-	if(inv_EscInventory[playerid]) inv_EscInventory[playerid] = false;
-	else CancelSelectTextDraw(playerid);
+	if(inv_EscInventory[playerid])
+		inv_EscInventory[playerid] = false;
+	else
+		CancelSelectTextDraw(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -383,8 +365,10 @@ hook OnPlayerCloseContainer(playerid, containerid)
 	HidePlayerGear(playerid);
 	HidePlayerHealthInfo(playerid);
 
-	if(inv_EscContainer[playerid]) inv_EscContainer[playerid] = false;
- 	else CancelSelectTextDraw(playerid);
+	if(inv_EscContainer[playerid])
+		inv_EscContainer[playerid] = false;
+ 	else
+		CancelSelectTextDraw(playerid);
 	
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -473,13 +457,15 @@ _inv_HandleGearSlotClick_Head(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+			if(required > 0) 
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
@@ -499,13 +485,15 @@ _inv_HandleGearSlotClick_Head(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToInventory(playerid, itemid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
+			if(required > 0) 
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
@@ -539,13 +527,15 @@ _inv_HandleGearSlotClick_Face(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+			if(required > 0) 
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
@@ -565,13 +555,15 @@ _inv_HandleGearSlotClick_Face(playerid)
 				GiveWorldItemToPlayer(playerid, itemid);
 				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else
 		{
 			new required = AddItemToInventory(playerid, itemid);
 
-			if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
+			if(required > 0) 
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
@@ -643,8 +635,10 @@ _inv_HandleGearSlotClick_Hols(playerid)
 
 		new required = AddItemToContainer(containerid, itemid, playerid);
 
-		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
-		else if(required == 0) RemovePlayerHolsterItem(playerid);
+		if(required > 0) 
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+		else if(required == 0) 
+			RemovePlayerHolsterItem(playerid);
 
 		DisplayContainerInventory(playerid, containerid);
 	}
@@ -652,8 +646,10 @@ _inv_HandleGearSlotClick_Hols(playerid)
 	{
 		new required = AddItemToInventory(playerid, itemid);
 
-		if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
-		else if(required == 0) RemovePlayerHolsterItem(playerid);
+		if(required > 0) 
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
+		else if(required == 0) 
+			RemovePlayerHolsterItem(playerid);
 		
 		DisplayPlayerInventory(playerid);
 	}
@@ -686,7 +682,8 @@ _inv_HandleGearSlotClick_Tors(playerid)
 				RemovePlayerArmourItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else if(required == 0)
 		{
@@ -713,7 +710,8 @@ _inv_HandleGearSlotClick_Tors(playerid)
 				RemovePlayerArmourItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+			else 
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
 		}
 		else if(required == 0)
 		{
@@ -735,15 +733,16 @@ _inv_HandleGearSlotClick_Back(playerid)
 {
 	new itemid = GetPlayerBagItem(playerid);
 	
-	if(!IsValidItem(itemid))
-		return 0;
+	if(!IsValidItem(itemid)) return 0;
 
 	if(GetPlayerCurrentContainer(playerid) == GetBagItemContainerID(itemid))
 	{
 		ClosePlayerContainer(playerid);
 
-		if(IsValidContainer(inv_TempContainerID[playerid])) DisplayContainerInventory(playerid, inv_TempContainerID[playerid]);
-		else DisplayPlayerInventory(playerid);
+		if(IsValidContainer(inv_TempContainerID[playerid]))
+			DisplayContainerInventory(playerid, inv_TempContainerID[playerid]);
+		else
+			DisplayPlayerInventory(playerid);
 
 		inv_TempContainerID[playerid] = INVALID_CONTAINER_ID;
 	}
@@ -773,8 +772,8 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 				str[9 + CNT_MAX_NAME];
 
 			GetContainerName(inv_TempContainerID[playerid], name);
-			format(str, sizeof(str), "Mover para %s", name);
 			ConvertEncoding(str);
+			format(str, sizeof(str), "Mover para %s", name);
 
 			inv_InventoryOptionID[playerid] = AddContainerOption(playerid, str);
 		}
@@ -808,8 +807,10 @@ hook OnPlayerSelectCntOpt(playerid, containerid, option)
 
 				new required = AddItemToContainer(inv_TempContainerID[playerid], itemid, playerid);
 
-				if(required > 0) ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
-				else DisplayContainerInventory(playerid, containerid);
+				if(required > 0)
+					ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+				else
+					DisplayContainerInventory(playerid, containerid);
 			}
 		}
 	}
@@ -849,5 +850,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
 	dbg("global", CORE, "[OnPlayerTakeDamage] in /gamemodes/sss/core/char/inventory.pwn");
 
-	if(IsPlayerSpawned(playerid)) if(inv_HealthInfoActive[playerid]) ShowPlayerHealthInfo(playerid);
+	// ? Que porra e essa?
+	if(IsPlayerSpawned(playerid)) 
+		if(inv_HealthInfoActive[playerid]) ShowPlayerHealthInfo(playerid);
 }
