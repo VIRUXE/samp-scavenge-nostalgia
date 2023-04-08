@@ -377,8 +377,8 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 			"Abrir Opcoes da Mochila",
 			"Dropar Item",
 			"Colocar Arma no Coldre",
-			"Utilizar Item noutro Item",
-			"Terminar Ajuste de Item",
+			"Construir Metal Corrugado",
+			"Terminar Edicao da Defesa",
 			"Montar Tenda",
 			"Reparar Veiculo"
 		};
@@ -395,7 +395,8 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Isso pode ser construir uma defesa, aplicar um item na defesa, ou carregar bala na arma, por exemplo.");
+			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
+			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
 		}
 
 		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
@@ -414,6 +415,7 @@ IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
 	GameTextForPlayer(playerid, "Tarefa Concluida", 3000, 6);
+	PlayerPlaySound(playerid, 5205, 0.0, 0.0, 0.0);
 
 	Tutorial[playerid][TUT_STEPS][step] = true;
 
