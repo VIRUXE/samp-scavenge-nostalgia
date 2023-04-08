@@ -189,7 +189,6 @@ ShowPlayerHealthInfo(playerid)
 
 	new strc[15];
 	format(strc, sizeof(strc), "Cabeça: %d", bodypartwounds[6]);
-	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 35.0, strc,
 		bodypartwounds[6] ? RGBAToHex(max(bodypartwounds[6] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -197,12 +196,10 @@ ShowPlayerHealthInfo(playerid)
 		bodypartwounds[0] ? RGBAToHex(max(bodypartwounds[0] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
     format(strc, sizeof(strc), "Braço D: %d", bodypartwounds[3]);
-	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 30.0, strc,
 		bodypartwounds[3] ? RGBAToHex(max(bodypartwounds[3] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
     format(strc, sizeof(strc), "Braço E: %d", bodypartwounds[2]);
-	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 20.0, strc,
 		bodypartwounds[2] ? RGBAToHex(max(bodypartwounds[2] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -249,6 +246,7 @@ UpdatePlayerGear(playerid, show = 1)
 		itemid;
 
 	itemid = GetPlayerHatItem(playerid);
+	ConvertEncoding(tmp);
 
 	if(IsValidItem(itemid))
 	{
@@ -346,6 +344,7 @@ hook OnPlayerOpenInventory(playerid)
 	UpdatePlayerGear(playerid);
 	ShowPlayerHealthInfo(playerid);
 	SelectTextDraw(playerid, 0xFFFF00FF);
+	HideHelpTip(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
