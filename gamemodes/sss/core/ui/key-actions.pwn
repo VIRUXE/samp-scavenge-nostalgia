@@ -280,14 +280,14 @@ _UpdateKeyActions(playerid)
 	}
 
 	else if(itemtype == item_Wheel)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW", true));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REPAIRVW", true));
 
 	else if(itemtype == item_GasCan)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV", true));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLV", true));
 		}
 		else
 			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLG", true));
@@ -302,9 +302,9 @@ _UpdateKeyActions(playerid)
 	else if(itemtype == item_Pills)
 		AddToolTipText(playerid, KEYTEXT_INTERACT,ls(playerid, "KA_TPILULA"));
 	else if(itemtype == item_AutoInjec)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER");
+		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea == -1 ? ls(playerid, "KA_INJECT") : ls(playerid, "KA_INJECTOTHER"));
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea != -1 ? "KA_CUREP" : "KA_CUREME");
+		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea != -1 ? ls(playerid,  "KA_CUREP") : ls(playerid, "KA_CUREME"));
 	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
