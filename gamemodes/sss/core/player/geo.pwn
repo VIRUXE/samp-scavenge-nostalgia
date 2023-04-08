@@ -67,7 +67,7 @@ public OnGeoResponse(Request:id, E_HTTP_STATUS:status, Node:node) {
 		JsonGetString(node, "countryCode", geo[playerid][GEO_COUNTRY_CODE]);
 
 		if(!isempty(geo[playerid][GEO_COUNTRY_CODE]) && !isequal(geo[playerid][GEO_COUNTRY_CODE], "BR"))
-			ChatMsgAdmins(1, ORANGE, "%P (%d) conectou-se do %s (%s)", playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
+			ChatMsgAdmins(1, ORANGE, " > %P"C_ORANGE" (%d) conectou-se de %s (%s)", playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
 		log("[GEO][%d] %p (%d) é de %s (%s)", _:id, playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
