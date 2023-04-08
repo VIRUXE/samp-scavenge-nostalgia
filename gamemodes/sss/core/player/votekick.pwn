@@ -34,7 +34,7 @@ hook OnPlayerDisconnect(playerid, reason) {
     if(votekick_player == playerid) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação é cancelada.
 }
 
-EndVoting() {
+static EndVoting() {
     stop votekick_timer;
 
     log("[VOTEKICK] Votação cancelada para expulsar %p (%d). Motivo: %s", votekick_player, votekick_player, votekick_reason);
@@ -46,7 +46,7 @@ EndVoting() {
     for(new i = 0; i < MAX_PLAYERS; i++) votekick_votes[i] = VOTE_NULL;
 }
 
-CountVotes(vote_type) {
+static CountVotes(vote_type) {
     if(vote_type != VOTE_YES && vote_type != VOTE_NO) return -1;
 
     new count = 0;
