@@ -164,6 +164,8 @@ ShowPlayerHealthInfo(playerid)
 	ShowBodyPreviewUI(playerid);
 
 	new strc[15];
+	ConvertEncoding(strc);
+
 	format(strc, sizeof(strc), "Cabeça: %d", bodypartwounds[6]);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 35.0, strc,
 		bodypartwounds[6] ? RGBAToHex(max(bodypartwounds[6] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
