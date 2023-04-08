@@ -105,14 +105,14 @@ ACMD:msg[1](playerid, params[])
 
 	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EBAA} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
+	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EBA} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
 }
 
 ACMD:cc[1](playerid)
 {
 	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EBAA} (%d) limpou o chat!", playerid, playerid);
+	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EBA} (%d) limpou o chat!", playerid, playerid);
 }
 
 ACMD:history[1](playerid, params[])
