@@ -131,14 +131,6 @@ public OnPlayerConnect(playerid)
 {
 	if(IsPlayerNPC(playerid)) return 0;
 
-	new Node:node, bool:funk;
-
-	JSON_GetObject(Settings, "server", node);
-	JSON_GetBool(node, "funk", funk);
-
-	if(funk)
-		PlayAudioStreamForPlayer(playerid, "http://flaviopereira.digital/nostalgia/funk.mp3");
-
 	SetPlayerScreenFade(playerid, 255);
 
 	new ip[16];
