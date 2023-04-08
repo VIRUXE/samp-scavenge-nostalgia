@@ -151,10 +151,12 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 
 	return 1;
 }
+
 _UpdateKeyActions(playerid)
 {
     if(!IsPlayerNPC(playerid))
     {
+
 	if(!IsPlayerSpawned(playerid))
 	{
 		HidePlayerKeyActionUI(playerid);
@@ -184,22 +186,38 @@ _UpdateKeyActions(playerid)
 		return;		
 	}
 
-	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	/*	if(!IsPlayerSpawned(playerid) || IsPlayerViewingInventory(playerid) || IsValidContainer(GetPlayerCurrentContainer(playerid) || IsPlayerKnockedOut(playerid) || !IsPlayerHudOn(playerid)))
 	{
-		ClearPlayerKeyActionUI(playerid);
-		AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "KA_ENGINE"));
-		AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "KA_LIGHTS"));
-		AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "KA_DOORS"));
-		ShowPlayerKeyActionUI(playerid);
+		HidePlayerKeyActionUI(playerid);
+		return;		
+	}*/
 
-		return;
+/*	if(IsPlayerKnockedOut(playerid))
+	{
+		AddToolTipText(playerid, "~y~Voce esta", "~r~Desmaiado");
+		ShowPlayerKeyActionUI(playerid);
+		return;		
+	}*/
+
+	if(IsPlayerInAnyVehicle(playerid))
+	{
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+		{
+			ClearPlayerKeyActionUI(playerid);
+			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "KA_ENGINE"));
+			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "KA_LIGHTS"));
+			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "KA_DOORS"));
+			AddToolTipText(playerid, "~k~~GROUP_CONTROL_BWD~", "Buzina");
+			ShowPlayerKeyActionUI(playerid);
+			return;
+		}
 	}
 
 	new
 		itemid = GetPlayerItem(playerid),
 		invehiclearea = GetPlayerVehicleArea(playerid),
 		inplayerarea = -1;
-
+	
 	ClearPlayerKeyActionUI(playerid);
 
 	if(invehiclearea != INVALID_VEHICLE_ID && !IsPlayerInAnyVehicle(playerid))
@@ -238,19 +256,22 @@ _UpdateKeyActions(playerid)
 		return;
 	}
 
+	// Itens simples
+
 	new ItemType:itemtype = GetItemType(itemid);
 
 	if(itemtype == item_Sign)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_PPLACA"));
-
 	else if(itemtype == item_Armour)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEARMOUR"));
-
 	else if(itemtype == item_Crowbar)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_DESMONT"));
-		
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_DESMONT"));	
 	else if(itemtype == item_Shield)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COLOCE"));
+	else if(itemtype == item_Clothes)
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CLOTHES"));
+	else if(itemtype == item_HerpDerp)
+		AddToolTipText(playerid, KEYTEXT_INTERACT, "Herp-a-Derp");
 
 	else if(itemtype == item_HandCuffs)
 	{
@@ -269,223 +290,89 @@ _UpdateKeyActions(playerid)
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV", true));
 		}
 		else
-		{
-		    new pInB = -1;
-		    if(IsPlayerInRangeOfPoint(playerid, 3.5, -1465.4766, 1868.2734, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1464.9375, 1860.5625, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1477.8516, 1867.3125, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1477.6563, 1859.7344, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1327.0313, 2685.5938, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1327.7969, 2680.1250, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1328.5859, 2674.7109, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1329.2031, 2669.2813, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 603.48438, 1707.23438, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 606.89844, 1702.21875, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 610.25000, 1697.26563, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 613.71875, 1692.26563, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 617.12500, 1687.45313, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 620.53125, 1682.46094, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 624.04688, 1677.60156, 6.17969)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -2246.7031, -2559.7109, 31.0625)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -2241.7188, -2562.2891, 31.0625)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1600.6719, -2707.8047, 47.9297)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1603.9922, -2712.2031, 47.9297)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1607.3047, -2716.6016, 47.9297)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1610.6172, -2721.0000, 47.9297)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -85.2422, -1165.0313, 2.6328)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -90.1406, -1176.6250, 2.6328)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -92.1016, -1161.7891, 2.9609)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -97.0703, -1173.7500, 3.0313)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1941.65625, -1778.45313, 14.14063)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1941.65625, -1774.31250, 14.14063)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1941.65625, -1771.34375, 14.14063)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1941.65625, -1767.28906, 14.14063)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2120.82031, 914.718750, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2114.90625, 914.718750, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2109.04688, 914.718750, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2120.82031, 925.507810, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2114.90625, 925.507810, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2109.04688, 925.507810, 11.25781)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2207.69531, 2480.32813, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2207.69531, 2474.68750, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2207.69531, 2470.25000, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2196.89844, 2480.32813, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2196.89844, 2474.68750, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2196.89844, 2470.25000, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2153.31250, 2742.52344, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2147.53125, 2742.52344, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2141.67188, 2742.52344, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2153.31250, 2753.32031, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2147.53125, 2753.32031, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2141.67188, 2753.32031, 11.27344)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1590.35156, 2204.50000, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1596.13281, 2204.50000, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1602.00000, 2204.50000, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1590.35156, 2193.71094, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1596.13281, 2193.71094, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1602.00000, 2193.71094, 11.31250)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2634.64063, 1100.94531, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2639.87500, 1100.96094, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2645.25000, 1100.96094, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2634.64063, 1111.75000, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2639.87500, 1111.75000, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 2645.25000, 1111.75000, 11.25000)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1378.96094, 461.03906, 19.32813)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1380.63281, 460.27344, 19.32813)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1383.39844, 459.07031, 19.32813)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 1385.07813, 458.29688, 19.32813)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 655.66406, -558.92969, 15.35938)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 655.66406, -560.54688, 15.35938)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 655.66406, -569.60156, 15.35938)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, 655.66406, -571.21094, 15.35938)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -2410.80, 970.85, 44.48)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -2410.80, 976.19, 44.48)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -2410.80, 981.52, 44.48)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1679.3594, 403.0547, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1675.2188, 407.1953, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1669.9063, 412.5313, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1665.5234, 416.9141, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1685.9688, 409.6406, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1681.8281, 413.7813, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1676.5156, 419.1172, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1672.1328, 423.5000, 6.3828)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1465.4766, 1868.2734, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1464.9375, 1860.5625, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1477.8516, 1867.3125, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1477.6563, 1859.7344, 32.8203)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1327.0313, 2685.5938, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1327.7969, 2680.1250, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1328.5859, 2674.7109, 50.4531)) pInB = 1;
-			else if(IsPlayerInRangeOfPoint(playerid, 3.5, -1329.2031, 2669.2813, 50.4531)) pInB = 1;
-
-			if(pInB == 1)
-				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLG", true));
-
-			else {
-			    if(GetLiquidItemLiquidAmount(GetPlayerItem(playerid)) <= 0.0)
-				    ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "KA_GOTOPOST", true));
-
-				else AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLV", true));
-			}
-		}
+			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLG", true));
 	}
+
 	else if(itemtype == item_Headlight)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
-		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INSTFAROL"));
-		}
 	}
 	else if(itemtype == item_Pills)
-	{
-		AddToolTipText(playerid, KEYTEXT_INTERACT,ls(playerid, "KA_TPILULA") );
-	}
+		AddToolTipText(playerid, KEYTEXT_INTERACT,ls(playerid, "KA_TPILULA"));
 	else if(itemtype == item_AutoInjec)
-	{
-		if(inplayerarea == -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INJECT"));
-
-		else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INJECTOTHER"));
-	}
+		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER");
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
-	{
-		if(inplayerarea != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CUREP"));
-		
-		else AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CUREME"));
-	}
+		AddToolTipText(playerid, KEYTEXT_INTERACT, inplayerarea != -1 ? "KA_CUREP" : "KA_CUREME");
 	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
-		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
 				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REPAIRMV", true));
-		}
 	}
 	else
 	{
 		if(IsItemTypeFood(itemtype))
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COMER"));
-
 		else if(IsItemTypeBag(itemtype))
 		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENBAG"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_USE"));
 		}
-
 		else if(GetHatFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_USEAC", true));
-
 		else if(GetMaskFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
-
 		else if(GetItemTypeExplosiveType(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ARMEXP"));
-
-/*		else if(GetItemTypeLiquidContainerType(itemtype) != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));*/
+		else if(GetItemTypeLiquidContainerType(itemtype) != -1 && itemtype != item_GasCan)
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));
 	}
 	
 	if(GetItemTypeWeapon(itemtype) != -1)
 	{
 		ClearPlayerKeyActionUI(playerid);
 
-		foreach(new i : Player)
-		{
-			if(IsPlayerInPlayerArea(playerid, i))
-			{
-				inplayerarea = i;
-				break;
-			}
-		}
+		if(IsValidHolsterItem(itemtype))
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 
-		AddToolTipText(playerid, KEYTEXT_RELOAD, ls(playerid, "KA_RECARRG"));
-		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DERECARRG"));
-		AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
+		if(GetItemWeaponCalibre(GetItemTypeWeapon(itemtype)) != NO_CALIBRE)
+		{
+			if(GetItemTypeAmmoType(GetItemWeaponItemAmmoItem(itemid)) != -1 && GetItemWeaponItemMagAmmo(itemid) + GetItemWeaponItemReserve(itemid) != 0)
+				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPRELOAD"));
+			else
+				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
+		}
 	}
-	else AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_GUARD"));
-	
-	if(inplayerarea == -1)
+	else
 	{
+		AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 	}
-	else AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_GIVEITEM"));
+
+	if(IsPlayerOnAdminDuty(playerid))
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
 
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
-		    
-	AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
+
 	ShowPlayerKeyActionUI(playerid);
 	}
-	return;
 }
 
 _ShowRepairTip(playerid, vehicleid)
 {
 	new Float:health;
-
 	GetVehicleHealth(vehicleid, health);
 
 	if(health <= VEHICLE_HEALTH_CHUNK_2)
-	{
 		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHVER", true));
-		return;
-	}
 	else if(health <= VEHICLE_HEALTH_CHUNK_3)
-	{
 		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHBRO", true));
-		return;
-	}
 	else if(health <= VEHICLE_HEALTH_CHUNK_4)
-	{
 		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHBIT", true));
-		return;
-	}
 	else if(health <= VEHICLE_HEALTH_MAX)
-	{
 		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHSLI", true));
-		return;
-	}
-		
+	
 	return;
 }
