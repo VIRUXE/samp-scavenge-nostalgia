@@ -575,13 +575,13 @@ ShowCodeList1(playerid)
 	new str[268];
 
 	format(str, 268,
-		""C_ORANGE"Keycodes for security system. SECTOR 01:\n\n\
-		\t"C_WHITE"Control Tower:"C_YELLOW"\t%d\n\
-		\t"C_WHITE"Main gate:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Airstrip Gate:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Blast Door:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Inner Door 1:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Inner Door 2:"C_YELLOW"\t\t%d",
+		""C_ORANGE"Senhas para o sistema de segurança. SETOR 01:\n\n\
+		\t"C_WHITE"Torre de Controle:"C_YELLOW"\t%d\n\
+		\t"C_WHITE"Portão Principal:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Portão da Pista de Pouso:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Porta de Segurança:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Porta Interna 1:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Porta Interna 2:"C_YELLOW"\t\t%d",
 		code_ControlTower,
 		code_MainGate,
 		code_AirstripGate,
@@ -589,7 +589,7 @@ ShowCodeList1(playerid)
 		code_Inner,
 		code_Storage);
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Main Control", str, "Close", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Painel Principal", str, "Fechar", "");
 }
 
 ShowCodeList2(playerid)
@@ -597,13 +597,13 @@ ShowCodeList2(playerid)
 	new str[268];
 
 	format(str, 268,
-		""C_ORANGE"Keycodes for security system. SECTOR 02:\n\n\
-		\t"C_WHITE"Generator:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Passage 1:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Passage 2:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Catwalk:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Headquarters:"C_YELLOW"\t\t%d\n\
-		\t"C_WHITE"Shaft:"C_YELLOW"\t\t\t%d",
+		""C_ORANGE"Senhas para o sistema de segurança. SETOR 02:\n\n\
+		\t"C_WHITE"Gerador:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Passagem 1:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Passagem 2:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Passarela:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Quartel:"C_YELLOW"\t\t%d\n\
+		\t"C_WHITE"Haste:"C_YELLOW"\t\t\t%d",
 		code_Generator,
 		code_PassageTop,
 		code_PassageBottom,
@@ -611,5 +611,5 @@ ShowCodeList2(playerid)
 		code_Headquarters,
 		code_Shaft);
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Main Control", str, "Close", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Painel Principal", str, "Fechar", "");
 }
