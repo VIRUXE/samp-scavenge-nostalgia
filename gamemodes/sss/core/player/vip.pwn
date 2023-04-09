@@ -211,11 +211,11 @@ hook OnPlayerSpawnNewChar(playerid) {
 		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
 		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
 
-		// Chance de 50% de dar uma arma
+/*		// Chance de 50% de dar uma arma
 		if(random(1)) {
 			GiveWorldItemToPlayer(playerid, CreateItem(item_M9Pistol));
 			GiveWorldItemToPlayer(playerid, SetItemExtraData(CreateItem(item_Ammo9mm), 2 + random(9)));
-		}
+		}*/
 	}
 }
 

@@ -286,7 +286,7 @@ CreateNewCharacter(playerid, gender)
 	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
 	SetPlayerGender(playerid, gender);
 
-	GiveWorldItemToPlayer(playerid, CreateItem(item_Wrench));
+//	GiveWorldItemToPlayer(playerid, CreateItem(item_Wrench));
 
 	SetPlayerAliveState(playerid, true);
 
