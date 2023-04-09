@@ -63,7 +63,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		}
 		else
 		{
-			ShowActionText(playerid, ls(playerid, "BODYHARVEST", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "BODYHARVEST", true), 3000);
 		}
 	}
 
