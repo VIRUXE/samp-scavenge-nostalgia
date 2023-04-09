@@ -711,18 +711,11 @@ timer SetJoinScenario[20](playerid) {
 		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
 	};
 
-	new sounds[][] = {
-		"uw3jdo6s0u9urgu/NS.mp3",
-		"b0yozgytqbvqhch/NS2.mp3",
-		"3d2s9x1ay0jgefq/NS3.mp3",
-		"eh9w2adw0vp2yvd/NS4.mp3",
-		"m0ub0mve3q8m0wi/NS5.mp3"
-	};
-
-	new soundURL[1 + 36 + 23]; // 1 for null terminator, 36 for "https://dl.dropboxusercontent.com/s/", and 23 for the longest sound name
-	format(soundURL, sizeof(soundURL), "https://dl.dropboxusercontent.com/s/%s", sounds[random(sizeof(sounds) - 1)]);
+	new soundURL[1 + 51 + 1]; // 1 for null terminator, 47 for "http://scavengenostalgia.fun/audio/login/musica%d.mp3", and 1 for the random sound name
+	format(soundURL, sizeof(soundURL), "http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5));
 
 	PlayAudioStreamForPlayer(playerid, soundURL);
+	for(new i = 0; i < 100; i++) SendClientMessage(playerid, WHITE, "");
 
 	SetPlayerTime(playerid, 0, 0);
 	SetPlayerWeather(playerid, 20);
