@@ -711,10 +711,9 @@ timer SetJoinScenario[20](playerid) {
 		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
 	};
 
-	new soundURL[1 + 51 + 1]; // 1 for null terminator, 47 for "http://scavengenostalgia.fun/audio/login/musica%d.mp3", and 1 for the random sound name
-	format(soundURL, sizeof(soundURL), "http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5));
+	// Música na Tela de Login
 
-	PlayAudioStreamForPlayer(playerid, soundURL);
+	PlayAudioStreamForPlayer(playerid, "http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5));
 	for(new i = 0; i < 100; i++) SendClientMessage(playerid, WHITE, "");
 
 	SetPlayerTime(playerid, 0, 0);
