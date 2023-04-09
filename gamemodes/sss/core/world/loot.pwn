@@ -90,7 +90,7 @@ Float:		loot_SpawnMult = 1.0;
 
 hook OnScriptInit()
 {
-	loot_SpawnMult = GetSettingFloat("server/loot-spawn-multiplier");
+	loot_SpawnMult = GetSettingFloat("world/loot-spawn-multiplier");
 	log("[SETTINGS][WORLD] Loot spawn multiplier: %f", loot_SpawnMult);
 }
 
