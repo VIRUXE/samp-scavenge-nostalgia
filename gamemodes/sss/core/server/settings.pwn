@@ -14,13 +14,16 @@ LoadSettings()
 
 		Settings = JSON_Object(
 			"server", JSON_Object(
-				"motd", JSON_String("Bem vindo ao servidor Scavenge Nostalgia!"),
+				"name", JSON_String("Scavenge Nostalgia"),
 				"address", JSON_String("scavengenostalgia.fun"),
 				"website", JSON_String("http://www.scavengenostalgia.fun"),
 				"discord", JSON_String("http://discord.scavengenostalgia.fun"),
 				"global-debug-level", JSON_Int(0),
-				"loot-spawn-multiplier", JSON_Float(0.010000),
 				"max-uptime", JSON_Int(14400), // 4 horas em segundos
+				"motd", JSON_Object(
+					"pt", JSON_String("Bem vindo ao servidor Scavenge Nostalgia!"),
+					"en", JSON_String("Welcome to the Scavenge Nostalgia server!")
+				),
 				"rules", JSON_Array(
 					JSON_String("Não use hacks."),
 					JSON_String("Não use bugs."),
@@ -30,8 +33,7 @@ LoadSettings()
 				),
 				"otp", JSON_Object(
 					"enabled", JSON_Bool(false),
-					"length", JSON_Int(6),
-					"timeout", JSON_Int(60)
+					"length", JSON_Int(6)
 				)
 			),
 			"player", JSON_Object(
@@ -53,6 +55,48 @@ LoadSettings()
 						"normal", JSON_Float(0.0),
 						"vip", JSON_Float(0.0)
 					)
+				),
+				"tooltips", JSON_Array(
+					JSON_Object(
+						"pt", JSON_String("Caso tenha alguma dúvida, use o /relatorio para falar com alguém da staff."),
+						"en", JSON_String("If you have any questions, use /report to speak with a staff member.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Caso encontre algum BUG, use o /bug para reportar a staff."),
+						"en", JSON_String("If you find any bugs, use /bug to report them to the staff.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Use o /dicas para desativar as dicas de ajuda."),
+						"en", JSON_String("Use /tips to turn off the help messages.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Entre em nosso grupo no discord e fique por dentro de todas as novidades."),
+						"en", JSON_String("Join our Discord group and stay up-to-date with all the latest news.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo é mais legal e lucrativo."),
+						"en", JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Você viu alguém fazendo o que não devia? Use /report para denunciar."),
+						"en", JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Não fique triste quando morrer ou perder a base, isso faz parte do jogo."),
+						"en", JSON_String("Don't get upset when you die or lose your base, it's part of the game.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Lembre-se que o servidor é mantido por doações, ajude-nos a manter o servidor online."),
+						"en", JSON_String("Remember that the server is maintained by donations, help us keep the server online.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Você pode usar o /ajuda para ver todos os comandos disponíveis."),
+						"en", JSON_String("You can use /help to see all the available commands.")
+					),
+					JSON_Object(
+						"pt", JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estão quebrando as regras."),
+						"en", JSON_String("Remember to use /votekick to vote on players who are breaking the rules.")
+					)
 				)
 			),
 			"vehicle", JSON_Object(
@@ -67,6 +111,7 @@ LoadSettings()
 				)
 			),
 			"world", JSON_Object(
+				"loot-spawn-multiplier", JSON_Float(0.010000),
 				"weather", JSON_Int(4)
 			)
 		);
@@ -79,10 +124,13 @@ LoadSettings()
 	// Carrega as configurações do servidor
 	JSON_GetObject(Settings, "server", node);
 
-	JSON_GetString(node, "motd", gMessageOfTheDay);
+	new Node:motd;
+	JSON_GetArray(node, "motd", motd);
+	JSON_GetString(motd, "pt", gMessageOfTheDay);
 	log("[SETTINGS] Mensagem do dia: %s", gMessageOfTheDay);
 
 	JSON_GetString(node, "website", gWebsiteURL);
+	SendRconCommand(sprintf("weburl %s", gWebsiteURL));
 	log("[SETTINGS] Website: %s", gWebsiteURL);
 
 	// Podemos carregar ate 24 regras (MAX_RULE)
