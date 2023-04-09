@@ -486,7 +486,7 @@ Login(playerid)
 
 // Chamado após o jogador logar
 public OnPlayerLogin(playerid) {
-	ChatMsg(playerid, 0xC457EBAA, " >  Mensagem do Dia: "C_WHITE"%s", gMessageOfTheDay);
+	ChatMsg(playerid, 0xC457EBAA, " >  Mensagem do dia: "C_WHITE"%s", gMessageOfTheDay);
 
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
@@ -622,9 +622,7 @@ Logout(playerid, docombatlogcheck = 1)
 
 			if(IsVehicleUpsideDown(vehicleid) || health < 300.0) DestroyVehicle(vehicleid);
 			else
-			{
 				if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
-			}
 
 			SaveVehicle(vehicleid);
 		}
