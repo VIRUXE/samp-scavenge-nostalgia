@@ -121,7 +121,7 @@ hook OnPlayerWearBag(playerid, itemid)
 
 		IncreaseTutorialProgress(playerid, EQUIP_BACKPACK);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
 	}
 }
 
@@ -143,7 +143,7 @@ hook OnPlayerOpenInventory(playerid)
 
 		IncreaseTutorialProgress(playerid, OPEN_INVENTORY);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -177,7 +177,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 			
 			IncreaseTutorialProgress(playerid, OPEN_CONTAINER);
 
-			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
 		}
 	}
 
@@ -209,7 +209,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 
 			IncreaseTutorialProgress(playerid, VIEW_CONTAINER_OPTIONS);
 
-			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 		// }
 	}
 
@@ -227,7 +227,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 
 		IncreaseTutorialProgress(playerid, DROP_ITEM);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -244,7 +244,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 
 		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_INVENTORY);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -261,7 +261,7 @@ hook OnPlayerViewInvOpt(playerid)
 
 		IncreaseTutorialProgress(playerid, VIEW_INVENTORY_OPTIONS);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -280,7 +280,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
 		}
 		else
 		{
@@ -289,7 +289,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
 		}
 	}
 
@@ -305,7 +305,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
 
 		IncreaseTutorialProgress(playerid, HOLSTER_WEAPON);
 	}
@@ -319,7 +319,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	{
 		IncreaseTutorialProgress(playerid, USE_ITEM_ON_ANOTHER_ITEM);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
 	}
 }
 
@@ -327,7 +327,7 @@ hook OnTentBuilt(playerid, tentid) {
 	if(IsPlayerInTutorial(playerid)) {
 		IncreaseTutorialProgress(playerid, BUILD_TENT);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORITMBLD"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMBLD"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -344,7 +344,7 @@ hook OnItemTweakFinish(playerid, itemid)
 
 		IncreaseTutorialProgress(playerid, FINISH_ITEM_TWEAK);
 
-		ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
 	}
 }
 
@@ -395,8 +395,8 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
-			ChatMsg(playerid, GREEN, "> Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
 		}
 
 		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
@@ -573,7 +573,7 @@ EnterTutorial(playerid) {
 
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-	ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
+	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
@@ -629,7 +629,7 @@ ExitTutorial(playerid)
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	return ChatMsg(playerid, GREEN, "> "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
+	return ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
 }
 
 IsPlayerInTutorial(playerid) {
