@@ -87,10 +87,14 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 		if(!id)
 		    id = CA_RayCastLine(ox, oy + 0.25, oz + 0.9, x - 0.25, y, z + 0.9, c, c, c);
 	}
-	
-	if(id && id != WATER_OBJECT){
+
+	if(id && id != WATER_OBJECT)
+	{
+		new name[MAX_PLAYER_NAME + 1];
+    	GetPlayerName(playerid, name, sizeof(name));
+
 		ClearAnimations(playerid);
-		printf(" > %p(id:%d) atravessou o objeto ID:'%d' na posição: %.2f, %.2f, %.2f", playerid, playerid, id, ox, oy, oz);
+		printf(" [ANTI-AIRBREAK] %s(id:%d) atravessou o objeto ID:'%d' na coordenada: %.2f, %.2f, %.2f", name, playerid, id, ox, oy, oz);
 		
 	    SetPlayerVelocity(playerid, 0.0, 0.0, 0.0);
 	    ab_Check[playerid] = true;
