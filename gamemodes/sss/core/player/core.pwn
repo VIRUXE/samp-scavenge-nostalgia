@@ -712,8 +712,9 @@ timer SetJoinScenario[20](playerid) {
 	};
 
 	// Música na Tela de Login
+	PlayAudioStreamForPlayer(playerid, sprintf("http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5)));
 
-	PlayAudioStreamForPlayer(playerid, "http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5));
+	// Limpa o chat para nao mostrar o url da musica
 	for(new i = 0; i < 100; i++) SendClientMessage(playerid, WHITE, "");
 
 	SetPlayerTime(playerid, 0, 0);
