@@ -35,7 +35,7 @@
 	#include "sss/world/zones/novos.pwn"
 
 	#include "sss/world/puzzles/mtchill.pwn"
-//	#include "sss/world/puzzles/area69.pwn"
+	#include "sss/world/puzzles/area69.pwn"
 //	#include "sss/world/puzzles/ranch.pwn"
 //	#include "sss/world/puzzles/codehunt.pwn"
 
