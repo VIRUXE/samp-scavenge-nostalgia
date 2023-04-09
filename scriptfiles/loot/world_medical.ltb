@@ -1,6 +1,8 @@
 world_medical, 1.0
 50.0, AntiSepBandage
 40.0, Medkit
-10.0, DoctorBag
-70.0, Pills
+15.0, DoctorBag
+60.0, Pills
 60.0, AutoInjec
+10.0, Knife
+12.0, Backpack
