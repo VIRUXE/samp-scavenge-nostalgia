@@ -58,7 +58,7 @@ hook OnGameModeInit()
 
 	log("[SPAWN][SETTINGS] Taxa de Sangramento: %.2f (vip: %.2f)", spawn_Bleed, spawn_VipBleed);
 	log("[SPAWN][SETTINGS] Quantidade de Sangue: %.2f (vip: %.2f)", spawn_Blood, spawn_VipBlood);
-	log("[SPAWN][SETTINGS] Pontos de Comida: %.2f (vip: %f)", spawn_Food, spawn_VipFood);
+	log("[SPAWN][SETTINGS] Taxa de Fome: %.2f (vip: %f)", spawn_Food, spawn_VipFood);
 }
 
 hook OnPlayerConnect(playerid)
