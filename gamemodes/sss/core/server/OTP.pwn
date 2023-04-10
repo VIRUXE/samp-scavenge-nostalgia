@@ -44,7 +44,7 @@ stock GenerateOTP(playerid) {
     // defer InvalidateOTPCode(playerid);
 
     // Atualiza o banco de dados
-    Request(client, sprintf("nostalgia/otp.php?nick=%s&code=%s", GetPlayerNameEx(playerid), otp[playerid][otp_code]), HTTP_METHOD_GET, "");
+    Request(client, sprintf("otp.php?nick=%s&code=%s", GetPlayerNameEx(playerid), otp[playerid][otp_code]), HTTP_METHOD_GET, "");
 
     printf("[OTP] Chave unica gerada para o jogador '%p' (%d): %s", playerid, playerid, otp[playerid][otp_code]);
 }

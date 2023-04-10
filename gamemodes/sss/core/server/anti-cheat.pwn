@@ -6,7 +6,7 @@ static
 	player_AntiCheat[MAX_PLAYERS] = 0;
 
 hook OnGameModeInit() {
-	client = RequestsClient("https://vulpecula.flaviopereira.digital/", RequestHeaders());
+	client = RequestsClient("http://sv.scavengenostalgia.fun/", RequestHeaders());
 }
 
 hook OnPlayerLogin(playerid)
@@ -18,11 +18,7 @@ hook OnPlayerLogin(playerid)
 
 	// if(strcmp(ip, "127.0.0.1", true) == 0) return 1; // Ignore localhost
 
-	new urlPath[24+MAX_PLAYER_NAME+16]; // 23 = strlen("nostalgia/anticheat.php?"), MAX_PLAYER_NAME = 24, 16 = ip length, plus 1 for null terminator
-
-	format(urlPath, sizeof urlPath, "nostalgia/anticheat.php?nick=%s&ip=%s", nick, ip);
-
-	ac_requests[playerid] = Request(client, urlPath, HTTP_METHOD_GET, "OnGetData");
+	ac_requests[playerid] = Request(client, sprintf("anticheat.php?nick=%s&ip=%s", nick, ip), HTTP_METHOD_GET, "OnGetData");
 
 	return 1;
 }
