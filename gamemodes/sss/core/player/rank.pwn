@@ -880,10 +880,10 @@ task ShowRandomRank[60000 * 6]()
 
 	switch (random(6))
 	{
-		case 0: ChatMsgAll(0x35B330ff, "[Rank]: %P{35B330} tem o maior número de Score. Com {B4E070}%d {35B330}Assassinato%s.", id, MaxScore, (MaxScore > 1) ? "s" : "");
-		case 1: ChatMsgAll(0x35B330ff, "[Rank]: %P{35B330} tem o maior número de Mortes. Com {B4E070}%d {35B330}Morte%s.", id2, MaxMortes, (MaxMortes > 1) ? "s" : "");
-		case 2: ChatMsgAll(0x35B330ff, "[Rank]: %P{35B330} tem o melhor Killing Spree do server com {B4E070}%d {35B330}Spree!", id3, MaxSpree);
-		case 3: ChatMsgAll(0x35B330ff, "[Rank]: %P{35B330} é o mais lagado online, com {B4E070}%d {35B330}de Ping!", id4, MaxPing);
-		default: ChatMsgAll(0x35B330ff, "[Rank]: %P{35B330} tem o maior tempo vivo, {B4E070}%d minutos{35B330} Vivo!", id5, (MaxHS / 60));
+		case 0: ChatMsgAll(0x35B330ff, " > Rank: %P{35B330} tem o maior número de Score. Com {B4E070}%d {35B330}Assassinato%s.", id, MaxScore, (MaxScore > 1) ? "s" : "");
+		case 1: ChatMsgAll(0x35B330ff, " > Rank: %P{35B330} tem o maior número de Mortes. Com {B4E070}%d {35B330}Morte%s.", id2, MaxMortes, (MaxMortes > 1) ? "s" : "");
+		case 2: ChatMsgAll(0x35B330ff, " > Rank: %P{35B330} tem o melhor Killing Spree do server com {B4E070}%d {35B330}Spree!", id3, MaxSpree);
+		case 3: ChatMsgAll(0x35B330ff, " > Rank: %P{35B330} é o mais lagado online, com {B4E070}%d {35B330}de Ping!", id4, MaxPing);
+		default: ChatMsgAll(0x35B330ff, " > Rank: %P{35B330} tem o maior tempo vivo, {B4E070}%d minutos{35B330} Vivo!", id5, (MaxHS / 60));
 	}
 }
