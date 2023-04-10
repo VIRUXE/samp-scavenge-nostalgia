@@ -249,7 +249,7 @@ ptask PlayerUpdateFast[100](playerid)
 			// Remover o jogador se o ping continuar alto, após 3 segundos
 			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
 			{
-				TimeoutPlayer(playerid, sprintf("Ping muito alto: %d/%d. Normalize o mesmo e volte dentro de 1 minuto.", ping, gPingLimit), MIN(1));
+				TimeoutPlayer(playerid, sprintf("Ping muito alto: %d/%d.", ping, gPingLimit), MIN(1));
 
 				ply_Data[playerid][ply_PingLimitStrikes] = 0;
 
