@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-#define MAX_TOOLTIP_SIZE 72 // "Invite your friends to play on the server, playing in a group is more fun and rewarding."
+#define MAX_TOOLTIP_SIZE 112 // "Invite your friends to play on the server, playing in a group is more fun and rewarding."
 
 static
 	bool:		ToolTips[MAX_PLAYERS],
@@ -18,14 +18,15 @@ task SendAutoMessage[MIN(5)]() {
 			JSON_ArrayLength(node, total_tooltips);
 
 			if(total_tooltips > 0) {
-				new tooltip[MAX_TOOLTIP_SIZE+1];
+				new tooltip[MAX_TOOLTIP_SIZE];
+				new lang = GetPlayerLanguage(i);
 
 				JSON_ArrayObject(node, random(total_tooltips), node);
-				JSON_GetString(node, GetPlayerLanguage(i) == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
+				JSON_GetString(node, lang == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
 
 				printf("SendAutoMessage: %s", tooltip);
 
-				ChatMsg(i, GOLD, " > %s", tooltip);
+				ChatMsg(i, GOLD, " > %s: "C_WHITE"%s", lang == ENGLISH ? "Tip" : "Dica", tooltip);
 			}
 		}
 
