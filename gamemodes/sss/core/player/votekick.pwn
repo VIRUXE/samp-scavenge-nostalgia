@@ -111,11 +111,7 @@ CMD:vote(playerid, params[]) {
     if(CountVotes(VOTE_YES) >= players / 2) { // Se a metade dos jogadores votarem sim, o jogador é expulso.
         ChatMsgAll(GREEN, "Vote Kick: A votação foi aprovada. O jogador %P"C_GREEN" foi expulso.", votekick_player);
 
-        // Prefix the reason with "Vote Kick: "
-        new reason[MAX_VOTEKICK_REASON + 12];
-        format(reason, sizeof(reason), "Vote Kick: %s", votekick_reason);
-
-        TimeoutPlayer(votekick_player, reason);
+        TimeoutPlayer(votekick_player, sprintf("Vote Kick: %s", votekick_reason));
         // KickPlayer(votekick_player, votekick_reason, true);
 
         log("[VOTEKICK] %p (%d) foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);
