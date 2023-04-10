@@ -104,7 +104,7 @@ _OnPlayerConnect(playerid) {
 
 	if(BanCheck(playerid))
 	{
-		TimeoutPlayer(playerid, "Jogador Banido.");
+		TimeoutPlayer(playerid, "Jogador Banido.", false);
 		return 0;
 	}
 
