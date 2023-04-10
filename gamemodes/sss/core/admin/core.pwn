@@ -252,7 +252,7 @@ CheckAdminLevel(playerid)
 	}
 }
 
-TimeoutPlayer(playerid, reason[], time = HOUR(1))
+TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
@@ -264,9 +264,11 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1))
 
 	admin_PlayerKicked[playerid] = true;
 
-	log("[TIMEOUT] %p (%d) razão: %s", playerid, playerid, reason);
+	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" desconectado, motivo: "C_BLUE"%s", playerid, reason);
+
+	if(tellplayer) ChatMsg(playerid, GREY, "Você foi desconectado por %d minutos, motivo: %s", time / 60000, reason);
 
 	return 1;
 }
