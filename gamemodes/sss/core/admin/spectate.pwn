@@ -113,11 +113,9 @@ hook OnPlayerDisconnect(playerid)
 
 EnterSpectateMode(playerid, targetid)
 {
-	if(!IsPlayerConnected(targetid))
-		return 0;
+	if(!IsPlayerConnected(targetid)) return 0;
 
-	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE)
-		ExitFreeMode(playerid);
+	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
 	TogglePlayerSpectating(playerid, true);
 	ToggleNameTagsForPlayer(playerid, true);
@@ -142,8 +140,7 @@ IsPlayerSpectating(playerid) return spectate_Type[playerid] != SPECTATE_TYPE_NON
 
 EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0)
 {
-	if(camX * camY * camZ == 0.0)
-		GetPlayerCameraPos(playerid, camX, camY, camZ);
+	if(camX * camY * camZ == 0.0) GetPlayerCameraPos(playerid, camX, camY, camZ);
 
 	spectate_Type[playerid] = SPECTATE_TYPE_FREE;
 	TogglePlayerControllable(playerid, true);
@@ -159,8 +156,7 @@ EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0)
 
 ExitFreeMode(playerid)
 {
-	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET)
-		ExitSpectateMode(playerid);
+	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET) ExitSpectateMode(playerid);
 
 	spectate_Target[playerid] = INVALID_PLAYER_ID;
 	spectate_Type[playerid] = SPECTATE_TYPE_NONE;
@@ -265,9 +261,7 @@ _RefreshSpectate(playerid)
 		SetPlayerInterior(playerid, GetPlayerInterior(spectate_Target[playerid]));
 
 		PlayerSpectateVehicle(playerid, IsPlayerInAnyVehicle(spectate_Target[playerid]) ? GetPlayerVehicleID(spectate_Target[playerid]) : spectate_Target[playerid]);
-	}
-	else if(spectate_Type[playerid] == SPECTATE_TYPE_FREE)
-	{
+	} else if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) {
 		new Float:x, Float:y, Float:z;
 
 		GetPlayerPos(spectate_Target[playerid], x, y, z);

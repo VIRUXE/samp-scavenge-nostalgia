@@ -151,7 +151,8 @@ ACMD:spec[3](playerid, params[])
 	if(Iter_Count(Player) == 1) return 1;
 
 	if(isnull(params)) {
-		if(IsPlayerSpectating(playerid)) ExitSpectateMode(playerid); // If player is spectating, exit spectate mode
+		if(IsPlayerSpectating(playerid))
+			ExitSpectateMode(playerid); // If player is spectating, exit spectate mode
 		else { // Select a random player to spectate
 			new targetId;
 			
@@ -162,8 +163,10 @@ ACMD:spec[3](playerid, params[])
 	} else {
 		new targetId = INVALID_PLAYER_ID;
 
-		if(isnumeric(params)) targetId = strval(params);
-		else targetId = GetPlayerIDFromName(params);
+		if(isnumeric(params))
+			targetId = strval(params);
+		else
+			targetId = GetPlayerIDFromName(params);
 
 		if(IsPlayerConnected(targetId) && targetId != playerid) {
 			// Não pode observar admins
@@ -172,7 +175,7 @@ ACMD:spec[3](playerid, params[])
 
 			EnterSpectateMode(playerid, targetId);
 
-            ChatMsgAdmins(1, BLUE, "[Admin] %P (%d) está observando %P (%d)", playerid, playerid, targetId, targetId);
+            ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) está observando %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 		}
 	}
 
