@@ -460,7 +460,7 @@ new RequestsClient:client;
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/death.pwn"
 #include "sss/core/player/tutorial.pwn"
-// #include "sss/core/player/welcome-message.pwn"
+#include "sss/core/player/tips.pwn"
 #include "sss/core/player/chat.pwn"
 #include "sss/core/player/cmd-process.pwn"
 #include "sss/core/player/commands.pwn"
