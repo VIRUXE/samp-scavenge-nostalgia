@@ -218,7 +218,7 @@ stock DisplayPlayerInventory(playerid)
 
 		GetItemNameDialog(itemid, tmp);
 
-		format(list, sizeof(list), "%s|%02d| %s\n", list, GetItemTypeSize(GetItemType(itemid)), tmp);
+		format(list, sizeof(list), "%s{DEB887}|%02d| {FFFFFF}%s\n", list, GetItemTypeSize(GetItemType(itemid)), tmp);
 		inv_ItemListTotal[playerid]++;
 	}
 
@@ -235,7 +235,7 @@ stock DisplayPlayerInventory(playerid)
 
 	if(!isnull(inv_ExtraItemList[playerid])) strcat(list, inv_ExtraItemList[playerid]);
 
-	// Constroi o titulo do dialog com o nome do container/inventario e os slots ocupados e totais
+	// Constroi o titulo do dialog com o nome do inventário com os slots ocupados e totais
 	new inventorySize = GetPlayerInventorySize(playerid);
 	format(title, sizeof(title), ls(playerid, "INVNAME"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
     inv_ViewingInventory[playerid] = true;
@@ -257,19 +257,16 @@ Dialog:SIF_PlayerInventory(playerid, response, listitem, inputtext[])
 		}
 
 		if(!IsValidItem(GetInventorySlotItem(playerid, listitem)))
-		{
 			DisplayPlayerInventory(playerid);
-		}
+
 		else
 		{
 			inv_SelectedSlot[playerid] = listitem;
 			DisplayPlayerInventoryOptions(playerid, listitem);
 		}
 	}
-	else
-	{
-		ClosePlayerInventory(playerid, true);
-	}
+	
+	else ClosePlayerInventory(playerid, true);
 
 	return 1;
 }

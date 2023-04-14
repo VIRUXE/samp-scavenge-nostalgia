@@ -182,7 +182,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 		GetItemNameDialog(itemid, tmp);
 
-		format(cnt_InventoryString[playerid], sizeof(cnt_InventoryString[]), "%s|%02d| %s\n", cnt_InventoryString[playerid], GetItemTypeSize(GetItemType(itemid)), tmp);
+		format(cnt_InventoryString[playerid], sizeof(cnt_InventoryString[]), "%s{DEB887}|%02d| {FFFFFF}%s\n", cnt_InventoryString[playerid], GetItemTypeSize(GetItemType(itemid)), tmp);
 		cnt_ItemListTotal[playerid]++;
 	}
 
