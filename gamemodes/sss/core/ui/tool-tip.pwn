@@ -1,39 +1,9 @@
 #include <YSI\y_hooks>
 
-#define MAX_TOOLTIP_SIZE 112 // "Invite your friends to play on the server, playing in a group is more fun and rewarding."
-
 static
 	bool:		ToolTips[MAX_PLAYERS],
 	PlayerText:	ToolTipText[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
-	Timer:      ToolTipeTimer[MAX_PLAYERS],
-	MsgAuto = 0;
-
-task SendAutoMessage[MIN(5)]() {
-	foreach(new i : Player)
-	    if(ToolTips[i]) {
-			new Node:node, total_tooltips;
-
-			JSON_GetObject(Settings, "player", node);
-			JSON_GetArray(node, "tooltips", node);
-			JSON_ArrayLength(node, total_tooltips);
-
-			if(total_tooltips > 0) {
-				new tooltip[MAX_TOOLTIP_SIZE];
-				new lang = GetPlayerLanguage(i);
-
-				JSON_ArrayObject(node, random(total_tooltips), node);
-				JSON_GetString(node, lang == ENGLISH ? "en" : "pt", tooltip, sizeof(tooltip));
-
-				printf("SendAutoMessage: %s", tooltip);
-
-				ChatMsg(i, GOLD, " > %s: "C_WHITE"%s", lang == ENGLISH ? "Tip" : "Dica", tooltip);
-			}
-		}
-
-    MsgAuto++;
-	if(MsgAuto >= 7) MsgAuto = 0;
-}
-
+	Timer:      ToolTipTimer[MAX_PLAYERS];
 
 ShowHelpTip(playerid, text[], time = 0)
 {
@@ -42,9 +12,9 @@ ShowHelpTip(playerid, text[], time = 0)
 	PlayerTextDrawSetString(playerid, ToolTipText[playerid], text);
 	PlayerTextDrawShow(playerid, ToolTipText[playerid]);
 
-	stop ToolTipeTimer[playerid];
+	stop ToolTipTimer[playerid];
 	
-	if(time > 0) ToolTipeTimer[playerid] = defer HideHelpTip_Delay(playerid, time);
+	if(time > 0) ToolTipTimer[playerid] = defer HideHelpTip_Delay(playerid, time);
 
 	return 1;
 }
@@ -55,8 +25,7 @@ timer HideHelpTip_Delay[time](playerid, time)
 	#pragma unused time
 }
 
-HideHelpTip(playerid)
-	PlayerTextDrawHide(playerid, ToolTipText[playerid]);
+HideHelpTip(playerid) PlayerTextDrawHide(playerid, ToolTipText[playerid]);
 
 hook OnPlayerConnect(playerid)
 {
@@ -82,18 +51,18 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 	if(ToolTips[playerid])
 	{
-			new itemname[ITM_MAX_NAME], itemtipkey[12], str[288];
+		new itemname[ITM_MAX_NAME], itemtipkey[12], str[288];
 
-			GetItemTypeUniqueName(GetItemType(itemid), itemname);
+		GetItemTypeUniqueName(GetItemType(itemid), itemname);
 
-			if(strlen(itemname) > 9) itemname[9] = EOS;
+		if(strlen(itemname) > 9) itemname[9] = EOS;
 
-			format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
-			itemtipkey[11] = EOS;
+		format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
+		itemtipkey[11] = EOS;
 
-			format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(GetPlayerLanguage(playerid), itemtipkey, true));
+		format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(GetPlayerLanguage(playerid), itemtipkey, true));
 
-			ShowHelpTip(playerid, str, 20000);
+		ShowHelpTip(playerid, str, 20000);
 	}
 }
 
