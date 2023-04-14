@@ -276,7 +276,8 @@ public OnGameModeInit()
 #define BODY_PART_HEAD				(9)
 
 // Key text
-#define KEYTEXT_INTERACT			"~k~~VEHICLE_ENTER_EXIT~"
+//#define KEYTEXT_INTERACT			"~k~~VEHICLE_ENTER_EXIT~"
+#define KEYTEXT_INTERACT			"F"
 #define KEYTEXT_RELOAD				"~k~~PED_ANSWER_PHONE~"
 #define KEYTEXT_PUT_AWAY			"~k~~CONVERSATION_YES~"
 #define KEYTEXT_DROP_ITEM			"~k~~CONVERSATION_NO~"
@@ -287,7 +288,7 @@ public OnGameModeInit()
 
 // HUD Components
 #define MAX_HUD_COMPONENTS 16
-#define HUD_COMPONENT_RADAR 0 					// Cobre o radar
+#define HUD_COMPONENT_RADAR 0 			// Cobre o radar
 #define HUD_STATUS_BG 1 				// Fundo dos textos do status
 #define HUD_STATUS_FOOD_SPRITE 2 		// Hamburguer
 #define HUD_STATUS_FOOD_VALUE 3 		// Valor da fome
