@@ -446,7 +446,7 @@ _SaveVehicle(vehicleid)
 
 	if(active[0])
 	{
-		log("[VEHICLE][SAVE] Veículo %s (%s; %d) - Fechado?: %s com %d itens -> %.2f, %.2f, %.2f",
+		log("[VEHICLE][SAVE] Veículo %s (%s; %d) - Fechado: %s com %d itens -> %.2f, %.2f, %.2f",
 			geid, vehiclename, vehicleid, (_:GetVehicleLockState(vehicleid) ? "Sim" : "Não"), itemcount, Float:data[VEH_CELL_POSX], Float:data[VEH_CELL_POSY], Float:data[VEH_CELL_POSZ]);
 	}
 	else log("[VEHICLE][DELETE] Removendo veículo de jogador: %d.", vehicleid);
