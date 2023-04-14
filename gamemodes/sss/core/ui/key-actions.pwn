@@ -157,47 +157,11 @@ _UpdateKeyActions(playerid)
     if(!IsPlayerNPC(playerid))
     {
 
-	if(!IsPlayerSpawned(playerid))
+	if(!IsPlayerSpawned(playerid) || IsPlayerViewingInventory(playerid) || IsValidContainer(GetPlayerCurrentContainer(playerid)) || IsPlayerKnockedOut(playerid) || !IsPlayerHudOn(playerid))
 	{
 		HidePlayerKeyActionUI(playerid);
 		return;		
 	}
-	if(IsPlayerViewingInventory(playerid))
-	{
-		HidePlayerKeyActionUI(playerid);
-		return;		
-	}
-
-	if(IsValidContainer(GetPlayerCurrentContainer(playerid)))
-	{
-		HidePlayerKeyActionUI(playerid);
-		return;		
-	}
-
-	if(IsPlayerKnockedOut(playerid))
-	{
-		HidePlayerKeyActionUI(playerid);
-		return;		
-	}
-	
-	if(!IsPlayerHudOn(playerid))
-	{
-		HidePlayerKeyActionUI(playerid);
-		return;		
-	}
-
-	/*	if(!IsPlayerSpawned(playerid) || IsPlayerViewingInventory(playerid) || IsValidContainer(GetPlayerCurrentContainer(playerid) || IsPlayerKnockedOut(playerid) || !IsPlayerHudOn(playerid)))
-	{
-		HidePlayerKeyActionUI(playerid);
-		return;		
-	}*/
-
-/*	if(IsPlayerKnockedOut(playerid))
-	{
-		AddToolTipText(playerid, "~y~Voce esta", "~r~Desmaiado");
-		ShowPlayerKeyActionUI(playerid);
-		return;		
-	}*/
 
 	if(IsPlayerInAnyVehicle(playerid))
 	{
@@ -207,7 +171,7 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "KA_ENGINE"));
 			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "KA_LIGHTS"));
 			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "KA_DOORS"));
-			AddToolTipText(playerid, "~k~~GROUP_CONTROL_BWD~", "Buzina");
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_HORN"));
 			ShowPlayerKeyActionUI(playerid);
 			return;
 		}
@@ -246,10 +210,13 @@ _UpdateKeyActions(playerid)
 			ShowPlayerKeyActionUI(playerid);
 		}
 
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
-				    
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));			    
+
 		if(IsValidItem(GetPlayerBagItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_REMOVEBAG"));
+
+		if(IsValidItem(GetPlayerHolsterItem(playerid)))
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
 
 		ShowPlayerKeyActionUI(playerid);
 
@@ -315,11 +282,13 @@ _UpdateKeyActions(playerid)
 	{
 		if(IsItemTypeFood(itemtype))
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COMER"));
+
 		else if(IsItemTypeBag(itemtype))
 		{
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENBAG"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_USE"));
 		}
+
 		else if(GetHatFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_USEAC", true));
 		else if(GetMaskFromItem(itemtype) != -1)
@@ -335,7 +304,10 @@ _UpdateKeyActions(playerid)
 		ClearPlayerKeyActionUI(playerid);
 
 		if(IsValidHolsterItem(itemtype))
+		{
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
+		}
 
 		if(GetItemWeaponCalibre(GetItemTypeWeapon(itemtype)) != NO_CALIBRE)
 		{
@@ -345,10 +317,14 @@ _UpdateKeyActions(playerid)
 				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 		}
 	}
+
 	else
 	{
-		AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
+		    
+		if(IsValidItem(GetPlayerHolsterItem(playerid)))
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
 	}
 
 	if(IsPlayerOnAdminDuty(playerid))
