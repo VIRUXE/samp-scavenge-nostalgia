@@ -123,7 +123,7 @@ hook OnGameModeInit()
 	DefineLanguageReplacement("C_GOLD",						"{B8860B}");
 	DefineLanguageReplacement("C_LGREEN",					"{00FD4D}");
 	DefineLanguageReplacement("C_TEAL",						"{008080}");
-	DefineLanguageReplacement("C_BROWN",					"{A52A2A}");
+	DefineLanguageReplacement("C_BROWN",					"{DEB887}");
 	DefineLanguageReplacement("C_AQUA",						"{F0F8FF}");
 	DefineLanguageReplacement("C_BLACK",					"{000000}");
 	DefineLanguageReplacement("C_WHITE",					"{FFFFFF}");
