@@ -32,15 +32,11 @@ static
 
 hook OnPlayerConnect(playerid)
 {
-
-
 	cro_TargetVehicle[playerid] = INVALID_VEHICLE_ID;
 }
 
 hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 {
-
-
 	if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar)
 	{
 		if(GetVehicleLockState(vehicleid) == E_LOCK_STATE_EXTERNAL)
@@ -67,12 +63,8 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-
-
 	if(oldkeys & 16)
-	{
 		StopBreakingVehicleLock(playerid);
-	}
 }
 
 StartBreakingVehicleLock(playerid, vehicleid, type)
@@ -83,7 +75,7 @@ StartBreakingVehicleLock(playerid, vehicleid, type)
 			return 0;
 
 		cro_OpenType[playerid] = 0;
-		ShowActionText(playerid, ls(playerid, "LOCKBREAKDR"), 6000);
+		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKDR", true), 6000);
 	}
 
 	if(type == 1)
@@ -92,7 +84,7 @@ StartBreakingVehicleLock(playerid, vehicleid, type)
 			return 0;
 
 		cro_OpenType[playerid] = 1;
-		ShowActionText(playerid, ls(playerid, "LOCKBREAKTR"), 6000);
+		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKTR", true), 6000);
 	}
 
 	cro_TargetVehicle[playerid] = vehicleid;
@@ -148,9 +140,6 @@ hook OnHoldActionFinish(playerid)
 
 			itemid = GetPlayerItem(playerid);
 			itemtype = GetItemType(itemid);
-
-/*			if(itemtype == item_LockBreaker)
-				DestroyItem(itemid);*/
 
 			if(itemtype == item_LockBreaker)
 			{
