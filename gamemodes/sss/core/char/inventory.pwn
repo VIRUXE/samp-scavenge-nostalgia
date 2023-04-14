@@ -164,9 +164,9 @@ ShowPlayerHealthInfo(playerid)
 	ShowBodyPreviewUI(playerid);
 
 	new strc[15];
-	ConvertEncoding(strc);
 
 	format(strc, sizeof(strc), "Cabeça: %d", bodypartwounds[6]);
+	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 35.0, strc,
 		bodypartwounds[6] ? RGBAToHex(max(bodypartwounds[6] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -174,10 +174,12 @@ ShowPlayerHealthInfo(playerid)
 		bodypartwounds[0] ? RGBAToHex(max(bodypartwounds[0] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
     format(strc, sizeof(strc), "Braço D: %d", bodypartwounds[3]);
+	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 30.0, strc,
 		bodypartwounds[3] ? RGBAToHex(max(bodypartwounds[3] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
     format(strc, sizeof(strc), "Braço E: %d", bodypartwounds[2]);
+	ConvertEncoding(strc);
 	SetBodyPreviewLabel(playerid, 0, tmp++, 20.0, strc,
 		bodypartwounds[2] ? RGBAToHex(max(bodypartwounds[2] * 50, 255), 0, 0, 255) : 0xFFFFFFFF);
 
@@ -193,13 +195,13 @@ ShowPlayerHealthInfo(playerid)
 	tmp = 0;
 
 	if(bleedrate > 0.0)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, "Sangramento", RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
+		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, ls(GetPlayerLanguage(playerid), "BODYBLEED"), RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
 
 	if(infected1)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecção alimentar", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, GetLanguageString(GetPlayerLanguage(playerid), "BODYINFEC1", true), 0xFF0000FF);
 
 	if(infected2)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, "Infecção na ferída", 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, GetLanguageString(GetPlayerLanguage(playerid), "BODYINFEC2", true), 0xFF0000FF);
 
 	for(new i; i < drugs; i++)
 	{
@@ -207,7 +209,7 @@ ShowPlayerHealthInfo(playerid)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, drugname, 0xFFFF00FF);
 	}
 
-	format(string, sizeof(string), "%.1f%% Chance de desmaiar", (GetPlayerKnockoutChance(playerid, 5.7) + GetPlayerKnockoutChance(playerid, 22.6)) / 2);
+	format(string, sizeof(string), "Chance de Desmaio: %.1f%%", (GetPlayerKnockoutChance(playerid, 5.7) + GetPlayerKnockoutChance(playerid, 22.6)) / 2);
 	SetBodyPreviewFooterText(playerid, string);
 }
 
@@ -457,21 +459,22 @@ _inv_HandleGearSlotClick_Head(playerid)
 			{
 				RemovePlayerHatItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVHAT", true), 3000);
 			}
 			else 
 				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
+				
 		}
 		else
 		{
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
 			if(required > 0) 
-				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVHAT", true), 3000);
 			}
 		}
 
@@ -485,7 +488,7 @@ _inv_HandleGearSlotClick_Head(playerid)
 			{
 				RemovePlayerHatItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000, 150);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVHAT", true), 3000);
 			}
 			else 
 				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
@@ -495,11 +498,11 @@ _inv_HandleGearSlotClick_Head(playerid)
 			new required = AddItemToInventory(playerid, itemid);
 
 			if(required > 0) 
-				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000);
 			else if(required == 0)
 			{
 				RemovePlayerHatItem(playerid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVHAT", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVHAT", true), 3000);
 			}
 		}
 
@@ -527,7 +530,7 @@ _inv_HandleGearSlotClick_Face(playerid)
 			{
 				RemovePlayerMaskItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVMAS", true), 3000);
 			}
 			else 
 				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
@@ -537,11 +540,11 @@ _inv_HandleGearSlotClick_Face(playerid)
 			new required = AddItemToContainer(containerid, itemid, playerid);
 
 			if(required > 0) 
-				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVMAS", true), 3000);
 			}
 		}
 
@@ -555,7 +558,7 @@ _inv_HandleGearSlotClick_Face(playerid)
 			{
 				RemovePlayerMaskItem(playerid);
 				GiveWorldItemToPlayer(playerid, itemid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVMAS", true), 3000);
 			}
 			else 
 				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000);
@@ -565,11 +568,11 @@ _inv_HandleGearSlotClick_Face(playerid)
 			new required = AddItemToInventory(playerid, itemid);
 
 			if(required > 0) 
-				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000, 150);
+				ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "INVEXTRASLO", true), required), 3000);
 			else if(required == 0)
 			{
 				RemovePlayerMaskItem(playerid);
-				ShowActionText(playerid, ls(playerid, "INVREMOVMAS", true), 3000, 150);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVREMOVMAS", true), 3000);
 			}
 		}
 
@@ -599,7 +602,7 @@ _inv_HandleGearSlotClick_Hand(playerid)
 
 		if(required > 0)
 		{
-			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000, 150);
+			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "CNTEXTRASLO", true), required), 3000);
 			return 1;
 		}
 
