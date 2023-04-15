@@ -488,6 +488,7 @@ new RequestsClient:client;
 #include "sss/core/world/comerciante.pwn"
 
 // CHARACTER SCRIPTS
+#include "sss/core/char/movement.pwn"
 #include "sss/core/char/food.pwn"
 #include "sss/core/char/drugs.pwn"
 #include "sss/core/char/clothes.pwn"
@@ -500,12 +501,12 @@ new RequestsClient:client;
 #include "sss/core/char/backpack.pwn"
 #include "sss/core/char/handcuffs.pwn"
 #include "sss/core/char/medical.pwn"
-//#include "sss/core/char/aim-shout.pwn"
 #include "sss/core/char/masks.pwn"
 #include "sss/core/char/hats.pwn"
 #include "sss/core/char/bleed.pwn"
-//#include "sss/core/char/skills.pwn"
 #include "sss/core/char/travel-stats.pwn"
+//#include "sss/core/char/skills.pwn"
+//#include "sss/core/char/aim-shout.pwn"
 //#include "sss/core/char/map.pwn" // By Kolor4dO
 //#include "sss/core/char/trash.pwn" // By Kolor4dO
 
