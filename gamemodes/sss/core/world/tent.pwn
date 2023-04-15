@@ -233,7 +233,8 @@ StartBuildingTent(playerid, itemid)
 	ShowActionText(playerid, ls(playerid, "TENTBUILD", true));
 	tnt_CurrentTentItem[playerid] = itemid;
 
-	if(!IsPlayerInvadedField(playerid)) ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
+	if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid))
+		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
 	return 1;
 }
@@ -281,6 +282,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			if(itemtype == item_Hammer)
 				StopBuildingTent(playerid);
+				
 			else if(itemtype == item_Crowbar)
 				StopRemovingTent(playerid);
 		}
