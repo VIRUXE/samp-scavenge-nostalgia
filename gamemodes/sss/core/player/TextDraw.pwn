@@ -14,7 +14,7 @@ ptask UpdateHUD[SEC(1)](playerid)
 	bleed = GetPlayerBleedRate(playerid);
 	clan  = GetPlayerClan(playerid);
     
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_FOOD_VALUE],  sprintf("~%s~~h~~h~%0.1f", food >= 30.0 ? "g" : "r", food));
+	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_FOOD_VALUE],  sprintf("~%s~~h~~h~%0.1f", food >= 20.0 ? "g" : "r", food));
 	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_BLEED_VALUE], sprintf("~%s~~h~~h~%0.2f", bleed > 0.009999 ? "r" : "g", bleed));
 	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_KILLS_VALUE], sprintf("%d", GetPlayerScore(playerid)));
 	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_PED_VALUE],   sprintf("%d", GetPlayerPED(playerid)));
