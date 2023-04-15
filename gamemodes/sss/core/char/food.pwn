@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-#define IDLE_FOOD_RATE (0.08)
+#define IDLE_FOOD_RATE (0.06)
 
 hook OnPlayerScriptUpdate(playerid)
 {
@@ -12,9 +12,17 @@ hook OnPlayerScriptUpdate(playerid)
 		Float:food = GetPlayerFP(playerid),
 		intensity = GetPlayerInfectionIntensity(playerid, 0);
 
-	if(food > 100.0) food = 100.0;
-	if(food < 20.0) SetPlayerHP(playerid, GetPlayerHP(playerid) - (20.0 - food) / 30.0);
-	if(food < 0.0) food = 0.0;
+	if(food > 100.0) 
+		food = 100.0;
+
+	if(food < 0.0) 
+		food = 0.0;
+
+	if(food >= 19.8 && food <= 20.0 || food >= 9.8 && food <= 10.0) 
+		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "FOODRATE", true), food), 5000);
+
+	if(food < 20.0) 
+		SetPlayerHP(playerid, GetPlayerHP(playerid) - (20.0 - food) / 30.0);
 
 	if(intensity)
 		food -= IDLE_FOOD_RATE;
