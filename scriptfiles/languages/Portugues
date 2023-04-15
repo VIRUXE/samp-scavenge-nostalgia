@@ -282,6 +282,13 @@ BODYBLEED=Sangramento
 BODYINFEC1=Infecção Alimentar
 BODYINFEC2=Infecção na Ferída
 
+SLOTHEAD=Cabeça
+SLOTFACE=Rosto
+SLOTHAND=Mão
+SLOTCOLD=Coldre
+SLOTBODY=Corpo
+SLOTBACK=Costas
+
 FOODRATE=Você irá começar a morrer de fome! Fome: %.1f%%
 
 NULL_T=Esse é um item inválido, ignore-o.

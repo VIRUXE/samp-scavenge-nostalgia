@@ -310,6 +310,13 @@ BODYBLEED=Bleeding
 BODYINFEC1= Food Poisoning
 BODYINFEC2=Infected Wound
 
+SLOTHEAD=Head
+SLOTFACE=Face
+SLOTHAND=Hand
+SLOTCOLD=Holster
+SLOTBODY=Body
+SLOTBACK=Back
+
 FOODRATE=You will start to starve! Hunger: %.1%%
 
 NULL_T=This item is invalid, ignore it
