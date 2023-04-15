@@ -1458,19 +1458,19 @@ public OnScriptInit()
 
 	// items created by using a tool item on them in the world
 	SetCraftSetConstructible(5000, item_FireLighter, DefineItemCraftSet(item_Campfire, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), .tweak = false);
-	SetCraftSetConstructible(20000, item_Screwdriver, DefineItemCraftSet(item_PlotPole, item_Canister, false, item_RadioPole, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 30000, false);
-	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_ScrapMachine, item_Canister, false, item_Motor, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_RefineMachine, item_MetalFrame, false, item_Motor, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_WaterMachine, item_Canister, false, item_Motor, false, item_Bucket, false, item_PowerSupply, false), item_Crowbar, 25000);
+	SetCraftSetConstructible(20000, item_Screwdriver, DefineItemCraftSet(item_PlotPole, item_Canister, false, item_RadioPole, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 30000, .tweak = false);
+	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_ScrapMachine, item_Canister, false, item_Motor, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 25000, .tweak = true);
+	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_RefineMachine, item_MetalFrame, false, item_Motor, false, item_Fluctuator, false, item_PowerSupply, false), item_Crowbar, 25000, .tweak = true);
+	SetCraftSetConstructible(30000, item_Screwdriver, DefineItemCraftSet(item_WaterMachine, item_Canister, false, item_Motor, false, item_Bucket, false, item_PowerSupply, false), item_Crowbar, 25000, .tweak = true);
 	//SetCraftSetConstructible(30000, item_Hammer, DefineItemCraftSet(item_Workbench, item_RefinedMetal, false, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_Locker, item_MetalStand, false, item_WoodLog, false, item_MetPanel, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_Bed, item_MetPanel, false, item_WoodLog, false, item_WoodLog, false, item_RefinedMetal, false), item_Crowbar, 25000);
+	SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_Locker, item_MetalStand, false, item_WoodLog, false, item_MetPanel, false), item_Crowbar, 25000, .tweak = true);
+	SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_Bed, item_MetPanel, false, item_WoodLog, false, item_WoodLog, false, item_RefinedMetal, false), item_Crowbar, 25000, .tweak = true);
 	//SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_MetalBlin, item_MetalFrame, false, item_CorPanel, false, item_InsulPanel, false, item_RefinedMetal, false), .tweak = false);
 	//SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_Door, item_MetPanel, false, item_CrateDoor, false), .tweak = false);
-	SetCraftSetConstructible(26500, item_Screwdriver, DefineItemCraftSet(item_Desk, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(28500, item_Screwdriver, DefineItemCraftSet(item_Table, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 25000);
-	SetCraftSetConstructible(22500, item_Screwdriver, DefineItemCraftSet(item_Barstool, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 22000);
-	SetCraftSetConstructible(22500, item_Screwdriver, DefineItemCraftSet(item_SmallTable, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 22000);
+	SetCraftSetConstructible(26500, item_Screwdriver, DefineItemCraftSet(item_Desk, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 25000, .tweak = true);
+	SetCraftSetConstructible(28500, item_Screwdriver, DefineItemCraftSet(item_Table, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 25000, .tweak = true);
+	SetCraftSetConstructible(22500, item_Screwdriver, DefineItemCraftSet(item_Barstool, item_RefinedMetal, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 22000, .tweak = true);
+	SetCraftSetConstructible(22500, item_Screwdriver, DefineItemCraftSet(item_SmallTable, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false, item_WoodLog, false), item_Crowbar, 22000, .tweak = true);
 	SetCraftSetConstructible(18500, item_Screwdriver, DefineItemCraftSet(item_Key, item_Key, false, item_Key, true, item_Motor, false), .tweak = false);
 
 	SetCraftSetConstructible(30000, item_Sledgehammer, DefineItemCraftSet(item_MetalGate2, item_MetalGate1, false, item_MetalGate1, false, item_MetalGate1, false), .tweak = false);
