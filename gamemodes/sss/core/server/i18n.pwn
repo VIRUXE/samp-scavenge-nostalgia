@@ -1,8 +1,6 @@
-#define DIRECTORY_LANGUAGES			"languages/"
 #define MAX_LANGUAGE				(2)
-#define MAX_LANGUAGE_ENTRIES		(630) // De momento temos cerca de 550 entradas 05/02/23
-#define MAX_LANGUAGE_KEY_LEN		(20)
-#define MAX_LANGUAGE_ENTRY_LENGTH	(768)
+#define MAX_LANGUAGE_ENTRY_LENGTH	(199)
+// You tried to use an item with another item because you are holding one already. This can be used sometimes, for example use a lighter with a campfire to light it or use a weapon with ammo to load it.
 #define MAX_LANGUAGE_REPLACEMENTS	(25) // Temos 25 de momento (Para cores e teclas) 05/02/23
 #define MAX_LANGUAGE_REPL_KEY_LEN	(32)
 #define MAX_LANGUAGE_REPL_VAL_LEN	(32)
@@ -36,6 +34,45 @@ enum {
 	PORTUGUESE,
 	ENGLISH
 };
+
+/* stock const GetLanguageString(playerid, const name[]) {
+    new langid = GetPlayerLanguage(playerid);
+    new JSON:i18n, Node:node, Node:temp;
+
+    new nameSplit[32][32], nameSplitCount;
+
+    strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
+
+    // Get the first level
+    JSON_ParseFile("scriptfiles/i18n.json", i18n);
+
+    JSON_GetObject(i18n, nameSplit[0], node);
+
+    // Go through each level
+    for(new i = 1; i < nameSplitCount; i++) {
+        JSON_GetObject(node, nameSplit[i], temp);
+        node = temp;
+    }
+
+    // Check if the array has at least two entries
+    new len;
+	JSON_ArrayLength(node, len);
+
+    if (len < 2) {
+        printf("Warning: Array '%s' has less than two entries\n", name);
+        JSON_ArrayObject(node, 0, temp); // Fallback to the first entry
+    } else {
+        JSON_ArrayObject(node, langid, temp);
+    }
+
+	new output[MAX_LANGUAGE_ENTRY_LENGTH+1];
+    JSON_GetNodeString(temp, output);
+
+    JSON_Close(i18n);
+
+    return result;
+} */
+
 
 GetPlayerLanguage(playerid)
 {

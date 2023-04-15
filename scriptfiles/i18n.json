@@ -310,14 +310,14 @@
             "Steak"    : ["Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar náuseas se não for cozinhado antes.", ""],
             "Bread"    : ["Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar náuseas se não for cozinhado antes.", ""]
         },
-        "command": [
-            ["Esse não é um comando conhecido. Cheque o comando de ajuda: {C_BLUE}/ajuda", "That is not a recognized command. Check the {C_BLUE}/help {C_ORANGE}dialog."],
-            ["Você não pode usar esse comando agora.", "You cannot use that command right now."],
-            ["Você não pode usar esse comando neste jogador agora.", "You cannot use that command on that player right now."],
-            ["ID/Nick inválido", "Invalid ID"],
-            ["Você não tem autoridade suficiente para usar esse comando.", "You have insufficient authority to use that command."],
-            ["Você só pode usar esse comando em {C_BLUE}Duty{C_RED}.", "You can only use that command while on {C_BLUE}administrator duty{C_RED}."]
-        ],
+        "command": {
+            "unknown"        : ["Esse não é um comando conhecido. Cheque o comando de ajuda: {C_BLUE}/ajuda", "That is not a recognized command. Check the {C_BLUE}/help {C_ORANGE}dialog."],
+            "cant-use"       : ["Você não pode usar esse comando agora.", "You cannot use that command right now."],
+            "cant-use-player": ["Você não pode usar esse comando neste jogador agora.", "You cannot use that command on that player right now."],
+            "invalid-player" : ["ID/Nick inválido", "Invalid ID"],
+            "no-permission"  : ["Você não tem autoridade suficiente para usar esse comando.", "You have insufficient authority to use that command."],
+            "duty-permission": ["Você só pode usar esse comando em {C_BLUE}Duty{C_RED}.", "You can only use that command while on {C_BLUE}administrator duty{C_RED}."]
+        },
         "container": {
             "move"           : ["Mover para", "Move to"],
             "slot_empty"     : ["Vazio", "Empty"],
