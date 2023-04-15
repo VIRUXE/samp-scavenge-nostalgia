@@ -122,7 +122,7 @@ stock ApplyDrug(playerid, drugtype, customduration = -1)
 		drug_PlayerDrugData[playerid][drugtype][drug_totalDuration] = customduration == -1 ? drug_TypeData[drugtype][drug_duration] : customduration;
 	}
 
-	ShowActionText(playerid, sprintf(ls(playerid, "DRUGTAKEN", true), drug_TypeData[drugtype][drug_name]), 3000);
+	ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "DRUGTAKEN", true), drug_TypeData[drugtype][drug_name]), 3000);
 
 	return 1;
 }
