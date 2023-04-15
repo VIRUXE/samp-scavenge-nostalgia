@@ -310,6 +310,8 @@ BODYBLEED=Bleeding
 BODYINFEC1= Food Poisoning
 BODYINFEC2=Infected Wound
 
+FOODRATE=You will start to starve! Hunger: %.1%%
+
 NULL_T=This item is invalid, ignore it
 Knuckles_T=This is a blunt melee weapon, useful for knocking players out
 GolfClub_T=This is a blunt melee weapon, useful for knocking players out

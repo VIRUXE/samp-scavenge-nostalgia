@@ -282,6 +282,8 @@ BODYBLEED=Sangramento
 BODYINFEC1=Infecção Alimentar
 BODYINFEC2=Infecção na Ferída
 
+FOODRATE=Você irá começar a morrer de fome! Fome: %.1f%%
+
 NULL_T=Esse é um item inválido, ignore-o.
 Knuckles_T=Essa é uma arma branca robusta, útil para desmaiar jogadores.
 GolfClub_T=Essa é uma arma branca robusta, útil para desmaiar jogadores.
