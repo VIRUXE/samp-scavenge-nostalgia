@@ -398,7 +398,7 @@
                 "fill_jerrycan": ["Encher Galao", "Fill Jerry Can"],
                 "take_pills"   : ["Tomar Comprimidos", "Take Pills"],
                 "use"          : ["Usar", "Use"],
-                "Use_acessory" : ["Usar Acessorio", "Use Acessory"],
+                "use_acessory" : ["Usar Acessorio", "Use Acessory"],
                 "arm_explosive": ["Armar Explosivo", "Arm Explosive"],
                 "weapon_reload": ["Recarregar Arma", "Reload Weapon"],
                 "weapon_unload": ["Descarregar Arma", "Unload Weapon"]
@@ -526,6 +526,8 @@
         }
     },
     "common": {
-        "empty": ["Vazio", "Empty"]
+        "empty" : ["Vazio", "Empty"],
+        "enter" : ["Entrar", "Enter"],
+        "cancel": ["Cancelar", "Cancel"]
     }
 }
