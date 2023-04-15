@@ -1,39 +1,11 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #define DIRECTORY_LANGUAGES			"languages/"
 #define MAX_LANGUAGE				(2)
 #define MAX_LANGUAGE_ENTRIES		(630) // De momento temos cerca de 550 entradas 05/02/23
 #define MAX_LANGUAGE_KEY_LEN		(20)
 #define MAX_LANGUAGE_ENTRY_LENGTH	(768)
-#define MAX_LANGUAGE_NAME			(32)
 #define MAX_LANGUAGE_REPLACEMENTS	(25) // Temos 25 de momento (Para cores e teclas) 05/02/23
 #define MAX_LANGUAGE_REPL_KEY_LEN	(32)
 #define MAX_LANGUAGE_REPL_VAL_LEN	(32)
-
-#define DELIMITER_CHAR				'='
-
 
 enum e_LANGUAGE_ENTRY_DATA
 {
@@ -64,31 +36,6 @@ enum {
 	PORTUGUESE,
 	ENGLISH
 };
-
-// TODO: Criar um comando para alterar o idioma do jogador.
-
-Dialog:LanguageMenu(playerid, response, listitem, inputtext[]) {
-	if(response) {
-		SetPlayerLanguage(playerid, listitem);
-
-		ChatMsgLang(playerid, YELLOW, "LANGCHANGE"); // Mostra qual o idioma que o jogador escolheu
-
-	}
-}
-
-ShowLanguageMenu(playerid)
-{
-	new
-		languages[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
-		langlist[MAX_LANGUAGE * (MAX_LANGUAGE_NAME + 1)],
-		langcount;
-
-	langcount = GetLanguageList(languages);
-
-	for(new i; i < langcount; i++) format(langlist, sizeof(langlist), "%s%s\n", langlist, languages[i]);
-
-	Dialog_Show(playerid, LanguageMenu, DIALOG_STYLE_LIST, "Idioma | Language", langlist, "OK", "");
-}
 
 GetPlayerLanguage(playerid)
 {
@@ -138,7 +85,6 @@ hook OnGameModeInit()
 	DefineLanguageReplacement("KEYTEXT_DOORS",				"~k~~TOGGLE_SUBMISSIONS~~w~");
 	DefineLanguageReplacement("KEYTEXT_RADIO",				"R");
 
-	LoadAllLanguages();
 }
 
 stock DefineLanguageReplacement(key[], val[])
@@ -147,171 +93,6 @@ stock DefineLanguageReplacement(key[], val[])
 	strcat(lang_Replacements[lang_TotalReplacements][lang_repl_val], val, MAX_LANGUAGE_REPL_VAL_LEN);
 
 	lang_TotalReplacements++;
-}
-
-stock LoadAllLanguages()
-{
-	new
-		dir:dirhandle,
-		directory_with_root[256] = DIRECTORY_SCRIPTFILES,
-		item[64],
-		type,
-		next_path[256],
-		entries,
-		default_entries,
-		languages;
-
-	strcat(directory_with_root, DIRECTORY_LANGUAGES);
-
-	dirhandle = dir_open(directory_with_root);
-
-	if(!dirhandle)
-	{
-		err("Reading directory '%s'.", directory_with_root);
-		return 0;
-	}
-
-	// Force load English first since that's the default language.
-	default_entries = LoadLanguage(DIRECTORY_LANGUAGES"Portugues", "Português");
-	log("Default language (Português) has %d entries.", default_entries);
-
-	if(default_entries == 0)
-	{
-		err("O arquivo de Portugues está em falta '%s'.", directory_with_root);
-		return 0;
-	}
-
-	while(dir_list(dirhandle, item, type))
-	{
-		if(type == FM_FILE)
-		{
-			if(!strcmp(item, "Portugues")) continue; // Already loaded by default.
-
-			// Don't load files that have an extension. (probably a tool and not a language file)
-			if(strfind(item, ".") != -1) continue;
-
-			next_path[0] = EOS;
-			format(next_path, sizeof(next_path), "%s%s", DIRECTORY_LANGUAGES, item);
-
-			entries = LoadLanguage(next_path, item);
-            
-			if(entries > 0)
-			{
-				log("[LANGUAGE] Carregou %s com %d entradas. %d em falta.", item, entries, default_entries - entries);
-				languages++;
-				lang_entries[languages] = entries;
-			}
-			else err("Linguagem sem entradas '%s'", item);
-		}
-	}
-
-	dir_close(dirhandle);
-
-	log("[LANGUAGE] %d linguagens carregadas.", languages);
-
-	return 1;
-}
-
-stock LoadLanguage(filename[], langname[])
-{
-	if(lang_Total == MAX_LANGUAGE)
-	{
-		err("lang_Total reached MAX_LANGUAGE");
-		return 0;
-	}
-
-	new
-		File:f = fopen(filename, io_read),
-		line[MAX_LANGUAGE_KEY_LEN + 1 + MAX_LANGUAGE_ENTRY_LENGTH],
-		linenumber = 1,
-		bool:skip,
-		replace_me[MAX_LANGUAGE_ENTRY_LENGTH],
-		length,
-		delimiter,
-		key[MAX_LANGUAGE_KEY_LEN],
-		index;
-
-	if(!f)
-	{
-		err("Unable to open file '%s'.", filename);
-		return 0;
-	}
-
-	while(fread(f, line))
-	{
-		length = strlen(line);
-
-		if(length < 4) continue;
-
-		delimiter = 0;
-
-		while(line[delimiter] != DELIMITER_CHAR)
-		{
-			if(!(32 <= line[delimiter] < 127))
-			{
-				err("Malformed line %d in '%s' key contains non-alphabetic character (%d:%c).", linenumber, filename, line[delimiter], line[delimiter]);
-				skip = true;
-				break;
-			}
-
-			if(delimiter >= MAX_LANGUAGE_KEY_LEN)
-			{
-				err("Malformed line %d in '%s' key length over %d characters (%d).", linenumber, filename, MAX_LANGUAGE_KEY_LEN, delimiter);
-				skip = true;
-				break;
-			}
-
-			key[delimiter] = line[delimiter];
-			delimiter++;
-		}
-
-		if(skip)
-		{
-			skip = false;
-			continue;
-		}
-
-		if(delimiter >= length - 1 || delimiter < 4)
-		{
-			err("Malformed line %d in '%s' delimiter character (%c) is absent or in first 4 cells.", linenumber, filename, DELIMITER_CHAR);
-			continue;
-		}
-
-		if(!(32 <= key[0] < 127))
-		{
-			err("First character on line %d is abnormal character (%d/%c).", linenumber, key[0], key[0]);
-			continue;
-		}
-
-		key[delimiter] = EOS;
-		index = lang_TotalEntries[lang_Total]++;
-
-		// Don't allow to add more keys than the array can hold.
-		if(lang_TotalEntries[lang_Total] >= MAX_LANGUAGE_ENTRIES)
-		{
-			err("MAX_LANGUAGE_ENTRIES limit reached at line %d", linenumber);
-			break;
-		}
-
-		strmid(lang_Entries[lang_Total][index][lang_key], line, 0, delimiter, MAX_LANGUAGE_ENTRY_LENGTH);
-		strmid(replace_me, line, delimiter + 1, length - 1, MAX_LANGUAGE_ENTRY_LENGTH);
-
-		_doReplace(replace_me, lang_Entries[lang_Total][index][lang_val]);
-
-		linenumber++;
-	}
-
-	fclose(f);
-
-	if(lang_TotalEntries[lang_Total] == 0) return 0;
-
-	strcat(lang_Name[lang_Total], langname, MAX_LANGUAGE_NAME);
-
-	_qs(lang_Entries[lang_Total], 0, lang_TotalEntries[lang_Total] - 1);
-
-	lang_Total++; // Increment the total number of languages.
-
-	return index;
 }
 
 _doReplace(input[], output[])
@@ -408,7 +189,7 @@ _swap(str1[], str2[])
 	}
 }
 
-stock GetLanguageString(languageId, key[], bool:encode = false)
+/* stock GetLanguageString(languageId, key[], bool:encode = false)
 {
 	new
 		result[MAX_LANGUAGE_ENTRY_LENGTH],
@@ -441,7 +222,7 @@ stock GetLanguageString(languageId, key[], bool:encode = false)
 	}
 
 	return result;
-}
+} */
 
 static stock _GetLanguageString(languageId, key[], result[], bool:encode = false)
 {
@@ -504,33 +285,3 @@ stock ConvertEncoding(string[])
 		if(0 <= (ch = string[i]) < 256) string[i] = real[ch];
 	}
 }
-
-stock GetLanguageList(list[][])
-{
-	for(new i; i < lang_Total; i++)
-	{
-		list[i][0] = EOS;
-		strcat(list[i], lang_Name[i], MAX_LANGUAGE_NAME);
-	}
-
-	return lang_Total;
-}
-
-stock GetLanguageName(languageId, name[])
-{
-	if(!(0 <= languageId < lang_Total)) return 0;
-
-	name[0] = EOS;
-	strcat(name, lang_Name[languageId], MAX_LANGUAGE_NAME);
-
-	return 1;
-}
-
-stock GetLanguageID(name[])
-{
-	for(new i; i < lang_Total; i++) if(!strcmp(name, lang_Name[i])) return i;
-
-	return -1;
-}
-
-stock GetLanguageEntries(languageId) return lang_entries[languageId];

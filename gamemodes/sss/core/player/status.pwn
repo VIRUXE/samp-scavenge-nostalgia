@@ -7,11 +7,11 @@ stock ShowStatusPlayerForPlayer(i, forplayer){
     
     gBigString[i][0] = EOS;
     
-    strcat(gBigString[i], sprintf(""C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_SCORE"), GetPlayerScore(i)));
-    strcat(gBigString[i], sprintf(""C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_DEATH"), GetPlayerDeathCount(i)));
-    strcat(gBigString[i], sprintf(""C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_SPREE"), GetPlayerSpree(i)));
-    strcat(gBigString[i], sprintf(""C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_ALIVET"), GetPlayerAliveTime(i) / 60));
-	strcat(gBigString[i], sprintf(""C_YELLOW"%s"C_WHITE": %s\n \n", ls(i, "STS_CLAN"), GetPlayerClan(i)));
+    strcat(gBigString[i], sprintf(C_YELLOW"Score"C_WHITE": %d\n \n", ls(i, "STS_SCORE"), GetPlayerScore(i)));
+    strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_DEATH"), GetPlayerDeathCount(i)));
+    strcat(gBigString[i], sprintf(C_YELLOW"Killing Spree"C_WHITE": %d\n \n", ls(i, "STS_SPREE"), GetPlayerSpree(i)));
+    strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "STS_ALIVET"), GetPlayerAliveTime(i) / 60));
+	strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %s\n \n", ls(i, "STS_CLAN"), GetPlayerClan(i)));
 	
 	new name[MAX_PLAYER_NAME];
 	GetPlayerName(i, name, MAX_PLAYER_NAME);

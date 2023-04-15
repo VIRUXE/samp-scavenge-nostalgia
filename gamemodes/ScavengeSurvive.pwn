@@ -395,7 +395,7 @@ new RequestsClient:client;
 #include "sss/core/server/text-tags.pwn"
 #include "sss/core/server/weather.pwn"
 //#include "sss/core/server/save-block.pwn"
-#include "sss/core/server/language.pwn"
+#include "sss/core/server/i18n.pwn"
 #include "sss/core/server/anti-cheat.pwn"
 
 /*
