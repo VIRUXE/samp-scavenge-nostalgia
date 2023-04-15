@@ -292,7 +292,7 @@ UpdatePlayerGear(playerid, show = 1)
 	{
 		PlayerTextDrawSetString(playerid, GearSlot_Tors[UI_ELEMENT_ITEM], sprintf("Colete (%.0f)", GetPlayerAP(playerid)));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Tors[UI_ELEMENT_TILE], 19515);
-		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Tors[UI_ELEMENT_TILE], -45.0, 0.0, -45.0, 1.0);
+		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Tors[UI_ELEMENT_TILE], 0.0, -90.0, 0.0, 1.0);
 	}
 	else
 	{
