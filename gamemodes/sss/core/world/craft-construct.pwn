@@ -170,10 +170,7 @@ hook OnPlayerUseItem(playerid, itemid)
 
 						return Y_HOOKS_BREAK_RETURN_1;
 					}
-					else
-					{
-						dbg("gamemodes/sss/core/world/craft-construct.pwn", 2, "[OnPlayerUseItem] OnPlayerConstruct returned nonzero");
-					}
+					else dbg("gamemodes/sss/core/world/craft-construct.pwn", 2, "[OnPlayerUseItem] OnPlayerConstruct returned nonzero");
 				}
 			}
 		}
@@ -226,6 +223,22 @@ StopRemovingConstructedItem(playerid)
 	cons_DeconstructingItem[playerid] = INVALID_ITEM_ID;
 }
 
+hook OnHoldActionUpdate(playerid, progress) 
+{
+	if(cons_Constructing[playerid] != INVALID_ITEM_ID || cons_DeconstructingItem[playerid] != INVALID_ITEM_ID) 
+	{
+		if(GetPlayerTotalVelocity(playerid) > 1.0) 
+		{
+			_ResetSelectedItems(playerid);
+			cons_Constructing[playerid] = INVALID_ITEM_ID;
+			StopRemovingConstructedItem(playerid);
+		}
+
+		return Y_HOOKS_BREAK_RETURN_0;
+	}
+	return Y_HOOKS_CONTINUE_RETURN_0;
+}
+
 hook OnHoldActionFinish(playerid)
 {
 	dbg("global", CORE, "[OnHoldActionFinish] in /gamemodes/sss/core/world/craft-construct.pwn");
@@ -273,8 +286,8 @@ hook OnHoldActionFinish(playerid)
 
 		itemid = CreateItem(GetCraftSetResult(cons_Constructing[playerid]), tx, ty, tz, .world = GetPlayerVirtualWorld(playerid), .interior = GetPlayerInterior(playerid));
 
-		//if(cons_Data[cons_CraftsetConstructSet[cons_Constructing[playerid]]][cons_tweak])
-			//TweakItem(playerid, itemid);
+		if(cons_Data[cons_CraftsetConstructSet[cons_Constructing[playerid]]][cons_tweak])
+			TweakItem(playerid, itemid);
 
 		dbg("gamemodes/sss/core/world/craft-construct.pwn", 2, "[OnHoldActionFinish] Calling OnPlayerConstructed %d %d %d", playerid, cons_CraftsetConstructSet[cons_Constructing[playerid]], itemid);
 		CallLocalFunction("OnPlayerConstructed", "ddd", playerid, cons_CraftsetConstructSet[cons_Constructing[playerid]], itemid);
@@ -283,7 +296,7 @@ hook OnHoldActionFinish(playerid)
 		HideActionText(playerid);
 
 		_ResetSelectedItems(playerid);
-		//if(!cons_Data[cons_CraftsetConstructSet[cons_Constructing[playerid]]][cons_tweak])
+		if(!cons_Data[cons_CraftsetConstructSet[cons_Constructing[playerid]]][cons_tweak])
 		cons_Constructing[playerid] = -1;
 	}
 	else if(cons_Deconstructing[playerid] != INVALID_ITEM_ID)
@@ -344,9 +357,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			cons_Constructing[playerid] = -1;
 		}
 		else if(cons_Deconstructing[playerid] != -1)
-		{
 			StopRemovingConstructedItem(playerid);
-		}
 	}
 }
 
