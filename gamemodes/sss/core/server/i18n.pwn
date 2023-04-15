@@ -1,33 +1,6 @@
-#define MAX_LANGUAGE				(2)
-#define MAX_LANGUAGE_ENTRY_LENGTH	(199)
-// You tried to use an item with another item because you are holding one already. This can be used sometimes, for example use a lighter with a campfire to light it or use a weapon with ammo to load it.
-#define MAX_LANGUAGE_REPLACEMENTS	(25) // Temos 25 de momento (Para cores e teclas) 05/02/23
-#define MAX_LANGUAGE_REPL_KEY_LEN	(32)
-#define MAX_LANGUAGE_REPL_VAL_LEN	(32)
-
-enum e_LANGUAGE_ENTRY_DATA
-{
-	lang_key[MAX_LANGUAGE_KEY_LEN],
-	lang_val[MAX_LANGUAGE_ENTRY_LENGTH]
-}
-
-enum e_LANGUAGE_TAG_REPLACEMENT_DATA
-{
-	lang_repl_key[MAX_LANGUAGE_REPL_KEY_LEN],
-	lang_repl_val[MAX_LANGUAGE_REPL_VAL_LEN]
-}
-
+#define MAX_LANGUAGE_ENTRY_LENGTH 199 // json_longest_string.py
 
 static
-	lang_Entries[MAX_LANGUAGE][MAX_LANGUAGE_ENTRIES][e_LANGUAGE_ENTRY_DATA],
-	lang_TotalEntries[MAX_LANGUAGE],
-
-	lang_Replacements[MAX_LANGUAGE_REPLACEMENTS][e_LANGUAGE_TAG_REPLACEMENT_DATA],
-	lang_TotalReplacements,
-
-    lang_entries[MAX_LANGUAGE],
-	lang_Name[MAX_LANGUAGE][MAX_LANGUAGE_NAME],
-	lang_Total,
 	lang_PlayerLanguage[MAX_PLAYERS];
 
 enum {
@@ -35,22 +8,29 @@ enum {
 	ENGLISH
 };
 
-/* stock const GetLanguageString(playerid, const name[]) {
-    new langid = GetPlayerLanguage(playerid);
-    new JSON:i18n, Node:node, Node:temp;
+stock GetLanguageString(playerid, const route[]) {
+    new Node:i18n, Node:node, Node:temp;
 
-    new nameSplit[32][32], nameSplitCount;
+	/* 
+		* i18n_array_size.py 15/04/23
 
-    strsplit(name, "/", nameSplit, nameSplitCount); // Split the name into an array
+		Max depth: 6
+		Max key length: 24
+
+		* Função 'strsplit' retorna um tamanho de 32 de qualquer das formas... Talvez utilizar outra função?
+	*/
+    new routeSplit[6][32], routeSplitCount;
+
+    strsplit(route, "/", routeSplit, routeSplitCount); // Split the name into an array
 
     // Get the first level
     JSON_ParseFile("scriptfiles/i18n.json", i18n);
 
-    JSON_GetObject(i18n, nameSplit[0], node);
+    JSON_GetObject(i18n, routeSplit[0], node);
 
     // Go through each level
-    for(new i = 1; i < nameSplitCount; i++) {
-        JSON_GetObject(node, nameSplit[i], temp);
+    for(new i = 1; i < routeSplitCount; i++) {
+        JSON_GetObject(node, routeSplit[i], temp);
         node = temp;
     }
 
@@ -59,20 +39,20 @@ enum {
 	JSON_ArrayLength(node, len);
 
     if (len < 2) {
-        printf("Warning: Array '%s' has less than two entries\n", name);
+        printf("Warning: Array '%s' has less than two entries\n", route);
         JSON_ArrayObject(node, 0, temp); // Fallback to the first entry
     } else {
-        JSON_ArrayObject(node, langid, temp);
+        JSON_ArrayObject(node, GetPlayerLanguage(playerid), temp);
     }
 
-	new output[MAX_LANGUAGE_ENTRY_LENGTH+1];
+	new output[MAX_LANGUAGE_ENTRY_LENGTH+1] = "MISSING";
     JSON_GetNodeString(temp, output);
 
-    JSON_Close(i18n);
+	/* if(isempty(output))
+		strcpy(output, "MISSING"); */
 
-    return result;
-} */
-
+    return output;
+}
 
 GetPlayerLanguage(playerid)
 {
@@ -92,47 +72,7 @@ SetPlayerLanguage(playerid, langid)
 	return 1;
 }
 
-hook OnGameModeInit()
-{
-	DirectoryCheck(DIRECTORY_SCRIPTFILES DIRECTORY_LANGUAGES);
-
-	DefineLanguageReplacement("C_YELLOW",					"{FFFF00}");
-	DefineLanguageReplacement("C_RED",						"{E85454}");
-	DefineLanguageReplacement("C_GREEN",					"{33AA33}");
-	DefineLanguageReplacement("C_BLUE",						"{33CCFF}");
-	DefineLanguageReplacement("C_ORANGE",					"{FFAA00}");
-	DefineLanguageReplacement("C_GREY",						"{AFAFAF}");
-	DefineLanguageReplacement("C_PINK",						"{FFC0CB}");
-	DefineLanguageReplacement("C_NAVY",						"{000080}");
-	DefineLanguageReplacement("C_GOLD",						"{B8860B}");
-	DefineLanguageReplacement("C_LGREEN",					"{00FD4D}");
-	DefineLanguageReplacement("C_TEAL",						"{008080}");
-	DefineLanguageReplacement("C_BROWN",					"{DEB887}");
-	DefineLanguageReplacement("C_AQUA",						"{F0F8FF}");
-	DefineLanguageReplacement("C_BLACK",					"{000000}");
-	DefineLanguageReplacement("C_WHITE",					"{FFFFFF}");
-	DefineLanguageReplacement("C_SPECIAL",					"{0025AA}");
-	DefineLanguageReplacement("KEYTEXT_INTERACT",			"~k~~VEHICLE_ENTER_EXIT~~w~");
-	DefineLanguageReplacement("KEYTEXT_RELOAD",				"~k~~PED_ANSWER_PHONE~~w~");
-	DefineLanguageReplacement("KEYTEXT_PUT_AWAY",			"~k~~CONVERSATION_YES~~w~");
-	DefineLanguageReplacement("KEYTEXT_DROP_ITEM",			"~k~~CONVERSATION_NO~~w~");
-	DefineLanguageReplacement("KEYTEXT_INVENTORY",			"~k~~GROUP_CONTROL_BWD~~w~");
-	DefineLanguageReplacement("KEYTEXT_ENGINE",				"~k~~CONVERSATION_YES~~w~");
-	DefineLanguageReplacement("KEYTEXT_LIGHTS",				"~k~~CONVERSATION_NO~~w~");
-	DefineLanguageReplacement("KEYTEXT_DOORS",				"~k~~TOGGLE_SUBMISSIONS~~w~");
-	DefineLanguageReplacement("KEYTEXT_RADIO",				"R");
-
-}
-
-stock DefineLanguageReplacement(key[], val[])
-{
-	strcat(lang_Replacements[lang_TotalReplacements][lang_repl_key], key, MAX_LANGUAGE_REPL_KEY_LEN);
-	strcat(lang_Replacements[lang_TotalReplacements][lang_repl_val], val, MAX_LANGUAGE_REPL_VAL_LEN);
-
-	lang_TotalReplacements++;
-}
-
-_doReplace(input[], output[])
+/* _doReplace(input[], output[])
 {
 	new
 		bool:in_tag = false,
@@ -225,68 +165,7 @@ _swap(str1[], str2[])
 		str2[i] = tmp;
 	}
 }
-
-/* stock GetLanguageString(languageId, key[], bool:encode = false)
-{
-	new
-		result[MAX_LANGUAGE_ENTRY_LENGTH],
-		ret;
-
-	if(!(0 <= languageId < lang_Total))
-	{
-		err("Invalid language id %d.", languageId);
-		PrintAmxBacktrace();
-
-		return result;
-	}
-
-	ret = _GetLanguageString(languageId, key, result, encode);
-
-	switch(ret)
-	{
-		case 1:
-		{
-			printf("Malformed key '%s' must be alphabetical.", key);
-		}
-		case 2:
-		{
-			printf("Key not found: '%s' in language '%s'", key, lang_Name[languageId]);
-
-			// return English if key not found
-			if(languageId != 0)
-				strcat(result, GetLanguageString(0, key, encode), MAX_LANGUAGE_ENTRY_LENGTH);
-		}
-	}
-
-	return result;
-} */
-
-static stock _GetLanguageString(languageId, key[], result[], bool:encode = false)
-{
-	if(!('A' <= key[0] <= 'Z')) return 1; // Must be all uppercase
-
-	new bool:keyFound = false;
-
-	// Loop through all entries to find the key
-	for(new entry; entry < lang_TotalEntries[languageId]; ++entry)
-	{
-		// If the key matches, copy the value to the result
-		if(!strcmp(lang_Entries[languageId][entry][lang_key], key, false, MAX_LANGUAGE_ENTRY_LENGTH)) {
-			// Copy the value to the result
-			strcat(result, lang_Entries[languageId][entry][lang_val], MAX_LANGUAGE_ENTRY_LENGTH);
-
-			keyFound = true;
-			break;
-		}
-	}
-
-	if(!keyFound) return 2;
-
-	if(encode) ConvertEncoding(result);
-
-	return 0;
-}
-
+ */
 /*
 	Credit for this function goes to Y_Less:
 	http://forum.sa-mp.com/showpost.php?p=3015480&postcount=6

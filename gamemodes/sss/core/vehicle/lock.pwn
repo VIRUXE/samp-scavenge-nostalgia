@@ -79,7 +79,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		if(IsValidVehicle(vehicleid) && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(lock_Status[vehicleid] == E_LOCK_STATE_DEFAULT)
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKUSECROW", true), 6000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 6000);
 
 			else if(lock_Status[vehicleid] == E_LOCK_STATE_EXTERNAL)
 				ShowActionText(playerid, ls(playerid, "LOCKCUSTOML"), 6000);
@@ -110,7 +110,7 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 	if(lock_Status[vehicleid] != E_LOCK_STATE_OPEN)
 	{
 		CancelPlayerMovement(playerid);
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "DOORLOCKED", true), 3000);
+		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 	}
 	return 1;
 }

@@ -105,7 +105,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 			if(GetItemArrayDataAtCell(withitemid, cmp_foodItem) == INVALID_ITEM_ID)
 			{
 				cmp_CookItem(withitemid, itemid);
-				ShowActionText(playerid, ls(playerid, "FIRELITSTAR", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 			}
 		}
 	}

@@ -210,7 +210,7 @@ _UpdateKeyActions(playerid)
 			ShowPlayerKeyActionUI(playerid);
 		}
 
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));			    
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));			    
 
 		if(IsValidItem(GetPlayerBagItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_REMOVEBAG"));
@@ -247,24 +247,24 @@ _UpdateKeyActions(playerid)
 	}
 
 	else if(itemtype == item_Wheel)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REPAIRVW", true));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 
 	else if(itemtype == item_GasCan)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLV", true));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 		}
 		else
-			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REFULLG", true));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	}
 
 	else if(itemtype == item_Headlight)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_INSTFAROL", true));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	}
 	else if(itemtype == item_Pills)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_TPILULA"));
@@ -276,7 +276,7 @@ _UpdateKeyActions(playerid)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_REPAIRMV", true));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	}
 	else
 	{
@@ -290,7 +290,7 @@ _UpdateKeyActions(playerid)
 		}
 
 		else if(GetHatFromItem(itemtype) != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "KA_USEAC", true));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 		else if(GetMaskFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
 		else if(GetItemTypeExplosiveType(itemtype) != -1)
@@ -305,7 +305,7 @@ _UpdateKeyActions(playerid)
 
 		if(IsValidHolsterItem(itemtype))
 		{
-			AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 		}
 
@@ -320,7 +320,7 @@ _UpdateKeyActions(playerid)
 
 	else
 	{
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 		    
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
@@ -328,7 +328,7 @@ _UpdateKeyActions(playerid)
 	}
 
 	if(IsPlayerOnAdminDuty(playerid))
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "KA_OPENINV", true));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 
@@ -342,13 +342,13 @@ _ShowRepairTip(playerid, vehicleid)
 	GetVehicleHealth(vehicleid, health);
 
 	if(health <= VEHICLE_HEALTH_CHUNK_2)
-		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHVER", true));
+		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	else if(health <= VEHICLE_HEALTH_CHUNK_3)
-		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHBRO", true));
+		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	else if(health <= VEHICLE_HEALTH_CHUNK_4)
-		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHBIT", true));
+		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	else if(health <= VEHICLE_HEALTH_MAX)
-		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TUTORVEHSLI", true));
+		ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 	
 	return;
 }

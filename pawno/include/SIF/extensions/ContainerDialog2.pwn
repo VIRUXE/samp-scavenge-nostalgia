@@ -488,7 +488,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000, 200);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000, 200);
 				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			}
 		}

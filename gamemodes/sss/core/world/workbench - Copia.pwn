@@ -274,7 +274,7 @@ hook OnPlayerConstruct(playerid, consset)
 	if(wb_ConstructionSetWorkbench[consset] == true)
 	{
 		dbg("gamemodes/sss/core/world/workbench.pwn", 2, "[OnPlayerConstruct] playerid %d consset %d attempted construction of workbench consset", playerid, consset);
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEEDWORKBE", true), 5000);
+		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
 

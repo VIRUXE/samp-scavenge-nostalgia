@@ -83,7 +83,7 @@ stock ChatMsgAll(colour, fmat[], {Float,_}:...)
 
 stock ChatMsgLang(playerid, colour, key[], {Float,_}:...)
 {
-	format(formatBuffer, sizeof(formatBuffer), GetLanguageString(GetPlayerLanguage(playerid), key, false), ___(3));
+	format(formatBuffer, sizeof(formatBuffer), GetLanguageString(playerid, key), ___(3));
 	ChatMsgFlat(playerid, colour, formatBuffer);
 
 	return 1;

@@ -109,7 +109,7 @@ stock TweakItem(playerid, itemid)
 
 	_twk_ShowUI(playerid);
 	_twk_ToggleMouse(playerid, false);
-	ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "TIPTWEAKITM", true));
+	ShowHelpTip(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 
 	return 1;
 }

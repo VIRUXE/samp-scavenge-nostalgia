@@ -77,13 +77,13 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(IsVehicleTrunkLocked(vehicleid))
 			{
-				ShowActionText(playerid, ls(playerid, "TRUNKLOCKED", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 				return Y_HOOKS_CONTINUE_RETURN_0;
 			}
 
 			if(GetVehicleLockState(vehicleid) == E_LOCK_STATE_EXTERNAL)
 			{
-				ShowActionText(playerid, ls(playerid, "TRUNKLOCKED", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 				return Y_HOOKS_CONTINUE_RETURN_0;
 			}
 
@@ -207,4 +207,3 @@ stock SetVehicleTrunkLock(vehicleid, toggle)
 	trunk_Locked[vehicleid] = toggle;
 	return 1;
 }
-

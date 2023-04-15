@@ -131,7 +131,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 		if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "FUELNOTPETR", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 			return 1;
 		}
 
@@ -144,11 +144,11 @@ _UseBbqHandler(playerid, itemid, withitemid)
 			transfer = (canfuel - 0.6 < 0.0) ? canfuel : 0.6;
 			SetLiquidItemLiquidAmount(itemid, canfuel - transfer);
 			SetItemArrayDataAtCell(withitemid, data[bbq_fuel] + 10, bbq_fuel);
-			ShowActionText(playerid, ls(playerid, "BBQADDPETRO", true), 3000);
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 		}
 		else
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "PETROLEMPTY", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 		}
 
 		return 1;
@@ -160,7 +160,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 		if(GetItemExtraData(itemid) != 0)
 		{
-			ShowActionText(playerid, ls(playerid, "BBQALREADYC", true), 3000);
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 			return 1;
 		}
 
@@ -186,7 +186,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 			bbq_ItemBBQ[itemid] = withitemid;
 			SetItemArrayDataAtCell(withitemid, itemid, bbq_grillItem1);
 			bbq_PlaceFoodTick[playerid] = GetTickCount();
-			ShowActionText(playerid, ls(playerid, "BBQFOODADDE", true), 3000);
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 
 			return 1;
 		}
@@ -203,7 +203,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 			bbq_ItemBBQ[itemid] = withitemid;
 			SetItemArrayDataAtCell(withitemid, itemid, bbq_grillItem2);
 			bbq_PlaceFoodTick[playerid] = GetTickCount();
-			ShowActionText(playerid, ls(playerid, "BBQFOODADDE", true), 3000);
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 
 			return 1;
 		}
@@ -216,7 +216,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 		if(data[bbq_fuel] <= 0)
 		{
 			dbg("gamemodes/sss/core/world/barbecue.pwn", 2, "[_UseBbqHandler] Fuel empty");
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "BBQFUELEMPT", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 			return 1;
 		}
 
@@ -227,7 +227,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 		_LightBBQ(withitemid);
 
-		ShowActionText(playerid, ls(playerid, "BBQLITSTART", true), 3000);
+		ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 
 		return 1;
 	}

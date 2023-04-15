@@ -130,7 +130,7 @@ stock ShowBodyPreviewUI(playerid)
 	    
 	dbg("gamemodes/sss/core/ui/body-preview.pwn", 1, "[ShowBodyPreviewUI]");
 
-	PlayerTextDrawSetString(playerid, bod_Header[playerid], GetLanguageString(GetPlayerLanguage(playerid), "BODYHEADER", true));
+	PlayerTextDrawSetString(playerid, bod_Header[playerid], GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 
 	PlayerTextDrawSetPreviewModel	(playerid, bod_BodyPreview[playerid], GetPlayerSkin(playerid));
 	PlayerTextDrawShow(playerid, bod_Header[playerid]);

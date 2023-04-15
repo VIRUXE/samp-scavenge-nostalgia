@@ -58,12 +58,12 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "BODYDECOMPD", true), 3000);
+				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 			}
 		}
 		else
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "BODYHARVEST", true), 3000);
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
 		}
 	}
 

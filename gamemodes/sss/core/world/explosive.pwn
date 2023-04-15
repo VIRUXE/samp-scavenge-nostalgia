@@ -209,7 +209,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
 		}
 		else if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == PROXIMITY)
 		{
@@ -219,7 +219,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
 		}
 		else if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)
 		{
@@ -229,7 +229,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB", true));
+			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
 		}
 	}
 	else if(GetItemType(itemid) == exp_RadioTriggerItemType)
@@ -246,25 +246,25 @@ hook OnPlayerUseItem(playerid, itemid)
 
 		if(!IsValidItem(bombitem))
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_ItemTypeExplosive[bombitemtype] == INVALID_EXPLOSIVE_TYPE)
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_Data[exp_ItemTypeExplosive[bombitemtype]][exp_trigger] != RADIO)
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(GetItemExtraData(bombitem) != 1)
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "RADIONOSYNC", true));
+			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
@@ -272,7 +272,7 @@ hook OnPlayerUseItem(playerid, itemid)
 		SetItemToExplode(bombitem);
 		SetItemExtraData(itemid, INVALID_ITEM_ID);
 
-		ShowActionText(playerid, ls(playerid, "RADIOTRIGGD", true));
+		ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -316,7 +316,7 @@ hook OnHoldActionFinish(playerid)
 				exp_ArmTick[playerid] = GetTickCount();
 				defer SetItemToExplodeDelay(exp_ArmingItem[playerid], 5000);
 				ClearAnimations(playerid);
-				ShowActionText(playerid, ls(playerid, "ARMEDBOMB5S", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 
 				exp_ArmingItem[playerid] = INVALID_ITEM_ID;
 			}
@@ -337,7 +337,7 @@ hook OnHoldActionFinish(playerid)
 
 				SetItemExtraData(exp_ArmingItem[playerid], 1);
 				ClearAnimations(playerid);
-				ShowActionText(playerid, ls(playerid, "ARMEDBOMB", true), 3000);
+				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
 
 				exp_ArmingItem[playerid] = INVALID_ITEM_ID;
 			}

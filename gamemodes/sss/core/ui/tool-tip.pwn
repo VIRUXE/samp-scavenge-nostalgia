@@ -60,7 +60,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 		format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
 		itemtipkey[11] = EOS;
 
-		format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(GetPlayerLanguage(playerid), itemtipkey, true));
+		format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(playerid, "common/empty"), itemtipkey, true);
 
 		ShowHelpTip(playerid, str, 20000);
 	}
