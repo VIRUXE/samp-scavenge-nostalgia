@@ -8,8 +8,13 @@ enum {
 	ENGLISH
 };
 
-/* static ReplaceTag(content[]) {
-    new replacements[][2] = {
+static ReplaceTags(content[]) {
+	enum REPLACEMENTS {
+		TAG[18],
+		REPLACEMENT[27]
+	};
+	
+    new replacements[][REPLACEMENTS] = {
         {"C_YELLOW", "{FFFF00}"},
         {"C_RED", "{E85454}"},
         {"C_GREEN", "{33AA33}"},
@@ -37,9 +42,17 @@ enum {
         {"KEYTEXT_RADIO", "R"}
     };
 
-    return 1;
+    for (new i = 0; i < sizeof(replacements); i++)
+    {
+        new findIndex = -1;
+        while ((findIndex = strfind(content, sprintf("{%s}", replacements[i][TAG]), false, findIndex + 1)) != -1)
+        {
+            strdel(content, findIndex, findIndex + strlen(replacements[i][TAG]) + 2);
+            strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
+        }
+    }
 }
- */
+
 stock GetLanguageString(playerid, const route[]) {
     new Node:node;
 
@@ -82,7 +95,7 @@ stock GetLanguageString(playerid, const route[]) {
 		JSON_ArrayObject(node, len == 1 ? 0 : GetPlayerLanguage(playerid), node);
 		JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
 
-		// ReplaceTag(output);
+		ReplaceTags(output);
 	} else
 		printf("[i18] Route '%s' doesn't have any strings.", route);
 
