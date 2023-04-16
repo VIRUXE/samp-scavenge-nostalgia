@@ -8,8 +8,42 @@ enum {
 	ENGLISH
 };
 
+/* static ReplaceTag(content[]) {
+    new replacements[][2] = {
+        {"C_YELLOW", "{FFFF00}"},
+        {"C_RED", "{E85454}"},
+        {"C_GREEN", "{33AA33}"},
+        {"C_BLUE", "{33CCFF}"},
+        {"C_ORANGE", "{FFAA00}"},
+        {"C_GREY", "{AFAFAF}"},
+        {"C_PINK", "{FFC0CB}"},
+        {"C_NAVY", "{000080}"},
+        {"C_GOLD", "{B8860B}"},
+        {"C_LGREEN", "{00FD4D}"},
+        {"C_TEAL", "{008080}"},
+        {"C_BROWN", "{DEB887}"},
+        {"C_AQUA", "{F0F8FF}"},
+        {"C_BLACK", "{000000}"},
+        {"C_WHITE", "{FFFFFF}"},
+        {"C_SPECIAL", "{0025AA}"},
+        {"KEYTEXT_INTERACT", "~k~~VEHICLE_ENTER_EXIT~~w~"},
+        {"KEYTEXT_RELOAD", "~k~~PED_ANSWER_PHONE~~w~"},
+        {"KEYTEXT_PUT_AWAY", "~k~~CONVERSATION_YES~~w~"},
+        {"KEYTEXT_DROP_ITEM", "~k~~CONVERSATION_NO~~w~"},
+        {"KEYTEXT_INVENTORY", "~k~~GROUP_CONTROL_BWD~~w~"},
+        {"KEYTEXT_ENGINE", "~k~~CONVERSATION_YES~~w~"},
+        {"KEYTEXT_LIGHTS", "~k~~CONVERSATION_NO~~w~"},
+        {"KEYTEXT_DOORS", "~k~~TOGGLE_SUBMISSIONS~~w~"},
+        {"KEYTEXT_RADIO", "R"}
+    };
+
+    return 1;
+}
+ */
 stock GetLanguageString(playerid, const route[]) {
-    new Node:i18n, Node:node, Node:temp;
+    new Node:node;
+
+    JSON_ParseFile("./scriptfiles/i18n.json", node);
 
 	/* 
 		* i18n_array_size.py 15/04/23
@@ -23,33 +57,34 @@ stock GetLanguageString(playerid, const route[]) {
 
     strsplit(route, "/", routeSplit, routeSplitCount); // Split the name into an array
 
-    // Get the first level
-    JSON_ParseFile("scriptfiles/i18n.json", i18n);
+	// printf("[i18n] Route '%s' has %d parts.", route, routeSplitCount);
 
-    JSON_GetObject(i18n, routeSplit[0], node);
+    // Go through each level, minus the last one, that is an array
+    for(new i = 0; i < routeSplitCount-1; i++) {
+		// printf("[i18n] Getting part '%s' (%d)", routeSplit[i], i);
 
-    // Go through each level
-    for(new i = 1; i < routeSplitCount; i++) {
-        JSON_GetObject(node, routeSplit[i], temp);
-        node = temp;
+        JSON_GetObject(node, routeSplit[i], node);
     }
+
+	// printf("[i18n] Getting Array part: %s", routeSplit[routeSplitCount-1]);
+
+	JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
 
     // Check if the array has at least two entries
     new len;
 	JSON_ArrayLength(node, len);
 
-    if (len < 2) {
-        printf("Warning: Array '%s' has less than two entries\n", route);
-        JSON_ArrayObject(node, 0, temp); // Fallback to the first entry
-    } else {
-        JSON_ArrayObject(node, GetPlayerLanguage(playerid), temp);
-    }
+	// printf("[i18n] Array '%s' is %d in length", routeSplit[routeSplitCount-1], len);
 
-	new output[MAX_LANGUAGE_ENTRY_LENGTH+1] = "MISSING";
-    JSON_GetNodeString(temp, output);
+	new output[MAX_LANGUAGE_ENTRY_LENGTH] = "MISSING";
 
-	/* if(isempty(output))
-		strcpy(output, "MISSING"); */
+	if(len >= 1) {
+		JSON_ArrayObject(node, len == 1 ? 0 : GetPlayerLanguage(playerid), node);
+		JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
+
+		// ReplaceTag(output);
+	} else
+		printf("[i18] Route '%s' doesn't have any strings.", route);
 
     return output;
 }
@@ -72,100 +107,6 @@ SetPlayerLanguage(playerid, langid)
 	return 1;
 }
 
-/* _doReplace(input[], output[])
-{
-	new
-		bool:in_tag = false,
-		tag_start = -1,
-		output_idx;
-
-	for(new i = 0; input[i] != EOS; ++i)
-	{
-		if(in_tag)
-		{
-			if(input[i] == '}')
-			{
-				for(new j; j < lang_TotalReplacements; ++j)
-				{
-					if(!strcmp(input[tag_start], lang_Replacements[j][lang_repl_key], false, i - tag_start))
-					{
-						for(new k; lang_Replacements[j][lang_repl_val][k] != 0 && output_idx < MAX_LANGUAGE_ENTRY_LENGTH; ++k)
-							output[output_idx++] = lang_Replacements[j][lang_repl_val][k];
-
-						break;
-					}
-				}
-
-				in_tag = false;
-				continue;
-			}
-		}
-		else
-		{
-			if(input[i] == '{')
-			{
-				tag_start = i + 1;
-				in_tag = true;
-				continue;
-			}
-			else if(input[i] == '\\')
-			{
-				if(input[i + 1] == 'n')
-				{
-					output[output_idx++] = '\n';
-					i += 1;
-				}
-				else if(input[i + 1] == 't')
-				{
-					output[output_idx++] = '\t';
-					i += 1;
-				}
-			}
-			else output[output_idx++] = input[i];
-		}
-	}
-}
-
-_qs(array[][], left, right)
-{
-	new
-		tempLeft = left,
-		tempRight = right,
-		pivot = array[(left + right) / 2][0];
-
-	while(tempLeft <= tempRight)
-	{
-		while(array[tempLeft][0] < pivot) tempLeft++;
-
-		while(array[tempRight][0] > pivot) tempRight--;
-
-		if(tempLeft <= tempRight)
-		{
-			_swap(array[tempLeft][lang_key], array[tempRight][lang_key]);
-			_swap(array[tempLeft][lang_val], array[tempRight][lang_val]);
-
-			tempLeft++;
-			tempRight--;
-		}
-	}
-
-	if(left < tempRight) _qs(array, left, tempRight);
-
-	if(tempLeft < right) _qs(array, tempLeft, right);
-}
-
-_swap(str1[], str2[])
-{
-	new tmp;
-
-	for(new i; str1[i] != '\0' || str2[i] != '\0'; i++)
-	{
-		tmp = str1[i];
-		str1[i] = str2[i];
-		str2[i] = tmp;
-	}
-}
- */
 /*
 	Credit for this function goes to Y_Less:
 	http://forum.sa-mp.com/showpost.php?p=3015480&postcount=6
