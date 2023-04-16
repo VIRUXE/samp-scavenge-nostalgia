@@ -99,7 +99,7 @@ hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
 
 	if(GetLiquidItemLiquidAmount(itemid) >= GetLiquidContainerTypeCapacity(liqcont))
 	{
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+		ShowActionText(playerid, ls(playerid, "FUELCANFULL"), 3000);
 		return Y_HOOKS_CONTINUE_RETURN_0;
 	}
 
@@ -145,13 +145,13 @@ StartRefuellingFuelCan(playerid, outletid)
 
 	if(liqcont == -1)
 	{
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000, 120);
+		ShowActionText(playerid, ls(playerid, "YOUNEEDFCAN"), 3000, 120);
 		return 0;
 	}
 
 	if(fuel_Data[outletid][fuel_amount] <= 0.0)
 	{
-		ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000, 80);
+		ShowActionText(playerid, ls(playerid, "EMPTY"), 3000, 80);
 		return 0;
 	}
 
@@ -187,13 +187,13 @@ StartRefuellingVehicle(playerid, vehicleid)
 
 	if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 	{
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+		ShowActionText(playerid, ls(playerid, "FUELNOTPETR"), 3000);
 		return 0;
 	}
 
 	if(GetLiquidItemLiquidAmount(itemid) <= 0.0)
 	{
-		ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
+		ShowActionText(playerid, ls(playerid, "EMPTY"), 3000);
 		return 0;
 	}
 
@@ -245,7 +245,7 @@ hook OnHoldActionUpdate(playerid, progress)
 
 		if(canfuel <= 0.0)
 		{
-			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000, 80);
+			ShowActionText(playerid, ls(playerid, "EMPTY"), 3000, 80);
 			StopRefuellingVehicle(playerid);
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}

@@ -215,7 +215,7 @@ hook OnHoldActionFinish(playerid)
 				if(random(100) < 33)
 				{
 					SetPlayerInfectionIntensity(playerid, 1, 1);
-					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
+					ShowActionText(playerid, ls(playerid, "WOUNDINFECT"), 5000);
 				}
 
 				ChatMsgLang(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
@@ -244,7 +244,7 @@ hook OnHoldActionFinish(playerid)
 			if(woundcount > 0)
 			{
 				RemovePlayerWounds(med_HealTarget[playerid], woundcount);
-				ShowActionText(playerid, sprintf(GetLanguageString(playerid, "common/empty"), woundcount), 5000);
+				ShowActionText(playerid, sprintf(ls(playerid, "WOUNDHEALED"), woundcount), 5000);
 
 				DestroyItem(itemid);
 			}
@@ -257,7 +257,7 @@ hook OnHoldActionFinish(playerid)
 			if(woundcount > 0)
 			{
 				RemovePlayerWounds(med_HealTarget[playerid], woundcount);
-				ShowActionText(playerid, sprintf(GetLanguageString(playerid, "common/empty"), woundcount), 5000);
+				ShowActionText(playerid, sprintf(ls(playerid, "WOUNDHEALED"), woundcount), 5000);
 			}
 
 			SetPlayerBleedRate(med_HealTarget[playerid], 0.0);

@@ -410,7 +410,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -429,7 +429,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -448,7 +448,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}

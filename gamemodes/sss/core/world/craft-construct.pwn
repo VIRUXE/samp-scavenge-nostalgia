@@ -164,7 +164,7 @@ hook OnPlayerUseItem(playerid, itemid)
 						    StartHoldAction(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_buildtime]);
 
 						ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-						ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
+						ShowActionText(playerid, ls(playerid, "CONSTRUCTIN"));
 
 						cons_Constructing[playerid] = craftset;
 
@@ -212,7 +212,7 @@ StartRemovingConstructedItem(playerid, itemid, craftset)
 	    StartHoldAction(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_removalTime]);
 	    
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
+	ShowActionText(playerid, ls(playerid, "DECONSTRUCT"));
 	cons_Deconstructing[playerid] = craftset;
 	cons_DeconstructingItem[playerid] = itemid;
 }

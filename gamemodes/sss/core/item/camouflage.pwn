@@ -97,7 +97,7 @@ hook OnPlayerSelectExtraItem(playerid, item){
 			ClosePlayerInventory(playerid, true);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}else{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+			ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000);
 			ClosePlayerInventory(playerid, true);
 		}
     }

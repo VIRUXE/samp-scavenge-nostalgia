@@ -52,13 +52,13 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(!IsVehicleTypeLockable(vehicletype))
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKNODOORS"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(GetVehicleKey(vehicleid) != 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKALREADY"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -70,13 +70,13 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(GetItemArrayDataAtCell(itemid, 0) == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKCHNOKEY"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(GetVehicleKey(vehicleid) != 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKALREADY"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -92,19 +92,19 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 			if(keyid == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKKEYNCUT"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(vehiclekey == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKVNOLOCK"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(keyid != vehiclekey)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKKEYNFIT"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -116,13 +116,13 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 			if(GetVehicleLockState(vehicleid) != E_LOCK_STATE_OPEN)
 			{
 				SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
-				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "UNLOCKED"), 3000);
 				log("[VLOCK] %p unlocked vehicle %s (%d)", playerid, GetVehicleGEID(vehicleid), vehicleid);
 			}
 			else
 			{
 				SetVehicleExternalLock(vehicleid, E_LOCK_STATE_EXTERNAL);
-				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKED"), 3000);
 				log("[VLOCK] %p locked vehicle %s (%d)", playerid, GetVehicleGEID(vehicleid), vehicleid);
 			}
 
@@ -137,7 +137,7 @@ public OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			if(GetVehicleKey(vehicleid) == 0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "LOCKVNOLOCK"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 

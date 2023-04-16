@@ -57,10 +57,11 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 		if(strlen(itemname) > 9) itemname[9] = EOS;
 
+		// TODO: Isto pode ser melhorado
 		format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
 		itemtipkey[11] = EOS;
 
-		format(str, sizeof(str), "~r~!~w~ %s", GetLanguageString(playerid, "common/empty"), itemtipkey, true);
+		format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey));
 
 		ShowHelpTip(playerid, str, 20000);
 	}

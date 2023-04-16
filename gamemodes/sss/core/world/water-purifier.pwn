@@ -129,7 +129,7 @@ _wm_PlayerUseWaterMachine(playerid, watermachineid, interactiontype)
 
 	if(wm_Data[watermachineid][wm_cooking])
 	{
-		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
+		ShowActionText(playerid, sprintf(ls(playerid, "MACHPROCESS"), MsToString(wm_Data[watermachineid][wm_cookTime] - GetTickCountDifference(GetTickCount(), wm_Data[watermachineid][wm_startTime]), "%m minutos %s segundos")), 8000);
 		return 0;
 	}
 
@@ -166,16 +166,16 @@ Dialog:WaterMachine(playerid, response, listitem, inputtext[])
 		new ret = _wm_StartCooking(watermachineid);
 
 		if(ret == 0)
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
+			ShowActionText(playerid, ls(playerid, "MACHNOITEMS"), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 6000);
+			ShowActionText(playerid, ls(playerid, "MACHRESTART"), 6000);
 
 		else if(ret == -2)
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "common/empty"), WATER_MACHINE_FUEL_USAGE), 6000);
+			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL"), WATER_MACHINE_FUEL_USAGE), 6000);
 
 		else
-			ShowActionText(playerid, sprintf(GetLanguageString(playerid, "common/empty"), MsToString(ret, "%m minutos %s segundos")), 6000);
+			ShowActionText(playerid, sprintf(ls(playerid, "MACHCOOKTIM"), MsToString(ret, "%m minutos %s segundos")), 6000);
 
 		wm_CurrentWaterMachine[playerid] = -1;
 	}
@@ -240,7 +240,7 @@ hook OnHoldActionUpdate(playerid, progress)
 			transfer = (fuel - 1.1 < 0.0) ? fuel : 1.1;
 			SetLiquidItemLiquidAmount(itemid, fuel - transfer);
 			wm_Data[wm_CurrentWaterMachine[playerid]][wm_fuel] += 1.1;
-			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"));
+			ShowActionText(playerid, ls(playerid, "REFUELLING"));
 		}
 	}
 

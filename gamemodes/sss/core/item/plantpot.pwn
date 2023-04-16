@@ -66,7 +66,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 				SetItemArrayDataAtCell(itemid, amount - 1, E_SEED_BAG_AMOUNT);
 				SetItemArrayData(withitemid, potdata, e_plant_pot_data);
-				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 5000);
+				ShowActionText(playerid, ls(playerid, "POTADDSEEDS"), 5000);
 			}
 		}
 
@@ -78,11 +78,11 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			if(amount <= 0.0)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
+				ShowActionText(playerid, ls(playerid, "POTBOTEMPTY"), 5000);
 			}
 			else if(type != liquid_Water)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
+				ShowActionText(playerid, ls(playerid, "POTBOTNOWAT"), 5000);
 			}
 			else
 			{
@@ -91,7 +91,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 				SetItemArrayDataAtCell(withitemid, GetItemArrayDataAtCell(withitemid, E_PLANT_POT_WATER) + floatround(transfer * 10), E_PLANT_POT_WATER, 1);
 				SetLiquidItemLiquidAmount(itemid, amount - transfer);
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 5000);
+				ShowActionText(playerid, ls(playerid, "POTADDWATER"), 5000);
 			}
 		}
 
@@ -99,7 +99,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		{
 			if(!potdata[E_PLANT_POT_ACTIVE])
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "POTNOACPLNT"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -107,13 +107,13 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			if(!IsValidSeedType(seedtype))
 			{
-				ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "POTINVASEED"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			if(_:(potdata[E_PLANT_POT_GROWTH] < GetSeedTypeGrowthTime(seedtype)))
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "common/empty"), 3000);
+				ShowActionText(playerid, ls(playerid, "POTNOTGROWN"), 3000);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
@@ -137,7 +137,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			SetItemArrayData(withitemid, potdata, e_plant_pot_data);
 
-			ShowActionText(playerid, GetLanguageString(playerid, "common/empty"), 3000);
+			ShowActionText(playerid, ls(playerid, "POTHARVESTE"), 3000);
 		}
 
 		return Y_HOOKS_BREAK_RETURN_1;
