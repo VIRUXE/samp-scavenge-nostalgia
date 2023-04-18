@@ -188,7 +188,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	for(new i; i < GetContainerFreeSlots(containerid); i++)
 	{
-		strcat(cnt_InventoryString[playerid], ls(playerid, "INVEMP"));
+		strcat(cnt_InventoryString[playerid], sprintf("<%s>\n", ls(playerid, "common/empty")));
 		cnt_ItemListTotal[playerid]++;
 	}
 
@@ -203,7 +203,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	format(title, sizeof(title), "{DEB887}%s (%d/%d)", containername, GetContainerSize(containerid) - GetContainerFreeSlots(containerid), GetContainerSize(containerid));
 
-	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "common/options"), ls(playerid, "common/close"));
 
 	return 1;
 }

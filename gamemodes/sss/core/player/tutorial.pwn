@@ -115,7 +115,7 @@ hook OnPlayerDeath(playerid) {
 hook OnPlayerWearBag(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid)) {
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORACCBAG"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/access_bag"), ls(playerid, "common/lang-shortcode")));
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
@@ -130,8 +130,8 @@ hook OnPlayerOpenInventory(playerid)
 	if(IsPlayerInTutorial(playerid)) {
 /* 	    if(!PlayerTutorial_VozInv[playerid])
 	    {
-	    	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
-				ls(playerid, "TUTORINTINV"), ls(playerid, "IDIOMAID")));
+	    	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
+				ls(playerid, "TUTORINTINV"), ls(playerid, "common/lang-shortcode")));
 
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Este é o seu inventário. Também conhecido como seus bolsos. Esta não é sua mochila.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
@@ -143,7 +143,7 @@ hook OnPlayerOpenInventory(playerid)
 
 		IncreaseTutorialProgress(playerid, OPEN_INVENTORY);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTINV"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/access_inventory"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -166,7 +166,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 		{
 /* 		    if(!PlayerTutorial_VozCnt[playerid])
 		    {
-  				PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTBAG"), ls(playerid, "IDIOMAID")));
+  				// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTBAG"), ls(playerid, "common/lang-shortcode")));
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Esta é a sua Mochila. Elas são armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=This is your bag. Bags are extra storage. There are many different types of bags with different sizes.&tl=EN-TW&client=tw-ob
 
@@ -177,7 +177,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 			
 			IncreaseTutorialProgress(playerid, OPEN_CONTAINER);
 
-			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTBAG"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/access_bag_own"));
 		}
 	}
 
@@ -202,7 +202,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 	{
 		// if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
 		// {
-  			// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
+  			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-options"), ls(playerid, "common/lang-shortcode")));
 
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
@@ -220,7 +220,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORDROITM"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-drop"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando você soltar um item, outros jogadores podem pegá-lo.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=When you drop an item, other players can pick it up.&tl=EN-TW&client=tw-ob
@@ -237,7 +237,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINVADD"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item ao seu inventário. Se o seu inventário estiver cheio, o item será colocado na sua Mochila.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your inventory. If your inventory is full, the item will be put in your bag.&tl=EN-TW&client=tw-ob
@@ -254,7 +254,7 @@ hook OnPlayerViewInvOpt(playerid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMOPT"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMOPT"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
@@ -275,7 +275,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 
 		if(containerid == GetItemArrayDataAtCell(GetPlayerBagItem(playerid), 1))
 		{
-			// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDBAG"), ls(playerid, "IDIOMAID")));
+			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDBAG"), ls(playerid, "common/lang-shortcode")));
 
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
@@ -284,7 +284,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 		}
 		else
 		{
-			// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDCNT"), ls(playerid, "IDIOMAID")));
+			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDCNT"), ls(playerid, "common/lang-shortcode")));
 
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
@@ -300,7 +300,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMHOL"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMHOL"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
@@ -337,7 +337,7 @@ hook OnItemTweakFinish(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIDEF"), ls(playerid, "IDIOMAID")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIDEF"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Finished defense finished. Install a motor and then a keyboard in your defense.&tl=EN-TW&client=tw-ob
@@ -567,7 +567,7 @@ EnterTutorial(playerid) {
 	SetLiquidItemLiquidType(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN], liquid_Petrol);
 	SetLiquidItemLiquidAmount(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN], 15);
 
-	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "IDIOMAID")));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "common/lang-shortcode")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerão aqui!&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Welcome to the tutorial! Look around and try things. Help messages will appear here!&tl=EN-TW&client=tw-ob
 
@@ -622,7 +622,7 @@ ExitTutorial(playerid)
 	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
 
-	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "IDIOMAID")));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "common/lang-shortcode")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 

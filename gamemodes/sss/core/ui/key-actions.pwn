@@ -210,7 +210,7 @@ _UpdateKeyActions(playerid)
 			ShowPlayerKeyActionUI(playerid);
 		}
 
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));			    
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));			    
 
 		if(IsValidItem(GetPlayerBagItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_REMOVEBAG"));
@@ -305,7 +305,7 @@ _UpdateKeyActions(playerid)
 
 		if(IsValidHolsterItem(itemtype))
 		{
-			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 		}
 
@@ -320,7 +320,7 @@ _UpdateKeyActions(playerid)
 
 	else
 	{
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 		    
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
@@ -328,7 +328,7 @@ _UpdateKeyActions(playerid)
 	}
 
 	if(IsPlayerOnAdminDuty(playerid))
-		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_OPENINV"));
+		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 
