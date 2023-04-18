@@ -1,12 +1,16 @@
 #define MAX_LANGUAGE_ENTRY_LENGTH 199 // json_longest_string.py
 
-static
-	lang_PlayerLanguage[MAX_PLAYERS];
-
 enum {
 	PORTUGUESE,
 	ENGLISH
 };
+
+#define CACHE_SIZE 50;
+
+static
+	lang_PlayerLanguage[MAX_PLAYERS],
+	lang_CacheKeys[CACHE_SIZE],
+	Node:lang_CacheNodes[CACHE_SIZE];
 
 static ReplaceTags(content[]) {
 	enum REPLACEMENTS {
@@ -53,54 +57,61 @@ static ReplaceTags(content[]) {
     }
 }
 
-stock GetLanguageString(playerid, const route[]) {
-    new Node:node;
-
-    JSON_ParseFile("./scriptfiles/i18n.json", node);
-
-	/* 
-		* i18n_array_size.py 15/04/23
-
-		Max depth: 6
-		Max key length: 24
-
-		* Função 'strsplit' retorna um tamanho de 32 de qualquer das formas... Talvez utilizar outra função?
-	*/
-    new routeSplit[6][32], routeSplitCount;
-
-    strsplit(route, "/", routeSplit, routeSplitCount); // Split the name into an array
-
-	// printf("[i18n] Route '%s' has %d parts.", route, routeSplitCount);
-
-    // Go through each level, minus the last one, that is an array
-    for(new i = 0; i < routeSplitCount-1; i++) {
-		// printf("[i18n] Getting part '%s' (%d)", routeSplit[i], i);
-
-        JSON_GetObject(node, routeSplit[i], node);
+static Node:GetFromCache(const key[]) {
+    for (new i = 0; i < CACHE_SIZE; ++i) {
+        if (isequal(cache[i][E_CACHE:KEY], key)) {
+            return cache[i][E_CACHE:NODE];
+        }
     }
+    return -1;
+}
 
-	// printf("[i18n] Getting Array part: %s", routeSplit[routeSplitCount-1]);
+static StoreInCache(const key[], Node:valueNode) {
+    static cacheIndex = 0;
+    strcpy(cache[cacheIndex][E_CACHE:KEY], key, sizeof(cache[cacheIndex][E_CACHE:KEY]));
+    cache[cacheIndex][E_CACHE:NODE] = valueNode;
+    cacheIndex = (cacheIndex + 1) % CACHE_SIZE;
+}
 
-	JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
+GetLanguageString(playerid, const route[]) {
+    new Node:node = GetFromCache(route);
+
+    if (node == -1) {
+        JSON_ParseFile("./scriptfiles/i18n.json", node);
+
+        // Split the route and navigate through the JSON tree
+        new routeSplit[6][32], routeSplitCount;
+        strsplit(route, "/", routeSplit, routeSplitCount);
+
+        for (new i = 0; i < routeSplitCount-1; i++) {
+            JSON_GetObject(node, routeSplit[i], node);
+        }
+
+        JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
+
+        // Cache the final node before returning the string
+        StoreInCache(route, node);
+    }
 
     // Check if the array has at least two entries
     new len;
-	JSON_ArrayLength(node, len);
+    JSON_ArrayLength(node, len);
 
-	// printf("[i18n] Array '%s' is %d in length", routeSplit[routeSplitCount-1], len);
+    new output[MAX_LANGUAGE_ENTRY_LENGTH];
+    
+    if(len >= 1) {
+        JSON_ArrayObject(node, len == 1 ? 0 : GetPlayerLanguage(playerid), node);
+        JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
 
-	new output[MAX_LANGUAGE_ENTRY_LENGTH] = "MISSING";
-
-	if(len >= 1) {
-		JSON_ArrayObject(node, len == 1 ? 0 : GetPlayerLanguage(playerid), node);
-		JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
-
-		ReplaceTags(output);
-	} else
-		printf("[i18] Route '%s' doesn't have any strings.", route);
+        ReplaceTags(output);
+    } else {
+        printf("[i18] Route '%s' doesn't have any strings.", route);
+        strcpy(output, route);
+    }
 
     return output;
 }
+
 
 GetPlayerLanguage(playerid)
 {
