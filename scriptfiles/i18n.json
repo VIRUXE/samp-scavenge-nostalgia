@@ -375,7 +375,7 @@
 			},
 			"login": {
 				"wrong-password": ["Senha incorreta! %d de 5 tentativas", "Incorrect password! %d out of 5 tries"],
-				"dialog-body": ["{C_WHITE}Bem-vindo de volta %P{C_WHITE}! Por favor, introduza sua senha no campo abaixo.\n\n{C_YELLOW}Tenha um estÐ³o jogo :)", "{C_WHITE}Welcome Back %P{C_WHITE}, Please log into to your account below!\n\n{C_YELLOW}Enjoy your stay :)"],
+				"dialog-body": ["{C_WHITE}Bem-vindo de volta %P{C_WHITE}! Por favor, introduza sua senha no campo abaixo.\n\n{C_YELLOW}Tenha um otimo jogo :)", "{C_WHITE}Welcome Back %P{C_WHITE}, Please log into to your account below!\n\n{C_YELLOW}Enjoy your stay :)"],
 				"dialog-title": ["Logar na sua Conta:", "Login To Your Account"]
 			}
 		},
@@ -529,6 +529,7 @@
 		}
 	},
 	"common": {
+		"lang-shortcode": ["PT", "EN"],
 		"empty": ["Vazio", "Empty"],
 		"enter": ["Entrar", "Enter"],
 		"cancel": ["Cancelar", "Cancel"],
