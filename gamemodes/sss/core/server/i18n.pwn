@@ -5,12 +5,13 @@ enum {
 	ENGLISH
 };
 
-#define CACHE_SIZE 50;
+#define CACHE_SIZE 50
 
 static
 	lang_PlayerLanguage[MAX_PLAYERS],
 	lang_CacheKeys[CACHE_SIZE],
-	Node:lang_CacheNodes[CACHE_SIZE];
+	Node:lang_CacheNodes[CACHE_SIZE],
+	lang_CacheLRU[CACHE_SIZE];
 
 static ReplaceTags(content[]) {
 	enum REPLACEMENTS {
@@ -57,26 +58,49 @@ static ReplaceTags(content[]) {
     }
 }
 
-static Node:GetFromCache(const key[]) {
+static GetFromCache(const key[], Node:node) {
     for (new i = 0; i < CACHE_SIZE; ++i) {
-        if (isequal(cache[i][E_CACHE:KEY], key)) {
-            return cache[i][E_CACHE:NODE];
+        if (strcmp(lang_CacheKeys[i], key) == 0) {
+            lang_CacheLRU[i] = gettime();
+            node = lang_CacheNodes[i];
+            return 1;
         }
     }
-    return -1;
+    return 0;
 }
 
-static StoreInCache(const key[], Node:valueNode) {
-    static cacheIndex = 0;
-    strcpy(cache[cacheIndex][E_CACHE:KEY], key, sizeof(cache[cacheIndex][E_CACHE:KEY]));
-    cache[cacheIndex][E_CACHE:NODE] = valueNode;
-    cacheIndex = (cacheIndex + 1) % CACHE_SIZE;
+static StoreInCache(const key[], Node:node) {
+    new emptyIndex = -1;
+    new minLRUIndex = 0;
+    new minLRU = lang_CacheLRU[0];
+
+    // Iterate through the cache to find an empty index or the least recently used item
+    for (new i = 0; i < CACHE_SIZE; ++i) {
+        if (strlen(lang_CacheKeys[i]) == 0) {
+            emptyIndex = i;
+            break;
+        }
+        if (lang_CacheLRU[i] < minLRU) {
+            minLRU = lang_CacheLRU[i];
+            minLRUIndex = i;
+        }
+    }
+
+    // If an empty index was found, store the key, node, and update the LRU timestamp.
+    // Otherwise, evict the least recently used item and replace it with the new item.
+    new indexToStore = (emptyIndex != -1) ? emptyIndex : minLRUIndex;
+    
+    strcpy(lang_CacheKeys[indexToStore], key);
+    lang_CacheNodes[indexToStore] = node;
+    lang_CacheLRU[indexToStore] = gettime();
+
+    return 1;
 }
 
 GetLanguageString(playerid, const route[]) {
-    new Node:node = GetFromCache(route);
-
-    if (node == -1) {
+    new Node:node;
+    
+    if (!GetFromCache(route, node)) {
         JSON_ParseFile("./scriptfiles/i18n.json", node);
 
         // Split the route and navigate through the JSON tree
