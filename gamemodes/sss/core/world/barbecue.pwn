@@ -131,7 +131,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 		if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 		{
-			ShowActionText(playerid, ls(playerid, "FUELNOTPETR"), 3000);
+			ShowActionText(playerid, ls(playerid, "item/molotov/petrolcan-no-fuel"), 3000);
 			return 1;
 		}
 

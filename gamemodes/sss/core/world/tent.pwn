@@ -255,7 +255,7 @@ StartRemovingTent(playerid, itemid)
 	StartHoldAction(playerid, 15000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, ls(playerid, "TENTREMOVE"));
+	ShowActionText(playerid, ls(playerid, "item/tent/packing"));
 	tnt_CurrentTentItem[playerid] = itemid;
 }
 

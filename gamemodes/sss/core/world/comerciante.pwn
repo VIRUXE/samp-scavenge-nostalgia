@@ -230,7 +230,7 @@ stock DestroySeller(){
 stock BuyItem(playerid, item, value){
 	if(GetTickCountDifference(GetTickCount(), comerciantetick[playerid]) < 1000)
 	{
-		ChatMsg(playerid, YELLOW, " >  Aguarde no m√çnimo 1 segundo para interagir com o comerciante novamente.");
+		ChatMsg(playerid, YELLOW, " >  Aguarde no m√nimo 1 segundo para interagir com o comerciante novamente.");
 		return 1;
 	}
 
@@ -265,7 +265,7 @@ stock BuyItem(playerid, item, value){
 stock SellItem(playerid, itemid, value){
 	if(GetTickCountDifference(GetTickCount(), comerciantetick[playerid]) < 1000)
 	{
-		ChatMsg(playerid, YELLOW, " >  Aguarde no m√çnimo 1 segundo para interagir com o comerciante novamente.");
+		ChatMsg(playerid, YELLOW, " >  Aguarde no m√nimo 1 segundo para interagir com o comerciante novamente.");
 		return 1;
 	}
 

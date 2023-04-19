@@ -327,7 +327,7 @@ StartBuildingDefence(playerid, itemid)
 	StartHoldAction(playerid, IsPlayerVip(playerid) ? 4000 : 8000);
 	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, sprintf(ls(playerid, "DEFBUILDING"), itemtypename));
+	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemtypename));
 
 	if(!IsPlayerInvadedField(playerid))
 		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
@@ -433,7 +433,7 @@ _InteractDefence(playerid, itemid)
 		}
 		else
 		{
-			ShowActionText(playerid, ls(playerid, "DEFMOVINGIT"), 3000);
+			ShowActionText(playerid, ls(playerid, "item/defence/moving"), 3000);
 			defer MoveDefence(itemid, playerid);
 		}
 	}
@@ -486,7 +486,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	StartHoldAction(playerid, 8000);
 	    
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
-		ShowActionText(playerid, sprintf(ls(playerid, "DEFREMOVING"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/removing"), itemtypename));
 
 		return 1;
 	}
@@ -495,7 +495,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	{
 	    if(!def_TypeData[defencetype][def_movable])
 		{
-			ShowActionText(playerid, ls(playerid, "DEFNOTMOVAB"));
+			ShowActionText(playerid, ls(playerid, "item/defence/not-movable"));
 			return 1;
 		}
 		
@@ -515,7 +515,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "DEFMODIFYIN"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
 
 		return 1;
 	}
@@ -527,7 +527,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
-			ShowActionText(playerid, ls(playerid, "DEFNEEDMOTO"));
+			ShowActionText(playerid, ls(playerid, "item/defence/needs-motor"));
 			return 1;
 		}
 
@@ -544,7 +544,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "DEFMODIFYIN"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
 
 		return 1;
 	}
@@ -556,7 +556,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
-			ShowActionText(playerid, ls(playerid, "DEFNEEDMOTO"));
+			ShowActionText(playerid, ls(playerid, "item/defence/needs-motor"));
 			return 1;
 		}
 
@@ -573,7 +573,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "DEFMODIFYIN"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
 
 		return 1;
 	}
@@ -619,7 +619,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(!IsValidItem(itemid))
 		{
-			ChatMsgLang(playerid, RED, "DEFLIMITREA");
+			ChatMsgLang(playerid, RED, "item/defence/limit-reached");
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
 
@@ -681,7 +681,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(itemtype == item_Motor)
 		{
-			ShowActionText(playerid, ls(playerid, "DEFINSTMOTO"));
+			ShowActionText(playerid, ls(playerid, "item/defence/motor-installed"));
 			SetItemArrayDataAtCell(def_CurrentDefenceEdit[playerid], true, def_motor);
 
 			CallLocalFunction("OnDefenceModified", "d", def_CurrentDefenceEdit[playerid]);
@@ -692,7 +692,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(itemtype == item_Keypad)
 		{
-			ShowActionText(playerid, ls(playerid, "DEFINSTKEYP"));
+			ShowActionText(playerid, ls(playerid, "item/defence/keypad-installed"));
 			ShowSetPassDialog_Keypad(playerid);
 			SetItemArrayDataAtCell(def_CurrentDefenceEdit[playerid], 1, def_keypad);
 
@@ -704,7 +704,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(itemtype == item_AdvancedKeypad)
 		{
-			ShowActionText(playerid, ls(playerid, "DEFINSTADKP"));
+			ShowActionText(playerid, ls(playerid, "item/defence/advanced-keypad-installed"));
 			ShowSetPassDialog_KeypadAdv(playerid);
 			SetItemArrayDataAtCell(def_CurrentDefenceEdit[playerid], 2, def_keypad);
 			CallLocalFunction("OnDefenceModified", "d", def_CurrentDefenceEdit[playerid]);
@@ -717,7 +717,7 @@ hook OnHoldActionFinish(playerid)
 		{
 			new Float:x, Float:y, Float:z;
 
-			ShowActionText(playerid, ls(playerid, "DEFDISMANTL"));
+			ShowActionText(playerid, ls(playerid, "item/defence/destroyed"));
 
 			DeconstructDefence(def_CurrentDefenceEdit[playerid]);
 
@@ -748,7 +748,7 @@ hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
 			def_CurrentDefenceEdit[playerid] = -1;
 
 			if(code == 0)
-				ChatMsgLang(playerid, YELLOW, "DEFCODEZERO");
+				ChatMsgLang(playerid, YELLOW, "item/defence/code-zero");
 
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
@@ -757,7 +757,7 @@ hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
 		{
 			if(code == match)
 			{
-				ShowActionText(playerid, ls(playerid, "DEFMOVINGIT"), 3000);
+				ShowActionText(playerid, ls(playerid, "item/defence/moving"), 3000);
 				defer MoveDefence(def_CurrentDefenceOpen[playerid], playerid);
 				def_CurrentDefenceOpen[playerid] = -1;
 			}
@@ -863,17 +863,17 @@ hook OnPlayerKeypadCancel(playerid, keypadid){
 }
 
 ShowSetPassDialog_Keypad(playerid){
-	ChatMsgLang(playerid, YELLOW, "DEFSETPASSC");
+	ChatMsgLang(playerid, YELLOW, "item/defence/set-code");
 
 	ShowKeypad(playerid, 100);
 }
 
 ShowEnterPassDialog_Keypad(playerid, msg = 0){
 	if(msg == 0)
-		ChatMsgLang(playerid, YELLOW, "DEFENTERPAS");
+		ChatMsgLang(playerid, YELLOW, "item/defence/enter-code");
 
 	if(msg == 1)
-		ChatMsgLang(playerid, YELLOW, "DEFINCORREC");
+		ChatMsgLang(playerid, YELLOW, "item/defence/incorrect-code");
 
 	if(msg == 2)
 		ChatMsgLang(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
@@ -929,7 +929,7 @@ Dialog:EnterPassAdv(playerid, response, listitem, inputtext[])
 
 		if(pass == GetItemArrayDataAtCell(def_CurrentDefenceOpen[playerid], def_pass) && strlen(inputtext) >= 4)
 		{
-			ShowActionText(playerid, ls(playerid, "DEFMOVINGIT"), 3000);
+			ShowActionText(playerid, ls(playerid, "item/defence/moving"), 3000);
 			defer MoveDefence(def_CurrentDefenceOpen[playerid], playerid);
 			def_CurrentDefenceOpen[playerid] = -1;
 		}

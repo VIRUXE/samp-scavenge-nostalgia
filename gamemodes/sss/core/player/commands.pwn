@@ -3,11 +3,11 @@ CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " > https://discord.gg/
 CMD:dicas(playerid)
 {
 	if(IsPlayerToolTipsOn(playerid)){
-		ChatMsgLang(playerid, YELLOW, "TOOLTIPSOFF");
+		ChatMsgLang(playerid, YELLOW, "player/tips/off");
 		SetPlayerToolTips(playerid, false);
 		HideHelpTip(playerid);
 	}else{
-		ChatMsgLang(playerid, YELLOW, "TOOLTIPSON");
+		ChatMsgLang(playerid, YELLOW, "player/tips/on");
 		SetPlayerToolTips(playerid, true);
 	}
 
@@ -25,13 +25,13 @@ CMD:mudarsenha(playerid, params[])
 
 	if(!IsPlayerLoggedIn(playerid))
 	{
-		ChatMsgLang(playerid, YELLOW, "LOGGEDINREQ");
+		ChatMsgLang(playerid, YELLOW, "player/command/cant-use-not-logged-in");
 		return 1;
 	}
 
 	if(sscanf(params, "s[32]s[32]", oldpass, newpass))
 	{
-		ChatMsgLang(playerid, YELLOW, "CHANGEPASSW");
+		ChatMsgLang(playerid, YELLOW, "player/changepassword/syntax");
 		return 1;
 	}
 	else
@@ -56,12 +56,12 @@ CMD:mudarsenha(playerid, params[])
 			}
 			else
 			{
-				ChatMsgLang(playerid, RED, "PASSCHERROR");
+				ChatMsgLang(playerid, RED, "player/changepassword/error");
 			}
 		}
 		else
 		{
-			ChatMsgLang(playerid, RED, "PASSCHNOMAT");
+			ChatMsgLang(playerid, RED, "player/changepassword/no-match");
 		}
 	}
 	return 1;
@@ -80,7 +80,7 @@ CMD:pos(playerid){
 
 CMD:ajuda(playerid)
 {
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações/Informations", ls(playerid, "GENCOMDHELP"), "X", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Informações/Informations", ls(playerid, "server/command/help"), "X", "");
 	return 1;
 }
 
@@ -101,7 +101,7 @@ CMD:rules(playerid) return cmd_regras(playerid);
 
 CMD:explosivos(playerid)
 {
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos/Explosives", ls(playerid, "BOMBSLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos/Explosives", ls(playerid, "server/command/bombs-list"), "X", "");
 	return 1;
 }
 
@@ -112,7 +112,7 @@ CMD:bombas(playerid) return cmd_explosivos(playerid);
 
 CMD:metais(playerid)
 {
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defesas/Defences", ls(playerid, "DEFENCESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defesas/Defences", ls(playerid, "defences-list"), "X", "");
 	return 1;
 }
 
@@ -122,7 +122,7 @@ CMD:defences(playerid) return cmd_metais(playerid);
 
 CMD:mochilas(playerid)
 {
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas/Backpacks", ls(playerid, "BACKPACKLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas/Backpacks", ls(playerid, "server/command/lists/backpack"), "X", "");
 	return 1;
 }
 
@@ -132,7 +132,7 @@ CMD:backpacks(playerid) return cmd_mochilas(playerid);
 
 CMD:caixas(playerid)
 {
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas/Boxes", ls(playerid, "BOXESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas/Boxes", ls(playerid, "server/command/lists/boxes"), "X", "");
 	return 1;
 }
 

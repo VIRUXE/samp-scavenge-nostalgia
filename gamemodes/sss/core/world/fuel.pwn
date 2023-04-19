@@ -99,7 +99,7 @@ hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
 
 	if(GetLiquidItemLiquidAmount(itemid) >= GetLiquidContainerTypeCapacity(liqcont))
 	{
-		ShowActionText(playerid, ls(playerid, "FUELCANFULL"), 3000);
+		ShowActionText(playerid, ls(playerid, "item/petrolcan/full"), 3000);
 		return Y_HOOKS_CONTINUE_RETURN_0;
 	}
 
@@ -145,7 +145,7 @@ StartRefuellingFuelCan(playerid, outletid)
 
 	if(liqcont == -1)
 	{
-		ShowActionText(playerid, ls(playerid, "YOUNEEDFCAN"), 3000, 120);
+		ShowActionText(playerid, ls(playerid, "item/petrolcan/needed"), 3000, 120);
 		return 0;
 	}
 
@@ -187,7 +187,7 @@ StartRefuellingVehicle(playerid, vehicleid)
 
 	if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 	{
-		ShowActionText(playerid, ls(playerid, "FUELNOTPETR"), 3000);
+		ShowActionText(playerid, ls(playerid, "item/molotov/petrolcan-no-fuel"), 3000);
 		return 0;
 	}
 

@@ -67,7 +67,7 @@ timer UnMuteDelay[time](playerid, time)
 
 	TogglePlayerMute(playerid, false);
 	
-	ChatMsgLang(playerid, YELLOW, "MUTEDUNMUTE");
+	ChatMsgLang(playerid, YELLOW, "player/unmuted");
 }
 
 hook OnPlayerDisconnected(playerid)

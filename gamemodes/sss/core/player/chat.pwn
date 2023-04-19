@@ -61,7 +61,7 @@ hook OnPlayerText(playerid, text[])
 	if(IsPlayerMuted(playerid))
 	{
 		if(GetPlayerMuteRemainder(playerid) == -1)
-			ChatMsgLang(playerid, RED, "MUTEDPERMAN");
+			ChatMsgLang(playerid, RED, "player/muted-perm");
 		else
 			ChatMsgLang(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
@@ -75,7 +75,7 @@ hook OnPlayerText(playerid, text[])
 			if(chat_MessageStreak[playerid] == 3)
 			{
 				TogglePlayerMute(playerid, true, 30);
-				ChatMsgLang(playerid, RED, "MUTEDFLOODM");
+				ChatMsgLang(playerid, RED, "player/muted-temp");
 
 				return 0;
 			}
@@ -282,7 +282,7 @@ CMD:g(playerid, params[])
 	if(IsPlayerMuted(playerid))
 	{
 		if(GetPlayerMuteRemainder(playerid) == -1)
-			ChatMsgLang(playerid, RED, "MUTEDPERMAN");
+			ChatMsgLang(playerid, RED, "player/muted-perm");
 		else
 			ChatMsgLang(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
@@ -292,7 +292,7 @@ CMD:g(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
-		ChatMsgLang(playerid, WHITE, "RADIOGLOBAL");
+		ChatMsgLang(playerid, WHITE, "player/radio/global");
 	}
 	else PlayerSendChat(playerid, params, 1.0);
 
@@ -304,7 +304,7 @@ CMD:l(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
-		ChatMsgLang(playerid, WHITE, "RADIOLOCAL");
+		ChatMsgLang(playerid, WHITE, "player/radio/local");
 	}
 	else PlayerSendChat(playerid, params, 0.0);
 
@@ -342,7 +342,7 @@ ACMD:a[1](playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_ADMIN);
-		ChatMsgLang(playerid, WHITE, "RADIOADMINC");
+		ChatMsgLang(playerid, WHITE, "player/radio/admin");
 	}
 	else PlayerSendChat(playerid, params, 3.0);
 

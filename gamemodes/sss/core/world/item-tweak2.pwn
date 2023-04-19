@@ -109,7 +109,7 @@ stock TweakItem(playerid, itemid)
 
 	_twk_ShowUI(playerid);
 	_twk_ToggleMouse(playerid, false);
-	ShowHelpTip(playerid, ls(playerid, "TIPTWEAKITM"));
+	ShowHelpTip(playerid, ls(playerid, "item/tweak/move"));
 
 	return 1;
 }

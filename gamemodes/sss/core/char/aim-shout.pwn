@@ -104,7 +104,7 @@ CMD:aimshout(playerid, params[])
 
 	if(sscanf(params, "s[128]", string))
 	{
-		ChatMsgLang(playerid, YELLOW, "AIMSHOUTHLP");
+		ChatMsgLang(playerid, YELLOW, "player/aimshout");
 		return 1;
 	}
 

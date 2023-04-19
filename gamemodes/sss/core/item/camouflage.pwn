@@ -70,7 +70,7 @@ hook OnPlayerDeath(playerid){
 
 hook OnPlayerOpenInventory(playerid){  
 	if(IsUsingCamou(playerid)){
-		camou_InventoryOption[playerid] = AddInventoryListItem(playerid, ls(playerid, "CAMUOPT"));
+		camou_InventoryOption[playerid] = AddInventoryListItem(playerid, ls(playerid, "player/inventory/camouflage"));
 		return Y_HOOKS_CONTINUE_RETURN_0;
 	}
 	if(camou_CurrentlyUsing[playerid] != -1)
@@ -97,7 +97,7 @@ hook OnPlayerSelectExtraItem(playerid, item){
 			ClosePlayerInventory(playerid, true);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}else{
-			ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000);
+			ShowActionText(playerid, ls(playerid, "player/inventory/holding-item"), 3000);
 			ClosePlayerInventory(playerid, true);
 		}
     }

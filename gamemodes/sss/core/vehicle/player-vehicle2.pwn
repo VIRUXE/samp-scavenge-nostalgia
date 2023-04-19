@@ -669,7 +669,7 @@ _SaveIfOwnedBy(vehicleid, playerid)
 		return 0;
 	}
 
-	ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+	ShowActionText(playerid, sprintf(ls(playerid, "vehicle/saved"), vehiclename), 5000);
 
 	_SaveVehicle(vehicleid);
 
@@ -687,7 +687,7 @@ _PlayerUpdateVehicle(playerid, vehicleid)
 
 	_UpdatePlayerVehicle(playerid, vehicleid);
 
-	ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+	ShowActionText(playerid, sprintf(ls(playerid, "vehicle/saved"), vehiclename), 5000);
 
 	return;
 }

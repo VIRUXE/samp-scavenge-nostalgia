@@ -246,25 +246,25 @@ hook OnPlayerUseItem(playerid, itemid)
 
 		if(!IsValidItem(bombitem))
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC"));
+			ShowActionText(playerid, ls(playerid, "player/radio/not-synced"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_ItemTypeExplosive[bombitemtype] == INVALID_EXPLOSIVE_TYPE)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC"));
+			ShowActionText(playerid, ls(playerid, "player/radio/not-synced"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(exp_Data[exp_ItemTypeExplosive[bombitemtype]][exp_trigger] != RADIO)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC"));
+			ShowActionText(playerid, ls(playerid, "player/radio/not-synced"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
 		if(GetItemExtraData(bombitem) != 1)
 		{
-			ShowActionText(playerid, ls(playerid, "RADIONOSYNC"));
+			ShowActionText(playerid, ls(playerid, "player/radio/not-synced"));
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
@@ -272,7 +272,7 @@ hook OnPlayerUseItem(playerid, itemid)
 		SetItemToExplode(bombitem);
 		SetItemExtraData(itemid, INVALID_ITEM_ID);
 
-		ShowActionText(playerid, ls(playerid, "RADIOTRIGGD"));
+		ShowActionText(playerid, ls(playerid, "item/explosive/radio-triggered"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -296,7 +296,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	SetItemExtraData(withitemid, 1);
 	exp_ArmTick[playerid] = GetTickCount();
 
-	ChatMsgLang(playerid, YELLOW, "ARMEDRADIOB");
+	ChatMsgLang(playerid, YELLOW, "item/explosive/phone-synced");
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -325,7 +325,7 @@ hook OnHoldActionFinish(playerid)
 				log("[EXPLOSIVE] Prox bomb %d placed by %p", exp_ArmingItem[playerid], playerid);
 
 				//defer CreateTntMineProx(exp_ArmingItem[playerid]);
-				//ChatMsgLang(playerid, YELLOW, "PROXMIARMED");
+				//ChatMsgLang(playerid, YELLOW, "item/explosive/proximity-mine-armed");
 				
 				ChatMsgLang(playerid, RED, " > Explosivo desativado!");
 

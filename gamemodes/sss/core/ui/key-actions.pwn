@@ -276,7 +276,7 @@ _UpdateKeyActions(playerid)
 	{
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRMV"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair-engine"));
 	}
 	else
 	{

@@ -86,7 +86,7 @@ CMD:relatorio(playerid, params[])
 {
     if(!IsPlayerLoggedIn(playerid))
 	{
-		ChatMsgLang(playerid, YELLOW, "LOGGEDINREQ");
+		ChatMsgLang(playerid, YELLOW, "server/command/cant-use-not-logged-in");
 		return 1;
 	}
 	
