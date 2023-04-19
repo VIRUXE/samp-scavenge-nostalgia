@@ -29,23 +29,21 @@ stock msg_SendClientMessageToAll(colour, string[])
 
 stock ChatMsg(playerid, colour, fmat[], {Float,_}:...)
 {
-	format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
+	format(formatBuffer, sizeof(formatBuffer), strfind(fmat, "/") != -1 ? ls(playerid, fmat) : fmat, ___(3));
 	ChatMsgFlat(playerid, colour, formatBuffer);
 
 	return 1;
 }
 
-
 stock ChatMsgAllEx(playerid, colour, fmat[], {Float,_}:...)
 {
-	foreach(new i: Player)
-	{
-	    if(i != playerid)
-		{
-		    format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
-			ChatMsgFlat(i, colour, formatBuffer);
-	    }
+	foreach(new i: Player) {
+	    if(i == playerid) continue;
+
+		format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
+		ChatMsgFlat(i, colour, formatBuffer);
 	}
+
 	return 1;
 }
 
@@ -53,14 +51,6 @@ stock ChatMsgAll(colour, fmat[], {Float,_}:...)
 {
 	format(formatBuffer, sizeof(formatBuffer), fmat, ___(2));
 	ChatMsgAllFlat(colour, formatBuffer);
-
-	return 1;
-}
-
-stock ChatMsgLang(playerid, colour, key[], {Float,_}:...)
-{
-	format(formatBuffer, sizeof(formatBuffer), ls(playerid, key), ___(3));
-	ChatMsgFlat(playerid, colour, formatBuffer);
 
 	return 1;
 }
@@ -83,16 +73,13 @@ stock ChatMsgAdmins(level, colour, fmat[], {Float,_}:...)
 
 stock ChatMsgFlat(playerid, colour, string[])
 {
-	if(strlen(string) > 127)
-	{
+	if(strlen(string) > 127) {
 		new
 			string2[128],
 			splitpos;
 
-		for(new c = 128; c > 0; c--)
-		{
-			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.')
-			{
+		for(new c = 128; c > 0; c--) {
+			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.') {
 				splitpos = c;
 				break;
 			}
@@ -103,27 +90,21 @@ stock ChatMsgFlat(playerid, colour, string[])
 		
 		SendClientMessage(playerid, colour, string);
 		SendClientMessage(playerid, colour, string2);
-	}
-	else
-	{
+	} else
 		SendClientMessage(playerid, colour, string);
-	}
 	
 	return 1;
 }
 
 stock ChatMsgAllFlat(colour, string[])
 {
-	if(strlen(string) > 127)
-	{
+	if(strlen(string) > 127) {
 		new
 			string2[128],
 			splitpos;
 
-		for(new c = 128; c>0; c--)
-		{
-			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.')
-			{
+		for(new c = 128; c>0; c--) {
+			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.') {
 				splitpos = c;
 				break;
 			}
@@ -134,15 +115,8 @@ stock ChatMsgAllFlat(colour, string[])
 
 		SendClientMessageToAll(colour, string);
 		SendClientMessageToAll(colour, string2);
-	}
-	else SendClientMessageToAll(colour, string);
-
-	return 1;
-}
-
-stock ChatMsgLangFlat(playerid, colour, key[])
-{
-	ChatMsgFlat(playerid, colour, GetLanguageString(GetPlayerLanguage(playerid), key));
+	} else
+		SendClientMessageToAll(colour, string);
 
 	return 1;
 }

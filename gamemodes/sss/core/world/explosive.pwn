@@ -296,7 +296,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	SetItemExtraData(withitemid, 1);
 	exp_ArmTick[playerid] = GetTickCount();
 
-	ChatMsgLang(playerid, YELLOW, "item/explosive/phone-synced");
+	ChatMsg(playerid, YELLOW, "item/explosive/phone-synced");
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -325,9 +325,9 @@ hook OnHoldActionFinish(playerid)
 				log("[EXPLOSIVE] Prox bomb %d placed by %p", exp_ArmingItem[playerid], playerid);
 
 				//defer CreateTntMineProx(exp_ArmingItem[playerid]);
-				//ChatMsgLang(playerid, YELLOW, "item/explosive/proximity-mine-armed");
+				//ChatMsg(playerid, YELLOW, "item/explosive/proximity-mine-armed");
 				
-				ChatMsgLang(playerid, RED, " > Explosivo desativado!");
+				ChatMsg(playerid, RED, " > Explosivo desativado!");
 
 				exp_ArmingItem[playerid] = INVALID_ITEM_ID;
 			}

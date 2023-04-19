@@ -3,11 +3,11 @@ CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " > https://discord.gg/
 CMD:dicas(playerid)
 {
 	if(IsPlayerToolTipsOn(playerid)){
-		ChatMsgLang(playerid, YELLOW, "player/tips/off");
+		ChatMsg(playerid, YELLOW, "player/tips/off");
 		SetPlayerToolTips(playerid, false);
 		HideHelpTip(playerid);
 	}else{
-		ChatMsgLang(playerid, YELLOW, "player/tips/on");
+		ChatMsg(playerid, YELLOW, "player/tips/on");
 		SetPlayerToolTips(playerid, true);
 	}
 
@@ -25,13 +25,13 @@ CMD:mudarsenha(playerid, params[])
 
 	if(!IsPlayerLoggedIn(playerid))
 	{
-		ChatMsgLang(playerid, YELLOW, "player/command/cant-use-not-logged-in");
+		ChatMsg(playerid, YELLOW, "player/command/cant-use-not-logged-in");
 		return 1;
 	}
 
 	if(sscanf(params, "s[32]s[32]", oldpass, newpass))
 	{
-		ChatMsgLang(playerid, YELLOW, "player/changepassword/syntax");
+		ChatMsg(playerid, YELLOW, "player/changepassword/syntax");
 		return 1;
 	}
 	else
@@ -52,16 +52,16 @@ CMD:mudarsenha(playerid, params[])
 			if(SetAccountPassword(name, buffer))
 			{
 				SetPlayerPassHash(playerid, buffer);
-				ChatMsgLang(playerid, YELLOW, "PASSCHANGED", newpass);
+				ChatMsg(playerid, YELLOW, "PASSCHANGED", newpass);
 			}
 			else
 			{
-				ChatMsgLang(playerid, RED, "player/changepassword/error");
+				ChatMsg(playerid, RED, "player/changepassword/error");
 			}
 		}
 		else
 		{
-			ChatMsgLang(playerid, RED, "player/changepassword/no-match");
+			ChatMsg(playerid, RED, "player/changepassword/no-match");
 		}
 	}
 	return 1;

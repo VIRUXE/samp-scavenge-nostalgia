@@ -365,7 +365,7 @@ Dialog:RegisterPrompt(playerid, response, listitem, inputtext[])
 	{
 		if(!(6 <= strlen(inputtext) <= 32))
 		{
-			ChatMsgLang(playerid, YELLOW, "player/account/register/invalid-password");
+			ChatMsg(playerid, YELLOW, "player/account/register/invalid-password");
 			DisplayRegisterPrompt(playerid);
 
 			return 0;

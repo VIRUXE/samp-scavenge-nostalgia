@@ -86,7 +86,7 @@ Dialog:BugReport(playerid, response, listitem, inputtext[])
 	if(response)
 	{
 		ReportBug(playerid, inputtext);
-		ChatMsgLang(playerid, YELLOW, "server/bugs/submitted");
+		ChatMsg(playerid, YELLOW, "server/bugs/submitted");
 	}
 	return 1;
 }

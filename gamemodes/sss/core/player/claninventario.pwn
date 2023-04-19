@@ -146,7 +146,7 @@ Dialog:Friend_Add(playerid, response, listitem, inputtext[])
 
 		frd_Invited[playerid][listitem] = true;
 
-	    ChatMsgLang(listitem, YELLOW, "FRDACCPT", playerid, playerid);
+	    ChatMsg(listitem, YELLOW, "FRDACCPT", playerid, playerid);
 
 	    Dialog_Show(playerid, Friend_Invited, DIALOG_STYLE_MSGBOX, name, ls(playerid, "FRDINVITED"), "<", "");
 	}
@@ -161,15 +161,15 @@ CMD:accept(playerid, params[])
 	if(!IsPlayerSpawned(playerid)) return 1;
 	
 	if(strlen(params) < 1)
-        return ChatMsgLang(playerid, RED, "FRDACCCMD");
+        return ChatMsg(playerid, RED, "FRDACCCMD");
 
 	new id = strval(params);
 
 	if(!IsPlayerConnected(id))
-	    return ChatMsgLang(playerid, RED, "FRDCMDOFF");
+	    return ChatMsg(playerid, RED, "FRDCMDOFF");
 	    
 	if(!frd_Invited[id][playerid])
-	    return ChatMsgLang(playerid, RED, "FRDNOTINV");
+	    return ChatMsg(playerid, RED, "FRDNOTINV");
 
 	new
 		name[MAX_PLAYER_NAME];
@@ -241,7 +241,7 @@ Dialog:Friend_Remove(playerid, response, listitem, inputtext[]){
 
 		    if(!strcmp(frd_PlayerFriend[playerid][frd_SelectRemove[playerid]], name) && !isnull(frd_PlayerFriend[playerid][frd_SelectRemove[playerid]]))
 		    {
-		        ChatMsgLang(i, YELLOW, "FRDRMINFOR", playerid);
+		        ChatMsg(i, YELLOW, "FRDRMINFOR", playerid);
 		        GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 		        for(new f = 0; f < MAX_PLAYER_FRIENDS; f++)
 		        {
@@ -255,7 +255,7 @@ Dialog:Friend_Remove(playerid, response, listitem, inputtext[]){
 			}
 		}
 		
-		ChatMsgLang(playerid, YELLOW, "FRDRMINFO", frd_PlayerFriend[playerid][frd_SelectRemove[playerid]]);
+		ChatMsg(playerid, YELLOW, "FRDRMINFO", frd_PlayerFriend[playerid][frd_SelectRemove[playerid]]);
 
 		frd_PlayerFriend[playerid][frd_SelectRemove[playerid]][0] = EOS;
 

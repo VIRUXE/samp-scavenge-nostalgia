@@ -160,7 +160,7 @@ SpawnCharacter(playerid)
 	{
 		if(GetPlayerWarnings(playerid) >= 5) SetPlayerWarnings(playerid, 0);
 
-		ChatMsgLang(playerid, YELLOW, "WARNCOUNTER", GetPlayerWarnings(playerid));
+		ChatMsg(playerid, YELLOW, "WARNCOUNTER", GetPlayerWarnings(playerid));
 	}
 
 	// Congelar se não for admin nível 6

@@ -619,7 +619,7 @@ hook OnHoldActionFinish(playerid)
 
 		if(!IsValidItem(itemid))
 		{
-			ChatMsgLang(playerid, RED, "item/defence/limit-reached");
+			ChatMsg(playerid, RED, "item/defence/limit-reached");
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
 
@@ -748,7 +748,7 @@ hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
 			def_CurrentDefenceEdit[playerid] = -1;
 
 			if(code == 0)
-				ChatMsgLang(playerid, YELLOW, "item/defence/code-zero");
+				ChatMsg(playerid, YELLOW, "item/defence/code-zero");
 
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
@@ -863,20 +863,20 @@ hook OnPlayerKeypadCancel(playerid, keypadid){
 }
 
 ShowSetPassDialog_Keypad(playerid){
-	ChatMsgLang(playerid, YELLOW, "item/defence/set-code");
+	ChatMsg(playerid, YELLOW, "item/defence/set-code");
 
 	ShowKeypad(playerid, 100);
 }
 
 ShowEnterPassDialog_Keypad(playerid, msg = 0){
 	if(msg == 0)
-		ChatMsgLang(playerid, YELLOW, "item/defence/enter-code");
+		ChatMsg(playerid, YELLOW, "item/defence/enter-code");
 
 	if(msg == 1)
-		ChatMsgLang(playerid, YELLOW, "item/defence/incorrect-code");
+		ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
 
 	if(msg == 2)
-		ChatMsgLang(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
+		ChatMsg(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	ShowKeypad(playerid, 100, GetItemArrayDataAtCell(def_CurrentDefenceOpen[playerid], def_pass));
 }
@@ -912,7 +912,7 @@ Dialog:SetPassAdv(playerid, response, listitem, inputtext[])
 ShowEnterPassDialog_KeypadAdv(playerid, msg = 0)
 {
 	if(msg == 2)
-		ChatMsgLang(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
+		ChatMsg(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	Dialog_Show(playerid, EnterPassAdv, DIALOG_STYLE_INPUT, "Digite a senha", (msg == 1) ? ("Senha incorreta") : ("Digite a senha hexadecimal de 4 a 8 caracteres para abrir."), "Confirmar", "Cancelar");
 

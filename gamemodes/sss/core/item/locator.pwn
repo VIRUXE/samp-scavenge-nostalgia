@@ -39,7 +39,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		SetItemExtraData(itemid, withitemid);
 		SetItemExtraData(withitemid, 1);
 
-		ChatMsgLang(playerid, YELLOW, "item/locator/synced");
+		ChatMsg(playerid, YELLOW, "item/locator/synced");
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;

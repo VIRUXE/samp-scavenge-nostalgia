@@ -86,7 +86,7 @@ CMD:relatorio(playerid, params[])
 {
     if(!IsPlayerLoggedIn(playerid))
 	{
-		ChatMsgLang(playerid, YELLOW, "server/command/cant-use-not-logged-in");
+		ChatMsg(playerid, YELLOW, "server/command/cant-use-not-logged-in");
 		return 1;
 	}
 	
@@ -193,7 +193,7 @@ Dialog:ReportMenu(playerid, response, listitem, inputtext[])
 					}
 					else
 					{
-						ChatMsgLang(playerid, RED, "REPNOPFOUND");
+						ChatMsg(playerid, RED, "REPNOPFOUND");
 						return 1;
 					}
 				}

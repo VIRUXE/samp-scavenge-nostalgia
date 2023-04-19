@@ -808,7 +808,7 @@ task RestartUpdate[SEC(1)]()
 
 			foreach(new i : Player) {
 				ChatMsg(i, RED, "");
-				ChatMsgLang(i, RED, "RESPAWNWRNTXT");
+				ChatMsg(i, RED, "RESPAWNWRNTXT");
 				ChatMsg(i, RED, "");
 			}
 		}

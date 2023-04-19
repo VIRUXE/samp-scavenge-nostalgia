@@ -155,7 +155,7 @@ CMD:mudarluta(playerid, params[]){
 CMD:mudarnick(playerid,params[]) {
     if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
     
-	if(!IsPlayerLoggedIn(playerid)) return ChatMsgLang(playerid, YELLOW, "player/command/cant-use-not-logged-in");
+	if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "player/command/cant-use-not-logged-in");
 
 	new nick[MAX_PLAYER_NAME];
 

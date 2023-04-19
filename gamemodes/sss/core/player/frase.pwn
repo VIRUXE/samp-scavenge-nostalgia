@@ -13,7 +13,7 @@ hook OnPlayerLogin(playerid)
 
 	if(!isempty(frase)) ChatMsg(playerid, YELLOW, " >  Sua frase de entrada: "C_WHITE"%s", frase);
 
-	foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", frase);
+	foreach(new i : Player) if(i != playerid) ChatMsg(i, WHITE, "PJOINSV", playerid, playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", frase);
 }
 
 CMD:frase(playerid, params[])

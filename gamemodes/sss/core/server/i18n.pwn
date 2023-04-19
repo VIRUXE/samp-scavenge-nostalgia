@@ -149,7 +149,7 @@ hook OnGameModeInit() {
 }
 
 ACMD:i18n[5](playerid, params[]) {
-    ChatMsg(playerid, -1, ls(playerid, params));
+    ChatMsg(playerid, -1, params);
 
     return 1;
 }

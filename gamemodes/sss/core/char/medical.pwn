@@ -218,7 +218,7 @@ hook OnHoldActionFinish(playerid)
 					ShowActionText(playerid, ls(playerid, "player/health/wounds/infected"), 5000);
 				}
 
-				ChatMsgLang(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
+				ChatMsg(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
 
 				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
 
@@ -237,7 +237,7 @@ hook OnHoldActionFinish(playerid)
 				bleedrate -= bleedrate * floatpower(1.0091 - bleedrate, 2.1);
 				bleedrate = (bleedrate < 0.00001) ? 0.0 : bleedrate;
 
-				ChatMsgLang(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
+				ChatMsg(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
 				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
 			}
 
@@ -283,7 +283,7 @@ hook OnHoldActionFinish(playerid)
 				bleedrate -= bleedrate * floatpower(1.0091 - bleedrate, 2.1);
 				bleedrate = (bleedrate < 0.00001) ? 0.0 : bleedrate;
 
-				ChatMsgLang(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
+				ChatMsg(playerid, YELLOW, "REDUCEBLEED", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
 
 				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
 				DestroyItem(itemid);

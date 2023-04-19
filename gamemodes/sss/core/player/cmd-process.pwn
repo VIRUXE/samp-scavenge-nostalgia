@@ -66,13 +66,13 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(0 < result < 7) log("[COMMAND][%p (%d)]: %s", playerid, playerid, cmdtext);
 
-	if		(result == CMD_INVALID) ChatMsgLang(playerid, ORANGE, "CMDERROR0"); // invalid command
+	if		(result == CMD_INVALID) ChatMsg(playerid, ORANGE, "CMDERROR0"); // invalid command
 	else if	(result == CMD_VALID) return 1; // valid command, do nothing.
-	else if	(result == CMD_CANT_USE) ChatMsgLang(playerid, ORANGE, "CMDERROR1"); // cant use command
-	else if	(result == CMD_CANT_USE_ON) ChatMsgLang(playerid, RED, "CMDERROR2"); // cant use command on that player
-	else if	(result == CMD_INVALID_PLAYER) ChatMsgLang(playerid, RED, "CMDERROR3"); // invalid player
-	else if	(result == CMD_NOT_ADMIN) ChatMsgLang(playerid, RED, "CMDERROR4"); // not high enough admin level
-	else if	(result == CMD_NOT_DUTY) ChatMsgLang(playerid, RED, "CMDERROR5"); // only usable in duty
+	else if	(result == CMD_CANT_USE) ChatMsg(playerid, ORANGE, "CMDERROR1"); // cant use command
+	else if	(result == CMD_CANT_USE_ON) ChatMsg(playerid, RED, "CMDERROR2"); // cant use command on that player
+	else if	(result == CMD_INVALID_PLAYER) ChatMsg(playerid, RED, "CMDERROR3"); // invalid player
+	else if	(result == CMD_NOT_ADMIN) ChatMsg(playerid, RED, "CMDERROR4"); // not high enough admin level
+	else if	(result == CMD_NOT_DUTY) ChatMsg(playerid, RED, "CMDERROR5"); // only usable in duty
 
 	return 1;
 }

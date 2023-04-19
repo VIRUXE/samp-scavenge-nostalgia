@@ -286,7 +286,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true)
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer) ChatMsgLang(playerid, GREY, "KICKMESSAGE", reason);
+	if(tellplayer) ChatMsg(playerid, GREY, "KICKMESSAGE", reason);
 
 	return 1;
 }
