@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -65,12 +41,7 @@ stock ClearPlayerKeyActionUI(playerid)
 	KeyActionsText[playerid][0] = EOS;
 
 stock AddToolTipText(playerid, key[], use[])
-{
-	new tmp[158];
-	format(tmp, sizeof(tmp), "~y~%s ~w~%s~n~", key, use);
-	strcat(KeyActionsText[playerid], tmp);
-}
-
+	strcat(KeyActionsText[playerid], sprintf("~y~%s ~w~%s~n~", key, use));
 
 /*==============================================================================
 
@@ -136,16 +107,13 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
 	_UpdateKeyActions(playerid);
 
-	if(!IsPlayerToolTipsOn(playerid))
-		return 1;
+	if(!IsPlayerToolTipsOn(playerid)) return 1;
 
-	if(newstate != PLAYER_STATE_DRIVER)
-		return 1;
+	if(newstate != PLAYER_STATE_DRIVER) return 1;
 
 	new vehicleid = GetPlayerVehicleID(playerid);
 
-	if(!IsValidVehicle(vehicleid))
-		return 1;
+	if(!IsValidVehicle(vehicleid)) return 1;
 
 	_ShowRepairTip(playerid, vehicleid);
 
@@ -154,25 +122,28 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 
 _UpdateKeyActions(playerid)
 {
-    if(!IsPlayerNPC(playerid))
-    {
+    if(IsPlayerNPC(playerid)) return;
 
-	if(!IsPlayerSpawned(playerid) || IsPlayerViewingInventory(playerid) || IsValidContainer(GetPlayerCurrentContainer(playerid)) || IsPlayerKnockedOut(playerid) || !IsPlayerHudOn(playerid))
-	{
+	if(
+		!IsPlayerSpawned(playerid) || 
+		IsPlayerViewingInventory(playerid) || 
+		IsValidContainer(GetPlayerCurrentContainer(playerid)) || 
+		IsPlayerKnockedOut(playerid) || 
+		!IsPlayerHudOn(playerid)
+	) {
 		HidePlayerKeyActionUI(playerid);
 		return;		
 	}
 
-	if(IsPlayerInAnyVehicle(playerid))
-	{
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-		{
+	if(IsPlayerInAnyVehicle(playerid)) {
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			ClearPlayerKeyActionUI(playerid);
 			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "KA_ENGINE"));
 			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "KA_LIGHTS"));
 			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "KA_DOORS"));
 			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_HORN"));
 			ShowPlayerKeyActionUI(playerid);
+			
 			return;
 		}
 	}
@@ -184,8 +155,7 @@ _UpdateKeyActions(playerid)
 	
 	ClearPlayerKeyActionUI(playerid);
 
-	if(invehiclearea != INVALID_VEHICLE_ID && !IsPlayerInAnyVehicle(playerid))
-	{
+	if(invehiclearea != INVALID_VEHICLE_ID && !IsPlayerInAnyVehicle(playerid)) {
 		if(IsPlayerAtVehicleTrunk(playerid, invehiclearea))
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENTRUNK"));
 
@@ -193,19 +163,15 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRWF"));
 	}
 
-	foreach(new i : Player)
-	{
-		if(IsPlayerInPlayerArea(playerid, i))
-		{
+	foreach(new i : Player) {
+		if(IsPlayerInPlayerArea(playerid, i)) {
 			inplayerarea = i;
 			break;
 		}
 	}
 
-	if(!IsValidItem(itemid))
-	{
-		if(IsPlayerCuffed(inplayerarea))
-		{
+	if(!IsValidItem(itemid)) {
+		if(IsPlayerCuffed(inplayerarea)) {
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REMOVEAL"));
 			ShowPlayerKeyActionUI(playerid);
 		}
@@ -239,18 +205,12 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CLOTHES"));
 	else if(itemtype == item_HerpDerp)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, "Herp-a-Derp");
-
-	else if(itemtype == item_HandCuffs)
-	{
+	else if(itemtype == item_HandCuffs) {
 		if(inplayerarea != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ALGP"));
-	}
-
-	else if(itemtype == item_Wheel)
+	} else if(itemtype == item_Wheel)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW"));
-
-	else if(itemtype == item_GasCan)
-	{
+	else if(itemtype == item_GasCan) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
@@ -258,38 +218,27 @@ _UpdateKeyActions(playerid)
 		}
 		else
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLG"));
-	}
-
-	else if(itemtype == item_Headlight)
-	{
+	} else if(itemtype == item_Headlight) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INSTFAROL"));
-	}
-	else if(itemtype == item_Pills)
+	} else if(itemtype == item_Pills)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_TPILULA"));
 	else if(itemtype == item_AutoInjec)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER"));
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea != -1 ? "KA_CUREP" : "KA_CUREME"));
-	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer)
-	{
+	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair-engine"));
-	}
-	else
-	{
+	} else {
 		if(IsItemTypeFood(itemtype))
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COMER"));
-
-		else if(IsItemTypeBag(itemtype))
-		{
+		else if(IsItemTypeBag(itemtype)) {
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENBAG"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_USE"));
-		}
-
-		else if(GetHatFromItem(itemtype) != -1)
+		} else if(GetHatFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
 		else if(GetMaskFromItem(itemtype) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
@@ -299,27 +248,21 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));
 	}
 	
-	if(GetItemTypeWeapon(itemtype) != -1)
-	{
+	if(GetItemTypeWeapon(itemtype) != -1) {
 		ClearPlayerKeyActionUI(playerid);
 
-		if(IsValidHolsterItem(itemtype))
-		{
+		if(IsValidHolsterItem(itemtype)) {
 			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
 		}
 
-		if(GetItemWeaponCalibre(GetItemTypeWeapon(itemtype)) != NO_CALIBRE)
-		{
+		if(GetItemWeaponCalibre(GetItemTypeWeapon(itemtype)) != NO_CALIBRE) {
 			if(GetItemTypeAmmoType(GetItemWeaponItemAmmoItem(itemid)) != -1 && GetItemWeaponItemMagAmmo(itemid) + GetItemWeaponItemReserve(itemid) != 0)
 				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPRELOAD"));
 			else
 				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 		}
-	}
-
-	else
-	{
+	} else {
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
 		    
@@ -333,7 +276,6 @@ _UpdateKeyActions(playerid)
     //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
 
 	ShowPlayerKeyActionUI(playerid);
-	}
 }
 
 _ShowRepairTip(playerid, vehicleid)
