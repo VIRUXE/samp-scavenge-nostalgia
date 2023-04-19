@@ -1,22 +1,27 @@
 #define MAX_LANGUAGE_ENTRY_LENGTH 199 // json_longest_string.py
 
+#define CACHE_SIZE 50
+#define CACHE_ROUTE_LENGTH 40 // player/key-actions/player/open_inventory
+
 enum {
 	PORTUGUESE,
 	ENGLISH
 };
 
-#define CACHE_SIZE 50
+static enum E_CACHE {
+    ROUTE[CACHE_ROUTE_LENGTH+1],
+    Node:NODE,
+    LAST_USED
+};
 
 static
 	lang_PlayerLanguage[MAX_PLAYERS],
-	lang_CacheKeys[CACHE_SIZE],
-	Node:lang_CacheNodes[CACHE_SIZE],
-	lang_CacheLRU[CACHE_SIZE];
+	lang_Cache[CACHE_SIZE][E_CACHE];
 
 static ReplaceTags(content[]) {
 	enum REPLACEMENTS {
-		TAG[18],
-		REPLACEMENT[27]
+		TAG[17+1],
+		REPLACEMENT[26+1]
 	};
 	
     new replacements[][REPLACEMENTS] = {
@@ -58,49 +63,56 @@ static ReplaceTags(content[]) {
     }
 }
 
-static GetFromCache(const key[], Node:node) {
-    for (new i = 0; i < CACHE_SIZE; ++i) {
-        if (strcmp(lang_CacheKeys[i], key) == 0) {
-            lang_CacheLRU[i] = gettime();
-            node = lang_CacheNodes[i];
-            return 1;
-        }
-    }
-    return 0;
-}
-
-static StoreInCache(const key[], Node:node) {
-    new emptyIndex = -1;
-    new minLRUIndex = 0;
-    new minLRU = lang_CacheLRU[0];
+static StoreInCache(const route[], Node:node) {
+    new 
+        emptyIndex  = -1,
+        minLRUIndex = 0,
+        minLRU      = lang_Cache[0][LAST_USED];
 
     // Iterate through the cache to find an empty index or the least recently used item
     for (new i = 0; i < CACHE_SIZE; ++i) {
-        if (strlen(lang_CacheKeys[i]) == 0) {
+        if (strlen(lang_Cache[i][ROUTE]) == 0) {
             emptyIndex = i;
             break;
         }
-        if (lang_CacheLRU[i] < minLRU) {
-            minLRU = lang_CacheLRU[i];
+        if (lang_Cache[i][LAST_USED] < minLRU) {
+            minLRU = lang_Cache[i][LAST_USED];
             minLRUIndex = i;
         }
     }
 
     // If an empty index was found, store the key, node, and update the LRU timestamp.
     // Otherwise, evict the least recently used item and replace it with the new item.
-    new indexToStore = (emptyIndex != -1) ? emptyIndex : minLRUIndex;
-    
-    strcpy(lang_CacheKeys[indexToStore], key);
-    lang_CacheNodes[indexToStore] = node;
-    lang_CacheLRU[indexToStore] = gettime();
+    new cacheIndex = (emptyIndex != -1) ? emptyIndex : minLRUIndex;
 
-    return 1;
+    strcopy(lang_Cache[cacheIndex][ROUTE], route, CACHE_ROUTE_LENGTH + 1);
+    lang_Cache[cacheIndex][NODE]      = node;
+    lang_Cache[cacheIndex][LAST_USED] = gettime();
+
+    printf("[i18n][cache] '%s' was stored at index %d", route, cacheIndex);
+}
+
+static bool:GetFromCache(const route[], Node:node) {
+    for (new i = 0; i < CACHE_SIZE; ++i) {
+        printf("[i18n][cache] Index %d: %s", i, lang_Cache[i][ROUTE]);
+
+        if (isequal(lang_Cache[i][ROUTE], route)) {
+            lang_Cache[i][LAST_USED] = gettime();
+            node = lang_Cache[i][NODE];
+            
+            return true;
+        }
+    }
+
+    return false;
 }
 
 GetLanguageString(playerid, const route[]) {
     new Node:node;
-    
+
     if (!GetFromCache(route, node)) {
+        printf("[i18n] '%s' not in cache. Reading file.", route);
+
         JSON_ParseFile("./scriptfiles/i18n.json", node);
 
         // Split the route and navigate through the JSON tree
@@ -130,7 +142,7 @@ GetLanguageString(playerid, const route[]) {
         ReplaceTags(output);
     } else {
         printf("[i18] Route '%s' doesn't have any strings.", route);
-        strcpy(output, route);
+        strcopy(output, route);
     }
 
     return output;
