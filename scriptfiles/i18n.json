@@ -320,9 +320,6 @@
 		},
 		"container": {
 			"move"           : ["Mover para", "Move to"],
-			"slot_empty"     : ["Vazio", "Empty"],
-			"slot_options"   : ["Opcoes", "Options"],
-			"close"          : ["Fechar", "Close"],
 			"item_options"   : ["Equipar\nUsar\nJogar Item\n", "Equipar\nUsar\nJogar Item\n"],
 			"inventory_title": ["Inventario", "Inventory"],
 			"inventory_open" : ["Abrir Inventario", "Open Inventory"],
