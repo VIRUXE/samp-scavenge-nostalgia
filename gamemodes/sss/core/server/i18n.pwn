@@ -8,15 +8,9 @@ enum {
 	ENGLISH
 };
 
-static enum E_CACHE {
-    ROUTE[CACHE_ROUTE_LENGTH+1],
-    Node:NODE,
-    LAST_USED
-};
-
 static
 	lang_PlayerLanguage[MAX_PLAYERS],
-	lang_Cache[CACHE_SIZE][E_CACHE];
+	Node:lang_i18n;
 
 static ReplaceTags(content[]) {
 	enum REPLACEMENTS {
@@ -63,71 +57,18 @@ static ReplaceTags(content[]) {
     }
 }
 
-static StoreInCache(const route[], Node:node) {
-    new 
-        emptyIndex  = -1,
-        minLRUIndex = 0,
-        minLRU      = lang_Cache[0][LAST_USED];
-
-    // Iterate through the cache to find an empty index or the least recently used item
-    for (new i = 0; i < CACHE_SIZE; ++i) {
-        if (strlen(lang_Cache[i][ROUTE]) == 0) {
-            emptyIndex = i;
-            break;
-        }
-        if (lang_Cache[i][LAST_USED] < minLRU) {
-            minLRU = lang_Cache[i][LAST_USED];
-            minLRUIndex = i;
-        }
-    }
-
-    // If an empty index was found, store the key, node, and update the LRU timestamp.
-    // Otherwise, evict the least recently used item and replace it with the new item.
-    new cacheIndex = (emptyIndex != -1) ? emptyIndex : minLRUIndex;
-
-    strcopy(lang_Cache[cacheIndex][ROUTE], route, CACHE_ROUTE_LENGTH + 1);
-    lang_Cache[cacheIndex][NODE]      = node;
-    lang_Cache[cacheIndex][LAST_USED] = gettime();
-
-    printf("[i18n][cache] '%s' was stored at index %d", route, cacheIndex);
-}
-
-static bool:GetFromCache(const route[], Node:node) {
-    for (new i = 0; i < CACHE_SIZE; ++i) {
-        printf("[i18n][cache] Index %d: %s", i, lang_Cache[i][ROUTE]);
-
-        if (isequal(lang_Cache[i][ROUTE], route)) {
-            lang_Cache[i][LAST_USED] = gettime();
-            node = lang_Cache[i][NODE];
-            
-            return true;
-        }
-    }
-
-    return false;
-}
-
 GetLanguageString(playerid, const route[]) {
-    new Node:node;
+    new Node:node = lang_i18n;
 
-    if (!GetFromCache(route, node)) {
-        printf("[i18n] '%s' not in cache. Reading file.", route);
+    // Split the route and navigate through the JSON tree
+    new routeSplit[6][32], routeSplitCount;
+    strsplit(route, "/", routeSplit, routeSplitCount);
 
-        JSON_ParseFile("./scriptfiles/i18n.json", node);
-
-        // Split the route and navigate through the JSON tree
-        new routeSplit[6][32], routeSplitCount;
-        strsplit(route, "/", routeSplit, routeSplitCount);
-
-        for (new i = 0; i < routeSplitCount-1; i++) {
-            JSON_GetObject(node, routeSplit[i], node);
-        }
-
-        JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
-
-        // Cache the final node before returning the string
-        StoreInCache(route, node);
+    for (new i = 0; i < routeSplitCount-1; i++) {
+        JSON_GetObject(node, routeSplit[i], node);
     }
+
+    JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
 
     // Check if the array has at least two entries
     new len;
@@ -201,4 +142,14 @@ stock ConvertEncoding(string[])
 		// If it is, replace it with the real character.
 		if(0 <= (ch = string[i]) < 256) string[i] = real[ch];
 	}
+}
+
+hook OnGameModeInit() {
+    JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n);
+}
+
+ACMD:i18n[5](playerid, params[]) {
+    ChatMsg(playerid, -1, ls(playerid, params));
+
+    return 1;
 }
