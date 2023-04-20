@@ -20,27 +20,6 @@ ACMD:settutorial[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:idioma[3](playerid, params[])
-{
-	new targetId = INVALID_PLAYER_ID, lang[3];
-
-	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
-
-	sscanf(params, "rs[2]", targetId, lang);
-
-	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador não existe.");
-
-	if(isempty(lang)) return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
-
-	if(isequal(lang, "pt")) SetPlayerLanguage(targetId, 0);
-	else if(isequal(lang, "en")) SetPlayerLanguage(targetId, 1);
-	else return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
-
-	ChatMsg(targetId, YELLOW, " > Seu idioma foi alterado para '%s'.", lang);
-
-	return ChatMsg(playerid, YELLOW, " > Idioma de %P"C_YELLOW" alterado para '%s'.", targetId, lang);
-}
-
 /*
 ACMD:whitelist[3](playerid, params[])
 {

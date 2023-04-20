@@ -46,11 +46,9 @@ static ReplaceTags(content[]) {
         {"KEYTEXT_RADIO", "R"}
     };
 
-    for (new i = 0; i < sizeof(replacements); i++)
-    {
+    for (new i = 0; i < sizeof(replacements); i++) {
         new findIndex = -1;
-        while ((findIndex = strfind(content, sprintf("{%s}", replacements[i][TAG]), false, findIndex + 1)) != -1)
-        {
+        while ((findIndex = strfind(content, sprintf("{%s}", replacements[i][TAG]), false, findIndex + 1)) != -1) {
             strdel(content, findIndex, findIndex + strlen(replacements[i][TAG]) + 2);
             strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
         }
@@ -75,20 +73,28 @@ GetLanguageString(playerid, const route[]) {
     JSON_ArrayLength(node, len);
 
     new output[MAX_LANGUAGE_ENTRY_LENGTH];
+    strcopy(output, route);
     
     if(len >= 1) {
-        JSON_ArrayObject(node, len == 1 ? 0 : GetPlayerLanguage(playerid), node);
+        new player_language = GetPlayerLanguage(playerid);
+        
+        JSON_ArrayObject(node, len == 1 ? 0 : player_language, node);
         JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
 
+        if(isempty(output)) {
+            printf("[i18] Route '%s' for language %d is empty", route, player_language);
+            return output;
+        }
+
         ReplaceTags(output);
+
+        printf("GetLanguageString(%d (Language: %d), '%s'): %s", playerid, player_language, route, output);
     } else {
         printf("[i18] Route '%s' doesn't have any strings.", route);
-        strcopy(output, route);
     }
 
     return output;
 }
-
 
 GetPlayerLanguage(playerid)
 {
@@ -101,12 +107,22 @@ SetPlayerLanguage(playerid, langid)
 {
 	if(!IsPlayerConnected(playerid)) return -1;
 
+    if(langid != 0 && langid != 1) {
+        printf("[i18n] Invalid language id: %d", langid);
+        PrintBacktrace();
+        return -1;
+    }
+
 	lang_PlayerLanguage[playerid] = langid;
 
-	log("[LANGUAGE] %p (%d) tem o idioma '%s'", playerid, playerid, langid == 0 ? "Português" : "English");
+	log("[LANGUAGE] %p (%d) tem o idioma '%s' (%d)", playerid, playerid, langid == 0 ? "Português" : "English", langid);
 
 	return 1;
 }
+
+/* SavePlayerLanguage(playerid, langid) {
+    return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langid, GetPlayerNameEx(playerid)));
+} */
 
 /*
 	Credit for this function goes to Y_Less:
@@ -144,12 +160,40 @@ stock ConvertEncoding(string[])
 	}
 }
 
+
 hook OnGameModeInit() {
-    JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n);
+    printf("[i18n] Carregamento %s.", JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n) ? "Falhou" : "Sucedido");
 }
 
 ACMD:i18n[5](playerid, params[]) {
     ChatMsg(playerid, -1, params);
 
     return 1;
+}
+
+ACMD:idioma[3](playerid, params[])
+{
+	new targetId = INVALID_PLAYER_ID, lang[3];
+
+	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
+
+	sscanf(params, "rs[2]", targetId, lang);
+
+	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador não existe.");
+
+	if(isempty(lang)) return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
+
+	if(isequal(lang, "pt")) {
+        SetPlayerLanguage(targetId, 0);
+        SavePlayerLanguage(playerid, 0);
+    } else if(isequal(lang, "en")) {
+        SetPlayerLanguage(targetId, 1);
+        SavePlayerLanguage(playerid, 1);
+    } else 
+        return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
+
+
+	ChatMsg(targetId, YELLOW, " > Seu idioma foi alterado para '%s'.", lang);
+
+	return ChatMsg(playerid, YELLOW, " > Idioma de %P"C_YELLOW" alterado para '%s'.", targetId, lang);
 }

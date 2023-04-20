@@ -1642,6 +1642,13 @@
       "saiu do servidor",
       "left the server"
     ],
+    "join-sentence": {
+      "onplayerlogin": ["Sua frase de entrada", "Your entrance sentence"],
+      "points"       : ["Você precisa de 100 pontos para usar este comando", "You need 100 points to use this commando"],
+      "cmd-syntax"   : [" > Use: /frase [frase]", ""],
+      "big-sentence" : [" > Frase muito grande.", ""],
+      "changed"      : ["Frase de entrada alterada para", ""]
+    },
     "account": {
       "register": {
         "invalid-password": [

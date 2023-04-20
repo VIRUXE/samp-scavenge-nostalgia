@@ -90,7 +90,7 @@ forward Float:GetPlayerBleedRate(playerid);
 	#define MAX_MODIO_SESSION				(2048) // modio
 #endif
 
-#define ls(%0,%1) GetLanguageString(GetPlayerLanguage(%0), %1)
+#define ls(%0,%1) GetLanguageString(%0, %1)
 
 /*==============================================================================
 
