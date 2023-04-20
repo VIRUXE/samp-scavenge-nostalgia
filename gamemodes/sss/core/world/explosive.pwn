@@ -209,7 +209,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB"));
+			ShowActionText(playerid, ls(playerid, "item/explosive/bomb-arming"));
 		}
 		else if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == PROXIMITY)
 		{
@@ -219,7 +219,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB"));
+			ShowActionText(playerid, ls(playerid, "item/explosive/bomb-arming"));
 		}
 		else if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)
 		{
@@ -229,7 +229,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			StartHoldAction(playerid, 1000);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 			PlayerPlaySound(playerid, 25800, 0.0, 0.0, 0.0);
-			ShowActionText(playerid, ls(playerid, "ARMINGBOMB"));
+			ShowActionText(playerid, ls(playerid, "item/explosive/bomb-arming"));
 		}
 	}
 	else if(GetItemType(itemid) == exp_RadioTriggerItemType)
@@ -337,7 +337,7 @@ hook OnHoldActionFinish(playerid)
 
 				SetItemExtraData(exp_ArmingItem[playerid], 1);
 				ClearAnimations(playerid);
-				ShowActionText(playerid, ls(playerid, "ARMEDBOMB"), 3000);
+				ShowActionText(playerid, ls(playerid, "item/explosive/bomb-armed"), 3000);
 
 				exp_ArmingItem[playerid] = INVALID_ITEM_ID;
 			}

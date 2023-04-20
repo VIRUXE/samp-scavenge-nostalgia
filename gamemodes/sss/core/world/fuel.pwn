@@ -151,7 +151,7 @@ StartRefuellingFuelCan(playerid, outletid)
 
 	if(fuel_Data[outletid][fuel_amount] <= 0.0)
 	{
-		ShowActionText(playerid, ls(playerid, "EMPTY"), 3000, 80);
+		ShowActionText(playerid, ls(playerid, "common/empty"), 3000, 80);
 		return 0;
 	}
 
@@ -193,7 +193,7 @@ StartRefuellingVehicle(playerid, vehicleid)
 
 	if(GetLiquidItemLiquidAmount(itemid) <= 0.0)
 	{
-		ShowActionText(playerid, ls(playerid, "EMPTY"), 3000);
+		ShowActionText(playerid, ls(playerid, "common/empty"), 3000);
 		return 0;
 	}
 
@@ -245,7 +245,7 @@ hook OnHoldActionUpdate(playerid, progress)
 
 		if(canfuel <= 0.0)
 		{
-			ShowActionText(playerid, ls(playerid, "EMPTY"), 3000, 80);
+			ShowActionText(playerid, ls(playerid, "common/empty"), 3000, 80);
 			StopRefuellingVehicle(playerid);
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}

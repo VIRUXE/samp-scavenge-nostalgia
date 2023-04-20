@@ -13,7 +13,7 @@ provided_routes = {}
 def process_content(content, file_path):
     global routes_found
     global provided_routes
-    function_pattern = r'(?:ls|ChatMsgLang)\(\s*playerid\s*,\s*(?:[A-Z_]+\s*,\s*)?(".*?")\s*(?:,\s*[A-Z_]+)?\)'
+    function_pattern = r'(?:ls|ChatMsg)\(\s*(?:playerid|i)\s*,\s*(?:[A-Z_]+\s*,\s*)?("([A-Z_]+)")\s*(?:,\s*[A-Z_]+)?\)'
     lines = content.splitlines()
     modified_lines = []
 
@@ -21,34 +21,40 @@ def process_content(content, file_path):
         match = re.search(function_pattern, line)
         if match:
             search_key = match.group(1).strip('"')
-            value = search_value_in_language_file(search_key, 'Portugues')
+            pt_value = search_value_in_language_file(search_key, 'Portugues')
+            en_value = search_value_in_language_file(search_key, 'English')
+            value = pt_value or en_value
+
             if value:
                 route = find_route_in_json(value)
-                if route:
-                    route_str = '/'.join(route)
-                    print(f"{Fore.GREEN}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route: {route_str}")
-                    routes_found += 1
-                else:
-                    print(f"{Fore.YELLOW}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route not found")
-                    if search_key in provided_routes:
-                        route_str = provided_routes[search_key]
-                    else:
-                        route_str = input(f"Provide the route to replace the key (leave blank to keep): ")
-                        if route_str:
-                            provided_routes[search_key] = route_str
-                            create_nodes_in_json(route_str, search_key)
-                        else:
-                            continue
+            else:
+                route = None
 
-                line = line.replace(search_key, route_str)
-                print(f"{Fore.CYAN}Replaced line: {line}")
+            if route:
+                route_str = '/'.join(route)
+                print(f"{Fore.GREEN}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route: {route_str}")
+                routes_found += 1
+            else:
+                print(f"{Fore.YELLOW}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route not found")
+                if search_key in provided_routes:
+                    route_str = provided_routes[search_key]
+                else:
+                    route_str = input(f"Provide the route to replace the key (leave blank to keep): ")
+                    if route_str:
+                        provided_routes[search_key] = route_str
+                        create_nodes_in_json(route_str, search_key)
+                    else:
+                        continue
+
+            line = line.replace(search_key, route_str)
+            print(f"{Fore.CYAN}Replaced line: {line}")
 
         modified_lines.append(line)
 
     updated_content = "\n".join(modified_lines)
     with io.open(file_path, 'w', encoding='windows-1252', errors='ignore') as pwn_file:
         pwn_file.write(updated_content.rstrip('\n'))
-        
+                                            
 def search_value_in_language_file(search_key, language):
     with open(f'scriptfiles/languages/{language}', 'r') as language_file:
         for line in language_file:
@@ -68,6 +74,9 @@ def create_nodes_in_json(route_str, search_key):
     parent_node = None
     for key in route:
         parent_node = current_node
+        if isinstance(current_node, list):
+            current_node = {}
+            parent_node[route[-2]] = current_node
         if key not in current_node:
             current_node[key] = {}
         current_node = current_node[key]
@@ -76,10 +85,10 @@ def create_nodes_in_json(route_str, search_key):
         pt_value = search_value_in_language_file(search_key, 'Portugues') or ""
         en_value = search_value_in_language_file(search_key, 'English') or ""
         new_node = [pt_value, en_value]
-        parent_node[route[-1]] = new_node
-
-        with open('scriptfiles/i18n.json', 'w') as json_file:
-            json.dump(json_data, json_file, ensure_ascii=False, indent=2)
+        if new_node != current_node:
+            parent_node[route[-1]] = new_node
+            with open('scriptfiles/i18n.json', 'w') as json_file:
+                json.dump(json_data, json_file, ensure_ascii=False, indent=2)
 
 def find_route_in_json(value):
     with open('scriptfiles/i18n.json', 'r') as json_file:
@@ -102,8 +111,7 @@ for root, _, files in os.walk("gamemodes"):
     for file in files:
         if file.endswith('.pwn'):
             file_path = os.path.join(root, file)
-            with io.open(file_path, 'r', encoding=None, errors='ignore') as pwn_file:
-                content = pwn_file.read()
-                process_content(content, file_path)
+            with io.open(file_path, 'r', encoding='windows-1252', errors='ignore') as pwn_file:
+                process_content(pwn_file.read(), file_path)
                 
 print(f"{Fore.CYAN}Total routes found: {routes_found}")

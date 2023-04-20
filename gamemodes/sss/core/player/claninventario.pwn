@@ -38,14 +38,14 @@ hook OnPlayerDisconnect(playerid, reason)
 }
 
 hook OnPlayerOpenInventory(playerid){
-	frd_InventoryOption[playerid] = AddInventoryListItem(playerid, ls(playerid, "FRDOPTION"));
+	frd_InventoryOption[playerid] = AddInventoryListItem(playerid, ls(playerid, "player/inventory/friends/option"));
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 stock ShowFriendDialog(playerid){
 	new str[ (MAX_PLAYER_NAME * MAX_PLAYER_FRIENDS) + 27];
 
-    strcat(str, ls(playerid, "FRDADD"));
+    strcat(str, ls(playerid, "player/inventory/friends/add"));
     strcat(str, "\n \n");
 
 	for(new i = 0; i < MAX_PLAYER_FRIENDS; i++){
@@ -54,7 +54,6 @@ stock ShowFriendDialog(playerid){
 		strcat(str, "\n");
 	}
 
-	Dialog_Show(playerid, Friend_Dialog, DIALOG_STYLE_LIST, ls(playerid, "FRDDIALOG"), str, ls(playerid, "FRDSELECT"), ls(playerid, "FRDCANCEL"));
 }
 
 hook OnPlayerSelectExtraItem(playerid, item){
@@ -100,7 +99,6 @@ Dialog:Friend_Dialog(playerid, response, listitem, inputtext[]){
 				}
 			}
 			
-		    Dialog_Show(playerid, Friend_Add, DIALOG_STYLE_LIST, ls(playerid, "FRDADD"), str, ls(playerid, "FRDSELECT"), ls(playerid, "FRDCANCEL"));
 		}
 		else if(listitem == 1)
             ShowFriendDialog(playerid);
@@ -108,7 +106,7 @@ Dialog:Friend_Dialog(playerid, response, listitem, inputtext[]){
 		// Remove Friend
 		else{
 		    frd_SelectRemove[playerid] = listitem - 2;
-		    Dialog_Show(playerid, Friend_Remove, DIALOG_STYLE_MSGBOX, frd_PlayerFriend[playerid][listitem - 2], ls(playerid, "FRDREMOVE"), ls(playerid, "FRDREMOVEY"), ls(playerid, "FRDREMOVEN"));
+		    Dialog_Show(playerid, Friend_Remove, DIALOG_STYLE_MSGBOX, frd_PlayerFriend[playerid][listitem - 2], ls(playerid, "player/inventory/friends/remove"), ls(playerid, "player/inventory/friends/removeY"), ls(playerid, "player/inventory/friends/removeN"));
 		}
 	}
 	else DisplayPlayerInventory(playerid);
@@ -140,7 +138,7 @@ Dialog:Friend_Add(playerid, response, listitem, inputtext[])
 		}
 
 		if(friend_count >= MAX_PLAYER_FRIENDS){
-		    Dialog_Show(playerid, Friend_Invited, DIALOG_STYLE_MSGBOX, name, ls(playerid, "FRDMAX"), "<", "");
+		    Dialog_Show(playerid, Friend_Invited, DIALOG_STYLE_MSGBOX, name, ls(playerid, "player/inventory/friends/max-friends"), "<", "");
 		    return 1;
 		}
 
@@ -148,7 +146,7 @@ Dialog:Friend_Add(playerid, response, listitem, inputtext[])
 
 	    ChatMsg(listitem, YELLOW, "FRDACCPT", playerid, playerid);
 
-	    Dialog_Show(playerid, Friend_Invited, DIALOG_STYLE_MSGBOX, name, ls(playerid, "FRDINVITED"), "<", "");
+	    Dialog_Show(playerid, Friend_Invited, DIALOG_STYLE_MSGBOX, name, ls(playerid, "player/inventory/friends/invited"), "<", "");
 	}
 	else
 	    ShowFriendDialog(playerid);
@@ -161,15 +159,15 @@ CMD:accept(playerid, params[])
 	if(!IsPlayerSpawned(playerid)) return 1;
 	
 	if(strlen(params) < 1)
-        return ChatMsg(playerid, RED, "FRDACCCMD");
+        return ChatMsg(playerid, RED, "player/inventory/friends/accept");
 
 	new id = strval(params);
 
 	if(!IsPlayerConnected(id))
-	    return ChatMsg(playerid, RED, "FRDCMDOFF");
+	    return ChatMsg(playerid, RED, "player/inventory/friends/friend-offline");
 	    
 	if(!frd_Invited[id][playerid])
-	    return ChatMsg(playerid, RED, "FRDNOTINV");
+	    return ChatMsg(playerid, RED, "player/inventory/friends/friend-no-invite");
 
 	new
 		name[MAX_PLAYER_NAME];
@@ -198,7 +196,6 @@ CMD:accept(playerid, params[])
 		}
 	}
     
-    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, ls(playerid, "FRDADD"), ls(playerid, "FRDNEW"), "X", "");
     ShowPlayerDialog(id, 10008, DIALOG_STYLE_MSGBOX, ls(id, "FRDADD"), ls(id, "FRDNEW"), "X", "");
     
     ClanNameTagUpdate(playerid);

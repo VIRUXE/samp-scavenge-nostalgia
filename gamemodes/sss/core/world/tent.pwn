@@ -230,7 +230,7 @@ StartBuildingTent(playerid, itemid)
 	StartHoldAction(playerid, IsPlayerVip(playerid) ? 5000 : 10000);
     	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, ls(playerid, "TENTBUILD"));
+	ShowActionText(playerid, ls(playerid, "item/tent_building"));
 	tnt_CurrentTentItem[playerid] = itemid;
 
 	if(!IsPlayerInvadedField(playerid)) ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");

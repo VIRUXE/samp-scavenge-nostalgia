@@ -1053,7 +1053,7 @@ stock AvisoField(playerid) {
 		"%s"C_YELLOW"\t- Construir.\n\
 		\t- Desmontar com pé de cabra.\n\
 		\t- Interagir tendas e caixas.\n\
-		\t- Interagir com veÍculos.\n\n", string);
+		\t- Interagir com ve�culos.\n\n", string);
 
     format(string, 700,
 		"%s"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteção.\n\n", string);

@@ -808,7 +808,7 @@ task RestartUpdate[SEC(1)]()
 
 			foreach(new i : Player) {
 				ChatMsg(i, RED, "");
-				ChatMsg(i, RED, "RESPAWNWRNTXT");
+				ChatMsg(i, RED, "server/restart_warning_3m");
 				ChatMsg(i, RED, "");
 			}
 		}

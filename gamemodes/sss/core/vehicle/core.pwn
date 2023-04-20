@@ -723,9 +723,9 @@ ShowVehicleUI(playerid, vehicleid)
 
 	PlayerTextDrawSetString(playerid, veh_NameUI[playerid], vehiclename);
 	
-//	PlayerTextDrawSetString(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], ls(playerid, "VEHDMG"));
-    PlayerTextDrawSetString(playerid, veh_EngineUI[playerid], ls(playerid, "VEHENG"));
-    PlayerTextDrawSetString(playerid, veh_DoorsUI[playerid], ls(playerid, "VEHDOR"));
+//	PlayerTextDrawSetString(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], ls(playerid, "vehicle/hud/damage"));
+    PlayerTextDrawSetString(playerid, veh_EngineUI[playerid], ls(playerid, "player/key-actions/vehicle/toggle_engine"));
+    PlayerTextDrawSetString(playerid, veh_DoorsUI[playerid], ls(playerid, "player/key-actions/vehicle/toggle_doors"));
     
 	PlayerTextDrawShow(playerid, veh_NameUI[playerid]);
 	PlayerTextDrawShow(playerid, veh_BarraUI[playerid]);

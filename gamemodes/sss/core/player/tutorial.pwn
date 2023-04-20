@@ -121,7 +121,7 @@ hook OnPlayerWearBag(playerid, itemid)
 
 		IncreaseTutorialProgress(playerid, EQUIP_BACKPACK);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORACCBAG"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/access_bag"));
 	}
 }
 
@@ -131,7 +131,7 @@ hook OnPlayerOpenInventory(playerid)
 /* 	    if(!PlayerTutorial_VozInv[playerid])
 	    {
 	    	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
-				ls(playerid, "TUTORINTINV"), ls(playerid, "common/lang-shortcode")));
+				ls(playerid, "tutorial/tip/access_inventory"), ls(playerid, "common/lang-shortcode")));
 
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=Este é o seu inventário. Também conhecido como seus bolsos. Esta não é sua mochila.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
@@ -166,7 +166,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 		{
 /* 		    if(!PlayerTutorial_VozCnt[playerid])
 		    {
-  				// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTBAG"), ls(playerid, "common/lang-shortcode")));
+  				// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/access_bag_own"), ls(playerid, "common/lang-shortcode")));
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Esta é a sua Mochila. Elas são armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=This is your bag. Bags are extra storage. There are many different types of bags with different sizes.&tl=EN-TW&client=tw-ob
 
@@ -209,7 +209,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 
 			IncreaseTutorialProgress(playerid, VIEW_CONTAINER_OPTIONS);
 
-			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-options"));
 		// }
 	}
 
@@ -227,7 +227,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 
 		IncreaseTutorialProgress(playerid, DROP_ITEM);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORDROITM"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-drop"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -244,7 +244,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 
 		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_INVENTORY);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINVADD"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -254,14 +254,14 @@ hook OnPlayerViewInvOpt(playerid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMOPT"), ls(playerid, "common/lang-shortcode")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-options"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, VIEW_INVENTORY_OPTIONS);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMOPT"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-options"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -275,21 +275,21 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 
 		if(containerid == GetItemArrayDataAtCell(GetPlayerBagItem(playerid), 1))
 		{
-			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDBAG"), ls(playerid, "common/lang-shortcode")));
+			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-bag"), ls(playerid, "common/lang-shortcode")));
 
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORADDBAG"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-bag"));
 		}
 		else
 		{
-			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORADDCNT"), ls(playerid, "common/lang-shortcode")));
+			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-container"), ls(playerid, "common/lang-shortcode")));
 
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
-			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORADDCNT"));
+			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-container"));
 		}
 	}
 
@@ -300,12 +300,12 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORITMHOL"), ls(playerid, "common/lang-shortcode")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/weapon-holster"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMHOL"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/weapon-holster"));
 
 		IncreaseTutorialProgress(playerid, HOLSTER_WEAPON);
 	}
@@ -319,7 +319,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	{
 		IncreaseTutorialProgress(playerid, USE_ITEM_ON_ANOTHER_ITEM);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMUSE"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-use-item"));
 	}
 }
 
@@ -327,7 +327,7 @@ hook OnTentBuilt(playerid, tentid) {
 	if(IsPlayerInTutorial(playerid)) {
 		IncreaseTutorialProgress(playerid, BUILD_TENT);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORITMBLD"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/tent-built"));
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -337,14 +337,14 @@ hook OnItemTweakFinish(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid))
 	{
-		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIDEF"), ls(playerid, "common/lang-shortcode")));
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/defence"), ls(playerid, "common/lang-shortcode")));
 
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=Finished defense finished. Install a motor and then a keyboard in your defense.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, FINISH_ITEM_TWEAK);
 
-		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORIDEF"));
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/defence"));
 	}
 }
 
@@ -567,13 +567,13 @@ EnterTutorial(playerid) {
 	SetLiquidItemLiquidType(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN], liquid_Petrol);
 	SetLiquidItemLiquidAmount(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN], 15);
 
-	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORINTROD"), ls(playerid, "common/lang-shortcode")));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/intro"), ls(playerid, "common/lang-shortcode")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerão aqui!&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Welcome to the tutorial! Look around and try things. Help messages will appear here!&tl=EN-TW&client=tw-ob
 
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORINTROD"));
+	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/intro"));
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
@@ -622,14 +622,14 @@ ExitTutorial(playerid)
 	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
 
-	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "TUTORIEXIT"), ls(playerid, "common/lang-shortcode")));
+	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	return ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "TUTORIEXIT"));
+	return ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
 }
 
 IsPlayerInTutorial(playerid) {

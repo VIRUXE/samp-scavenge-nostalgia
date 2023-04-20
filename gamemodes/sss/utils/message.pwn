@@ -29,7 +29,12 @@ stock msg_SendClientMessageToAll(colour, string[])
 
 stock ChatMsg(playerid, colour, fmat[], {Float,_}:...)
 {
-	format(formatBuffer, sizeof(formatBuffer), strfind(fmat, "/") != -1 ? ls(playerid, fmat) : fmat, ___(3));
+	if(strfind(fmat, "/") != -1) {
+		format(formatBuffer, sizeof(formatBuffer), ls(playerid, fmat), ___(3));
+	} else {
+		format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
+	}
+
 	ChatMsgFlat(playerid, colour, formatBuffer);
 
 	return 1;

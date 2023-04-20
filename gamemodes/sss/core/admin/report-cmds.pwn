@@ -193,7 +193,7 @@ Dialog:ReportMenu(playerid, response, listitem, inputtext[])
 					}
 					else
 					{
-						ChatMsg(playerid, RED, "REPNOPFOUND");
+						ChatMsg(playerid, RED, "player/not-found");
 						return 1;
 					}
 				}

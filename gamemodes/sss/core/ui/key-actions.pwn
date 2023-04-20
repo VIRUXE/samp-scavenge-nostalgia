@@ -138,10 +138,10 @@ _UpdateKeyActions(playerid)
 	if(IsPlayerInAnyVehicle(playerid)) {
 		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			ClearPlayerKeyActionUI(playerid);
-			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "KA_ENGINE"));
-			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "KA_LIGHTS"));
-			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "KA_DOORS"));
-			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "KA_HORN"));
+			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "player/key-actions/vehicle/toggle_engine"));
+			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "player/key-actions/vehicle/toggle_lights"));
+			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "player/key-actions/vehicle/toggle_doors"));
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/vehicle/toggle_horn"));
 			ShowPlayerKeyActionUI(playerid);
 			
 			return;
@@ -157,10 +157,10 @@ _UpdateKeyActions(playerid)
 
 	if(invehiclearea != INVALID_VEHICLE_ID && !IsPlayerInAnyVehicle(playerid)) {
 		if(IsPlayerAtVehicleTrunk(playerid, invehiclearea))
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENTRUNK"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/open_trunk"));
 
 		if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRWF"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair_engine"));
 	}
 
 	foreach(new i : Player) {
@@ -172,14 +172,14 @@ _UpdateKeyActions(playerid)
 
 	if(!IsValidItem(itemid)) {
 		if(IsPlayerCuffed(inplayerarea)) {
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REMOVEAL"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/apply_cuffs"));
 			ShowPlayerKeyActionUI(playerid);
 		}
 
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));			    
 
 		if(IsValidItem(GetPlayerBagItem(playerid)))
-			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_REMOVEBAG"));
+			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/remove_bag"));
 
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
@@ -194,36 +194,36 @@ _UpdateKeyActions(playerid)
 	new ItemType:itemtype = GetItemType(itemid);
 
 	if(itemtype == item_Sign)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_PPLACA"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/set_sign"));
 	else if(itemtype == item_Armour)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEARMOUR"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/wear_vest"));
 	else if(itemtype == item_Crowbar)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_DESMONT"));	
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/disassemble"));	
 	else if(itemtype == item_Shield)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COLOCE"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/use_shield"));
 	else if(itemtype == item_Clothes)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_CLOTHES"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/wear_clothes"));
 	else if(itemtype == item_HerpDerp)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, "Herp-a-Derp");
 	else if(itemtype == item_HandCuffs) {
 		if(inplayerarea != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ALGP"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/appy_cuffs"));
 	} else if(itemtype == item_Wheel)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REPAIRVW"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/replace_tyre"));
 	else if(itemtype == item_GasCan) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 		{
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLV"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/refuel"));
 		}
 		else
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_REFULLG"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/item/fill-petrolcan"));
 	} else if(itemtype == item_Headlight) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_INSTFAROL"));
+				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/replace_light"));
 	} else if(itemtype == item_Pills)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_TPILULA"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/take_pills"));
 	else if(itemtype == item_AutoInjec)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER"));
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
@@ -234,18 +234,18 @@ _UpdateKeyActions(playerid)
 				AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair-engine"));
 	} else {
 		if(IsItemTypeFood(itemtype))
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_COMER"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/eat"));
 		else if(IsItemTypeBag(itemtype)) {
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_OPENBAG"));
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_USE"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/open_bag"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/items/use"));
 		} else if(GetHatFromItem(itemtype) != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/use-acessory"));
 		else if(GetMaskFromItem(itemtype) != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_USEAC"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/use-acessory"));
 		else if(GetItemTypeExplosiveType(itemtype) != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_ARMEXP"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/arm_explosive"));
 		else if(GetItemTypeLiquidContainerType(itemtype) != -1 && itemtype != item_GasCan)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "KA_BBER"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/drink"));
 	}
 	
 	if(GetItemTypeWeapon(itemtype) != -1) {
@@ -253,18 +253,18 @@ _UpdateKeyActions(playerid)
 
 		if(IsValidHolsterItem(itemtype)) {
 			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster"));
 		}
 
 		if(GetItemWeaponCalibre(GetItemTypeWeapon(itemtype)) != NO_CALIBRE) {
 			if(GetItemTypeAmmoType(GetItemWeaponItemAmmoItem(itemid)) != -1 && GetItemWeaponItemMagAmmo(itemid) + GetItemWeaponItemReserve(itemid) != 0)
-				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPRELOAD"));
+				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/item/dropreload-weapon"));
 			else
-				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
+				AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/item_drop"));
 		}
 	} else {
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
-		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "KA_DROPITEM"));
+		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/item_drop"));
 		    
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
@@ -273,7 +273,7 @@ _UpdateKeyActions(playerid)
 	if(IsPlayerOnAdminDuty(playerid))
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 
-    //AddToolTipText(playerid, "ALT", ls(playerid, "KA_OPENMAP"));
+    //AddToolTipText(playerid, "ALT", ls(playerid, "player/key-actions/player/open_map"));
 
 	ShowPlayerKeyActionUI(playerid);
 }
@@ -284,13 +284,13 @@ _ShowRepairTip(playerid, vehicleid)
 	GetVehicleHealth(vehicleid, health);
 
 	if(health <= VEHICLE_HEALTH_CHUNK_2)
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHVER"));
+		ShowHelpTip(playerid, ls(playerid, "tutorial/tip/vehicle-wrench"));
 	else if(health <= VEHICLE_HEALTH_CHUNK_3)
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHBRO"));
+		ShowHelpTip(playerid, ls(playerid, "tutorial/tip/vehicle-screwdriver"));
 	else if(health <= VEHICLE_HEALTH_CHUNK_4)
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHBIT"));
+		ShowHelpTip(playerid, ls(playerid, "tutorial/tip/vehicle-hammer"));
 	else if(health <= VEHICLE_HEALTH_MAX)
-		ShowHelpTip(playerid, ls(playerid, "TUTORVEHSLI"));
+		ShowHelpTip(playerid, ls(playerid, "tutorial/tip/vehicle-spanner"));
 	
 	return;
 }

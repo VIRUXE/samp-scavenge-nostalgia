@@ -1265,11 +1265,11 @@
       ]
     },
     "explosive": {
-      "bomb_arming": [
+      "bomb-arming": [
         "Armando Bomba",
         "Arming Bomb"
       ],
-      "bomb_armed": [
+      "bomb-armed": [
         "Bomba Armada",
         "Bomb Armed"
       ],
@@ -1746,7 +1746,7 @@
           "Usar",
           "Use"
         ],
-        "use_acessory": [
+        "use-acessory": [
           "Usar Acessorio",
           "Use Acessory"
         ],
@@ -1847,6 +1847,10 @@
         "item_give": [
           "Dar Item",
           "Give Item"
+        ],
+        "appy_cuffs": [
+          "",
+          "Handcuff Player"
         ]
       },
       "vehicle": {
@@ -1896,6 +1900,16 @@
           "Tempo Vivo",
           "Time alive"
         ]
+      },
+      "item": {
+        "fill-petrolcan": [
+          "",
+          "Fill up the Gallon"
+        ],
+        "dropreload-weapon": [
+          "",
+          "Drop/Reload"
+        ]
       }
     },
     "bag": {
@@ -1932,6 +1946,48 @@
       "camouflage": [
         "",
         "{C_YELLOW}Cammouflage >"
+      ],
+      "friends": {
+        "option": [
+          "",
+          "{C_GREEN}Friends >{C_WHITE}"
+        ],
+        "add": [
+          "",
+          "Add a friend +"
+        ],
+        "titulo": [
+          "",
+          "{C_GREEN}Friends"
+        ],
+        "remove": [
+          "",
+          "{C_RED}do you want to remove this friend from your friends list?"
+        ],
+        "max-friends": [
+          "",
+          "You have reached the maximum number of friends."
+        ],
+        "invited": [
+          "",
+          "Friendship invitation sent successfully."
+        ],
+        "accept": [
+          "",
+          " > Use /accept [player id]"
+        ],
+        "friend-offline": [
+          "",
+          " > Player ID not logged in."
+        ],
+        "friend-no-invite": [
+          "",
+          " > This player has not sent any friend invitations."
+        ]
+      },
+      "status-option": [
+        "",
+        "{C_YELLOW}Status >"
       ]
     },
     "radio": {
@@ -1995,7 +2051,31 @@
         " >  A senha que você digitou não coincide com a sua senha atual.",
         " >  The entered password you typed doesnt match your current password."
       ]
-    }
+    },
+    "not-found": [
+      "",
+      ""
+    ],
+    "score": [
+      "",
+      "Score"
+    ],
+    "kills": [
+      "",
+      "Deaths"
+    ],
+    "killingspree": [
+      "",
+      "Killing Spree"
+    ],
+    "aliveminutes": [
+      "",
+      "Live Minutes"
+    ],
+    "clan": [
+      "",
+      "Clan"
+    ]
   },
   "vehicle": {
     "lock": {
@@ -2068,40 +2148,14 @@
           "Chegue perto de uma roda para reparar",
           "Interact with a wheel to repair it"
         ],
-        "not=flat": [
+        "not-flat": [
           "Este pneu nao esta furado",
           "Tire not flat"
         ],
-        "repaired": {
-          "success": [
-            "Roda instalada com sucesso!",
-            ""
-          ],
-          "front": [
-            "Pneu da frente reparado",
-            "Repaired Front Tire"
-          ],
-          "back": [
-            "Pneu de tras reparado",
-            "Repaired Rear Tire"
-          ],
-          "front-left": [
-            "Voce reparou o pneu dianteiro esquerdo",
-            "Repaired Front Left Tire"
-          ],
-          "front-right": [
-            "Voce reparou o pneu dianteiro direito",
-            "Repaired Front Right Tire"
-          ],
-          "rear-left": [
-            "Voce reparou o pneu traseiro esquerdo",
-            "Repaired Rear Left Tire"
-          ],
-          "rear=right": [
-            "Voce reparou o pneu traseiro direito",
-            "Repaired Rear Right Tire"
-          ]
-        }
+        "repaired": [
+          "Pneu Reparado",
+          "Tire repaired"
+        ]
       },
       "body": {
         "fixed": [
@@ -2118,6 +2172,10 @@
       "door_state": [
         "Portas",
         "Doors"
+      ],
+      "damage": [
+        "",
+        ""
       ]
     },
     "saved": [
@@ -2248,6 +2306,10 @@
       "defence": [
         "Acabamento da defesa finalizado. Instale um motor e depois um teclado em sua defesa.",
         "Finished defense finished. Install a motor and then a keyboard in your defense."
+      ],
+      "vehicle-spanner": [
+        "",
+        "This vehicle is slightly broken! To fix, equip a wrench and hold ~y~F ~w~while at the front of the vehicle."
       ]
     }
   },
@@ -2295,6 +2357,10 @@
         "bombs": [
           "\t {C_YELLOW}Lista de Explosivos: (Total: 2) \\n\\n\\t  \\n\\n\\t {C_ORANGE}DINAMITE - (3 DE DANO EM METAIS) \\n\\n\\t {C_ORANGE}TNT - (2 DE DANO EM METAIS) \\n\\n\\t {C_ORANGE}IED - (1 DE DANO EM METAIS).",
           "\t {C_YELLOW}List of Explosives: (Total: 2) \\n\\n\\t  \\n\\n\\t {C_ORANGE}TNT - (2 DAMAGE IN DEFENCES) \\n\\n\\t {C_ORANGE}IED - (1 DAMAGE IN DEFENCES)."
+        ],
+        "rules": [
+          "",
+          "\t {C_YELLOW}List of Rules: (Total: 9)\\n\\n\\t \\n\\n\\t {C_ORANGE}Disrespect for staff = ban \\n\\n\\t {C_ORANGE}Player offense or disrespect = warn \\n\\n\\t {C_ORANGE}Promote other servers = ban \\n\\n\\t {C_ORANGE}Bug abuse = ban (depending on severity) \\n\\n\\t {C_ORANGE}Report players in global chat = warn \\n\\n\\t {C_ORANGE}Use beneficial programs or mods = ban \\n\\n\\t {C_ORANGE}Have more than one account on server = account disabled and warn \\n\\n\\t {C_ORANGE}FakeKill (kill friends or clan members) = warn \\n\\n\\t {C_ORANGE}Flood/Spam = warn."
         ]
       },
       "unknown": [
@@ -2331,7 +2397,11 @@
         " >  Seu Relatório de Bug foi submetido! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
         " >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
       ]
-    }
+    },
+    "restart_warning_3m": [
+      "",
+      "> WARNING: Item respawn will occur in 3 minutes. Log out to avoid bugs!"
+    ]
   },
   "common": {
     "lang-shortcode": [
@@ -2345,6 +2415,10 @@
     "enter": [
       "Entrar",
       "Enter"
+    ],
+    "select": [
+      "Selecionar",
+      "Select"
     ],
     "cancel": [
       "Cancelar",

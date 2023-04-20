@@ -91,7 +91,7 @@ CMD:comandos(playerid) return cmd_ajuda(playerid);
 
 CMD:regras(playerid)
 {
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras/Rules", ls(playerid, "RULESLIST"), "X", "");
+	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras/Rules", ls(playerid, "server/command/lists/rules"), "X", "");
 	return 1;
 }
 
