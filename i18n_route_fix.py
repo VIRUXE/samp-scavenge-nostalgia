@@ -21,39 +21,47 @@ def process_content(content, file_path):
         match = re.search(function_pattern, line)
         if match:
             search_key = match.group(1).strip('"')
-            pt_value = search_value_in_language_file(search_key, 'Portugues')
-            en_value = search_value_in_language_file(search_key, 'English')
-            value = pt_value or en_value
-
+            value = search_value_in_language_file(search_key, 'Portugues')
+            if not value:
+                value = search_value_in_language_file(search_key, 'English')
             if value:
                 route = find_route_in_json(value)
-            else:
-                route = None
-
-            if route:
-                route_str = '/'.join(route)
-                print(f"{Fore.GREEN}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route: {route_str}")
-                routes_found += 1
-            else:
-                print(f"{Fore.YELLOW}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route not found")
-                if search_key in provided_routes:
-                    route_str = provided_routes[search_key]
+                if route:
+                    route_str = '/'.join(route)
+                    print(f"{Fore.GREEN}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route: {route_str}")
+                    routes_found += 1
                 else:
-                    route_str = input(f"Provide the route to replace the key (leave blank to keep): ")
-                    if route_str:
-                        provided_routes[search_key] = route_str
-                        create_nodes_in_json(route_str, search_key)
+                    print(f"{Fore.YELLOW}{file_path}:{line_number} -> Key: '{search_key}', Value: '{value}' - Route not found")
+                    if search_key in provided_routes:
+                        route_str = provided_routes[search_key]
                     else:
-                        continue
-
-            line = line.replace(search_key, route_str)
-            print(f"{Fore.CYAN}Replaced line: {line}")
+                        route_str = input(f"Provide the route to replace the key (leave blank to keep): ")
+                        if route_str:
+                            provided_routes[search_key] = route_str
+                            create_nodes_in_json(route_str, search_key)
+                            line = line.replace(search_key, route_str)
+                            print(f"{Fore.CYAN}Replaced line: {line}")
+                        else:
+                            print(f"{Fore.YELLOW}Skipped. Line kept unchanged: {line}")
+                            continue
+            else:
+                route_str = input(f"Key not found in language files. Provide the route to replace the key (leave blank to keep): ")
+                if route_str:
+                    provided_routes[search_key] = route_str
+                    create_nodes_in_json(route_str, search_key)
+                    line = line.replace(search_key, route_str)
+                    print(f"{Fore.CYAN}Replaced line: {line}")
+                else:
+                    print(f"{Fore.YELLOW}Skipped. Line kept unchanged: {line}")
 
         modified_lines.append(line)
 
     updated_content = "\n".join(modified_lines)
-    with io.open(file_path, 'w', encoding='windows-1252', errors='ignore') as pwn_file:
-        pwn_file.write(updated_content.rstrip('\n'))
+    
+    # Only write the updated content if it's different from the original content
+    if updated_content != content:
+        with io.open(file_path, 'w', encoding='windows-1252', errors='ignore') as pwn_file:
+            pwn_file.write(updated_content)
                                             
 def search_value_in_language_file(search_key, language):
     with open(f'scriptfiles/languages/{language}', 'r') as language_file:
