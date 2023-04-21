@@ -51,19 +51,13 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 	if(ToolTips[playerid])
 	{
-		new itemname[ITM_MAX_NAME], itemtipkey[12], str[288];
+		new itemname[ITM_MAX_NAME];
 
 		GetItemTypeUniqueName(GetItemType(itemid), itemname);
 
-		if(strlen(itemname) > 9) itemname[9] = EOS;
+		if(strlen(itemname) > 9) itemname[9] = EOS; // ? Porque ao certo?
 
-		// TODO: Isto pode ser melhorado
-		format(itemtipkey, sizeof(itemtipkey), "%s_T", itemname);
-		itemtipkey[11] = EOS;
-
-		format(str, sizeof(str), "~r~!~w~ %s", ls(playerid, itemtipkey));
-
-		ShowHelpTip(playerid, str, 20000);
+		ShowHelpTip(playerid, sprintf("~r~!~w~ %s", ls(playerid, sprintf("item/tip/%s", itemname))), 20000);
 	}
 }
 
