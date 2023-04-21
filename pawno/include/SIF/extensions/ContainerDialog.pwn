@@ -188,11 +188,11 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	for(new i; i < GetContainerFreeSlots(containerid); i++)
 	{
-		strcat(cnt_InventoryString[playerid], ls(playerid, "INVEMP"));
+		strcat(cnt_InventoryString[playerid], sprintf("<%s>\n", ls(playerid, "common/empty")));
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
+	strcat(cnt_InventoryString[playerid], sprintf("%s >\n", ls(playerid, "player/key-actions/player/open_inventory")));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -203,7 +203,7 @@ stock DisplayContainerInventory(playerid, containerid)
 
 	format(title, sizeof(title), "{DEB887}%s (%d/%d)", containername, GetContainerSize(containerid) - GetContainerFreeSlots(containerid), GetContainerSize(containerid));
 
-	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_Container, DIALOG_STYLE_LIST, title, cnt_InventoryString[playerid], ls(playerid, "common/options"), ls(playerid, "common/close"));
 
 	return 1;
 }
@@ -304,13 +304,13 @@ DisplayContainerOptions(playerid, slotid)
 	GetItemNameDialog(cnt_Items[cnt_CurrentContainer[playerid]][slotid], tmp);
 
     cnt_OptionsList[playerid] = "";
-	strcat(cnt_OptionsList[playerid], ls(playerid, "CNTOPTION"));
+	strcat(cnt_OptionsList[playerid], ls(playerid, "item/container/options"));
 	
 	cnt_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewContainerOpt", "dd", playerid, cnt_CurrentContainer[playerid]);
 
-	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "common/options"), ls(playerid, "common/back"));
 
 	return 1;
 }
@@ -337,7 +337,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			}
 		}
@@ -359,7 +359,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			if(required > 0)
 			{
 				new str[32];
-				format(str, sizeof(str), ls(playerid, "CNTEXTRASLO"), required);
+				format(str, sizeof(str), ls(playerid, "item/container/extra-slots"), required);
 				ShowActionText(playerid, str, 3000, 150);
 			}
 			else if(required == 0)
@@ -384,11 +384,7 @@ hook OnPlayerViewInvOpt(playerid)
 {
 	if(cnt_CurrentContainer[playerid] != INVALID_CONTAINER_ID)
 	{
-		new str[8 + CNT_MAX_NAME];
-		strcat(str, ls(playerid, "MOVETOO"));
-		strcat(str, cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]);
-		cnt_InventoryOptionID[playerid] = AddInventoryOption(playerid, str);
-		ConvertEncoding(str);
+		cnt_InventoryOptionID[playerid] = AddInventoryOption(playerid, sprintf("%s %s", ls(playerid, "item/container/move"), cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]));
 	}
 
 	return 0;
@@ -435,11 +431,8 @@ hook OnPlayerOpenInventory(playerid)
 {
 	if(IsValidContainer(cnt_CurrentContainer[playerid]))
 	{
-		new str[CNT_MAX_NAME + 2];
-		strcat(str, cnt_Data[cnt_CurrentContainer[playerid]][cnt_name]);
-		strcat(str, " >");
-		cnt_InventoryContainerItem[playerid] = AddInventoryListItem(playerid, str);
-		ConvertEncoding(str);
+		// ? Isto nao deveria ser item
+		cnt_InventoryContainerItem[playerid] = AddInventoryListItem(playerid, sprintf(C_BROWN"%s >", cnt_Data[cnt_CurrentContainer[playerid]][cnt_name])); 
 	}
 
 	return 0;

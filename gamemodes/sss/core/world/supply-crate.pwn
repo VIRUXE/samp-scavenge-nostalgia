@@ -242,7 +242,7 @@ timer SupplyDropTimer[SUPPLY_DROP_TICK_INTERVAL]()
 	strcat(name, sup_TypeData[type][supt_name], MAX_SUPPLY_DROP_TYPE_NAME);
 	
 	foreach(new i : Player)
-		ChatMsgLang(i, YELLOW, "SCDROP", name, sup_DropLocationData[id][supl_name]);
+		ChatMsg(i, YELLOW, "SCDROP", name, sup_DropLocationData[id][supl_name]);
 
 	// Remove the location from the index so it isn't chosen again.
 	Iter_Remove(sup_Index, id);
@@ -458,7 +458,7 @@ stock CallDropWithFlareGun(playerid)
 		strcat(name, sup_TypeData[type][supt_name], MAX_SUPPLY_DROP_TYPE_NAME);
 
 		foreach(new i : Player)
-			ChatMsgLang(i, YELLOW, "SCDROP2",playerid, playerid, name);
+			ChatMsg(i, YELLOW, "SCDROP2",playerid, playerid, name);
 
 		return true;
 	} 

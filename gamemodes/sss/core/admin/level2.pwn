@@ -52,7 +52,7 @@ ACMD:ir[2](playerid, params[])
 	TeleportPlayerToPlayer(playerid, targetid);
 
 //	ChatMsg(playerid, YELLOW, " >  Você teleportou até %P", targetid);
-	//ChatMsgLang(targetid, YELLOW, "TELEPORTEDT", playerid);
+	//ChatMsg(targetid, YELLOW, "TELEPORTEDT", playerid);
 	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
 
 	return 1;
@@ -91,10 +91,10 @@ ACMD:congelar[2](playerid, params[])
 	
 	if(delay > 0) {
 		ChatMsg(playerid, YELLOW, " >  Você congelou %P"C_YELLOW" por %d segundos", targetid, delay);
-		ChatMsgLang(targetid, YELLOW, "FREEZETIMER", delay);
+		ChatMsg(targetid, YELLOW, "FREEZETIMER", delay);
 	} else {
 		ChatMsg(playerid, YELLOW, " >  Você congelou %P", targetid);
-		ChatMsgLang(targetid, YELLOW, "FREEZEFROZE");
+		ChatMsg(targetid, YELLOW, "FREEZEFROZE");
 	}
 
 	return 1;
@@ -111,7 +111,7 @@ ACMD:descongelar[2](playerid, params[])
 	UnfreezePlayer(targetid);
 
 	ChatMsg(playerid, YELLOW, " >  Você descongelou %P", targetid);
-	ChatMsgLang(targetid, YELLOW, "FREEZEUNFRE");
+	ChatMsg(targetid, YELLOW, "FREEZEUNFRE");
 
 	return 1;
 }

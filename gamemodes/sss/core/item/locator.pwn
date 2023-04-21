@@ -39,7 +39,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 		SetItemExtraData(itemid, withitemid);
 		SetItemExtraData(withitemid, 1);
 
-		ChatMsgLang(playerid, YELLOW, "LOCATORSYNC");
+		ChatMsg(playerid, YELLOW, "item/locator/synced");
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -73,9 +73,9 @@ hook OnPlayerUseItem(playerid, itemid)
 	GetItemAbsolutePos(phoneitemid, phone_x, phone_y, phone_z);
 	distance = Distance(phone_x, phone_y, phone_z, x, y, z);
 
-	ShowActionText(playerid, sprintf(ls(playerid, "DISTANCEVAL", true), distance), 2000);
+	ShowActionText(playerid, sprintf(ls(playerid, "common/distance"), distance), 2000);
 
-	// ShowActionText(playerid, ls(playerid, "LOCATORDIS", true), 2000);
+	// ShowActionText(playerid, ls(playerid, "item/locator/failed"), 2000);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }

@@ -61,9 +61,9 @@ hook OnPlayerText(playerid, text[])
 	if(IsPlayerMuted(playerid))
 	{
 		if(GetPlayerMuteRemainder(playerid) == -1)
-			ChatMsgLang(playerid, RED, "MUTEDPERMAN");
+			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsgLang(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 0;
 	}
@@ -75,7 +75,7 @@ hook OnPlayerText(playerid, text[])
 			if(chat_MessageStreak[playerid] == 3)
 			{
 				TogglePlayerMute(playerid, true, 30);
-				ChatMsgLang(playerid, RED, "MUTEDFLOODM");
+				ChatMsg(playerid, RED, "player/muted-temp");
 
 				return 0;
 			}
@@ -282,9 +282,9 @@ CMD:g(playerid, params[])
 	if(IsPlayerMuted(playerid))
 	{
 		if(GetPlayerMuteRemainder(playerid) == -1)
-			ChatMsgLang(playerid, RED, "MUTEDPERMAN");
+			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsgLang(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 7;
 	}
@@ -292,7 +292,7 @@ CMD:g(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
-		ChatMsgLang(playerid, WHITE, "RADIOGLOBAL");
+		ChatMsg(playerid, WHITE, "player/radio/global");
 	}
 	else PlayerSendChat(playerid, params, 1.0);
 
@@ -304,7 +304,7 @@ CMD:l(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
-		ChatMsgLang(playerid, WHITE, "RADIOLOCAL");
+		ChatMsg(playerid, WHITE, "player/radio/local");
 	}
 	else PlayerSendChat(playerid, params, 0.0);
 
@@ -323,7 +323,7 @@ CMD:c(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
-		ChatMsgLang(playerid, WHITE, "RADIOFREQUN", 4.0);
+		ChatMsg(playerid, WHITE, "RADIOFREQUN", 4.0);
 	}
 	else PlayerSendChat(playerid, params, 4.0);
 
@@ -334,7 +334,7 @@ CMD:globaloff(playerid, params[])
 {
 	chat_Quiet[playerid] = !chat_Quiet[playerid];
 
-	return ChatMsgLang(playerid, WHITE, chat_Quiet[playerid] ? "RADIOQUIET0" : "RADIOQUIET1");
+	return ChatMsg(playerid, WHITE, chat_Quiet[playerid] ? "RADIOQUIET0" : "RADIOQUIET1");
 }
 
 ACMD:a[1](playerid, params[])
@@ -342,7 +342,7 @@ ACMD:a[1](playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_ADMIN);
-		ChatMsgLang(playerid, WHITE, "RADIOADMINC");
+		ChatMsg(playerid, WHITE, "player/radio/admin");
 	}
 	else PlayerSendChat(playerid, params, 3.0);
 

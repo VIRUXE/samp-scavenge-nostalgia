@@ -11,9 +11,10 @@ hook OnPlayerLogin(playerid)
 	db_get_field(result, 0, frase, sizeof(frase));
 	db_free_result(result);
 
-	if(!isempty(frase)) ChatMsg(playerid, YELLOW, " >  Sua frase de entrada: "C_WHITE"%s", frase);
+	if(!isempty(frase)) ChatMsg(playerid, YELLOW, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/onplayerlogin"), frase);
 
-	foreach(new i : Player) if(i != playerid) ChatMsgLang(i, WHITE, "PJOINSV", playerid, playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", frase);
+	foreach(new i : Player) 
+		if(i != playerid) ChatMsg(i, WHITE, "player/join", playerid, playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", frase);
 }
 
 CMD:frase(playerid, params[])
@@ -22,17 +23,17 @@ CMD:frase(playerid, params[])
 
 	if(!IsPlayerVip(playerid)) return SendClientMessage(playerid, RED, " > Você precisa ser VIP para usar este comando.");
 
-    if(GetPlayerScore(playerid) < 100) return SendClientMessage(playerid, RED, " > Você precisa de 100 pontos para usar este comando.");
+    if(GetPlayerScore(playerid) < 100) return SendClientMessage(playerid, RED, ls(playerid, "player/join-sentence/points"));
 
-	if(isnull(params)) return SendClientMessage(playerid, YELLOW, " > Use: /frase [frase]");
+	if(isnull(params)) return SendClientMessage(playerid, YELLOW, ls(playerid, "player/join-sentence/cmd-syntax"));
 
- 	if(strlen(params) > MAX_FRASE_LEN) return SendClientMessage(playerid, RED, " > Frase muito grande.");
+ 	if(strlen(params) > MAX_FRASE_LEN) return SendClientMessage(playerid, RED, ls(playerid, "player/join-sentence/big-sentence"));
 
 	db_query(gAccounts, sprintf("UPDATE Player SET joinsentence = '%s' WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
 
 	SetJoinSentence(playerid, params);
 
-	return ChatMsg(playerid, GREEN, " >  Frase de entrada alterada para: "C_WHITE"%s", params);
+	return ChatMsg(playerid, GREEN, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/changed"), params);
 }
 
 SetJoinSentence(playerid, const sentence[]) {

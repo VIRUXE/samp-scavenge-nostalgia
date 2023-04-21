@@ -351,11 +351,8 @@ CreateAccount(playerid, password[])
 
 DisplayRegisterPrompt(playerid)
 {
-	new str[250];
-	format(str, 250, ls(playerid, "ACCREGIBODY"), playerid);
-
 	log("[DisplayRegisterPrompt] %p is registering", playerid);
-	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCREGITITL"), str, "Registrar", "Cancelar");
+	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/register/dialog-title"), sprintf(ls(playerid, "player/account/register/dialog-body"), playerid), ls(playerid, "common/register"), ls(playerid, "common/cancel"));
 
 	return 1;
 }
@@ -368,8 +365,9 @@ Dialog:RegisterPrompt(playerid, response, listitem, inputtext[])
 	{
 		if(!(6 <= strlen(inputtext) <= 32))
 		{
-			ChatMsgLang(playerid, YELLOW, "PASSWORDREQ");
+			ChatMsg(playerid, YELLOW, "player/account/register/invalid-password");
 			DisplayRegisterPrompt(playerid);
+
 			return 0;
 		}
 
@@ -390,13 +388,13 @@ DisplayLoginPrompt(playerid, badpass = 0)
 	new str[200];
 
 	if(badpass)
-		format(str, 200, ls(playerid, "ACCLOGWROPW"), acc_LoginAttempts[playerid]);
+		format(str, 200, ls(playerid, "player/account/login/wrong-password"), acc_LoginAttempts[playerid]);
 	else
-		format(str, 200, ls(playerid, "ACCLOGIBODY"), playerid);
+		format(str, 200, ls(playerid, "player/account/login/dialog-body"), playerid);
 
 	log("[ACCOUNT] %p (%d) está logando.", playerid, playerid);
 
-	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "ACCLOGITITL"), str, "Entrar", "Cancelar"); // TODO: Colocar internacionalização nos botões
+	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/login/dialog-title"), str, ls(playerid, "common/enter"), ls(playerid, "common/cancel"));
 
 	return 1;
 }

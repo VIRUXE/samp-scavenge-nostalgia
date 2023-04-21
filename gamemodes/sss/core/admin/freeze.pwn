@@ -78,7 +78,7 @@ UnfreezePlayer(playerid, msg = 0)
 	stop frz_DelayTimer[playerid];
 	stop frz_CheckTimer[playerid];
 
-	if(msg) ChatMsgLang(playerid, YELLOW, "FREEZEFROZE");
+	if(msg) ChatMsg(playerid, YELLOW, "player/frozen");
 }
 
 timer UnfreezePlayer_delay[time](playerid, time, msg)

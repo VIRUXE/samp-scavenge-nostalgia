@@ -96,7 +96,7 @@ _rm_PlayerUseRefineMachine(playerid, itemid, interactiontype)
 
 	if(data[rm_cooking])
 	{
-		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "MACHPROCESS", true), MsToString(data[rm_cookTime] - GetTickCountDifference(GetTickCount(), data[rm_startTime]), "%m minutes %s seconds")), 8000);
+		ShowActionText(playerid, sprintf(ls(playerid, "item/machines/refinement/processing"), MsToString(data[rm_cookTime] - GetTickCountDifference(GetTickCount(), data[rm_startTime]), "%m minutes %s seconds")), 8000);
 		return 0;
 	}
 
@@ -135,16 +135,16 @@ Dialog:RefineMachine(playerid, response, listitem, inputtext[])
 		new ret = _rm_StartCooking(rm_CurrentRefineMachine[playerid]);
 
 		if(ret == 0)
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHNOITEMS", true), 5000);
+			ShowActionText(playerid, ls(playerid, "item/machines/refinement/no-items"), 5000);
 
 		else if(ret == -1)
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "MACHRESTART", true), 6000);
+			ShowActionText(playerid, ls(playerid, "item/machines/refinement/server-restart"), 6000);
 
 		else if(ret == -2)
-			ShowActionText(playerid, sprintf(ls(playerid, "MACHNOTFUEL", true), REFINE_MACHINE_FUEL_USAGE), 6000);
+			ShowActionText(playerid, sprintf(ls(playerid, "item/machines/refinement/not-enough-fuel"), REFINE_MACHINE_FUEL_USAGE), 6000);
 
 		else
-			ShowActionText(playerid, sprintf(ls(playerid, "MACHCOOKTIM", true), MsToString(ret, "%m minutes %s seconds")), 6000);
+			ShowActionText(playerid, sprintf(ls(playerid, "item/machines/refinement/cook-time"), MsToString(ret, "%m minutes %s seconds")), 6000);
 
 		rm_CurrentRefineMachine[playerid] = -1;
 	}
@@ -208,7 +208,7 @@ hook OnHoldActionUpdate(playerid, progress)
 			transfer = (fuel - 1.1 < 0.0) ? fuel : 1.1;
 			SetLiquidItemLiquidAmount(itemid, fuel - transfer);
 			SetItemArrayDataAtCell(rm_CurrentRefineMachine[playerid], _:(machinefuel + 1.1), rm_fuel);
-			ShowActionText(playerid, ls(playerid, "REFUELLING", true));
+			ShowActionText(playerid, ls(playerid, "item/machines/refinement/refueling"));
 		}
 	}
 

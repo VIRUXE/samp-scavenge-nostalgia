@@ -98,7 +98,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 			if(heldcalibre != GetItemWeaponCalibre(ammotypeid))
 			{
-				ShowActionText(playerid, ls(playerid, "AMWRONGCALI", true), 3000);
+				ShowActionText(playerid, ls(playerid, "item/weapon/wrong-calibre"), 3000);
 				return 1;
 			}
 
@@ -108,7 +108,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != GetItemWeaponItemAmmoItem(ammoitemid))
 				{
-					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, ls(playerid, "item/weapon/diff-ammo"), 5000);
 					return 1;
 				}
 			}
@@ -143,7 +143,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 				if(canfuel <= 0.0)
 				{
-					ShowActionText(playerid, ls(playerid, "EMPTY", true), 3000);
+					ShowActionText(playerid, ls(playerid, "common/empty"), 3000);
 					return 1;
 				}
 
@@ -159,7 +159,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 			if(heldcalibre != GetAmmoTypeCalibre(ammotypeid))
 			{
-				ShowActionText(playerid, ls(playerid, "AMWRONGCALI", true), 3000);
+				ShowActionText(playerid, ls(playerid, "item/weapon/wrong-calibre"), 3000);
 				return 1;
 			}
 
@@ -169,7 +169,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != ammoitemtype)
 				{
-					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, ls(playerid, "item/weapon/diff-ammo"), 5000);
 					return 1;
 				}
 			}
@@ -199,7 +199,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 			if(heldcalibre != GetItemWeaponCalibre(ammotypeid))
 			{
-				ShowActionText(playerid, ls(playerid, "AMWRONGCALI", true), 3000);
+				ShowActionText(playerid, ls(playerid, "item/weapon/wrong-calibre"), 3000);
 				return 1;
 			}
 
@@ -209,7 +209,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 			{
 				if(loadedammoitemtype != helditemtype)
 				{
-					ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "AMDIFFATYPE", true), 5000);
+					ShowActionText(playerid, ls(playerid, "item/weapon/diff-ammo"), 5000);
 					return 1;
 				}
 			}
@@ -240,7 +240,7 @@ _PickUpAmmoTransferCheck(playerid, helditemid, ammoitemid)
 
 			if(ammoitemtype != helditemtype)
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "AMMIXINTINS", true), 5000);
+				ShowActionText(playerid, ls(playerid, "item/weapon/ammo-mismatch"), 5000);
 				return 1;
 			}
 
@@ -274,7 +274,7 @@ _TransferWeaponToWeapon(playerid, srcitem, tgtitem)
 		SetItemWeaponItemMagAmmo(srcitem, 0);
 		SetItemWeaponItemReserve(srcitem, remainder);
 
-		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "AMTRANSWTOW", true), (reserveammo + magammo) - remainder), 3000);
+		ShowActionText(playerid, sprintf(ls(playerid, "item/weapon/transfer/weapon-weapon"), (reserveammo + magammo) - remainder), 3000);
 	}
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
@@ -297,7 +297,7 @@ _TransferTinToWeapon(playerid, srcitem, tgtitem)
 
 		SetItemExtraData(srcitem, remainder);
 
-		ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "AMTRANSTTOW", true), ammo - remainder), 3000);
+		ShowActionText(playerid, sprintf(ls(playerid, "item/weapon/transfer/tin-weapon"), ammo - remainder), 3000);
 	}
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
@@ -314,7 +314,7 @@ _TransferWeaponToTin(playerid, srcitem, tgtitem)
 	SetItemWeaponItemMagAmmo(srcitem, 0);
 	SetItemWeaponItemReserve(srcitem, 0);
 
-	ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "AMTRANSWTOT", true), amount), 3000);
+	ShowActionText(playerid, sprintf(ls(playerid, "item/weapon/transfer/weapon-tin"), amount), 3000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
 }
@@ -329,7 +329,7 @@ _TransferTinToTin(playerid, srcitem, tgtitem)
 	SetItemExtraData(tgtitem, existing + amount);
 	SetItemExtraData(srcitem, 0);
 
-	ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "AMTRANSTTOT", true), amount), 3000);
+	ShowActionText(playerid, sprintf(ls(playerid, "item/weapon/transfer/tin-tin"), amount), 3000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
 }

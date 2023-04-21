@@ -41,7 +41,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 	{
 		if(GetVehicleLockState(vehicleid) == E_LOCK_STATE_EXTERNAL)
 		{
-			ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKNO", true), 8000);
+			ShowActionText(playerid, ls(playerid, "vehicle/lock/unbreakable"), 8000);
 			return Y_HOOKS_CONTINUE_RETURN_0;
 		}
 
@@ -75,7 +75,7 @@ StartBreakingVehicleLock(playerid, vehicleid, type)
 			return 0;
 
 		cro_OpenType[playerid] = 0;
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKDR", true), 6000);
+		ShowActionText(playerid, ls(playerid, "vehicle/lock/break-start"), 6000);
 	}
 
 	if(type == 1)
@@ -84,7 +84,7 @@ StartBreakingVehicleLock(playerid, vehicleid, type)
 			return 0;
 
 		cro_OpenType[playerid] = 1;
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "LOCKBREAKTR", true), 6000);
+		ShowActionText(playerid, ls(playerid, "vehicle/lock/trunk-break-start"), 6000);
 	}
 
 	cro_TargetVehicle[playerid] = vehicleid;

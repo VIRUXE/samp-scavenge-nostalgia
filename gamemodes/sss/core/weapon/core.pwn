@@ -245,7 +245,7 @@ stock UpdatePlayerWeaponItem(playerid)
 	{
 		ResetPlayerWeapons(playerid);
 		_UpdateWeaponUI(playerid);
-		ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "WEAPNOAMMOL", true), 3000);
+		ShowActionText(playerid, ls(playerid, "item/weapon/no-ammo"), 3000);
 		return 0;
 	}
 
@@ -788,7 +788,7 @@ timer _UnloadWeapon[300](playerid, itemid)
     PlayerPlaySound(playerid, 36401, 0.0, 0.0, 0.0); //Audio
     
 	ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_IN", 5.0, 1, 0, 0, 0, 450);
-	ShowActionText(playerid, ls(playerid, "WEAPAUNLOAD", true), 3000);
+	ShowActionText(playerid, ls(playerid, "item/weapon/unloaded"), 3000);
 
 	return;
 }

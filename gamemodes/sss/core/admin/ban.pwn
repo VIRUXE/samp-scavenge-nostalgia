@@ -106,7 +106,7 @@ BanPlayer(playerid, reason[], byid, duration)
 
 	if(stmt_execute(stmt_BanInsert))
 	{
-		//ChatMsgLang(playerid, YELLOW, "BANNEDMESSG", reason);
+		//ChatMsg(playerid, YELLOW, "BANNEDMESSG", reason);
 		//GameTextForPlayer(playerid, "Banido!", 10000, 6);
 		defer KickPlayerDelay(playerid);
 		//return 1;
@@ -221,7 +221,7 @@ BanCheck(playerid)
 					GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 					UnBanPlayer(name);
 
-					ChatMsgLang(playerid, YELLOW, "BANLIFMESSG", TimestampToDateTime(timestamp));
+					ChatMsg(playerid, YELLOW, "BANLIFMESSG", TimestampToDateTime(timestamp));
 					log("[UNBAN] Ban lifted automatically for %s", name);
 
 					return 0;

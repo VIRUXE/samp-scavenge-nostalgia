@@ -137,7 +137,7 @@ hook OnButtonPress(playerid, buttonid)
 		{
 			if(lck_Data[i][lck_locked])
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "NEARBYKEYP", true));
+				ShowActionText(playerid, ls(playerid, "puzzle/codehunt/nearby-key"));
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 		}

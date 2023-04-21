@@ -100,19 +100,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 	dbg("global", CORE, "[OnItemNameRender] in /gamemodes/sss/core/char/clothes.pwn");
 
 	if(itemtype == item_Clothes)
-	{
-		new
-			exname[32];
-
-		if(skin_Data[GetItemExtraData(itemid)][skin_gender] == GENDER_MALE)
-			strcat(exname, "Masculino ");
-
-		else strcat(exname, "Feminino ");
-
-		strcat(exname, skin_Data[GetItemExtraData(itemid)][skin_name]);
-
-		SetItemNameExtra(itemid, exname);
-	}
+		SetItemNameExtra(itemid, sprintf("%s (%s)", skin_Data[GetItemExtraData(itemid)][skin_name], skin_Data[GetItemExtraData(itemid)][skin_gender] == GENDER_MALE ? "Masculina" : "Feminina"));
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -131,10 +119,10 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 			if(skin_Data[skinid][skin_gender] == GetPlayerGender(playerid))
 			{
-				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "CLOTHESCAMOU", true), 3000);
+				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, ls(playerid, "item/clothes/invalid-skin"), 3000);
 				else StartUsingClothes(playerid, itemid);
 			}
-			else ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "CLOTHESWRGE", true), 3000, 130);
+			else ShowActionText(playerid, ls(playerid, "item/clothes/invalid-gender"), 3000, 130);
 		}
 	}
 

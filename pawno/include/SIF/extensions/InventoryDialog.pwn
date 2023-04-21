@@ -203,7 +203,6 @@ stock DisplayPlayerInventory(playerid)
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	new
-		title[30],
 		list[(INV_MAX_SLOTS * (ITM_MAX_NAME + ITM_MAX_TEXT + 1)) + 32],
 		itemid,
 		tmp[5 + ITM_MAX_NAME + ITM_MAX_TEXT + 9];
@@ -224,7 +223,7 @@ stock DisplayPlayerInventory(playerid)
 
 	for(new i; i < GetInventoryFreeSlots(playerid); i++)
 	{
-		strcat(list, ls(playerid, "INVEMP"));
+		strcat(list, sprintf("<%s>\n", ls(playerid, "common/empty")));
 		inv_ItemListTotal[playerid]++;
 	}
 
@@ -237,10 +236,9 @@ stock DisplayPlayerInventory(playerid)
 
 	// Constroi o titulo do dialog com o nome do inventário com os slots ocupados e totais
 	new inventorySize = GetPlayerInventorySize(playerid);
-	format(title, sizeof(title), ls(playerid, "INVNAME"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize);
     inv_ViewingInventory[playerid] = true;
 
-	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, title, list, ls(playerid, "BUTTONOPT"), ls(playerid, "BUTTONCLS"));
+	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, sprintf(C_BROWN"%s (%d/%d)", ls(playerid, "item/container/inventory_title"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize), list, ls(playerid, "common/options"), ls(playerid, "common/close"));
 
 	return 1;
 }
@@ -258,7 +256,6 @@ Dialog:SIF_PlayerInventory(playerid, response, listitem, inputtext[])
 
 		if(!IsValidItem(GetInventorySlotItem(playerid, listitem)))
 			DisplayPlayerInventory(playerid);
-
 		else
 		{
 			inv_SelectedSlot[playerid] = listitem;
@@ -377,13 +374,13 @@ DisplayPlayerInventoryOptions(playerid, slotid)
 	GetItemName(GetInventorySlotItem(playerid, slotid), name);
 	
 	inv_OptionsList[playerid] = "";
-	strcat(inv_OptionsList[playerid], ls(playerid, "INVOPTIONS"));
+	strcat(inv_OptionsList[playerid], ls(playerid, "item/container/item_options"));
 	
 	inv_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewInventoryOpt", "d", playerid);
 
-	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "common/select"), ls(playerid, "common/back"));
 
 	return 1;
 }
@@ -410,7 +407,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -429,7 +426,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -448,7 +445,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, GetLanguageString(GetPlayerLanguage(playerid), "INVHOLDINGI", true), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}

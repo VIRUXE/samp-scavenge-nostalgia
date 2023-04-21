@@ -109,7 +109,7 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 		{
 			new geid[GEID_LEN];
 			GetItemGEID(data[1], geid);
-			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "PLOTPOLEENT", true), geid), 5000);
+			ShowActionText(playerid, sprintf(ls(playerid, "item/plotpole/inserted"), geid), 5000);
 		}
 	}
 
@@ -131,7 +131,7 @@ hook OnPlayerLeaveDynArea(playerid, areaid)
 		{
 			new geid[GEID_LEN];
 			GetItemGEID(data[1], geid);
-			ShowActionText(playerid, sprintf(GetLanguageString(GetPlayerLanguage(playerid), "PLOTPOLELEF", true), geid), 5000);
+			ShowActionText(playerid, sprintf(ls(playerid, "item/plotpole/inserted-left"), geid), 5000);
 		}
 	}
 

@@ -4,19 +4,19 @@
 	
 new 
 bool:	VIP[MAX_PLAYERS],
-		VIP_LastAnuncio;
+		VIP_Anuncio;
 
 ACMD:setvip[5](playerid, params[])
 {
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid/nickname]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid]");
 	
 	if(targetId == INVALID_PLAYER_ID) return 4; // CMD_INVALID_PLAYER
 
 	SetPlayerVip(targetId, !IsPlayerVip(targetId));
 
-	db_query(gAccounts, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[playerid] ? 1 : 0, GetPlayerNameEx(playerid)));
+	SetPlayerColor(targetId, IsPlayerVip(targetId) ? VIP_COLOR : WHITE);
 
 	ChatMsgAll(PINK, IsPlayerVip(targetId) ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
 
@@ -56,7 +56,7 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 		"Fechar", "");
 	} else if(isequal(command, "anuncio", true)) {
 		// Espera 3 segundos para fazer outro anúncio
-		if(GetTickCountDifference(VIP_LastAnuncio, GetTickCount()) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
+		if(GetTickCountDifference(VIP_Anuncio, GetTickCount()) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
 
 		new anuncio[150];
 
@@ -64,7 +64,7 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 
 		ChatMsgAll(VIP_COLOR, "[Anúncio VIP] "C_WHITE"%P (%d): {FFAA00}%s", playerid, playerid, anuncio);
 
-		VIP_LastAnuncio = GetTickCount();
+		VIP_Anuncio = GetTickCount();
 	} else if(isequal(command, "reset", true)) {
 		SetPlayerScore(playerid, 0);
 		SetPlayerDeathCount(playerid, 0);
@@ -115,7 +115,7 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 			
 		return ChatMsg(playerid, VIP_COLOR, " > Estilo de luta alterado com Sucesso.");
 	} else if(isequal(command, "nick", true)) {
-		if(!IsPlayerLoggedIn(playerid)) return ChatMsgLang(playerid, YELLOW, "LOGGEDINREQ");
+		if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "LOGGEDINREQ");
 
 		new nick[MAX_PLAYER_NAME];
 
@@ -151,30 +151,32 @@ hook OnPlayerConnect(playerid) {
 	return 1;
 }
 
-hook OnPlayerDisconnect(playerid, reason) {
-	if(IsPlayerVip(playerid))
-		VIP[playerid] = false;
-}
-
 hook OnPlayerLogin(playerid) {
 	if(IsPlayerVip(playerid)) {
+		SetPlayerColor(playerid, VIP_COLOR);
+
 		ChatMsg(playerid, VIP_COLOR, " > Você é um jogador VIP! Obrigado por apoiar o servidor.");
 	}
 }
 
 hook OnPlayerSpawnNewChar(playerid) {
 	if(IsPlayerVip(playerid)) {
-		GivePlayerBag(playerid, CreateItem(item_Satchel));
-		AddItemToPlayer(playerid, CreateItem(item_Hammer), true, false);
-		AddItemToPlayer(playerid, CreateItem(item_Screwdriver), true, false);
-		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
-		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
+		new itemid;
 
-/*		// Chance de 50% de dar uma arma
-		if(random(1)) {
-			GiveWorldItemToPlayer(playerid, CreateItem(item_M9Pistol));
-			GiveWorldItemToPlayer(playerid, SetItemExtraData(CreateItem(item_Ammo9mm), 2 + random(9)));
-		}*/
+		itemid = CreateItem(item_Satchel);
+		GivePlayerBag(playerid, itemid);
+		
+		itemid = CreateItem(item_Wrench);
+		AddItemToPlayer(playerid, itemid, true, false);
+
+		itemid = CreateItem(item_Screwdriver);
+		AddItemToPlayer(playerid, itemid, true, false);
+
+		itemid = CreateItem(item_Map);
+		AddItemToPlayer(playerid, itemid, true, false);
+
+		itemid = CreateItem(item_Bat);
+		GiveWorldItemToPlayer(playerid, itemid);
 	}
 }
 
@@ -184,8 +186,6 @@ stock SetPlayerVip(playerid, bool:toggle) {
 	if(toggle == VIP[playerid]) return 0;
 
     VIP[playerid] = toggle;
-
-	SetPlayerColor(playerid, VIP[playerid] ? VIP_COLOR : WHITE);
 
 	return 1;
 }

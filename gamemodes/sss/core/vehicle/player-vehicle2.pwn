@@ -665,11 +665,11 @@ _SaveIfOwnedBy(vehicleid, playerid)
 		new ownedvehiclename[MAX_VEHICLE_TYPE_NAME];
 		GetVehicleTypeName(GetVehicleType(pveh_PlayerVehicle[playerid]), ownedvehiclename);
 
-		ChatMsgLang(playerid, YELLOW, "VEHNOTYOURS", vehiclename, ownedvehiclename);
+		ChatMsg(playerid, YELLOW, "VEHNOTYOURS", vehiclename, ownedvehiclename);
 		return 0;
 	}
 
-	ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+	ShowActionText(playerid, sprintf(ls(playerid, "vehicle/saved"), vehiclename), 5000);
 
 	_SaveVehicle(vehicleid);
 
@@ -687,7 +687,7 @@ _PlayerUpdateVehicle(playerid, vehicleid)
 
 	_UpdatePlayerVehicle(playerid, vehicleid);
 
-	ShowActionText(playerid, sprintf(ls(playerid, "VEHICLSAVED"), vehiclename), 5000);
+	ShowActionText(playerid, sprintf(ls(playerid, "vehicle/saved"), vehiclename), 5000);
 
 	return;
 }
@@ -892,18 +892,18 @@ CMD:vsave(playerid, params[])
 	if(!isnull(params) && !strcmp(params, "on"))
 	{
 		pveh_SaveAnyVehicle[playerid] = 1;
-		ChatMsgLang(playerid, YELLOW, "VEHMODEALLV");
+		ChatMsg(playerid, YELLOW, "VEHMODEALLV");
 		return 1;
 	}
 
 	if(!isnull(params) && !strcmp(params, "off"))
 	{
 		pveh_SaveAnyVehicle[playerid] = 0;
-		ChatMsgLang(playerid, YELLOW, "VEHMODEOWNV");
+		ChatMsg(playerid, YELLOW, "VEHMODEOWNV");
 		return 1;
 	}
 
-	ChatMsgLang(playerid, YELLOW, "VEHMODEHELP");
+	ChatMsg(playerid, YELLOW, "VEHMODEHELP");
 
 	return 1;
 }
