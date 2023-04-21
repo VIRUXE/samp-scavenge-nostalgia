@@ -1675,8 +1675,8 @@
 					"Invalid password. It needs to be between 6 and 32 characters."
 				],
 				"dialog-body": [
-					"Ola %P{C_WHITE}, Voce deve ser novo aqui!\n\nCrie uma conta digitando uma {C_BLUE}senha{C_WHITE} abaixo:",
-					"Hello %P{C_WHITE}, You must be new here!\nPlease create an account by entering a {C_BLUE}password{C_WHITE} below:"
+					"{C_WHITE}Ola %P{C_WHITE}, Voce deve ser novo aqui!\n\nCrie uma conta digitando uma {C_BLUE}senha{C_WHITE} abaixo:",
+					"{C_WHITE}Hello %P{C_WHITE}, You must be new here!\nPlease create an account by entering a {C_BLUE}password{C_WHITE} below:"
 				],
 				"dialog-title": [
 					"Cadastre-se para uma nova conta",
@@ -1689,8 +1689,8 @@
 					"Incorrect password! %d out of 5 tries"
 				],
 				"dialog-body": [
-					"Bem-vindo de volta %P{C_WHITE}! Por favor, introduza sua senha no campo abaixo.\n\n{C_YELLOW}Tenha um otimo jogo :)",
-					"Welcome Back %P{C_WHITE}, Please log into to your account below!\n\n{C_YELLOW}Enjoy your stay :)"
+					"{C_WHITE}Bem-vindo de volta %P{C_WHITE}! Por favor, introduza sua senha no campo abaixo.\n\n{C_YELLOW}Tenha um otimo jogo :)",
+					"{C_WHITE}Welcome Back %P{C_WHITE}, Please log into to your account below!\n\n{C_YELLOW}Enjoy your stay :)"
 				],
 				"dialog-title": [
 					"Logar na sua Conta:",

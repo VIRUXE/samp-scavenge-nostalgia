@@ -352,7 +352,7 @@ CreateAccount(playerid, password[])
 DisplayRegisterPrompt(playerid)
 {
 	log("[DisplayRegisterPrompt] %p is registering", playerid);
-	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/register/dialog-title"), sprintf(ls(playerid, C_WHITE"player/account/register/dialog-body"), playerid), ls(playerid, "common/register"), ls(playerid, "common/cancel"));
+	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/register/dialog-title"), sprintf(ls(playerid, "player/account/register/dialog-body"), playerid), ls(playerid, "common/register"), ls(playerid, "common/cancel"));
 
 	return 1;
 }
@@ -390,7 +390,7 @@ DisplayLoginPrompt(playerid, badpass = 0)
 	if(badpass)
 		format(str, 200, ls(playerid, "player/account/login/wrong-password"), acc_LoginAttempts[playerid]);
 	else
-		format(str, 200, ls(playerid, C_WHITE"player/account/login/dialog-body"), playerid);
+		format(str, 200, ls(playerid, "player/account/login/dialog-body"), playerid);
 
 	log("[ACCOUNT] %p (%d) está logando.", playerid, playerid);
 
