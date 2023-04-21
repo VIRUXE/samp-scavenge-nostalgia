@@ -177,7 +177,7 @@ timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Floa
 		GetSupplyDropLocationName(location, name);
 
 		foreach(new i : Player)
-			ChatMsg(i, YELLOW, "WCDROP", name);
+			ChatMsg(i, YELLOW, "server/drop/weapons", name);
 	}
 	else
 	{
