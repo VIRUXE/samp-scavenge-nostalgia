@@ -3,335 +3,355 @@
 		"tip": {
 			"NULL": [
 				"Esse e um item invalido, ignore-o.",
-				""
-			],
-			"Knuckles": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"GolfClub": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Baton": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Knife": [
-				"Essa e uma arma branca afiada, efetiva para causar sangramento severo.",
-				""
-			],
-			"Bat": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Spade": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"PoolCue": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Sword": [
-				"Essa e uma arma branca afiada, efetiva para causar sangramento severo.",
-				""
-			],
-			"Chainsaw": [
-				"Essa e uma Serra Eletrica a gasolina, extremamente letal.",
-				""
-			],
-			"Dildo1": [
-				"util tanto para o prazer e tortura.",
-				""
-			],
-			"Dildo2": [
-				"util tanto para o prazer e tortura.",
-				""
-			],
-			"Dildo3": [
-				"util tanto para o prazer e tortura.",
-				""
-			],
-			"Dildo4": [
-				"util tanto para o prazer e tortura.",
-				""
-			],
-			"Flowers": [
-				"Esse item e inutil como arma.",
-				""
-			],
-			"WalkingCa": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Grenade": [
-				"Item jogavel que explode, causando um dano massivo alem de desmaios.",
-				""
-			],
-			"Teargas": [
-				"Inutil como uma arma porem pode ser usado como distracao ou sinal.",
-				""
-			],
-			"Molotov": [
-				"Item arremessovel que cria uma area em chamas.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"NULL2": [
 				"Esse e um item invalido, ignore-o.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"NULL3": [
 				"Esse e um item invalido, ignore-o.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"NULL4": [
 				"Esse e um item invalido, ignore-o.",
-				""
-			],
-			"M9Pistol": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"M9PistolS": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"DesertEag": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"PumpShotg": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Sawnoff": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Spas12": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Mac10": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"MP5": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"WASR3Rifl": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"M16Rifle": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Tec9": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"SemiAutoR": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"SniperRif": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"RocketLau": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Heatseeke": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Flamer": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
-			],
-			"Minigun": [
-				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"RemoteBom": [
 				"Esse e um item invalido, ignore-o.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"Detonator": [
 				"Esse e um item invalido, ignore-o.",
-				""
-			],
-			"SprayPain": [
-				"Use isso para pichar seu nome em certas paredes ou para cegar jogadores temporeriamente.",
-				""
-			],
-			"Extinguis": [
-				"Use isso para cegar e imobilizar jogadores temporariamente.",
-				""
-			],
-			"Camera": [
-				"Pode ser usado como um bineculo para espiar jogadores a longa distancia.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"NightVisi": [
 				"Esse e um item invalido, ignore-o.",
-				""
+				"This item is invalid, ignore it."
 			],
 			"ThermalVi": [
 				"Esse e um item invalido, ignore-o.",
-				""
+				"This item is invalid, ignore it."
 			],
-			"Parachute": [
-				"Pressione {KEYTEXT_PUT_AWAY} para equipar, voce nao pode usar isso enquanto estiver com uma mochila nas costas.",
-				""
+			"Knuckles": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"Medkit": [
-				"Voce pode parar sangramentos e prevenir desmaios em voce e em outros jogadores com isso.",
-				""
+			"GolfClub": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"HardDrive": [
-				"Usado para crafts e em puzzles(enigmas).",
-				""
+			"Baton": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"Key": [
-				"Pode ser combinado com um motor para fazer um Kit Chaveiro, usado para trancar veiculos.",
-				""
+			"Bat": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"FireworkB": [
-				"Use um isqueiro com isso para ver alguns fogos de artificios! Ou crie explosivos com isso.",
-				""
+			"Spade": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"FireLight": [
-				"Acenda churrasqueira, fogueiras e fogos de artificios com isso.",
-				""
+			"PoolCue": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
-			"Timer": [
-				"Usado em crafts.",
-				""
-			],
-			"Explosive": [
-				"Combine com varios itens mecanicos para criar diferentes tipos de bombas.",
-				""
-			],
-			"TntTimebo": [
-				"Um explosivo com uma detonacao cronometrada de 5 segundos, pressione F para arma-la.",
-				""
-			],
-			"Battery": [
-				"Usado para crafts e em puzzles(enigmas).",
-				""
-			],
-			"Fusebox": [
-				"Usado para crafts e em puzzles(enigmas).",
-				""
-			],
-			"Sign": [
-				"Pressione F para colocar a placa e digite o texto desejado.",
-				""
-			],
-			"Armour": [
-				"Pressione F para vestir como protecao.",
-				""
-			],
-			"Bandage": [
-				"Voce pode colocar atadura nas feridas para parar de sangrar, use isso em voce ou em outros jogadores.",
-				""
-			],
-			"FishRod": [
-				"Use isso para pescar estando proximo a agua.",
-				""
-			],
-			"Wrench": [
-				"Use isso para reparar veiculos parando na frente do mesmo e segurando F",
-				""
-			],
-			"Crowbar": [
-				"Use isso para desmontar defesas, tendas e arrombar carros.",
-				""
-			],
-			"Hammer": [
-				"Use essa ferramenta para reparar veiculos, para fazer craftings e para construir defesas.",
-				""
-			],
-			"Spanner": [
-				"Use essa ferramenta para reparar veiculos.",
-				""
-			],
-			"Shield": [
-				"Isso ira lhe proteger de tiros.",
-				""
-			],
-			"Flashligh": [
-				"Pressione F para ativa-la.",
-				""
-			],
-			"StunGun": [
-				"Ataque jogadores com isso para desarma-los por 1 minuto.",
-				""
-			],
-			"LaserPoin": [
-				"Esse item nao tem utilidade.",
-				""
-			],
-			"Screwdriv": [
-				"Use essa ferramenta para reparar veiculos, para fazer craftings e para construir defesas.",
-				""
-			],
-			"MobilePho": [
-				"Usado em crafts.",
-				""
-			],
-			"Pager": [
-				"Esse item nao tem utilidade.",
-				""
+			"WalkingCa": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Rake": [
 				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"HotDog": [
-				"Coma isso para passar sua fome, mas cuidado, essa comida pode estar estragada.",
-				""
-			],
-			"EasterEgg": [
-				"Esse item nao tem utilidade.",
-				""
+				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Cane": [
 				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"BigSword": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"Spatula": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"Pan": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"Knife2": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"Broom": [
+				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"This is a blunt melee weapon, useful for knocking players out."
+			],
+			"FryingPan": [
+				"A escolha da arma classica de uma dona de casa dos anos 40.",
+				"The classic weapon choice of a 1940s housewife."
+			],
+			"Knife": [
+				"Essa e uma arma branca afiada, efetiva para causar sangramento severo.",
+				"This is a sharp melee weapon, effective at causing severe bleeding."
+			],
+			"Sword": [
+				"Essa e uma arma branca afiada, efetiva para causar sangramento severo.",
+				"This is a sharp melee weapon, effective at causing severe bleeding."
+			],
+			"Chainsaw": [
+				"Essa e uma Serra Eletrica a gasolina, extremamente letal.",
+				"This is a petrol powered chainsaw, extremely lethal."
+			],
+			"Dildo1": [
+				"Util tanto para o prazer e tortura.",
+				"Useful for both pleasure and torture."
+			],
+			"Dildo2": [
+				"Util tanto para o prazer e tortura.",
+				"Useful for both pleasure and torture."
+			],
+			"Dildo3": [
+				"Util tanto para o prazer e tortura.",
+				"Useful for both pleasure and torture."
+			],
+			"Dildo4": [
+				"Util tanto para o prazer e tortura.",
+				"Useful for both pleasure and torture."
+			],
+			"Flowers": [
+				"Esse item e inutil como arma.",
+				"This item is absolutely useless as a weapon."
+			],
+			"Grenade": [
+				"Item jogavel que explode, causando um dano massivo alem de desmaios.",
+				"Throwable weapon that explodes, causing massive concussion and knockouts."
+			],
+			"Teargas": [
+				"Inutil como uma arma porem pode ser usado como distracao ou sinal.",
+				"Useless as a weapon but useful as a distraction or signal."
+			],
+			"Molotov": [
+				"Item arremessovel que cria uma area em chamas.",
+				"Throwable weapon that inflicts burn wounds."
+			],
+			"M9Pistol": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"M9PistolS": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"DesertEag": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"PumpShotg": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Sawnoff": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Spas12": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Mac10": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"MP5": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"WASR3Rifl": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"M16Rifle": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Tec9": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"SemiAutoR": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"SniperRif": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para usa-la no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"RocketLau": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Heatseeke": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Flamer": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"Minigun": [
+				"Pressione {KEYTEXT_RELOAD} para recarregar e segure {KEYTEXT_DROP_ITEM} para remover municao.",
+				"Press {KEYTEXT_RELOAD} to reload and hold {KEYTEXT_DROP_ITEM} to remove ammo."
+			],
+			"SprayPain": [
+				"Use isso para pichar seu nome em certas paredes ou para cegar jogadores temporeriamente.",
+				"Use this to spray your name on certain walls or blind players temporarily."
+			],
+			"Extinguis": [
+				"Use isso para cegar e imobilizar jogadores temporariamente.",
+				"Use this to blind and immobilise players temporarily."
+			],
+			"Camera": [
+				"Pode ser usado como um binoculo para espiar jogadores a longa distancia.",
+				"Useful for zooming far for reconnaissance."
+			],
+			"Parachute": [
+				"Pressione {KEYTEXT_PUT_AWAY} para equipar, voce nao pode usar isso enquanto estiver com uma mochila nas costas.",
+				"Press {KEYTEXT_PUT_AWAY} to equip, you can't wear this while you are wearing a backpack."
+			],
+			"Medkit": [
+				"Voce pode parar sangramentos e prevenir desmaios em voce e em outros jogadores com isso.",
+				"You can stop bleeding and prevent knockouts on yourself or other players with this."
+			],
+			"HardDrive": [
+				"Usado para crafts e em puzzles(enigmas).",
+				"Used for crafting and some puzzles."
+			],
+			"Battery": [
+				"Usado para crafts e em puzzles(enigmas).",
+				"Used for crafting and some puzzles."
+			],
+			"Fusebox": [
+				"Usado para crafts e em puzzles(enigmas).",
+				"Used for crafting and some puzzles."
+			],
+			"Key": [
+				"Pode ser combinado com um motor para fazer um Kit Chaveiro, usado para trancar veiculos.",
+				"Can be combined with a Motor to make a Kit Chaveiro for locking vehicles."
+			],
+			"FireworkB": [
+				"Use um isqueiro com isso para ver alguns fogos de artificios! Ou crie explosivos com isso.",
+				"Use a lighter with this to see some fireworks! Or craft explosives with it."
+			],
+			"FireLight": [
+				"Acenda churrasqueira, fogueiras e fogos de artificios com isso.",
+				"Light BBQs, campfires and fireworks with this."
+			],
+			"Explosive": [
+				"Combine com varios itens mecanicos para criar diferentes tipos de bombas.",
+				"Craft with various mechanical items for different types of bombs."
+			],
+			"TntTimebo": [
+				"Um explosivo com uma detonacao cronometrada de 5 segundos, pressione F para arma-la.",
+				"An explosive with a timed detonation of 5 seconds, press {KEYTEXT_INTERACT} to arm."
+			],
+			"Sign": [
+				"Pressione F para colocar a placa e digite o texto desejado.",
+				"Press {KEYTEXT_INTERACT} to place and write on."
+			],
+			"Armour": [
+				"Pressione F para vestir como protecao.",
+				"Press {KEYTEXT_INTERACT} to wear for protection"
+			],
+			"Bandage": [
+				"Voce pode colocar atadura nas feridas para parar de sangrar, use isso em voce ou em outros jogadores.",
+				"You can bandage wounds and stop bleeding on yourself or other players with this,"
+			],
+			"FishRod": [
+				"Use para pescar estando proximo a agua.",
+				"Used to fish while near water."
+			],
+			"Wrench": [
+				"Use para reparar veiculos parando na frente do mesmo e segurando F.",
+				"Use to repair vehicles by standing at the front and holding {KEYTEXT_INTERACT}."
+			],
+			"Screwdriv": [
+				"Use para reparar veiculos, para fazer craftings e para construir defesas.",
+				"Use to repair vehicles by standing at the front and holding {KEYTEXT_INTERACT}."
+			],
+			"Hammer": [
+				"Use para reparar veiculos, para fazer craftings e para construir defesas.",
+				"Use to repair vehicles by standing at the front and holding {KEYTEXT_INTERACT}."
+			],
+			"Spanner": [
+				"Use para reparar veiculos parando na frente do mesmo e segurando F.",
+				"Use to repair vehicles by standing at the front and holding {KEYTEXT_INTERACT}."
+			],
+			"Crowbar": [
+				"Use para desmontar defesas, tendas e arrombar carros.",
+				"Use to break defences and tents."
+			],
+			"Shield": [
+				"Isso ira lhe proteger de tiros quando estiver apontado para o atirador.",
+				"This protects you from gunfire when pointed towards the shooter."
+			],
+			"Flashligh": [
+				"Pressione F para ativa-la.",
+				"Press {KEYTEXT_INTERACT} to toggle light."
+			],
+			"StunGun": [
+				"Ataque jogadores com isso para desarma-los por 1 minuto.",
+				"Attack players with this to disable them for 1 minute."
 			],
 			"HandCuffs": [
 				"Segure F proximo de um jogador para algema-lo.",
-				""
+				"=Hold {KEYTEXT_INTERACT} at a player to handcuff them."
+			],
+			"LaserPoin": [
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
+			],
+			"Timer": [
+				"Usado em craftings.",
+				"Used in craftings."
+			],
+			"MobilePho": [
+				"Usado em craftings.",
+				"Used in craftings."
+			],
+			"Pager": [
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
+			],
+			"EasterEgg": [
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"Bucket": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Flag": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
+			],
+			"MotionSen": [
+				"Usado em craftings.",
+				"Used in craftings."
+			],
+			"Accelerom": [
+				"Usado em craftings.",
+				"Used in craftings."
 			],
 			"DoctorBag": [
 				"Voce pode desacelerar sangramentos, regenerar vida e eliminar feridas em voce ou nos outros jogadores com isso.",
-				""
+				"You can slow bleeding, regenerate blood and heal wounds on yourself or others with this."
 			],
 			"Wheel": [
 				"Use isso para reparar a roda de veiculos, ficando na frente dela e pressionando F.",
-				""
-			],
-			"MotionSen": [
-				"Usado em crafts.",
-				""
-			],
-			"Accelerom": [
-				"Usado em crafts.",
-				""
+				"Use this to repair vehicle wheels by facing them and pressing {KEYTEXT_INTERACT}."
 			],
 			"TntTripMi": [
 				"Arme a TNT no chao segurando F, arme-a dentro de container clicando em Opcoes e em Armar, explodindo assim que alguem abra o container.",
@@ -343,79 +363,79 @@
 			],
 			"GasCan": [
 				"Use isso para reabastecer veiculos, estando na frente de um segurando F reabastercera o galao segurando F na frente de uma bomba de combustivel.",
-				""
+				"Use this to refuel vehicles by standing at the front and holding {KEYTEXT_INTERACT} refuel petrol can at fuel pumps by holding {KEYTEXT_INTERACT} at one."
 			],
 			"Clothes": [
 				"Use-a segurando F.",
-				""
+				"Wear these by holding {KEYTEXT_INTERACT}."
 			],
 			"DeadLeg": [
 				"Perna de alguma pessoa morta. Pode ser cozinhada.",
-				""
+				"Leg of some dead person. Can be cooked."
 			],
 			"Torso": [
 				"Use uma faca de combate para cortar carnes desse corpo para servir de alimento.",
-				""
+				"Use a combat knife to cut flesh from this body for food."
 			],
 			"LongPlank": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"GreenGloo": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"RadioPole": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used in craftings."
 			],
 			"SignShot": [
 				"Use isso para assustar pessoas (nao salva depois do respawn).",
-				""
+				"Use this to scare people (it doesnt save over restarts)."
 			],
 			"Mailbox": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Pumpkin": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Nailbat": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"ZorroMask": [
 				"Vista isso apertando F.",
-				""
+				"Wear this by pressing {KEYTEXT_INTERACT} and pretend you are Zorro"
 			],
 			"Barbecue": [
 				"Usada para cozinhar comida, esteja perto dela com comida e pressione F para coloca-la, use gasolina e um isqueiro para cozinhar.",
-				""
+				"Used to cook food, stand near with food and press {KEYTEXT_INTERACT} to place, use fuel and a lighter to cook"
 			],
 			"Headlight": [
 				"Use isso para reparar os farois de um veiculo estando na frente dele a apertando F.",
-				""
+				"Use this to repair vehicle headlights by standing at the front and pressing {KEYTEXT_INTERACT}"
 			],
 			"Pills": [
 				"Diferentes tipos de pilulas tem diferentes efeitos, alguns sao bons, e outros nao, tenha cuidado!",
-				""
+				"Different pill types have different effects, some are good some are bad, be careful!"
 			],
 			"AutoInjec": [
 				"Diferentes tipos de injetores tem diferentes efeitos, alguns sao bons, e outros nao, tenha cuidado!",
-				""
+				"Different injector types have different effects, some are good some are bad, be careful!"
 			],
 			"Dice": [
 				"Pressione N para jogar o dado.",
-				""
+				"Press N to drop the dice and roll it!"
 			],
 			"Dynamite": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Flare": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"TntPhoneB": [
 				"Use um telefone com isso pressionando F para sincronizar os telefones, depois use o telefone para detonar com F.",
@@ -423,87 +443,87 @@
 			],
 			"Keypad": [
 				"Aperte F. Use isso enquanto constroi uma defesa para torna-la uma porta protegida com senha.",
-				""
+				"Hold {KEYTEXT_INTERACT} with this while at a constructed defence to turn it into a key-code protected door"
 			],
 			"TentPack": [
 				"Use um Martelo com isso para construir uma tenda para armazenar itens.",
-				""
+				"Use a hammer with this to build a tent for storage items."
 			],
 			"Campfire": [
 				"Para acende-la use gasolina e isqueiro, depois pegue a comida e pressione F para cozinha-la.",
-				""
+				"Light with petrol and a lighter, then put food on by holding the food and pressing {KEYTEXT_INTERACT} to cook it"
 			],
 			"Ammo9mm": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"Ammo50": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"AmmoBuck": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"Ammo556": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"Ammo357": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"AmmoRocke": [
 				"Pressione F neste item enquanto segure uma arma ou uma outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"MolotovEm": [
 				"Coloque gasolina nisso para fazer uma bomba de fogo arremissivel.",
-				""
+				"Pour petrol into this to make a throwable fire bomb."
 			],
 			"Money": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"PowerSupp": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"StorageUn": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"Fluctuato": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"IoUnit": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"FluxCap": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"DataInter": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"HackDevic": [
 				"Usado para hackear teclados e acessar portas da area 51.",
-				""
+				"Used for hacking keypads and accessing doors from 51 area."
 			],
 			"PlantPot": [
 				"Use isso para plantar sementes, que podem ser regadas usando agua.",
-				""
+				"Use this to plant seeds, which can be watered using water."
 			],
 			"HerpDerp": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Parrot": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"TntProxMi": [
 				"Esse item nao tem utilidade.",
@@ -543,695 +563,675 @@
 			],
 			"Gyroscope": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Motor": [
-				"Use isso para montar uma base ou em crafts.",
-				""
+				"Use isso para montar uma base ou em craftings.",
+				"Use this to build a base or in craftings."
 			],
 			"StarterMo": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"FlareGun": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"PetrolBom": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"CodePart": [
-				"Um item de puzzle, o numero que aparece perto do nome do item e parte de um dos 4 codigos da senha para abrir uma porta em algum lugar...",
-				""
+				"Um item de puzzle, o numero que aparece perto do nome do item e parte de um dos 4 codigos da senha para abrir uma porta em algum lugar.",
+				"A puzzle item, the number that appears next to the item's name is part of one of the 4 password codes to open a door somewhere."
 			],
 			"Locksmith": [
-				"Use isso no lado do motorista com F para fazer uma Key (Chave) e manter o veiculo seguro.",
-				""
+				"Use isso no lado do motorista segurando F para fazer uma chave manter o veiculo seguro.",
+				"Use this on the driver's side holding F to make a key and keep the vehicle safe."
 			],
 			"VehicleWe": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used in craftings."
 			],
 			"AdvancedK": [
 				"Segure F com isso enquanto estiver perto de uma defesa construida para torna-la em uma porta protegida com senha.",
-				""
+				"Hold {KEYTEXT_INTERACT} with this while at a constructed defence to turn it into a key-code protected door."
 			],
 			"Ammo9mmFM": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"AmmoFlech": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"AmmoHomeB": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"Ammo556Tr": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"Ammo556HP": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"Ammo357Tr": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"Ammo762": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition."
 			],
 			"AK47Rifle": [
 				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para colocar no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo"
 			],
 			"M77RMRifl": [
 				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para colocar no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo"
 			],
 			"DogsBreat": [
 				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para colocar no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo"
 			],
 			"Ammo50BMG": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"Ammo308": [
 				"Pressione F nesse item enquanto estiver segurando uma arma ou outra caixa de municao para transferir as balas.",
-				""
+				"Press {KEYTEXT_INTERACT} at this item while holding a weapon or another ammo tin to transfer the ammunition"
 			],
 			"Model70Ri": [
 				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para colocar no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo"
 			],
 			"LenKnocks": [
 				"Pressione {KEYTEXT_RELOAD} para recarregar, pressione {KEYTEXT_PUT_AWAY} para colocar no coldre e segure {KEYTEXT_DROP_ITEM} para remover municao.",
-				""
+				"Press {KEYTEXT_RELOAD} to reload, press {KEYTEXT_PUT_AWAY} to holster and hold {KEYTEXT_DROP_ITEM} to remove ammo."
 			],
 			"SeedBag": [
 				"Use isto com um vaso de planta para plantar sementes, use agua para alimentar a planta, voce pode criar comida e muito mais!",
-				""
+				"Use this with a Plant Pot to plant seeds, use water to feed the plant, you can create food and more!"
 			],
 			"Note": [
 				"Use este item para escrever notas.",
-				""
+				"Use this item to write notes."
 			],
 			"AntiSepBa": [
 				"Use isso se voce esta sangrando, para nao infectar a ferida.",
-				""
+				"Use this if you are bleeding, it wont infect the wound."
 			],
 			"WoodLog": [
 				"Encontre tres destes, coloque-os em uma pilha e use um isqueiro sobre eles para criar um fogo!",
-				""
+				"Find three of these, place them in a pile and use a Lighter on them to create a fire!"
 			],
 			"Sledgeham": [
 				"Funciona bem em direcao ao rosto de alguem.",
-				""
+				"Works well hurtling towards someones face."
 			],
 			"OilCan": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"Use of the item not defined."
 			],
 			"RadioBox": [
-				"Uso do item nao definido.",
-				""
-			],
-			"BigSword": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
+				"Esse item nao tem utilidade.",
+				"Use of the item not defined."
 			],
 			"Microphon": [
-				"Uso do item nao definido.",
-				""
-			],
-			"Spatula": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Pan": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"Knife2": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
-				""
-			],
-			"FryingPan": [
-				"A escolha da arma classica de uma dona de casa dos anos 40.",
-				""
+				"Esse item nao tem utilidade.",
+				"Use of the item not defined."
 			],
 			"WheelLock": [
 				"Use isso para trancar motos, bicicletas e barcos.",
-				""
+				"Use this to lock bikes, bikes and boats."
 			],
 			"PisschBox": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Briquette": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Cross": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"RedPanel": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Fork": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Knife3": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Boot": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Doormat": [
 				"Esse item nao tem utilidade.",
-				""
-			],
-			"Broom": [
-				"Use isso para causar danos em outros jogadores.",
-				""
+				"This item has no utility."
 			],
 			"Keycard": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"BurntLog": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Padlock": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"OilDrum": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Canister": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"ScrapMeta": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"RefinedMe": [
-				"Usado em crafts.",
-				""
+				"Usado em craftings.",
+				"Used for crafting."
 			],
 			"Locator": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"PlotPole": [
-				"Uso do item nao definido.",
-				""
+				"Usado para salvar todos os itens do chão que estiverem próximos do objeto.",
+				"Used to save all items on the ground that are close to the object."
 			],
 			"ScrapMach": [
-				"Uso do item nao definido.",
-				""
+				"Use essa maquina para transformar x em x",
+				"Use this machine to transform x into x."
 			],
 			"RefineMac": [
-				"Uso do item nao definido.",
-				""
+				"Use essa maquina para transformar x em x",
+				"Use this machine to transform x into x."
 			],
 			"WaterMach": [
-				"Uso do item nao definido.",
-				""
+				"Use essa maquina para transformar x em x",
+				"Use this machine to transform x into x."
 			],
 			"Workbench": [
-				"Uso do item nao definido.",
-				""
+				"Antes poderia ser usado para craftar itens, onde agora, feito no chao.",
+				"Before it could be used to craft items, where now it's done on the ground."
 			],
 			"Radio": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"LockBreak": [
 				"Use isso para arrombar veiculos trancados por outros jogadores.",
-				""
+				"Use this to break vehicles locked up by other players."
 			],
 			"ControlBo": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"Computer": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"TallFrame": [
 				"Esse item nao tem utilidade.",
-				""
+				"This item has no utility."
 			],
 			"RemoteCon": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"Desk": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"Table": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"Barstool": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"SmallTabl": [
-				"Uso do item nao definido.",
-				""
+				"Esse item nao tem utilidade.",
+				"This item has no utility."
 			],
 			"Map": [
 				"Com ele no inventario, o seu mapa e liberado.",
-				""
+				"Used on inventory, to show your map."
 			],
 			"SupplyDro": [
 				"Use para chamar uma caixa de suprimentos militares, mas tome cuidado!",
-				""
+				"Use this item to call a military supply drop, but be careful!"
 			],
 			"MetalBlin": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"DoorBlin": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"PortaCofr": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"GarageDoo": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"DupleDoor": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"ShipDoor": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"InsulDoor": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"InsulPane": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"WoodPanel": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"CorPanel": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"MetPanel": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"CrateDoor": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"MetalGate": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"MetalFram": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"MetalStan": [
 				"Use uma ~y~Chave de Fenda~w~ nisto para construir uma parede, ou um ~y~Martelo~w~ para construir um chao, segure F para construir.",
-				""
+				"Use ~y~Screwdriver~w~ to construct a wall, or a ~y~Hammer~w~ to construct a floor, hold {KEYTEXT_INTERACT} to start building."
 			],
 			"MediumBox": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"SmallBox": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"LargeBox": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Capsule": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Suitcase": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Holdall": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Locker": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"GearBox": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"ToolBox": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"GunCase": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Cupboard": [
 				"Armazene itens aqui e eles serao salvos. ~R~OBS: Caso esteja vazio, sera destruido no respawn.",
-				""
+				"Store items here and they will be saved. ~R~NOTE: If it is empty, it will be destroyed on respawn."
 			],
 			"Backpack": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"Satchel": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"ParaBag": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"LargeBack": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"Daypack": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"MediumBag": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"Rucksack": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"HeartShap": [
 				"Pressione ~y~{KEYTEXT_PUT_AWAY}~w~ para colocar nas costas, ou pressione ~y~{KEYTEXT_DROP_ITEM}~w~ enquanto nao tem nada nas maos para remover.",
-				""
+				"Press ~y~{KEYTEXT_PUT_AWAY}~w~ to put it on your back, or press ~y~{KEYTEXT_DROP_ITEM}~w~ while not holding anything to remove it."
 			],
 			"ArmyHelme": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BoaterHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BowlerHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"fire_hat1": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"fire_hat2": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"headphone": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"HelmArmy": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"HelmMoto": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"PizzaHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"PoliceCap": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"PoliceHel": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"StrawHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"StrawHelm": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"TopHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"TruckCap": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"WitchesHa": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"XmasHat": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"Balaclava": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BandanaBl": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BandanaGr": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BandanaPa": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"BandanaWh": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"CluckingB": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"DiaboMask": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"GasMask": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"MaskGreen": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"MaskRed": [
 				"Pressione ~y~F~w~ para vestir esse acessorio.",
-				""
+				"Press ~y~F~w~ to wear this accessory."
 			],
 			"Detergent": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Bottle": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"CanDrink": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"MilkBottl": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"MilkCarto": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"AppleJuic": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"OrangeJui": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Wine1": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Wine2": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Wine3": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Whisky": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Champagne": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Ketchup": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
 			],
 			"Mustard": [
 				"Este item pode conter liquidos. Pressione ~y~F~w~ para tentar beber ou usa-lo.",
-				""
+				"This item may contain liquid. Press ~y~F~w~ to try to drink or use it."
+			],
+			"HotDog": [
+				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Pizza": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Burger": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"BurgerBox": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Taco": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"BurgerBag": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Meat": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Tomato": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"RawFish": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Meat2": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"PizzaOnly": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"BreadLoaf": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Banana": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Orange": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"RedApple": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Lemon": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"PizzaBox": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"IceCream": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"FishyFing": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"IceCreamB": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Cereal1": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Cereal2": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"WrappedMe": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"CakeSlice": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"GrnApple": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Ham": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Steak": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			],
 			"Bread": [
 				"Pressione ~y~F~w~ para tentar ingerir ou usa-lo. Mas cuidado, pode te causar nauseas se nao for cozinhado antes.",
-				""
+				"Press ~y~F~w~ to try to ingest or use it. But be careful, it can make you nauseous if not cooked beforehand."
 			]
 		},
 		"container": {
@@ -1648,8 +1648,8 @@
 		],
 		"join-sentence": {
 			"onplayerlogin": [
-				"Sua frase de entrada",
-				"Your entrance sentence"
+				" > Sua frase de entrada",
+				" > Your entrance sentence"
 			],
 			"points": [
 				"Você precisa de 100 pontos para usar este comando",
@@ -1657,15 +1657,15 @@
 			],
 			"cmd-syntax": [
 				" > Use: /frase [frase]",
-				""
+				" > Use: /frase [phrase]"
 			],
 			"big-sentence": [
 				" > Frase muito grande.",
-				""
+				" > Phrase too very long."
 			],
 			"changed": [
-				"Frase de entrada alterada para",
-				""
+				" > Frase de entrada alterada para",
+				" > Entry phrase changed to:"
 			]
 		},
 		"account": {
@@ -1734,8 +1734,8 @@
 				"Wounded: %s~n~Severity: %s"
 			],
 			"killed": [
-				"matou",
-				"killed"
+				"Matou",
+				"Killed"
 			],
 			"wounds": {
 				"infected": [
@@ -1749,7 +1749,7 @@
 			},
 			"poisened": {
 				"food": [
-					"",
+					" Infecao Alimentar",
 					" Food Poisoning"
 				]
 			}
@@ -1808,11 +1808,11 @@
 				],
 				"open_bag": [
 					"Abrir Mochila",
-					"Open Bag"
+					"Open Backpack"
 				],
 				"remove_bag": [
 					"Remover Mochila",
-					"Remove Bag"
+					"Remove Backpack"
 				],
 				"set_sign": [
 					"Colocar Placa",
@@ -1929,11 +1929,11 @@
 			},
 			"item": {
 				"fill-petrolcan": [
-					"",
+					"Encher o Galao",
 					"Fill up the Gallon"
 				],
 				"dropreload-weapon": [
-					"",
+					"Dropar/Recarregar",
 					"Drop/Reload"
 				]
 			}
@@ -1941,11 +1941,11 @@
 		"bag": {
 			"extra-slots": [
 				"Precisa de %d slots extras na mochila",
-				"Extra %d bag slots required"
+				"Extra %d backpack slots required"
 			],
 			"item-added": [
 				"Item adicionado na mochila",
-				"Item added to bag"
+				"Item added to backpack"
 			]
 		},
 		"inventory": {
@@ -1970,56 +1970,56 @@
 				"Armour removed"
 			],
 			"camouflage": [
-				"",
+				"{C_YELLOW}Camuflagem >",
 				"{C_YELLOW}Cammouflage >"
 			],
 			"friends": {
 				"option": [
-					"",
+					"{C_GREEN}Amigos >{C_WHITE}",
 					"{C_GREEN}Friends >{C_WHITE}"
 				],
 				"add": [
-					"",
+					"Adicionar um amigo +",
 					"Add a friend +"
 				],
 				"titulo": [
-					"",
+					"{C_GREEN}Amigos",
 					"{C_GREEN}Friends"
 				],
 				"remove": [
-					"",
-					"{C_RED}do you want to remove this friend from your friends list?"
+					"{C_RED}Voce quer mesmo remover esse amigo da sua lista de amigos?",
+					"{C_RED}Do you want to remove this friend from your friends list?"
 				],
 				"max-friends": [
-					"",
+					"Você atingiu o limite máximo de amigos",
 					"You have reached the maximum number of friends."
 				],
 				"invited": [
-					"",
+					"Convite de amigo enviado com sucesso.",
 					"Friendship invitation sent successfully."
 				],
 				"accept": [
-					"",
+					" > Use /aceitar [id do jogador]",
 					" > Use /accept [player id]"
 				],
 				"friend-offline": [
-					"",
+					" > ID de jogador não conectado.",
 					" > Player ID not logged in."
 				],
 				"friend-no-invite": [
-					"",
+					" > Esse jogador não enviou nenhum pedido de amizade.",
 					" > This player has not sent any friend invitations."
 				]
 			},
 			"status-option": [
-				"",
+				"{C_YELLOW}Status >",
 				"{C_YELLOW}Status >"
 			]
 		},
 		"radio": {
 			"not-synced": [
 				"Radio não sincronizado",
-				""
+				"Radio not synchronized."
 			],
 			"global": [
 				" >  Você ligou seu rádio na frequencia global.",
@@ -2031,7 +2031,7 @@
 			],
 			"admin": [
 				" > Admin chat ativado.",
-				" >  Admin chat activated."
+				" > Admin chat activated."
 			]
 		},
 		"frozen": [
@@ -2083,23 +2083,23 @@
 			""
 		],
 		"score": [
-			"",
+			"Score",
 			"Score"
 		],
 		"kills": [
-			"",
+			"Mortes",
 			"Deaths"
 		],
 		"killingspree": [
-			"",
+			"Killing Spree",
 			"Killing Spree"
 		],
 		"aliveminutes": [
-			"",
+			"Minutos Vivo",
 			"Live Minutes"
 		],
 		"clan": [
-			"",
+			"Clan",
 			"Clan"
 		]
 	},
@@ -2200,8 +2200,8 @@
 				"Doors"
 			],
 			"damage": [
-				"",
-				""
+				"Dano",
+				"Damage"
 			]
 		},
 		"saved": [
@@ -2221,61 +2221,61 @@
 		"step": {
 			"open_inventory": [
 				"Abrir Inventario",
-				""
+				"Open Inventory"
 			],
 			"equip_backpack": [
 				"Equipar Mochila",
-				""
+				"Equip Backpack"
 			],
 			"add_item_to_inventory": [
 				"Adicionar Item ao Inventario",
-				""
+				"Add Item to Inventory."
 			],
 			"view_inventory_options": [
 				"Abrir Opcoes do Inventario",
-				""
+				"Open Inventory Options"
 			],
 			"open_container": [
 				"Abrir Mochila",
-				""
+				"Open Backpack"
 			],
 			"add_item_to_container": [
 				"Adicionar Item a Mochila",
-				""
+				"Add Item to Backpack"
 			],
 			"view_container_options": [
 				"Abrir Opcoes da Mochila",
-				""
+				"Open Backpack Options"
 			],
 			"drop_item": [
 				"Dropar Item",
-				""
+				"Drop Item"
 			],
 			"holster_weapon": [
 				"Colocar Arma no Coldre",
-				""
+				"Put Weapon in Holster"
 			],
 			"use_item_on_another_item": [
 				"Construir Metal Corrugado",
-				""
+				"Construct Metal Corrugado"
 			],
 			"finish_item_tweak": [
 				"Terminar Edicao da Defesa",
-				""
+				"Finish Defence Edit"
 			],
 			"build_tent": [
 				"Montar Tenda",
-				""
+				"Build Tent"
 			],
 			"repair_vehicle": [
 				"Reparar Veiculo",
-				""
+				"Repair Vehicle"
 			]
 		},
 		"tip": {
 			"access_bag": [
 				"Voce pode acessar sua mochila pressionando H e clicando no icone da Mochila na parte inferior direita.",
-				"You can access your bag by pressing H and clicking the Bag icon at the bottom right."
+				"You can access your backpack by pressing H and clicking the backpack icon at the bottom right."
 			],
 			"access_inventory": [
 				"Este e o seu inventario. Tambem conhecido como seus bolsos. Esta nao e sua mochila.",
@@ -2334,7 +2334,7 @@
 				"Finished defense finished. Install a motor and then a keyboard in your defense."
 			],
 			"vehicle-spanner": [
-				"",
+				"Este veículo está ligeiramente quebrado! Para consertar, equipe uma chave inglesa e segure ~y~F ~w~enquanto estiver na frente do veículo.",
 				"This vehicle is slightly broken! To fix, equip a wrench and hold ~y~F ~w~while at the front of the vehicle."
 			]
 		}
@@ -2425,7 +2425,7 @@
 			]
 		},
 		"restart_warning_3m": [
-			"",
+			"> AVISO: O respawn de itens ocorrerá em 3 minutos. Saia para evitar bugs!",
 			"> WARNING: Item respawn will occur in 3 minutes. Log out to avoid bugs!"
 		]
 	},
