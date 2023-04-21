@@ -138,7 +138,7 @@ _OnDeath(playerid, killerid)
 		death_Spree[killerid] ++;
 		death_Spree[playerid] = 0;
 		
-		foreach(new i : Player) ChatMsg(i, RED, "CHATKILLMSG", killerid, playerid);
+		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerid, playerid);
 		
 		SavePlayerIniData(playerid);
 		SavePlayerIniData(killerid);
