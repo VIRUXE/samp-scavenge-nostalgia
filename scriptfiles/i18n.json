@@ -1946,7 +1946,7 @@
 		},
 		"inventory": {
 			"item-added": [
-				"Item adicionado ao inventário",
+				"Item adicionado ao inventario",
 				"Item added to inventory"
 			],
 			"hat-removed": [
@@ -1954,11 +1954,11 @@
 				"Hat removed"
 			],
 			"holding-item": [
-				"~y~Você já está segurando um item",
+				"~y~Voce ja está segurando um item",
 				"You are already holding an item"
 			],
 			"mask-removed": [
-				"Máscara removida",
+				"Mascara removida",
 				"Mask removed"
 			],
 			"armour-removed": [
