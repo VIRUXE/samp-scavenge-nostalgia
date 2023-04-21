@@ -50,12 +50,12 @@ timer CreateTitles[100](playerid)
 	CreatePlayerTile(playerid, GearSlot_Tors[0], GearSlot_Tors[1], GearSlot_Tors[2], 490.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Back[0], GearSlot_Back[1], GearSlot_Back[2], 560.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 
-	PlayerTextDrawSetString(playerid, GearSlot_Head[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTHEAD", true));
-	PlayerTextDrawSetString(playerid, GearSlot_Face[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTFACE", true));
-	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTHAND", true));
-	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTCOLD", true));
-	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTBODY", true));
-	PlayerTextDrawSetString(playerid, GearSlot_Back[0], GetLanguageString(GetPlayerLanguage(playerid), "SLOTBACK", true));
+	PlayerTextDrawSetString(playerid, GearSlot_Head[0], ls(playerid, "SLOTHEAD"));
+	PlayerTextDrawSetString(playerid, GearSlot_Face[0], ls(playerid, "SLOTFACE"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], ls(playerid, "SLOTHAND"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], ls(playerid, "SLOTCOLD"));
+	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], ls(playerid, "SLOTBODY"));
+	PlayerTextDrawSetString(playerid, GearSlot_Back[0], ls(playerid, "SLOTBACK"));
 }
 
 CreatePlayerTile(playerid, &PlayerText:title, &PlayerText:tile, &PlayerText:item, Float:x, Float:y, Float:width, Float:height, colour, overlaycolour)

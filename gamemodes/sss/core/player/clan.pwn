@@ -4,8 +4,7 @@
 #define MAX_CLAN_NAME 16
 #define MAX_CLAN_TAG 3
 
-static
-	Clan[MAX_PLAYERS][MAX_CLAN_NAME];
+static Clan[MAX_PLAYERS][MAX_CLAN_NAME];
 
 SetPlayerClan(playerid, clan[MAX_CLAN_NAME]) {
 	strcpy(Clan[playerid], clan, MAX_CLAN_NAME); // Define na memória
@@ -49,7 +48,7 @@ IsPlayerClanOwner(playerid) {
 
 AddPlayerToClan(playerid, clan[MAX_CLAN_NAME]) {
 	// Define no banco de dados
-	db_query(gAccounts, sprintf("UPDATE Player SET clan = '%s' WHERE name = '%s'", clan, GetPlayerOriginalName(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerOriginalName(playerid)));
 
 	SetPlayerClan(playerid, clan);
 }
@@ -73,7 +72,22 @@ hook OnGameModeInit() {
 }
 
 hook OnPlayerLogin(playerid) {
+	new clan[MAX_CLAN_NAME];
 
+	clan = GetPlayerClan(playerid);
+
+	if(!isempty(clan)) {
+		new clan_owner[MAX_PLAYER_NAME];
+		
+		clan_owner = GetClanOwner(clan);
+
+		if(!isempty(clan_owner)) {
+			if(isequal(GetPlayerNameEx(playerid), clan_owner))
+				ChatMsg(playerid, WHITE, "Voce e o dono do clan '%s'", clan);
+			else
+				ChatMsg(playerid, WHITE, "Voce pertence ao clan '%s'", clan);
+		}
+	}
 }
 
 CMD:clan(playerid, params[])
