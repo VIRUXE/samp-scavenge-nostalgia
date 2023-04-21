@@ -2409,7 +2409,7 @@
 				"Voce nao tem autoridade suficiente para usar esse comando.",
 				"You have insufficient authority to use that command."
 			],
-			"nedd-duty": [
+			"need-duty": [
 				"Voce so pode usar esse comando em {C_BLUE}Duty{C_RED}.",
 				"You can only use that command while on {C_BLUE}administrator duty{C_RED}."
 			],
