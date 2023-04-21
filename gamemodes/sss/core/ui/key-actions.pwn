@@ -207,7 +207,7 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, "Herp-a-Derp");
 	else if(itemtype == item_HandCuffs) {
 		if(inplayerarea != -1)
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/appy_cuffs"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/apply_cuffs"));
 	} else if(itemtype == item_Wheel)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/replace_tyre"));
 	else if(itemtype == item_GasCan) {
