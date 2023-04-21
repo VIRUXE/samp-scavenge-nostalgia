@@ -115,7 +115,7 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 			
 		return ChatMsg(playerid, VIP_COLOR, " > Estilo de luta alterado com Sucesso.");
 	} else if(isequal(command, "nick", true)) {
-		if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "LOGGEDINREQ");
+		if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "server/command/cant-use-not-logged-in");
 
 		new nick[MAX_PLAYER_NAME];
 
