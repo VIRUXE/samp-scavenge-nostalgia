@@ -125,11 +125,9 @@ ACMD:field[2](playerid, params[])
 
 		new ret = ShowDetfieldLog(playerid, id);
 
-		if(ret == 1)
-			ChatMsg(playerid, YELLOW, " >  Exibindo log de entradas para a field: '%s'.", name);
+		if(ret == 1) ChatMsg(playerid, YELLOW, " >  Exibindo log de entradas para a field: '%s'.", name);
 
-		else
-			ChatMsg(playerid, YELLOW, " >  Não há log de entradas na field: '%s'.", name);
+		else ChatMsg(playerid, YELLOW, " >  Não há log de entradas na field: '%s'.", name);
 	}
 
 	if(!strcmp(params, "add", true, 3))
@@ -203,8 +201,7 @@ ACMD:field[2](playerid, params[])
 
 	if(!strcmp(params, "nome", true, 4))
 	{
-		new
-			name[MAX_PLAYER_NAME];
+		new name[MAX_PLAYER_NAME];
 
 		if(sscanf(params, "{s[8]}s[24]", name))
 		{
@@ -214,8 +211,7 @@ ACMD:field[2](playerid, params[])
 
 		new count = ShowDetfieldNameFields(playerid, name);
 
-		if(count == 0)
-			ChatMsg(playerid, YELLOW, " >  Não há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", name);
+		if(count == 0) ChatMsg(playerid, YELLOW, " >  Não há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", name);
 	}
 
 	return 1;
@@ -325,32 +321,15 @@ Dialog:DetfieldListOptions(playerid, response, listitem, inputtext[])
 					GetDetectionFieldPos(dfm_CurrentDetfield[playerid], x, y, z);
 					SetPlayerPos(playerid, x, y, z);
 				}
-				else
-				{
-					ChatMsg(playerid, RED, " >  Você precisa estar em duty para fazer isso.");
-				}
+				else ChatMsg(playerid, RED, "server/command/need-duty");
 			}
 
-			case 2:
-			{
-				ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
-			}
-
-			case 3:
-			{
-				ShowDetfieldRenamePrompt(playerid, dfm_CurrentDetfield[playerid]);
-			}
-
-			case 4:
-			{
-				ShowDetfieldDeletePrompt(playerid, dfm_CurrentDetfield[playerid]);
-			}
+			case 2: ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
+			case 3: ShowDetfieldRenamePrompt(playerid, dfm_CurrentDetfield[playerid]);
+			case 4:ShowDetfieldDeletePrompt(playerid, dfm_CurrentDetfield[playerid]);
 		}
 	}
-	else
-	{
-		ShowDetfieldList(playerid);
-	}
+	else ShowDetfieldList(playerid);
 }
 
 ShowDetfieldExceptions(playerid, detfieldid)
@@ -360,9 +339,7 @@ ShowDetfieldExceptions(playerid, detfieldid)
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTIONS;
 
-	new
-		name[MAX_DETFIELD_NAME];
-
+	new name[MAX_DETFIELD_NAME];
 	GetDetectionFieldName(detfieldid, name);
 
 	if(GetDetectionFieldExceptionCount(detfieldid) == 0)
@@ -385,14 +362,9 @@ ShowDetfieldExceptions(playerid, detfieldid)
 
 Dialog:DetfieldExceptions(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		ShowDetfieldExceptionOptions(playerid, dfm_CurrentDetfield[playerid], listitem);
-	}
-	else
-	{
-		ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
-	}
+	if(response) ShowDetfieldExceptionOptions(playerid, dfm_CurrentDetfield[playerid], listitem);
+
+	else ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 }
 
 ShowDetfieldExceptionOptions(playerid, detfieldid, exceptionid)
@@ -418,21 +390,11 @@ Dialog:DetfieldExceptionOpts(playerid, response, listitem, inputtext[])
 	{
 		switch(listitem)
 		{
-			case 0:
-			{
-				ShowDetfieldAddException(playerid, dfm_CurrentDetfield[playerid]);
-			}
-
-			case 1:
-			{
-				ShowDetfieldDeleteException(playerid, dfm_CurrentDetfield[playerid]);
-			}
+			case 0: ShowDetfieldAddException(playerid, dfm_CurrentDetfield[playerid]);
+			case 1: ShowDetfieldDeleteException(playerid, dfm_CurrentDetfield[playerid]);
 		}
 	}
-	else
-	{
-		ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
-	}
+	else ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
 }
 
 ShowDetfieldAddException(playerid, detfieldid)
@@ -442,9 +404,7 @@ ShowDetfieldAddException(playerid, detfieldid)
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTION_ADD;
 
-	new
-		name[MAX_DETFIELD_NAME];
-
+	new name[MAX_DETFIELD_NAME];
 	GetDetectionFieldName(detfieldid, name);
 
 	Dialog_Show(playerid, DetfieldAddExc, DIALOG_STYLE_INPUT, sprintf("Adicionar Exceção para: %s", name), "Escreva o nome do usuário:", "Adicionar", "Voltar");
@@ -491,10 +451,8 @@ Dialog:DetfieldAddExc(playerid, response, listitem, inputtext[])
 			ShowDetfieldAddException(playerid, dfm_CurrentDetfield[playerid]);
 		}
 	}
-	else
-	{
-		ShowDetfieldExceptionOptions(playerid, dfm_CurrentDetfield[playerid], dfm_CurrentException[playerid]);
-	}
+	else ShowDetfieldExceptionOptions(playerid, dfm_CurrentDetfield[playerid], dfm_CurrentException[playerid]);
+
 	return 0;
 }
 
@@ -641,14 +599,8 @@ ShowDetfieldLog(playerid, detfieldid)
 
 Dialog:DetfieldLog(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		ShowDetfieldLogOptions(playerid, dfm_CurrentDetfield[playerid], listitem);
-	}
-	else
-	{
-		ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
-	}
+	if(response) ShowDetfieldLogOptions(playerid, dfm_CurrentDetfield[playerid], listitem);
+	else ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 
 	HidePlayerPageButtons(playerid);
 	CancelSelectTextDraw(playerid);
@@ -685,10 +637,7 @@ Dialog:DetfieldLogOpts(playerid, response, listitem, inputtext[])
 						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_Y],
 						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_Z]);
 				}
-				else
-				{
-					ChatMsg(playerid, RED, " >  Você precisa estar em duty para fazer isso.");
-				}
+				else ChatMsg(playerid, RED, "server/command/need-duty");
 			}
 
 			case 1:
@@ -723,10 +672,7 @@ ShowDetfieldNameFields(playerid, name[])
 
 	format(title, sizeof(title), "%s (last %d fields from index %d)", name, count, dfm_PageIndex[playerid]);
 
-	if(count == 0)
-	{
-		return 0;
-	}
+	if(count == 0) return 0;
 
 	// TODO: make proper pagination for this menu.
 	ShowPlayerPageButtons(playerid);
@@ -754,10 +700,7 @@ hook OnPlayerDialogPage(playerid, direction)
 			if(dfm_PageIndex[playerid] < 0)
 				dfm_PageIndex[playerid] = 0;
 		}
-		else
-		{
-			dfm_PageIndex[playerid] += MAX_DETFIELD_PAGESIZE;
-		}
+		else dfm_PageIndex[playerid] += MAX_DETFIELD_PAGESIZE;
 
 		ShowDetfieldList(playerid);
 	}
@@ -771,10 +714,7 @@ hook OnPlayerDialogPage(playerid, direction)
 			if(dfm_LogIndex[playerid] < 0)
 				dfm_LogIndex[playerid] = 0;
 		}
-		else
-		{
-			dfm_LogIndex[playerid] += MAX_DETFIELD_LOG_PAGESIZE;
-		}
+		else dfm_LogIndex[playerid] += MAX_DETFIELD_LOG_PAGESIZE;
 
 		ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid]);
 	}
@@ -785,12 +725,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/admin/detfield-cmds.pwn");
 
 	if(dfm_Editing[playerid])
-	{
-		if(newkeys == 128)
-		{
-			AddNewDetectionFieldPoint(playerid);
-		}
-	}
+		if(newkeys == 128) AddNewDetectionFieldPoint(playerid);
 
 	return 1;
 }
@@ -815,10 +750,8 @@ AddNewDetectionFieldPoint(playerid)
 
 		new ret = AddDetectionField(dfm_Name[playerid], dfm_Points[playerid], dfm_MinZ[playerid], dfm_MaxZ[playerid], dfm_Exceptions[playerid]);
 
-		if(ret < 0)
-		{
-			ChatMsg(playerid, RED, " >  Ocorreu um erro ao fazer isto (code: %d)", ret);
-		}
+		if(ret < 0) 
+		ChatMsg(playerid, RED, " >  Ocorreu um erro ao fazer isto (code: %d)", ret);
 		else
 		{
 			ChatMsg(playerid, YELLOW, " >  Ponto %d setado para %f, %f. Field '%s' criada.",
@@ -828,10 +761,7 @@ AddNewDetectionFieldPoint(playerid)
 				dfm_Name[playerid]);
 		}
 	}
-	else
-	{
-		ChatMsg(playerid, YELLOW, " >  Ponto %d setado para %f, %f. Mova para o próximo ponto e pressione "C_BLUE"~k~~PED_LOCK_TARGET~", dfm_CurrentPoint[playerid] + 1, dfm_Points[playerid][dfm_CurrentPoint[playerid] * 2], dfm_Points[playerid][(dfm_CurrentPoint[playerid] * 2) + 1]);
-	}
+	else ChatMsg(playerid, YELLOW, " >  Ponto %d setado para %f, %f. Mova para o próximo ponto e pressione "C_BLUE"~k~~PED_LOCK_TARGET~", dfm_CurrentPoint[playerid] + 1, dfm_Points[playerid][dfm_CurrentPoint[playerid] * 2], dfm_Points[playerid][(dfm_CurrentPoint[playerid] * 2) + 1]);
 
 	dfm_CurrentPoint[playerid]++;
 }
