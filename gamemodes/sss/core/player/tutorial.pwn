@@ -633,6 +633,8 @@ ExitTutorial(playerid)
 }
 
 IsPlayerInTutorial(playerid) {
+	if(!IsPlayerConnected(playerid)) return false; // ! Gambiarra mas pronto
+
 	if(playerid >= Iter_Count(Player)) {
 		log("IsPlayerInTutorial: playerid invalido (%d)", playerid);
 		PrintAmxBacktrace();
