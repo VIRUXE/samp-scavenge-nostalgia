@@ -1244,8 +1244,8 @@
         "Equipar\nUsar\nJogar Item\n"
       ],
       "inventory_title": [
-        "Inventario",
-        "Inventory"
+        "{C_BROWN}Inventario",
+        "{C_BROWN}Inventory"
       ],
       "inventory_open": [
         "Abrir Inventario",

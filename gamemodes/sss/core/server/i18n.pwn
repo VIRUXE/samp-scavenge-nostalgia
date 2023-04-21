@@ -46,10 +46,15 @@ static ReplaceTags(content[]) {
         {"KEYTEXT_RADIO", "R"}
     };
 
-    for (new i = 0; i < sizeof(replacements); i++) {
+    for (new i = 0; i < sizeof(replacements); i++)
+    {
+        new formattedTag[20];
+        format(formattedTag, sizeof(formattedTag), "{%s}", replacements[i][TAG]);
+
         new findIndex = -1;
-        while ((findIndex = strfind(content, sprintf("{%s}", replacements[i][TAG]), false, findIndex + 1)) != -1) {
-            strdel(content, findIndex, findIndex + strlen(replacements[i][TAG]) + 2);
+        while ((findIndex = strfind(content, formattedTag, false, findIndex + 1)) != -1)
+        {
+            strdel(content, findIndex, findIndex + strlen(formattedTag));
             strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
         }
     }

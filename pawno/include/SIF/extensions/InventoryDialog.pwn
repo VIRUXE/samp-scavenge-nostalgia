@@ -238,7 +238,7 @@ stock DisplayPlayerInventory(playerid)
 	new inventorySize = GetPlayerInventorySize(playerid);
     inv_ViewingInventory[playerid] = true;
 
-	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, sprintf("{C_BROWN}%s (%d/%d)", ls(playerid, "item/container/inventory_title"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize), list, ls(playerid, "common/options"), ls(playerid, "common/close"));
+	Dialog_Show(playerid, SIF_PlayerInventory, DIALOG_STYLE_LIST, sprintf("%s (%d/%d)", ls(playerid, "item/container/inventory_title"), inventorySize - GetInventoryFreeSlots(playerid), inventorySize), list, ls(playerid, "common/options"), ls(playerid, "common/close"));
 
 	return 1;
 }
