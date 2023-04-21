@@ -50,12 +50,12 @@ timer CreateTitles[100](playerid)
 	CreatePlayerTile(playerid, GearSlot_Tors[0], GearSlot_Tors[1], GearSlot_Tors[2], 490.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Back[0], GearSlot_Back[1], GearSlot_Back[2], 560.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 
-	PlayerTextDrawSetString(playerid, GearSlot_Head[0], ls(playerid, "SLOTHEAD"));
-	PlayerTextDrawSetString(playerid, GearSlot_Face[0], ls(playerid, "SLOTFACE"));
-	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], ls(playerid, "SLOTHAND"));
-	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], ls(playerid, "SLOTCOLD"));
-	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], ls(playerid, "SLOTBODY"));
-	PlayerTextDrawSetString(playerid, GearSlot_Back[0], ls(playerid, "SLOTBACK"));
+	PlayerTextDrawSetString(playerid, GearSlot_Head[0], ls(playerid, "player/health/status_ui/inventory/slothead"));
+	PlayerTextDrawSetString(playerid, GearSlot_Face[0], ls(playerid, "player/health/status_ui/inventory/slotface"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], ls(playerid, "player/health/status_ui/inventory/slothand"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], ls(playerid, "player/health/status_ui/inventory/slotcold"));
+	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], ls(playerid, "player/health/status_ui/inventory/slottors"));
+	PlayerTextDrawSetString(playerid, GearSlot_Back[0], ls(playerid, "player/health/status_ui/inventory/slotback"));
 }
 
 CreatePlayerTile(playerid, &PlayerText:title, &PlayerText:tile, &PlayerText:item, Float:x, Float:y, Float:width, Float:height, colour, overlaycolour)
@@ -195,10 +195,10 @@ ShowPlayerHealthInfo(playerid)
 	tmp = 0;
 
 	if(bleedrate > 0.0)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, ls(GetPlayerLanguage(playerid), "BODYBLEED"), RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
+		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, ls(playerid, "player/health/status_ui/bleeding"), RGBAToHex(truncateforbyte(floatround(bleedrate * 3200.0)), truncateforbyte(255 - floatround(bleedrate * 3200.0)), 0, 255));
 
 	if(infected1)
-		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, ls(playerid, "player/health/poisened/food"), 0xFF0000FF);
+		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, ls(playerid, "player/health/status_ui/infections/food"), 0xFF0000FF);
 
 	if(infected2)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, ls(playerid, "player/health/status_ui/infections/wound"), 0xFF0000FF);
