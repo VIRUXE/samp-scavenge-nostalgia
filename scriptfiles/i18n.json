@@ -1642,6 +1642,7 @@
       "saiu do servidor",
       "left the server"
     ],
+    "kicked": [" >  Kickado, motivo: {C_BLUE}%s", " >  Kicked, reason: {C_BLUE}%s"],
     "join-sentence": {
       "onplayerlogin": ["Sua frase de entrada", "Your entrance sentence"],
       "points"       : ["Você precisa de 100 pontos para usar este comando", "You need 100 points to use this commando"],
@@ -2366,7 +2367,7 @@
           "\t {C_YELLOW}List of Explosives: (Total: 2) \\n\\n\\t  \\n\\n\\t {C_ORANGE}TNT - (2 DAMAGE IN DEFENCES) \\n\\n\\t {C_ORANGE}IED - (1 DAMAGE IN DEFENCES)."
         ],
         "rules": [
-          "",
+          "\t {C_YELLOW}List of Rules: (Total: 9)\n\n\t \n\n\t {C_ORANGE}1. Disrespect for staff = ban \n\n\t {C_ORANGE}2. Player offense or disrespect = warn \n\n\t {C_ORANGE}3. Promote other servers = ban \n\n\t {C_ORANGE}4. Bug abuse = ban (depending on severity) \n\n\t {C_ORANGE}5. Report players in global chat = warn \n\n\t {C_ORANGE}6. Use beneficial programs or mods = ban \n\n\t {C_ORANGE}7. Have more than one account on server = account disabled and warn \n\n\t {C_ORANGE}8. FakeKill (kill friends or clan members) = warn \n\n\t {C_ORANGE}9. Flood/Spam = warn.",
           "\t {C_YELLOW}List of Rules: (Total: 9)\\n\\n\\t \\n\\n\\t {C_ORANGE}Disrespect for staff = ban \\n\\n\\t {C_ORANGE}Player offense or disrespect = warn \\n\\n\\t {C_ORANGE}Promote other servers = ban \\n\\n\\t {C_ORANGE}Bug abuse = ban (depending on severity) \\n\\n\\t {C_ORANGE}Report players in global chat = warn \\n\\n\\t {C_ORANGE}Use beneficial programs or mods = ban \\n\\n\\t {C_ORANGE}Have more than one account on server = account disabled and warn \\n\\n\\t {C_ORANGE}FakeKill (kill friends or clan members) = warn \\n\\n\\t {C_ORANGE}Flood/Spam = warn."
         ]
       },
@@ -2390,7 +2391,7 @@
         "Voce nao tem autoridade suficiente para usar esse comando.",
         "You have insufficient authority to use that command."
       ],
-      "duty-permission": [
+      "nedd-duty": [
         "Voce so pode usar esse comando em {C_BLUE}Duty{C_RED}.",
         "You can only use that command while on {C_BLUE}administrator duty{C_RED}."
       ],
@@ -2439,6 +2440,7 @@
       "Fechar",
       "Close"
     ],
+    "back": ["Voltar", "Back"],
     "distance": [
       "Distancia: %.3f",
       "Distance: %.3f"

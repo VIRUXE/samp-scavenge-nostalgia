@@ -182,7 +182,7 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/remove_bag"));
 
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster"));
 
 		ShowPlayerKeyActionUI(playerid);
 
@@ -225,9 +225,9 @@ _UpdateKeyActions(playerid)
 	} else if(itemtype == item_Pills)
 		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/take_pills"));
 	else if(itemtype == item_AutoInjec)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea == -1 ? "KA_INJECT" : "KA_INJECTOTHER"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea == -1 ? "player/key-actions/player/inject_me" : "player/key-actions/player/inject_player"));
 	else if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag)
-		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea != -1 ? "KA_CUREP" : "KA_CUREME"));
+		AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, inplayerarea != -1 ? "player/key-actions/player/heal_player" : "player/key-actions/player/heal_me"));
 	else if(itemtype == item_Wrench || itemtype == item_Screwdriver || itemtype == item_Hammer) {
 		if(invehiclearea != INVALID_VEHICLE_ID  && !IsPlayerInAnyVehicle(playerid))
 			if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))

@@ -374,13 +374,13 @@ DisplayPlayerInventoryOptions(playerid, slotid)
 	GetItemName(GetInventorySlotItem(playerid, slotid), name);
 	
 	inv_OptionsList[playerid] = "";
-	strcat(inv_OptionsList[playerid], ls(playerid, "INVOPTIONS"));
+	strcat(inv_OptionsList[playerid], ls(playerid, "item/container/item_options"));
 	
 	inv_OptionsCount[playerid] = 0;
 
 	CallLocalFunction("OnPlayerViewInventoryOpt", "d", playerid);
 
-	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_PlayerInvOptions, DIALOG_STYLE_LIST, name, inv_OptionsList[playerid], ls(playerid, "common/select"), ls(playerid, "common/back"));
 
 	return 1;
 }
@@ -407,7 +407,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -426,7 +426,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -445,7 +445,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}

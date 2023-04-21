@@ -192,7 +192,7 @@ stock DisplayContainerInventory(playerid, containerid)
 		cnt_ItemListTotal[playerid]++;
 	}
 
-	strcat(cnt_InventoryString[playerid], ls(playerid, "OPENINVO"));
+	strcat(cnt_InventoryString[playerid], sprintf("%s >\n", ls(playerid, "player/key-actions/player/open_inventory")));
 
 	cnt_CurrentContainer[playerid] = containerid;
 
@@ -310,7 +310,7 @@ DisplayContainerOptions(playerid, slotid)
 
 	CallLocalFunction("OnPlayerViewContainerOpt", "dd", playerid, cnt_CurrentContainer[playerid]);
 
-	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "BUTTONSLC"), ls(playerid, "BUTTONRTN"));
+	Dialog_Show(playerid, SIF_ContainerOptions, DIALOG_STYLE_LIST, tmp, cnt_OptionsList[playerid], ls(playerid, "common/options"), ls(playerid, "common/back"));
 
 	return 1;
 }
@@ -337,7 +337,7 @@ Dialog:SIF_ContainerOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "INVHOLDINGI"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
 				DisplayContainerInventory(playerid, cnt_CurrentContainer[playerid]);
 			}
 		}

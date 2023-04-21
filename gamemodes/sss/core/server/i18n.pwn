@@ -56,13 +56,18 @@ static ReplaceTags(content[]) {
 }
 
 GetLanguageString(playerid, const route[]) {
-    new Node:node = lang_i18n;
+    new Node:node;
 
     // Split the route and navigate through the JSON tree
-    new routeSplit[6][32], routeSplitCount;
-    strsplit(route, "/", routeSplit, routeSplitCount);
+    new 
+        routeSplit[12][64],
+        routeSplitCount;
 
-    for (new i = 0; i < routeSplitCount-1; i++) {
+    routeSplitCount = strexplode(routeSplit, route, "/");
+
+    JSON_GetObject(lang_i18n, routeSplit[0], node);
+
+    for (new i = 1; i < routeSplitCount-1; i++) {
         JSON_GetObject(node, routeSplit[i], node);
     }
 
@@ -88,7 +93,7 @@ GetLanguageString(playerid, const route[]) {
 
         ReplaceTags(output);
 
-        printf("GetLanguageString(%d (Language: %d), '%s'): %s", playerid, player_language, route, output);
+        // printf("GetLanguageString(%d (Language: %d), '%s'): %s", playerid, player_language, route, output);
     } else {
         printf("[i18] Route '%s' doesn't have any strings.", route);
     }
@@ -177,7 +182,7 @@ ACMD:idioma[3](playerid, params[])
 
 	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
 
-	sscanf(params, "rs[2]", targetId, lang);
+	sscanf(params, "rs[3]", targetId, lang);
 
 	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador não existe.");
 
@@ -185,10 +190,10 @@ ACMD:idioma[3](playerid, params[])
 
 	if(isequal(lang, "pt")) {
         SetPlayerLanguage(targetId, 0);
-        SavePlayerLanguage(playerid, 0);
+        // SavePlayerLanguage(playerid, 0);
     } else if(isequal(lang, "en")) {
         SetPlayerLanguage(targetId, 1);
-        SavePlayerLanguage(playerid, 1);
+        // SavePlayerLanguage(playerid, 1);
     } else 
         return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 
