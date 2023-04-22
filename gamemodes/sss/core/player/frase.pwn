@@ -14,7 +14,7 @@ hook OnPlayerLogin(playerid)
 	if(!isempty(frase)) ChatMsg(playerid, YELLOW, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/onplayerlogin"), frase);
 
 	foreach(new i : Player) 
-		if(i != playerid) ChatMsg(i, WHITE, "player/join", playerid, playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", frase);
+		if(i != playerid) ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(" -> %s", frase) : "");
 }
 
 CMD:frase(playerid, params[])

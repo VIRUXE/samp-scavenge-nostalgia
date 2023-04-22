@@ -155,7 +155,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 	if(reason != 2 && IsPlayerLoggedIn(playerid)) {
 		foreach(new i : Player)
-			ChatMsg(i, WHITE, "player/left", playerid, playerid);
+			ChatMsg(i, WHITE, "player/left", playerid);
 	}
 
 	Logout(playerid);
