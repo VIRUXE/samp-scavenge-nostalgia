@@ -108,9 +108,7 @@ hook OnItemDestroy(itemid)
 	if(exp_ItemTypeExplosive[GetItemType(itemid)] != -1)
 	{
 		if(GetItemHitPoints(itemid) <= 0)
-		{
 			SetItemToExplode(itemid);
-		}
 	}
 }
 
@@ -160,19 +158,13 @@ stock SetItemToExplode(itemid)
 	if(!isnull(parenttype))
 	{
 		if(!strcmp(parenttype, "containerid"))
-		{
 			DestroyContainer(parent);
-		}
 
 		if(!strcmp(parenttype, "vehicleid"))
-		{
 			SetVehicleHealth(parent, 0.0);
-		}
 
 		if(!strcmp(parenttype, "playerid"))
-		{
 			SetPlayerHP(parent, 0.0);
-		}
 	}
 
 	DestroyItem(itemid);
@@ -316,7 +308,7 @@ hook OnHoldActionFinish(playerid)
 				exp_ArmTick[playerid] = GetTickCount();
 				defer SetItemToExplodeDelay(exp_ArmingItem[playerid], 5000);
 				ClearAnimations(playerid);
-				ShowActionText(playerid, ls(playerid, "ARMEDBOMB5S"), 3000);
+				ShowActionText(playerid, ls(playerid, "item/explosive/bomb_armed_5s"), 3000);
 
 				exp_ArmingItem[playerid] = INVALID_ITEM_ID;
 			}
@@ -440,10 +432,9 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 		if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)
 		{
 			if(GetItemExtraData(itemid) == 0)
-				exp_ContainerOption[playerid] = AddContainerOption(playerid, "Arm Trip Mine");
+				exp_ContainerOption[playerid] = AddContainerOption(playerid, "Armar Trip Mine");
 
-			else
-				exp_ContainerOption[playerid] = AddContainerOption(playerid, "Disarm Trip Mine");
+			else exp_ContainerOption[playerid] = AddContainerOption(playerid, "Disarmar Trip Mine");
 		}
 	}
 
@@ -522,12 +513,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 		if(exp_ItemTypeExplosive[itemtype] != INVALID_EXPLOSIVE_TYPE)
 		{
 			if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)
-			{
-				if(GetItemExtraData(itemid) == 1)
-				{
-					SetItemToExplode(itemid);
-				}
-			}
+				if(GetItemExtraData(itemid) == 1) SetItemToExplode(itemid);
 		}
 	}
 
@@ -546,35 +532,22 @@ stock CreateExplosionOfPreset(Float:x, Float:y, Float:z, EXP_PRESET:preset)
 {
 	switch(preset)
 	{
-		case EXP_INCEN:
-			err("EXP_INCEN not implemented");
-
-		case EXP_THERM:
-			err("EXP_THERM not implemented");
-
-		case EXP_EMP:
-			CreateEmpExplosion(x, y, z, exp_Presets[preset][exp_size]);
-
-		default:
-			CreateExplosion(x, y, z, exp_Presets[preset][exp_type], exp_Presets[preset][exp_size]);
+		case EXP_INCEN: err("EXP_INCEN not implemented");
+		case EXP_THERM: err("EXP_THERM not implemented");
+		case EXP_EMP: CreateEmpExplosion(x, y, z, exp_Presets[preset][exp_size]);
+		default: CreateExplosion(x, y, z, exp_Presets[preset][exp_type], exp_Presets[preset][exp_size]);
 	}
 
 	if(exp_Presets[preset][exp_itemDmg] > 0)
 	{
-		new
-			items[256],
-			count,
-			bool:destroy_defence;
-
+		new items[256], count, bool:destroy_defence;
 		count = GetItemsInRange(x, y, z, exp_Presets[preset][exp_size], items);
 		
 		for(new i; i < count; i++)
 		{
-		    if(!IsValidItem(items[i]))
-		        continue;
+		    if(!IsValidItem(items[i])) continue;
 		        
-		    if(IsItemTypeDefence(GetItemType(items[i])) && destroy_defence)
-				continue;
+		    if(IsItemTypeDefence(GetItemType(items[i])) && destroy_defence) continue;
 
 		    if(IsItemTypeDefence(GetItemType(items[i])))
 			    destroy_defence = true;
