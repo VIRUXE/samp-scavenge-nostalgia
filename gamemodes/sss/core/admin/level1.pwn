@@ -22,13 +22,13 @@ ACMD:calar[1](playerid, params[])
 	{
 		TogglePlayerMute(targetid, true, delay);
 		ChatMsg(playerid, YELLOW, " >  Calou o player %P "C_WHITE"por %d segundos.", targetid, delay);
-		ChatMsg(targetid, YELLOW, "MUTEDANTIME", delay, reason);
+		ChatMsg(targetid, YELLOW, "player/muted-time", delay, reason);
 	}
 	else
 	{
 		TogglePlayerMute(targetid, true);
 		ChatMsg(playerid, YELLOW, " > Player calado: %P", targetid);
-		ChatMsg(targetid, YELLOW, "MUTEDREASON", reason);
+		ChatMsg(targetid, YELLOW, "player/muted-reas", reason);
 	}
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) calou %P{C457EB} (%d)! "C_WHITE"[Segundos: %d]", playerid, playerid, targetid, targetid, delay);
@@ -47,7 +47,7 @@ ACMD:descalar[1](playerid, params[])
 	TogglePlayerMute(targetid, false);
 
 	ChatMsg(playerid, YELLOW, " >  Descalado: %P", targetid);
-	ChatMsg(targetid, YELLOW, "MUTEDUNMUTE");
+	ChatMsg(targetid, YELLOW, "player/unmuted");
 
 	return 1;
 }
