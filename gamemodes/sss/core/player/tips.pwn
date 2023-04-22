@@ -17,9 +17,10 @@ stock SendTip(playerid) {
             new lang = GetPlayerLanguage(playerid);
 
             JSON_ArrayObject(node, random(total_tips), node);
-            JSON_GetString(node, lang == ENGLISH ? "en" : "pt", tip, sizeof(tip));
+            JSON_ArrayObject(node, lang == PORTUGUESE ? 0 : 1, node);
+            JSON_GetNodeString(node, tip);
 
-            ChatMsg(playerid, GOLD, " > %s: "C_WHITE"%s", lang == ENGLISH ? "Tip" : "Dica", tip);
+            ChatMsg(playerid, GOLD, " > %s: "C_WHITE"%s", lang == PORTUGUESE ? "Dica" : "Tip", tip);
         }
     }
 }

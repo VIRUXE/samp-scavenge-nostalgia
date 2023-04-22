@@ -135,13 +135,13 @@ LoadSettings()
 	JSON_GetNodeString(node, gMessageOfTheDay);
 	log("[SETTINGS] Mensagem do dia: %s", gMessageOfTheDay);
 
-	JSON_GetString(node, "website", gWebsiteURL);
+	JSON_GetString(server, "website", gWebsiteURL);
 	SendRconCommand(sprintf("weburl %s", gWebsiteURL));
 	log("[SETTINGS] Website: %s", gWebsiteURL);
 
 	// Podemos carregar ate 24 regras (MAX_RULE)
 	new Node:rules;
-	JSON_GetArray(node, "rules", rules);
+	JSON_GetArray(server, "rules", rules);
 	JSON_ArrayLength(rules, length);
 
 	// Certificar de que n�o tentamos carregar mais regras do que o m�ximo permitido (MAX_RULE)
@@ -159,7 +159,7 @@ LoadSettings()
 		log("[SETTINGS] Regra %d: %s", i + 1, gRuleList[i]);
 	}
 
-	JSON_GetInt(node, "max-uptime", gServerMaxUptime);
+	JSON_GetInt(server, "max-uptime", gServerMaxUptime);
 	log("[SETTINGS] Ciclo de Restart: %d horas", gServerMaxUptime / 3600);
 
 	// Carrega as configura��es do jogador
@@ -177,7 +177,6 @@ LoadSettings()
 	JSON_GetInt(node, "ping-limit", gPingLimit);
 	log("[SETTINGS] Limite de ping: %d", gPingLimit);
 }
-
 
 stock GetSettingInt(const name[]) {
 	new Node:node, Node:temp, i, result;
