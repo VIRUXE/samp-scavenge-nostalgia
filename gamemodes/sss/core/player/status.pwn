@@ -22,7 +22,7 @@ stock ShowStatusPlayerForPlayer(i, forplayer){
 /*new status_InventoryOption[MAX_PLAYERS];
 
 hook OnPlayerOpenInventory(playerid){
-	status_InventoryOption[playerid] = AddInventoryListItem(playerid, ls(playerid, "player/inventory/status-option"));
+	status_InventoryOption[playerid] = AddInventoryListItem(playerid, "{C_YELLOW}Status >");
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }*/
 

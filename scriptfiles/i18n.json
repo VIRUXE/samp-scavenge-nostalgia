@@ -2059,10 +2059,6 @@
 					" > This player has not sent any friend invitations."
 				]
 			},
-			"status-option": [
-				"{C_YELLOW}Status >",
-				"{C_YELLOW}Status >"
-			],
 			"slots": {
 				"head"   : ["Cabeca", "Head"],
 				"face"   : ["Cara", "Face"],
