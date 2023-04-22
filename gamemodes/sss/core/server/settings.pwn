@@ -160,7 +160,7 @@ LoadSettings()
 	}
 
 	JSON_GetInt(server, "max-uptime", gServerMaxUptime);
-	log("[SETTINGS] Ciclo de Restart: %d horas", gServerMaxUptime / 3600);
+	log("[SETTINGS] Ciclo de Restart: %d horas", (gServerMaxUptime ? gServerMaxUptime : 14400) / 3600);
 
 	// Carrega as configura��es do jogador
 	JSON_GetObject(Settings, "player", node);
