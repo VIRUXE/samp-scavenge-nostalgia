@@ -1,5 +1,5 @@
 /* 
-	Passos necessários para completar o tutorial:
+	Passos necessï¿½rios para completar o tutorial:
 	- Abrir Inventario
 	- Equipar Mochila
 	- Adicionar Item ao Inventario
@@ -97,10 +97,10 @@ hook OnPlayerRegister(playerid) {
 }
 
 hook OnVehicleSave(vehicleid) {
-	// Não salvar veículos do tutorial
+	// Nï¿½o salvar veï¿½culos do tutorial
 	foreach(new i : Player) {
 		if(vehicleid == Tutorial[i][TUT_VEHICLE]) {
-			printf("[TUTORIAL] Veículo %d de %p (%d) não será salvo.", vehicleid, i, i);
+			printf("[TUTORIAL] Veï¿½culo %d de %p (%d) nï¿½o serï¿½ salvo.", vehicleid, i, i);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 	}
@@ -116,7 +116,7 @@ hook OnPlayerWearBag(playerid, itemid)
 {
 	if(IsPlayerInTutorial(playerid)) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/access_bag"), ls(playerid, "common/lang-shortcode")));
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, EQUIP_BACKPACK);
@@ -133,7 +133,7 @@ hook OnPlayerOpenInventory(playerid)
 	    	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
 				ls(playerid, "tutorial/tip/access_inventory"), ls(playerid, "common/lang-shortcode")));
 
-//			https://translate.google.com/translate_tts?ie=UTF-8&q=Este é o seu inventário. Também conhecido como seus bolsos. Esta não é sua mochila.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Este ï¿½ o seu inventï¿½rio. Tambï¿½m conhecido como seus bolsos. Esta nï¿½o ï¿½ sua mochila.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
 
             PlayerTutorial_VozInv[playerid] = true;
@@ -167,7 +167,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 /* 		    if(!PlayerTutorial_VozCnt[playerid])
 		    {
   				// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/access_bag_own"), ls(playerid, "common/lang-shortcode")));
-//				https://translate.google.com/translate_tts?ie=UTF-8&q=Esta é a sua Mochila. Elas são armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Esta ï¿½ a sua Mochila. Elas sï¿½o armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=This is your bag. Bags are extra storage. There are many different types of bags with different sizes.&tl=EN-TW&client=tw-ob
 
                 PlayerTutorial_VozCnt[playerid] = true;
@@ -204,7 +204,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 		// {
   			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-options"), ls(playerid, "common/lang-shortcode")));
 
-//			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Estas sï¿½o suas opï¿½ï¿½es para o item selecionado. Equipar coloca em sua mï¿½o.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
 			IncreaseTutorialProgress(playerid, VIEW_CONTAINER_OPTIONS);
@@ -222,7 +222,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-drop"), ls(playerid, "common/lang-shortcode")));
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando você soltar um item, outros jogadores podem pegá-lo.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando vocï¿½ soltar um item, outros jogadores podem pegï¿½-lo.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=When you drop an item, other players can pick it up.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, DROP_ITEM);
@@ -239,7 +239,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add"), ls(playerid, "common/lang-shortcode")));
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item ao seu inventário. Se o seu inventário estiver cheio, o item será colocado na sua Mochila.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item ao seu inventï¿½rio. Se o seu inventï¿½rio estiver cheio, o item serï¿½ colocado na sua Mochila.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your inventory. If your inventory is full, the item will be put in your bag.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_INVENTORY);
@@ -256,7 +256,7 @@ hook OnPlayerViewInvOpt(playerid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-options"), ls(playerid, "common/lang-shortcode")));
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas são suas opções para o item selecionado. Equipar coloca em sua mão.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Estas sï¿½o suas opï¿½ï¿½es para o item selecionado. Equipar coloca em sua mï¿½o.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, VIEW_INVENTORY_OPTIONS);
@@ -277,7 +277,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 		{
 			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-bag"), ls(playerid, "common/lang-shortcode")));
 
-//				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ícone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item a sua mochila. Vocï¿½ pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
 			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-bag"));
@@ -286,7 +286,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid)
 		{
 			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-container"), ls(playerid, "common/lang-shortcode")));
 
-//				https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres são lugares para armazenar itens&tl=PT-TW&client=tw-ob
+//				https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item a um container. Os containeres sï¿½o lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //				https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
 			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-container"));
@@ -302,7 +302,7 @@ hook OnPlayerHolsteredItem(playerid, itemid)
 	{
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/weapon-holster"), ls(playerid, "common/lang-shortcode")));
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/weapon-holster"));
@@ -395,8 +395,8 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
-			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Vocï¿½ acabou de interagir um item com outro. Em muitos momentos do jogo vocï¿½ usarï¿½ essa funï¿½ï¿½o. Exemplo:");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construï¿½ï¿½es, e diversas combinaï¿½ï¿½es de itens.");
 		}
 
 		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
@@ -437,14 +437,14 @@ EnterTutorial(playerid) {
 	
 	new virtualworld = playerid + 1;
 
-	// Um armazém vermelho em Las Venturas
+	// Um armazï¿½m vermelho em Las Venturas
 	SetPlayerPos(playerid, 928.8049, 2072.3174, 10.8203);
 	SetPlayerFacingAngle(playerid, 269.3244);
 	SetPlayerVirtualWorld(playerid, virtualworld);
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 
-	// Define uma roupa aleatória
+	// Define uma roupa aleatï¿½ria
 	new skin;
 	switch(random(14))
 	{
@@ -490,7 +490,7 @@ EnterTutorial(playerid) {
 		encode_tires(0, 1, 1, 0)
 	);
 
-	// Portão bloqueando a entrada do galpão
+	// Portï¿½o bloqueando a entrada do galpï¿½o
 
 	Tutorial[playerid][TUT_GATE_OBJ] = CreatePlayerObject(playerid, 971, 977.73792, 2073.38745, 10.37790,   0.00000, 0.00000, 90.00000, 300.0);
 
@@ -568,7 +568,7 @@ EnterTutorial(playerid) {
 	SetLiquidItemLiquidAmount(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN], 15);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/intro"), ls(playerid, "common/lang-shortcode")));
-//	https://translate.google.com/translate_tts?ie=UTF-8&q=Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerão aqui!&tl=PT-TW&client=tw-ob
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerï¿½o aqui!&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Welcome to the tutorial! Look around and try things. Help messages will appear here!&tl=EN-TW&client=tw-ob
 
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
@@ -623,10 +623,10 @@ ExitTutorial(playerid)
 	ShowCharacterCreationScreen(playerid);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
-//	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
+//	https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ saiu do tutorial, para voltar terï¿½ que morrer.&tl=PT-TW&client=tw-ob
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 
-	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
+	// ! Eu jï¿½ fiz uma funï¿½ï¿½o chamada ClearChat. Agora nï¿½o sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 	return ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
@@ -635,11 +635,11 @@ ExitTutorial(playerid)
 IsPlayerInTutorial(playerid) {
 	if(!IsPlayerConnected(playerid)) return false; // ! Gambiarra mas pronto
 
-	if(playerid >= Iter_Count(Player)) {
+	/* if(playerid >= Iter_Count(Player)) {
 		log("IsPlayerInTutorial: playerid invalido (%d)", playerid);
 		PrintAmxBacktrace();
 		return false;
-	}
+	} */
 
 	return Tutorial[playerid][TUT_VEHICLE] != INVALID_VEHICLE_ID;
 }
