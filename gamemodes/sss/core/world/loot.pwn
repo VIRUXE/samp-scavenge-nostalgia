@@ -31,24 +31,6 @@
 #define MAX_LOOT_SPAWN			(12683)
 #define MAX_ITEMS_PER_SPAWN		(6)
 
-enum {
-	airdrop_food_medical,
-	airdrop_industrial,
-	airdrop_low_weapons,
-	airdrop_military_weapons,
-	// 4
-	vehicle_civilian,
-	vehicle_industrial,
-	vehicle_military,
-	vehicle_police,
-	//8
-	world_civilian,
-	world_industrial,
-	world_medical,
-	world_military,
-	world_police,
-	world_survivor
-}
 
 enum E_LOOT_INDEX_ITEM_DATA
 {
@@ -90,7 +72,7 @@ Float:		loot_SpawnMult = 1.0;
 
 hook OnScriptInit()
 {
-	loot_SpawnMult = GetSettingFloat("world/loot-spawn-multiplier");
+	loot_SpawnMult = gEnvironment == PRODUCTION ? GetSettingFloat("world/loot-spawn-multiplier") : 0.01;
 	log("[SETTINGS][WORLD] Loot spawn multiplier: %f", loot_SpawnMult);
 }
 
@@ -107,8 +89,6 @@ stock DefineLootIndex(name[MAX_LOOT_INDEX_NAME])
 	if(loot_IndexTotal >= MAX_LOOT_INDEX) err("Loot index limit reached at '%s'.", name);
 
 	loot_IndexName[loot_IndexTotal] = name;
-
-	log("[LOOT] '%s' added with index %d", name, loot_IndexTotal);
 
 	return loot_IndexTotal++;
 }
