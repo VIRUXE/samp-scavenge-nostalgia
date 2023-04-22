@@ -292,9 +292,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if(oldkeys & 16)
-	{
 		StopBuildingDefence(playerid);
-	}
 }
 
 StartBuildingDefence(playerid, itemid)
@@ -820,9 +818,7 @@ _UpdateDefenceTweakArrow(playerid, itemid, Float:x, Float:y, Float:z, Float:rx, 
 hook OnItemTweakUpdate(playerid, itemid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz)
 {
 	if(def_TweakArrow[playerid] != INVALID_OBJECT_ID)
-	{
 		_UpdateDefenceTweakArrow(playerid, itemid, x, y, z, rx, ry, rz);
-	}
 }
 
 hook OnItemTweakFinish(playerid, itemid)
@@ -868,15 +864,11 @@ ShowSetPassDialog_Keypad(playerid){
 	ShowKeypad(playerid, 100);
 }
 
-ShowEnterPassDialog_Keypad(playerid, msg = 0){
-	if(msg == 0)
-		ChatMsg(playerid, YELLOW, "item/defence/enter-code");
-
-	if(msg == 1)
-		ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
-
-	if(msg == 2)
-		ChatMsg(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
+ShowEnterPassDialog_Keypad(playerid, msg = 0)
+{
+	if(msg == 0) ChatMsg(playerid, YELLOW, "item/defence/enter-code");
+	if(msg == 1) ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
+	if(msg == 2) ChatMsg(playerid, YELLOW, "item/defence/code-fast", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	ShowKeypad(playerid, 100, GetItemArrayDataAtCell(def_CurrentDefenceOpen[playerid], def_pass));
 }
@@ -898,21 +890,14 @@ Dialog:SetPassAdv(playerid, response, listitem, inputtext[])
 			CallLocalFunction("OnDefenceModified", "d", def_CurrentDefenceEdit[playerid]);
 			def_CurrentDefenceEdit[playerid] = -1;
 		}
-		else
-		{
-			ShowSetPassDialog_KeypadAdv(playerid);
-		}
+		else ShowSetPassDialog_KeypadAdv(playerid);
 	}
-	else
-	{
-		ShowSetPassDialog_KeypadAdv(playerid);
-	}
+	else ShowSetPassDialog_KeypadAdv(playerid);
 }
 
 ShowEnterPassDialog_KeypadAdv(playerid, msg = 0)
 {
-	if(msg == 2)
-		ChatMsg(playerid, YELLOW, "DEFTOOFASTE", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
+	if(msg == 2) ChatMsg(playerid, YELLOW, "item/defence/code-fast", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	Dialog_Show(playerid, EnterPassAdv, DIALOG_STYLE_INPUT, "Digite a senha", (msg == 1) ? ("Senha incorreta") : ("Digite a senha hexadecimal de 4 a 8 caracteres para abrir."), "Confirmar", "Cancelar");
 
@@ -959,10 +944,7 @@ Dialog:EnterPassAdv(playerid, response, listitem, inputtext[])
 			def_PassFails[playerid]++;
 		}
 	}
-	else
-	{
-		return 0;
-	}
+	else return 0;
 
 	return 1;
 }
