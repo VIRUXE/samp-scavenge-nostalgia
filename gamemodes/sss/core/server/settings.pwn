@@ -5,31 +5,32 @@ LoadSettings()
 	new result;
 	new Node:node, length;
 
-	log("[SETTINGS] Carregando configurações...");
+	log("[SETTINGS] Carregando configuraï¿½ï¿½es...");
 
 	result = JSON_ParseFile("settings.json", Settings);
-	if(result) // Não foi possível carregar o arquivo
+	if(result) // Nï¿½o foi possï¿½vel carregar o arquivo
 	{
-		log("[SETTINGS] Erro: Não foi possível carregar o arquivo de configurações. Usando as configurações padrão.");
+		log("[SETTINGS] Erro: Nï¿½o foi possï¿½vel carregar o arquivo de configuraï¿½ï¿½es. Usando as configuraï¿½ï¿½es padrï¿½o.");
 
 		Settings = JSON_Object(
 			"server", JSON_Object(
-				"name", JSON_String("Scavenge Nostalgia"),
+				"env", JSON_String("prod"),
+				"name", JSON_String("Nostalgia ~ Scavenge"),
 				"address", JSON_String("scavengenostalgia.fun"),
 				"website", JSON_String("http://www.scavengenostalgia.fun"),
 				"discord", JSON_String("http://discord.scavengenostalgia.fun"),
 				"global-debug-level", JSON_Int(0),
 				"max-uptime", JSON_Int(14400), // 4 horas em segundos
-				"motd", JSON_Object(
-					"pt", JSON_String("Bem vindo ao servidor Scavenge Nostalgia!"),
-					"en", JSON_String("Welcome to the Scavenge Nostalgia server!")
+				"motd", JSON_Array(
+					JSON_String("Bem vindo ao servidor Nostalgia ~ Scavenge!"),
+					JSON_String("Welcome to the Nostalgia ~ Scavenge server!")
 				),
 				"rules", JSON_Array(
-					JSON_String("Não use hacks."),
-					JSON_String("Não use bugs."),
-					JSON_String("Não use exploits."),
-					JSON_String("Não use macros."),
-					JSON_String("Não use programas de terceiros.")
+					JSON_String("Nï¿½o use hacks."),
+					JSON_String("Nï¿½o use bugs."),
+					JSON_String("Nï¿½o use exploits."),
+					JSON_String("Nï¿½o use macros."),
+					JSON_String("Nï¿½o use programas de terceiros.")
 				),
 				"otp", JSON_Object(
 					"enabled", JSON_Bool(false),
@@ -57,51 +58,51 @@ LoadSettings()
 					)
 				),
 				"tips", JSON_Array(
-					JSON_Object(
-						"pt", JSON_String("Caso tenha alguma dúvida, use o /relatorio para falar com alguém da staff."),
-						"en", JSON_String("If you have any questions, use /report to speak with a staff member.")
+					JSON_Array(
+						JSON_String("Caso tenha alguma dï¿½vida, use o /relatorio para falar com alguï¿½m da staff."),
+						JSON_String("If you have any questions, use /report to speak with a staff member.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Caso encontre algum BUG, use o /bug para reportar a staff."),
-						"en", JSON_String("If you find any bugs, use /bug to report them to the staff.")
+					JSON_Array(
+						JSON_String("Caso encontre algum BUG, use o /bug para reportar a staff."),
+						JSON_String("If you find any bugs, use /bug to report them to the staff.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Use o /dicas para desativar as dicas de ajuda."),
-						"en", JSON_String("Use /tips to turn off the help messages.")
+					JSON_Array(
+						JSON_String("Use o /dicas para desativar as dicas de ajuda."),
+						JSON_String("Use /tips to turn off the help messages.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Entre em nosso grupo no discord e fique por dentro de todas as novidades."),
-						"en", JSON_String("Join our Discord group and stay up-to-date with all the latest news.")
+					JSON_Array(
+						JSON_String("Entre em nosso grupo no discord e fique por dentro de todas as novidades."),
+						JSON_String("Join our Discord group and stay up-to-date with all the latest news.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo é mais legal e lucrativo."),
-						"en", JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
+					JSON_Array(
+						JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo ï¿½ mais legal e lucrativo."),
+						JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Você viu alguém fazendo o que não devia? Use /report para denunciar."),
-						"en", JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
+					JSON_Array(
+						JSON_String("Vocï¿½ viu alguï¿½m fazendo o que nï¿½o devia? Use /report para denunciar."),
+						JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Não fique triste quando morrer ou perder a base, isso faz parte do jogo."),
-						"en", JSON_String("Don't get upset when you die or lose your base, it's part of the game.")
+					JSON_Array(
+						JSON_String("Nï¿½o fique triste quando morrer ou perder a base, isso faz parte do jogo."),
+						JSON_String("Don't get upset when you die or lose your base, it's part of the game.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Lembre-se que o servidor é mantido por doações, ajude-nos a manter o servidor online."),
-						"en", JSON_String("Remember that the server is maintained by donations, help us keep the server online.")
+					JSON_Array(
+						JSON_String("Lembre-se que o servidor ï¿½ mantido por doaï¿½ï¿½es, ajude-nos a manter o servidor online."),
+						JSON_String("Remember that the server is maintained by donations, help us keep the server online.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Você pode usar o /ajuda para ver todos os comandos disponíveis."),
-						"en", JSON_String("You can use /help to see all the available commands.")
+					JSON_Array(
+						JSON_String("Vocï¿½ pode usar o /ajuda para ver todos os comandos disponï¿½veis."),
+						JSON_String("You can use /help to see all the available commands.")
 					),
-					JSON_Object(
-						"pt", JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estão quebrando as regras."),
-						"en", JSON_String("Remember to use /votekick to vote on players who are breaking the rules.")
+					JSON_Array(
+						JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estï¿½o quebrando as regras."),
+						JSON_String("Remember to use /votekick to vote on players who are breaking the rules.")
 					)
 				)
 			),
 			"vehicle", JSON_Object(
 				"spawn", JSON_Object(
-					"chance", JSON_Float(1.0),
+					"chance", JSON_Float(4.0),
 					"print-each", JSON_Bool(false),
 					"print-total", JSON_Bool(true)
 				),
@@ -111,7 +112,7 @@ LoadSettings()
 				)
 			),
 			"world", JSON_Object(
-				"loot-spawn-multiplier", JSON_Float(0.010000),
+				"loot-spawn-multiplier", JSON_Float(1.4),
 				"weather", JSON_Int(4)
 			)
 		);
@@ -119,14 +120,19 @@ LoadSettings()
 		JSON_SaveFile("settings.json", Settings, .pretty = true);
 	}
 
-	// ! Sem validação mesmo, se o cara colocar um valor errado, vai dar merda. Que se foda.
+	// Carrega as configuraï¿½ï¿½es do servidor
+	new Node:server;
+	JSON_GetObject(Settings, "server", server);
 
-	// Carrega as configurações do servidor
-	JSON_GetObject(Settings, "server", node);
+	new env[5];
+	JSON_GetString(server, "env", env);
 
-	new Node:motd;
-	JSON_GetArray(node, "motd", motd);
-	JSON_GetString(motd, "pt", gMessageOfTheDay);
+	// No caso de a propriedade nao existir, coloca em modo de producao
+	gEnvironment = isequal(env, "dev") ? DEVELOPMENT : PRODUCTION;
+
+	JSON_GetArray(server, "motd", node);
+	JSON_ArrayObject(node, 0, node);
+	JSON_GetNodeString(node, gMessageOfTheDay);
 	log("[SETTINGS] Mensagem do dia: %s", gMessageOfTheDay);
 
 	JSON_GetString(node, "website", gWebsiteURL);
@@ -135,14 +141,13 @@ LoadSettings()
 
 	// Podemos carregar ate 24 regras (MAX_RULE)
 	new Node:rules;
-
 	JSON_GetArray(node, "rules", rules);
 	JSON_ArrayLength(rules, length);
 
-	// Certificar de que não tentamos carregar mais regras do que o máximo permitido (MAX_RULE)
+	// Certificar de que nï¿½o tentamos carregar mais regras do que o mï¿½ximo permitido (MAX_RULE)
 	if(length > MAX_RULE) {
 		length = MAX_RULE;
-		log("[SETTINGS] Aviso: O número de regras excede o máximo permitido. As regras extras serão ignoradas.");
+		log("[SETTINGS] Aviso: O nï¿½mero de regras excede o mï¿½ximo permitido. As regras extras serï¿½o ignoradas.");
 	}
 
 	for(new i = 0; i < length; i++) {
@@ -157,7 +162,7 @@ LoadSettings()
 	JSON_GetInt(node, "max-uptime", gServerMaxUptime);
 	log("[SETTINGS] Ciclo de Restart: %d horas", gServerMaxUptime / 3600);
 
-	// Carrega as configurações do jogador
+	// Carrega as configuraï¿½ï¿½es do jogador
 	JSON_GetObject(Settings, "player", node);
 
 	JSON_GetInt(node, "combat-log-window", gCombatLogWindow);
@@ -167,7 +172,7 @@ LoadSettings()
 	log("[SETTINGS] Tempo de congelamento de login: %d segundos", gLoginFreezeTime);
 
 	JSON_GetInt(node, "max-tab-out-time", gMaxTaboutTime);
-	log("[SETTINGS] Tempo máximo de tab-out: %d segundos", gMaxTaboutTime);
+	log("[SETTINGS] Tempo mï¿½ximo de tab-out: %d segundos", gMaxTaboutTime);
 
 	JSON_GetInt(node, "ping-limit", gPingLimit);
 	log("[SETTINGS] Limite de ping: %d", gPingLimit);

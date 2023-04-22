@@ -110,7 +110,15 @@ forward Float:GetPlayerBleedRate(playerid);
 
 ==============================================================================*/
 
-new gServerLoadTime_Start, gServerLoadTime;
+new 
+	gServerLoadTime_Start, 
+	gServerLoadTime,
+	gEnvironment;
+
+enum {
+	DEVELOPMENT,
+	PRODUCTION
+};
 
 public OnGameModeInit()
 {
