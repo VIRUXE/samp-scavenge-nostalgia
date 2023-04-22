@@ -826,12 +826,7 @@ timer CheckPlayerInvadeField[SEC(2)](playerid)
 		if(IsValidDetectionField(i))
 	    {
 			if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
-			{
-				if(!IsNameInExceptionList(i, pName))
-				{
-				    IsIn ++;
-				}
-			}
+				if(!IsNameInExceptionList(i, pName)) IsIn ++;
 		}
 	}
 
@@ -904,10 +899,8 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {	
-	if(BlockFieldVehicle(playerid, vehicleid))
-	{
-		CancelPlayerMovement(playerid);
-	}
+	if(BlockFieldVehicle(playerid, vehicleid)) CancelPlayerMovement(playerid);
+
 	return 1;
 }
 
@@ -934,12 +927,7 @@ stock GetPlayerFieldID(playerid)
     foreach(new i : det_Index)
 	{
 	    if(IsValidDetectionField(i))
-	    {
-			if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
-			{
-			    fieldid = i;
-			}
-		}
+			if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) fieldid = i;
 	}
 
 	return fieldid;
@@ -965,75 +953,31 @@ stock IsPlayerInvaddedField(playerid)
 	    if(IsValidDetectionField(i))
 	    {
 			if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+
 	    	if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 	    	if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x, y + 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x, y - 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y + 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y - 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y + 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
 			if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y - 3.0, z))
-			{
-    			if(!IsNameInExceptionList(i, pName))
-				{
-	                pinf = true;
-			    }
-			}
+    			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
         }
 	}
@@ -1053,7 +997,7 @@ stock AvisoField(playerid) {
 		"%s"C_YELLOW"\t- Construir.\n\
 		\t- Desmontar com pé de cabra.\n\
 		\t- Interagir tendas e caixas.\n\
-		\t- Interagir com ve�culos.\n\n", string);
+		\t- Interagir com ve�culos.\n\n", string);
 
     format(string, 700,
 		"%s"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteção.\n\n", string);
@@ -1087,11 +1031,9 @@ stock BlockFieldVehicle(playerid, vehicleid)
 				GetPlayerName(playerid, pName, 24);
 
 				if(!IsNameInExceptionList(i, pName))
-				{
 					trunk_playerNotAllowed[playerid] = true;
-				} else {
-					trunk_playerNotAllowed[playerid] = false;
-				}
+
+				else trunk_playerNotAllowed[playerid] = false;
 			}
 		}
 	}
