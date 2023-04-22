@@ -19,7 +19,7 @@ hook OnPlayerScriptUpdate(playerid)
 	if(food < 20.0) SetPlayerHP(playerid, GetPlayerHP(playerid) - (20.0 - food) / 30.0);
 
 	if(food >= 19.8 && food <= 20.0 || food >= 9.8 && food <= 10.0) 
-		ShowActionText(playerid, sprintf(ls(playerid, "player/food-deading"), food), 5000);
+		ShowActionText(playerid, sprintf(ls(playerid, "player/health/dieing/food"), food), 5000);
 
 	if(intensity)
 		food -= IDLE_FOOD_RATE;

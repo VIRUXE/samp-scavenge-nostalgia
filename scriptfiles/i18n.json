@@ -1634,10 +1634,7 @@
 		}
 	},
 	"player": {
-		"food-deading": [
-			"Voce ira começar a morrer de fome! Fome: %.1f%%",
-			"You will start to starve! Hunger: %.1%%"
-		],
+		
 		"join": [
 			"entrou no servidor",
 			"joined the server"
@@ -1777,6 +1774,12 @@
 				"food": [
 					" Infecao Alimentar",
 					" Food Poisoning"
+				]
+			},
+			"dieing": {
+				"food": [
+					"Voce ira começar a morrer de fome! Fome: %.1f%%",
+					"You will start to starve! Hunger: %.1%%"
 				]
 			}
 		},
