@@ -334,7 +334,7 @@ CMD:globaloff(playerid, params[])
 {
 	chat_Quiet[playerid] = !chat_Quiet[playerid];
 
-	return ChatMsg(playerid, WHITE, chat_Quiet[playerid] ? "player/radio/global-quiet" : "player/radio/global-quiet1");
+	return ChatMsg(playerid, WHITE, chat_Quiet[playerid] ? "player/radio/global-quiet" : "player/radio/global-quiet-off");
 }
 
 ACMD:a[1](playerid, params[])
