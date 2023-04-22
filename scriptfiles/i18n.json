@@ -1558,6 +1558,10 @@
 			"incorrect-code": [
 				" >  Senha incorreta!",
 				" >  Incorrect passcode!"
+			],
+			"code-fast": [
+				" >  Você está digitando códigos muito rápidos, por favor espere %s.",
+				" >  You are entering codes too fast, please wait %s."
 			]
 		},
 		"petrolcan": {
@@ -1637,6 +1641,22 @@
 		"food-deading": [
 			"Voce ira começar a morrer de fome! Fome: %.1f%%",
 			"You will start to starve! Hunger: %.1%%"
+		],
+		"hols-change": [
+			"Arma Trocada",
+			"Weapon Changed"
+		],
+		"hols-put": [
+			"Arma colocada no coldre",
+			"Weapon put in the holster"
+		],
+		"hols-equip": [
+			"Equipado",
+			"Equipped"
+		],
+		"reducebleed": [
+			"Taxa de sangramento reduzida de %f para %f",
+			"Reduced bleedrate from %f to %f"
 		],
 		"join": [
 			"entrou no servidor",
@@ -1777,6 +1797,12 @@
 				"food": [
 					" Infecao Alimentar",
 					" Food Poisoning"
+				]
+			},
+			"dieing": {
+				"food": [
+					"Voce ira começar a morrer de fome! Fome: %.1f%%",
+					"You will start to starve! Hunger: %.1%%"
 				]
 			}
 		},
@@ -2110,7 +2136,11 @@
 		],
 		"warned": [
 			" >  Você foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
-			" > You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
+			" >  You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
+		],
+		"warn-counter": [
+			" >  Você tem %d/5 avisos!",
+			" >  You have %d/5 warnings!"
 		],
 		"tips": {
 			"off": [
