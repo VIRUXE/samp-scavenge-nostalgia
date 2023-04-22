@@ -113,12 +113,9 @@ ReportBug(playerid, bug[])
 
 CMD:bugs(playerid)
 {
-	new ret;
-
-	ret = ShowListOfBugs(playerid);
-
-	if(ret == 0)
-		ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
+	new ret = ShowListOfBugs(playerid);
+	
+	if(ret == 0) ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
 
 	return 1;
 }
