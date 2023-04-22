@@ -512,7 +512,7 @@ new RequestsClient:client;
 #include "sss/core/char/bleed.pwn"
 #include "sss/core/char/travel-stats.pwn"
 //#include "sss/core/char/skills.pwn"
-//#include "sss/core/char/aim-shout.pwn"
+#include "sss/core/char/aim-shout.pwn"
 //#include "sss/core/char/map.pwn" // By Kolor4dO
 //#include "sss/core/char/trash.pwn" // By Kolor4dO
 

@@ -328,7 +328,7 @@ CreateAccount(playerid, password[])
 		return 0;
 	}
 	
-	//SetPlayerAimShoutText(playerid, "Largue sua arma");
+	SetPlayerAimShoutText(playerid, "Largue sua arma");
 	
 	CheckAdminLevel(playerid);
 
