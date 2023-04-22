@@ -1731,6 +1731,32 @@
 						"Infecao na Ferida",
 						"Infected Wound"
 					]
+				},
+				"inventory": {
+					"slothead":[
+						"Cabeca",
+						"Head"
+					],
+					"slotface":[
+						"Rosto",
+						"Face"
+					],
+					"slothand":[
+						"Mao",
+						"Hand"
+					],
+					"slotcold":[
+						"Coldre",
+						"Holster"
+					],
+					"slottors":[
+						"Corpo",
+						"Torso"
+					],
+					"slotback":[
+						"Costas",
+						"Back"
+					]	
 				}
 			},
 			"wounded": [
@@ -2010,46 +2036,28 @@
 			"status-option": [
 				"{C_YELLOW}Status >",
 				"{C_YELLOW}Status >"
-			],
-			"slots": {
-				"head":[
-					"Cabeca",
-					"Head"
-				],
-				"face":[
-					"Rosto",
-					"Face"
-				],
-				"hand":[
-					"Mao",
-					"Hand"
-				],
-				"holster":[
-					"Coldre",
-					"Holster"
-				],
-				"torso":[
-					"Corpo",
-					"Torso"
-				],
-				"back":[
-					"Costas",
-					"Back"
-				]	
-			}
+			]
 		},
 		"radio": {
 			"not-synced": [
 				"Radio não sincronizado",
 				"Radio not synchronized."
 			],
-			"global": [
+			"freq": [
 				" >  Você ligou seu rádio na frequencia %.2f.",
 				" >  You turned your radio on to frequency %.2f."
 			],
 			"global": [
 				" >  Você ligou seu radio na frequencia global.",
 				" >  You turn your radio on to the global frequency."
+			],
+			"global-quiet": [
+				" >  Você ligou o receptor global do seu radio, agora você verá todo o chat global.",
+				" >  You turn on your radio's global receiver, you will now see all global chat."
+			],
+			"global-quiet2": [
+				" >  Você desligou o receptor global do seu rádio, você não verá mais o chat global.",
+				" >  You turn off your radio's global receiver, you will not see any global chat."
 			],
 			"local": [
 				" >  Você desligou seu radio, chat não sera transmitido.",
@@ -2075,6 +2083,10 @@
 		"aimshout": [
 			" >  Use: /aimshout [texto] - Crie um texto personalizado para aimshout. Apertando Botão direito e Scroll do mouse ao mesmo tempo.",
 			" >  Usage: /aimshout [text] - Sets a custom string you can send by pressing the AIM and LOOK BEHIND keys at the same time."
+		],
+		"aimshout-set": [
+			" >  AimShout setado para '%s'",
+			" >  AimShout set to '%s'"
 		],
 		"muted-perm": [
 			" >  Você esta permanentemente mudo.",

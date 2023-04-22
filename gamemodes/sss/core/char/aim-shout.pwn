@@ -109,6 +109,6 @@ CMD:aimshout(playerid, params[])
 	}
 
 	SetPlayerAimShoutText(playerid, string);
-	ChatMsg(playerid, YELLOW, "AIMSHOUTSET", string);
+	ChatMsg(playerid, YELLOW, "player/aimshout-set", string);
 	return 1;
 }
