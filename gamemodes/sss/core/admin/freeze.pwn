@@ -96,7 +96,7 @@ timer UnfreezePlayer_check[SEC(4)](playerid)
 
 	GetPlayerCameraFrontVector(playerid, z, z, z);
 
-	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946) ChatMsgAdmins(2, YELLOW, " >  Possível Usuário de s0beit: "C_ORANGE"%p (%d)", playerid, playerid);
+	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946) ChatMsgAdmins(2, YELLOW, " >  Possível usuário de sobeit: "C_ORANGE"%p (%d)", playerid, playerid);
 
 	return;
 }
