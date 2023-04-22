@@ -174,7 +174,6 @@ ACMD:vw[5](playerid, params[])
 {
 	if(isnull(params))
 		ChatMsg(playerid, YELLOW, "Current VW: %d", GetPlayerVirtualWorld(playerid));
-
 	else
 		SetPlayerVirtualWorld(playerid, strval(params));
 
@@ -185,7 +184,6 @@ ACMD:iw[5](playerid, params[])
 {
 	if(isnull(params))
 		ChatMsg(playerid, YELLOW, "Current INT: %d", GetPlayerInterior(playerid));
-
 	else
 		SetPlayerInterior(playerid, strval(params));
 
@@ -194,16 +192,16 @@ ACMD:iw[5](playerid, params[])
 
 ACMD:food[5](playerid, params[])
 {
-	new Float:value;
+	new targetId, Float:value;
 
-	if(sscanf(params, "f", value))
-	{
-		ChatMsg(playerid, YELLOW, "Current food %f", GetPlayerFP(playerid));
-		return 1;
-	}
+	if(sscanf(params, "rf(100)", targetId, value)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /food [id/nick] (valor)");
 
-	SetPlayerFP(playerid, value);
+	if(targetId == INVALID_PLAYER_ID) return 4;
+
+	SetPlayerFP(targetId, value);
+
 	ChatMsg(playerid, YELLOW, "Set food to %f", value);
+	ChatMsg(targetId, YELLOW, "Sua fome foi colocada para %d por %P", value, playerid);
 
 	return 1;
 }
@@ -287,42 +285,19 @@ ACMD:clone[5](playerid)
 
 ACMD:setadmin[5](playerid, params[])
 {
-	new
-		id,
-		name[MAX_PLAYER_NAME],
-		level;
+	new targetId, level;
 
-	if(!sscanf(params, "dd", id, level))
-	{
-		if(playerid == id)
-			return ChatMsg(playerid, RED, " >  You cannot set your own level");
+	if(!sscanf(params, "rd", targetId, level)) {
+		if(playerid == targetId) return ChatMsg(playerid, RED, " >  You cannot set your own level");
 
-		if(!IsPlayerConnected(id))
-			return 4;
+		if(targetId == INVALID_PLAYER_ID) return 4;
 
-		if(!SetPlayerAdminLevel(id, level))
-			return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
+		if(!SetPlayerAdminLevel(targetId, level)) return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
 
-		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a Level %d Admin", id, level);
-		ChatMsg(id, YELLOW, " >  %P"C_YELLOW" Made you a Level %d Admin", playerid, level);
-	}
-	else if(!sscanf(params, "s[24]d", name, level))
-	{
-		new playername[MAX_PLAYER_NAME];
-
-		GetPlayerName(playerid, playername, MAX_PLAYER_NAME);
-
-		if(!strcmp(name, playername))
-			return ChatMsg(playerid, RED, " >  You cannot set your own level");
-
-		UpdateAdmin(name, level);
-
-		ChatMsg(playerid, YELLOW, " >  You set %s to admin level %d.", name, level);
-	}
-	else
-	{
+		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a Level %d Admin", targetId, level);
+		ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" Made you a Level %d Admin", playerid, level);
+	} else {
 		ChatMsg(playerid, YELLOW, " >  Usage: /setadmin [playerid] [level]");
-		return 1;
 	}
 
 	return 1;
