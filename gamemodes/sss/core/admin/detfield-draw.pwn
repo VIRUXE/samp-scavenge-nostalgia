@@ -60,10 +60,7 @@ ACMD:rdpon[2](playerid)
 
 ACMD:rdpoff[2](playerid)
 {
-	foreach(new i : det_Index)
-	{
-		DestroyDetfieldPoly(i);
-	}
+	foreach(new i : det_Index) DestroyDetfieldPoly(i);
 
 	return 1;
 }
