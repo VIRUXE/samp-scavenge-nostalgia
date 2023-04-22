@@ -113,9 +113,7 @@ ReportBug(playerid, bug[])
 
 CMD:bugs(playerid)
 {
-	new ret = ShowListOfBugs(playerid);
-	
-	if(ret == 0) ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
+	if(ShowListOfBugs(playerid) == 0) ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
 
 	return 1;
 }
@@ -131,16 +129,14 @@ ShowListOfBugs(playerid)
 	stmt_bind_result_field(stmt_BugList, 1, DB::TYPE_STRING, bug, 32);
 	stmt_bind_result_field(stmt_BugList, 2, DB::TYPE_INTEGER, rowid);
 
-	if(!stmt_execute(stmt_BugList))
-		return 0;
+	if(!stmt_execute(stmt_BugList)) return 0;
 
 	new
 		list[(MAX_PLAYER_NAME + 2 + 32 + 1) * MAX_ISSUES_PER_PAGE],
 		idx;
 
 	// Some bug in sqlite causes 'name' to appear empty sometimes.
-	while(stmt_fetch_row(stmt_BugList) && idx < MAX_ISSUES_PER_PAGE)
-	{
+	while(stmt_fetch_row(stmt_BugList) && idx < MAX_ISSUES_PER_PAGE) {
 		strcat(list, name);
 		strcat(list, ": ");
 
@@ -154,8 +150,7 @@ ShowListOfBugs(playerid)
 		issue_RowIndex[idx++] = rowid;
 	}
 
-	if(idx == 0)
-		return 0;
+	if(idx == 0) return 0;
 
 	Dialog_Show(playerid, BugReport2, DIALOG_STYLE_LIST, "BUGS", list, "Abrir", "Fechar");
     
@@ -200,11 +195,7 @@ ShowBugReportInfo(playerid, rowid)
 		"C_YELLOW"Data:\n\t\t"C_BLUE"%s",
 		name, bug, TimestampToDateTime(date));
 
-	if(GetPlayerAdminLevel(playerid) > 1)
-		Dialog_Show(playerid, BugReport3, DIALOG_STYLE_MSGBOX, "Bugs", message, "Deletar", "Voltar");
-
-	else
-		Dialog_Show(playerid, BugReport3, DIALOG_STYLE_MSGBOX, "Bugs", message, "Voltar", "");
+	Dialog_Show(playerid, BugReport3, DIALOG_STYLE_MSGBOX, "Bugs", message, GetPlayerAdminLevel(playerid) > 1 ? "Deletar" : "Voltar", GetPlayerAdminLevel(playerid) > 1 ? "Voltar" : "");
 
 	return 1;
 }
