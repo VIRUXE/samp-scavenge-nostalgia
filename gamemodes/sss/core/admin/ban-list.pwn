@@ -126,14 +126,9 @@ ShowBanInfo(playerid, name[MAX_PLAYER_NAME])
 
 Dialog:BanInfo(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		ShowBanOptions(playerid);
-	}
-	else
-	{
-		ShowListOfBans(playerid);
-	}
+	if(response) ShowBanOptions(playerid);
+
+	else ShowListOfBans(playerid);
 }
 
 ShowBanOptions(playerid)
@@ -149,23 +144,13 @@ Dialog:BanOptions(playerid, response, listitem, inputtext[])
 	{
 		switch(listitem)
 		{
-			case 0: // Edit reason
-				ShowBanReasonEdit(playerid);
-
-			case 1: // Edit duration
-				ShowBanDurationEdit(playerid);
-
-			case 2: // Edit set unban
-				ShowBanDateEdit(playerid);
-
-			case 3: // Unban
-				ShowUnbanPrompt(playerid);
+			case 0: ShowBanReasonEdit(playerid); // Edit reason
+			case 1: ShowBanDurationEdit(playerid); // Edit duration
+			case 2: ShowBanDateEdit(playerid); // Edit set unban
+			case 3: ShowUnbanPrompt(playerid); // Unban
 		}
 	}
-	else
-	{
-		ShowBanInfo(playerid, banlist_CurrentName[playerid]);
-	}
+	else ShowBanInfo(playerid, banlist_CurrentName[playerid]);
 }
 
 ShowBanReasonEdit(playerid)
@@ -177,10 +162,7 @@ ShowBanReasonEdit(playerid)
 
 Dialog:BanReasonEdit(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		SetBanReason(banlist_CurrentName[playerid], inputtext);
-	}
+	if(response) SetBanReason(banlist_CurrentName[playerid], inputtext);
 
 	ShowBanOptions(playerid);
 }
@@ -228,10 +210,7 @@ ShowBanDateEdit(playerid)
 
 Dialog:BanDateEdit(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		ChatMsg(playerid, YELLOW, " >  Not implemented.");
-	}
+	if(response) ChatMsg(playerid, YELLOW, " >  Not implemented.");
 
 	ShowBanOptions(playerid);
 }
@@ -245,10 +224,7 @@ ShowUnbanPrompt(playerid)
 
 Dialog:UnbanPrompt(playerid, response, listitem, inputtext[])
 {
-	if(response)
-	{
-		UnBanPlayer(banlist_CurrentName[playerid]);
-	}
+	if(response) UnBanPlayer(banlist_CurrentName[playerid]);
 
 	ShowBanOptions(playerid);
 }
@@ -259,11 +235,9 @@ hook OnPlayerDialogPage(playerid, direction)
 
 	if(banlist_ViewingList[playerid])
 	{
-		if(direction == 0)
-			banlist_CurrentIndex[playerid] -= MAX_BANS_PER_PAGE;
+		if(direction == 0) banlist_CurrentIndex[playerid] -= MAX_BANS_PER_PAGE;
 
-		else
-			banlist_CurrentIndex[playerid] += MAX_BANS_PER_PAGE;
+		else banlist_CurrentIndex[playerid] += MAX_BANS_PER_PAGE;
 
 		ShowListOfBans(playerid, banlist_CurrentIndex[playerid]);
 	}
