@@ -440,12 +440,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 		spectate_ClickTick[playerid] = GetTickCount();
 
-		if(newkeys == 128)
-			SpectateNextTarget(playerid);
-		else if(newkeys == 4)
-			SpectatePrevTarget(playerid);
-		else if(newkeys == 512)
-			EnterSpectateMode(playerid, spectate_Target[playerid]);
+		if(newkeys == 128) SpectateNextTarget(playerid);
+		else if(newkeys == 4) SpectatePrevTarget(playerid);
+		else if(newkeys == 512) EnterSpectateMode(playerid, spectate_Target[playerid]);
 	}
 
 	return 1;

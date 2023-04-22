@@ -423,15 +423,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	if(IsPlayerInAnyVehicle(playerid))
 		return 1;
 
-	if(newkeys & KEY_YES)
-	{
-		_BagEquipHandler(playerid);
-	}
-
-	if(newkeys & KEY_NO)
-	{
-		_BagDropHandler(playerid);
-	}
+	if(newkeys & KEY_YES) _BagEquipHandler(playerid);
+	if(newkeys & KEY_NO) _BagDropHandler(playerid);
 
 	//if(newkeys & 16) _BagRummageHandler(playerid);
 
@@ -473,10 +466,7 @@ _BagEquipHandler(playerid)
 
 		return 0;
 	}
-	else
-	{
-		AddItemToPlayer(playerid, itemid);
-	}
+	else AddItemToPlayer(playerid, itemid);
 
 	return 1;
 }
@@ -596,8 +586,7 @@ _DisplayBagDialog(playerid, itemid, animation)
 	if(animation)
 		ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_IN", 4.0, 0, 0, 0, 1, 0);
 
-	else
-		CancelPlayerMovement(playerid);
+	else CancelPlayerMovement(playerid);
 }
 
 hook OnItemAddToInventory(playerid, itemid, slot)

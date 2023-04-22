@@ -87,10 +87,7 @@ hook OnPlayerScriptUpdate(playerid)
 					SetPlayerAttachedObject(playerid, ATTACHSLOT_BLOOD, 18706, 1,  0.088999, 0.020000, 0.044999,  0.088999, 0.020000, 0.044999,  1.179000, 1.510999, 0.005000);
 			}
 		}
-		else
-		{
-			RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
-		}
+		else RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
 	}
 	else
 	{

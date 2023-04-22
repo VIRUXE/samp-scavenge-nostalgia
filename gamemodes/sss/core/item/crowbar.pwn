@@ -110,13 +110,10 @@ hook OnHoldActionFinish(playerid)
 	if(cbr_TargetVehicle[playerid] != INVALID_VEHICLE_ID)
 	{
 		if(cbr_OpenType[playerid] == 0)
-		{
 			VehicleDoorsState(cbr_TargetVehicle[playerid], 0);
-		}
+
 		if(cbr_OpenType[playerid] == 1)
-		{
 			SetVehicleTrunkLock(cbr_TargetVehicle[playerid], 0);
-		}
 
 		StopBreakingVehicleLock(playerid);	
 

@@ -77,13 +77,11 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 				type = GetLiquidItemLiquidType(itemid);
 
 			if(amount <= 0.0)
-			{
 				ShowActionText(playerid, ls(playerid, "item/plantpot/empty"), 5000);
-			}
+
 			else if(type != liquid_Water)
-			{
 				ShowActionText(playerid, ls(playerid, "item/plantpot/bottle-not-water"), 5000);
-			}
+				
 			else
 			{
 				new Float:transfer = (amount < 0.1) ? amount : 0.1;

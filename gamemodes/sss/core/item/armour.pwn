@@ -42,9 +42,7 @@ hook OnItemCreate(itemid)
 	if(GetItemLootIndex(itemid) != -1)
 	{
 		if(GetItemType(itemid) == item_Armour)
-		{
 			SetItemExtraData(itemid, 25 + random(75));
-		}
 	}
 }
 

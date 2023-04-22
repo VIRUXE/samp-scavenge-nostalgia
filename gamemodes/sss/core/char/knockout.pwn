@@ -63,9 +63,7 @@ hook OnPlayerDisconnect(playerid)
 	DestroyPlayerProgressBar(playerid, KnockoutBar);
 
 	if(knockout_KnockedOut[playerid])
-	{
 		WakeUpPlayer(playerid);
-	}
 
 	return 1;
 }

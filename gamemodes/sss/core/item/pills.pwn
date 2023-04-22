@@ -53,9 +53,7 @@ hook OnItemCreate(itemid)
 	if(GetItemLootIndex(itemid) != -1)
 	{
 		if(GetItemType(itemid) == item_Pills)
-		{
 			SetItemExtraData(itemid, random(3));
-		}
 	}
 }
 
@@ -80,9 +78,7 @@ hook OnPlayerUseItem(playerid, itemid)
 	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/item/pills.pwn");
 
 	if(GetItemType(itemid) == item_Pills)
-	{
 		StartTakingPills(playerid);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -92,9 +88,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/item/pills.pwn");
 
 	if(oldkeys & 16 && pill_CurrentlyTaking[playerid] != -1)
-	{
 		StopTakingPills(playerid);
-	}
 
 	return 1;
 }
@@ -130,7 +124,7 @@ hook OnHoldActionFinish(playerid)
 			{
 				SetPlayerInfectionIntensity(playerid, 0, 0);
 
-				if(random(100) < 50)
+				if(random(100) < 50) 
 					SetPlayerInfectionIntensity(playerid, 1, 0);
 
 				ApplyDrug(playerid, drug_Antibiotic);

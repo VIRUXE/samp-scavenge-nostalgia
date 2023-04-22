@@ -107,9 +107,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/item/injector.pwn");
 
 	if(oldkeys & 16 && inj_CurrentItem[playerid] != -1)
-	{
 		StopInjecting(playerid);
-	}
 
 	return 1;
 }
@@ -127,8 +125,7 @@ StartInjecting(playerid, targetid)
 		if(IsPlayerKnockedOut(targetid))
 			ApplyAnimation(playerid, "KNIFE", "KNIFE_G", 2.0, 0, 0, 0, 0, 0);
 
-		else
-			ApplyAnimation(playerid, "ROCKET", "IDLE_ROCKET", 4.0, 0, 1, 1, 0, 500, 1);
+		else ApplyAnimation(playerid, "ROCKET", "IDLE_ROCKET", 4.0, 0, 1, 1, 0, 500, 1);
 	}
 
 	inj_CurrentItem[playerid] = GetPlayerItem(playerid);
@@ -163,15 +160,8 @@ hook OnHoldActionFinish(playerid)
 
 		switch(GetItemExtraData(inj_CurrentItem[playerid]))
 		{
-			case INJECT_TYPE_EMPTY:
-			{
-				ApplyDrug(inj_CurrentTarget[playerid], drug_Air);
-			}
-
-			case INJECT_TYPE_MORPHINE:
-			{
-				ApplyDrug(inj_CurrentTarget[playerid], drug_Morphine);
-			}
+			case INJECT_TYPE_EMPTY: ApplyDrug(inj_CurrentTarget[playerid], drug_Air);
+			case INJECT_TYPE_MORPHINE: ApplyDrug(inj_CurrentTarget[playerid], drug_Morphine);
 
 			case INJECT_TYPE_ADRENALINE:
 			{
