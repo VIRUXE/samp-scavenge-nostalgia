@@ -1638,7 +1638,6 @@
 		}
 	},
 	"player": {
-<<<<<<< HEAD
 		"food-deading": [
 			"Voce ira começar a morrer de fome! Fome: %.1f%%",
 			"You will start to starve! Hunger: %.1%%"
@@ -1659,9 +1658,6 @@
 			"Taxa de sangramento reduzida de %f para %f",
 			"Reduced bleedrate from %f to %f"
 		],
-=======
-		
->>>>>>> 96cc94b4c2d757ed5cbbea342facb223d2f78d5c
 		"join": [
 			"entrou no servidor",
 			"joined the server"
