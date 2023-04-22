@@ -2054,11 +2054,11 @@
 				" >  Você ligou seu radio na frequencia global.",
 				" >  You turn your radio on to the global frequency."
 			],
-			"global-quiet": [
+			"global-quiet-off": [
 				" >  Você ligou o receptor global do seu radio, agora você verá todo o chat global.",
 				" >  You turn on your radio's global receiver, you will now see all global chat."
 			],
-			"global-quiet2": [
+			"global-quiet": [
 				" >  Você desligou o receptor global do seu rádio, você não verá mais o chat global.",
 				" >  You turn off your radio's global receiver, you will not see any global chat."
 			],
