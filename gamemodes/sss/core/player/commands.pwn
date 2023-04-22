@@ -18,31 +18,22 @@ CMD:tooltips(playerid) return cmd_dicas(playerid);
 
 CMD:mudarsenha(playerid, params[])
 {
+	if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "player/command/cant-use-not-logged-in");
+
 	new
 		oldpass[32],
 		newpass[32],
 		buffer[MAX_PASSWORD_LEN];
 
-	if(!IsPlayerLoggedIn(playerid))
-	{
-		ChatMsg(playerid, YELLOW, "player/command/cant-use-not-logged-in");
-		return 1;
-	}
-
 	if(sscanf(params, "s[32]s[32]", oldpass, newpass))
-	{
 		ChatMsg(playerid, YELLOW, "player/changepassword/syntax");
-		return 1;
-	}
-	else
-	{
+	else {
 		new storedhash[MAX_PASSWORD_LEN];
 
 		GetPlayerPassHash(playerid, storedhash);
 		WP_Hash(buffer, MAX_PASSWORD_LEN, oldpass);
 
-		if(!strcmp(buffer, storedhash))
-		{
+		if(!strcmp(buffer, storedhash)) {
 			new name[MAX_PLAYER_NAME];
 
 			GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -52,12 +43,12 @@ CMD:mudarsenha(playerid, params[])
 			if(SetAccountPassword(name, buffer))
 			{
 				SetPlayerPassHash(playerid, buffer);
-				ChatMsg(playerid, YELLOW, "PASSCHANGED", newpass);
+				ChatMsg(playerid, YELLOW, "player/changepassword/success", newpass);
 			}
 			else ChatMsg(playerid, RED, "player/changepassword/error");
-		}
-		else ChatMsg(playerid, RED, "player/changepassword/no-match");
+		} else ChatMsg(playerid, RED, "player/changepassword/no-match");
 	}
+
 	return 1;
 }
 
