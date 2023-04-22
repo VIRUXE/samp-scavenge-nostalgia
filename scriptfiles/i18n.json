@@ -754,7 +754,7 @@
 				"This item has no utility."
 			],
 			"PlotPole": [
-				"Usado para salvar todos os itens do chão que estiverem próximos do objeto.",
+				"Usado para salvar todos os itens do chao que estiverem proximos do objeto.",
 				"Used to save all items on the ground that are close to the object."
 			],
 			"ScrapMach": [
@@ -1388,11 +1388,11 @@
 		},
 		"clothes": {
 			"invalid-skin": [
-				"Não pode usar isso com essa skin!",
+				"Nao pode usar isso com essa skin!",
 				"You cannot use this using this skin!"
 			],
 			"invalid-gender": [
-				"Essa roupa não é do seu sexo",
+				"Essa roupa nao e do seu sexo",
 				"Wrong gender for clothes"
 			]
 		},
@@ -1430,7 +1430,7 @@
 				"Unable to trace the mobile phone"
 			],
 			"synced": [
-				"Localizador sincronizado, agora você pode localizar o telefone.",
+				"Localizador sincronizado, agora voce pode localizar o telefone.",
 				"Locator synced, you can now locate the phone."
 			]
 		},
@@ -1512,7 +1512,7 @@
 				"Removing %s..."
 			],
 			"not-movable": [
-				"Você não pode instalar um motor nesse tipo de defesa",
+				"Voce não pode instalar um motor nesse tipo de defesa",
 				"You cannot install a motor on that type of defence"
 			],
 			"modifying": [
@@ -1520,7 +1520,7 @@
 				"Modifying %s..."
 			],
 			"needs-motor": [
-				"Você deve instalar um Motor antes de instalar um Teclado!",
+				"Voce deve instalar um Motor antes de instalar um Teclado!",
 				"You must install a motor before installing a keypad!"
 			],
 			"motor-installed": [
@@ -1562,27 +1562,27 @@
 		},
 		"petrolcan": {
 			"full": [
-				"O galão de gasolina esta cheio",
+				"O galao de gasolina esta cheio",
 				"Fuel can is full"
 			],
 			"needed": [
-				"Você precisa de um Galão de Gasolina",
+				"Voce precisa de um Galão de Gasolina",
 				"You need a petrol can"
 			]
 		},
 		"tweak": {
 			"move": [
-				"Afaste-se do item para movê-lo ~n~ Pressione ~k~~SNEAK_ABOUT~ para mostrar o mouse ~n~ Clique em Concluido para concluir",
+				"Afaste-se do item para move-lo ~n~ Pressione ~k~~SNEAK_ABOUT~ para mostrar o mouse ~n~ Clique em Concluido para concluir",
 				"Move away from item to move it~n~Press ~k~~SNEAK_ABOUT~ to show mouse~n~Click Done to finish"
 			]
 		},
 		"plotpole": {
 			"inserted": [
-				"Zona inserida para Pólo %s",
+				"Zona inserida para Polo %s",
 				"Entered Zone for Plot Pole %s"
 			],
 			"inserted-left": [
-				"Zona Esquerda para Pólo %s",
+				"Zona Esquerda para Polo %s",
 				"Left Zone for Plot Pole %s"
 			]
 		},
@@ -1628,12 +1628,16 @@
 		},
 		"workbench": {
 			"needed": [
-				"Você precisa de uma Mesa de trabalho para combinar isso",
+				"Voce precisa de uma Mesa de trabalho para combinar isso",
 				"You need a workbench to combine those"
 			]
 		}
 	},
 	"player": {
+		"food-deading": [
+			"Voce ira começar a morrer de fome! Fome: %.1f%%",
+			"You will start to starve! Hunger: %.1%%"
+		],
 		"join": [
 			"entrou no servidor",
 			"joined the server"
@@ -1652,8 +1656,8 @@
 				" > Your entrance sentence"
 			],
 			"points": [
-				"Você precisa de 100 pontos para usar este comando",
-				"You need 100 points to use this commando"
+				"Você precisa ter 100 de score para usar este comando",
+				"You need have 100 score to use this commando"
 			],
 			"cmd-syntax": [
 				" > Use: /frase [frase]",
@@ -1972,7 +1976,7 @@
 				"Item added to inventory"
 			],
 			"hat-removed": [
-				"Chapéu removido",
+				"Chapeu removido",
 				"Hat removed"
 			],
 			"holding-item": [
@@ -2040,6 +2044,10 @@
 				"Radio not synchronized."
 			],
 			"global": [
+				" >  Você ligou seu rádio na frequencia %.2f.",
+				" >  You turned your radio on to frequency %.2f."
+			],
+			"global": [
 				" >  Você ligou seu radio na frequencia global.",
 				" >  You turn your radio on to the global frequency."
 			],
@@ -2075,6 +2083,22 @@
 		"muted-temp": [
 			" >  Mutado no chat global por {C_ORANGE}30 {C_RED}segundos por flood.",
 			" >  Muted from global chat for {C_ORANGE}30 {C_RED}seconds for chat flooding"
+		],
+		"muted-time": [
+			" >  Mutado do chat global por {C_ORANGE}%d {C_YELLOW}segundos, Razão: {C_BLUE}%s",
+			" >  Muted from global chat for {C_ORANGE}%d {C_YELLOW}seconds, Reason: {C_BLUE}%s"
+		],
+		"mute-timer": [
+			" >  Você está mudo. Tempo restante: %s",
+			" >  You are muted. Time remaining: %s"
+		],
+		"muted-reas": [
+			" >  Mutado do chat global, Razao: {C_BLUE}%s",
+			" >  Muted from global chat, Reason: {C_BLUE}%s"
+		],
+		"warned": [
+			" >  Você foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
+			" > You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
 		],
 		"tips": {
 			"off": [
@@ -2160,7 +2184,7 @@
 				"That key doesnt fit this vehicle"
 			],
 			"unbreakable": [
-				"Este veiculo foi travado com uma chave craftada e não pode ser quebrado",
+				"Este veiculo foi travado com uma chave craftada e nao pode ser quebrado",
 				"This vehicle has been locked with a crafted lock and cannot be broken"
 			],
 			"break-start": [
@@ -2172,7 +2196,7 @@
 				"Breaking trunk from vehicle"
 			],
 			"door-locked": [
-				"Porta trancada ~n~ Use um Pé de Cabra",
+				"Porta trancada ~n~ Use um Pe de Cabra",
 				"Door locked~n~Use a Crowbar"
 			],
 			"door-locked-persn": [
@@ -2380,8 +2404,8 @@
 				"[EBS]: SUPPLY DROP: {C_BLUE}%s{C_YELLOW} INCOMING AT: {C_ORANGE}%s"
 			],
 			"supply-request": [
-				"[Exercito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s{C_YELLOW} MARCADO UM S NO MAPA!",
-				"[EBS]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s{C_YELLOW} INCOMING AT: {C_ORANGE}%s"
+				"[Exercito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
+				"[EBS]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
 			]
 		},
 		"command": {
@@ -2442,7 +2466,7 @@
 		},
 		"bugs": {
 			"submitted": [
-				" >  Seu Relatório de Bug foi submetido! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
+				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
 				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
 			]
 		},
@@ -2496,7 +2520,7 @@
 	"puzzle": {
 		"codehunt": {
 			"nearby-key": [
-				"Essa porta esta eletronicamente trancada e controlada por um teclado próximo.",
+				"Essa porta esta eletronicamente trancada e controlada por um teclado proximo.",
 				"This door is electronically locked controlled by a nearby keypad."
 			]
 		}
