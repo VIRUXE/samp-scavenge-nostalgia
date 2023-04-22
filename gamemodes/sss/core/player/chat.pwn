@@ -63,7 +63,7 @@ hook OnPlayerText(playerid, text[])
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsg(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "player/mute-time", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 0;
 	}
@@ -284,7 +284,7 @@ CMD:g(playerid, params[])
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsg(playerid, RED, "MUTEDTIMERM", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 7;
 	}
@@ -323,7 +323,7 @@ CMD:c(playerid, params[])
 	if(isnull(params))
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
-		ChatMsg(playerid, WHITE, "RADIOFREQUN", 4.0);
+		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
 	}
 	else PlayerSendChat(playerid, params, 4.0);
 
