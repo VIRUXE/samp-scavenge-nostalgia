@@ -1731,32 +1731,6 @@
 						"Infecao na Ferida",
 						"Infected Wound"
 					]
-				},
-				"inventory": {
-					"slothead":[
-						"Cabeca",
-						"Head"
-					],
-					"slotface":[
-						"Rosto",
-						"Face"
-					],
-					"slothand":[
-						"Mao",
-						"Hand"
-					],
-					"slotcold":[
-						"Coldre",
-						"Holster"
-					],
-					"slottors":[
-						"Corpo",
-						"Torso"
-					],
-					"slotback":[
-						"Costas",
-						"Back"
-					]	
 				}
 			},
 			"wounded": [
@@ -2036,7 +2010,33 @@
 			"status-option": [
 				"{C_YELLOW}Status >",
 				"{C_YELLOW}Status >"
-			]
+			],
+			"slots": {
+				"head":[
+					"Cabeca",
+					"Head"
+				],
+				"face":[
+					"Rosto",
+					"Face"
+				],
+				"hand":[
+					"Mao",
+					"Hand"
+				],
+				"holster":[
+					"Coldre",
+					"Holster"
+				],
+				"torso":[
+					"Corpo",
+					"Torso"
+				],
+				"back":[
+					"Costas",
+					"Back"
+				]	
+			}
 		},
 		"radio": {
 			"not-synced": [
