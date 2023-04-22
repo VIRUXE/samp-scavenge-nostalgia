@@ -54,15 +54,9 @@ CMD:mudarsenha(playerid, params[])
 				SetPlayerPassHash(playerid, buffer);
 				ChatMsg(playerid, YELLOW, "PASSCHANGED", newpass);
 			}
-			else
-			{
-				ChatMsg(playerid, RED, "player/changepassword/error");
-			}
+			else ChatMsg(playerid, RED, "player/changepassword/error");
 		}
-		else
-		{
-			ChatMsg(playerid, RED, "player/changepassword/no-match");
-		}
+		else ChatMsg(playerid, RED, "player/changepassword/no-match");
 	}
 	return 1;
 }

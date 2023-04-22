@@ -237,7 +237,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Head[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Head[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Head[UI_ELEMENT_TILE], 19300);
 	}
 
@@ -252,7 +252,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Face[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Face[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Face[UI_ELEMENT_TILE], 19300);
 	}
 
@@ -268,7 +268,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Hand[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Hand[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hand[UI_ELEMENT_TILE], 19300);
 	}
 
@@ -284,7 +284,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Hols[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Hols[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hols[UI_ELEMENT_TILE], 19300);
 	}
 
@@ -296,7 +296,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Tors[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Tors[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Tors[UI_ELEMENT_TILE], 19300);
 	}
 
@@ -311,7 +311,7 @@ UpdatePlayerGear(playerid, show = 1)
 	}
 	else
 	{
-		PlayerTextDrawSetString(playerid, GearSlot_Back[UI_ELEMENT_ITEM], "<Vazio>");
+		PlayerTextDrawSetString(playerid, GearSlot_Back[UI_ELEMENT_ITEM], ls(playerid, "common/empty"));
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Back[UI_ELEMENT_TILE], 19300);
 	}
 
