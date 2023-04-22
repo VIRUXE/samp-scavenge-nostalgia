@@ -50,12 +50,12 @@ timer CreateTitles[100](playerid)
 	CreatePlayerTile(playerid, GearSlot_Tors[0], GearSlot_Tors[1], GearSlot_Tors[2], 490.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 	CreatePlayerTile(playerid, GearSlot_Back[0], GearSlot_Back[1], GearSlot_Back[2], 560.0, 340.0, 60.0, 60.0, 0x00000044, 0xFFFFFFFF);
 
-	PlayerTextDrawSetString(playerid, GearSlot_Head[0], ls(playerid, "player/inventory/slothead"));
-	PlayerTextDrawSetString(playerid, GearSlot_Face[0], ls(playerid, "player/inventory/slotface"));
-	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], ls(playerid, "player/inventory/slothand"));
-	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], ls(playerid, "player/inventory/slotcold"));
-	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], ls(playerid, "player/inventory/slottors"));
-	PlayerTextDrawSetString(playerid, GearSlot_Back[0], ls(playerid, "player/inventory/slotback"));
+	PlayerTextDrawSetString(playerid, GearSlot_Head[0], ls(playerid, "player/inventory/slots/head"));
+	PlayerTextDrawSetString(playerid, GearSlot_Face[0], ls(playerid, "player/inventory/slots/face"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hand[0], ls(playerid, "player/inventory/slots/hand"));
+	PlayerTextDrawSetString(playerid, GearSlot_Hols[0], ls(playerid, "player/inventory/slots/holster"));
+	PlayerTextDrawSetString(playerid, GearSlot_Tors[0], ls(playerid, "player/inventory/slots/torso"));
+	PlayerTextDrawSetString(playerid, GearSlot_Back[0], ls(playerid, "player/inventory/slots/back"));
 }
 
 CreatePlayerTile(playerid, &PlayerText:title, &PlayerText:tile, &PlayerText:item, Float:x, Float:y, Float:width, Float:height, colour, overlaycolour)

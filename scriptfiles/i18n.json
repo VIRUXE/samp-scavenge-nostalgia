@@ -2062,7 +2062,15 @@
 			"status-option": [
 				"{C_YELLOW}Status >",
 				"{C_YELLOW}Status >"
-			]
+			],
+			"slots": {
+				"head"   : ["Cabeca", "Head"],
+				"face"   : ["Cara", "Face"],
+				"hand"   : ["Mao", "Hand"],
+				"holster": ["Coldre", "Holster"],
+				"torso"  : ["Tronco", "Torso"],
+				"back"   : ["Costas", "Back"]
+			}
 		},
 		"radio": {
 			"not-synced": [
