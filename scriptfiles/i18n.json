@@ -2518,6 +2518,10 @@
 			"submitted": [
 				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
 				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
+			],
+			"bug-description": [
+				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
+				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
 			]
 		},
 		"restart_warning_3m": [
@@ -2545,6 +2549,10 @@
 		"cancel": [
 			"Cancelar",
 			"Cancel"
+		],
+		"confirm": [
+			"Confirmar",
+			"Confirm"
 		],
 		"options": [
 			"Opcoes",
