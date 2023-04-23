@@ -76,7 +76,7 @@ hook OnGameModeInit()
 
 CMD:bug(playerid)
 {
-	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", ls(playerid, "server/bug-description"), ls(playerid, "common/confirm"), ls(playerid, "common/cancel"));
+	Dialog_Show(playerid, BugReport, DIALOG_STYLE_INPUT, "Reportar um BUG", ls(playerid, "server/bugs/bug-description"), ls(playerid, "common/confirm"), ls(playerid, "common/cancel"));
     
 	return 1;
 }
