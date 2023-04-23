@@ -1,20 +1,24 @@
 #include <YSI\y_hooks>
 
-#define IDLE_FOOD_RATE (0.01)
+
+#define IDLE_FOOD_RATE (0.013)
 
 hook OnPlayerScriptUpdate(playerid)
 {
-	if(IsPlayerOnAdminDuty(playerid) || !IsPlayerSpawned(playerid) || IsPlayerUnfocused(playerid)) return;
+	if(IsPlayerOnAdminDuty(playerid) || !IsPlayerSpawned(playerid))
+		return;
 
 	new
-		E_MOVEMENT_TYPE:movementstate,
-		Float:food      = GetPlayerFP(playerid),
-		      intensity = GetPlayerInfectionIntensity(playerid, 0);
+		intensity = GetPlayerInfectionIntensity(playerid, 0),
+		animidx = GetPlayerAnimationIndex(playerid),
+		k, ud, lr,
+		Float:food;
 
+	GetPlayerKeys(playerid, k, ud, lr);
+	food = GetPlayerFP(playerid);
+
+	if(food < 0.0) food = 0.0;
 	if(food > 100.0) food = 100.0;
-
-	if(food < 0.0) SetPlayerHealth(playerid, 0);
-
 	if(food < 20.0) SetPlayerHP(playerid, GetPlayerHP(playerid) - (20.0 - food) / 30.0);
 
 	if(food >= 19.8 && food <= 20.0 || food >= 9.8 && food <= 10.0) 
@@ -22,25 +26,24 @@ hook OnPlayerScriptUpdate(playerid)
 
 	if(intensity) food -= IDLE_FOOD_RATE;
 
-	GetPlayerMovementState(playerid, movementstate);
+	if(animidx == 43) food -= IDLE_FOOD_RATE * 0.2; // Sitting
 
-	switch(movementstate)
+	else if(animidx == 1159) food -= IDLE_FOOD_RATE * 1.1; // Crouching
+
+	else if(animidx == 1195) food -= IDLE_FOOD_RATE * 3.2; // Jumping	
+
+	else if(animidx == 1231) // Running
 	{
-		case E_MOVEMENT_TYPE_UNKNOWN:	food -= IDLE_FOOD_RATE;
-		case E_MOVEMENT_TYPE_IDLE:		food -= IDLE_FOOD_RATE;
-		case E_MOVEMENT_TYPE_FALLING:	food -= IDLE_FOOD_RATE;
-		case E_MOVEMENT_TYPE_STOPPING:	food -= IDLE_FOOD_RATE;
-		case E_MOVEMENT_TYPE_SWIMMING:	food -= IDLE_FOOD_RATE * 4.0;
-		case E_MOVEMENT_TYPE_CLIMBING:	food -= IDLE_FOOD_RATE * 3.5;
-		case E_MOVEMENT_TYPE_JUMPING:	food -= IDLE_FOOD_RATE * 3.2;
-		case E_MOVEMENT_TYPE_SPRINTING:	food -= IDLE_FOOD_RATE * 2.2;
-		case E_MOVEMENT_TYPE_DIVING:	food -= IDLE_FOOD_RATE * 2.2;
-		case E_MOVEMENT_TYPE_LANDING:	food -= IDLE_FOOD_RATE * 2.0;
-		case E_MOVEMENT_TYPE_RUNNING:	food -= IDLE_FOOD_RATE * 1.8;
-		case E_MOVEMENT_TYPE_WALKING:	food -= IDLE_FOOD_RATE * 1.2;
-		case E_MOVEMENT_TYPE_CROUCHING:	food -= IDLE_FOOD_RATE * 1.1;
-		case E_MOVEMENT_TYPE_SITTING:	food -= IDLE_FOOD_RATE * 0.2;
+		if(k & KEY_WALK) food -= IDLE_FOOD_RATE * 1.2; // Walking
+
+		else if(k & KEY_SPRINT) food -= IDLE_FOOD_RATE * 2.2; // / Sprinting
+
+		else if(k & KEY_JUMP) food -= IDLE_FOOD_RATE * 3.2; // Jump
+
+		else food -= IDLE_FOOD_RATE * 2.0; // Idle
 	}
+
+	else food -= IDLE_FOOD_RATE;
 
 	if(!IsPlayerUnderDrugEffect(playerid, drug_Morphine) && !IsPlayerUnderDrugEffect(playerid, drug_Air))
 	{
@@ -51,6 +54,9 @@ hook OnPlayerScriptUpdate(playerid)
 		}
 		else if(intensity == 0) SetPlayerDrunkLevel(playerid, 0);
 	}
+
+	if(food < 20.0)
+		SetPlayerHP(playerid, GetPlayerHP(playerid) - (20.0 - food) / 30.0);
 	
 	SetPlayerFP(playerid, food);
 

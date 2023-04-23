@@ -494,7 +494,6 @@ new RequestsClient:client;
 #include "sss/core/world/comerciante.pwn"
 
 // CHARACTER SCRIPTS
-#include "sss/core/char/movement.pwn"
 #include "sss/core/char/food.pwn"
 #include "sss/core/char/drugs.pwn"
 #include "sss/core/char/clothes.pwn"
