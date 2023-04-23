@@ -543,7 +543,7 @@ _cft_AddItemToCraftList(playerid, itemid)
 			_cft_CraftSelected(playerid, craftset);
 
 		else
-			SendClientMessage(playerid, -1, "Essa combina��o n�o parece funcionar ... Tente adicionar mais itens ou fechar o menu para cancelar.");
+			SendClientMessage(playerid, -1, "Essa combinação não parece funcionar ... Tente adicionar mais itens ou fechar o menu para cancelar.");
 	}
 
 	return 1;
