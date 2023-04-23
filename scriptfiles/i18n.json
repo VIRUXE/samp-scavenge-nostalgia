@@ -1638,6 +1638,9 @@
 		}
 	},
 	"player": {
+		"chat": {
+			"in-tutorial": ["Nao term permissao para utilizar o chat, enquanto se encontra no Tutorial. Se tiver alguma duvida utilize o Discord.", "You don't have permission to chat in the Tutorial. Use the Discord if you have questions."]
+		},
 		"food-deading": [
 			"Voce ira começar a morrer de fome! Fome: %.1f%%",
 			"You will start to starve! Hunger: %.1%%"
