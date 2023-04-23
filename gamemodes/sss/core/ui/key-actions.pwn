@@ -160,7 +160,7 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/open_trunk"));
 
 		if(IsPlayerAtVehicleBonnet(playerid, invehiclearea))
-			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair_engine"));
+			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/vehicle/repair-engine"));
 	}
 
 	foreach(new i : Player) {
