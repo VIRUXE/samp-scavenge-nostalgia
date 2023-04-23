@@ -194,14 +194,14 @@ ACMD:food[5](playerid, params[])
 {
 	new targetId, Float:value;
 
-	if(sscanf(params, "rf(100)", targetId, value)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /food [id/nick] (valor)");
+	if(sscanf(params, "rF(100)", targetId, value)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /food [id/nick] (valor)");
 
 	if(targetId == INVALID_PLAYER_ID) return 4;
 
 	SetPlayerFP(targetId, value);
 
 	ChatMsg(playerid, YELLOW, "Set food to %f", value);
-	ChatMsg(targetId, YELLOW, "Sua fome foi colocada para %d por %P", value, playerid);
+	ChatMsg(targetId, YELLOW, "Sua fome foi colocada para %f por %P", value, playerid);
 
 	return 1;
 }
