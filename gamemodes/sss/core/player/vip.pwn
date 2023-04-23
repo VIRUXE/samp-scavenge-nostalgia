@@ -18,7 +18,7 @@ ACMD:setvip[5](playerid, params[])
 
 	db_query(gAccounts, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
 
-	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : WHITE);
+	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : 0xB8B8B800);
 
 	ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
 
