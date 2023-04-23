@@ -56,8 +56,6 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerText(playerid, text[])
 {
-	dbg("global", CORE, "[OnPlayerText] in /gamemodes/sss/core/player/chat.pwn");
-
 	if(IsPlayerMuted(playerid))
 	{
 		if(GetPlayerMuteRemainder(playerid) == -1)
@@ -100,6 +98,11 @@ hook OnPlayerText(playerid, text[])
 PlayerSendChat(playerid, chat[], Float:frequency)
 {
 	if(!IsPlayerLoggedIn(playerid)) return 0;
+
+	if(IsPlayerInTutorial(playerid)) {
+		ChatMsg(playerid, RED, "player/chat/in-tutorial");
+		return 0;
+	}
 
 	if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) < 1000) return 0;
 

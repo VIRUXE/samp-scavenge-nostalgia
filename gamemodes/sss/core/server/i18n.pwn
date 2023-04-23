@@ -13,6 +13,8 @@ static
 	Node:lang_i18n;
 
 static ReplaceTags(content[]) {
+    if(strfind(content, "{") == -1) return false; // no tags to parse
+
 	enum REPLACEMENTS {
 		TAG[17+1],
 		REPLACEMENT[26+1]
@@ -58,6 +60,8 @@ static ReplaceTags(content[]) {
             strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
         }
     }
+
+    return true;
 }
 
 GetLanguageString(playerid, const route[]) {
