@@ -1,16 +1,15 @@
 #include <YSI\y_hooks>
 
-#define IDLE_FOOD_RATE (0.05)
+#define IDLE_FOOD_RATE (0.01)
 
 hook OnPlayerScriptUpdate(playerid)
 {
-	if(IsPlayerOnAdminDuty(playerid) || !IsPlayerSpawned(playerid) || IsPlayerUnfocused(playerid))
-		return;
+	if(IsPlayerOnAdminDuty(playerid) || !IsPlayerSpawned(playerid) || IsPlayerUnfocused(playerid)) return;
 
 	new
 		E_MOVEMENT_TYPE:movementstate,
-		Float:food = GetPlayerFP(playerid),
-		intensity = GetPlayerInfectionIntensity(playerid, 0);
+		Float:food      = GetPlayerFP(playerid),
+		      intensity = GetPlayerInfectionIntensity(playerid, 0);
 
 	if(food > 100.0) food = 100.0;
 
@@ -21,8 +20,7 @@ hook OnPlayerScriptUpdate(playerid)
 	if(food >= 19.8 && food <= 20.0 || food >= 9.8 && food <= 10.0) 
 		ShowActionText(playerid, sprintf(ls(playerid, "player/health/dieing/food"), food), 5000);
 
-	if(intensity)
-		food -= IDLE_FOOD_RATE;
+	if(intensity) food -= IDLE_FOOD_RATE;
 
 	GetPlayerMovementState(playerid, movementstate);
 
@@ -49,9 +47,7 @@ hook OnPlayerScriptUpdate(playerid)
 		if(food < 30.0)
 		{
 			if(!IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-				if(intensity == 0) SetPlayerDrunkLevel(playerid, 0);
-
-				else SetPlayerDrunkLevel(playerid, 2000 + floatround((31.0 - food) * 300.0));
+				SetPlayerDrunkLevel(playerid, intensity == 0 ? 0 : 2000 + floatround((31.0 - food) * 300.0));
 		}
 		else if(intensity == 0) SetPlayerDrunkLevel(playerid, 0);
 	}
