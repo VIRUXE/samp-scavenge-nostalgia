@@ -1659,12 +1659,12 @@
 			"Reduced bleedrate from %f to %f"
 		],
 		"join": [
-			"entrou no servidor",
-			"joined the server"
+			"%P (%s) entrou no servidor %s",
+			"%P (%s) joined the server %s"
 		],
 		"left": [
-			"saiu do servidor",
-			"left the server"
+			"%P saiu do servidor",
+			"%P left the server"
 		],
 		"kicked": [
 			" >  Kickado, motivo: {C_BLUE}%s",
@@ -2168,7 +2168,8 @@
 			"no-match": [
 				" >  A senha que você digitou não coincide com a sua senha atual.",
 				" >  The entered password you typed doesnt match your current password."
-			]
+			],
+			"success": ["Chave alterada com sucesso", "Password changed succesfully"]
 		},
 		"not-found": [
 			"",
