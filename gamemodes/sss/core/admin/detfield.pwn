@@ -569,7 +569,7 @@ stock AddDetectionFieldException(detfieldid, name[MAX_PLAYER_NAME])
 
 	if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID)
 	{
-		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "Prote√ß√£o Field", ""C_GREEN"Voc√™ foi adicionado como exce√ß√£o em uma base com prote√ß√£o field.", "Fechar", "");
+		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "ProteÁ„o Field", ""C_GREEN"VocÍ foi adicionado como exceÁ„o em uma base com proteÁ„o field.", "Fechar", "");
         fld_PlayerInvade[GetPlayerIDFromName(name)] = false;
 	}
 	return det_ExceptionCount[detfieldid];
@@ -758,7 +758,7 @@ ACMD:addex[2](playerid, params[])
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  ID '%d' n√£o est√° conectado.", targetid);
+			ChatMsg(playerid, YELLOW, " >  ID '%d' n„o est· conectado.", targetid);
 
 		else
 			return 4;
@@ -766,7 +766,7 @@ ACMD:addex[2](playerid, params[])
 
 	if(!AccountExists(name))
 	{
-		ChatMsg(playerid, YELLOW, " >  Conta  '%s' n√£o existente.", name);
+		ChatMsg(playerid, YELLOW, " >  Conta  '%s' n„o existente.", name);
 		return 1;
 	}
 
@@ -788,22 +788,22 @@ ACMD:addex[2](playerid, params[])
 
 		if(ret == -1)
 		{
-			ChatMsg(playerid, RED, " >  Lista de exce√ß√µes cheias");
+			ChatMsg(playerid, RED, " >  Lista de exceÁıes cheias");
 		}
 
 		if(ret == -2)
 		{
-			ChatMsg(playerid, RED, " >  Nome inv√°lido ");
+			ChatMsg(playerid, RED, " >  Nome inv·lido ");
 		}
 
 		if(ret == -3)
 		{
-			ChatMsg(playerid, RED, " >  O player j√° est√° na lista");
+			ChatMsg(playerid, RED, " >  O player j· est· na lista");
 		}
 		UpdateDetectionFieldExceptions(fieldid);
 		UpdateDetectionFieldExceptions(fieldid);
 	}
-	else return ChatMsg(playerid, YELLOW, " > Voc√™ n√£o est√° em nenhuma field.");
+	else return ChatMsg(playerid, YELLOW, " > VocÍ n„o est· em nenhuma field.");
 
 	return 1;
 }
@@ -841,7 +841,7 @@ timer CheckPlayerInvadeField[SEC(2)](playerid)
 		SetPlayerVirtualWorld(playerid, 0);
 		SetPlayerInterior(playerid, 0);
 	    SetCameraBehindPlayer(playerid);
-	    ChatMsg(playerid, GREEN, "[FIELD]: Voc√™ nasceu em uma area com field e foi respawnado!");
+	    ChatMsg(playerid, GREEN, "[FIELD]: VocÍ nasceu em uma area com field e foi respawnado!");
 	    fld_PlayerInvade[playerid] = false;
 	}
 
@@ -859,7 +859,7 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 			if(GetPlayerState(playerid) != PLAYER_STATE_SPECTATING)
 			{
 				if(GetPlayerAdminLevel(playerid) >= 2)
-					ChatMsg(playerid, PINK, " > Voc√™ entrou na field field '%s' ID: %d", det_Name[i], i);
+					ChatMsg(playerid, PINK, " > VocÍ entrou na field field '%s' ID: %d", det_Name[i], i);
 			}
 
 			if(!IsPlayerOnAdminDuty(playerid))
@@ -990,22 +990,22 @@ stock AvisoField(playerid) {
 	new string[700];
 
     format(string, 700,
-		""C_WHITE"Voc√™ entrou em uma base com prote√ß√£o FIELD sem ter acesso.\n\n\
-				Voc√™ n√£o poder√° fazer as seguintes coisas:\n\n");
+		""C_WHITE"VocÍ entrou em uma base com proteÁ„o FIELD sem ter acesso.\n\n\
+				VocÍ n„o poder· fazer as seguintes coisas:\n\n");
 
     format(string, 700,
 		"%s"C_YELLOW"\t- Construir.\n\
-		\t- Desmontar com p√© de cabra.\n\
+		\t- Desmontar com pÈ de cabra.\n\
 		\t- Interagir tendas e caixas.\n\
-		\t- Interagir com veÔøΩculos.\n\n", string);
+		\t- Interagir com veùculos.\n\n", string);
 
     format(string, 700,
-		"%s"C_WHITE"Se voc√™ entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a prote√ß√£o.\n\n", string);
+		"%s"C_WHITE"Se vocÍ entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteÁ„o.\n\n", string);
 
 	format(string, 700,
 		"%s"C_RED"[WARNING] Isso serve para evitar que hackers maliciosos invadam bases no servidor.", string);
 
-    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Prote√ß√£o Anti-Cheater "C_RED"FIELD DETECTION", string, "Fechar", "");
+    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "ProteÁ„o Anti-Cheater "C_RED"FIELD DETECTION", string, "Fechar", "");
 	return 1;
 }
 
