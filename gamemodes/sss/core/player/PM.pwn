@@ -19,11 +19,9 @@ CMD:pm(playerid, params[]) {
 
     if(PmBlock[targetId]) return ChatMsg(playerid, RED, "[PM]: Você não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId);
 
-    if(strlen(mensagem) > 300) return SendClientMessage(playerid, RED, "[PM]: A mensagem não pode ter mais de 300 caracteres!");
-
     ChatMsg(playerid, RED, "[PM PARA %P (%d)"C_RED"]: {00AA00}%s", targetId, targetId, mensagem);
 
-    ChatMsg(targetId, 0x555555AA, "[PM DE %P (%d)"C_RED"]: {00AA00}%s", playerid, playerid, mensagem);
+    ChatMsg(targetId, 0x555555AA, "[PM DE %P (%d){555555}]: {00AA00}%s", playerid, playerid, mensagem);
         
     GameTextForPlayer(targetId, "~G~~H~ MENSAGEM RECEBIDA!", 3000, 1);
     
@@ -36,5 +34,5 @@ CMD:pm(playerid, params[]) {
 CMD:blockpm(playerid) {
     PmBlock[playerid] = !PmBlock[playerid];
     
-    return ChatMsg(playerid, RED, "[PM]: Mensagens privadas %sbloqueadas!", PmBlock[playerid] ? "des" : "");
+    return ChatMsg(playerid, RED, "[PM]: Mensagens privadas %sbloqueadas!", !PmBlock[playerid] ? "des" : "");
 }
