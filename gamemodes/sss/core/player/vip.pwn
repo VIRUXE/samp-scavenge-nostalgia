@@ -10,15 +10,17 @@ ACMD:setvip[5](playerid, params[])
 {
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [id/nick]");
 	
 	if(targetId == INVALID_PLAYER_ID) return 4; // CMD_INVALID_PLAYER
 
-	SetPlayerVip(targetId, !IsPlayerVip(targetId));
+	SetPlayerVip(targetId, !VIP[targetId]);
 
-	SetPlayerColor(targetId, IsPlayerVip(targetId) ? VIP_COLOR : WHITE);
+	db_query(gAccounts, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
 
-	ChatMsgAll(PINK, IsPlayerVip(targetId) ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
+	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : WHITE);
+
+	ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
 
 	return 1;
 }
