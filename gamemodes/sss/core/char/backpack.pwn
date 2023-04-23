@@ -307,7 +307,7 @@ stock AddItemToPlayer(playerid, itemid, useinventory = false, playeraction = tru
 			bag_PuttingInBag[playerid] = true;
 			defer bag_PutItemIn(playerid, itemid, containerid);
 		}
-		else ShowActionText(playerid, sprintf(ls(playerid, "player/bag/extra-slots-inventory"), itemsize), 3000, 150);
+		else ShowActionText(playerid, sprintf(ls(playerid, "item/container/extra-slots-inventory"), itemsize), 3000, 150);
 	}
 	else return AddItemToContainer(containerid, itemid, playerid);
 
@@ -632,7 +632,7 @@ hook OnPlayerAddToInventory(playerid, itemid, success)
 			itemsize = GetItemTypeSize(GetItemType(itemid)),
 			freeslots = GetInventoryFreeSlots(playerid);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "player/bag/extra-slots-container"), itemsize - freeslots), 3000, 150);
+		ShowActionText(playerid, sprintf(ls(playerid, "player/bag/extra-slots"), itemsize - freeslots), 3000, 150);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;

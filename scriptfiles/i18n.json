@@ -1948,7 +1948,7 @@
 					"Buzina",
 					"Horn"
 				],
-				"repair_engine": [
+				"repair-engine": [
 					"Reparar com Ferramenta",
 					"Repair with a Tool"
 				],

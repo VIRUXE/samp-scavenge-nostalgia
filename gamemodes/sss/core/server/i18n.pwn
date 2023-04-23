@@ -92,7 +92,7 @@ GetLanguageString(playerid, const route[]) {
         JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
 
         if(isempty(output)) {
-            printf("[i18] Route '%s' for language %d is empty", route, player_language);
+            printf("[i18n] Route '%s' for language %d is empty", route, player_language);
             return output;
         }
 
@@ -100,7 +100,7 @@ GetLanguageString(playerid, const route[]) {
 
         // printf("GetLanguageString(%d (Language: %d), '%s'): %s", playerid, player_language, route, output);
     } else {
-        printf("[i18] Route '%s' doesn't have any strings.", route);
+        printf("[i18n] Route '%s' doesn't exist.", route);
     }
 
     return output;
