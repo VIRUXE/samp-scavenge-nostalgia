@@ -407,7 +407,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -426,7 +426,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
@@ -445,7 +445,7 @@ Dialog:SIF_PlayerInvOptions(playerid, response, listitem, inputtext[])
 			}
 			else
 			{
-				ShowActionText(playerid, ls(playerid, "player/key-actions/inventory/holding-item"), 3000, 200);
+				ShowActionText(playerid, ls(playerid, "player/inventory/holding-item"), 3000, 200);
 				DisplayPlayerInventory(playerid);
 			}
 		}
