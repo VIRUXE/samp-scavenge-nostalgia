@@ -58,11 +58,11 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 		"Fechar", "");
 	} else if(isequal(command, "anuncio", true)) {
 		// Espera 3 segundos para fazer outro anúncio
-		if(GetTickCountDifference(VIP_Anuncio, GetTickCount()) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
+		if(VIP_Anuncio && GetTickCountDifference(VIP_Anuncio, GetTickCount()) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
 
 		new anuncio[150];
 
-		if(sscanf(params, "{s[7]}s[150]", anuncio)) return ChatMsg(playerid, RED, " > Use: /vip anuncio [mensagem]");
+		if(sscanf(params, "{s[8]}s[150]", anuncio)) return ChatMsg(playerid, RED, " > Use: /vip anuncio [mensagem]");
 
 		ChatMsgAll(VIP_COLOR, "[Anúncio VIP] "C_WHITE"%P (%d): {FFAA00}%s", playerid, playerid, anuncio);
 
