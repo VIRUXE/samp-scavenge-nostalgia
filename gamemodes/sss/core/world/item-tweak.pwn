@@ -8,17 +8,26 @@ static
 Float:	twk_pPos[MAX_PLAYERS][3],
 		twk_MoveTick[MAX_PLAYERS];
 
-hook OnPlayerConnect(playerid)
-	twk_Item[playerid] = INVALID_ITEM_ID;
+hook OnPlayerConnect(playerid) twk_Item[playerid] = INVALID_ITEM_ID;
 	
-hook OnPlayerDisconnect(playerid, reason)
-	TweakFinalise(playerid);
+hook OnPlayerDisconnect(playerid, reason) TweakFinalise(playerid);
 
-stock TweakItem(playerid, itemid){
-	if(twk_Item[playerid] != INVALID_ITEM_ID)
-		return 0;
+stock TweakItem(playerid, itemid) {
+	if(twk_Item[playerid] != INVALID_ITEM_ID) return 0;
+
+	new Float:x, Float:y, Float:z, Float:r;
+	new const Float:amount = 2.0;
+
+	GetPlayerPos(playerid, x, y, z);
+	GetPlayerFacingAngle(playerid, r);
 	
-	GetPlayerPos(playerid, twk_pPos[playerid][0], twk_pPos[playerid][1], twk_pPos[playerid][2]);
+	twk_pPos[playerid][0] = x;
+	twk_pPos[playerid][1] = y;
+	twk_pPos[playerid][2] = z;
+
+	x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
+
+	SetPlayerPos(playerid, x, y, z);
 	
     EditDynamicObject(playerid, GetItemObjectID(itemid));
     
@@ -35,7 +44,12 @@ stock TweakFinalise(playerid){
 //   		ShowHelpTip(playerid, "_");
    		CancelEdit(playerid);
 //		HideHelpTip(playerid);
+
+		// TODO: Colocar como tip
+		if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid))
+			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
     }
+
     return 1;
 }
 

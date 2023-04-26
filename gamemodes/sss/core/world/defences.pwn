@@ -327,47 +327,33 @@ StartBuildingDefence(playerid, itemid)
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemtypename));
 
-	if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid))
-		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
+
 
 	return 1;
 }
 
 StopBuildingDefence(playerid)
 {
-	if(!IsValidItem(GetPlayerItem(playerid)))
-		return;
+	if(!IsValidItem(GetPlayerItem(playerid))) return;
 
 	if(def_CurrentDefenceItem[playerid] != INVALID_ITEM_ID)
-	{
 		def_CurrentDefenceItem[playerid] = INVALID_ITEM_ID;
-		StopHoldAction(playerid);
-		ClearAnimations(playerid);
-		HideActionText(playerid);
 
-		return;
-	}
-
-	if(def_CurrentDefenceEdit[playerid] != INVALID_ITEM_ID)
-	{
+	if(def_CurrentDefenceEdit[playerid] != INVALID_ITEM_ID) // ? Nao deveria ser else if?
 		def_CurrentDefenceEdit[playerid] = INVALID_ITEM_ID;
-		StopHoldAction(playerid);
-		ClearAnimations(playerid);
-		HideActionText(playerid);
 
-		return;
-	}
+	StopHoldAction(playerid);
+	ClearAnimations(playerid);
+	HideActionText(playerid);
 
 	return;
 }
 
 _InteractDefence(playerid, itemid)
 {
-    if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar)
-        return 0;
+    if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar) return 0;
         
-    if(GetItemTypeExplosiveType(GetItemType(GetPlayerItem(playerid))) != INVALID_EXPLOSIVE_TYPE)
-        return 0;
+    if(GetItemTypeExplosiveType(GetItemType(GetPlayerItem(playerid))) != INVALID_EXPLOSIVE_TYPE) return 0;
         
 	new data[e_DEFENCE_DATA];
 
@@ -466,8 +452,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	GetPlayerPos(playerid, x, y, z);
 	GetItemPos(itemid, ix, iy, iz);
 
-	if(Distance(x, y, z, ix, iy, iz) > 1.5)
-	    return 0;
+	if(Distance(x, y, z, ix, iy, iz) > 1.5) return 0;
 	    
 	if(tooltype == item_Crowbar)
 	{
@@ -497,8 +482,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 			return 1;
 		}
 		
-	    if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL)
-	        return 1;
+	    if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL) return 1;
 
 		new itemtypename[ITM_MAX_NAME];
 
@@ -506,10 +490,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 		
-		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, 3000);
-		else
-	    	StartHoldAction(playerid, 6000);
+		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -520,8 +501,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 	if(tooltype == item_Keypad)
 	{
-        if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL)
-	        return 0;
+        if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL) return 0;
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
@@ -535,10 +515,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 
-		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, 3000);
-		else
-	    	StartHoldAction(playerid, 6000);
+		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -549,8 +526,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 	if(tooltype == item_AdvancedKeypad)
 	{
-	    if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL)
-	        return 0;
+	    if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL) return 0;
 
 		if(!GetItemArrayDataAtCell(itemid, _:def_motor))
 		{
@@ -564,10 +540,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 
-		if(IsPlayerVip(playerid))
-	    	StartHoldAction(playerid, 3000);
-		else
-	    	StartHoldAction(playerid, 6000);
+		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -594,8 +567,7 @@ hook OnHoldActionFinish(playerid)
 {
 	if(def_CurrentDefenceItem[playerid] != INVALID_ITEM_ID)
 	{
-		if(!IsItemInWorld(def_CurrentDefenceItem[playerid]))
-			return Y_HOOKS_BREAK_RETURN_0;
+		if(!IsItemInWorld(def_CurrentDefenceItem[playerid])) return Y_HOOKS_BREAK_RETURN_0;
         
 		new
 			ItemType:itemtype,
@@ -603,14 +575,11 @@ hook OnHoldActionFinish(playerid)
 			pose,
 			itemid;
 
-		itemtype = GetItemType(GetPlayerItem(playerid));
+		itemtype        = GetItemType(GetPlayerItem(playerid));
 		defenceitemtype = GetItemType(def_CurrentDefenceItem[playerid]);
 
-		if(itemtype == item_Screwdriver)
-			pose = DEFENCE_POSE_VERTICAL;
-
-		if(itemtype == item_Hammer)
-			pose = DEFENCE_POSE_HORIZONTAL;
+		if(itemtype == item_Screwdriver) pose = DEFENCE_POSE_VERTICAL;
+		else if(itemtype == item_Hammer) pose = DEFENCE_POSE_HORIZONTAL;
 		    
 		SetItemArrayDataAtCell(def_CurrentDefenceItem[playerid], pose, def_pose);
 		itemid = ActivateDefenceItem(def_CurrentDefenceItem[playerid]);
@@ -867,8 +836,8 @@ ShowSetPassDialog_Keypad(playerid){
 ShowEnterPassDialog_Keypad(playerid, msg = 0)
 {
 	if(msg == 0) ChatMsg(playerid, YELLOW, "item/defence/enter-code");
-	if(msg == 1) ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
-	if(msg == 2) ChatMsg(playerid, YELLOW, "item/defence/code-fast", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
+	else if(msg == 1) ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
+	else if(msg == 2) ChatMsg(playerid, YELLOW, "item/defence/code-fast", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	ShowKeypad(playerid, 100, GetItemArrayDataAtCell(def_CurrentDefenceOpen[playerid], def_pass));
 }
