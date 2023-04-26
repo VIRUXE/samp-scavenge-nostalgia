@@ -1669,6 +1669,10 @@
 			"%P saiu do servidor",
 			"%P left the server"
 		],
+		"left-crash": [
+			"%P crashou",
+			"%P crashed"
+		],
 		"kicked": [
 			" >  Kickado, motivo: {C_BLUE}%s",
 			" >  Kicked, reason: {C_BLUE}%s"

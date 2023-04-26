@@ -153,9 +153,9 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	if(gServerRestarting) return 0;
 
-	if(reason != 2 && IsPlayerLoggedIn(playerid)) {
+	if(reason == 0 && IsPlayerLoggedIn(playerid)) {
 		foreach(new i : Player)
-			ChatMsg(i, WHITE, "player/left", playerid);
+			ChatMsg(i, WHITE, "player/left-crash", playerid);
 	}
 
 	Logout(playerid);
