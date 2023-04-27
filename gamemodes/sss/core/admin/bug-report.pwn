@@ -97,10 +97,7 @@ ReportBug(playerid, bug[])
 	stmt_bind_value(stmt_BugInsert, 1, DB::TYPE_STRING, bug, MAX_ISSUE_LENGTH);
 	stmt_bind_value(stmt_BugInsert, 2, DB::TYPE_INTEGER, gettime());
 
-	if(stmt_execute(stmt_BugInsert))
-	{
-		ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" reportou o bug %s", playerid, bug);
-	}
+	if(stmt_execute(stmt_BugInsert)) ChatMsgAdmins(1, YELLOW, " >  %P"C_YELLOW" reportou o bug %s", playerid, bug);
 }
 
 
@@ -113,7 +110,7 @@ ReportBug(playerid, bug[])
 
 CMD:bugs(playerid)
 {
-	if(ShowListOfBugs(playerid) == 0) ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
+	if(!ShowListOfBugs(playerid)) ChatMsg(playerid, YELLOW, " >  Não tem nenhum report de BUG para mostrar.");
 
 	return 1;
 }
@@ -142,8 +139,7 @@ ShowListOfBugs(playerid)
 
 		strcat(list, bug);
 
-		if(bug[30] != EOS)
-			strcat(list, "[...]");
+		if(bug[30] != EOS) strcat(list, "[...]");
 
 		strcat(list, "\n");
 
@@ -152,7 +148,7 @@ ShowListOfBugs(playerid)
 
 	if(idx == 0) return 0;
 
-	Dialog_Show(playerid, BugReport2, DIALOG_STYLE_LIST, "BUGS", list, "Abrir", "Fechar");
+	Dialog_Show(playerid, BugReport2, DIALOG_STYLE_LIST, "Lista de Bugs", list, "Abrir", "Fechar");
     
 	return 1;
 }
@@ -182,20 +178,19 @@ ShowBugReportInfo(playerid, rowid)
 	stmt_bind_result_field(stmt_BugInfo, 1, DB::TYPE_STRING, bug, MAX_ISSUE_LENGTH);
 	stmt_bind_result_field(stmt_BugInfo, 2, DB::TYPE_INTEGER, date);
 
-	if(!stmt_execute(stmt_BugInfo))
-		return 0;
+	if(!stmt_execute(stmt_BugInfo)) return 0;
 
 	stmt_fetch_row(stmt_BugInfo);
 
     Rowidbr3[playerid] = rowid;
     
 	format(message, sizeof(message),
-		""C_YELLOW"Reportou:\n\t\t"C_BLUE"%s\n\n\
-		"C_YELLOW"BUG:\n\t\t"C_BLUE"%s\n\n\
+		""C_YELLOW"Quem reportou:\n\t\t"C_BLUE"%s\n\n\
+		"C_YELLOW"Descrição:\n\t\t"C_BLUE"%s\n\n\
 		"C_YELLOW"Data:\n\t\t"C_BLUE"%s",
 		name, bug, TimestampToDateTime(date));
 
-	Dialog_Show(playerid, BugReport3, DIALOG_STYLE_MSGBOX, "Bugs", message, GetPlayerAdminLevel(playerid) > 1 ? "Deletar" : "Voltar", GetPlayerAdminLevel(playerid) > 1 ? "Voltar" : "");
+	Dialog_Show(playerid, BugReport3, DIALOG_STYLE_MSGBOX, "Detalhe do Bug", message, GetPlayerAdminLevel(playerid) > 1 ? "Deletar" : "Voltar", GetPlayerAdminLevel(playerid) > 1 ? "Voltar" : "");
 
 	return 1;
 }
