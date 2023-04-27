@@ -25,6 +25,7 @@ stock TweakItem(playerid, itemid) {
 	twk_pPos[playerid][1] = y;
 	twk_pPos[playerid][2] = z;
 
+	// Move o jogador para tras
 	x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
 
 	SetPlayerPos(playerid, x, y, z);
