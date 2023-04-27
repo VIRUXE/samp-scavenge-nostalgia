@@ -1673,6 +1673,7 @@
 			"%P crashou",
 			"%P crashed"
 		],
+		"ping": ["Ping muito alto", "Ping too high"],
 		"kicked": [
 			" >  Kickado, motivo: {C_BLUE}%s",
 			" >  Kicked, reason: {C_BLUE}%s"
