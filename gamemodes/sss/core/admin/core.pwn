@@ -545,7 +545,7 @@ CMD:admins(playerid)
 
 	gBigString[playerid][0] = EOS;
 
-	format(title, 20, "Staff (%d)", admin_Total);
+	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
 	for(new i; i < admin_Total; i++)
 	{
