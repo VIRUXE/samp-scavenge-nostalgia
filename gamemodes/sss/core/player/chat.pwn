@@ -61,7 +61,7 @@ hook OnPlayerText(playerid, text[])
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsg(playerid, RED, "player/mute-time", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 0;
 	}
