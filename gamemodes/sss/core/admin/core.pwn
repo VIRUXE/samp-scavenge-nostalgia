@@ -537,7 +537,7 @@ ACMD:acmds[1](playerid)
 	return 1;
 }
 
-ACMD:adminlist[1](playerid)
+CMD:admins(playerid)
 {
 	new
 		title[20],
@@ -551,18 +551,17 @@ ACMD:adminlist[1](playerid)
 	{
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
-		format(line, sizeof(line), "%s %C(%d-%s)\n",
+		format(line, sizeof(line), "%s %C(%s)\n",
 			admin_Data[i][admin_Name],
 			admin_Colours[admin_Data[i][admin_Rank]],
-			admin_Data[i][admin_Rank],
 			admin_Names[admin_Data[i][admin_Rank]]);
 
-		if(GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID) strcat(gBigString[playerid], " >  ");
+		strcat(gBigString[playerid], GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? C_GREEN : C_WHITE);
 
 		strcat(gBigString[playerid], line);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "Fechar", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "OK", "");
 
 	return 1;
 }
