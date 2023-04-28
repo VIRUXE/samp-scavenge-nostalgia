@@ -736,7 +736,7 @@ timer SetJoinScenario[20](playerid) {
 	new scenario = random(sizeof(scenarios) - 1);
 	SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
 	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
-	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1], scenarios[scenario][2][2] - 100);
+	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1] - 100, scenarios[scenario][2][2] - 100);
 
 	// log("[JOIN] %p (%d) foi para o cenário %d", playerid, playerid, scenario);
 
