@@ -619,8 +619,10 @@ ExitTutorial(playerid)
 	DestroyPlayerObject(playerid, Tutorial[playerid][TUT_GATE_OBJ]);
 	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
 	
-	// SetPlayerScreenFade(playerid, 255);
-	ShowCharacterCreationScreen(playerid);
+	if(IsPlayerRegistered(playerid))
+		Login(playerid);
+	else
+		ShowCharacterCreationScreen(playerid);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
 //	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
@@ -642,6 +644,24 @@ IsPlayerInTutorial(playerid) {
 	} */
 
 	return Tutorial[playerid][TUT_VEHICLE] != INVALID_VEHICLE_ID;
+}
+
+ACMD:settutorial[3](playerid, params[]) {
+	new targetId;
+
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /settutorial [id/nick]"); 
+
+	if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+
+	if(GetPlayerAdminLevel(targetId)) return CMD_CANT_USE_ON;
+
+	if(!IsPlayerLoggedIn(playerid)) return CMD_CANT_USE_ON;
+
+	// Salva tudo do jogador primeiro
+	Logout(playerid);
+	EnterTutorial(targetId);
+
+	return 1;
 }
 
 // Para os admins poderem sair do tutorial
