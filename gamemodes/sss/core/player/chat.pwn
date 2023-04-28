@@ -268,6 +268,8 @@ stock SetPlayerChatMode(playerid, chatmode)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
+	if(chatmode == chat_Mode[playerid]) return ChatMsg(playerid, GREY, "player/chat/mode/already");
+
 	chat_Mode[playerid] = chatmode;
 
 	return 1;
@@ -327,8 +329,7 @@ CMD:c(playerid, params[])
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
 		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
-	}
-	else PlayerSendChat(playerid, params, 4.0);
+	} else PlayerSendChat(playerid, params, 4.0);
 
 	return 7;
 }
