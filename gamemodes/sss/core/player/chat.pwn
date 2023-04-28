@@ -157,7 +157,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
 			playerid,
 			playerid,
-			TagScan(chat));
+			TagScan(chat, true));
 
 		TruncateChatMessage(line1, line2);
 

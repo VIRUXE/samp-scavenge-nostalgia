@@ -17,7 +17,7 @@ new EmbedColours[9][E_COLOUR_EMBED_DATA]=
 	{'a', #C_AQUA}
 };
 
-stock TagScan(chat[], colour = WHITE)
+stock TagScan(chat[], globalChat = false, colour = WHITE)
 {
 	new
 		text[256],
@@ -50,9 +50,11 @@ stock TagScan(chat[], colour = WHITE)
 					a += strlen(tmpName);
 					tags++;
 
-					GameTextForPlayer(id, "~G~~H~ VOCE FOI MENCIONADO(A)!", 3000, 1);
-    
-					PlayerPlaySound(id, 5205, 0.0,0.0,0.0);
+					// Enviar notificacao apenas se for mencionado no global
+					if(globalChat) {
+						GameTextForPlayer(id, "~G~~H~ VOCE FOI MENCIONADO(A)!", 3000, 1);
+						PlayerPlaySound(id, 5205, 0.0,0.0,0.0);
+					}
 
 					continue;
 				} else a++;
