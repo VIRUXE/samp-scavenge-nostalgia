@@ -2504,6 +2504,7 @@
 		}
 	},
 	"server": {
+		"clock": ["RESPAWN EM", "RESTARTING IN"],
 		"motd": [
 			"Mensagem do Dia",
 			"Message of the Day"
