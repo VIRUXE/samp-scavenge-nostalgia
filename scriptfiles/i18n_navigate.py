@@ -58,7 +58,7 @@ def navigate_json(data, stdscr, current_path):
             show_instructions(stdscr)
 
             selected_node = keys[idx] if len(keys) > 0 else ""
-            selected_node_type = "no" if isinstance(data.get(selected_node), dict) else "texto"
+            selected_node_type = "nó" if isinstance(data.get(selected_node), dict) else "texto"
             current_path_str = f"Rota atual: {'/'.join(current_path)}/{selected_node} ({selected_node_type})" if len(current_path) else f"Rota atual: {selected_node} ({selected_node_type})"
             stdscr.addstr(0, 0, current_path_str[:width - 1])
 
