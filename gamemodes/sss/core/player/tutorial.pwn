@@ -18,6 +18,7 @@
 #include <YSI\y_hooks>
 
 forward OnPlayerProgressTutorial(playerid, stepscompleted);
+forward OnPlayerExitTutorial(playerid, bool:completed);
 
 #define MAX_TUTORIAL_ITEMS 22
 #define MAX_TUTORIAL_STEPS 13
@@ -74,7 +75,7 @@ hook OnPlayerConnect(playerid)
 	Tutorial[playerid][TUT_VEHICLE]  = INVALID_VEHICLE_ID;
 	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
 
-	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 422.916666, sprintf("~b~Tarefa Atual ~y~(0/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
+	Tutorial[playerid][TUT_STATUS] = CreatePlayerTextDraw(playerid, 320.000, 422.916666, sprintf("~b~Tarefa Atual ~y~(1/%d)~w~:~n~Abrir Inventario", MAX_TUTORIAL_STEPS));
 	PlayerTextDrawLetterSize(playerid, Tutorial[playerid][TUT_STATUS], 0.256761, 1.303703);
 	PlayerTextDrawTextSize(playerid, Tutorial[playerid][TUT_STATUS], 450.666666, 128.125);
 	PlayerTextDrawAlignment(playerid, Tutorial[playerid][TUT_STATUS], 2);
@@ -89,7 +90,8 @@ hook OnPlayerConnect(playerid)
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
-	ExitTutorial(playerid, .disconnected = true);
+	if(IsPlayerInTutorial(playerid))
+		ExitTutorial(playerid, false);
 }
 
 hook OnPlayerRegister(playerid) {
@@ -573,7 +575,7 @@ EnterTutorial(playerid) {
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
 
-ExitTutorial(playerid, bool:disconnected = false)
+ExitTutorial(playerid, bool:completed = true)
 {
 	if(!IsPlayerInTutorial(playerid)) return 0;
 		
@@ -609,23 +611,25 @@ ExitTutorial(playerid, bool:disconnected = false)
 	DestroyPlayerObject(playerid, Tutorial[playerid][TUT_GATE_OBJ]);
 	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
 
-	if(disconnected) return 1; // Se deslogou entao nao interessa mais nada
+	if(completed) {
+		log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
 
-	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
+		PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
+		Tutorial[playerid][TUT_STATUS] = PlayerText:INVALID_TEXT_DRAW;
+		
+		ShowCharacterCreationScreen(playerid);
 
-	PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
-	Tutorial[playerid][TUT_STATUS] = PlayerText:INVALID_TEXT_DRAW;
-	
-	ShowCharacterCreationScreen(playerid);
+		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
+	//	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
+	//	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 
-	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
-//	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
-//	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
+		// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
-	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
+		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
+	}
 
-	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
+	CallLocalFunction("OnPlayerExitTutorial", "db", playerid, completed);
 
 	return 1;
 }
@@ -668,4 +672,12 @@ CMD:exittutorial(playerid)
 	if(IsPlayerAdmin(playerid)) ExitTutorial(playerid);
 	
 	return 1;
+}
+
+public OnPlayerExitTutorial(playerid, bool:completed) {
+	if(completed) {
+		ChatMsg(playerid, 0xC457EBAA, " >  %s: "C_WHITE"%s", ls(playerid, "server/motd"), gMessageOfTheDay);
+
+		AnnouncePlayerJoined(playerid);
+	}
 }

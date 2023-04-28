@@ -172,6 +172,19 @@ public OnPlayerDisconnected(playerid)
 	ResetVariables(playerid);
 }
 
+// Anuncia a entrada do jogador para os outros jogadores
+AnnouncePlayerJoined(playerid) {
+	foreach(new i : Player) {
+		if(i != playerid && IsPlayerLoggedIn(playerid)) {
+			new frase[90]; // MAX_JOINSENTENCE_LEN
+
+			frase = GetPlayerJoinSentence(playerid);
+
+			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(" -> %s", frase) : "");
+		}
+	}
+}
+
 /* 
 	Esta função é chamada quando o jogador entra num cenario, após o OnPlayerConnect.
 
@@ -199,6 +212,7 @@ public OnPlayerJoinScenario(playerid) {
 		KickPlayer(playerid, "Conta inativa", false);
 	}
 }
+
 
 ResetVariables(playerid)
 {
