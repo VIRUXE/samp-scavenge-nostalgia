@@ -2504,6 +2504,10 @@
 		}
 	},
 	"server": {
+		"motd": [
+			"Mensagem do Dia",
+			"Message of the Day"
+		],
 		"restart_warning": [
 			"AVISO: O servidor ira reiniciar em 1 minuto. Deslogue para evitar BUGS!",
 			"Restarting in 1 minute."
