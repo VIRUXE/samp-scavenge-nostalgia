@@ -127,10 +127,7 @@ timer RelatorioFalse[SEC(1)](playerid)
         RelatorioTempo2[playerid] --;
         defer RelatorioFalse(playerid);
 	}
-	else
-	{
-	    RelatorioTempo[playerid] = false;
-	}
+	else RelatorioTempo[playerid] = false;
 }
 
 /*==============================================================================
@@ -262,10 +259,7 @@ Dialog:ReportOnlinePlayer(playerid, response, listitem, inputtext[])
 
 		ShowReportReasonInput(playerid);
 	}
-	else
-	{
-		ShowReportMenu(playerid);
-	}
+	else ShowReportMenu(playerid);
 }
 
 ShowReportOfflinePlayer(playerid)
@@ -290,10 +284,7 @@ Dialog:ReportOfflinePlayer(playerid, response, listitem, inputtext[])
 
 		ShowReportReasonInput(playerid);
 	}
-	else
-	{
-		ShowReportMenu(playerid);
-	}
+	else ShowReportMenu(playerid);
 }
 
 ShowReportReasonInput(playerid)
@@ -426,10 +417,9 @@ ShowReport(playerid, reportlistitem)
 
 Dialog:Report(playerid, response, listitem, inputtext[])
 {
-	if(response)
-		ShowReportOptions(playerid);
-	else
-		ShowListOfReports(playerid);
+	if(response) ShowReportOptions(playerid);
+
+	else ShowListOfReports(playerid);
 }
 
 ShowReportOptions(playerid)
@@ -465,24 +455,20 @@ Dialog:ReportOptions(playerid, response, listitem, inputtext[])
 	{
 		switch(listitem)
 		{
-			case 0:
-				ShowReportBanPrompt(playerid);
+			case 0: ShowReportBanPrompt(playerid);
 			case 1:
 			{
 				DeleteReport(report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_rowid]);
-
 				ShowListOfReports(playerid);
 			}
 			case 2:
 			{
 				DeleteReportsOfPlayer(report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_name]);
-
 				ShowListOfReports(playerid);
 			}
 			case 3:
 			{
 				SetReportRead(report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_rowid], 0);
-
 				ShowListOfReports(playerid);
 			}
 			case 4:
@@ -599,7 +585,8 @@ Dialog:BanPrompt(playerid, response, listitem, inputtext[])
 
 		duration = !strcmp(inputtext, "forever", true) ? 0 : GetDurationFromString(inputtext);
 
-		if(duration == -1) {
+		if(duration == -1) 
+		{
 			ShowReportBanPrompt(playerid);
 			return 0;
 		}
@@ -607,8 +594,7 @@ Dialog:BanPrompt(playerid, response, listitem, inputtext[])
 		BanPlayerByName(report_CurrentReportList[playerid][report_CurrentItem[playerid]][report_name], report_CurrentReason[playerid], playerid, duration);
 		ShowListOfReports(playerid);
 	}
-	else
-		ShowReportOptions(playerid);
+	else ShowReportOptions(playerid);
 
 	return 0;
 }
