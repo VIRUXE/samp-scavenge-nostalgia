@@ -1249,7 +1249,7 @@
 			],
 			"item_options": [
 				"Equipar\nUsar\nJogar Item\n",
-				"Equipar\nUsar\nJogar Item\n"
+				"Equip\nUse\nDrop Item\n"
 			],
 			"inventory_title": [
 				"Inventario",
@@ -1352,7 +1352,7 @@
 		],
 		"body_hardvest": [
 			"Alguem ja cortou esse corpo",
-			"The body has already been harvested of the edible (tasty) parts"
+			"Someone already cut this body"
 		],
 		"bbq": {
 			"added-petrol": [
@@ -1662,10 +1662,6 @@
 				]
 			}
 		},
-		"food-deading": [
-			"Voce ira começar a morrer de fome! Fome: %.1f%%",
-			"You will start to starve! Hunger: %.1%%"
-		],
 		"hols-change": [
 			"Arma Trocada",
 			"Weapon Changed"
@@ -1833,8 +1829,8 @@
 			},
 			"dieing": {
 				"food": [
-					"Voce ira começar a morrer de fome! Fome: %.1f%%",
-					"You will start to starve! Hunger: %.1%%"
+					"~r~Voce ira começar a morrer de fome! Fome: %.1f%%",
+					"~r~You will start to starve! Hunger: %.1%%"
 				]
 			}
 		},
@@ -2225,38 +2221,18 @@
 			]
 		},
 		"not-found": [
-			"",
-			""
-		],
-		"score": [
-			"Score",
-			"Score"
-		],
-		"kills": [
-			"Mortes",
-			"Deaths"
-		],
-		"killingspree": [
-			"Killing Spree",
-			"Killing Spree"
-		],
-		"aliveminutes": [
-			"Minutos Vivo",
-			"Live Minutes"
-		],
-		"clan": [
-			"Clan",
-			"Clan"
+			" > O jogador não pode ser encontrado.",
+			" > The player cannot be found."
 		]
 	},
 	"vehicle": {
 		"lock": {
 			"locked": [
 				"Este veiculo esta trancado",
-				"Door Locked"
+				"This vehicle are locked"
 			],
 			"locked-trunk": [
-				"Porta-malas fechado",
+				"Porta-malas trancado",
 				"Trunk Locked"
 			],
 			"no=doors": [
@@ -2518,24 +2494,24 @@
 		],
 		"restart_warning": [
 			"AVISO: O servidor ira reiniciar em 1 minuto. Deslogue para evitar BUGS!",
-			"Restarting in 1 minute."
+			"WARNING: The server will restart in 1 minute. Log out to avoid BUGS!"
 		],
 		"restart_warning_final": [
-			"Reiniciando servidor e Respawnando Itens",
-			"Restarting."
+			"Reiniciando servidor e respawnando itens",
+			"Restarting the server and respawning items"
 		],
 		"drop": {
 			"weapons": [
-				"[Exercito]: CAIXA DE ARMAMENTOS CAINDO EM: {C_ORANGE}%s",
-				"[EBS]: WEAPONS CACHE SIGNAL: BEARING: %s"
+				"[Exército]: CAIXA DE ARMAMENTOS CAINDO EM: {C_ORANGE}%s",
+				"[ARMY]: BOX OF WEAPONS FALLING INTO: {C_ORANGE}%s"
 			],
 			"supply": [
-				"[Exercito]: CAIXA DE SUPRIMENTOS: {C_BLUE}%s{C_YELLOW} CAINDO EM: {C_ORANGE}%s",
-				"[EBS]: SUPPLY DROP: {C_BLUE}%s{C_YELLOW} INCOMING AT: {C_ORANGE}%s"
+				"[Exército]: CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW}CAINDO EM: {C_ORANGE}%s",
+				"[ARMY]: SUPPLY DROP: {C_BLUE}%s {C_YELLOW}FALLING INTO: {C_ORANGE}%s"
 			],
 			"supply-request": [
-				"[Exercito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
-				"[EBS]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
+				"[Exército]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
+				"[ARMY]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
 			]
 		},
 		"command": {
