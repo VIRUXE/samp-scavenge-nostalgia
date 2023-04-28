@@ -8,6 +8,9 @@ static PlayerText:HUD[MAX_PLAYERS][MAX_HUD_COMPONENTS];
  */
 ptask UpdateHUD[SEC(1)](playerid)
 {
+	if(!IsPlayerSpawned(playerid))
+		return 0;
+
 	new Float:food, Float:bleed, clan[MAX_CLAN_NAME];
 		
 	food  = GetPlayerFP(playerid);
