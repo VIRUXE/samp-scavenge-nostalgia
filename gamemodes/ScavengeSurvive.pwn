@@ -436,12 +436,7 @@ new RequestsClient:client;
 
 #include "sss/core/server/init.pwn"
 
-/*
-	CHILD SYSTEMS
-	Modules that do not declare anything globally accessible besides interfaces.
-*/
-
-#include "sss/core/player/vip.pwn" // By Kolorado
+#include "sss/core/player/cmd-process.pwn"
 
 // VEHICLE
 #include "sss/core/vehicle/player-vehicle.pwn"
@@ -457,41 +452,38 @@ new RequestsClient:client;
 #include "sss/core/vehicle/spawn.pwn"
 
 // PLAYER INTERNAL SCRIPTS
-#include "sss/core/player/accounts.pwn"
-#include "sss/core/player/aliases.pwn"
-#include "sss/core/player/ipv4-log.pwn"
-#include "sss/core/player/gpci-log.pwn"
+//#include "sss/core/player/claninventario.pwn" // By Kolorado
 //#include "sss/core/player/gpci-whitelist.pwn"
+//#include "sss/core/player/interior.pwn" // By Kolorado
+//#include "sss/core/player/whitelist.pwn"
+#include "sss/core/player/accounts.pwn"
+#include "sss/core/player/afk-check.pwn"
+#include "sss/core/player/aliases.pwn"
+#include "sss/core/player/alt-tab-check.pwn"
+#include "sss/core/player/animes.pwn" // By Kolorado
+#include "sss/core/player/chat.pwn"
+#include "sss/core/player/clan.pwn" // By Kolorado
+#include "sss/core/player/Coins.pwn"
+#include "sss/core/player/commands.pwn"
+#include "sss/core/player/death.pwn"
+#include "sss/core/player/disallow-actions.pwn"
+#include "sss/core/player/frase.pwn"
+#include "sss/core/player/gpci-log.pwn"
+#include "sss/core/player/ini.pwn" // By Kolorado
+#include "sss/core/player/ipv4-log.pwn"
+#include "sss/core/player/name-tags.pwn"
+#include "sss/core/player/ped.pwn"
+#include "sss/core/player/PM.pwn"
+#include "sss/core/player/rank.pwn" // By Kolorado
+#include "sss/core/player/recipes.pwn"
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/spawn.pwn"
-#include "sss/core/player/PM.pwn"
-#include "sss/core/player/death.pwn"
-#include "sss/core/player/tutorial.pwn"
-#include "sss/core/player/tips.pwn"
-#include "sss/core/player/chat.pwn"
-#include "sss/core/player/cmd-process.pwn"
-#include "sss/core/player/commands.pwn"
-#include "sss/core/player/afk-check.pwn"
-#include "sss/core/player/alt-tab-check.pwn"
-#include "sss/core/player/disallow-actions.pwn"
-//#include "sss/core/player/whitelist.pwn"
-#include "sss/core/player/recipes.pwn"
-
-//#include "sss/core/player/claninventario.pwn" // By Kolorado
-#include "sss/core/player/frase.pwn"
-#include "sss/core/player/ped.pwn"
-#include "sss/core/player/clan.pwn" // By Kolorado
-#include "sss/core/player/ini.pwn" // By Kolorado
-//#include "sss/core/player/interior.pwn" // By Kolorado
-#include "sss/core/player/rank.pwn" // By Kolorado
-#include "sss/core/player/animes.pwn" // By Kolorado
 #include "sss/core/player/status.pwn" // By Kolorado
-#include "sss/core/player/name-tags.pwn"
 #include "sss/core/player/TextDraw.pwn"
-#include "sss/core/player/Coins.pwn"
+#include "sss/core/player/tips.pwn"
+#include "sss/core/player/tutorial.pwn"
+#include "sss/core/player/vip.pwn"
 #include "sss/core/player/votekick.pwn"
-
-#include "sss/core/world/comerciante.pwn"
 
 // CHARACTER SCRIPTS
 #include "sss/core/char/food.pwn"
@@ -536,6 +528,7 @@ new RequestsClient:client;
 #include "sss/core/ui/body-preview.pwn"
 
 // WORLD ENTITIES
+#include "sss/core/world/comerciante.pwn"
 #include "sss/core/world/fuel.pwn"
 #include "sss/core/world/barbecue.pwn"
 #include "sss/core/world/defences.pwn"

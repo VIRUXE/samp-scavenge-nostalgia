@@ -61,7 +61,7 @@ hook OnPlayerText(playerid, text[])
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
-			ChatMsg(playerid, RED, "player/mute-time", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+			ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 0;
 	}
@@ -268,6 +268,8 @@ stock SetPlayerChatMode(playerid, chatmode)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
+	if(chatmode == chat_Mode[playerid]) return ChatMsg(playerid, GREY, "player/chat/mode/already");
+
 	chat_Mode[playerid] = chatmode;
 
 	return 1;
@@ -297,7 +299,12 @@ CMD:g(playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
 		ChatMsg(playerid, WHITE, "player/radio/global");
 	}
-	else PlayerSendChat(playerid, params, 1.0);
+	else {
+		PlayerSendChat(playerid, params, 1.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_GLOBAL)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }
@@ -309,7 +316,12 @@ CMD:l(playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
 		ChatMsg(playerid, WHITE, "player/radio/local");
 	}
-	else PlayerSendChat(playerid, params, 0.0);
+	else {
+		PlayerSendChat(playerid, params, 0.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_LOCAL)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }
@@ -327,8 +339,12 @@ CMD:c(playerid, params[])
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
 		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
+	} else {
+		PlayerSendChat(playerid, params, 4.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_CLAN)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
 	}
-	else PlayerSendChat(playerid, params, 4.0);
 
 	return 7;
 }
@@ -347,7 +363,12 @@ ACMD:a[1](playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_ADMIN);
 		ChatMsg(playerid, WHITE, "player/radio/admin");
 	}
-	else PlayerSendChat(playerid, params, 3.0);
+	else {
+		PlayerSendChat(playerid, params, 3.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_ADMIN)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }

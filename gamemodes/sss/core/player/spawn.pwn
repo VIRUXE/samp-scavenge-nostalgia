@@ -201,16 +201,13 @@ ShowCharacterCreationScreen(playerid)
 	SetPlayerCameraPos(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z - 1.0);
 	Streamer_UpdateEx(playerid, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z);
 
-	SetPlayerScreenFade(playerid, 0);
+	SetPlayerScreenFade(playerid, 255);
 	TogglePlayerControllable(playerid, false);
 
-	if(IsPlayerLoggedIn(playerid))
-	{
-		PlayerTextDrawSetString(playerid, ClassButtonMale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "player/gender/male")));
-		PlayerTextDrawSetString(playerid, ClassButtonFemale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "player/gender/female")));
-		PlayerTextDrawShow(playerid, ClassButtonMale[playerid]);
-		PlayerTextDrawShow(playerid, ClassButtonFemale[playerid]);
-	}
+	PlayerTextDrawSetString(playerid, ClassButtonMale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "player/gender/male")));
+	PlayerTextDrawSetString(playerid, ClassButtonFemale[playerid], sprintf("~n~%s~n~~n~", ls(playerid, "player/gender/female")));
+	PlayerTextDrawShow(playerid, ClassButtonMale[playerid]);
+	PlayerTextDrawShow(playerid, ClassButtonFemale[playerid]);
 	SelectTextDraw(playerid, 0xFFFFFF88);
 
 	CallLocalFunction("OnPlayerEnterCharacterCreation", "d", playerid);

@@ -266,9 +266,9 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true)
 
 	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
-	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" desconectado, motivo: "C_BLUE"%s", playerid, reason);
+	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" foi timeout. Motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer) ChatMsg(playerid, GREY, "Você foi desconectado por %d minutos, motivo: %s", time / 60000, reason);
+	if(tellplayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", MIN(time), MIN(time) > 1 ? "s" : "", reason);
 
 	return 1;
 }
@@ -537,7 +537,7 @@ ACMD:acmds[1](playerid)
 	return 1;
 }
 
-ACMD:adminlist[1](playerid)
+CMD:admins(playerid)
 {
 	new
 		title[20],
@@ -545,24 +545,23 @@ ACMD:adminlist[1](playerid)
 
 	gBigString[playerid][0] = EOS;
 
-	format(title, 20, "Staff (%d)", admin_Total);
+	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
 	for(new i; i < admin_Total; i++)
 	{
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
-		format(line, sizeof(line), "%s %C(%d-%s)\n",
+		format(line, sizeof(line), "%s %C(%s)\n",
 			admin_Data[i][admin_Name],
 			admin_Colours[admin_Data[i][admin_Rank]],
-			admin_Data[i][admin_Rank],
 			admin_Names[admin_Data[i][admin_Rank]]);
 
-		if(GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID) strcat(gBigString[playerid], " >  ");
+		strcat(gBigString[playerid], GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? C_GREEN : C_WHITE);
 
 		strcat(gBigString[playerid], line);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "Fechar", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "OK", "");
 
 	return 1;
 }

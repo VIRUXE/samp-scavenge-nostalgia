@@ -69,7 +69,7 @@ public OnGeoResponse(Request:id, E_HTTP_STATUS:status, Node:node) {
 		if(!isempty(geo[playerid][GEO_COUNTRY_CODE]) && !isequal(geo[playerid][GEO_COUNTRY_CODE], "BR"))
 			ChatMsgAdmins(1, ORANGE, " > %P"C_ORANGE" (%d) conectou-se de %s (%s)", playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
-		log("[GEO][%d] %p (%d) √© de %s (%s)", _:id, playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
+		log("[GEO][%d] %p (%d) ù de %s (%s)", _:id, playerid, playerid, geo[playerid][GEO_COUNTRY], geo[playerid][GEO_COUNTRY_CODE]);
 
 		// Define o idioma do jogador de acordo com o pais
 		new ip[16];
@@ -80,12 +80,12 @@ public OnGeoResponse(Request:id, E_HTTP_STATUS:status, Node:node) {
 	}
 	
 	// Mostra uma mensagem de boas-vindas
-	// Convem providenciar algum contexto sobre que tipo de gamemode √©, antes que eles registem simplesmente para ver como √©
+	// Convem providenciar algum contexto sobre que tipo de gamemode ù, antes que eles registem simplesmente para ver como ù
 	if(GetPlayerLanguage(playerid) == PORTUGUESE)
 		Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Bem-vindo ao \"Scavenge and Survive\"",
-		C_WHITE"Este √© um servidor de sobreviv√™ncia onde voc√™ deve sobreviver e explorar o mundo.\n\
-		Voc√™ √© colocado num ambiente de PvP, onde tem que se defender de outros jogadores e procurar formas de abrigo, bem como manter sua sa√∫de.\n\n\
-		Deseja proseguir? Se sim ter√° que registrar sua conta e completar o Tutorial.",
+		C_WHITE"Este È um servidor de sobrevivÍncia onde vocÍ deve sobreviver e explorar o mundo.\n\
+		VocÍ È colocado num ambiente de PvP, onde tem que se defender de outros jogadores e procurar formas de abrigo, bem como manter sua sa˙de.\n\n\
+		Deseja proseguir? Se sim ter· que registrar sua conta e completar o Tutorial.",
 		"Continuar", "Sair");
 	else
 		Dialog_Show(playerid, WelcomeMessage, DIALOG_STYLE_MSGBOX, "Welcome to \"Scavenge and Survive\"",
@@ -121,7 +121,7 @@ hook OnGameModeInit() {
 
 hook OnPlayerDisconnect(playerid, reason) {
 	// Reset the data.
-	geo[playerid][GEO_REQUEST_ID] = Request:INVALID_REQUEST_ID;
-	geo[playerid][GEO_COUNTRY][0] = '\0';
+	geo[playerid][GEO_REQUEST_ID]      = Request:INVALID_REQUEST_ID;
+	geo[playerid][GEO_COUNTRY][0]      = '\0';
 	geo[playerid][GEO_COUNTRY_CODE][0] = '\0';
 }

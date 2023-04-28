@@ -1639,7 +1639,20 @@
 	},
 	"player": {
 		"chat": {
-			"in-tutorial": ["Nao term permissao para utilizar o chat, enquanto se encontra no Tutorial. Se tiver alguma duvida utilize o Discord.", "You don't have permission to chat in the Tutorial. Use the Discord if you have questions."]
+			"in-tutorial": [
+				"Nao term permissao para utilizar o chat, enquanto se encontra no Tutorial. Se tiver alguma duvida utilize o Discord.",
+				"You don't have permission to chat in the Tutorial. Use the Discord if you have questions."
+			],
+			"mode": {
+				"already": [
+					"Voce ja se encontra nesse modo de chat",
+					"You're already in that Chat Mode"
+				],
+				"already-tip": [
+					"Voce ja se encontra nesse modo de chat. Nao necessita de utilizar comando para escrever",
+					"You're already in that Chat Mode. You don't need to use a command to chat"
+				]
+			}
 		},
 		"food-deading": [
 			"Voce ira começar a morrer de fome! Fome: %.1f%%",
@@ -1668,6 +1681,14 @@
 		"left": [
 			"%P saiu do servidor",
 			"%P left the server"
+		],
+		"left-crash": [
+			"%P crashou",
+			"%P crashed"
+		],
+		"ping": [
+			"Ping muito alto",
+			"Ping too high"
 		],
 		"kicked": [
 			" >  Kickado, motivo: {C_BLUE}%s",
@@ -1756,30 +1777,30 @@
 					]
 				},
 				"inventory": {
-					"slothead":[
+					"slothead": [
 						"Cabeca",
 						"Head"
 					],
-					"slotface":[
+					"slotface": [
 						"Rosto",
 						"Face"
 					],
-					"slothand":[
+					"slothand": [
 						"Mao",
 						"Hand"
 					],
-					"slotcold":[
+					"slotcold": [
 						"Coldre",
 						"Holster"
 					],
-					"slottors":[
+					"slottors": [
 						"Corpo",
 						"Torso"
 					],
-					"slotback":[
+					"slotback": [
 						"Costas",
 						"Back"
-					]	
+					]
 				}
 			},
 			"wounded": [
@@ -2063,12 +2084,30 @@
 				]
 			},
 			"slots": {
-				"head"   : ["Cabeca", "Head"],
-				"face"   : ["Cara", "Face"],
-				"hand"   : ["Mao", "Hand"],
-				"holster": ["Coldre", "Holster"],
-				"torso"  : ["Tronco", "Torso"],
-				"back"   : ["Costas", "Back"]
+				"head": [
+					"Cabeca",
+					"Head"
+				],
+				"face": [
+					"Cara",
+					"Face"
+				],
+				"hand": [
+					"Mao",
+					"Hand"
+				],
+				"holster": [
+					"Coldre",
+					"Holster"
+				],
+				"torso": [
+					"Tronco",
+					"Torso"
+				],
+				"back": [
+					"Costas",
+					"Back"
+				]
 			}
 		},
 		"radio": {
@@ -2172,7 +2211,10 @@
 				" >  A senha que você digitou não coincide com a sua senha atual.",
 				" >  The entered password you typed doesnt match your current password."
 			],
-			"success": ["Chave alterada com sucesso", "Password changed succesfully"]
+			"success": [
+				"Chave alterada com sucesso",
+				"Password changed succesfully"
+			]
 		},
 		"not-found": [
 			"",
@@ -2274,10 +2316,36 @@
 					"Este pneu nao esta furado",
 					"Tire not flat"
 				],
-				"repaired": [
-					"Pneu Reparado",
-					"Tire repaired"
-				]
+				"replace": {
+					"replaced": [
+						"Roda Substituida",
+						"Wheel Replaced"
+					],
+					"front": [
+						"Substituindo Roda Frontal",
+						"Replacing the front Wheel"
+					],
+					"back": [
+						"Substituindo Roda Traseira",
+						"Replacing the back Wheel"
+					],
+					"front-left": [
+						"Substituindo Roda Frontal Esquerda",
+						"Replacing Front Left Wheel"
+					],
+					"front-right": [
+						"Substituindo Roda Frontal Direita",
+						"Replacing Front Right Wheel"
+					],
+					"rear-left": [
+						"Substituindo Roda Dianteira Esquerda",
+						"Replacing Rear Left Wheel"
+					],
+					"rear-right": [
+						"Substituindo Roda Dianteira Direita",
+						"Replacing Rear Right Wheel"
+					]
+				}
 			},
 			"body": {
 				"fixed": [
@@ -2301,8 +2369,8 @@
 			]
 		},
 		"saved": [
-			" > Veiculo %s salvo!",
-			" >  Vehicle ~y~%s~w~ saved!"
+			"Veiculo %s salvo!",
+			"Vehicle %s saved!"
 		]
 	},
 	"tutorial": {
@@ -2436,6 +2504,10 @@
 		}
 	},
 	"server": {
+		"motd": [
+			"Mensagem do Dia",
+			"Message of the Day"
+		],
 		"restart_warning": [
 			"AVISO: O servidor ira reiniciar em 1 minuto. Deslogue para evitar BUGS!",
 			"Restarting in 1 minute."

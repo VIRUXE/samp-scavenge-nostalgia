@@ -153,9 +153,9 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	if(gServerRestarting) return 0;
 
-	if(reason != 2 && IsPlayerLoggedIn(playerid)) {
+	if(reason == 0 && IsPlayerLoggedIn(playerid)) {
 		foreach(new i : Player)
-			ChatMsg(i, WHITE, "player/left", playerid);
+			ChatMsg(i, WHITE, "player/left-crash", playerid);
 	}
 
 	Logout(playerid);
@@ -172,6 +172,19 @@ public OnPlayerDisconnected(playerid)
 	ResetVariables(playerid);
 }
 
+// Anuncia a entrada do jogador para os outros jogadores
+AnnouncePlayerJoined(playerid) {
+	foreach(new i : Player) {
+		if(i != playerid && IsPlayerLoggedIn(playerid)) {
+			new frase[90]; // MAX_JOINSENTENCE_LEN
+
+			frase = GetPlayerJoinSentence(playerid);
+
+			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(" -> %s", frase) : "");
+		}
+	}
+}
+
 /* 
 	Esta função é chamada quando o jogador entra num cenario, após o OnPlayerConnect.
 
@@ -180,26 +193,26 @@ public OnPlayerDisconnected(playerid)
 public OnPlayerJoinScenario(playerid) {
 	new result = LoadAccount(playerid);
 
-	// Carregamento abortado
-	if(result == -1) 
+	if(result == -1) // Carregamento abortado
 		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
-	// Conta nao existe
-	else if(result == 0) {
+	else if(result == 0) { // Conta nao existe
 		// * Um bocado gambiarra, mas pronto
 		// Como é necessário esperar pela resposta da API então por enquanto vai assim
 		RequestPlayerGeo(playerid);
-	}
-	// Conta existe
-	else if(result == 1) 
-		DisplayLoginPrompt(playerid);
-	// Conta existe mas esta desativada
-	else if(result == 4) {
+	} else if(result == 1) { // Conta existe
+		// Verificar se ja tem alguma efetuado. Se nao tiver e porque nao concluiu o tutorial
+		if(GetPlayerTotalSpawns(playerid))
+			DisplayLoginPrompt(playerid);
+		else
+			EnterTutorial(playerid);
+	} else if(result == 4) { // Conta existe mas esta desativada
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
 		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
 		KickPlayer(playerid, "Conta inativa", false);
 	}
 }
+
 
 ResetVariables(playerid)
 {
@@ -249,7 +262,7 @@ ptask PlayerUpdateFast[100](playerid)
 			// Remover o jogador se o ping continuar alto, após 3 segundos
 			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
 			{
-				TimeoutPlayer(playerid, sprintf("Ping muito alto: %d/%d.", ping, gPingLimit), MIN(1));
+				TimeoutPlayer(playerid, sprintf("%s: %d/%d.", ls(playerid, "player/ping"), ping, gPingLimit), MIN(1));
 
 				ply_Data[playerid][ply_PingLimitStrikes] = 0;
 
