@@ -60,7 +60,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, tires & 0b1101);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/front"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/front"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -75,7 +75,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, tires & 0b1110);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/back"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/back"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -97,7 +97,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 0);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/front-left"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/front-left"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -112,7 +112,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 1);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/front-right"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/front-right"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -127,7 +127,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 2);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/rear-left"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/rear-left"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -142,7 +142,7 @@ _WheelRepair(playerid, vehicleid)
 				{
 					stop UpdateVehWheel[playerid];
 					UpdateVehWheel[playerid] = defer upVehWheel(playerid, vehicleid, 3);
-					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired/rear=right"), 7000);
+					ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/rear-right"), 7000);
 					PlayerUpdateWheel[playerid] = vehicleid;
 					ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 					PlayerPlaySound(playerid, 32000, 0.0, 0.0, 0.0);
@@ -174,7 +174,7 @@ timer upVehWheel[SEC(7)](playerid, vehicleid, wheelpos) {
 	ClearAnimations(playerid);
 	PlayerUpdateWheel[playerid] = INVALID_VEHICLE_ID;
 	
-	ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/repaired"), 2000);
+	ShowActionText(playerid, ls(playerid, "vehicle/repair/wheel/replace/replaced"), 2000);
 
 	if(GetItemType(GetPlayerItem(playerid)) == item_Wheel) DestroyItem(GetPlayerItem(playerid));
 }

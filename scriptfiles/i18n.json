@@ -2279,10 +2279,18 @@
 					"Este pneu nao esta furado",
 					"Tire not flat"
 				],
-				"repaired": [
-					"Pneu Reparado",
-					"Tire repaired"
-				]
+				"replace": {
+					"replaced": [
+						"Roda Substituida",
+						"Wheel Replaced"
+					],
+					"front": ["Substituindo Roda Frontal", "Replacing the front Wheel"],
+					"back": ["Substituindo Roda Traseira", "Replacing the back Wheel"],
+					"front-left": ["Substituindo Roda Frontal Esquerda", "Replacing Front Left Wheel"],
+					"front-right": ["Substituindo Roda Frontal Direita", "Replacing Front Right Wheel"],
+					"rear-left": ["Substituindo Roda Dianteira Esquerda", "Replacing Rear Left Wheel"],
+					"rear-right": ["Substituindo Roda Dianteira Direita", "Replacing Rear Right Wheel"]
+				}
 			},
 			"body": {
 				"fixed": [
@@ -2306,8 +2314,8 @@
 			]
 		},
 		"saved": [
-			" > Veiculo %s salvo!",
-			" > Vehicle %s saved!"
+			"Veiculo %s salvo!",
+			"Vehicle %s saved!"
 		]
 	},
 	"tutorial": {
