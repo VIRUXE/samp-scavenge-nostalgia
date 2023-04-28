@@ -53,9 +53,7 @@ ptask AfkCheckUpdate[100](playerid)
 
 	new
 		comparison = 500,
-		Float:x,
-		Float:y,
-		Float:z,
+		Float:x, Float:y, Float:z,
 		playerstate;
 
 	playerstate = GetPlayerState(playerid);
@@ -94,11 +92,10 @@ ptask AfkCheckUpdate[100](playerid)
 			{
 			    GetPlayerPos(playerid, x, y, z);
 
-	   			foreach(new i : Player){
+	   			foreach(new i : Player)
+				{
 				    if(GetPlayerDistanceFromPoint(i, x, y, z) < 30.0 && IsPlayerOnAdminDuty(i))
-					{
 					    return;
-					}
 				}
 				
 				new
@@ -106,9 +103,7 @@ ptask AfkCheckUpdate[100](playerid)
 					lastweapon;
 
 				if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon))
-				{
 					KickPlayer(playerid, sprintf("Ficou ausente (ESC) por %d segundos.", gMaxTaboutTime));
-				}
 				
 				return;
 			}
