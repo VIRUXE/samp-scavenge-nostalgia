@@ -48,11 +48,15 @@ hook OnPlayerScriptUpdate(playerid)
     }
 
     // Ajusta o nível de embriaguez do jogador com base no nível de comida e efeitos de drogas
-    if (!IsPlayerUnderDrugEffect(playerid, drug_Morphine) && !IsPlayerUnderDrugEffect(playerid, drug_Air)) {
-        if (food < 30.0) {
-            if (!IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-                SetPlayerDrunkLevel(playerid, infectionIntensity == 0 ? 0 : 2000 + floatround((31.0 - food) * 300.0));
-        } else if (infectionIntensity == 0) SetPlayerDrunkLevel(playerid, 0);
+    if(
+        !IsPlayerUnderDrugEffect(playerid, drug_Morphine) || 
+        !IsPlayerUnderDrugEffect(playerid, drug_Air) || 
+        !IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) 
+    {
+        if (food < 30.0) 
+            SetPlayerDrunkLevel(playerid, infectionIntensity == 0 ? 0 : 2000 + floatround((31.0 - food) * 300.0));
+            
+        else if (infectionIntensity == 0) SetPlayerDrunkLevel(playerid, 0);
     }
 
     // Se a comida for menor que 20.0, reduz a vida do jogador novamente (isso estava duplicado no código original)
