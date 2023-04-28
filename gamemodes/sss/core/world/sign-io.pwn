@@ -57,9 +57,7 @@ hook OnGameModeInit()
 hook OnPlayerPickUpItem(playerid, itemid)
 {
 	if(GetItemType(itemid) == item_Sign)
-	{
 		RemoveSavedItem(itemid, DIRECTORY_SIGN);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_1;
 }
@@ -67,18 +65,14 @@ hook OnPlayerPickUpItem(playerid, itemid)
 hook OnPlayerDroppedItem(playerid, itemid)
 {
 	if(GetItemType(itemid) == item_Sign)
-	{
 		SaveSignItem(itemid);
-	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 hook OnItemArrayDataChanged(itemid)
 {
 	if(GetItemType(itemid) == item_Sign)
-	{
 	    SaveSignItem(itemid);
-	}
 }
 /*==============================================================================
 
@@ -92,11 +86,9 @@ SaveSignItem(itemid)
     new data[MAX_SIGN_TEXT];
 	GetItemArrayData(itemid, data);
 
-	if(isnull(data))
-        RemoveSavedItem(itemid, DIRECTORY_SIGN);
+	if(isnull(data)) RemoveSavedItem(itemid, DIRECTORY_SIGN);
         
-	else
-		SaveWorldItem(itemid, DIRECTORY_SIGN, true, true);
+	else SaveWorldItem(itemid, DIRECTORY_SIGN, true, true);
 		
 	return 0;
 }
