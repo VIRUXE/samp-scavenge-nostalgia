@@ -68,7 +68,7 @@ hook OnPlayerUseItem(playerid, itemid)
 			CancelPlayerMovement(playerid);
 			CurrentSignItem[playerid] = itemid;
 
-			Dialog_Show(playerid, SignEdit, DIALOG_STYLE_INPUT, "Placa", "Digite o texto que irá aparecer abaixo\nEscrevendo '\\' vai começar uma nova linha.", "Confirmar", "Fechar");
+			Dialog_Show(playerid, SignEdit, DIALOG_STYLE_INPUT, ls(playerid, "item/sign/sign-title"), ls(playerid, "item/sign/sign-text"), ls(playerid, "common/confirm"), ls(playerid,"common/close"));
 		}
 	}
 

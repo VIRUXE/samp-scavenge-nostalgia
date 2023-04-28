@@ -1643,6 +1643,16 @@
 				"Voce precisa de uma Mesa de trabalho para combinar isso",
 				"You need a workbench to combine those"
 			]
+		},
+		"sign": {
+			"sign-title": [
+				"Placa",
+				"Sign"
+			],
+			"sign-text": [
+				"Digite o texto que irá aparecer abaixo\nEscrevendo '\\' vai começar uma nova linha.",
+				"Type the text that will shows below\nTyping '\\' will start a new line."
+			]
 		}
 	},
 	"player": {
