@@ -268,7 +268,7 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true)
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" foi timeout. Motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minutos, motivo: %s", time / 60000, reason);
+	if(tellplayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", MIN(time), MIN(time) > 1 ? "s" : "", reason);
 
 	return 1;
 }
