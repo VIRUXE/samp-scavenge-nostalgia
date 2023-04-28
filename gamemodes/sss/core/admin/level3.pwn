@@ -6,19 +6,7 @@ hook OnGameModeInit()
 	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins nível 3\n");
 }
 
-ACMD:settutorial[3](playerid, params[]) {
-	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /settutorial [id/nick]"); 
-
-	if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
-
-	if(GetPlayerAdminLevel(targetId)) return CMD_CANT_USE_ON;
-
-	EnterTutorial(targetId);
-
-	return 1;
-}
 
 /*
 ACMD:whitelist[3](playerid, params[])

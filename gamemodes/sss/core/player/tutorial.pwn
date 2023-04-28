@@ -89,7 +89,7 @@ hook OnPlayerConnect(playerid)
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
-	ExitTutorial(playerid);
+	ExitTutorial(playerid, .disconnected = true);
 }
 
 hook OnPlayerRegister(playerid) {
@@ -106,10 +106,6 @@ hook OnVehicleSave(vehicleid) {
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
-}
-
-hook OnPlayerDeath(playerid) {
-	ExitTutorial(playerid);
 }
 
 hook OnPlayerWearBag(playerid, itemid)
@@ -364,6 +360,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 	printf("OnPlayerProgressTutorial(%d, %d)", playerid, stepscompleted);
 
 	if(stepscompleted == MAX_TUTORIAL_STEPS) {
+		HideRepairStatus(playerid);
 		ExitTutorial(playerid);
 	} else {
 		// TODO: Fazer internacionalizacao
@@ -403,9 +400,7 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 	}
 }
 
-static IsStepCompleted(playerid, E_TUTORIAL_STEPS:step) {
-	return Tutorial[playerid][TUT_STEPS][step];
-}
+static IsStepCompleted(playerid, E_TUTORIAL_STEPS:step) return Tutorial[playerid][TUT_STEPS][step];
 
 IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	if(!IsPlayerInTutorial(playerid)) return 0;
@@ -578,20 +573,15 @@ EnterTutorial(playerid) {
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
 
-ExitTutorial(playerid)
+ExitTutorial(playerid, bool:disconnected = false)
 {
 	if(!IsPlayerInTutorial(playerid)) return 0;
-
-	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
-
-	PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
 		
 	for(new i = INV_MAX_SLOTS - 1; i >= 0; i--) RemoveItemFromInventory(playerid, i);
 	
 	RemovePlayerBag(playerid);
 	RemovePlayerHolsterItem(playerid);
 	
-	Tutorial[playerid][TUT_STATUS] = PlayerText:INVALID_TEXT_DRAW;
 	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, true);
 	SetPlayerVirtualWorld(playerid, 0);
@@ -618,8 +608,14 @@ ExitTutorial(playerid)
 	// Destroi o Portao
 	DestroyPlayerObject(playerid, Tutorial[playerid][TUT_GATE_OBJ]);
 	Tutorial[playerid][TUT_GATE_OBJ] = INVALID_OBJECT_ID;
+
+	if(disconnected) return 1; // Se deslogou entao nao interessa mais nada
+
+	log("[TUTORIAL] %p (%d) saiu do tutorial.", playerid, playerid);
+
+	PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
+	Tutorial[playerid][TUT_STATUS] = PlayerText:INVALID_TEXT_DRAW;
 	
-	// SetPlayerScreenFade(playerid, 255);
 	ShowCharacterCreationScreen(playerid);
 
 	PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
@@ -629,7 +625,9 @@ ExitTutorial(playerid)
 	// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
-	return ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
+	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
+
+	return 1;
 }
 
 IsPlayerInTutorial(playerid) {
@@ -644,12 +642,30 @@ IsPlayerInTutorial(playerid) {
 	return Tutorial[playerid][TUT_VEHICLE] != INVALID_VEHICLE_ID;
 }
 
+/* ACMD:settutorial[3](playerid, params[]) {
+	new targetId;
+
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /settutorial [id/nick]"); 
+
+	if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+
+	if(GetPlayerAdminLevel(targetId)) return CMD_CANT_USE_ON;
+
+	if(!IsPlayerLoggedIn(playerid)) return CMD_CANT_USE_ON;
+
+	// Salva tudo do jogador primeiro
+	Logout(playerid);
+	EnterTutorial(targetId);
+
+	return 1;
+} */
+
 // Para os admins poderem sair do tutorial
 CMD:exittutorial(playerid)
 {
-	if(!IsPlayerInTutorial(playerid)) return 0;
+	if(!IsPlayerInTutorial(playerid)) return CMD_NOT_ADMIN;
 
-	if(IsPlayerAdmin(playerid) || GetPlayerAdminLevel(playerid) > 4) ExitTutorial(playerid);
+	if(IsPlayerAdmin(playerid)) ExitTutorial(playerid);
 	
 	return 1;
 }

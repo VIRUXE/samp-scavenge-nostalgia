@@ -180,20 +180,19 @@ public OnPlayerDisconnected(playerid)
 public OnPlayerJoinScenario(playerid) {
 	new result = LoadAccount(playerid);
 
-	// Carregamento abortado
-	if(result == -1) 
+	if(result == -1) // Carregamento abortado
 		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
-	// Conta nao existe
-	else if(result == 0) {
+	else if(result == 0) { // Conta nao existe
 		// * Um bocado gambiarra, mas pronto
 		// Como é necessário esperar pela resposta da API então por enquanto vai assim
 		RequestPlayerGeo(playerid);
-	}
-	// Conta existe
-	else if(result == 1) 
-		DisplayLoginPrompt(playerid);
-	// Conta existe mas esta desativada
-	else if(result == 4) {
+	} else if(result == 1) { // Conta existe
+		// Verificar se ja tem alguma efetuado. Se nao tiver e porque nao concluiu o tutorial
+		if(GetPlayerTotalSpawns(playerid))
+			DisplayLoginPrompt(playerid);
+		else
+			EnterTutorial(playerid);
+	} else if(result == 4) { // Conta existe mas esta desativada
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
 		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
