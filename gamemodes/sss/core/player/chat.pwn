@@ -157,7 +157,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
 			playerid,
 			playerid,
-			TagScan(chat));
+			TagScan(chat, true));
 
 		TruncateChatMessage(line1, line2);
 
@@ -268,7 +268,10 @@ stock SetPlayerChatMode(playerid, chatmode)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(chatmode == chat_Mode[playerid]) return ChatMsg(playerid, GREY, "player/chat/mode/already");
+	if(chatmode == chat_Mode[playerid]) {
+		PrintBacktrace();
+		return ChatMsg(playerid, GREY, "player/chat/mode/already");
+	}
 
 	chat_Mode[playerid] = chatmode;
 
@@ -303,7 +306,7 @@ CMD:g(playerid, params[])
 		PlayerSendChat(playerid, params, 1.0);
 
 		if(chat_Mode[playerid] == CHAT_MODE_GLOBAL)
-			ChatMsg(playerid, GREY, "player/chat/already-tip");
+			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
@@ -320,7 +323,7 @@ CMD:l(playerid, params[])
 		PlayerSendChat(playerid, params, 0.0);
 
 		if(chat_Mode[playerid] == CHAT_MODE_LOCAL)
-			ChatMsg(playerid, GREY, "player/chat/already-tip");
+			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
@@ -343,7 +346,7 @@ CMD:c(playerid, params[])
 		PlayerSendChat(playerid, params, 4.0);
 
 		if(chat_Mode[playerid] == CHAT_MODE_CLAN)
-			ChatMsg(playerid, GREY, "player/chat/already-tip");
+			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
@@ -367,7 +370,7 @@ ACMD:a[1](playerid, params[])
 		PlayerSendChat(playerid, params, 3.0);
 
 		if(chat_Mode[playerid] == CHAT_MODE_ADMIN)
-			ChatMsg(playerid, GREY, "player/chat/already-tip");
+			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
