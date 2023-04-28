@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-#define IDLE_FOOD_RATE (0.013)
+#define IDLE_FOOD_RATE (0.015)
 
 hook OnPlayerScriptUpdate(playerid)
 {
