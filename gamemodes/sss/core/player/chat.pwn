@@ -299,7 +299,12 @@ CMD:g(playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
 		ChatMsg(playerid, WHITE, "player/radio/global");
 	}
-	else PlayerSendChat(playerid, params, 1.0);
+	else {
+		PlayerSendChat(playerid, params, 1.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_GLOBAL)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }
@@ -311,7 +316,12 @@ CMD:l(playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
 		ChatMsg(playerid, WHITE, "player/radio/local");
 	}
-	else PlayerSendChat(playerid, params, 0.0);
+	else {
+		PlayerSendChat(playerid, params, 0.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_LOCAL)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }
@@ -329,7 +339,12 @@ CMD:c(playerid, params[])
 	{
 		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
 		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
-	} else PlayerSendChat(playerid, params, 4.0);
+	} else {
+		PlayerSendChat(playerid, params, 4.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_CLAN)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }
@@ -348,7 +363,12 @@ ACMD:a[1](playerid, params[])
 		SetPlayerChatMode(playerid, CHAT_MODE_ADMIN);
 		ChatMsg(playerid, WHITE, "player/radio/admin");
 	}
-	else PlayerSendChat(playerid, params, 3.0);
+	else {
+		PlayerSendChat(playerid, params, 3.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_ADMIN)
+			ChatMsg(playerid, GREY, "player/chat/already-tip");
+	}
 
 	return 7;
 }

@@ -1644,7 +1644,14 @@
 				"You don't have permission to chat in the Tutorial. Use the Discord if you have questions."
 			],
 			"mode": {
-				"already": ["Voce ja se encontra nesse modo de chat", "You're already in that Chat Mode"]
+				"already": [
+					"Voce ja se encontra nesse modo de chat",
+					"You're already in that Chat Mode"
+				],
+				"already-tip": [
+					"Voce ja se encontra nesse modo de chat. Nao necessita de utilizar comando para escrever",
+					"You're already in that Chat Mode. You don't need to use a command to chat"
+				]
 			}
 		},
 		"food-deading": [
