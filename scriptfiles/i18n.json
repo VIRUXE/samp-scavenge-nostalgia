@@ -2307,7 +2307,7 @@
 		},
 		"saved": [
 			" > Veiculo %s salvo!",
-			" >  Vehicle ~y~%s~w~ saved!"
+			" > Vehicle %s saved!"
 		]
 	},
 	"tutorial": {
