@@ -267,7 +267,7 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/item_drop"));
 		    
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "KA_CCOLDRE2"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster-get"));
 	}
 
 	if(IsPlayerOnAdminDuty(playerid))
