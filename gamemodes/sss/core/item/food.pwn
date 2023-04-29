@@ -130,9 +130,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/item/food.pwn");
 
 	if(oldkeys & 16 && food_CurrentItem[playerid] != -1)
-	{
 		_StopEating(playerid);
-	}
 
 	return 1;
 }
@@ -195,25 +193,18 @@ _EatItem(playerid, itemid)
 			if(food_Data[foodtype][food_canRawInfect])
 				SetPlayerInfectionIntensity(playerid, 0, 1);
 		}
-		else
-		{
-			SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodtype][food_biteValue]);
-		}
+		else SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodtype][food_biteValue]);
 
 		SetItemArrayDataAtCell(itemid, GetItemArrayDataAtCell(itemid, food_amount) - 1, food_amount, 0);
 	}
 
 	if(GetItemArrayDataAtCell(itemid, food_amount) > 0)
-	{
 		_StartEating(playerid, itemid, true);
-	}
-	else
-	{
-		_StopEating(playerid);
 
-		if(food_Data[foodtype][food_destroyOnEnd])
-			DestroyItem(itemid);
-	}
+	else _StopEating(playerid);
+
+	if(food_Data[foodtype][food_destroyOnEnd])
+		DestroyItem(itemid);
 
 	return 1;
 }
@@ -248,9 +239,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 				SetItemNameExtra(itemid, sprintf("Nao cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
 		}
 		else
-		{
 			SetItemNameExtra(itemid, sprintf("%d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
-		}
 	}
 }
 
