@@ -361,14 +361,14 @@ timer UpdateSpectateMode[100](playerid)
 
 			invehicleas = GetPlayerState(targetid) == PLAYER_STATE_DRIVER ? "Motorista" : "Passageiro";
 
-			if(!GetItemName(GetPlayerItem(targetid), itemname)) itemname = "None";
+			if(!GetItemName(GetPlayerItem(targetid), itemname)) itemname = "Nenhum";
 
 			GetCameraModeName(GetPlayerCameraMode(targetid), cameramodename);
 
 			format(str, sizeof(str), "Vida: %.2f Colete: %.2f Fome: %.2f Int: %d VW: %d~n~\
 				Caido: %s Sangramento: %02f Item: %s~n~\
 				Camera: %s Velocidade: %.2f~n~\
-				Veiculo %d As %s Gasolina: %.2f Trancado: %d",
+				Veiculo %d Como %s Gasolina: %.2f Trancado: %d",
 				GetPlayerHP(targetid),
 				GetPlayerAP(targetid),
 				GetPlayerFP(targetid),
