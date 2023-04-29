@@ -15,6 +15,14 @@ SetPlayerClan(playerid, clan[MAX_CLAN_NAME]) {
 		log("[CLAN] Clan '%s' definido para %p (%d)", clan, playerid, playerid);
 }
 
+SavePlayerClan(playerid) {
+	new clan[MAX_CLAN_NAME];
+
+	clan = GetPlayerClan(playerid);
+
+	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerNameEx(playerid)));
+}
+
 GetPlayerClan(playerid) return Clan[playerid];
 
 GetClanTag(const clan[MAX_CLAN_NAME]) {
@@ -42,19 +50,32 @@ GetClanOwner(const clan[MAX_CLAN_NAME]) {
 	return owner;
 }
 
-IsPlayerClanOwner(playerid) {
-	return isequal(GetClanOwner(GetPlayerClan(playerid)), GetPlayerOriginalName(playerid));
-}
+IsPlayerClanOwner(playerid) return isequal(GetClanOwner(GetPlayerClan(playerid)), GetPlayerNameEx(playerid));
 
 AddPlayerToClan(playerid, clan[MAX_CLAN_NAME]) {
-	// Define no banco de dados
-	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerOriginalName(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerNameEx(playerid)));
 
 	SetPlayerClan(playerid, clan);
+
+	SavePlayerClan(playerid);
 }
 
-RemovePlayerFromClan(playerid) {
+bool:RemovePlayerFromClan(playerid) {
+	if(IsPlayerConnected(playerid)) return false;
+
+	new clan[MAX_CLAN_NAME];
+
+	clan = GetPlayerClan(playerid);
+
+	if(isnull(clan)) return false;
+
+	printf("[CLAN] '%p' foi removido do clan '%s'", playerid, clan);
+
 	SetPlayerClan(playerid, "");
+
+	SavePlayerClan(playerid);
+
+	return true;
 }
 
 hook OnGameModeInit() {
@@ -81,24 +102,18 @@ hook OnPlayerLogin(playerid) {
 		
 		clan_owner = GetClanOwner(clan);
 
-		if(!isempty(clan_owner)) {
-			if(isequal(GetPlayerNameEx(playerid), clan_owner))
-				ChatMsg(playerid, WHITE, "Voce e o dono do clan '%s'", clan);
-			else
-				ChatMsg(playerid, WHITE, "Voce pertence ao clan '%s'", clan);
-		}
+		if(!isempty(clan_owner)) 
+			ChatMsg(playerid, WHITE, isequal(GetPlayerNameEx(playerid), clan_owner) ? "Voce e o dono do clan '%s'" : "Voce pertence ao clan '%s'", clan);
 	}
 }
 
 CMD:clan(playerid, params[])
 {
-	ChatMsg(playerid, WHITE, " > Comando desativado temporariamente.");
+	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
 
-/* 	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+    new command[9];
 
-	new command[9]; // 8 é o tamanho máximo de um comando
-
-	if(sscanf(params, "s[9] ", command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
+    if (sscanf(params, "s[9]", command)) return ChatMsg(playerid, RED, " > Use: /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
 
 	if(isequal(command, "ajuda", true)) {
 		ShowPlayerDialog(playerid, 9147, DIALOG_STYLE_MSGBOX, "Ajuda CLAN:", 
@@ -130,13 +145,23 @@ CMD:clan(playerid, params[])
 		
 
 	} else if(isequal(command, "expulsar", true)) {
+		if(!IsPlayerClanOwner(playerid)) return ChatMsg(playerid, RED, "Voce nao tem um clan");
 
+		new targetId;
+
+		if(sscanf(params, "{s[8]}r", targetId)) return ChatMsg(playerid, RED, "Sintaxe: /clan expulsar [id/nick]");
+
+		if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+
+		new bool:removed = RemovePlayerFromClan(playerid);
+
+		ChatMsg(playerid, removed ? GREEN : RED, removed ? "Voce removou %p do clan" : "Nao foi possivel remover %p do clan");
 	} else if(isequal(command, "sair", true) || isequal(command, "deletar", true)) {
 		// Se for sair e o player for o lider, deletar o clan. Se nao, apenas sair.
 
 	} else {
 		ChatMsg(playerid, RED, " > Use /clan [ajuda/procurar/criar/convidar/expulsar/sair/deletar]");
-	} */
+	}
 
 	return 1;
 }
