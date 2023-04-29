@@ -2570,7 +2570,7 @@
 			],
 			"invalid-player": [
 				"ID/Nick invalido",
-				"Invalid ID"
+				"Invalid ID/Nickname"
 			],
 			"no-permission": [
 				"Voce nao tem autoridade suficiente para usar esse comando.",
