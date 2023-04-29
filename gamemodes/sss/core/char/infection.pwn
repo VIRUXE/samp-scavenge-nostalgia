@@ -21,7 +21,6 @@
 
 ==============================================================================*/
 
-
 #include <YSI\y_hooks>
 
 
@@ -62,13 +61,10 @@ hook OnPlayerScriptUpdate(playerid)
 	if(infect_InfectionIntensity[playerid][INFECT_TYPE_FOOD] == 0 && infect_InfectionIntensity[playerid][INFECT_TYPE_WOUND] == 0)
 		return;
 
-	if(IsPlayerUnderDrugEffect(playerid, drug_Morphine))
-		return;
-
-	if(IsPlayerUnderDrugEffect(playerid, drug_Adrenaline))
-		return;
-
-	if(IsPlayerUnderDrugEffect(playerid, drug_Air))
+	if(
+        !IsPlayerUnderDrugEffect(playerid, drug_Morphine) || 
+        !IsPlayerUnderDrugEffect(playerid, drug_Air) || 
+        !IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) 
 		return;
 
 	if(GetPlayerDrunkLevel(playerid) == 0)
@@ -98,6 +94,21 @@ stock GetPlayerInfectionIntensity(playerid, type)
 
 	return infect_InfectionIntensity[playerid][type];
 }
+
+/*
+
+SetPlayerInfectionIntensity(playerid, type, amount)
+
+Parâmetros: 
+
+- type: Tipo de infecção que pode ser setado no jogador. (0 - 1)
+type 0 - Infecção Alimentar.
+type 1 - Infecção na Ferída.
+
+- amount: Quantidade de infecção que pode ser setado no jogador. (0 - 1)
+
+
+*/
 
 stock SetPlayerInfectionIntensity(playerid, type, amount)
 {
