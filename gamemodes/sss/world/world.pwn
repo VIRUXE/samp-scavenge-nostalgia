@@ -176,11 +176,11 @@ timer _Finalise[500]()
 	JSON_GetObject(Settings, "server", node);
 
 	JSON_GetString(node, "name", servername);
-	SendRconCommand(sprintf("hostname %s", servername));
+	SendRconCommand(sprintf("hostname %s (Ping Limit: %d)", servername, gPingLimit));
 
 	result = JSON_GetString(node, "password", password);
 	if(result || isempty(password)) { // Configuracao nao existe no arquivo ou esta vazia
-		log("[INFO] Nenhuma senha definida no arquivo de configuração. Senha inicial removida.");
+		log("[INFO] Nenhuma senha definida no arquivo de configuraï¿½ï¿½o. Senha inicial removida.");
 		SendRconCommand("password 0"); // Remove a senha inicial
 	} else {
 		log("[INFO] Senha carregada com sucesso.");
