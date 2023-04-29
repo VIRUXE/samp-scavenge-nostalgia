@@ -86,9 +86,9 @@ _OnPlayerConnect(playerid) {
 	SetPlayerColor(playerid, 0xB8B8B800);
 
 	/* 
-		Aparentemente essa merda é mesmo necessária, senão o spawn fica bugado.
-		Idealmente o reset de varíaveis deveria ser feito no OnPlayerDisconnect, mas por alguma razão está assim.
-		Não vale a pena estar a mexer nisso agora.
+		Aparentemente essa merda Ã© mesmo necessÃ¡ria, senÃ£o o spawn fica bugado.
+		Idealmente o reset de varÃ­aveis deveria ser feito no OnPlayerDisconnect, mas por alguma razÃ£o estÃ¡ assim.
+		NÃ£o vale a pena estar a mexer nisso agora.
 	 */
 	ResetVariables(playerid);
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
@@ -140,7 +140,7 @@ public OnPlayerConnect(playerid)
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 
-		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) está a esperar pela OTP.", playerid, playerid);
+		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) estÃ¡ a esperar pela OTP.", playerid, playerid);
 	} else {
 		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
@@ -186,9 +186,9 @@ AnnouncePlayerJoined(playerid) {
 }
 
 /* 
-	Esta função é chamada quando o jogador entra num cenario, após o OnPlayerConnect.
+	Esta funÃ§Ã£o Ã© chamada quando o jogador entra num cenario, apÃ³s o OnPlayerConnect.
 
-	Esta função é chamada apenas uma vez, e é responsável por carregar a conta do jogador, ou criar uma nova conta.
+	Esta funÃ§Ã£o Ã© chamada apenas uma vez, e Ã© responsÃ¡vel por carregar a conta do jogador, ou criar uma nova conta.
  */
 public OnPlayerJoinScenario(playerid) {
 	new result = LoadAccount(playerid);
@@ -197,7 +197,7 @@ public OnPlayerJoinScenario(playerid) {
 		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
 	else if(result == 0) { // Conta nao existe
 		// * Um bocado gambiarra, mas pronto
-		// Como é necessário esperar pela resposta da API então por enquanto vai assim
+		// Como Ã© necessÃ¡rio esperar pela resposta da API entÃ£o por enquanto vai assim
 		RequestPlayerGeo(playerid);
 	} else if(result == 1) { // Conta existe
 		// Verificar se ja tem alguma efetuado. Se nao tiver e porque nao concluiu o tutorial
@@ -207,7 +207,7 @@ public OnPlayerJoinScenario(playerid) {
 			EnterTutorial(playerid);
 	} else if(result == 4) { // Conta existe mas esta desativada
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
+		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criaÃ§Ã£o de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
 		KickPlayer(playerid, "Conta inativa", false);
 	}
@@ -259,7 +259,7 @@ ptask PlayerUpdateFast[100](playerid)
 		{
 			ply_Data[playerid][ply_PingLimitStrikes]++;
 
-			// Remover o jogador se o ping continuar alto, após 3 segundos
+			// Remover o jogador se o ping continuar alto, apÃ³s 3 segundos
 			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
 			{
 				TimeoutPlayer(playerid, sprintf("%s: %d/%d.", ls(playerid, "player/ping"), ping, gPingLimit), MIN(1));
@@ -724,7 +724,7 @@ timer SetJoinScenario[20](playerid) {
 		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
 	};
 
-	// Música na Tela de Login
+	// MÃºsica na Tela de Login
 	PlayAudioStreamForPlayer(playerid, sprintf("http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5)));
 
 	// Limpa o chat para nao mostrar o url da musica
@@ -738,7 +738,7 @@ timer SetJoinScenario[20](playerid) {
 	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
 	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1] - 100, scenarios[scenario][2][2] - 100);
 
-	// log("[JOIN] %p (%d) foi para o cenário %d", playerid, playerid, scenario);
+	// log("[JOIN] %p (%d) foi para o cenÃ¡rio %d", playerid, playerid, scenario);
 
 	CallLocalFunction("OnPlayerJoinScenario", "i", playerid);
 }
