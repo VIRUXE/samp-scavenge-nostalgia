@@ -1948,6 +1948,10 @@
 					"Colocar no Coldre",
 					"Holster"
 				],
+				"holster-get": [
+					"Pegar do Coldre",
+					"Pick the Holster"
+				],
 				"unholster": [
 					"Remover do Coldre",
 					"Unhoster"
