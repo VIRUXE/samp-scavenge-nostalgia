@@ -568,6 +568,7 @@ new RequestsClient:client;
 #include "sss/core/admin/ban.pwn"
 #include "sss/core/admin/ban-command.pwn"
 #include "sss/core/admin/ban-list.pwn"
+#include "sss/core/admin/info.pwn"
 #include "sss/core/admin/spectate.pwn"
 #include "sss/core/admin/level1.pwn"
 #include "sss/core/admin/level2.pwn"
