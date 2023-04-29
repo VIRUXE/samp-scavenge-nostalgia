@@ -167,16 +167,13 @@ _StopEating(playerid)
 
 _EatItem(playerid, itemid)
 {
-	if(!IsValidItem(itemid))
-		return 0;
+	if(!IsValidItem(itemid)) return 0;
 
-	if(GetPlayerItem(playerid) != itemid)
-		return 0;
+	if(GetPlayerItem(playerid) != itemid) return 0;
 
 	new foodtype = GetItemTypeFoodType(GetItemType(itemid));
 
-	if(foodtype == -1)
-		return 0;
+	if(foodtype == -1) return 0;
 
 	if(CallLocalFunction("OnPlayerEaten", "dd", playerid, itemid))
 	{
@@ -186,25 +183,21 @@ _EatItem(playerid, itemid)
 
 	if(GetItemArrayDataAtCell(itemid, food_amount) > 0)
 	{
-		if(food_Data[foodtype][food_canCook] && GetItemArrayDataAtCell(itemid, food_cooked) == 0)
-		{
+		if(food_Data[foodtype][food_canCook] && GetItemArrayDataAtCell(itemid, food_cooked) == 0) {
 			SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodtype][food_biteValue] * 0.7);
 
-			if(food_Data[foodtype][food_canRawInfect])
-				SetPlayerInfectionIntensity(playerid, 0, 1);
-		}
-		else SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodtype][food_biteValue]);
+			if(food_Data[foodtype][food_canRawInfect]) SetPlayerInfectionIntensity(playerid, 0, 1);
+		} else SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodtype][food_biteValue]);
 
 		SetItemArrayDataAtCell(itemid, GetItemArrayDataAtCell(itemid, food_amount) - 1, food_amount, 0);
 	}
 
 	if(GetItemArrayDataAtCell(itemid, food_amount) > 0)
 		_StartEating(playerid, itemid, true);
+	else
+		_StopEating(playerid);
 
-	else _StopEating(playerid);
-
-	if(food_Data[foodtype][food_destroyOnEnd])
-		DestroyItem(itemid);
+	if(food_Data[foodtype][food_destroyOnEnd]) DestroyItem(itemid);
 
 	return 1;
 }
@@ -228,16 +221,9 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 
 	new foodtype = GetItemTypeFoodType(itemtype);
 
-	if(foodtype != -1)
-	{
+	if(foodtype != -1) {
 		if(food_Data[foodtype][food_canCook])
-		{
-			if(GetItemArrayDataAtCell(itemid, food_cooked) == 1)
-				SetItemNameExtra(itemid, sprintf("Cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
-
-			else
-				SetItemNameExtra(itemid, sprintf("Nao cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
-		}
+			SetItemNameExtra(itemid, sprintf(GetItemArrayDataAtCell(itemid, food_cooked) == 1 ? "Cozido, %d%%" : "Nao cozido, %d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
 		else
 			SetItemNameExtra(itemid, sprintf("%d%%", floatround((float(GetItemArrayDataAtCell(itemid, food_amount)) / food_Data[foodtype][food_maxBites]) * 100.0)));
 	}
