@@ -468,9 +468,9 @@ ACMD:banidos[3](playerid, params[])
 {
 	new result = ShowListOfBans(playerid, 0);
 
-	if(result == 0) ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
+	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
 
-	if(result == -1) ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
+	if(result == -1) return ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
 
 	return 1;
 }
@@ -478,9 +478,9 @@ ACMD:banidos[3](playerid, params[])
 ACMD:sethp[3](playerid, params[]) {
 	new targetId, hp;
 
-	if(sscanf(params, "rd", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [playerid] [hp]");
+	if(sscanf(params, "rD(100)", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [id/nick] (hp)");
 
-	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, RED, " >  Jogador inválido.");
+	if(targetId == INVALID_PLAYER_ID) return 4;
 
 	if(!IsPlayerLoggedIn(targetId)) return ChatMsg(playerid, RED, " >  O jogador não está logado.");
 
