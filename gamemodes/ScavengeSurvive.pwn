@@ -544,6 +544,7 @@ new RequestsClient:client;
 #include "sss/core/world/workbench.pwn"
 #include "sss/core/world/machine.pwn"
 #include "sss/core/world/scrap-machine.pwn"
+#include "sss/core/world/radiation.pwn"
 #include "sss/core/world/refine-machine.pwn"
 //#include "sss/core/world/tree-loader.pwn"
 #include "sss/core/world/plot-pole.pwn"
