@@ -32,7 +32,7 @@ stock IsVehicleUpsideDown(vehicleid)
 
 	GetVehicleRotationQuat(vehicleid, w, x, y, z);
 
-	new Float:angle = atan2(((y * z) + (w * x)) * 2.0, (w * w) - (x * x) - (y * y) + (z * z));
+	new const Float:angle = atan2(((y * z) + (w * x)) * 2.0, (w * w) - (x * x) - (y * y) + (z * z));
 
 	return ((angle > 90.0) || (angle < -90.0));
 }
@@ -46,10 +46,7 @@ stock IsVehicleInRangeOfPoint(vehicleid, Float:range, Float:x, Float:y, Float:z)
 
 	GetVehiclePos(vehicleid, vx, vy, vz);
 
-	if(Distance(x, y, z, vx, vy, vz) < range)
-		return 1;
-
-	return 0;
+	return Distance(x, y, z, vx, vy, vz) < range ? 1 : 0;
 }
 
 stock GetPlayersInVehicle(vehicleid)
@@ -180,9 +177,115 @@ stock GetVehicleWheelPos(vehicleid, wheel, &Float:x, &Float:y, &Float:z)
 
 		default: return 0;
 	}
+
 	div = (wheel % 2) ? (x) : (-x);
 	x = floatsin(rot, degrees) * y + floatcos(rot, degrees) * div + x2;
 	y = floatcos(rot, degrees) * y - floatsin(rot, degrees) * div + y2;
 	z += z2;
+
 	return 1;
+}
+
+bool:IsVehicleABike(modelid) {
+    const bikeModels[] = {
+        471, //BF-400
+        463, //Faggio
+        468, //Sanchez
+        586, //Wayfarer
+        581, //BF-600
+        509, //Bike
+        481, //BMX
+        462, //Pizzaboy
+        521, //FCR-900
+        522, //NRG-500
+        461, //PCJ-600
+        448, //Packer
+        523  //HPV1000
+    };
+
+    for (new i = 0; i < sizeof(bikeModels); i++)
+        if (bikeModels[i] == modelid) return true;
+
+    return false;
+}
+
+bool:IsVehicleAPlane(modelid) {
+    const planeModels[] = {
+        592, //Andromada
+        577, //AT-400
+        511, //Beagle
+        512, //Cropduster
+        593, //Dodo
+        520, //Hydra
+        553, //Nevada
+        476, //Rustler
+        519, //Shamal
+        460, //Skimmer
+        513  //Stuntplane
+    };
+
+    for (new i = 0; i < sizeof(planeModels); i++)
+        if (planeModels[i] == modelid) return true;
+
+    return false;
+}
+
+bool:IsVehicleAHelicopter(modelid) {
+    const helicopterModels[] = {
+        487, //Maverick
+        488, //News Chopper
+        497, //Police Maverick
+        563, //Raindance
+        447, //Sea Sparrow
+        469, //Sparrow
+        417  //Leviathan
+    };
+
+    for (new i = 0; i < sizeof(helicopterModels); i++)
+        if (helicopterModels[i] == modelid) return true;
+
+    return false;
+}
+
+bool:IsVehicleATrailer(modelid) {
+    const trailerModels[] = {
+        606, //Baggage Box A
+        607, //Baggage Box B
+        610, //Boxville Trailer
+        584, //Petrol Trailer
+        608, //Farm Trailer
+        611, //Utility Trailer
+        612, //Boat Trailer
+        590, //Box Freight
+        569, //Freight Flat Trailer
+        571  //Kart Trailer
+    };
+
+    for (new i = 0; i < sizeof(trailerModels); i++)
+        if (trailerModels[i] == modelid) return true;
+
+    return false;
+}
+
+bool:DoesVehicleFly(modelid) return IsVehicleAPlane(modelid) || IsVehicleAHelicopter(modelid) ? true : false;
+
+bool:IsModelOpenTopVehicle(modelid) {
+    if(IsVehicleABike(modelid) || IsVehicleABoat(modelid)) return true;
+
+    const openTopVehicleModels[] = {
+        429, // Banshee
+        500, // Mesa
+        439, // Stallion
+        471, // Quad
+        568, // Bandito
+        535, // Slamvan
+        558, // Uranus
+        540, // Vincent
+        583  // Tug
+    };
+
+    for (new i = 0; i < sizeof(openTopVehicleModels); i++)
+        if (openTopVehicleModels[i] == modelid) return true;
+
+    return false;
 }
