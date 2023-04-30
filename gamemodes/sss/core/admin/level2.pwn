@@ -41,19 +41,21 @@ ACMD:ir[2](playerid, params[])
 {
 	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
-	new targetid;
+	new targetId;
 
-	if(sscanf(params, "r", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
 
-	if(!IsPlayerConnected(targetid)) return 4;
+	if(!IsPlayerConnected(targetId)) return 4;
 
-	if(GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O admin está no modo /spec. Você não pode ir até ele.");
+	if(GetPlayerState(targetId) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O admin está no modo /spec. Você não pode ir até ele.");
 
-	TeleportPlayerToPlayer(playerid, targetid);
+	TeleportPlayerToPlayer(playerid, targetId);
 
-//	ChatMsg(playerid, YELLOW, " >  Você teleportou até %P", targetid);
-	//ChatMsg(targetid, YELLOW, "TELEPORTEDT", playerid);
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
+	FreezePlayer(targetId, SEC(1));
+
+//	ChatMsg(playerid, YELLOW, " >  Você teleportou até %P", targetId);
+	ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }

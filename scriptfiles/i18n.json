@@ -1659,6 +1659,9 @@
 			]
 		}
 	},
+	"admin": {
+		"teleported-to": ["Admin %p teleportou-se para si", "Admin %p teleported to you"]
+	},
 	"player": {
 		"chat": {
 			"in-tutorial": [
