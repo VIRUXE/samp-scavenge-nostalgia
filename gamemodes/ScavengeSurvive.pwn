@@ -478,7 +478,7 @@ new RequestsClient:client;
 #include "sss/core/player/recipes.pwn"
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/spawn.pwn"
-#include "sss/core/player/status.pwn" // By Kolorado
+//#include "sss/core/player/status.pwn" // By Kolorado
 #include "sss/core/player/TextDraw.pwn"
 #include "sss/core/player/tips.pwn"
 #include "sss/core/player/tutorial.pwn"
