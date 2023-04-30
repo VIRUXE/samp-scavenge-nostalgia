@@ -164,3 +164,7 @@ stock IsNaN(Float:number)
 {
     return !(number <= 0 || number > 0);
 }
+
+stock Float:random_float(Float:min, Float:max) {
+    return min + (random(10001) / 10000.0) * (max - min);
+}
