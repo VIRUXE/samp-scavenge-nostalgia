@@ -17,6 +17,10 @@
 				"Esse e um item invalido, ignore-o.",
 				"This item is invalid, ignore it."
 			],
+			"Radiation": [
+				"Serve para medir a intensidade de radicao",
+				"Measures Radiation Intensity"
+			],
 			"RemoteBom": [
 				"Esse e um item invalido, ignore-o.",
 				"This item is invalid, ignore it."
@@ -2502,7 +2506,10 @@
 		}
 	},
 	"server": {
-		"clock": ["RESPAWN EM", "RESTARTING IN"],
+		"clock": [
+			"RESPAWN EM",
+			"RESTARTING IN"
+		],
 		"motd": [
 			"Mensagem do Dia",
 			"Message of the Day"

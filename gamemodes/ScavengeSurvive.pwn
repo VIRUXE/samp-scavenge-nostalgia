@@ -594,6 +594,7 @@ new RequestsClient:client;
 #include "sss/core/item/handcuffs.pwn"
 #include "sss/core/item/wheel.pwn"
 #include "sss/core/item/camouflage.pwn"
+#include "sss/core/item/radiationdevice.pwn"
 
 // HATS
 #include "sss/core/item/hats/HelmArmy.pwn"
