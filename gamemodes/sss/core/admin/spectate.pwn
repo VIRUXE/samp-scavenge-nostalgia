@@ -117,6 +117,7 @@ EnterSpectateMode(playerid, targetid)
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
+	TogglePlayerSpectating(playerid, false);
 	TogglePlayerSpectating(playerid, true);
 	ToggleNameTagsForPlayer(playerid, true);
 
@@ -187,11 +188,10 @@ ExitSpectateMode(playerid)
 	stop spectate_Timer[playerid];
 	defer ReturnToDuty(playerid);
 	ToggleNameTagsForPlayer(playerid, false);
-
 	return 1;
 }
 
-timer ReturnToDuty[100](playerid)
+timer ReturnToDuty[500](playerid)
 {
 	SetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
 	SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
@@ -260,7 +260,12 @@ _RefreshSpectate(playerid)
 		SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(spectate_Target[playerid]));
 		SetPlayerInterior(playerid, GetPlayerInterior(spectate_Target[playerid]));
 
-		PlayerSpectateVehicle(playerid, IsPlayerInAnyVehicle(spectate_Target[playerid]) ? GetPlayerVehicleID(spectate_Target[playerid]) : spectate_Target[playerid]);
+		if(IsPlayerInAnyVehicle(spectate_Target[playerid]))
+			PlayerSpectateVehicle(playerid, GetPlayerVehicleID(spectate_Target[playerid]));
+
+		else
+			PlayerSpectatePlayer(playerid, spectate_Target[playerid]);
+			
 	} else if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) {
 		new Float:x, Float:y, Float:z;
 
