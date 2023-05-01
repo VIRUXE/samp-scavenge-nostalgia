@@ -509,8 +509,8 @@ EnterTutorial(playerid) {
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_GASCAN]   = CreateItem(item_GasCan, 938.4733, 2063.2769, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_GASCAN] = CreatePickup(1559, 8, 938.4733, 2063.2769, PICKUP_Z, virtualworld);
 
-	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_HAMMER][0]   = CreateItem(item_Hammer, 944.1250, 2067.6262, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
-	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_HAMMER][0] = CreatePickup(1559, 8, 944.1250, 2067.6262, PICKUP_Z, virtualworld);
+	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_WRENCH]   = CreateItem(item_Wrench, 944.1250, 2067.6262, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_WRENCH] = CreatePickup(1559, 8, 944.1250, 2067.6262, PICKUP_Z, virtualworld);
 
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_HAMMER][1]   = CreateItem(item_Hammer, 949.4579, 2082.9829, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_HAMMER][1] = CreatePickup(1559, 8, 949.4579, 2082.9829, PICKUP_Z, virtualworld);
@@ -533,8 +533,8 @@ EnterTutorial(playerid) {
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_RUCKSACK]   = CreateItem(item_Rucksack, 931.9263, 2081.7053, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_RUCKSACK] = CreatePickup(1559, 8, 931.9263, 2081.7053, PICKUP_Z, virtualworld);
 
-	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_SCREWDRIVER]   = CreateItem(item_Screwdriver, 946.4836, 2069.7207, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
-	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_SCREWDRIVER] = CreatePickup(1559, 8, 946.4836, 2069.7207, PICKUP_Z, virtualworld);
+	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_HAMMER][0]   = CreateItem(item_Hammer, 946.4836, 2069.7207, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_HAMMER][0] = CreatePickup(1559, 8, 946.4836, 2069.7207, PICKUP_Z, virtualworld);
 
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_SMALLBOX]   = CreateItem(item_SmallBox, 931.4957, 2058.7312, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_SMALLBOX] = CreatePickup(1559, 8, 931.4957, 2058.7312, PICKUP_Z, virtualworld);
@@ -554,8 +554,8 @@ EnterTutorial(playerid) {
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_WHEEL][2]   = CreateItem(item_Wheel, 954.4612, 2068.2312, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
 	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_WHEEL][2] = CreatePickup(1559, 8, 954.4612, 2068.2312, PICKUP_Z, virtualworld);
 
-	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_WRENCH]   = CreateItem(item_Wrench, 971.1041, 2074.8508, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
-	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_WRENCH] = CreatePickup(1559, 8, 971.1041, 2074.8508, PICKUP_Z, virtualworld);
+	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_SCREWDRIVER]   = CreateItem(item_Screwdriver, 971.1041, 2074.8508, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
+	Tutorial[playerid][TUT_PICKUPS][TUT_ITEM_SCREWDRIVER] = CreatePickup(1559, 8, 971.1041, 2074.8508, PICKUP_Z, virtualworld);
 
 	// Municao para a arma
 	SetItemWeaponItemMagAmmo(Tutorial[playerid][TUT_ITEMS][TUT_ITEM_PUMPSHOTGUN], 12);
