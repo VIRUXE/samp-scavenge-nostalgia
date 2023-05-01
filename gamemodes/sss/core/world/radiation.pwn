@@ -1,11 +1,10 @@
 #include <YSI\y_hooks>
 
 // Constantes de comportamento da nuvem
-#define CLOUD_MIN_SPEED 5.0
-#define CLOUD_MAX_SPEED 20.0
-#define CLOUD_MIN_SIZE 500.0
-#define CLOUD_MAX_SIZE 5000.0
-#define CLOUD_UPDATE_INTERVAL 1000 // Atualiza a cada 1000 ms
+static const Float:CLOUD_MIN_SPEED = 5.0;
+static const Float:CLOUD_MAX_SPEED = 20.0;
+static const Float:CLOUD_MIN_SIZE  = 500.0;
+static const Float:CLOUD_MAX_SIZE  = 5000.0;
 
 static const RADIATION_COLOR = 0x00FF00FF;
 
@@ -46,36 +45,47 @@ bool:IsPlayerInsideCloud(playerid) {
 
 bool:IsPlayerWearingRadiationMask(playerid) return GetPlayerMaskItem(playerid) == item_GasMask ? true : false;
 
-bool:IsPlayerAffectedByRadiation(playerid) {
-    if(IsPlayerInsideCloud(playerid)) {
-        // Check if the player is inside a building
-        if(GetPlayerInterior(playerid)) return false; // Player is inside a building, not affected by radiation
+bool:IsPlayerExposedToRadiation(playerid) {
+    if (!IsPlayerInsideCloud(playerid)) return false;
 
-        // Check if the player is in a covered vehicle
-        const vehicleid = GetPlayerVehicleID(playerid);
-        if(vehicleid != INVALID_VEHICLE_ID) {
-            const modelid = GetVehicleModel(vehicleid);
+    printf("[IsPlayerBeingAffectedByRadiation] Player %d is inside the cloud.", playerid);
 
-            if(IsModelOpenTopVehicle(modelid)) return false; // Player is in a covered car, not affected by radiation
-        }
-
-        // Check if the player has a ceiling above them using ColAndreas
-        new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
-        new Float:hitPosX, Float:hitPosY, Float:hitPosZ;
-
-        GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
-
-        if(CA_RayCastLine(playerPosX, playerPosY, playerPosZ, playerPosX, playerPosY, playerPosZ + 50.0, hitPosX, hitPosY, hitPosZ) == 1) {
-            return false; // Player has a ceiling above them, not affected by radiation
-        }
-
-        // Check if the player is wearing a mask
-        if(IsPlayerWearingRadiationMask(playerid)) return false; // Player is wearing a mask, not affected by radiation
-
-        return true; // Player is under the cloud and not protected, affected by radiation
+    // Check if the player is inside a building
+    if (GetPlayerInterior(playerid)) {
+        printf("[IsPlayerBeingAffectedByRadiation] Player %d is inside a building.", playerid);
+        return false; // Player is inside a building, not affected by radiation
     }
 
-    return false; // Player is not under the cloud, not affected by radiation
+    // Check if the player is in a covered vehicle
+    const vehicleid = GetPlayerVehicleID(playerid);
+    if (vehicleid != INVALID_VEHICLE_ID && !IsModelOpenTopVehicle(GetVehicleModel(vehicleid))) {
+        printf("[IsPlayerBeingAffectedByRadiation] Player %d is in a covered vehicle.", playerid);
+        return false; // Player is in a covered car, not affected by radiation
+    }
+
+    // Check if the player is inside a well protected structure
+    new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
+    GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
+
+    new Float:collisions[100][3];
+    new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
+
+    new minCollisionsForProtection = floatround(numCollisions * 0.9, floatround_floor);
+    printf("[IsPlayerBeingAffectedByRadiation] Player %d has %d collisions out of %d needed for protection.", playerid, numCollisions, minCollisionsForProtection);
+
+    if (numCollisions >= minCollisionsForProtection) {
+        printf("[IsPlayerBeingAffectedByRadiation] Player %d is in a confined space.", playerid);
+        return false; // Player has a structure above them, not affected by radiation
+    }
+
+    // Check if the player is wearing a mask
+    if (IsPlayerWearingRadiationMask(playerid)) {
+        printf("[IsPlayerBeingAffectedByRadiation] Player %d is wearing a radiation mask.", playerid);
+        return false; // Player is wearing a mask, not affected by radiation
+    }
+
+    printf("[IsPlayerBeingAffectedByRadiation] Player %d is affected by radiation.", playerid);
+    return true; // Player is under the cloud and not protected, affected by radiation
 }
 
 static InitializeRadiationCloud() {
@@ -85,23 +95,23 @@ static InitializeRadiationCloud() {
     switch (border) {
         case 0: // Borda superior
         {
-            cloudPosX = random_float(-20000.0, 20000.0);
-            cloudPosY = 20000.0;
+            cloudPosX = random_float(-3000.0, 3000.0);
+            cloudPosY = 3000.0;
         }
         case 1: // Borda inferior
         {
-            cloudPosX = random_float(-20000.0, 20000.0);
-            cloudPosY = -20000.0;
+            cloudPosX = random_float(-3000.0, 3000.0);
+            cloudPosY = -3000.0;
         }
         case 2: // Borda esquerda
         {
-            cloudPosX = -20000.0;
-            cloudPosY = random_float(-20000.0, 20000.0);
+            cloudPosX = -3000.0;
+            cloudPosY = random_float(-3000.0, 3000.0);
         }
         case 3: // Borda direita
         {
-            cloudPosX = 20000.0;
-            cloudPosY = random_float(-20000.0, 20000.0);
+            cloudPosX = 3000.0;
+            cloudPosY = random_float(-3000.0, 3000.0);
         }
     }
 
@@ -114,11 +124,15 @@ static InitializeRadiationCloud() {
     cloudGangZone = GangZoneCreate(-100.0, -100.0, 100.0, 100.0);
     GangZoneShowForAll(cloudGangZone, RADIATION_COLOR); // Define a cor da nuvem de radiação para verde tóxico
 
-    printf("[RADIATION] Border: %d, Size: %.2f, Speed: %.2f, Direction: %.2f", border, cloudSize, cloudSpeed, cloudDirection);
+    new const borderDescriptions[] = {"Superior", "Inferior", "Esquerda", "Direita"};
+
+    printf("[RADIATION] Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Direção: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
 }
 
 // Atualiza a função UpdateRadiationCloud para criar/atualizar o objeto dummy com as mesmas coordenadas X e Y da nuvem:
 static task UpdateRadiationCloud[SEC(1)]() {
+    static bool:isCloudOnLand;
+
     // Atualiza a posição da nuvem com base na velocidade e direção
     cloudPosX += cloudSpeed * floatsin(-cloudDirection, degrees);
     cloudPosY += cloudSpeed * floatcos(-cloudDirection, degrees);
@@ -133,6 +147,16 @@ static task UpdateRadiationCloud[SEC(1)]() {
     new const Float:cloudMaxX   = cloudPosX + cloudWidth / 2.0;
     new const Float:cloudMinY   = cloudPosY - cloudHeight / 2.0;
     new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0;
+
+    if(IsPosition2DOnLand(cloudPosX, cloudPosY)) {
+        isCloudOnLand = true;
+        
+        if(!isCloudOnLand) printf("[RADIATION] Cloud hit land.");
+    } else {
+        isCloudOnLand = false;
+
+        if(isCloudOnLand) printf("[RADIATION] Cloud isn't in land anymore");
+    }
 
     // Atualiza a posição e o tamanho da zona de gangue
     GangZoneDestroy(cloudGangZone);
@@ -150,7 +174,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
     }
 
     // Verifica se a nuvem alcançou a borda oposta do mapa e reinicializa
-    if((cloudPosX > 20000) || (cloudPosX < -20000) || (cloudPosY > 20000) || (cloudPosY < -20000)) {
+    if((cloudPosX > 3000) || (cloudPosX < -3000) || (cloudPosY > 3000) || (cloudPosY < -3000)) {
         printf("[RADIATION] Nuvem bateu numa borda. Iniciando outra.");
 
         InitializeRadiationCloud();
@@ -161,24 +185,22 @@ hook OnGameModeInit() {
     InitializeRadiationCloud();
 }
 
-static timer FollowCloud[100](playerid) {
+static timer GotoCloud[100](playerid) {
     new Float:groundZ;
 
     if(CA_FindZ_For2DCoord(cloudPosX, cloudPosY, groundZ))
         SetPlayerPos(playerid, cloudPosX, cloudPosY, groundZ + 2.0); // Teleport the player 2.0 units above the ground to avoid falling through
 }
 
-static Timer:followTimer;
-
 ACMD:gotorad[5](playerid) {
     static bool:follow;
+    static Timer:followTimer;
 
     follow = !follow;
 
-    if(follow) {
-        FollowCloud(playerid);
-        followTimer = repeat FollowCloud(playerid);
-    } else
+    if(follow)
+        followTimer = repeat GotoCloud(playerid);
+    else
         stop followTimer;
 
     return 1;
