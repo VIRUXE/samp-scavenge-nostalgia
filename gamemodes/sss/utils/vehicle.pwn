@@ -209,7 +209,7 @@ bool:IsVehicleABike(modelid) {
     return false;
 }
 
-bool:IsVehicleAPlane(modelid) {
+stock bool:IsVehicleAPlane(modelid) {
     const planeModels[] = {
         592, //Andromada
         577, //AT-400
@@ -230,7 +230,7 @@ bool:IsVehicleAPlane(modelid) {
     return false;
 }
 
-bool:IsVehicleAHelicopter(modelid) {
+stock bool:IsVehicleAHelicopter(modelid) {
     const helicopterModels[] = {
         487, //Maverick
         488, //News Chopper
@@ -247,7 +247,7 @@ bool:IsVehicleAHelicopter(modelid) {
     return false;
 }
 
-bool:IsVehicleATrailer(modelid) {
+stock bool:IsVehicleATrailer(modelid) {
     const trailerModels[] = {
         606, //Baggage Box A
         607, //Baggage Box B
@@ -267,7 +267,7 @@ bool:IsVehicleATrailer(modelid) {
     return false;
 }
 
-bool:DoesVehicleFly(modelid) return IsVehicleAPlane(modelid) || IsVehicleAHelicopter(modelid) ? true : false;
+stock bool:DoesVehicleFly(modelid) return IsVehicleAPlane(modelid) || IsVehicleAHelicopter(modelid) ? true : false;
 
 bool:IsModelOpenTopVehicle(modelid) {
     if(IsVehicleABike(modelid) || IsVehicleABoat(modelid)) return true;
