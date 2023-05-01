@@ -64,6 +64,10 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 	    
  	if(ab_SetX[playerid] == x && ab_SetY[playerid] == y && ab_SetZ[playerid] == z) return 1; // Se a posição for igual a antiga, segue
 
+	// Se a skin for CJ ou Staff, ignora
+	if(GetPlayerSkin(playerid) == 0 || GetPlayerSkin(playerid) == 217 || GetPlayerSkin(playerid) == 211)
+		return 1;
+
  	new
 		Float:c,
 		Float:ox,
