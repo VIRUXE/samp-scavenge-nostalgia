@@ -11,6 +11,8 @@ static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in 
 
 static const RADIATION_COLOR = 0x00FF00FF;
 
+static bool:cloudDebug;
+
 // Propriedades da nuvem
 static Float:cloudPosX;
 static Float:cloudPosY;
@@ -189,7 +191,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
 
         InitializeRadiationCloud();
     } else
-        printf("[RADIATION] -> Direction: %.2f, Speed: %.2f, Size: %.2f, Position X: %.2f, Position Y: %.2f", cloudDirection, cloudSpeed, cloudSize, cloudPosX, cloudPosY);
+        if(cloudDebug) printf("[RADIATION] -> Direction: %.2f, Speed: %.2f, Size: %.2f, Position X: %.2f, Position Y: %.2f", cloudDirection, cloudSpeed, cloudSize, cloudPosX, cloudPosY);
 }
 
 // Apenas iniciar a nuvem quando o mundo acabar de gerar
@@ -243,7 +245,11 @@ ACMD:cloud[5](playerid, params[]) {
         }
     } else if(isequal(subcmd, "new", true))
         InitializeRadiationCloud();
-    else
+    else if(isequal(subcmd, "debug", true)) {
+        cloudDebug = !cloudDebug;
+
+        ChatMsg(playerid, GREEN, "Debug de Nuvem %s", cloudDebug ? "Ativado" : "Desativado");
+    } else
         SendClientMessage(playerid, WHITE, "USAGE: /cloud [goto|follow|new]");
 
     return 1;
