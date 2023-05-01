@@ -1,10 +1,13 @@
 #include <YSI\y_hooks>
 
 // Constantes de comportamento da nuvem
-static const Float:CLOUD_MIN_SPEED = 5.0;
-static const Float:CLOUD_MAX_SPEED = 20.0;
-static const Float:CLOUD_MIN_SIZE  = 500.0;
-static const Float:CLOUD_MAX_SIZE  = 5000.0;
+static const Float:CLOUD_MIN_SPEED        = 5.0;
+static const Float:CLOUD_MAX_SPEED        = 10.0;
+static const Float:CLOUD_MIN_SIZE         = 500.0;
+static const Float:CLOUD_MAX_SIZE         = 1000.0;
+static const Float:CLOUD_SIZE_CHANGE      = 50.0;    // Maximum size change per second
+static const Float:CLOUD_SPEED_CHANGE     = 0.0001;     // Maximum speed change per second
+static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in degrees
 
 static const RADIATION_COLOR = 0x00FF00FF;
 
@@ -15,7 +18,6 @@ static Float:cloudSize;
 static Float:cloudSpeed;
 static Float:cloudDirection;
 static cloudGangZone = INVALID_GANG_ZONE;
-static dummyObject; // Bola de Basket para vermos a posicao da nuvem
 
 // Retorna o tamanho da nuvem de radiação
 stock Float:GetRadiationCloudSize() return cloudSize;
@@ -124,7 +126,7 @@ static InitializeRadiationCloud() {
     cloudGangZone = GangZoneCreate(-100.0, -100.0, 100.0, 100.0);
     GangZoneShowForAll(cloudGangZone, RADIATION_COLOR); // Define a cor da nuvem de radiação para verde tóxico
 
-    new const borderDescriptions[] = {"Superior", "Inferior", "Esquerda", "Direita"};
+    new const borderDescriptions[][] = {"Superior", "Inferior", "Esquerda", "Direita"};
 
     printf("[RADIATION] Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Direção: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
 }
@@ -133,13 +135,17 @@ static InitializeRadiationCloud() {
 static task UpdateRadiationCloud[SEC(1)]() {
     static bool:isCloudOnLand;
 
-    // Atualiza a posição da nuvem com base na velocidade e direção
-    cloudPosX += cloudSpeed * floatsin(-cloudDirection, degrees);
-    cloudPosY += cloudSpeed * floatcos(-cloudDirection, degrees);
+    // Gradual direction change
+    cloudDirection += random_float(-CLOUD_DIRECTION_CHANGE, CLOUD_DIRECTION_CHANGE);
 
-    // Atualiza o tamanho da nuvem aleatoriamente
-    cloudSize = random_float(CLOUD_MIN_SIZE, CLOUD_MAX_SIZE);
+    // Keep the direction angle within 0 to 360 degrees
+    cloudDirection = cloudDirection < 0.0 ? (cloudDirection + 360.0) : (cloudDirection >= 360.0) ? (cloudDirection - 360.0) : cloudDirection;
 
+    cloudSpeed += random_float(-CLOUD_SPEED_CHANGE, CLOUD_SPEED_CHANGE);
+    cloudPosX  += cloudSpeed * floatsin(-cloudDirection, degrees);
+    cloudPosY  += cloudSpeed * floatcos(-cloudDirection, degrees);
+    cloudSize  += random_float(-CLOUD_SIZE_CHANGE, CLOUD_SIZE_CHANGE);
+    
     // Calculate the coordinates for the gangzone
     new const Float:cloudWidth  = cloudSize * 2.0;
     new const Float:cloudHeight = cloudSize * 2.0;
@@ -148,14 +154,17 @@ static task UpdateRadiationCloud[SEC(1)]() {
     new const Float:cloudMinY   = cloudPosY - cloudHeight / 2.0;
     new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0;
 
-    if(IsPosition2DOnLand(cloudPosX, cloudPosY)) {
-        isCloudOnLand = true;
-        
-        if(!isCloudOnLand) printf("[RADIATION] Cloud hit land.");
+    // Verifica se a posição central da nuvem está sobre a terra
+    if (IsPosition2DOnLand(cloudPosX, cloudPosY)) {
+        if (!isCloudOnLand) {
+            printf("[RADIATION] Cloud hit land.");
+            isCloudOnLand = true;
+        }
     } else {
-        isCloudOnLand = false;
-
-        if(isCloudOnLand) printf("[RADIATION] Cloud isn't in land anymore");
+        if (isCloudOnLand) {
+            printf("[RADIATION] Cloud isn't on land anymore.");
+            isCloudOnLand = false;
+        }
     }
 
     // Atualiza a posição e o tamanho da zona de gangue
@@ -163,14 +172,15 @@ static task UpdateRadiationCloud[SEC(1)]() {
     cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
     GangZoneShowForAll(cloudGangZone, RADIATION_COLOR);
 
-    // Cria/atualiza o objeto dummy na posição X e Y da nuvem
+    // Calculate the coordinates for the dummy object
     new Float:groundZ;
     if(CA_FindZ_For2DCoord(cloudPosX, cloudPosY, groundZ)) {
-        if(dummyObject == INVALID_OBJECT_ID) {
-            dummyObject = CreateObject(1598, cloudPosX, cloudPosY, groundZ, 0.0, 0.0, 0.0); // Use the basketball object model (1598)
-        } else {
-            SetObjectPos(dummyObject, cloudPosX, cloudPosY, groundZ);
-        }
+        static ballObject = INVALID_OBJECT_ID;
+
+        if(ballObject == INVALID_OBJECT_ID)
+            ballObject = CreateObject(1946, cloudPosX, cloudPosY, groundZ + 2.0, 0.0, 0.0, 0.0);
+        else
+            SetObjectPos(ballObject, cloudPosX, cloudPosY, groundZ + 2.0);
     }
 
     // Verifica se a nuvem alcançou a borda oposta do mapa e reinicializa
@@ -192,7 +202,7 @@ static timer GotoCloud[100](playerid) {
         SetPlayerPos(playerid, cloudPosX, cloudPosY, groundZ + 2.0); // Teleport the player 2.0 units above the ground to avoid falling through
 }
 
-ACMD:gotorad[5](playerid) {
+ACMD:followcloud[5](playerid) {
     static bool:follow;
     static Timer:followTimer;
 
