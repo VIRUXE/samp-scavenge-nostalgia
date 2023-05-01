@@ -60,7 +60,7 @@ timer LoadWorld[10]()
 	
 	SetGameModeText("Scavenge Survive");
 	SendRconCommand(sprintf("hostname %s (Iniciando)", servername));
-	SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
+	if(gEnvironment == PRODUCTION) SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
 
 	// store this to a list and compare after
 	for(new ItemType:i; i < ITM_MAX_TYPES; i++)
@@ -162,13 +162,15 @@ public OnWorldGenerated() {
 	JSON_GetString(node, "name", servername);
 	SendRconCommand(sprintf("hostname %s", servername));
 
-	result = JSON_GetString(node, "password", password);
-	if(result || isempty(password)) { // Configuracao nao existe no arquivo ou esta vazia
-		log("[INFO] Nenhuma senha definida no arquivo de configura��o. Senha inicial removida.");
-		SendRconCommand("password 0"); // Remove a senha inicial
-	} else {
-		log("[INFO] Senha carregada com sucesso.");
-		SendRconCommand(sprintf("password %s", password));
+	if(gEnvironment == PRODUCTION) {
+		result = JSON_GetString(node, "password", password);
+		if(result || isempty(password)) { // Configuracao nao existe no arquivo ou esta vazia
+			log("[INFO] Nenhuma senha definida no arquivo de configura��o. Senha inicial removida.");
+			SendRconCommand("password 0"); // Remove a senha inicial
+		} else {
+			log("[INFO] Senha carregada com sucesso.");
+			SendRconCommand(sprintf("password %s", password));
+		}
 	}
 	
 	// Calculate the amount of time it takes to load the server
