@@ -399,3 +399,17 @@ stock const Zones[365][E_ZONE_DATA] =
 	{"Whetstone",                   {-2997.40,-2892.90,-242.90,-1213.90,-1115.50,900.00}}
 };
 
+stock bool:IsPositionOverLand(Float:x, Float:y, Float:z) {
+    new Float:hitX, Float:hitY, Float:hitZ;
+    new hitModel = CA_RayCastLine(x, y, z + 50.0, x, y, z - 50.0, hitX, hitY, hitZ);
+
+    return (hitModel != WATER_OBJECT);
+}
+
+stock bool:IsPosition2DOnLand(Float:x, Float:y) {
+    new Float:groundZ;
+
+    if (CA_FindZ_For2DCoord(x, y, groundZ)) return IsPositionOverLand(x, y, groundZ);
+
+    return false;
+}
