@@ -484,6 +484,7 @@ new RequestsClient:client;
 #include "sss/core/player/tutorial.pwn"
 #include "sss/core/player/vip.pwn"
 #include "sss/core/player/votekick.pwn"
+#include "sss/core/player/map.pwn"
 
 // CHARACTER SCRIPTS
 #include "sss/core/char/food.pwn"
@@ -551,7 +552,6 @@ new RequestsClient:client;
 #include "sss/core/world/item-tweak.pwn"
 #include "sss/core/world/furniture.pwn"
 
-#include "sss/core/player/map.pwn"
 
 // IO
 #include "sss/core/world/item-io.pwn"

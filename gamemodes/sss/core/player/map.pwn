@@ -1,40 +1,44 @@
-hook OnItemAddToInventory(playerid, itemid) 
-{
-    new ItemType:itemtype = GetItemType(itemid);
+#include <YSI\y_hooks>
 
-	if(itemtype == item_Map) 
-    {
+forward OnPlayerUsingMap(playerid, bool:yes);
+
+// Mapa apenas pode ir no inventario, por alguma razao
+bool:DoesPlayerHaveMap(playerid) {
+	for(new i; i < INV_MAX_SLOTS; i++)
+        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_Map) return true;
+
+    return false;
+}
+
+ToggleMap(playerid, bool:toggle) {
+    if(toggle == DoesPlayerHaveMap(playerid)) return;
+
+    if(toggle)
         GangZoneHideForPlayer(playerid, MiniMapOverlay);
-        WCIconSpawn(playerid);
-        ShowSupplyIconSpawn(playerid);
-        ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false);
-    }
-
-	return Y_HOOKS_CONTINUE_RETURN_0;
-}
-
-hook OnItemRemoveFInventory(playerid, itemid)
-{
-    new ItemType:itemtype = GetItemType(itemid);
-
-	if(itemtype == item_Map) 
-    {
+    else
         GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-        ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
-        if(WCDropped == 1)
-            RemovePlayerMapIcon(playerid, ICON_WC);
+    ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, !toggle);
 
-        if(supplyCrateDropped == 1)
-		    RemovePlayerMapIcon(playerid, ICON_SUPPLY);
+    CallLocalFunction("OnPlayerUsingMap", "db", playerid, toggle);
+}
 
-    }
+hook OnPlayerConnect(playerid) {
+    ToggleMap(playerid, false);
+}
+
+hook OnItemAddToInventory(playerid, itemid) {
+	if(GetItemType(itemid) == item_Map) ToggleMap(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-stock HideDutyGangZone(playerid)
-{
-    GangZoneHideForPlayer(playerid, MiniMapOverlay);
-    ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
+hook OnItemRemoveFInventory(playerid, itemid) {
+	if(GetItemType(itemid) == item_Map) ToggleMap(playerid, false);
+
+	return Y_HOOKS_CONTINUE_RETURN_0;
+}
+
+hook OnPlayerSpawn(playerid) {
+    ToggleMap(playerid, DoesPlayerHaveMap(playerid));
 }
