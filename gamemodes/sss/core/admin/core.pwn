@@ -208,10 +208,12 @@ CheckAdminLevel(playerid) {
 	}
 }
 
-TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true) {
+TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellPlayer = true) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(admin_PlayerKicked[playerid]) return 0;
+
+	if(tellPlayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", time / 60000, time / 60000 > 1 ? "s" : "", reason);
 
 	new ip[16];
 	GetPlayerIp(playerid, ip, sizeof(ip));
@@ -222,8 +224,6 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true) {
 	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" foi timeout. Motivo: "C_BLUE"%s", playerid, reason);
-
-	if(tellplayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", time / 60000, time / 60000 > 1 ? "s" : "", reason);
 
 	return 1;
 }
@@ -327,13 +327,6 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 		}
 		
 		LoadPlayerChar(playerid);
-
-		if(PlayerMapCheck(playerid)) {
-			ShowSupplyIconSpawn(playerid);
-			WCIconSpawn(playerid);
-			HideDutyGangZone(playerid);
-			ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false); // ? Nao sei qual e o contexto aqui. E preciso verificar
-		}
 
 		//ToggleNameTagsForPlayer(playerid, false);
 		defer PlayerDutyFalse(playerid);
@@ -472,7 +465,7 @@ CMD:admins(playerid)
 		title[20],
 		line[52];
 
-	gBigString[playerid][0] = EOS;
+	gBigString[playerid] = "Nenhums";
 
 	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
