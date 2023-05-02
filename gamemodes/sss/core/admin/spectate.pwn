@@ -86,26 +86,16 @@ hook OnPlayerDisconnect(playerid)
 {
 	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/admin/spectate.pwn");
 
-	if(spectate_Type[playerid] != SPECTATE_TYPE_NONE)
-		ExitSpectateMode(playerid);
+	if(spectate_Type[playerid] != SPECTATE_TYPE_NONE) ExitSpectateMode(playerid);
 
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+	new Float:x, Float:y, Float:z;
 
-	foreach(new i : Player)
-	{
-		if(spectate_Target[i] == playerid)
-		{
-			GetPlayerCameraPos(i, x, y, z);
+	foreach(new i : Player) {
+		if(spectate_Target[i] != playerid) continue;
 
-			if(Iter_Count(Player) > 0)
-				SpectateNextTarget(i);
+		GetPlayerCameraPos(i, x, y, z);
 
-			else
-				EnterFreeMode(i, x, y, z);
-		}
+		if(Iter_Count(Player) > 0) SpectateNextTarget(i); else EnterFreeMode(i, x, y, z);
 	}
 
 	return 1;
@@ -117,7 +107,6 @@ EnterSpectateMode(playerid, targetid)
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
-	TogglePlayerSpectating(playerid, false);
 	TogglePlayerSpectating(playerid, true);
 	ToggleNameTagsForPlayer(playerid, true);
 
@@ -255,14 +244,12 @@ SpectatePrevTarget(playerid)
 
 _RefreshSpectate(playerid)
 {
-	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET)
-	{
+	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET) {
 		SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(spectate_Target[playerid]));
 		SetPlayerInterior(playerid, GetPlayerInterior(spectate_Target[playerid]));
 
 		if(IsPlayerInAnyVehicle(spectate_Target[playerid]))
 			PlayerSpectateVehicle(playerid, GetPlayerVehicleID(spectate_Target[playerid]));
-
 		else
 			PlayerSpectatePlayer(playerid, spectate_Target[playerid]);
 			
