@@ -80,9 +80,9 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 	new Float:dist = GetPlayerDistanceFromPoint(playerid, ab_SetX[playerid], ab_SetY[playerid], ab_SetZ[playerid]);
 
 	// Se a distância for maior que 10.0, ou se o jogador estiver em um veículo e a distância for maior que 40.0, ou se o jogador estiver em um veículo e a distância for diferente de 0.0, então o jogador está usando airbreak
-	if( ((!IsPlayerInAnyVehicle(playerid) && dist > 10.0) || (IsPlayerInAnyVehicle(playerid) && dist > 40.0)) || (ab_Check[playerid] && dist != 0.0)) id = 10; 
-	else
-	{
+	if( ((!IsPlayerInAnyVehicle(playerid) && dist > 10.0) || (IsPlayerInAnyVehicle(playerid) && dist > 40.0)) || (ab_Check[playerid] && dist != 0.0)) 
+		id = 10; 
+	else {
 		id = CA_RayCastLine(ox, oy, oz + 0.9, x, y, z + 0.9, c, c, c);
 
 		if(!id)
@@ -92,13 +92,19 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 		    id = CA_RayCastLine(ox, oy + 0.25, oz + 0.9, x - 0.25, y, z + 0.9, c, c, c);
 	}
 
-	if(id && id != WATER_OBJECT)
-	{
-		new name[MAX_PLAYER_NAME + 1];
-    	GetPlayerName(playerid, name, sizeof(name));
+	if(id && id != WATER_OBJECT) {
+		static oldObject;
+
+		if(id != oldObject) {
+			new name[MAX_PLAYER_NAME + 1];
+			GetPlayerName(playerid, name, sizeof(name));
+
+			printf("\t[ANTI-AIRBREAK] %s (%d) atravessou o objeto ID: %d -> %.2f, %.2f, %.2f", name, playerid, id, ox, oy, oz);
+
+			oldObject = id;
+		}
 
 		ClearAnimations(playerid);
-		printf(" [ANTI-AIRBREAK] %s(id:%d) atravessou o objeto ID:'%d' na coordenada: %.2f, %.2f, %.2f", name, playerid, id, ox, oy, oz);
 		
 	    SetPlayerVelocity(playerid, 0.0, 0.0, 0.0);
 	    ab_Check[playerid] = true;
