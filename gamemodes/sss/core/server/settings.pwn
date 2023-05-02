@@ -1,3 +1,5 @@
+forward OnSettingsLoaded();
+
 new Node:Settings;
 
 LoadSettings()
@@ -5,12 +7,12 @@ LoadSettings()
 	new result;
 	new Node:node, length;
 
-	log("[SETTINGS] Carregando configurações...");
+	log("[SETTINGS] Carregando configuraï¿½ï¿½es...");
 
 	result = JSON_ParseFile("settings.json", Settings);
-	if(result) // Não foi possível carregar o arquivo
+	if(result) // Nï¿½o foi possï¿½vel carregar o arquivo
 	{
-		log("[SETTINGS] Erro: Não foi possível carregar o arquivo de configurações. Usando as configurações padrão.");
+		log("[SETTINGS] Erro: Nï¿½o foi possï¿½vel carregar o arquivo de configuraï¿½ï¿½es. Usando as configuraï¿½ï¿½es padrï¿½o.");
 
 		Settings = JSON_Object(
 			"server", JSON_Object(
@@ -26,11 +28,11 @@ LoadSettings()
 					JSON_String("Welcome to the Nostalgia ~ Scavenge server!")
 				),
 				"rules", JSON_Array(
-					JSON_String("Não use hacks."),
-					JSON_String("Não use bugs."),
-					JSON_String("Não use exploits."),
-					JSON_String("Não use macros."),
-					JSON_String("Não use programas de terceiros.")
+					JSON_String("Nï¿½o use hacks."),
+					JSON_String("Nï¿½o use bugs."),
+					JSON_String("Nï¿½o use exploits."),
+					JSON_String("Nï¿½o use macros."),
+					JSON_String("Nï¿½o use programas de terceiros.")
 				),
 				"otp", JSON_Object(
 					"enabled", JSON_Bool(false),
@@ -59,7 +61,7 @@ LoadSettings()
 				),
 				"tips", JSON_Array(
 					JSON_Array(
-						JSON_String("Caso tenha alguma dúvida, use o /relatorio para falar com alguém da staff."),
+						JSON_String("Caso tenha alguma dï¿½vida, use o /relatorio para falar com alguï¿½m da staff."),
 						JSON_String("If you have any questions, use /report to speak with a staff member.")
 					),
 					JSON_Array(
@@ -75,27 +77,27 @@ LoadSettings()
 						JSON_String("Join our Discord group and stay up-to-date with all the latest news.")
 					),
 					JSON_Array(
-						JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo é mais legal e lucrativo."),
+						JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo ï¿½ mais legal e lucrativo."),
 						JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
 					),
 					JSON_Array(
-						JSON_String("Você viu alguém fazendo o que não devia? Use /report para denunciar."),
+						JSON_String("Vocï¿½ viu alguï¿½m fazendo o que nï¿½o devia? Use /report para denunciar."),
 						JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
 					),
 					JSON_Array(
-						JSON_String("Não fique triste quando morrer ou perder a base, isso faz parte do jogo."),
+						JSON_String("Nï¿½o fique triste quando morrer ou perder a base, isso faz parte do jogo."),
 						JSON_String("Don't get upset when you die or lose your base, it's part of the game.")
 					),
 					JSON_Array(
-						JSON_String("Lembre-se que o servidor é mantido por doações, ajude-nos a manter o servidor online."),
+						JSON_String("Lembre-se que o servidor ï¿½ mantido por doaï¿½ï¿½es, ajude-nos a manter o servidor online."),
 						JSON_String("Remember that the server is maintained by donations, help us keep the server online.")
 					),
 					JSON_Array(
-						JSON_String("Você pode usar o /ajuda para ver todos os comandos disponíveis."),
+						JSON_String("Vocï¿½ pode usar o /ajuda para ver todos os comandos disponï¿½veis."),
 						JSON_String("You can use /help to see all the available commands.")
 					),
 					JSON_Array(
-						JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estão quebrando as regras."),
+						JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estï¿½o quebrando as regras."),
 						JSON_String("Remember to use /votekick to vote on players who are breaking the rules.")
 					)
 				),
@@ -123,7 +125,7 @@ LoadSettings()
 							"command", JSON_String("otp")
 						),
 						JSON_Array(
-							JSON_String("'Uma senha única' ou 'Senha de uso único' é uma senha que é válida apenas por uma sessão de login ou transação e torna-se inválida após isso."),
+							JSON_String("'Uma senha ï¿½nica' ou 'Senha de uso ï¿½nico' ï¿½ uma senha que ï¿½ vï¿½lida apenas por uma sessï¿½o de login ou transaï¿½ï¿½o e torna-se invï¿½lida apï¿½s isso."),
 							JSON_String("One Time Password (OTP) is a password that is valid for only one login session or transaction, and becomes invalid after that.")
 						)
 					)
@@ -149,7 +151,7 @@ LoadSettings()
 		JSON_SaveFile("settings.json", Settings, .pretty = true);
 	}
 
-	// Carrega as configurações do servidor
+	// Carrega as configuraï¿½ï¿½es do servidor
 	new Node:server;
 	JSON_GetObject(Settings, "server", server);
 
@@ -173,10 +175,10 @@ LoadSettings()
 	JSON_GetArray(server, "rules", rules);
 	JSON_ArrayLength(rules, length);
 
-	// Certificar de que não tentamos carregar mais regras do que o máximo permitido (MAX_RULE)
+	// Certificar de que nï¿½o tentamos carregar mais regras do que o mï¿½ximo permitido (MAX_RULE)
 	if(length > MAX_RULE) {
 		length = MAX_RULE;
-		log("[SETTINGS] Aviso: O número de regras excede o máximo permitido. As regras extras serão ignoradas.");
+		log("[SETTINGS] Aviso: O nï¿½mero de regras excede o mï¿½ximo permitido. As regras extras serï¿½o ignoradas.");
 	}
 
 	for(new i = 0; i < length; i++) {
@@ -191,7 +193,7 @@ LoadSettings()
 	JSON_GetInt(server, "max-uptime", gServerMaxUptime);
 	log("[SETTINGS] Ciclo de Restart: %d horas", (gServerMaxUptime ? gServerMaxUptime : 14400) / 3600);
 
-	// Carrega as configurações do jogador
+	// Carrega as configuraï¿½ï¿½es do jogador
 	JSON_GetObject(Settings, "player", node);
 
 	JSON_GetInt(node, "combat-log-window", gCombatLogWindow);
@@ -201,10 +203,12 @@ LoadSettings()
 	log("[SETTINGS] Tempo de congelamento de login: %d segundos", gLoginFreezeTime);
 
 	JSON_GetInt(node, "max-tab-out-time", gMaxTaboutTime);
-	log("[SETTINGS] Tempo máximo de tab-out: %d segundos", gMaxTaboutTime);
+	log("[SETTINGS] Tempo mï¿½ximo de tab-out: %d segundos", gMaxTaboutTime);
 
 	JSON_GetInt(node, "ping-limit", gPingLimit);
 	log("[SETTINGS] Limite de ping: %d", gPingLimit);
+
+	CallLocalFunction("OnSettingsLoaded", "");
 }
 
 stock GetSettingInt(const name[]) {
