@@ -1,35 +1,11 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 #define MAX_ADMIN_LEVELS			(7)
 #define ACCOUNTS_TABLE_ADMINS		"Admins"
 #define FIELD_ADMINS_NAME			"name"		// 00
 #define FIELD_ADMINS_LEVEL			"level"		// 01
 
+forward OnAdminToggleDuty(playerid, bool:toggle, bool:goBack);
 
 enum
 {
@@ -54,13 +30,13 @@ static
 				admin_Total,
 				admin_Names[MAX_ADMIN_LEVELS][15] =
 				{
-					"Player",	// 0 (Unused)
-					"Nivel 1",	// 1
-					"Nivel 2",	// 2
-					"Nivel 3",	// 3
-					"Nivel 4",	// 4
-					"Nivel 5",	// 5
-					"Nivel 6"	// 6
+					"Jogador",	// 0 (Unused)
+					"Nível 1",	// 1
+					"Nível 2",	// 2
+					"Nível 3",	// 3
+					"Nível 4",	// 4
+					"Nível 5",	// 5
+					"Nível 6"	// 6
 				},
 				admin_Colours[MAX_ADMIN_LEVELS] =
 				{
@@ -85,8 +61,7 @@ static
 				admin_OnDuty[MAX_PLAYERS],
 				admin_PlayerKicked[MAX_PLAYERS];
 
-hook OnScriptInit()
-{
+hook OnScriptInit() {
 	db_free_result(db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_ADMINS" (\
 		"FIELD_ADMINS_NAME" TEXT,\
 		"FIELD_ADMINS_LEVEL" INTEGER)"));
@@ -103,19 +78,19 @@ hook OnScriptInit()
 	LoadAdminData();
 }
 
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
 	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/admin/core.pwn");
 
 	admin_Level[playerid] = 0;
 	admin_OnDuty[playerid] = 0;
 	admin_PlayerKicked[playerid] = 0;
 
+	SetPVarInt(playerid, "duty", 0);
+
 	return 1;
 }
 
-hook OnPlayerDisconnected(playerid)
-{
+hook OnPlayerDisconnected(playerid) {
 	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/admin/core.pwn");
 
 	admin_Level[playerid] = 0;
@@ -130,8 +105,7 @@ hook OnPlayerDisconnected(playerid)
 ==============================================================================*/
 
 
-LoadAdminData()
-{
+LoadAdminData() {
 	new
 		name[MAX_PLAYER_NAME],
 		level;
@@ -139,26 +113,21 @@ LoadAdminData()
 	stmt_bind_result_field(stmt_AdminLoadAll, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AdminLoadAll, 1, DB::TYPE_INTEGER, level);
 
-	if(stmt_execute(stmt_AdminLoadAll))
-	{
-		while(stmt_fetch_row(stmt_AdminLoadAll))
-		{
-			if(level > 0 && !isnull(name))
-			{
+	if(stmt_execute(stmt_AdminLoadAll)) {
+		while(stmt_fetch_row(stmt_AdminLoadAll)) {
+			if(level > 0 && !isnull(name)) {
 				admin_Data[admin_Total][admin_Name] = name;
 				admin_Data[admin_Total][admin_Rank] = level;
 
 				admin_Total++;
-			}
-			else RemoveAdminFromDatabase(name);
+			} else RemoveAdminFromDatabase(name);
 		}
 	}
 
 	SortDeepArray(admin_Data, admin_Rank, .order = SORT_DESC);
 }
 
-UpdateAdmin(name[MAX_PLAYER_NAME], level)
-{
+UpdateAdmin(name[MAX_PLAYER_NAME], level) {
 	if(level == 0) return RemoveAdminFromDatabase(name);
 
 	new count;
@@ -168,13 +137,11 @@ UpdateAdmin(name[MAX_PLAYER_NAME], level)
 	stmt_execute(stmt_AdminExists);
 	stmt_fetch_row(stmt_AdminExists);
 
-	if(count == 0)
-	{
+	if(count == 0) {
 		stmt_bind_value(stmt_AdminInsert, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 		stmt_bind_value(stmt_AdminInsert, 1, DB::TYPE_INTEGER, level);
 
-		if(stmt_execute(stmt_AdminInsert))
-		{
+		if(stmt_execute(stmt_AdminInsert)) {
 			admin_Data[admin_Total][admin_Name] = name;
 			admin_Data[admin_Total][admin_Rank] = level;
 			admin_Total++;
@@ -183,16 +150,12 @@ UpdateAdmin(name[MAX_PLAYER_NAME], level)
 
 			return 1;
 		}
-	}
-	else
-	{
+	} else {
 		stmt_bind_value(stmt_AdminUpdate, 0, DB::TYPE_INTEGER, level);
 		stmt_bind_value(stmt_AdminUpdate, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-		if(stmt_execute(stmt_AdminUpdate))
-		{
-			for(new i; i < admin_Total; i++)
-			{
+		if(stmt_execute(stmt_AdminUpdate)) {
+			for(new i; i < admin_Total; i++) {
 				if(!strcmp(name, admin_Data[i][admin_Name]))
 				{
 					admin_Data[i][admin_Rank] = level;
@@ -209,20 +172,16 @@ UpdateAdmin(name[MAX_PLAYER_NAME], level)
 	return 1;
 }
 
-RemoveAdminFromDatabase(name[])
-{
+RemoveAdminFromDatabase(name[]) {
 	stmt_bind_value(stmt_AdminDelete, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(stmt_execute(stmt_AdminDelete))
-	{
+	if(stmt_execute(stmt_AdminDelete)) {
 		new bool:found = false;
 
-		for(new i; i < admin_Total; i++)
-		{
+		for(new i; i < admin_Total; i++) {
 			if(!strcmp(name, admin_Data[i][admin_Name])) found = true;
 
-			if(found && i < MAX_ADMIN-1)
-			{
+			if(found && i < MAX_ADMIN-1) {
 				format(admin_Data[i][admin_Name], 24, admin_Data[i+1][admin_Name]);
 				admin_Data[i][admin_Rank] = admin_Data[i+1][admin_Rank];
 			}
@@ -236,24 +195,20 @@ RemoveAdminFromDatabase(name[])
 	return 0;
 }
 
-CheckAdminLevel(playerid)
-{
+CheckAdminLevel(playerid) {
 	new name[MAX_PLAYER_NAME];
 
-	for(new i; i < admin_Total; i++)
-	{
+	for(new i; i < admin_Total; i++) {
 		GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
-		if(!strcmp(name, admin_Data[i][admin_Name]))
-		{
+		if(!strcmp(name, admin_Data[i][admin_Name])) {
 			admin_Level[playerid] = admin_Data[i][admin_Rank];
 			break;
 		}
 	}
 }
 
-TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true)
-{
+TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(admin_PlayerKicked[playerid]) return 0;
@@ -264,17 +219,16 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellplayer = true)
 
 	admin_PlayerKicked[playerid] = true;
 
-	log("[TIMEOUT] %p (%d) tempo (ms) %d, razÃ£o: %s", playerid, playerid, time, reason);
+	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" foi timeout. Motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer) ChatMsg(playerid, RED, "VocÃª foi desconectado por %d minuto%s. Motivo: %s", MIN(time), MIN(time) > 1 ? "s" : "", reason);
+	if(tellplayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", time / 60000, time / 60000 > 1 ? "s" : "", reason);
 
 	return 1;
 }
 
-KickPlayer(playerid, reason[], bool:tellplayer = true)
-{
+KickPlayer(playerid, reason[], bool:tellplayer = true) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(admin_PlayerKicked[playerid]) return 0;
@@ -282,7 +236,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true)
 	defer KickPlayerDelay(playerid);
 	admin_PlayerKicked[playerid] = true;
 
-	log("[KICK] %p (%d), razÃ£o: %s", playerid, playerid, reason);
+	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
@@ -293,30 +247,24 @@ KickPlayer(playerid, reason[], bool:tellplayer = true)
 
 stock IsPlayerKicked(playerid) return admin_PlayerKicked[playerid];
 
-timer KickPlayerDelay[SEC(1)](playerid)
-{
+timer KickPlayerDelay[SEC(1)](playerid) {
 	Kick(playerid);
 	admin_PlayerKicked[playerid] = false;
 }
 
-ChatMsgAdminsFlat(level, colour, string[])
-{
-	if(level == 0)
-	{
+ChatMsgAdminsFlat(level, colour, string[]) {
+	if(level == 0) {
 		err("MsgAdmins parameter 'level' cannot be 0");
 		return 0;
 	}
 
-	if(strlen(string) > 127)
-	{
+	if(strlen(string) > 127) {
 		new
 			string2[128],
 			splitpos;
 
-		for(new c = 128; c>0; c--)
-		{
-			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.')
-			{
+		for(new c = 128; c>0; c--) {
+			if(string[c] == ' ' || string[c] ==  ',' || string[c] ==  '.') {
 				splitpos = c;
 				break;
 			}
@@ -325,18 +273,14 @@ ChatMsgAdminsFlat(level, colour, string[])
 		strcat(string2, string[splitpos]);
 		string[splitpos] = EOS;
 
-		foreach(new i : Player)
-		{
+		foreach(new i : Player) {
 			if(admin_Level[i] < level) continue;
 
 			SendClientMessage(i, colour, string);
 			SendClientMessage(i, colour, string2);
 		}
-	}
-	else
-	{
-		foreach(new i : Player)
-		{
+	} else {
+		foreach(new i : Player) {
 			if(admin_Level[i] < level) continue;
 
 			SendClientMessage(i, colour, string);
@@ -346,10 +290,8 @@ ChatMsgAdminsFlat(level, colour, string[])
 	return 1;
 }
 
-TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
-{
-	if(toggle)
-	{
+TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
+	if(toggle) {
 		new
 			itemid,
 			ItemType:itemtype,
@@ -375,9 +317,7 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 		admin_OnDuty[playerid] = true;
 
 		if(GetPlayerGender(playerid) == GENDER_MALE) SetPlayerSkin(playerid, 217); else SetPlayerSkin(playerid, 211);
-	}
-	else
-	{
+	} else {
 		new Float:x, Float:y, Float:z;
 
 		// Se voltamos para o local onde entramos no duty...
@@ -388,8 +328,7 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 		
 		LoadPlayerChar(playerid);
 
-		if(PlayerMapCheck(playerid))
-		{
+		if(PlayerMapCheck(playerid)) {
 			ShowSupplyIconSpawn(playerid);
 			WCIconSpawn(playerid);
 			HideDutyGangZone(playerid);
@@ -399,6 +338,10 @@ TogglePlayerAdminDuty(playerid, toggle, bool:goBack = true)
 		//ToggleNameTagsForPlayer(playerid, false);
 		defer PlayerDutyFalse(playerid);
 	}
+
+	SetPVarInt(playerid, "duty", toggle);
+
+	CallLocalFunction("OnAdminToggleDuty", "dbb", playerid, toggle, goBack);
 }
 
 timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
@@ -410,8 +353,7 @@ timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
 ==============================================================================*/
 
 
-stock SetPlayerAdminLevel(playerid, level)
-{
+stock SetPlayerAdminLevel(playerid, level) {
 	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;
 
 	new name[MAX_PLAYER_NAME];
@@ -425,15 +367,13 @@ stock SetPlayerAdminLevel(playerid, level)
 	return 1;
 }
 
-stock GetPlayerAdminLevel(playerid)
-{
+stock GetPlayerAdminLevel(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return admin_Level[playerid];
 }
 
-stock GetAdminLevelByName(name[MAX_PLAYER_NAME])
-{
+stock GetAdminLevelByName(name[MAX_PLAYER_NAME]) {
 	new level;
 
 	stmt_bind_value(stmt_AdminGetLevel, 0, DB::TYPE_STRING, name);
@@ -444,17 +384,12 @@ stock GetAdminLevelByName(name[MAX_PLAYER_NAME])
 	return level;
 }
 
-stock GetAdminTotal()
-{
-	return admin_Total;
-}
+stock GetAdminTotal() return admin_Total;
 
-stock GetAdminsOnline(from = 1, to = 6)
-{
+stock GetAdminsOnline(from = 1, to = 6) {
 	new count;
 
-	foreach(new i : Player)
-	{
+	foreach(new i : Player) {
 		if(from <= admin_Level[i] <= to)
 			count++;
 	}
@@ -462,31 +397,26 @@ stock GetAdminsOnline(from = 1, to = 6)
 	return count;
 }
 
-stock GetAdminRankName(rank)
-{
+stock GetAdminRankName(rank) {
 	if(!(0 < rank < MAX_ADMIN_LEVELS)) return admin_Names[0];
 
 	return admin_Names[rank];
 }
 
-stock GetAdminRankColour(rank)
-{
+stock GetAdminRankColour(rank) {
 	if(!(0 < rank < MAX_ADMIN_LEVELS)) return admin_Colours[0];
 
 	return admin_Colours[rank];
 }
 
-stock IsPlayerOnAdminDuty(playerid)
-{
+stock IsPlayerOnAdminDuty(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return admin_OnDuty[playerid];
 }
 
-stock RegisterAdminCommand(level, string[])
-{
-	if(!(STAFF_LEVEL_GAME_MASTER <= level <= STAFF_LEVEL_LEAD))
-	{
+stock RegisterAdminCommand(level, string[]) {
+	if(!(STAFF_LEVEL_GAME_MASTER <= level <= STAFF_LEVEL_LEAD)) {
 		err("Cannot register admin command for level %d", level);
 		return 0;
 	}
@@ -510,24 +440,23 @@ ACMD:acmds[1](playerid)
 
 	strcat(gBigString[playerid], ""C_RED"/a [Mensagem] - Chat dos STAFF");
 
-	if(admin_Level[playerid] >= 4)
-	{
+	if(admin_Level[playerid] >= 4) {
 		strcat(gBigString[playerid], "\n\n ");
 		strcat(gBigString[playerid], "\n\n ");
 		strcat(gBigString[playerid], admin_Commands[3]);
-	}
-	if(admin_Level[playerid] >= 3)
-	{
+	} 
+
+	if(admin_Level[playerid] >= 3) {
 		strcat(gBigString[playerid], "\n\n ");
 		strcat(gBigString[playerid], admin_Commands[2]);
-	}
-	if(admin_Level[playerid] >= 2)
-	{
+	} 
+
+	if(admin_Level[playerid] >= 2) {
 		strcat(gBigString[playerid], "\n\n ");
 		strcat(gBigString[playerid], admin_Commands[1]);
-	}
-	if(admin_Level[playerid] >= 1)
-	{
+	} 
+
+	if(admin_Level[playerid] >= 1) {
 		strcat(gBigString[playerid], "\n\n ");
 		strcat(gBigString[playerid], admin_Commands[0]);
 	}
@@ -547,8 +476,7 @@ CMD:admins(playerid)
 
 	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
-	for(new i; i < admin_Total; i++)
-	{
+	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
 		format(line, sizeof(line), "%s %C(%s)\n",
