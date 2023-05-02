@@ -28,5 +28,5 @@ announce.exe
 samp-npc.exe
 dependencies
 plugins
-settings.json
+/settings.json
 crashdetect.json
