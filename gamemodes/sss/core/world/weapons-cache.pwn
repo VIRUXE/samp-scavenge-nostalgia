@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -45,8 +21,6 @@ Float:		wepc_CurrentPosX,
 Float:		wepc_CurrentPosY,
 Float:		wepc_CurrentPosZ,
 			webc_ActiveDrop = -1;
-
-new WCDropped = 0;
 
 hook OnGameModeInit()
 {
@@ -116,12 +90,10 @@ timer WeaponsCacheTimer[WEPCACHE_INTERVAL]()
 	return;
 }
 
-GetPlayersNearDropLocation(id)
-{
+GetPlayersNearDropLocation(id) {
 	new count;
 
-	foreach(new i : Player)
-	{
+	foreach(new i : Player) {
 		if(IsPlayerInRangeOfPoint(i, 500.0, wepc_DropLocationData[id][wepc_posX], wepc_DropLocationData[id][wepc_posY], wepc_DropLocationData[id][wepc_posZ]))
 			count++;
 	}
@@ -129,10 +101,8 @@ GetPlayersNearDropLocation(id)
 	return count;
 }
 
-WeaponsCacheDrop(Float:x, Float:y, Float:z)
-{
-	if(webc_ActiveDrop != -1)
-		return 0;
+WeaponsCacheDrop(Float:x, Float:y, Float:z) {
+	if(webc_ActiveDrop != -1) return 0;
 
 	CreateDynamicObject(964, x, y, z - 0.0440, 0.0, 0.0, 0.0, .streamdistance = 1000.0, .drawdistance = 1000.0);
 
@@ -144,13 +114,12 @@ WeaponsCacheDrop(Float:x, Float:y, Float:z)
 
 	defer WeaponsCacheSignal(1, x, y, z);
 
-	WCIcon(wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ);
+	ShowWeaponsCacheIconForAll(wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ);
 
 	return 1;
 }
 
-timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Float:z)
-{
+timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Float:z) {
 	// Gets a random supply drop location and uses it as a reference point.
 	// Announces the angle and distance from that location to the weapons cache.
 	new
@@ -162,57 +131,49 @@ timer WeaponsCacheSignal[WEPCACHE_SIGNAL_INTERVAL](count, Float:x, Float:y, Floa
 		Float:ref_y,
 		Float:ref_z;
 
-	for(new i, j = random(GetTotalSupplyDropLocations()); i < j; i++)
-	{
+	for(new i, j = random(GetTotalSupplyDropLocations()); i < j; i++) {
 		GetSupplyDropLocationPos(i, ref_x, ref_y, ref_z);
 
 		if(Distance(ref_x, ref_y, ref_z, wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ) < 1000.0)
 			locationlist[idx++] = i;
 	}
 
-	if(idx > 0)
-	{
+	if(idx > 0) {
 		location = locationlist[random(idx)];
 
 		GetSupplyDropLocationName(location, name);
 
 		foreach(new i : Player)
 			ChatMsg(i, YELLOW, "server/drop/weapons", name);
-	}
-	else
-	{
+	} else {
 		err("No reference point found.");
 		return;
 	}
 
 	if(count < 3)
 		defer WeaponsCacheSignal(count + 1, x, y, z);
-
-	else webc_ActiveDrop = -1;
+	else
+		webc_ActiveDrop = -1;
 
 	return;
 }
 
-stock WCIconSpawn(playerid)
-{
-	if(WCDropped == 1)
-		SetPlayerMapIcon(playerid, ICON_WC, wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ, 44, 0, MAPICON_GLOBAL);
-}
-
-stock WCIcon(Float:x, Float:y, Float:z)
-{
+stock ShowWeaponsCacheIconForAll(Float:x, Float:y, Float:z) {
 	foreach(new i : Player)
-	{
-		if(PlayerMapCheck(i))
-		{
-			SetPlayerMapIcon(i, ICON_WC, x, y, z, 44, 0, MAPICON_GLOBAL);
-			WCDropped = 1;
-		}
-	}
+		if(DoesPlayerHaveMap(i)) SetPlayerMapIcon(i, ICON_WC, x, y, z, 44, 0, MAPICON_GLOBAL);
 }
 
-hook OnPlayerDisconnect(playerid, reason)
-{
-	if(WCDropped == 1)
+hook OnPlayerDisconnect(playerid, reason) { // ? Precisa mesmo?
+	if(webc_ActiveDrop != -1) RemovePlayerMapIcon(playerid, ICON_WC);
+}
+
+hook OnPlayerUsingMap(playerid, bool:yes) {
+	if(webc_ActiveDrop == -1) return Y_HOOKS_CONTINUE_RETURN_0;
+
+	if(yes)
+		SetPlayerMapIcon(playerid, ICON_WC, wepc_CurrentPosX, wepc_CurrentPosY, wepc_CurrentPosZ, 44, 0, MAPICON_GLOBAL);
+	else
 		RemovePlayerMapIcon(playerid, ICON_WC);
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
