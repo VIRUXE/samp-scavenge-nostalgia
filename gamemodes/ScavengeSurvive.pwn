@@ -354,8 +354,7 @@ new
 		// server
 bool:   gCombatLogWindow,
 		gLoginFreezeTime,
-		gMaxTaboutTime,
-		gPingLimit;
+		gMaxTaboutTime;
 
 // INTERNAL
 new gBigString[MAX_PLAYERS][4096];
@@ -473,6 +472,7 @@ new RequestsClient:client;
 #include "sss/core/player/ipv4-log.pwn"
 #include "sss/core/player/name-tags.pwn"
 #include "sss/core/player/ped.pwn"
+#include "sss/core/player/ping.pwn"
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/rank.pwn" // By Kolorado
 #include "sss/core/player/recipes.pwn"

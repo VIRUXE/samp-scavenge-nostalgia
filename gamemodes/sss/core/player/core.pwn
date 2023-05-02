@@ -86,9 +86,9 @@ _OnPlayerConnect(playerid) {
 	SetPlayerColor(playerid, 0xB8B8B800);
 
 	/* 
-		Aparentemente essa merda È mesmo necess·ria, sen„o o spawn fica bugado.
-		Idealmente o reset de varÌaveis deveria ser feito no OnPlayerDisconnect, mas por alguma raz„o est· assim.
-		N„o vale a pena estar a mexer nisso agora.
+		Aparentemente essa merda ù mesmo necessùria, senùo o spawn fica bugado.
+		Idealmente o reset de varùaveis deveria ser feito no OnPlayerDisconnect, mas por alguma razùo estù assim.
+		Nùo vale a pena estar a mexer nisso agora.
 	 */
 	ResetVariables(playerid);
 	ply_Data[playerid][ply_JoinTick] = GetTickCount();
@@ -140,7 +140,7 @@ public OnPlayerConnect(playerid)
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 
-		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) est· a esperar pela OTP.", playerid, playerid);
+		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) estù a esperar pela OTP.", playerid, playerid);
 	} else {
 		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
@@ -186,9 +186,9 @@ AnnouncePlayerJoined(playerid) {
 }
 
 /* 
-	Esta funÁ„o È chamada quando o jogador entra num cenario, apÛs o OnPlayerConnect.
+	Esta funùùo ù chamada quando o jogador entra num cenario, apùs o OnPlayerConnect.
 
-	Esta funÁ„o È chamada apenas uma vez, e È respons·vel por carregar a conta do jogador, ou criar uma nova conta.
+	Esta funùùo ù chamada apenas uma vez, e ù responsùvel por carregar a conta do jogador, ou criar uma nova conta.
  */
 public OnPlayerJoinScenario(playerid) {
 	new result = LoadAccount(playerid);
@@ -197,7 +197,7 @@ public OnPlayerJoinScenario(playerid) {
 		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
 	else if(result == 0) { // Conta nao existe
 		// * Um bocado gambiarra, mas pronto
-		// Como È necess·rio esperar pela resposta da API ent„o por enquanto vai assim
+		// Como ù necessùrio esperar pela resposta da API entùo por enquanto vai assim
 		RequestPlayerGeo(playerid);
 	} else if(result == 1) { // Conta existe
 		// Verificar se ja tem alguma efetuado. Se nao tiver e porque nao concluiu o tutorial
@@ -207,7 +207,7 @@ public OnPlayerJoinScenario(playerid) {
 			EnterTutorial(playerid);
 	} else if(result == 4) { // Conta existe mas esta desativada
 		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criaÁ„o de 2 ou mais contas no servidor.");
+		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criaùùo de 2 ou mais contas no servidor.");
 		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
 		KickPlayer(playerid, "Conta inativa", false);
 	}
@@ -251,28 +251,6 @@ ResetVariables(playerid)
 
 ptask PlayerUpdateFast[100](playerid)
 {
-	new ping = GetPlayerPing(playerid);
-
-	if(ping > gPingLimit && GetPlayerAdminLevel(playerid) == 0)
-	{
-		if(GetTickCountDifference(GetTickCount(), ply_Data[playerid][ply_JoinTick]) > SEC(10)) // Ignorar o ping dos primeiros 10 segundos
-		{
-			ply_Data[playerid][ply_PingLimitStrikes]++;
-
-			// Remover o jogador se o ping continuar alto, apÛs 3 segundos
-			if(ply_Data[playerid][ply_PingLimitStrikes] == 30) // 30*100 = 3000ms = 3s
-			{
-				TimeoutPlayer(playerid, sprintf("%s: %d/%d.", ls(playerid, "player/ping"), ping, gPingLimit), MIN(1));
-
-				ply_Data[playerid][ply_PingLimitStrikes] = 0;
-
-				return;
-			}
-		}
-	}
-	else if(ply_Data[playerid][ply_PingLimitStrikes]) // Resetar o contador de strikes do ping
-		ply_Data[playerid][ply_PingLimitStrikes] = 0;
-
 	/*if(NetStats_MessagesRecvPerSecond(playerid) > 200)
 	{
 		ChatMsgAdmins(3, YELLOW, " >  %p sending %d messages per second.", playerid, NetStats_MessagesRecvPerSecond(playerid));
@@ -724,7 +702,7 @@ timer SetJoinScenario[20](playerid) {
 		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
 	};
 
-	// M˙sica na Tela de Login
+	// Mùsica na Tela de Login
 	PlayAudioStreamForPlayer(playerid, sprintf("http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5)));
 
 	// Limpa o chat para nao mostrar o url da musica
@@ -738,7 +716,7 @@ timer SetJoinScenario[20](playerid) {
 	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
 	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1] - 100, scenarios[scenario][2][2] - 100);
 
-	// log("[JOIN] %p (%d) foi para o cen·rio %d", playerid, playerid, scenario);
+	// log("[JOIN] %p (%d) foi para o cenùrio %d", playerid, playerid, scenario);
 
 	CallLocalFunction("OnPlayerJoinScenario", "i", playerid);
 }

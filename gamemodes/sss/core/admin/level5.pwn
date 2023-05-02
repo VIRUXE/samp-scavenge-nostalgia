@@ -303,22 +303,6 @@ ACMD:setadmin[5](playerid, params[])
 	return 1;
 }
 
-ACMD:setpinglimit[5](playerid, params[])
-{
-	new val = strval(params);
-
-	if(!(100 < val < 1000))
-	{
-		ChatMsg(playerid, YELLOW, " >  Ping limit must be between 100 and 1000");
-		return 1;
-	}
-
-	gPingLimit = strval(params);
-	ChatMsg(playerid, YELLOW, " >  Ping limit has been updated to %d.", gPingLimit);
-
-	return 1;
-}
-
 ACMD:debug[5](playerid, params[])
 {
 	new

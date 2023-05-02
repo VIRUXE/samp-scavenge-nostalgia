@@ -205,9 +205,6 @@ LoadSettings()
 	JSON_GetInt(node, "max-tab-out-time", gMaxTaboutTime);
 	log("[SETTINGS] Tempo m�ximo de tab-out: %d segundos", gMaxTaboutTime);
 
-	JSON_GetInt(node, "ping-limit", gPingLimit);
-	log("[SETTINGS] Limite de ping: %d", gPingLimit);
-
 	CallLocalFunction("OnSettingsLoaded", "");
 }
 
