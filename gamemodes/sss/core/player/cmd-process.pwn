@@ -48,11 +48,8 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 		if(iLvl < iLoop) result = 5;
 	}
-	if(result == 1)
-	{
-		if(isnull(params)) result = CallLocalFunction(cmdfunction, "is", playerid, "\1");
-		else result = CallLocalFunction(cmdfunction, "is", playerid, params);
-	}
+
+	if(result == 1) result = CallLocalFunction(cmdfunction, "is", playerid, isnull(params) ? "\1" : params);
 
 /*
 	Return values for commands.
@@ -66,32 +63,30 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(0 < result < 7) log("[COMMAND][%p (%d)]: %s", playerid, playerid, cmdtext);
 
-	if		(result == CMD_INVALID) ChatMsg(playerid, ORANGE, "server/command/unknown"); // invalid command
+	if		(result == CMD_INVALID) 		ChatMsg(playerid, ORANGE, "server/command/unknown"); // invalid command
 	else if	(result == CMD_VALID) return 1; // valid command, do nothing.
-	else if	(result == CMD_CANT_USE) ChatMsg(playerid, ORANGE, "server/command/cant-use"); // cant use command
-	else if	(result == CMD_CANT_USE_ON) ChatMsg(playerid, RED, "server/commandcant-use-player"); // cant use command on that player
-	else if	(result == CMD_INVALID_PLAYER) ChatMsg(playerid, RED, "server/command/invalid-player"); // invalid player
-	else if	(result == CMD_NOT_ADMIN) ChatMsg(playerid, RED, "server/command/no-permission"); // not high enough admin level
-	else if	(result == CMD_NOT_DUTY) ChatMsg(playerid, RED, "server/command/need-duty"); // only usable in duty
+	else if	(result == CMD_CANT_USE) 		ChatMsg(playerid, ORANGE, "server/command/cant-use"); // cant use command
+	else if	(result == CMD_CANT_USE_ON) 	ChatMsg(playerid, RED, "server/commandcant-use-player"); // cant use command on that player
+	else if	(result == CMD_INVALID_PLAYER) 	ChatMsg(playerid, RED, "server/command/invalid-player"); // invalid player
+	else if	(result == CMD_NOT_ADMIN) 		ChatMsg(playerid, RED, "server/command/no-permission"); // not high enough admin level
+	else if	(result == CMD_NOT_DUTY) 		ChatMsg(playerid, RED, "server/command/need-duty"); // only usable in duty
 
 	return 1;
 }
 
-public OnRconLoginAttempt(ip[], password[], success)
-{
-	if(!success)
-	{
+public OnRconLoginAttempt(ip[], password[], success) {
+	if(!success) {
 		new ipstring[16];
 
 		log("[RCON] Failed login by %s password: %s", ip, password);
 
-		foreach(new i : Player)
-		{
+		foreach(new i : Player) {
 			GetPlayerIp(i, ipstring, sizeof(ipstring));
 
 			if(!strcmp(ip, ipstring, true))
 				ChatMsgAdmins(1, YELLOW, " >  Failed login by %p password: %s", i, password);
 		}
 	}
+
 	return 1;
 }

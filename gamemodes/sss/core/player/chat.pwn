@@ -268,27 +268,21 @@ stock SetPlayerChatMode(playerid, chatmode)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 
-	if(chatmode == chat_Mode[playerid]) {
-		PrintBacktrace();
-		return ChatMsg(playerid, GREY, "player/chat/mode/already");
-	}
+	if(chatmode == chat_Mode[playerid]) return 0;
 
 	chat_Mode[playerid] = chatmode;
 
 	return 1;
 }
 
-stock IsPlayerGlobalQuiet(playerid)
-{
+stock IsPlayerGlobalQuiet(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return chat_Quiet[playerid];
 }
 
-CMD:g(playerid, params[])
-{
-	if(IsPlayerMuted(playerid))
-	{
+CMD:g(playerid, params[]) {
+	if(IsPlayerMuted(playerid)) {
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
@@ -297,33 +291,41 @@ CMD:g(playerid, params[])
 		return 7;
 	}
 
-	if(isnull(params))
-	{
-		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
+	if(isnull(params)) {
+		if(!SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL)) ChatMsg(playerid, GREY, "player/chat/mode/already");
 		ChatMsg(playerid, WHITE, "player/radio/global");
-	}
-	else {
+	} else {
 		PlayerSendChat(playerid, params, 1.0);
 
-		if(chat_Mode[playerid] == CHAT_MODE_GLOBAL)
-			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
+		if(chat_Mode[playerid] == CHAT_MODE_GLOBAL) ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
 }
 
-CMD:l(playerid, params[])
+CMD:l(playerid, params[]) {
+	if(isnull(params)) {
+		if(!SetPlayerChatMode(playerid, CHAT_MODE_LOCAL)) ChatMsg(playerid, GREY, "player/chat/mode/already");
+		ChatMsg(playerid, WHITE, "player/radio/local");
+	} else {
+		PlayerSendChat(playerid, params, 0.0);
+
+		if(chat_Mode[playerid] == CHAT_MODE_LOCAL) ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
+	}
+
+	return 7;
+}
+
+CMD:c(playerid, params[])
 {
 	if(isnull(params))
 	{
-		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
-		ChatMsg(playerid, WHITE, "player/radio/local");
-	}
-	else {
-		PlayerSendChat(playerid, params, 0.0);
+		if(SetPlayerChatMode(playerid, CHAT_MODE_CLAN)) ChatMsg(playerid, GREY, "player/chat/mode/already");
+		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
+	} else {
+		PlayerSendChat(playerid, params, 4.0);
 
-		if(chat_Mode[playerid] == CHAT_MODE_LOCAL)
-			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
+		if(chat_Mode[playerid] == CHAT_MODE_CLAN) ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
@@ -334,22 +336,6 @@ CMD:me(playerid, params[])
 	PlayerSendChat(playerid, params, 2.0);
 
 	return 1;
-}
-
-CMD:c(playerid, params[])
-{
-	if(isnull(params))
-	{
-		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
-		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
-	} else {
-		PlayerSendChat(playerid, params, 4.0);
-
-		if(chat_Mode[playerid] == CHAT_MODE_CLAN)
-			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
-	}
-
-	return 7;
 }
 
 CMD:globaloff(playerid, params[])
