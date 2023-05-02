@@ -10,7 +10,7 @@ static
     Timer:BeepTimer[MAX_PLAYERS],
     Timer:BeepFrequencyCalculator[MAX_PLAYERS];
 
-bool:ToggleRadiationDevice(playerid, bool:toggle) {
+ToggleRadiationDevice(playerid, bool:toggle) {
     if(toggle == DeviceActive[playerid]) return;
 
     if(toggle) {
@@ -19,75 +19,63 @@ bool:ToggleRadiationDevice(playerid, bool:toggle) {
     } else {
         stop BeepFrequencyCalculator[playerid];
         stop BeepTimer[playerid];
+        PlayerPlaySound(playerid, 0, 0.0, 0.0, 0.0);
     }
 
     DeviceActive[playerid] = toggle;
 
     printf("[RADIATIONDEVICE] %s para %p", toggle ? "Ativado" : "Desativado", playerid);
+    ChatMsg(playerid, RADIATION_COLOR, "Medidor de Radiacao %s", toggle ? "Ativado" : "Desativado");
 
-    return;
+    return; 
+}
+
+DoesPlayerHaveRadiationDevice(playerid) {
+    for(new i; i < INV_MAX_SLOTS; i++)
+        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_Map) return 1;
+
+    return 0;
 }
 
 hook OnPlayerSpawn(playerid) {
-    // Verificamos o conteudo do inventario do jogador ou a mao. Qual deles vier primeiro
-    // Se tiver um Radiation Device entao ativamos
-
-    new ItemType:itemtype = GetItemType(GetPlayerItem(playerid));
-
-    if(itemtype == item_RadiationDevice) {
-        ToggleRadiationDevice(playerid, true);
-	}
+    if(DoesPlayerHaveRadiationDevice(playerid)) ToggleRadiationDevice(playerid, true);
 
     return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerDisconnect(playerid) {
+    ToggleRadiationDevice(playerid, false);
 
     return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerPickUpItem(playerid, itemid)
-{
-	new ItemType:itemtype = GetItemType(itemid);
-
-	if(itemtype == item_RadiationDevice) {
-        ToggleRadiationDevice(playerid, true);
-	}
+hook OnPlayerPickUpItem(playerid, itemid) {
+	if(GetItemType(itemid) == item_RadiationDevice) ToggleRadiationDevice(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerDropItem(playerid, itemid) {
-    new ItemType:itemtype = GetItemType(itemid);
-
-	if(itemtype == item_RadiationDevice) {
-        ToggleRadiationDevice(playerid, false);
-	}
+	if(GetItemType(itemid) == item_RadiationDevice) ToggleRadiationDevice(playerid, false);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 // Caso simplesmente remova de um container para o inventario
-hook OnItemAddToInventory(playerid, itemid)
-{
-    new ItemType:itemtype = GetItemType(itemid);
-
-	if(itemtype == item_RadiationDevice) {
-        ToggleRadiationDevice(playerid, true);
-    }
+hook OnItemAddToInventory(playerid, itemid) {
+	if(GetItemType(itemid) == item_RadiationDevice) ToggleRadiationDevice(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnItemRemoveFInventory(playerid, itemid)
-{
-    new ItemType:itemtype = GetItemType(itemid);
-
-	if(itemtype == item_RadiationDevice) {
-        ToggleRadiationDevice(playerid, false);
-    }
+hook OnItemRemoveFInventory(playerid, itemid) {
+	if(GetItemType(itemid) == item_RadiationDevice) ToggleRadiationDevice(playerid, false);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
+}
+
+hook OnAdminToggleDuty(playerid, bool:toggle, bool:goBack) {
+    if(DoesPlayerHaveRadiationDevice(playerid)) ToggleRadiationDevice(playerid, !toggle);
 }
 
 timer CalculateBeepInterval[SEC(1)](playerid) {
@@ -100,5 +88,9 @@ timer CalculateBeepInterval[SEC(1)](playerid) {
 timer Beep[frequency](playerid, frequency) {
     printf("[RADIATIONDEVICE] Beep(%d, %d)", playerid, frequency);
 
-    PlayerPlaySound(playerid, 2103, 0.0, 0.0, 0.0);
+    PlayerPlaySound(playerid, 4203, 0.0, 0.0, 0.0);
+}
+
+CMD:raddevice(playerid) {
+    ToggleRadiationDevice(playerid, !DeviceActive[playerid]);
 }
