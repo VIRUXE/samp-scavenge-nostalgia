@@ -9,7 +9,7 @@ static const Float:CLOUD_MAX_SIZE         = 1000.0;
 static const Float:CLOUD_SIZE_CHANGE      = 50.0;    // Maximum size change per second
 static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in degrees
 
-static const RADIATION_COLOR = 0x00FF00FF;
+#define RADIATION_COLOR 0x00FF00FF
 
 static bool:cloudDebug;
 
