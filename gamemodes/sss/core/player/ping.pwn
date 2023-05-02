@@ -9,6 +9,10 @@ static limitStrikes[MAX_PLAYERS];
 
 static ptask CheckPing[PING_CHECK_INTERVAL](playerid) {
     if(!PING_LIMIT) return;
+    if(IsPlayerOnAdminDuty(playerid)) {
+        if(limitStrikes[playerid]) limitStrikes[playerid] = 0;
+        return;
+    }
 
     new ping = GetPlayerPing(playerid);
 
