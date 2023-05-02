@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -37,8 +13,6 @@
 //#define SUPPLY_DROP_SPEED				(3.5)
 //#define SUPPLY_DROP_TICK_INTERVAL		(60000)
 //#define SUPPLY_DROP_COOLDOWN			(600000)
-
-new supplyCrateDropped = 0;
 
 enum E_SUPPLY_DROP_TYPE_DATA
 {
@@ -257,19 +231,17 @@ timer SupplyDropTimer[SUPPLY_DROP_TICK_INTERVAL]()
 	return;
 }
 
-SupplyCrateDrop(type, Float:x, Float:y, Float:z)
-{
+SupplyCrateDrop(type, Float:x, Float:y, Float:z) {
 	dbg("gamemodes/sss/core/world/supply-crate.pwn", 1, "[SupplyCrateDrop] Dropping supply crate of type %d at %f %f %f", type, x, y, z);
 
-	if(sup_CurrentType != -1)
-	{
+	if(sup_CurrentType != -1) {
 		dbg("gamemodes/sss/core/world/supply-crate.pwn", 1, "[SupplyCrateDrop] ERROR: sup_CurrentType is not -1 (%d)", sup_CurrentType);
 		return 0;
 	}
 
 	sup_ObjCrate1 = CreateDynamicObject(3799, x, y, 1000.0, 0.0, 0.0, 0.0, .streamdistance = 10000),
 	sup_ObjCrate2 = CreateDynamicObject(3799, x + 0.01, y + 0.01, 1000.0 + 2.4650, 0.0, 180.0, 0.0, .streamdistance = 10000),
-	sup_ObjPara = CreateDynamicObject(18849, x, y, 1000.0 + 8.0, 0.0, 0.0, 0.0, .streamdistance = 10000),
+	sup_ObjPara   = CreateDynamicObject(18849, x, y, 1000.0 + 8.0, 0.0, 0.0, 0.0, .streamdistance = 10000),
 	CreateDynamicObject(18728, x, y, z - 1.0, 0.0, 0.0, 0.0);
 
 	MoveDynamicObject(sup_ObjCrate1, x, y, z, SUPPLY_DROP_SPEED, 0.0, 0.0, 720.0);
@@ -277,21 +249,19 @@ SupplyCrateDrop(type, Float:x, Float:y, Float:z)
 	MoveDynamicObject(sup_ObjPara, x, y, z - 10.0, SUPPLY_DROP_SPEED, 0.0, 0.0, 720.0);
 
 	sup_CurrentType = type;
-	sup_DropX = x;
-	sup_DropY = y;
-	sup_DropZ = z;
+	sup_DropX       = x;
+	sup_DropY       = y;
+	sup_DropZ       = z;
 	
-	ShowSupplyIcon(sup_DropX, sup_DropY, sup_DropZ);
+	ShowSupplyIconForAll(sup_DropX, sup_DropY, sup_DropZ);
 
 	return 1;
 }
 
-SupplyCrateLand()
-{
+SupplyCrateLand() {
 	dbg("gamemodes/sss/core/world/supply-crate.pwn", 1, "[SupplyCrateLand] Supply crate landed, type: %d", sup_CurrentType);
 
-	if(sup_CurrentType == -1)
-	{
+	if(sup_CurrentType == -1) {
 		err("sup_CurrentType == -1");
 		return;
 	}
@@ -304,19 +274,16 @@ SupplyCrateLand()
 		Float:z,
 		lootindex;
 
-	foreach(new i : Player)
-	{
-		if(IsPlayerInRangeOfPoint(i, 3.0, sup_DropX, sup_DropY, sup_DropZ))
-		{
+	foreach(new i : Player) {
+		if(IsPlayerInRangeOfPoint(i, 3.0, sup_DropX, sup_DropY, sup_DropZ)) {
 			GetPlayerPos(i, x, y, z);
 			a = GetAngleToPoint(sup_DropX, sup_DropY, x, y);
 
 			SetPlayerPos(i, sup_DropX + (3.0 * floatsin(a, degrees)), sup_DropY + (3.0 * floatcos(a, degrees)), sup_DropZ + 1.0);
 		}
+
 		if(IsPlayerInRangeOfPoint(i, 10.0, sup_DropX, sup_DropY, sup_DropZ))
-		{
 			PlayerPlaySound(i, 23400, sup_DropX, sup_DropY, sup_DropZ);
-		}			
 	}
 
 	containerid = CreateContainer("Caixa de Suprimentos", 32, CreateButton(sup_DropX + 1.5, sup_DropY, sup_DropZ + 1.0, "Caixa de Suprimentos", .label = 1, .labeltext = "Caixa de Suprimentos"));
@@ -326,32 +293,28 @@ SupplyCrateLand()
 	dbg("gamemodes/sss/core/world/supply-crate.pwn", 2, "[SupplyCrateLand] Spawned %d items in supply crate container %d", 32 - GetContainerFreeSlots(containerid), containerid);
 
 	DestroyDynamicObject(sup_ObjPara);
-	sup_CurrentType = -1;
-	sup_ObjCrate1 = INVALID_OBJECT_ID;
-	sup_ObjCrate2 = INVALID_OBJECT_ID;
-	sup_ObjPara = INVALID_OBJECT_ID;
 
+	sup_CurrentType    = -1;
+	sup_ObjCrate1      = INVALID_OBJECT_ID;
+	sup_ObjCrate2      = INVALID_OBJECT_ID;
+	sup_ObjPara        = INVALID_OBJECT_ID;
 	sup_LastSupplyDrop = GetTickCount();
 
 	return;
 }
 
-hook OnDynamicObjectMoved(objectid)
-{
+hook OnDynamicObjectMoved(objectid) {
 	dbg("global", CORE, "[OnDynamicObjectMoved] in /gamemodes/sss/core/world/supply-crate.pwn");
 
-	if(objectid == sup_ObjPara)
-		SupplyCrateLand();
+	if(objectid == sup_ObjPara) SupplyCrateLand();
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-ACMD:sc[5](playerid, params[])
-{
+ACMD:sc[5](playerid, params[]) {
 	new type = strval(params);
 
-	if(isnull(params) || !(0 <= type < sup_TypeTotal))
-	{
+	if(isnull(params) || !(0 <= type < sup_TypeTotal)) {
 		ChatMsg(playerid, YELLOW, " >  Use: /sc [Tipo] - Tipos:");
 
 		for(new i; i < sup_TypeTotal; i++)
@@ -368,8 +331,7 @@ ACMD:sc[5](playerid, params[])
 	return 1;
 }
 
-ACMD:scinfo[5](playerid, params[])
-{
+ACMD:scinfo[5](playerid, params[]) {
 	ChatMsg(playerid, YELLOW, " >  Tipo atual: %d", sup_CurrentType);
 
 	for(new i; i < sup_TypeTotal; i++)
@@ -378,30 +340,14 @@ ACMD:scinfo[5](playerid, params[])
 	return 1;
 }
 
-// Interface
-
-stock ShowSupplyIconSpawn(playerid)
-{
-	if(supplyCrateDropped == 1)
-		SetPlayerMapIcon(playerid, ICON_SUPPLY, sup_DropX, sup_DropY, sup_DropZ, 38, 0, MAPICON_GLOBAL);
-}
-
-stock ShowSupplyIcon(Float:x, Float:y, Float:z)
-{
-	foreach(new i : Player)
-	{
-		if(PlayerMapCheck(i))
-		{
-			SetPlayerMapIcon(i, ICON_SUPPLY, x, y, z, 38, 0, MAPICON_GLOBAL);
-			supplyCrateDropped = 1;
-		}
+static ShowSupplyIconForAll(Float:x, Float:y, Float:z) {
+	foreach(new i : Player) {
+		if(DoesPlayerHaveMap(i)) SetPlayerMapIcon(i, ICON_SUPPLY, x, y, z, 38, 0, MAPICON_GLOBAL);
 	}
 }
 
-stock GetSupplyDropLocationName(location, name[MAX_SUPPLY_DROP_LOCATION_NAME])
-{
-	if(location >= sup_TotalLocations)
-		return 0;
+stock GetSupplyDropLocationName(location, name[MAX_SUPPLY_DROP_LOCATION_NAME]) {
+	if(location >= sup_TotalLocations) return 0;
 
 	name[0] = EOS;
 	strcat(name, sup_DropLocationData[location][supl_name]);
@@ -409,10 +355,8 @@ stock GetSupplyDropLocationName(location, name[MAX_SUPPLY_DROP_LOCATION_NAME])
 	return 1;
 }
 
-stock GetSupplyDropLocationPos(location, &Float:x, &Float:y, &Float:z)
-{
-	if(location >= sup_TotalLocations)
-		return 0;
+stock GetSupplyDropLocationPos(location, &Float:x, &Float:y, &Float:z) {
+	if(location >= sup_TotalLocations) return 0;
 
 	x = sup_DropLocationData[location][supl_posX];
 	y = sup_DropLocationData[location][supl_posY];
@@ -421,24 +365,19 @@ stock GetSupplyDropLocationPos(location, &Float:x, &Float:y, &Float:z)
 	return 1;
 }
 
-stock IsSupplyDropLocationUsed(location)
-{
-	if(location >= sup_TotalLocations)
-		return 0;
+stock IsSupplyDropLocationUsed(location) {
+	if(location >= sup_TotalLocations) return 0;
 
 	return sup_DropLocationData[location][supl_used];
 }
 
-stock GetTotalSupplyDropLocations()
-	return sup_TotalLocations;
+stock GetTotalSupplyDropLocations() return sup_TotalLocations;
 
-stock CallDropWithFlareGun(playerid) 
-{
+stock CallDropWithFlareGun(playerid) {
 	if(sup_CurrentType != -1) {
 		ChatMsg(playerid, RED, " > Você não pode chamar um drop no momento pois outro já está caindo!");
 		return false;	
-	} 
-	else{
+	} else{
 		new type;
 
 		switch(random(2)) {
@@ -446,11 +385,7 @@ stock CallDropWithFlareGun(playerid)
 			case 1: type = 4;
 		}
 
-		new
-			Float:x,
-			Float:y,
-			Float:z,
-			name[MAX_SUPPLY_DROP_TYPE_NAME];
+		new Float:x, Float:y, Float:z, name[MAX_SUPPLY_DROP_TYPE_NAME];
 
 		GetPlayerPos(playerid, x, y, z);
 		SupplyCrateDrop(type, x, y, z - FLOOR_OFFSET);
@@ -464,8 +399,17 @@ stock CallDropWithFlareGun(playerid)
 	} 
 }
 
-hook OnPlayerDisconnect(playerid, reason)
-{
-	if(supplyCrateDropped == 1)
-		RemovePlayerMapIcon(playerid, ICON_SUPPLY);   
+hook OnPlayerDisconnect(playerid, reason) {
+	if(sup_CurrentType != -1) RemovePlayerMapIcon(playerid, ICON_SUPPLY);   
+}
+
+hook OnPlayerUsingMap(playerid, bool:yes) { // ? Nao estou certo quanto a isso
+	if(sup_CurrentType == -1) return Y_HOOKS_CONTINUE_RETURN_0;
+
+	if(yes)
+		SetPlayerMapIcon(playerid, ICON_SUPPLY, sup_DropX, sup_DropY, sup_DropZ, 38, 0, MAPICON_GLOBAL);
+	else
+		RemovePlayerMapIcon(playerid, ICON_SUPPLY);
+
+	return Y_HOOKS_BREAK_RETURN_1;
 }
