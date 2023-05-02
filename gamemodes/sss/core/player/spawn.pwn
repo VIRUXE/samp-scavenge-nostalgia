@@ -96,20 +96,6 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonFemale[playerid], true);
 }
 
-stock PlayerMapCheck(playerid)
-{
-	new bool:player_hasMap[MAX_PLAYERS] = false;
-
-	for(new i; i < INV_MAX_SLOTS; i++)
-    {
-        new ItemType:itemtype = GetItemType(GetInventorySlotItem(playerid, i));
-
-        if(itemtype == item_Map) player_hasMap[playerid] = true;
-    }
-
-    return player_hasMap[playerid];
-}
-
 PrepareForSpawn(playerid)
 {
 	printf("PrepareForSpawn(%d)", playerid);
@@ -117,15 +103,6 @@ PrepareForSpawn(playerid)
 	ToggleHud(playerid, true);
 
 	if(IsPlayerInTutorial(playerid)) SetPlayerVirtualWorld(playerid, 0);
-
-	if(!PlayerMapCheck(playerid))
-		GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
-	else 
-	{
-		ShowSupplyIconSpawn(playerid);
-		WCIconSpawn(playerid);
-		ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, false);
-	}
 	
 	new hour, minute;
 	gettime(hour, minute);
