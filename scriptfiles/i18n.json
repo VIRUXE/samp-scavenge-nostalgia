@@ -1660,7 +1660,10 @@
 		}
 	},
 	"admin": {
-		"teleported-to": ["Admin %p teleportou-se para si", "Admin %p teleported to you"]
+		"teleported-to": [
+			"Admin %p teleportou-se para si",
+			"Admin %p teleported to you"
+		]
 	},
 	"player": {
 		"chat": {
@@ -2600,9 +2603,13 @@
 				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
 				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
 			],
+			"failed": [
+				"A sua submissao de bug falhou.",
+				"Failed."
+			],
 			"bug-description": [
-				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
-				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
+				"Escreva uma breve descricao do bug e como reproduzi-lo. Em seguida siga o report no Discord.",
+				"Write a short description of the bug and how to reproduce it. Follow up on it on Discord."
 			]
 		},
 		"restart_warning_3m": [

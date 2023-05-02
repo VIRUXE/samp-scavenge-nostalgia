@@ -490,14 +490,11 @@ public OnPlayerLogin(playerid) {
 
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
-		new
-			reports = GetUnreadReports(),
-			issues  = GetBugReports();
+		new reports = GetUnreadReports();
 
 		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
 		if(reports > 0) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
-		if(issues > 0) ChatMsg(playerid, YELLOW, " >  %d bugs reportados, use "C_BLUE"/bugs "C_YELLOW"para ver.", issues);
 	}
 
 	return 1;
