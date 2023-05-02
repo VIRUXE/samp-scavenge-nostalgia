@@ -7,7 +7,9 @@ static const MAX_STRIKES = 10;
 
 static limitStrikes[MAX_PLAYERS];
 
-ptask CheckPing[PING_CHECK_INTERVAL](playerid) {
+static ptask CheckPing[PING_CHECK_INTERVAL](playerid) {
+    if(!PING_LIMIT) return;
+
     new ping = GetPlayerPing(playerid);
 
     // Check if the ping exceeds the limit
@@ -19,13 +21,13 @@ ptask CheckPing[PING_CHECK_INTERVAL](playerid) {
         limitStrikes[playerid] = 0;
 }
 
-hook OnSettingsLoaded() {
+hook OnGameModeInit() {
     new Node:node;
 
 	JSON_GetObject(Settings, "player", node);
 	JSON_GetInt(node, "ping-limit", PING_LIMIT);
 
-	log("[PING] Limite: %d", PING_LIMIT);
+	log("[SETTINGS][PING] Limite: %d", PING_LIMIT);
 }
 
 hook OnPlayerDisconnect(playerid) {
