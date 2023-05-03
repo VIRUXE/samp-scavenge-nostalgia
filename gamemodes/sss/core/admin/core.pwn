@@ -473,24 +473,21 @@ CMD:admins(playerid)
 
 	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
-	new visibleAdmins;
-
 	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
-		visibleAdmins++;
-
-		format(line, sizeof(line), "%s %C(%s)\n",
+		format(line, sizeof(line), "(%s) %s %C(%s)\n",
+			GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? "Online" : "Offline",
 			admin_Data[i][admin_Name],
 			admin_Colours[admin_Data[i][admin_Rank]],
 			admin_Names[admin_Data[i][admin_Rank]]);
 
-		strcat(gBigString[playerid], GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? C_GREEN : C_WHITE);
+		strcat(gBigString[playerid], GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? C_GREEN : C_GREY);
 
 		strcat(gBigString[playerid], line);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, visibleAdmins ? gBigString[playerid] : "Nenhum", "OK", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "OK", "");
 
 	return 1;
 }
