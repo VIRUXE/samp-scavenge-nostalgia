@@ -21,20 +21,8 @@ static Float:cloudSpeed;
 static Float:cloudDirection;
 static cloudGangZone = INVALID_GANG_ZONE;
 
-// Retorna o tamanho da nuvem de radiação
-stock Float:GetRadiationCloudSize() return cloudSize;
-
-// Retorna a velocidade da nuvem de radiação
-stock Float:GetRadiationCloudSpeed() return cloudSpeed;
-
-// Retorna a localização da nuvem de radiação (posição X e posição Y)
-stock GetRadiationCloudPosition(&Float:x, &Float:y) {
-    x = cloudPosX;
-    y = cloudPosY;
-}
-
-// Retorna a distância até a nuvem de radiação
-Float:GetDistanceToRadiationCloud(Float: posX, Float: posY) return Distance2D(posX, posY, cloudPosX, cloudPosY);
+// Retorna a distância de um ponto até a nuvem de radiação
+stock Float:GetDistanceToRadiationCloud(Float: posX, Float: posY) return Distance2D(posX, posY, cloudPosX, cloudPosY);
 
 stock Float:GetPlayerDistanceToRadiation(playerid) {
     new Float:playerX, Float:playerY, Float:playerZ;
@@ -188,15 +176,10 @@ static task UpdateRadiationCloud[SEC(1)]() {
             new Float:oldPosX, Float:oldPosY, Float:oldPosZ;
             GetObjectPos(ballObject, oldPosX, oldPosY, oldPosZ);
 
-            new Float:distance = Distance(cloudPosX, cloudPosY, groundZ + 2.0, oldPosX, oldPosY, oldPosZ);
+            new const Float:distance = Distance(cloudPosX, cloudPosY, groundZ + 2.0, oldPosX, oldPosY, oldPosZ);
 
-            // Calculate the required speed to travel the distance in 1 second
-            new Float:requiredSpeed = distance;
-
-            MoveObject(ballObject, cloudPosX, cloudPosY, groundZ + 2.0, requiredSpeed);
+            MoveObject(ballObject, cloudPosX, cloudPosY, groundZ + 2.0, distance);
         }
-            // MoveObject(ballObject, cloudPosX, cloudPosY, groundZ + 2.0, 1000.0);
-            // SetObjectPos(ballObject, cloudPosX, cloudPosY, groundZ + 2.0);
     }
 
     // Verifica se a nuvem alcançou a borda oposta do mapa e reinicializa
