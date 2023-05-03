@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-#define MAP_SIZE 6000
+#define MAP_SIZE 3000
 
 forward OnPlayerUsingMap(playerid, bool:yes);
 
