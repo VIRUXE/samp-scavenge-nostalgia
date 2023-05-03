@@ -1,6 +1,10 @@
 #include <YSI\y_hooks>
 
+#define MAP_SIZE 6000
+
 forward OnPlayerUsingMap(playerid, bool:yes);
+
+static mapOverlay = INVALID_GANG_ZONE; // Gangzone que cobre o mapa completo
 
 // Mapa apenas pode ir no inventario, por alguma razao
 bool:DoesPlayerHaveMap(playerid) {
@@ -14,13 +18,17 @@ ToggleMap(playerid, bool:toggle) {
     if(toggle == DoesPlayerHaveMap(playerid)) return;
 
     if(toggle)
-        GangZoneHideForPlayer(playerid, MiniMapOverlay);
+        GangZoneHideForPlayer(playerid, mapOverlay);
     else
-        GangZoneShowForPlayer(playerid, MiniMapOverlay, 0x000000FF);
+        GangZoneShowForPlayer(playerid, mapOverlay, 0x000000FF);
 
     ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, !toggle);
 
     CallLocalFunction("OnPlayerUsingMap", "db", playerid, toggle);
+}
+
+hook OnGamemodeInit() {
+    mapOverlay = GangZoneCreate(-MAP_SIZE, -MAP_SIZE, MAP_SIZE, MAP_SIZE);
 }
 
 hook OnPlayerConnect(playerid) {

@@ -618,8 +618,6 @@ new stock
 	vgroup_Military,
 	vgroup_Unique;
 
-new MiniMapOverlay;
-
 public OnScriptInit()
 {
     //DisableInteriorEnterExits();
@@ -629,7 +627,7 @@ public OnScriptInit()
 	ManualVehicleEngineAndLights();
 	AllowInteriorWeapons(true);
 
-	MiniMapOverlay = GangZoneCreate(-6000, -6000, 6000, 6000);
+
 
 // ITEM TYPE DEFINITIONS
 // 00
