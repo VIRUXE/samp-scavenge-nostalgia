@@ -502,7 +502,7 @@ ItemType:		item_PortaCofre		= INVALID_ITEM_TYPE,
 ItemType:		item_SupplyDrop      = INVALID_ITEM_TYPE,
 ItemType:		item_Camouflage      = INVALID_ITEM_TYPE,
 ItemType:		item_Map             = INVALID_ITEM_TYPE,
-ItemType:		item_RadiationDevice = INVALID_ITEM_TYPE;
+ItemType:		item_GeigerCounter = INVALID_ITEM_TYPE;
 
 
 // VEHICLE TYPES
@@ -986,7 +986,7 @@ public OnScriptInit()
 	item_SupplyDrop		= DefineItemType("Sinalizador",				"SupplyDrop",		2034,	2,	0.0, 0.0, 0.0,			0.0,	0.176000, 0.020000, 0.039999,  89.199989, -0.900000, 1.099991, .maxhitpoints = 2);
 	item_Camouflage		= DefineItemType("Camuflagem",				"Camouflage",		1578,	2,	0.0, 0.0, 0.0,			0.0,	0.269091, 0.166367, 0.000000, 90.000000, 0.000000, 0.000000, .maxhitpoints = 2);
 	item_Map			= DefineItemType("Mapa",					"Map",				19167,	1,	0.0, 0.0, 0.0,			0.0,	-0.093000, 0.086000, 0.000000, 		-96.100000, 8.699900, 0.000000, .maxhitpoints = 1);
-	item_RadiationDevice = DefineItemType("Medidor de Radiacao", "RadiationDevice",	18871,	1,	0.0, 0.0, 0.0,			0.0,	0.103904, -0.003697, -0.015173, 94.655189, 184.031860, 0.000000, .buttonz = FLOOR_OFFSET / 2, .maxhitpoints = 1);
+	item_GeigerCounter  = DefineItemType("Contador Geiger",         "GeigerCounter",	18871,	1,	0.0, 0.0, 0.0,			0.0,	0.103904, -0.003697, -0.015173, 94.655189, 184.031860, 0.000000, .buttonz = FLOOR_OFFSET / 2, .maxhitpoints = 1);
 
 	// SETTING ITEM TYPE SCRAP VALUE
 	SetItemTypeScrapValue(item_Knuckles,		1);
