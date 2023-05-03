@@ -208,6 +208,14 @@ CheckAdminLevel(playerid) {
 	}
 }
 
+timer DeferedTimeout[500](playerid, time) {
+	new ip[16];
+	GetPlayerIp(playerid, ip, sizeof(ip));
+	BlockIpAddress(ip, time);
+
+	admin_PlayerKicked[playerid] = true;
+}
+
 TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellPlayer = true) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
@@ -215,11 +223,7 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellPlayer = true) {
 
 	if(tellPlayer) ChatMsg(playerid, RED, "Você foi desconectado por %d minuto%s. Motivo: %s", time / 60000, time / 60000 > 1 ? "s" : "", reason);
 
-	new ip[16];
-	GetPlayerIp(playerid, ip, sizeof(ip));
-	BlockIpAddress(ip, time);
-
-	admin_PlayerKicked[playerid] = true;
+	defer DeferedTimeout(playerid, time);
 
 	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
@@ -465,12 +469,16 @@ CMD:admins(playerid)
 		title[20],
 		line[52];
 
-	gBigString[playerid] = "Nenhums";
+	gBigString[playerid][0] = EOS;
 
 	format(title, 20, "Lista de Admins (%d)", admin_Total);
 
+	new visibleAdmins;
+
 	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
+
+		visibleAdmins++;
 
 		format(line, sizeof(line), "%s %C(%s)\n",
 			admin_Data[i][admin_Name],
@@ -482,7 +490,7 @@ CMD:admins(playerid)
 		strcat(gBigString[playerid], line);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "OK", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, visibleAdmins ? gBigString[playerid] : "Nenhum", "OK", "");
 
 	return 1;
 }
