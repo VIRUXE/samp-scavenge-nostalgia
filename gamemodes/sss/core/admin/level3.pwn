@@ -153,47 +153,28 @@ ACMD:free[3](playerid)
 {
 	if(!IsPlayerOnAdminDuty(playerid)) return 6;
 
-	if(GetPlayerSpectateType(playerid) == SPECTATE_TYPE_FREE)
-		ExitFreeMode(playerid);
-	else
-		EnterFreeMode(playerid);
+	if(GetPlayerSpectateType(playerid) == SPECTATE_TYPE_FREE) ExitFreeMode(playerid); else EnterFreeMode(playerid);
 
 	return 1;
 }
 
-/*ACMD:recam[4](playerid, params[])
+ACMD:recam[4](playerid, params[])
 {
 	SetCameraBehindPlayer(playerid);
 	return 1;
-}*/
+}
 
-ACMD:ip[3](playerid, params[])
-{
-	if(isnumeric(params))
-	{
-		new targetid = strval(params);
+ACMD:ip[3](playerid, params[]) {
+	if(isnumeric(params)) {
+		new targetId = strval(params);
 
-		if(!IsPlayerConnected(targetid))
-		{
-			if(targetid > 99)
-				ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
+		if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
 
-			else
-				return 4;
-		}
-
-		ChatMsg(playerid, YELLOW, " >  IP de %P"C_YELLOW": %s", targetid, IpIntToStr(GetPlayerIpAsInt(targetid)));
-	}
-	else
-	{
-		if(!AccountExists(params))
-		{
-			ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", params);
-			return 1;
-		}
+		ChatMsg(playerid, YELLOW, " >  IP de %P"C_YELLOW": %s", targetId, IpIntToStr(GetPlayerIpAsInt(targetId)));
+	} else {
+		if(!AccountExists(params)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", params);
 
 		new ip;
-
 		GetAccountIP(params, ip);
 
 		ChatMsg(playerid, YELLOW, " >  IP de "C_BLUE"%s"C_YELLOW": %s", params, IpIntToStr(ip));
