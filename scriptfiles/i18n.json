@@ -1707,8 +1707,8 @@
 			"%P left the server"
 		],
 		"left-crash": [
-			"%P crashou",
-			"%P crashed"
+			"%P foi timeout ou crashou",
+			"%P either crashed or was timed out"
 		],
 		"ping": [
 			"Ping muito alto",
