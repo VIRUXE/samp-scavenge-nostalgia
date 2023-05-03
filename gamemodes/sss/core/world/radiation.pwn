@@ -9,7 +9,7 @@ static const Float:CLOUD_MAX_SIZE         = 1000.0;
 static const Float:CLOUD_SIZE_CHANGE      = 50.0;    // Maximum size change per second
 static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in degrees
 
-#define RADIATION_COLOR 0x00FF00FF
+#define COLOR_RADIATION 0x00FF00BB
 
 static bool:cloudDebug;
 
@@ -21,22 +21,35 @@ static Float:cloudSpeed;
 static Float:cloudDirection;
 static cloudGangZone = INVALID_GANG_ZONE;
 
-// Retorna o tamanho da nuvem de radia√ß√£o
+// Retorna o tamanho da nuvem de radiaÁ„o
 stock Float:GetRadiationCloudSize() return cloudSize;
 
-// Retorna a velocidade da nuvem de radia√ß√£o
+// Retorna a velocidade da nuvem de radiaÁ„o
 stock Float:GetRadiationCloudSpeed() return cloudSpeed;
 
-// Retorna a localiza√ß√£o da nuvem de radia√ß√£o (posi√ß√£o X e posi√ß√£o Y)
-stock GetRadiationCloudLocation(&Float:x, &Float:y) {
+// Retorna a localizaÁ„o da nuvem de radiaÁ„o (posiÁ„o X e posiÁ„o Y)
+stock GetRadiationCloudPosition(&Float:x, &Float:y) {
     x = cloudPosX;
     y = cloudPosY;
 }
 
-// Retorna a dist√¢ncia at√© a nuvem de radia√ß√£o
+// Retorna a dist‚ncia atÈ a nuvem de radiaÁ„o
 Float:GetDistanceToRadiationCloud(Float: posX, Float: posY) return Distance2D(posX, posY, cloudPosX, cloudPosY);
 
-bool:IsPlayerInsideCloud(playerid) {
+stock Float:GetPlayerDistanceToRadiation(playerid) {
+    new Float:playerX, Float:playerY, Float:playerZ;
+    GetPlayerPos(playerid, playerX, playerY, playerZ);
+
+    // Calculate the 2D distance between the player and the cloud center
+    new Float:centerDistance = Distance2D(playerX, playerY, cloudPosX, cloudPosY);
+
+    // Subtract the size of the cloud to get the distance to the edge
+    new Float:edgeDistance = centerDistance - cloudSize;
+
+    return edgeDistance;
+}
+
+/* bool:IsPlayerInsideCloud(playerid) {
     new Float:playerX, Float:playerY, Float:playerZ;
     GetPlayerPos(playerid, playerX, playerY, playerZ);
 
@@ -45,7 +58,7 @@ bool:IsPlayerInsideCloud(playerid) {
 
     // Check if the player's distance from the cloud center is less than or equal to the cloud size
     return distance <= cloudSize;
-}
+} */
 
 bool:IsPlayerWearingRadiationMask(playerid) return GetPlayerMaskItem(playerid) == item_GasMask ? true : false;
 
@@ -93,22 +106,23 @@ bool:IsPlayerExposedToRadiation(playerid) {
 }
 
 static InitializeRadiationCloud() {
-    // Escolhemos uma borda aleat√≥ria: 0 - topo, 1 - inferior, 2 - esquerda, 3 - direita
+    // Escolhemos uma borda aleatÛria: 0 - topo, 1 - inferior, 2 - esquerda, 3 - direita
     new const border = random(4);
+    new const Float:MAP_SIZE_FLOAT = float(MAP_SIZE);
 
     switch (border) {
         case 0: { // Borda superior
-            cloudPosX = random_float(-3000.0, 3000.0);
-            cloudPosY = 3000.0;
+            cloudPosX = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
+            cloudPosY = MAP_SIZE_FLOAT;
         } case 1: { // Borda inferior
-            cloudPosX = random_float(-3000.0, 3000.0);
-            cloudPosY = -3000.0;
+            cloudPosX = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
+            cloudPosY = -MAP_SIZE_FLOAT;
         } case 2: { // Borda esquerda
-            cloudPosX = -3000.0;
-            cloudPosY = random_float(-3000.0, 3000.0);
+            cloudPosX = -MAP_SIZE_FLOAT;
+            cloudPosY = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
         } case 3: { // Borda direita
-            cloudPosX = 3000.0;
-            cloudPosY = random_float(-3000.0, 3000.0);
+            cloudPosX = MAP_SIZE_FLOAT;
+            cloudPosY = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
         }
     }
 
@@ -119,10 +133,10 @@ static InitializeRadiationCloud() {
 
     new const borderDescriptions[][9] = {"Superior", "Inferior", "Esquerda", "Direita"};
 
-    printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Dire√ß√£o: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
+    printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, DireÁ„o: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
 }
 
-// Atualiza a fun√ß√£o UpdateRadiationCloud para criar/atualizar o objeto dummy com as mesmas coordenadas X e Y da nuvem:
+// Atualiza a funÁ„o UpdateRadiationCloud para criar/atualizar o objeto dummy com as mesmas coordenadas X e Y da nuvem:
 static task UpdateRadiationCloud[SEC(1)]() {
     static bool:isCloudOnLand;
 
@@ -145,7 +159,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
     new const Float:cloudMinY   = cloudPosY - cloudHeight / 2.0;
     new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0;
 
-    // Verifica se a posi√ß√£o central da nuvem est√° sobre a terra
+    // Verifica se a posiÁ„o central da nuvem est· sobre a terra
     if (IsPosition2DOnLand(cloudPosX, cloudPosY)) {
         if (!isCloudOnLand) {
             printf("[RADIATION] Nuvem chegou em terra.");
@@ -158,10 +172,10 @@ static task UpdateRadiationCloud[SEC(1)]() {
         }
     }
 
-    // Atualiza a posi√ß√£o e o tamanho da zona de gangue
+    // Atualiza a posiÁ„o e o tamanho da zona de gangue
     GangZoneDestroy(cloudGangZone);
     cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
-    GangZoneShowForAll(cloudGangZone, RADIATION_COLOR);
+    GangZoneShowForAll(cloudGangZone, COLOR_RADIATION);
 
     // Calculate the coordinates for the dummy object
     new Float:groundZ;
@@ -185,8 +199,8 @@ static task UpdateRadiationCloud[SEC(1)]() {
             // SetObjectPos(ballObject, cloudPosX, cloudPosY, groundZ + 2.0);
     }
 
-    // Verifica se a nuvem alcan√ßou a borda oposta do mapa e reinicializa
-    if((cloudPosX > 3000) || (cloudPosX < -3000) || (cloudPosY > 3000) || (cloudPosY < -3000)) {
+    // Verifica se a nuvem alcanÁou a borda oposta do mapa e reinicializa
+    if((cloudPosX > MAP_SIZE) || (cloudPosX < -MAP_SIZE) || (cloudPosY > MAP_SIZE) || (cloudPosY < -MAP_SIZE)) {
         printf("[RADIATION] Nuvem bateu numa borda. Iniciando outra.");
 
         InitializeRadiationCloud();
@@ -221,13 +235,13 @@ static timer GotoCloud[SEC(1)](playerid, follow) {
             SetPlayerCameraPos(playerid, x, y, z);
             SetPlayerCameraLookAt(playerid, cloudPosX, cloudPosY, groundZ + 2.0, CAMERA_MOVE);
         } else
-            SetPlayerPos(playerid, x,y, groundZ);
+            SetPlayerPos(playerid, x,y, groundZ + 2.0);
     }
 }
 
-ACMD:cloud[5](playerid, params[]) {
+ACMD:rad[5](playerid, params[]) {
     new subcmd[10];
-    if(sscanf(params, "s[10]", subcmd)) return SendClientMessage(playerid, WHITE, "USAGE: /cloud [goto|follow|new]");
+    if(sscanf(params, "s[10]", subcmd)) return SendClientMessage(playerid, WHITE, "USAGE: /rad [debug|goto|follow|new]");
 
     if(isequal(subcmd, "goto", true)) {
         GotoCloud(playerid, false);
@@ -248,9 +262,9 @@ ACMD:cloud[5](playerid, params[]) {
     else if(isequal(subcmd, "debug", true)) {
         cloudDebug = !cloudDebug;
 
-        ChatMsg(playerid, GREEN, "Debug de Nuvem %s", cloudDebug ? "Ativado" : "Desativado");
+        ChatMsg(playerid, COLOR_RADIATION, "Debug de Nuvem %s", cloudDebug ? "Ativado" : "Desativado");
     } else
-        SendClientMessage(playerid, WHITE, "USAGE: /cloud [goto|follow|new]");
+        SendClientMessage(playerid, WHITE, "USAGE: /rad [debug|goto|follow|new]");
 
     return 1;
 }
