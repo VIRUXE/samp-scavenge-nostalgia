@@ -168,3 +168,10 @@ stock IsNaN(Float:number)
 stock Float:random_float(Float:min, Float:max) {
     return min + (random(10001) / 10000.0) * (max - min);
 }
+
+// * Nao tem bem a ver com matematica mas que se foda
+Float:fclamp(Float:value, Float:minValue, Float:maxValue) {
+    if (value < minValue) return minValue;
+    if (value > maxValue) return maxValue;
+    return value;
+}
