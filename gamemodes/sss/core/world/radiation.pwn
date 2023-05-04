@@ -1,5 +1,11 @@
 #include <YSI\y_hooks>
 
+#define RADIATIONCLOUD_BORDER 0.0
+#define COLOR_RADIATION 0x00FF00BB
+
+forward OnPlayerEnterRadiation(playerid, Float:percentageInside);
+forward OnPlayerExitRadiation(playerid);
+
 // Constantes de comportamento da nuvem
 static const Float:CLOUD_MIN_SPEED        = 0.1;
 static const Float:CLOUD_MAX_SPEED        = 1.0;
@@ -8,8 +14,6 @@ static const Float:CLOUD_MIN_SIZE         = 500.0;
 static const Float:CLOUD_MAX_SIZE         = 1000.0;
 static const Float:CLOUD_SIZE_CHANGE      = 50.0;    // Maximum size change per second
 static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in degrees
-
-#define COLOR_RADIATION 0x00FF00BB
 
 static bool:cloudDebug;
 
@@ -21,10 +25,15 @@ static Float:cloudSpeed;
 static Float:cloudDirection;
 static cloudGangZone = INVALID_GANG_ZONE;
 
+static Iterator:playersInside<MAX_PLAYERS>;
+
+static const MIN_COLLISIONS_FOR_PROTECTION = 30;
+
 // Retorna a distância de um ponto até a nuvem de radiação
 stock Float:GetDistanceToRadiationCloud(Float: posX, Float: posY) return Distance2D(posX, posY, cloudPosX, cloudPosY);
 
-stock Float:GetPlayerDistanceToRadiation(playerid) {
+// 0.0 na borda e valor negativo dai para dentro
+Float:GetPlayerDistanceToRadiation(playerid) {
     new Float:playerX, Float:playerY, Float:playerZ;
     GetPlayerPos(playerid, playerX, playerY, playerZ);
 
@@ -35,6 +44,21 @@ stock Float:GetPlayerDistanceToRadiation(playerid) {
     new Float:edgeDistance = centerDistance - cloudSize;
 
     return edgeDistance;
+}
+
+Float:GetPercentageToRadiationCenter(Float:radiationDistance) {
+    if (radiationDistance > 0.0) return -1.0; // Player is outside the radiation cloud
+
+    new const Float:positiveDistance = -1.0 * radiationDistance; // Convert the negative distance to a positive value
+
+    return (positiveDistance / cloudSize) * 100.0;
+}
+
+bool:IsPlayerInsideRadiation(playerid) {
+    foreach(new i : playersInside)
+        if(i == playerid) return true;
+
+    return false;
 }
 
 /* bool:IsPlayerInsideCloud(playerid) {
@@ -48,49 +72,75 @@ stock Float:GetPlayerDistanceToRadiation(playerid) {
     return distance <= cloudSize;
 } */
 
-bool:IsPlayerWearingRadiationMask(playerid) return GetPlayerMaskItem(playerid) == item_GasMask ? true : false;
+// Retorna o itemId se for mesmo uma mascara de gas
+IsPlayerWearingGasMask(playerid) {
+    new itemId = GetPlayerMaskItem(playerid);
+	
+	if(!IsValidItem(itemId)) return INVALID_ITEM_ID;
 
-bool:IsPlayerExposedToRadiation(playerid) {
-    if (!IsPlayerInsideCloud(playerid)) return false;
+    return GetItemType(itemId) == item_GasMask ? itemId : INVALID_ITEM_ID;
+}
 
-    printf("[IsPlayerBeingAffectedByRadiation] Player %d is inside the cloud.", playerid);
+Float:GetPlayerGasMaskProtection(playerid) {
+    new mask = IsPlayerWearingGasMask(playerid);
 
-    // Check if the player is inside a building
-    if (GetPlayerInterior(playerid)) {
-        printf("[IsPlayerBeingAffectedByRadiation] Player %d is inside a building.", playerid);
-        return false; // Player is inside a building, not affected by radiation
-    }
+    if(mask == INVALID_ITEM_ID) return 0.0; // If the player is not wearing a mask, return 0% protection
 
-    // Check if the player is in a covered vehicle
-    const vehicleid = GetPlayerVehicleID(playerid);
-    if (vehicleid != INVALID_VEHICLE_ID && !IsModelOpenTopVehicle(GetVehicleModel(vehicleid))) {
-        printf("[IsPlayerBeingAffectedByRadiation] Player %d is in a covered vehicle.", playerid);
-        return false; // Player is in a covered car, not affected by radiation
-    }
+    //GetItemExtraData - Para ler a nivel de vida util da mascara
 
-    // Check if the player is inside a well protected structure
+    return 100.0; // ! placeholder apenas
+}
+
+Float:GetPlayerRadiationExposure(playerid) {
+    if(!IsPlayerInsideRadiation(playerid)) return 0.0;
+    if(GetPlayerInterior(playerid)) return 0.0;
+
+    new const Float:radiationDistance  = GetPlayerDistanceToRadiation(playerid);
+    new const Float:distancePercentage = GetPercentageToRadiationCenter(radiationDistance);
+
+    new Float:protectionPercentage;
+
+    // Verificamos se o jogador esta dentro de uma estrutura bem protegida
     new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
     GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
 
-    new Float:collisions[100][3];
+    new Float:collisions[100][3]; // ? Porque 100 mesmo?
     new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
 
-    new minCollisionsForProtection = floatround(numCollisions * 0.9, floatround_floor);
-    printf("[IsPlayerBeingAffectedByRadiation] Player %d has %d collisions out of %d needed for protection.", playerid, numCollisions, minCollisionsForProtection);
+    // Calculate the protectionPercentage according to numCollisions and MIN_COLLISIONS_FOR_PROTECTION
+    if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION)
+        return 0.0; // Esta bem coberto
+    else
+        protectionPercentage += (numCollisions / float(MIN_COLLISIONS_FOR_PROTECTION)) * 100.0;
+    
+    // Verificar a protecao dentro de um veiculo
+    // Vai de 10 a 20 porcento em relacao ao tamanho do veiculo
+    new const vehicleid = GetPlayerVehicleID(playerid);
+    if (vehicleid != INVALID_VEHICLE_ID) {
+        new Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz;
+        
+        CA_GetModelBoundingBox(GetVehicleModel(vehicleid), minx, miny, minz, maxx, maxy, maxz);
+        
+        // Calcula o tamanho do veiculo
+        new const Float:vehicleSize = (maxx - minx) * (maxy - miny) * (maxz - minz);
 
-    if (numCollisions >= minCollisionsForProtection) {
-        printf("[IsPlayerBeingAffectedByRadiation] Player %d is in a confined space.", playerid);
-        return false; // Player has a structure above them, not affected by radiation
+        // Inverse protection based on vehicle size (larger vehicles provide less protection)
+        new Float:vehicleProtection = 20.0 - (5000.0 / vehicleSize);
+        vehicleProtection = fclamp(vehicleProtection, 10.0, 20.0);
+
+        protectionPercentage += vehicleProtection;
     }
 
     // Check if the player is wearing a mask
-    if (IsPlayerWearingRadiationMask(playerid)) {
-        printf("[IsPlayerBeingAffectedByRadiation] Player %d is wearing a radiation mask.", playerid);
-        return false; // Player is wearing a mask, not affected by radiation
-    }
+    protectionPercentage += GetPlayerGasMaskProtection(playerid);
 
-    printf("[IsPlayerBeingAffectedByRadiation] Player %d is affected by radiation.", playerid);
-    return true; // Player is under the cloud and not protected, affected by radiation
+    // Check if the player is wearing skin ID 285
+    if (GetPlayerSkin(playerid) == 285) protectionPercentage += 50.0;
+
+    // Clamp protection percentage between 0 and 100
+    protectionPercentage = fclamp(protectionPercentage, 0.0, 100.0);
+
+    return 100.0 * (distancePercentage / 100.0) * (1.0 - (protectionPercentage / 100.0));
 }
 
 static InitializeRadiationCloud() {
@@ -122,6 +172,16 @@ static InitializeRadiationCloud() {
     new const borderDescriptions[][9] = {"Superior", "Inferior", "Esquerda", "Direita"};
 
     printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Direção: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
+}
+
+
+
+public OnPlayerEnterRadiation(playerid, Float:percentageInside) {
+    ChatMsgAll(COLOR_RADIATION, "%p entrou na radiacao. (%.1f\% dentro)", playerid, percentageInside);
+}
+
+public OnPlayerExitRadiation(playerid) {
+    ChatMsgAll(COLOR_RADIATION, "%p conseguiu fugir da radiacao", playerid);
 }
 
 // Atualiza a função UpdateRadiationCloud para criar/atualizar o objeto dummy com as mesmas coordenadas X e Y da nuvem:
@@ -165,6 +225,10 @@ static task UpdateRadiationCloud[SEC(1)]() {
     cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
     GangZoneShowForAll(cloudGangZone, COLOR_RADIATION);
 
+    foreach(new i : Player) {
+        SetPlayerMapIcon(i, 232, cloudPosX, cloudPosY, 0.0, 1, COLOR_RADIATION, MAPICON_LOCAL);
+    }
+
     // Calculate the coordinates for the dummy object
     new Float:groundZ;
     if(CA_FindZ_For2DCoord(cloudPosX, cloudPosY, groundZ)) {
@@ -189,11 +253,6 @@ static task UpdateRadiationCloud[SEC(1)]() {
         InitializeRadiationCloud();
     } else
         if(cloudDebug) printf("[RADIATION] -> Direction: %.2f, Speed: %.2f, Size: %.2f, Position X: %.2f, Position Y: %.2f", cloudDirection, cloudSpeed, cloudSize, cloudPosX, cloudPosY);
-}
-
-// Apenas iniciar a nuvem quando o mundo acabar de gerar
-hook OnWorldGenerated() {
-    InitializeRadiationCloud();
 }
 
 static timer GotoCloud[SEC(1)](playerid, follow) {
@@ -222,11 +281,36 @@ static timer GotoCloud[SEC(1)](playerid, follow) {
     }
 }
 
+static ptask RadiationAreaCheck[SEC(1)](playerid) {
+    new Float:radiationDistance = GetPlayerDistanceToRadiation(playerid);
+
+    if(radiationDistance <= RADIATIONCLOUD_BORDER) { // Se o player esta dentro da radiacao ou nao
+        if(!IsPlayerInsideRadiation(playerid)) { // Se ainda nao esta no array
+            Iter_Add(playersInside, playerid);
+
+            CallLocalFunction("OnPlayerEnterRadiation", "df", playerid, GetPercentageToRadiationCenter(radiationDistance));
+        }
+    } else {
+        if(IsPlayerInsideRadiation(playerid)) {
+            Iter_Remove(playersInside, playerid);
+
+            CallLocalFunction("OnPlayerExitRadiation", "d", playerid);
+        }
+    }
+}
+
+// Apenas iniciar a nuvem quando o mundo acabar de gerar
+hook OnWorldGenerated() {
+    InitializeRadiationCloud();
+}
+
 ACMD:rad[5](playerid, params[]) {
     new subcmd[10];
     if(sscanf(params, "s[10]", subcmd)) return SendClientMessage(playerid, WHITE, "USAGE: /rad [debug|goto|follow|new]");
 
-    if(isequal(subcmd, "goto", true)) {
+    if(isequal(subcmd, "exposure", true))
+        ChatMsg(playerid, COLOR_RADIATION, "Nivel de Exposicao Radioativa: %.2f", GetPlayerRadiationExposure(playerid));
+    else if(isequal(subcmd, "goto", true)) {
         GotoCloud(playerid, false);
     } else if(isequal(subcmd, "follow", true)) {
         static bool:follow;
