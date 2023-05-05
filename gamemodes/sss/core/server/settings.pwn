@@ -4,13 +4,9 @@ new Node:Settings;
 
 LoadSettings()
 {
-	new result;
-
 	log("[SETTINGS] Carregando configura??es...");
 
-	result = JSON_ParseFile("settings.json", Settings);
-	if(result) // N?o foi poss?vel carregar o arquivo
-	{
+	if(JSON_ParseFile("settings.json", Settings)) { // N?o foi poss?vel carregar o arquivo
 		log("[SETTINGS] Erro: N?o foi poss?vel carregar o arquivo de configura??es. Usando as configura??es padr?o.");
 
 		Settings = JSON_Object(
@@ -147,7 +143,7 @@ LoadSettings()
 			)
 		);
 
-		JSON_SaveFile("settings.json", Settings, .pretty = true);
+		JSON_SaveFile("settings.json", Settings, true);
 	}
 
 	CallLocalFunction("OnSettingsLoaded", "");
