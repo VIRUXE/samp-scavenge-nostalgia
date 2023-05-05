@@ -208,16 +208,12 @@ ACMD:food[5](playerid, params[])
 
 ACMD:bleed[5](playerid, params[])
 {
-	new Float:value;
+	new targetId, Float:value;
 
-	if(sscanf(params, "f", value))
-	{
-		ChatMsg(playerid, YELLOW, "Current bleed rate %f", GetPlayerBleedRate(playerid));
-		return 1;
-	}
+	if(sscanf(params, "R(*)F(100.0)", playerid, targetId, value)) return 1;
 
-	SetPlayerBleedRate(playerid, value);
-	ChatMsg(playerid, YELLOW, "Set bleed rate to %f", value);
+	SetPlayerBleedRate(targetId, value);
+	ChatMsg(playerid, YELLOW, "Set %p bleed rate to %.2f", value);
 
 	return 1;
 }
