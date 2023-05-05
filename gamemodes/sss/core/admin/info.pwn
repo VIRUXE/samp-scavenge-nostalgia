@@ -53,19 +53,18 @@ ACMD:info[1](playerid, params[]) {
 
             JSON_GetArray(node, "content", node);
             
-            if(targetId != INVALID_PLAYER_ID && targetId != playerid) {
+            foreach(new p : Player) {
                 // Obtemos o conteudo de acordo com o idioma do jogador
-                JSON_ArrayObject(node, GetPlayerLanguage(targetId), node);
-                JSON_GetNodeString(node, content);    
+                JSON_ArrayObject(node, GetPlayerLanguage(p), node);
+                JSON_GetNodeString(node, content);
 
-                return ChatMsgAll(LBLUE, " ! Info ('%s'): %P "C_WHITE"%s", cmd, targetId, content);
-            } else { // Nao foi passado um jogador
-                // Obtemos o conteudo em pt
-                JSON_ArrayObject(node, 0, node);
-                JSON_GetNodeString(node, content);    
-
-                return ChatMsgAll(LBLUE, " ! Info ('%s'): "C_WHITE"%s", cmd, content);
+                if(targetId != INVALID_PLAYER_ID && targetId != playerid)
+                    ChatMsg(p, LBLUE, " ! Info ('%s'): %P "C_WHITE"%s", cmd, targetId, content);
+                else
+                    ChatMsg(p, LBLUE, " ! Info ('%s'): "C_WHITE"%s", cmd, content);
             }
+
+            return 1;
         }
     }
 
