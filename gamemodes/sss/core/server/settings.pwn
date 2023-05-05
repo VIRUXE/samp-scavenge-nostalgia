@@ -244,3 +244,14 @@ stock Float:GetSettingFloat(const name[]) {
 
 	return result;
 }
+
+ACMD:rsettings[5](playerid) {
+	new result = JSON_ParseFile("settings.json", Settings);
+
+	if(!result)
+		ChatMsgAdmins(1, YELLOW, "%p recarregou as definicoes", playerid);
+	else
+		ChatMsg(playerid, RED, "Nao foi possivel recarregar as definicoes");
+
+	return 1;
+}
