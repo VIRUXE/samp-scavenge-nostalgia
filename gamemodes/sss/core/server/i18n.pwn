@@ -1,7 +1,4 @@
-#define MAX_LANGUAGE_ENTRY_LENGTH 199 // json_longest_string.py
-
-#define CACHE_SIZE 50
-#define CACHE_ROUTE_LENGTH 40 // player/key-actions/player/open_inventory
+#define MAX_LANGUAGE_ENTRY_LENGTH 750 // A rota maior e a "help"
 
 enum {
 	PORTUGUESE,
@@ -48,14 +45,12 @@ static ReplaceTags(content[]) {
         {"KEYTEXT_RADIO", "R"}
     };
 
-    for (new i = 0; i < sizeof(replacements); i++)
-    {
+    for(new i = 0; i < sizeof(replacements); i++) {
         new formattedTag[20];
         format(formattedTag, sizeof(formattedTag), "{%s}", replacements[i][TAG]);
 
         new findIndex = -1;
-        while ((findIndex = strfind(content, formattedTag, false, findIndex + 1)) != -1)
-        {
+        while ((findIndex = strfind(content, formattedTag, false, findIndex + 1)) != -1) {
             strdel(content, findIndex, findIndex + strlen(formattedTag));
             strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
         }
