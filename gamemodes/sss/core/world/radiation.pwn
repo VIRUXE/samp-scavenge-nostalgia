@@ -93,52 +93,73 @@ Float:GetPlayerGasMaskProtection(playerid) {
 
 Float:GetPlayerRadiationExposure(playerid) {
     if(!IsPlayerInsideRadiation(playerid)) return 0.0;
-    if(GetPlayerInterior(playerid)) return 0.0;
+    if(GetPlayerInterior(playerid)) {
+        ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] You are in an interior, no exposure.");
+        return 0.0;
+    }
 
     new const Float:radiationDistance  = GetPlayerDistanceToRadiation(playerid);
     new const Float:distancePercentage = GetPercentageToRadiationCenter(radiationDistance);
 
+    ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Distance percentage: %f", distancePercentage);
+
     new Float:protectionPercentage;
 
-    // Verificamos se o jogador esta dentro de uma estrutura bem protegida
+    // Calcula se esta esta dentro de uma estrutura
     new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
     GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
 
-    new Float:collisions[100][3]; // ? Porque 100 mesmo?
-    new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
+    if (CA_GetRoomHeight(playerPosX, playerPosY, playerPosZ) > 0.0) {
+        ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Esta por baixo de uma estrutura");
 
-    // Calculate the protectionPercentage according to numCollisions and MIN_COLLISIONS_FOR_PROTECTION
-    if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION)
-        return 0.0; // Esta bem coberto
-    else
-        protectionPercentage += (numCollisions / float(MIN_COLLISIONS_FOR_PROTECTION)) * 100.0;
-    
-    // Verificar a protecao dentro de um veiculo
-    // Vai de 10 a 20 porcento em relacao ao tamanho do veiculo
-    new const vehicleid = GetPlayerVehicleID(playerid);
-    if (vehicleid != INVALID_VEHICLE_ID) {
+        new Float:collisions[100][3];
+        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
+
+        // Calculate the protectionPercentage based on roomHeight and numCollisions
+        if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION) {
+            ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] You are under a a well-protected structure");
+
+            return 0.0;
+        } else {
+            protectionPercentage += (numCollisions / float(MIN_COLLISIONS_FOR_PROTECTION)) * 100.0;
+            ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] You are under a structure, protection percentage: %f", protectionPercentage);
+        }
+    }
+
+    // Protecao em veiculo coberto
+    new const vehicleId = GetPlayerVehicleID(playerid);
+    if (vehicleId && !IsVehicleOpenTop(vehicleId)) {
         new Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz;
         
-        CA_GetModelBoundingBox(GetVehicleModel(vehicleid), minx, miny, minz, maxx, maxy, maxz);
+        CA_GetModelBoundingBox(GetVehicleModel(vehicleId), minx, miny, minz, maxx, maxy, maxz);
         
-        // Calcula o tamanho do veiculo
         new const Float:vehicleSize = (maxx - minx) * (maxy - miny) * (maxz - minz);
 
-        // Inverse protection based on vehicle size (larger vehicles provide less protection)
         new Float:vehicleProtection = 20.0 - (5000.0 / vehicleSize);
         vehicleProtection = fclamp(vehicleProtection, 10.0, 20.0);
+
+        ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Vehicle (%d) protection: %f", vehicleId, vehicleProtection);
 
         protectionPercentage += vehicleProtection;
     }
 
-    // Check if the player is wearing a mask
-    protectionPercentage += GetPlayerGasMaskProtection(playerid);
+    // Protecao usando mascara de gas
+    new Float:maskProtection = GetPlayerGasMaskProtection(playerid);
 
-    // Check if the player is wearing skin ID 285
-    if (GetPlayerSkin(playerid) == 285) protectionPercentage += 50.0;
+    if(maskProtection > 0.0) {
+        protectionPercentage += maskProtection;
+        ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Mask protection: %f", maskProtection);
+    }
 
-    // Clamp protection percentage between 0 and 100
+    // Protecao vestindo skin de swap
+    if (GetPlayerSkin(playerid) == 285) {
+        protectionPercentage += 50.0;
+        ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Skin protection: %f", protectionPercentage);
+    }
+
     protectionPercentage = fclamp(protectionPercentage, 0.0, 100.0);
+
+    ChatMsg(playerid, -1, "[GetPlayerRadiationExposure] Total protection percentage: %f", protectionPercentage);
 
     return 100.0 * (distancePercentage / 100.0) * (1.0 - (protectionPercentage / 100.0));
 }
@@ -174,14 +195,18 @@ static InitializeRadiationCloud() {
     printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Direção: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
 }
 
-
-
 public OnPlayerEnterRadiation(playerid, Float:percentageInside) {
-    ChatMsgAll(COLOR_RADIATION, "%p entrou na radiacao. (%.1f\% dentro)", playerid, percentageInside);
+    ChatMsgAll(COLOR_RADIATION, "%p entrou na radiacao. (%.1f dentro)", playerid, percentageInside);
+
+    SetPlayerWeather(playerid, 249);
+
+    SetPlayerTime(playerid, 22, 00);
 }
 
 public OnPlayerExitRadiation(playerid) {
     ChatMsgAll(COLOR_RADIATION, "%p conseguiu fugir da radiacao", playerid);
+
+	ResetClimate(playerid);
 }
 
 // Atualiza a função UpdateRadiationCloud para criar/atualizar o objeto dummy com as mesmas coordenadas X e Y da nuvem:
@@ -306,11 +331,14 @@ hook OnWorldGenerated() {
 
 ACMD:rad[5](playerid, params[]) {
     new subcmd[10];
+
     if(sscanf(params, "s[10]", subcmd)) return SendClientMessage(playerid, WHITE, "USAGE: /rad [debug|goto|follow|new]");
 
-    if(isequal(subcmd, "exposure", true))
-        ChatMsg(playerid, COLOR_RADIATION, "Nivel de Exposicao Radioativa: %.2f", GetPlayerRadiationExposure(playerid));
-    else if(isequal(subcmd, "goto", true)) {
+    if(isequal(subcmd, "exposure", true)) {
+        new const Float:exposure = GetPlayerRadiationExposure(playerid);
+
+        ChatMsg(playerid, COLOR_RADIATION, "Nivel de Exposicao Radioativa: %.2f", exposure);
+    } else if(isequal(subcmd, "goto", true)) {
         GotoCloud(playerid, false);
     } else if(isequal(subcmd, "follow", true)) {
         static bool:follow;
