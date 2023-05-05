@@ -96,6 +96,15 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetSelectable		(playerid, ClassButtonFemale[playerid], true);
 }
 
+// * Convem mudar para outro lugar
+ResetClimate(playerid) {
+	new hour, minute;
+	gettime(hour, minute);
+
+	SetPlayerTime(playerid, hour, minute);
+	SetPlayerWeather(playerid, GetSettingInt("world/weather")); 
+}
+
 PrepareForSpawn(playerid)
 {
 	printf("PrepareForSpawn(%d)", playerid);
@@ -104,11 +113,7 @@ PrepareForSpawn(playerid)
 
 	if(IsPlayerInTutorial(playerid)) SetPlayerVirtualWorld(playerid, 0);
 	
-	new hour, minute;
-	gettime(hour, minute);
-
-	SetPlayerTime(playerid, hour, minute);
-	SetPlayerWeather(playerid, GetSettingInt("world/weather")); 
+	ResetClimate(playerid);
 
 	SetPlayerSpawnedState(playerid, true);
 	SetCameraBehindPlayer(playerid);
