@@ -1,26 +1,4 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
+#include <YSI\y_vehicledata>
 
 stock IsVehicleUpsideDown(vehicleid)
 {
@@ -186,93 +164,10 @@ stock GetVehicleWheelPos(vehicleid, wheel, &Float:x, &Float:y, &Float:z)
 	return 1;
 }
 
-bool:IsVehicleABike(modelid) {
-    const bikeModels[] = {
-        471, //BF-400
-        463, //Faggio
-        468, //Sanchez
-        586, //Wayfarer
-        581, //BF-600
-        509, //Bike
-        481, //BMX
-        462, //Pizzaboy
-        521, //FCR-900
-        522, //NRG-500
-        461, //PCJ-600
-        448, //Packer
-        523  //HPV1000
-    };
-
-    for (new i = 0; i < sizeof(bikeModels); i++)
-        if (bikeModels[i] == modelid) return true;
-
-    return false;
-}
-
-stock bool:IsVehicleAPlane(modelid) {
-    const planeModels[] = {
-        592, //Andromada
-        577, //AT-400
-        511, //Beagle
-        512, //Cropduster
-        593, //Dodo
-        520, //Hydra
-        553, //Nevada
-        476, //Rustler
-        519, //Shamal
-        460, //Skimmer
-        513  //Stuntplane
-    };
-
-    for (new i = 0; i < sizeof(planeModels); i++)
-        if (planeModels[i] == modelid) return true;
-
-    return false;
-}
-
-stock bool:IsVehicleAHelicopter(modelid) {
-    const helicopterModels[] = {
-        487, //Maverick
-        488, //News Chopper
-        497, //Police Maverick
-        563, //Raindance
-        447, //Sea Sparrow
-        469, //Sparrow
-        417  //Leviathan
-    };
-
-    for (new i = 0; i < sizeof(helicopterModels); i++)
-        if (helicopterModels[i] == modelid) return true;
-
-    return false;
-}
-
-stock bool:IsVehicleATrailer(modelid) {
-    const trailerModels[] = {
-        606, //Baggage Box A
-        607, //Baggage Box B
-        610, //Boxville Trailer
-        584, //Petrol Trailer
-        608, //Farm Trailer
-        611, //Utility Trailer
-        612, //Boat Trailer
-        590, //Box Freight
-        569, //Freight Flat Trailer
-        571  //Kart Trailer
-    };
-
-    for (new i = 0; i < sizeof(trailerModels); i++)
-        if (trailerModels[i] == modelid) return true;
-
-    return false;
-}
-
-stock bool:DoesVehicleFly(modelid) return IsVehicleAPlane(modelid) || IsVehicleAHelicopter(modelid) ? true : false;
-
 bool:IsModelOpenTopVehicle(modelid) {
-    if(IsVehicleABike(modelid) || IsVehicleABoat(modelid)) return true;
+    if(Vehicle_IsBike(modelid) || Vehicle_IsBoat(modelid)) return true;
 
-    const openTopVehicleModels[] = {
+    new const openTopVehicleModels[] = {
         429, // Banshee
         500, // Mesa
         439, // Stallion
@@ -288,4 +183,10 @@ bool:IsModelOpenTopVehicle(modelid) {
         if (openTopVehicleModels[i] == modelid) return true;
 
     return false;
+}
+
+IsVehicleOpenTop(vehicleId) {
+	if(!IsValidVehicle(vehicleId)) return -1;
+
+	return IsModelOpenTopVehicle(GetVehicleModel(vehicleId)) ? 1 : 0;
 }
