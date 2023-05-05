@@ -73,3 +73,11 @@ strsplit(const str[], const delim[], strSplit[][32], &count) {
 	strSplit[count][k] = '\0';
 	count++;
 }
+
+booltostr(bool:b) { // * Gambiarra do crl
+	new result[] = "false";
+
+	if(b) result = "true";
+
+	return result;
+}
