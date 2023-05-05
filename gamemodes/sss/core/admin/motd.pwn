@@ -2,7 +2,7 @@
 
 forward OnPlayerAcceptMotd(playerid);
 
-#define MAX_MOTD_LEN 256
+#define MAX_MOTD_LEN 512
 
 static 
     randomButton[MAX_PLAYERS],
