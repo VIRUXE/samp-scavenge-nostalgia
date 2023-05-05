@@ -41,14 +41,15 @@ stock TweakFinalise(playerid){
 	if(twk_Item[playerid] != INVALID_ITEM_ID){
 	    TweakResetItemPos(playerid);
         CallLocalFunction("OnItemTweakFinish", "dd", playerid, twk_Item[playerid]);
-   		twk_Item[playerid] = INVALID_ITEM_ID;
 //   		ShowHelpTip(playerid, "_");
    		CancelEdit(playerid);
 //		HideHelpTip(playerid);
 
 		// TODO: Colocar como tip
-		if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid))
+		if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid) || GetItemTypeDefenceType(GetItemType(twk_Item[playerid])) != INVALID_DEFENCE_TYPE)
 			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
+
+   		twk_Item[playerid] = INVALID_ITEM_ID;
     }
 
     return 1;
