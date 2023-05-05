@@ -1,6 +1,8 @@
 #include <YSI\y_hooks>
 
-#define MAX_MOTD_LEN 128
+forward OnPlayerAcceptMotd(playerid);
+
+#define MAX_MOTD_LEN 256
 
 static 
     randomButton[MAX_PLAYERS],
@@ -30,37 +32,64 @@ ShowMotd(playerid) {
     return 1;
 }
 
+SetPortugueseMotd(playerid) {
+    Dialog_Show(playerid, SetPortugueseMotd, DIALOG_STYLE_INPUT, 
+        "Mensagem do Dia, em Português:", 
+        sprintf("Escreva a mensagem do dia, em Português, no máximo até %d caractéres:", MAX_MOTD_LEN), 
+        "Confirmar", "Cancelar"
+    );
+
+    return 1;
+}
+
+SetEnglishMotd(playerid) {
+    Dialog_Show(playerid, SetEnglishMotd, DIALOG_STYLE_INPUT, 
+        "Mensagem do Dia, em Inglês:", 
+        sprintf("Essa é a mensagem em Português:\n\t%s\n\nAgora escreva a mensagem do dia em Inglês, no máximo até %d caractéres:", motd, MAX_MOTD_LEN),
+        "Confirmar", "Cancelar"
+    );
+}
+
+public OnPlayerAcceptMotd(playerid) {
+}
+
 Dialog:ShowMotd(playerid, response, listitem, inputtext[]) {
     if(response) {
-        if(!randomButton[playerid]) ShowMotd(playerid);
+        if(!randomButton[playerid]) ShowMotd(playerid); else CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
     } else {
-        if(randomButton[playerid]) ShowMotd(playerid);
+        if(randomButton[playerid]) ShowMotd(playerid); else CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
     }
 }
 
 Dialog:SetPortugueseMotd(playerid, response, listitem, inputtext[]) {
     if(response) {
-        strcpy(motd, inputtext);
+        if(strlen(inputtext) > MAX_MOTD_LEN) {
+            ChatMsg(playerid, RED, "MOTD demasiado comprido");
+            SetPortugueseMotd(playerid);
+        } else {
+            strcpy(motd, inputtext);
 
-        Dialog_Show(playerid, SetEnglishMotd, DIALOG_STYLE_INPUT, 
-            "Mensagem do Dia, em Inglês:", 
-            sprintf("Essa é a mensagem em Português:\n\t%s\n\nAgora escreva a mensagem do dia em Inglês, no máximo até 128 caractéres:", motd),
-            "Confirmar", "Cancelar"
-        );
+            SetEnglishMotd(playerid);
+        }
     }
 }
 
 Dialog:SetEnglishMotd(playerid, response, listitem, inputtext[]) {
     if(response) {
-        // Salvar no "settings.json"
-        new Node:server;
-        JSON_GetObject(Settings, "server", server);
-        JSON_SetArray(server, "motd", JSON_Array(JSON_String(motd), JSON_String(inputtext)));
-        JSON_SetObject(Settings, "server", server);
+        if(strlen(inputtext) > MAX_MOTD_LEN) {
+            ChatMsg(playerid, RED, "MOTD demasiado comprido");
+            SetEnglishMotd(playerid);
+        } else {
+            // Salvar no "settings.json"
+            new Node:server;
+            JSON_GetObject(Settings, "server", server);
+            JSON_SetArray(server, "motd", JSON_Array(JSON_String(motd), JSON_String(inputtext)));
+            JSON_SetObject(Settings, "server", server);
 
-        JSON_SaveFile("settings.json", Settings, true);
+            JSON_SaveFile("settings.json", Settings, true);
 
-        ChatMsgAdmins(1, GREEN, " > %P "C_GREEN"definiu a mensagem do dia.", playerid);
+            ChatMsgAdmins(1, GREEN, " > %P "C_GREEN"definiu a mensagem do dia.", playerid);
+        }
     }
 }
 
@@ -69,12 +98,4 @@ CMD:motd(playerid, params[]) {
     return 1;
 }
 
-ACMD:setmotd[2](playerid, params[]) {
-    Dialog_Show(playerid, SetPortugueseMotd, DIALOG_STYLE_INPUT, 
-        "Mensagem do Dia, em Português:", 
-        "Escreva a mensagem do dia, em Português, no máximo até 128 caractéres:", 
-        "Confirmar", "Cancelar"
-    );
-
-	return 1;
-}
+ACMD:setmotd[2](playerid, params[]) return SetPortugueseMotd(playerid);
