@@ -5,12 +5,12 @@ static const MAX_BEEP_INTERVAL            = 2500;   // Maximum beep interval in 
 static const Float:FAR_PROXIMITY_DISTANCE = 1000.0;  // Distance beyond which beep frequency stops increasing
 
 static 
-    bool:       deviceActive[MAX_PLAYERS],
+    bool:       geigerActive[MAX_PLAYERS],
     Timer:      beepTimer[MAX_PLAYERS],
     PlayerText: distanceTextDraw[MAX_PLAYERS];
 
-ToggleRadiationDevice(playerid, bool:toggle) {
-    if(toggle == deviceActive[playerid]) return;
+ToggleGeiger(playerid, bool:toggle) {
+    if(toggle == geigerActive[playerid]) return;
 
     if(toggle) {
         beepTimer[playerid] = defer Beep(playerid, CalculateBeepInterval(playerid));
@@ -23,7 +23,7 @@ ToggleRadiationDevice(playerid, bool:toggle) {
         PlayerTextDrawHide(playerid, distanceTextDraw[playerid]);
     }
 
-    deviceActive[playerid] = toggle;
+    geigerActive[playerid] = toggle;
 
     printf("[GEIGER] %s para %p", toggle ? "Ativado" : "Desativado", playerid);
     ChatMsg(playerid, COLOR_RADIATION, "Contador Geiger %s", toggle ? "Ativado" : "Desativado");
@@ -33,14 +33,16 @@ ToggleRadiationDevice(playerid, bool:toggle) {
     return; 
 }
 
-DoesPlayerHaveRadiationDevice(playerid) {
+DoesPlayerHaveGeiger(playerid) {
     for(new i; i < INV_MAX_SLOTS; i++)
-        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_Map) return 1;
+        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return 1;
+
+    // if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
 
     return 0;
 }
 
-bool:IsRadiationDeviceActive(playerid) return deviceActive[playerid];
+bool:IsRadiationgeigerActive(playerid) return geigerActive[playerid];
 
 CalculateBeepInterval(playerid) {
     new const Float:cloudDistance = GetPlayerDistanceToRadiation(playerid);
@@ -80,53 +82,53 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
-    ToggleRadiationDevice(playerid, false);
+    ToggleGeiger(playerid, false);
 
     return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerLoad(playerid, filename[]) {
-    if(DoesPlayerHaveRadiationDevice(playerid)) ToggleRadiationDevice(playerid, true);
+    if(DoesPlayerHaveGeiger(playerid)) ToggleGeiger(playerid, true);
 
     return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 // * Problema aqui e que se escolher dropar ele chama
 hook OnPlayerGetItem(playerid, itemid) {
-    if(GetItemType(itemid) == item_GeigerCounter) ToggleRadiationDevice(playerid, true);
+    if(GetItemType(itemid) == item_GeigerCounter) ToggleGeiger(playerid, true);
 }
 
 hook OnPlayerPickUpItem(playerid, itemid) {
-	if(GetItemType(itemid) == item_GeigerCounter) ToggleRadiationDevice(playerid, true);
+	if(GetItemType(itemid) == item_GeigerCounter) ToggleGeiger(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerDropItem(playerid, itemid) {
-	if(GetItemType(itemid) == item_GeigerCounter) ToggleRadiationDevice(playerid, false);
+	if(GetItemType(itemid) == item_GeigerCounter) ToggleGeiger(playerid, false);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 // Caso simplesmente remova de um container para o inventario
 hook OnItemAddToInventory(playerid, itemid) {
-	if(GetItemType(itemid) == item_GeigerCounter) ToggleRadiationDevice(playerid, true);
+	if(GetItemType(itemid) == item_GeigerCounter) ToggleGeiger(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnItemRemoveFInventory(playerid, itemid) {
-	if(GetItemType(itemid) == item_GeigerCounter) ToggleRadiationDevice(playerid, false);
+	if(GetItemType(itemid) == item_GeigerCounter) ToggleGeiger(playerid, false);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnAdminToggleDuty(playerid, bool:toggle, bool:goBack) {
-    if(DoesPlayerHaveRadiationDevice(playerid)) ToggleRadiationDevice(playerid, !toggle);
+    if(DoesPlayerHaveGeiger(playerid)) ToggleGeiger(playerid, !toggle);
 }
 
 timer Beep[interval](playerid, interval) {
-    if(!deviceActive[playerid]) return;
+    if(!geigerActive[playerid]) return;
 
     // printf("[GEIGER] Beep(%d, %d)", playerid, interval);
 
@@ -141,7 +143,7 @@ timer Beep[interval](playerid, interval) {
 }
 
 CMD:raddevice(playerid) {
-    ToggleRadiationDevice(playerid, !deviceActive[playerid]);
+    ToggleGeiger(playerid, !geigerActive[playerid]);
 
     return 1;
 }
