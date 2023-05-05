@@ -134,15 +134,6 @@ ACMD:verban[2](playerid, params[])
 	return 1;
 }
 
-ACMD:setmotd[2](playerid, params[])
-{
-	if(sscanf(params, "s[128]", gMessageOfTheDay)) return ChatMsg(playerid, YELLOW, " >  Use: /setmotd [Mensagem]");
-
-	ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EB} (%d) atualizou o motd para: "C_WHITE"%s", playerid, playerid, gMessageOfTheDay);
-
-	return 1;
-}
-
 /*
 ACMD:invisible[2](playerid, params[])
 {

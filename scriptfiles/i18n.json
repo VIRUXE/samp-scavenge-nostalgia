@@ -2642,6 +2642,10 @@
 			"Confirmar",
 			"Confirm"
 		],
+		"accept": [
+			"Aceitar",
+			"Accept"
+		],
 		"options": [
 			"Opcoes",
 			"Options"

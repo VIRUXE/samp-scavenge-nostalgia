@@ -233,7 +233,6 @@ public OnGameModeInit()
 ==============================================================================*/
 
 // Limits
-#define MAX_MOTD_LEN				(128)
 #define MAX_WEBSITE_NAME			(64)
 #define MAX_RULE					(24)
 #define MAX_RULE_LEN				(128)
@@ -346,8 +345,6 @@ new DB:gAccounts;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
 new
-		// player
-		gMessageOfTheDay[MAX_MOTD_LEN],
 		gWebsiteURL[MAX_WEBSITE_NAME],
 		gRuleList[MAX_RULE][MAX_RULE_LEN],
 
@@ -562,6 +559,7 @@ new RequestsClient:client;
 #include "sss/core/world/tent-io.pwn"
 
 // ADMINISTRATION TOOLS
+#include "sss/core/admin/motd.pwn"
 #include "sss/core/admin/report.pwn"
 #include "sss/core/admin/report-cmds.pwn"
 //#include "sss/core/admin/hack-trap.pwn"

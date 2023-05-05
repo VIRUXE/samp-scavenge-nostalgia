@@ -166,11 +166,6 @@ public OnSettingsLoaded() {
 	// No caso de a propriedade nao existir, coloca em modo de producao
 	gEnvironment = isequal(env, "dev") ? DEVELOPMENT : PRODUCTION;
 
-	JSON_GetArray(server, "motd", node);
-	JSON_ArrayObject(node, 0, node);
-	JSON_GetNodeString(node, gMessageOfTheDay);
-	log("[SETTINGS] Mensagem do dia: %s", gMessageOfTheDay);
-
 	JSON_GetString(server, "website", gWebsiteURL);
 	SendRconCommand(sprintf("weburl %s", gWebsiteURL));
 	log("[SETTINGS] Website: %s", gWebsiteURL);

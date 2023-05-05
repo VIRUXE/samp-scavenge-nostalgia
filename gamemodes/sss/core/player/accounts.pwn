@@ -486,7 +486,7 @@ Login(playerid)
 public OnPlayerLogin(playerid) {
 	AnnouncePlayerJoined(playerid);
 
-	ChatMsg(playerid, 0xC457EBAA, " >  %s: "C_WHITE"%s", ls(playerid, "server/motd"), gMessageOfTheDay);
+	ShowMotd(playerid);
 
 	if(GetPlayerAdminLevel(playerid) > 0)
 	{
