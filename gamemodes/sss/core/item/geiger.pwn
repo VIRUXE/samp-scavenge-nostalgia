@@ -23,14 +23,14 @@ ToggleGeiger(playerid, bool:toggle) {
 
     if(toggle) {
         // Mostrar a barra apenas se estiver na mao
-        // if(DoesPlayerHaveGeiger(playerid) == IN_HAND) {
+        if(DoesPlayerHaveGeiger(playerid) == IN_HAND) {
             barTimer[playerid] = repeat UpdateBar(playerid);
             ShowPlayerProgressBar(playerid, intensityBar);
-        // }
+        }
 
         beepTimer[playerid] = defer Beep(playerid, CalculateBeepInterval(playerid));
         
-        PlayerTextDrawShow(playerid, distanceTextDraw[playerid]);
+        // PlayerTextDrawShow(playerid, distanceTextDraw[playerid]);
     } else {
         if(barTimer[playerid]) {
             stop barTimer[playerid];
@@ -40,7 +40,7 @@ ToggleGeiger(playerid, bool:toggle) {
         stop beepTimer[playerid];
         PlayerPlaySound(playerid, 0, 0.0, 0.0, 0.0);
 
-        PlayerTextDrawHide(playerid, distanceTextDraw[playerid]);
+        // PlayerTextDrawHide(playerid, distanceTextDraw[playerid]);
     }
 
     geigerActive[playerid] = toggle;
@@ -55,19 +55,22 @@ ToggleGeiger(playerid, bool:toggle) {
 
 DoesPlayerHaveGeiger(playerid) {
     // Na mao
+    if(GetItemType(GetPlayerItem(playerid)) == item_GeigerCounter) return IN_HAND;
 
     // No inventario
     for(new i; i < INV_MAX_SLOTS; i++)
         if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return IN_INV;
 
     // Na mochila
+    new const bagItem = GetPlayerBagItem(playerid);
+    if(!IsValidItem(bagItem)) return NONE;
 
-    // if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
+    new const containerId = GetBagItemContainerID(bagItem);
+    for(new i; i < GetContainerSize(containerId); i++)
+        if(GetItemType(GetContainerSlotItem(containerId, i)) == item_GeigerCounter) return IN_BAG;
 
     return NONE;
 }
-
-bool:IsRadiationgeigerActive(playerid) return geigerActive[playerid];
 
 CalculateBeepInterval(playerid) {
     new const Float:radiationDistance = GetPlayerDistanceToRadiation(playerid);
@@ -167,7 +170,7 @@ static timer UpdateBar[SEC(1)](playerid) {
         // Invert the distancePercentage value
         distancePercentage = 100.0 - distancePercentage;
 
-        SetPlayerProgressBarValue(playerid, intensityBar, distancePercentage);
+        SetPlayerProgressBarValue(playerid, intensityBar, frandom(distancePercentage, distancePercentage-5.0));
     } else {
         SetPlayerProgressBarValue(playerid, intensityBar, frandom(5.0));
     }
