@@ -110,7 +110,7 @@ Load_HouseLoot()
 							LootOffsets[j][k][0], LootOffsets[j][k][1], LootOffsets[j][k][2],
 							x, y, z);
 
-						//CreateStaticLootSpawn(x, y, z, GetLootIndexFromName("world_civilian"), 30);
+						CreateStaticLootSpawn(x, y, z, GetLootIndexFromName("world_civilian"), 30);
 					}
 				}
 			}
