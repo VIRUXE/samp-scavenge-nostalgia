@@ -6,6 +6,7 @@ world_survivor, 1.0
 8.0,	Hammer
 9.0,	Crowbar
 4.0,    Spanner
+20.0    GeigerCounter
 
 # meds
 10.0,	Bandage

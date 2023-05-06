@@ -377,7 +377,15 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
 	dbg("global", CORE, "[OnPlayerEnterVehicle] in /gamemodes/sss/core/player/core.pwn");
 
-	if(IsPlayerKnockedOut(playerid)) CancelPlayerMovement(playerid);
+	if(IsPlayerKnockedOut(playerid)) 
+	{
+		new Float:x, Float:y, Float:z;
+
+		GetPlayerPos(playerid, x, y, z);
+		SetPlayerPos(playerid, x, y, z);
+		CancelPlayerMovement(playerid);
+		return 0;
+	}
 
 	if(GetPlayerSurfingVehicleID(playerid) == vehicleid) CancelPlayerMovement(playerid);
 
@@ -386,9 +394,12 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		new driverid = -1;
 
 		foreach(new i : Player)
-			if(IsPlayerInVehicle(i, vehicleid) && GetPlayerState(i) == PLAYER_STATE_DRIVER) driverid = i;
+			if(IsPlayerInVehicle(i, vehicleid)) 
+				if(GetPlayerState(i) == PLAYER_STATE_DRIVER) 
+					driverid = i;
 
-		if(driverid == -1) CancelPlayerMovement(playerid);
+		if(driverid == -1)
+			CancelPlayerMovement(playerid);
 	}
 
 	return 1;

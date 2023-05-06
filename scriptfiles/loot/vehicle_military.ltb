@@ -6,7 +6,8 @@ vehicle_military, 1.0
 25.0,	Backpack
 30.0,	AntiSepBandage
 18.0,	LargeBackpack
-#20.0,   SupplyDrop
+#20.0,  SupplyDrop
+18.0    GeigerCounter
 
 # weapons
 0.5,	M77RMRifle

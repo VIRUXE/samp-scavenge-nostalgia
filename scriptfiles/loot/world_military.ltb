@@ -14,7 +14,8 @@ world_military, 1.0
 10.0,   SwatHelmet
 10.0,   PoliceHelm
 10.0,   ArmyHelmet2
-#20.0,   SupplyDrop
+#20.0,  SupplyDrop
+18.0    GeigerCounter
 
 # weapons
 2.0,	M77RMRifle

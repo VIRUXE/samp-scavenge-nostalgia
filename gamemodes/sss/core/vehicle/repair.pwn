@@ -94,18 +94,15 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			CancelPlayerMovement(playerid);
 			ShowLightList(playerid, vehicleid);
-		} else { // Ãštil para mostrar as ferramentas necessÃ¡rias para reparar o veÃ­culo
-			CancelPlayerMovement(playerid);
-			ShowRepairStatus(playerid, vehicleid);
+		} 
+		else ShowRepairStatus(playerid, vehicleid); // Útil para mostrar as ferramentas necessárias para reparar o veí­culo
 		}
-	}
-
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	if(oldkeys & KEY_SECONDARY_ATTACK) // * Botao direito do mouse? Em caso de querer mirar?
+	if(oldkeys & KEY_SECONDARY_ATTACK) // * Botao direito do mouse. Em caso de querer mirar.
 	{
 		if(fix_TargetVehicle[playerid] != INVALID_VEHICLE_ID)
 		{
@@ -122,7 +119,7 @@ StartRepairingVehicle(playerid, vehicleid)
 	if(fix_Progress[playerid] >= 990.0) return 0;
 
 	ApplyAnimation(playerid, "INT_SHOP", "SHOP_CASHIER", 4.0, 1, 0, 0, 0, 0, 1);
-	VehicleBonnetState(fix_TargetVehicle[playerid], 1); // Abre o capÃ´ do veÃ­culo
+	VehicleBonnetState(fix_TargetVehicle[playerid], 1); // Abre o capô do veí­culo
 
 	new buildtime = IsPlayerVip(playerid) ? 38 : 50;
 
@@ -140,7 +137,7 @@ StopRepairingVehicle(playerid)
 	if(fix_Progress[playerid] >= 988.0)
 	{
 		if(IsPlayerVip(playerid)) {
-       		// Reparar lataria do veÃ­culo    
+       		// Reparar lataria do veículo    
 			new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
 
 			GetVehicleHealth(fix_TargetVehicle[playerid], lataria);
@@ -159,7 +156,7 @@ StopRepairingVehicle(playerid)
         SetVehicleHealth(fix_TargetVehicle[playerid], 990.0);
  	}
 
-	VehicleBonnetState(fix_TargetVehicle[playerid], 0); // Fecha o capÃ´ do veÃ­culo
+	VehicleBonnetState(fix_TargetVehicle[playerid], 0); // Fecha o capô do veí­culo
 	StopHoldAction(playerid);
 	ClearAnimations(playerid);
 
