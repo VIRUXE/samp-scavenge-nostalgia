@@ -2,21 +2,41 @@
 
 static const MIN_BEEP_INTERVAL            = 250;    // Minimum beep interval in milliseconds
 static const MAX_BEEP_INTERVAL            = 2500;   // Maximum beep interval in milliseconds
-static const Float:FAR_PROXIMITY_DISTANCE = 1000.0;  // Distance beyond which beep frequency stops increasing
+static const Float:MIN_DETECTION_DISTANCE = 1000.0;  // Distance beyond which beep frequency stops increasing
 
 static 
-    bool:       geigerActive[MAX_PLAYERS],
-    Timer:      beepTimer[MAX_PLAYERS],
-    PlayerText: distanceTextDraw[MAX_PLAYERS];
+    bool: geigerActive[MAX_PLAYERS],
+    Timer: beepTimer[MAX_PLAYERS],
+    Timer: barTimer[MAX_PLAYERS],
+    PlayerText: distanceTextDraw[MAX_PLAYERS],
+    PlayerBar: intensityBar = INVALID_PLAYER_BAR_ID;
+
+static enum {
+    NONE,
+    IN_HAND,
+    IN_INV,
+    IN_BAG
+}
 
 ToggleGeiger(playerid, bool:toggle) {
     if(toggle == geigerActive[playerid]) return;
 
     if(toggle) {
+        // Mostrar a barra apenas se estiver na mao
+        // if(DoesPlayerHaveGeiger(playerid) == IN_HAND) {
+            barTimer[playerid] = repeat UpdateBar(playerid);
+            ShowPlayerProgressBar(playerid, intensityBar);
+        // }
+
         beepTimer[playerid] = defer Beep(playerid, CalculateBeepInterval(playerid));
         
         PlayerTextDrawShow(playerid, distanceTextDraw[playerid]);
     } else {
+        if(barTimer[playerid]) {
+            stop barTimer[playerid];
+            HidePlayerProgressBar(playerid, intensityBar);
+        }
+
         stop beepTimer[playerid];
         PlayerPlaySound(playerid, 0, 0.0, 0.0, 0.0);
 
@@ -34,31 +54,36 @@ ToggleGeiger(playerid, bool:toggle) {
 }
 
 DoesPlayerHaveGeiger(playerid) {
+    // Na mao
+
+    // No inventario
     for(new i; i < INV_MAX_SLOTS; i++)
-        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return 1;
+        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return IN_INV;
+
+    // Na mochila
 
     // if(GetItemType(GetContainerSlotItem(containerid, GetPlayerContainerSlot(playerid))) == item_Wrench)
 
-    return 0;
+    return NONE;
 }
 
 bool:IsRadiationgeigerActive(playerid) return geigerActive[playerid];
 
 CalculateBeepInterval(playerid) {
-    new const Float:cloudDistance = GetPlayerDistanceToRadiation(playerid);
-
+    new const Float:radiationDistance = GetPlayerDistanceToRadiation(playerid);
     new interval = MAX_BEEP_INTERVAL;
     // printf("[GEIGER] CalculateBeepInterval(%d)", playerid);
-    // printf("\t[GEIGER] Cloud Distance: %0.2f", cloudDistance);
+    // printf("\t[GEIGER] Cloud Distance: %0.2f", radiationDistance);
 
-    if (cloudDistance >= 0.0) {
-        new Float:distanceFactor = (cloudDistance < FAR_PROXIMITY_DISTANCE) ? cloudDistance : FAR_PROXIMITY_DISTANCE;
-        interval = floatround(((distanceFactor / FAR_PROXIMITY_DISTANCE) * (MAX_BEEP_INTERVAL - MIN_BEEP_INTERVAL)) + MIN_BEEP_INTERVAL);
+    if(radiationDistance >= RADIATIONCLOUD_BORDER) { // Quanto ja esta 
+        new Float:distanceFactor = (radiationDistance < MIN_DETECTION_DISTANCE) ? radiationDistance : MIN_DETECTION_DISTANCE;
+        interval = floatround(((distanceFactor / MIN_DETECTION_DISTANCE) * (MAX_BEEP_INTERVAL - MIN_BEEP_INTERVAL)) + MIN_BEEP_INTERVAL);
         // printf("\t[GEIGER] Distance Factor: %0.2f", distanceFactor);
-    } else
+    } else {
         interval = MIN_BEEP_INTERVAL;
-
-    PlayerTextDrawSetString(playerid, distanceTextDraw[playerid], sprintf("%.0f", cloudDistance));
+    }
+    
+    PlayerTextDrawSetString(playerid, distanceTextDraw[playerid], sprintf("%.0f", radiationDistance));
 
     // printf("\t[GEIGER] New Beep Interval: %d", interval);
 
@@ -66,6 +91,8 @@ CalculateBeepInterval(playerid) {
 }
 
 hook OnPlayerConnect(playerid) {
+    intensityBar = CreatePlayerProgressBar(playerid, 638.0, 69.0, 10.0, 70.0, COLOR_RADIATION, 100.0, BAR_DIRECTION_UP);
+
     distanceTextDraw[playerid] = CreatePlayerTextDraw(playerid, 382, 14, "Distance");
 
 	PlayerTextDrawLetterSize(playerid, distanceTextDraw[playerid], 1, 3.5);
@@ -82,6 +109,7 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
+    DestroyPlayerProgressBar(playerid, intensityBar);
     ToggleGeiger(playerid, false);
 
     return Y_HOOKS_CONTINUE_RETURN_0;
@@ -127,7 +155,26 @@ hook OnAdminToggleDuty(playerid, bool:toggle, bool:goBack) {
     if(DoesPlayerHaveGeiger(playerid)) ToggleGeiger(playerid, !toggle);
 }
 
-timer Beep[interval](playerid, interval) {
+static timer UpdateBar[SEC(1)](playerid) {
+    new const Float:radiationDistance = GetPlayerDistanceToRadiation(playerid);
+    new const Float:radiationSize     = GetRadiationSize();
+
+    if(radiationDistance <= MIN_DETECTION_DISTANCE) {
+        // We need to add the radiation size because when the player is inside, the distance turns negative
+        new const Float:totalDistance = radiationDistance + radiationSize;
+        // Scale the totalDistance to a range of 0 to 100.0
+        new Float:distancePercentage = (totalDistance / (MIN_DETECTION_DISTANCE + radiationSize)) * 100.0;
+        // Invert the distancePercentage value
+        distancePercentage = 100.0 - distancePercentage;
+
+        SetPlayerProgressBarValue(playerid, intensityBar, distancePercentage);
+    } else {
+        SetPlayerProgressBarValue(playerid, intensityBar, frandom(5.0));
+    }
+}
+
+
+static timer Beep[interval](playerid, interval) {
     if(!geigerActive[playerid]) return;
 
     // printf("[GEIGER] Beep(%d, %d)", playerid, interval);
