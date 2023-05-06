@@ -1,29 +1,4 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 enum
 {
@@ -31,7 +6,6 @@ enum
 	SPECTATE_TYPE_TARGET,
 	SPECTATE_TYPE_FREE
 }
-
 
 static
 			spectate_Type[MAX_PLAYERS],
@@ -44,11 +18,8 @@ PlayerText:	spectate_Info,
 Float:		spectate_StartPos[MAX_PLAYERS][3];
 
 
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/admin/spectate.pwn");
-
-	spectate_Type[playerid] = SPECTATE_TYPE_NONE;
+hook OnPlayerConnect(playerid) {
+	spectate_Type[playerid]   = SPECTATE_TYPE_NONE;
 	spectate_Target[playerid] = INVALID_PLAYER_ID;
 
 	DestroyObject(spectate_CameraObject[playerid]);
@@ -82,27 +53,30 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize			(playerid, spectate_Info, 100.000000, 340.000000);
 }
 
-hook OnPlayerDisconnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/admin/spectate.pwn");
-
+hook OnPlayerDisconnect(playerid) {
 	if(spectate_Type[playerid] != SPECTATE_TYPE_NONE) ExitSpectateMode(playerid);
-
-	new Float:x, Float:y, Float:z;
 
 	foreach(new i : Player) {
 		if(spectate_Target[i] != playerid) continue;
 
+		printf("[SPECTATE] %p estava vendo %p, quando ele saiu.", i, playerid);
+
+		new Float:x, Float:y, Float:z;
 		GetPlayerCameraPos(i, x, y, z);
 
-		if(Iter_Count(Player) > 0) SpectateNextTarget(i); else EnterFreeMode(i, x, y, z);
+		if(Iter_Count(Player) > 1) {
+			printf("[SPECTATE] Escolhendo outro jogador para %p", i);
+			SpectateNextTarget(i);
+		} else {
+			printf("[SPECTATE] %p entrou no freemode pois esta sozinho no servidor.", i);
+			EnterFreeMode(i, x, y, z);
+		}
 	}
 
 	return 1;
 }
 
-EnterSpectateMode(playerid, targetid)
-{
+EnterSpectateMode(playerid, targetid) {
 	if(!IsPlayerConnected(targetid)) return 0;
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
@@ -110,7 +84,7 @@ EnterSpectateMode(playerid, targetid)
 	TogglePlayerSpectating(playerid, true);
 	ToggleNameTagsForPlayer(playerid, true);
 
-	spectate_Type[playerid] = SPECTATE_TYPE_TARGET;
+	spectate_Type[playerid]   = SPECTATE_TYPE_TARGET;
 	spectate_Target[playerid] = targetid;
 
 	_RefreshSpectate(playerid);
@@ -128,8 +102,7 @@ EnterSpectateMode(playerid, targetid)
 
 IsPlayerSpectating(playerid) return spectate_Type[playerid] != SPECTATE_TYPE_NONE;
 
-EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0)
-{
+EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0) {
 	if(camX * camY * camZ == 0.0) GetPlayerCameraPos(playerid, camX, camY, camZ);
 
 	spectate_Type[playerid] = SPECTATE_TYPE_FREE;
@@ -144,12 +117,11 @@ EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0)
 	spectate_Timer[playerid] = repeat UpdateSpectateMode(playerid);
 }
 
-ExitFreeMode(playerid)
-{
+ExitFreeMode(playerid) {
 	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET) ExitSpectateMode(playerid);
 
 	spectate_Target[playerid] = INVALID_PLAYER_ID;
-	spectate_Type[playerid] = SPECTATE_TYPE_NONE;
+	spectate_Type[playerid]   = SPECTATE_TYPE_NONE;
 
 	DestroyObject(spectate_CameraObject[playerid]);
 	spectate_CameraObject[playerid] = INVALID_OBJECT_ID;
@@ -162,14 +134,13 @@ ExitFreeMode(playerid)
 	return 1;
 }
 
-ExitSpectateMode(playerid)
-{
+ExitSpectateMode(playerid) {
 	if(spectate_Target[playerid] == INVALID_PLAYER_ID) return 0;
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
 	spectate_Target[playerid] = INVALID_PLAYER_ID;
-	spectate_Type[playerid] = SPECTATE_TYPE_NONE;
+	spectate_Type[playerid]   = SPECTATE_TYPE_NONE;
 
 	PlayerTextDrawHide(playerid, spectate_Name);
 	PlayerTextDrawHide(playerid, spectate_Info);
@@ -177,6 +148,7 @@ ExitSpectateMode(playerid)
 	stop spectate_Timer[playerid];
 	defer ReturnToDuty(playerid);
 	ToggleNameTagsForPlayer(playerid, false);
+
 	return 1;
 }
 
@@ -187,20 +159,15 @@ timer ReturnToDuty[500](playerid) {
  	}
 }
 
-SpectateNextTarget(playerid)
-{
-	new
-		id = spectate_Target[playerid] + 1,
-		iters;
+SpectateNextTarget(playerid) {
+	new id = spectate_Target[playerid] + 1, iters;
 
 	if(id == MAX_PLAYERS) id = 0;
 
-	while(id < MAX_PLAYERS && iters <= MAX_PLAYERS)
-	{
+	while(id < MAX_PLAYERS && iters <= MAX_PLAYERS) {
 		iters++;
 
-		if(!CanPlayerSpectate(playerid, id))
-		{
+		if(!CanPlayerSpectate(playerid, id)) {
 			id++;
 
 			if(id >= MAX_PLAYERS - 1) id = 0;
@@ -215,20 +182,15 @@ SpectateNextTarget(playerid)
 	_RefreshSpectate(playerid);
 }
 
-SpectatePrevTarget(playerid)
-{
-	new
-		id = spectate_Target[playerid] - 1,
-		iters;
+SpectatePrevTarget(playerid) {
+	new id = spectate_Target[playerid] - 1, iters;
 
 	if(id < 0) id = MAX_PLAYERS-1;
 
-	while(id >= 0 && iters <= MAX_PLAYERS)
-	{
+	while(id >= 0 && iters <= MAX_PLAYERS) {
 		iters++;
 
-		if(!CanPlayerSpectate(playerid, id))
-		{
+		if(!CanPlayerSpectate(playerid, id)) {
 			id--;
 
 			if(id < 0) id = MAX_PLAYERS - 1;
@@ -243,8 +205,7 @@ SpectatePrevTarget(playerid)
 	_RefreshSpectate(playerid);
 }
 
-_RefreshSpectate(playerid)
-{
+_RefreshSpectate(playerid) {
 	if(spectate_Type[playerid] == SPECTATE_TYPE_TARGET) {
 		SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(spectate_Target[playerid]));
 		SetPlayerInterior(playerid, GetPlayerInterior(spectate_Target[playerid]));
@@ -266,18 +227,15 @@ _RefreshSpectate(playerid)
 	}
 }
 
-timer UpdateSpectateMode[100](playerid)
-{
-	if(spectate_Type[playerid] == SPECTATE_TYPE_NONE)
-	{
+timer UpdateSpectateMode[100](playerid) {
+	if(spectate_Type[playerid] == SPECTATE_TYPE_NONE) {
 		stop spectate_Timer[playerid];
 		return;
 	}
 
 	new targetid = spectate_Target[playerid];
 
-	if(targetid == INVALID_PLAYER_ID)
-	{
+	if(targetid == INVALID_PLAYER_ID) {
 
 		new
 			k,
@@ -298,27 +256,24 @@ timer UpdateSpectateMode[100](playerid)
 		if(k & KEY_JUMP) speed = 50.0;
 		if(k & KEY_WALK) speed = 0.5;
 
-		if(ud == KEY_UP)
-		{
+		// ? Isso nao deveria ser else if?
+		if(ud == KEY_UP) {
 			camX += vecX * 100;
 			camY += vecY * 100;
 			camZ += vecZ * 100;
 		}
-		if(ud == KEY_DOWN)
-		{
+		if(ud == KEY_DOWN) {
 			camX -= vecX * 100;
 			camY -= vecY * 100;
 			camZ -= vecZ * 100;
 		}
-		if(lr == KEY_RIGHT)
-		{
+		if(lr == KEY_RIGHT) {
 			new Float:rotation = -(atan2(vecY, vecX) - 90.0);
 
 			camX += (100 * floatsin(rotation + 90.0, degrees));
 			camY += (100 * floatcos(rotation + 90.0, degrees));
 		}
-		if(lr == KEY_LEFT)
-		{
+		if(lr == KEY_LEFT) {
 			new Float:rotation = -(atan2(vecY, vecX) - 90.0);
 
 			camX += (100 * floatsin(rotation - 90.0, degrees));
@@ -331,24 +286,20 @@ timer UpdateSpectateMode[100](playerid)
 
 		if(ud == 0 && lr == 0 && !(k & KEY_SPRINT) && !(k & KEY_CROUCH))
 			StopObject(spectate_CameraObject[playerid]);
-	}
-	else
-	{
+	} else {
 		new
 			name[MAX_PLAYER_NAME],
 			title[MAX_PLAYER_NAME + 6],
 			str[256];
 
-		if(!IsPlayerHudOn(playerid))
-		{
+		if(!IsPlayerHudOn(playerid)) {
 			PlayerTextDrawHide(playerid, spectate_Info);
 			return;
 		}
 
-		if(IsPlayerInAnyVehicle(targetid))
-		{
+		if(IsPlayerInAnyVehicle(targetid)) {
 			new
-				invehicleas[24],
+				invehicleas[11],
 				itemname[ITM_MAX_NAME + ITM_MAX_TEXT],
 				cameramodename[37];
 
@@ -376,9 +327,7 @@ timer UpdateSpectateMode[100](playerid)
 				invehicleas,
 				GetVehicleFuel(GetPlayerLastVehicle(targetid)),
 				_:GetVehicleLockState(GetPlayerLastVehicle(targetid)));
-		}
-		else
-		{
+		} else {
 			new
 				itemname[ITM_MAX_NAME + ITM_MAX_TEXT],
 				holsteritemname[32],
@@ -423,65 +372,40 @@ timer UpdateSpectateMode[100](playerid)
 	}
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
-	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/admin/spectate.pwn");
-
-	if(spectate_Target[playerid] != INVALID_PLAYER_ID)
-	{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if(spectate_Target[playerid] != INVALID_PLAYER_ID) {
 		if(GetTickCountDifference(GetTickCount(), spectate_ClickTick[playerid]) < 1000) return 1;
 
 		spectate_ClickTick[playerid] = GetTickCount();
 
-		if(newkeys == 128) SpectateNextTarget(playerid);
-		else if(newkeys == 4) SpectatePrevTarget(playerid);
-		else if(newkeys == 512) EnterSpectateMode(playerid, spectate_Target[playerid]);
+		if(newkeys == 128) 
+			SpectateNextTarget(playerid);
+		else if(newkeys == 4) 
+			SpectatePrevTarget(playerid);
+		else if(newkeys == 512) 
+			EnterSpectateMode(playerid, spectate_Target[playerid]);
 	}
 
 	return 1;
 }
 
-CanPlayerSpectate(playerid, targetid)
-{
+CanPlayerSpectate(playerid, targetid) {
 	if(targetid == playerid || !IsPlayerConnected(targetid) || !(IsPlayerSpawned(targetid)) || GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return 0;
 
-	if(GetPlayerAdminLevel(playerid) == 1)
-	{
-		new name[MAX_PLAYER_NAME];
-
-		GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-
-		if(!IsPlayerReported(name)) return 0;
-	}
+	// Permitir spec para admins lvl 1 apenas se o jogador foi reportado
+	if(GetPlayerAdminLevel(playerid) == 1 && !IsPlayerReported(GetPlayerNameEx(playerid))) return 0;
 
 	return 1;
 }
 
-GetPlayerSpectateTarget(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return INVALID_PLAYER_ID;
+GetPlayerSpectateTarget(playerid) return !IsPlayerConnected(playerid) ? INVALID_PLAYER_ID : spectate_Target[playerid];
 
-	return spectate_Target[playerid];
-}
+GetPlayerSpectateType(playerid) return !IsPlayerConnected(playerid) ? -1 : spectate_Type[playerid];
 
-stock GetPlayerSpectateType(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return -1;
+ACMD:freezecam[2](playerid) {
+	if(!IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
 
-	return spectate_Type[playerid];
-}
-
-ACMD:freezecam[2](playerid)
-{
-	if(!IsPlayerOnAdminDuty(playerid)) return 6;
-
-	new
-		Float:camX,
-		Float:camY,
-		Float:camZ,
-		Float:vecX,
-		Float:vecY,
-		Float:vecZ;
+	new Float:camX, Float:camY, Float:camZ, Float:vecX, Float:vecY, Float:vecZ;
 
 	GetPlayerCameraPos(playerid, camX, camY, camZ);
 	GetPlayerCameraFrontVector(playerid, vecX, vecY, vecZ);
