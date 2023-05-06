@@ -6,6 +6,8 @@
 forward OnPlayerEnterRadiation(playerid, Float:percentageInside);
 forward OnPlayerExitRadiation(playerid);
 
+static bool:radiationDebug;
+
 // Constantes de comportamento da nuvem
 static const Float:CLOUD_MIN_SPEED        = 0.1;
 static const Float:CLOUD_MAX_SPEED        = 1.0;
@@ -15,8 +17,6 @@ static const Float:CLOUD_MAX_SIZE         = 1000.0;
 static const Float:CLOUD_SIZE_CHANGE      = 50.0;    // Maximum size change per second
 static const Float:CLOUD_DIRECTION_CHANGE = 5.0;     // Maximum angle change in degrees
 
-static bool:cloudDebug;
-
 // Propriedades da nuvem
 static
     Float:cloudPosX,
@@ -24,8 +24,6 @@ static
     Float:cloudSize,
     Float:cloudSpeed,
     Float:cloudDirection;
-
-static cloudGangZone = INVALID_GANG_ZONE;
 
 static 
     Iterator:playersInside<MAX_PLAYERS>,
@@ -93,14 +91,14 @@ Float:GetPlayerRadiationExposure(playerid) return !IsPlayerConnected(playerid) ?
 Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
     if(!IsPlayerInsideRadiation(playerid)) return 0.0;
     if(GetPlayerInterior(playerid)) {
-        ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are in an interior, no exposure.");
+        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are in an interior, no exposure.");
         return 0.0;
     }
 
     if(radiationDistance == -0.0) radiationDistance = CalculateDistanceToRadiation(playerid);
     new const Float:distancePercentage = GetPercentageToRadiationCenter(radiationDistance);
 
-    ChatMsg(playerid, -1, "[CalculateRadiationExposure] Distance percentage: %f", distancePercentage);
+    if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Distance percentage: %f", distancePercentage);
 
     new Float:protectionPercentage;
 
@@ -109,19 +107,19 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
     GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
 
     if (CA_GetRoomHeight(playerPosX, playerPosY, playerPosZ) > 0.0) {
-        ChatMsg(playerid, -1, "[CalculateRadiationExposure] Esta por baixo de uma estrutura");
+        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Esta por baixo de uma estrutura");
 
         new Float:collisions[100][3];
         new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
 
         // Calculate the protectionPercentage based on roomHeight and numCollisions
         if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION) {
-            ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a a well-protected structure");
+            if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a a well-protected structure");
 
             return 0.0;
         } else {
             protectionPercentage += (numCollisions / float(MIN_COLLISIONS_FOR_PROTECTION)) * 100.0;
-            ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a structure, protection percentage: %f", protectionPercentage);
+            if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a structure, protection percentage: %f", protectionPercentage);
         }
     }
 
@@ -137,7 +135,7 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
         new Float:vehicleProtection = 20.0 - (5000.0 / vehicleSize);
         vehicleProtection = fclamp(vehicleProtection, 10.0, 20.0);
 
-        ChatMsg(playerid, -1, "[CalculateRadiationExposure] Vehicle (%d) protection: %f", vehicleId, vehicleProtection);
+        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Vehicle (%d) protection: %f", vehicleId, vehicleProtection);
 
         protectionPercentage += vehicleProtection;
     }
@@ -147,18 +145,18 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
 
     if(maskProtection > 0.0) {
         protectionPercentage += maskProtection;
-        ChatMsg(playerid, -1, "[CalculateRadiationExposure] Mask protection: %f", maskProtection);
+        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Mask protection: %f", maskProtection);
     }
 
     // Protecao vestindo skin de swap
     if (GetPlayerSkin(playerid) == 285) {
         protectionPercentage += 50.0;
-        ChatMsg(playerid, -1, "[CalculateRadiationExposure] Skin protection: %f", protectionPercentage);
+        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Skin protection: %f", protectionPercentage);
     }
 
     protectionPercentage = fclamp(protectionPercentage, 0.0, 100.0);
 
-    ChatMsg(playerid, -1, "[CalculateRadiationExposure] Total protection percentage: %f", protectionPercentage);
+    if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Total protection percentage: %f", protectionPercentage);
 
     new const Float:exposure = 100.0 * (distancePercentage / 100.0) * (1.0 - (protectionPercentage / 100.0));
 
@@ -170,7 +168,6 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
 static InitializeRadiationCloud() {
     // Escolhemos uma borda aleat?ria: 0 - topo, 1 - inferior, 2 - esquerda, 3 - direita
     new const border = random(4);
-    new const Float:MAP_SIZE_FLOAT = float(MAP_SIZE);
 
     switch (border) {
         case 0: { // Borda superior
@@ -199,14 +196,14 @@ static InitializeRadiationCloud() {
 }
 
 public OnPlayerEnterRadiation(playerid, Float:percentageInside) {
-    ChatMsgAll(COLOR_RADIATION, "%p entrou na radiacao. (%.1f dentro)", playerid, percentageInside);
+    // ChatMsgAll(COLOR_RADIATION, "%p entrou na radiacao. (%.1f dentro)", playerid, percentageInside);
 
     SetPlayerWeather(playerid, 249);
     SetPlayerTime(playerid, 22, 00);
 }
 
 public OnPlayerExitRadiation(playerid) {
-    ChatMsgAll(COLOR_RADIATION, "%p conseguiu fugir da radiacao", playerid);
+    // ChatMsgAll(COLOR_RADIATION, "%p conseguiu fugir da radiacao", playerid);
 
 	ResetClimate(playerid);
 }
@@ -248,14 +245,23 @@ static task UpdateRadiationCloud[SEC(1)]() {
     }
 
     // Atualiza a posi??o e o tamanho da zona de gangue
+    static cloudGangZone = INVALID_GANG_ZONE;
+
     GangZoneDestroy(cloudGangZone);
     cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
-    GangZoneShowForAll(cloudGangZone, COLOR_RADIATION);
 
-    foreach(new i : Player) {
-        SetPlayerMapIcon(i, 232, cloudPosX, cloudPosY, 0.0, 1, COLOR_RADIATION, MAPICON_LOCAL);
+    // Liberar componentes do mapa apenas para quem tem o item mapa
+    foreach(new p : Player) {
+        if(DoesPlayerHaveMap(p)) {
+            GangZoneShowForPlayer(p, cloudGangZone, COLOR_RADIATION);
+
+            if(IsPlayerVip(p)) {
+                DestroyDynamicMapIcon(99);
+                SetPlayerMapIcon(p, 99, cloudPosX, cloudPosY, 0.0, 23, COLOR_RADIATION, MAPICON_GLOBAL);
+            }
+        }
     }
-
+    
     // Calculate the coordinates for the dummy object
     new Float:groundZ;
     if(CA_FindZ_For2DCoord(cloudPosX, cloudPosY, groundZ)) {
@@ -279,7 +285,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
 
         InitializeRadiationCloud();
     } else
-        if(cloudDebug) printf("[RADIATION] -> Direction: %.2f, Speed: %.2f, Size: %.2f, Position X: %.2f, Position Y: %.2f", cloudDirection, cloudSpeed, cloudSize, cloudPosX, cloudPosY);
+        if(radiationDebug) printf("[RADIATION] -> Direction: %.2f, Speed: %.2f, Size: %.2f, Position X: %.2f, Position Y: %.2f", cloudDirection, cloudSpeed, cloudSize, cloudPosX, cloudPosY);
 }
 
 static timer GotoCloud[SEC(1)](playerid, follow) {
@@ -364,9 +370,9 @@ ACMD:rad[5](playerid, params[]) {
     } else if(isequal(subcmd, "new", true))
         InitializeRadiationCloud();
     else if(isequal(subcmd, "debug", true)) {
-        cloudDebug = !cloudDebug;
+        radiationDebug = !radiationDebug;
 
-        ChatMsg(playerid, COLOR_RADIATION, "Debug de Nuvem %s", cloudDebug ? "Ativado" : "Desativado");
+        ChatMsg(playerid, COLOR_RADIATION, "Debug de Nuvem %s", radiationDebug ? "Ativado" : "Desativado");
     } else
         SendClientMessage(playerid, WHITE, "USAGE: /rad [debug|goto|follow|new]");
 
