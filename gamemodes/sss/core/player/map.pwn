@@ -36,6 +36,8 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnItemAddToInventory(playerid, itemid) {
+    printf("[MAP] OnItemAddToInventory(%d, %d)", playerid, itemid);
+
 	if(GetItemType(itemid) == item_Map) ToggleMap(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -47,6 +49,15 @@ hook OnItemRemoveFInventory(playerid, itemid) {
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerSpawn(playerid) {
-    ToggleMap(playerid, DoesPlayerHaveMap(playerid));
+hook OnPlayerSpawnCharacter(playerid) {
+    new bool:map = DoesPlayerHaveMap(playerid);
+    printf("[MAP] OnPlayerSpawnCharacter(%d): Map: %s", playerid, booltostr(map));
+    ToggleMap(playerid, map);
+}
+
+// ? Nao tenho a certeza se esse callback e chamado unicamente ou juntamente com o OnPlayerSpawnCharacter
+hook OnPlayerSpawnNewChar(playerid) {
+    new bool:map = DoesPlayerHaveMap(playerid);
+    printf("[MAP] OnPlayerSpawnNewChar(%d): Map: %s", playerid, booltostr(map));
+    ToggleMap(playerid, map);
 }
