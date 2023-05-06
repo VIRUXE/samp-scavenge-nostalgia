@@ -881,14 +881,15 @@ IsVehicleValidOutOfBounds(vehicleid)
 	aims to fix bugs with vehicle deaths and all code that's intended to run
 	when a vehicle is destroyed should be put under OnVehicleDestroy(ed).
 */
+
 public OnVehicleDeath(vehicleid, killerid)
 {
 	GetVehiclePos(vehicleid, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
 
 	veh_Data[vehicleid][veh_state] = VEHICLE_STATE_DYING;
 
-	DestroyVehicle(vehicleid);
-	ChatMsgAll(YELLOW, "> %p(id:%d) destruÃ­u o veÃ­culo ID: %d", killerid, killerid, vehicleid);
+/*	DestroyVehicle(vehicleid);
+	ChatMsgAll(YELLOW, "> %p(id:%d) destrui­u o veículo ID: %d", killerid, killerid, vehicleid);*/
 	log("[VEHICLE][DEATH] %s (%d) killed by %p -> %f %f %f", GetVehicleGEID(vehicleid), vehicleid, killerid, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
 }
 
