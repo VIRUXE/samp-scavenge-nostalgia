@@ -135,12 +135,26 @@ _UpdateKeyActions(playerid)
 		return;		
 	}
 
-	if(IsPlayerInAnyVehicle(playerid)) {
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
+
+	if(IsPlayerInAnyVehicle(playerid)) 
+	{
+		new vehicleid = GetPlayerVehicleID(playerid);
+
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsCar(vehicleid)) {
 			ClearPlayerKeyActionUI(playerid);
 			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "player/key-actions/vehicle/toggle_engine"));
 			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "player/key-actions/vehicle/toggle_lights"));
 			AddToolTipText(playerid, KEYTEXT_DOORS, ls(playerid, "player/key-actions/vehicle/toggle_doors"));
+			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/vehicle/toggle_horn"));
+			ShowPlayerKeyActionUI(playerid);
+			
+			return;
+		}
+
+		else if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsBike(vehicleid) || Vehicle_IsHelicopter(vehicleid) || Vehicle_IsBoat(vehicleid) || Vehicle_IsPlane(vehicleid)) {
+			ClearPlayerKeyActionUI(playerid);
+			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "player/key-actions/vehicle/toggle_engine"));
+			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "player/key-actions/vehicle/toggle_lights"));
 			AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/vehicle/toggle_horn"));
 			ShowPlayerKeyActionUI(playerid);
 			
