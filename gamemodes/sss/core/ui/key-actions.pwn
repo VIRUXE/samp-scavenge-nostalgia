@@ -280,7 +280,7 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/item_drop"));
 		    
-		if(IsValidItem(GetPlayerHolsterItem(playerid)))
+		if(IsValidItem(GetPlayerHolsterItem(playerid)) && GetPlayerItem(playerid) != INVALID_ITEM_ID)
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster-get"));
 	}
 
