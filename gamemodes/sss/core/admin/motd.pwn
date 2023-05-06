@@ -93,9 +93,15 @@ Dialog:SetEnglishMotd(playerid, response, listitem, inputtext[]) {
     }
 }
 
-CMD:motd(playerid, params[]) {
-    ShowMotd(playerid);
-    return 1;
+// Para mostrar a mensagem do dia para algum jogador
+ACMD:motd[1](playerid, params[]) {
+    new targetId = INVALID_PLAYER_ID;
+
+    sscanf(params, "r", targetId);
+
+    if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+    
+    return ShowMotd(targetId);
 }
 
 ACMD:setmotd[2](playerid, params[]) return SetPortugueseMotd(playerid);
