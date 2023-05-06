@@ -94,12 +94,9 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		{
 			CancelPlayerMovement(playerid);
 			ShowLightList(playerid, vehicleid);
-		} else { // Útil para mostrar as ferramentas necessárias para reparar o veí­culo
-			CancelPlayerMovement(playerid);
-			ShowRepairStatus(playerid, vehicleid);
+		} 
+		else ShowRepairStatus(playerid, vehicleid); // Útil para mostrar as ferramentas necessárias para reparar o veí­culo
 		}
-	}
-
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
