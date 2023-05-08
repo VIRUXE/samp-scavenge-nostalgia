@@ -20,7 +20,7 @@
 forward OnPlayerProgressTutorial(playerid, stepscompleted);
 forward OnPlayerExitTutorial(playerid, bool:completed);
 
-#define MAX_TUTORIAL_ITEMS 22
+#define MAX_TUTORIAL_ITEMS 20
 #define MAX_TUTORIAL_STEPS 13
 
 static enum E_TUTORIAL_ITEMS {
@@ -560,12 +560,10 @@ ExitTutorial(playerid, bool:completed = true) {
 	SetPlayerVirtualWorld(playerid, 0);
 
 	// Resetar os passos do tutorial
-	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) {
-		Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
-	}
+	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
 
 	// Destroi os itens e pickups do tutorial
-	for(new i = 0; i < MAX_TUTORIAL_ITEMS-1; i++) {
+	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) {
 		DestroyItem(Tutorial[playerid][TUT_ITEMS][E_TUTORIAL_ITEMS:i]);
 		DestroyPickup(Tutorial[playerid][TUT_PICKUPS][E_TUTORIAL_ITEMS:i]);
 	}
