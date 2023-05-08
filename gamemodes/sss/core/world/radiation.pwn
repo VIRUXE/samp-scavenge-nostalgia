@@ -30,7 +30,7 @@ static
     Float:playerExposure[MAX_PLAYERS], // Exposicao em percentagem
     Float:playerDistance[MAX_PLAYERS]; // Distancia para a nuvem (negativo se ja estiver dentro)
 
-static const MIN_COLLISIONS_FOR_PROTECTION = 30;
+static const MIN_COLLISIONS_FOR_PROTECTION = 320;
 
 Float:GetRadiationSize() return cloudSize;
 
@@ -88,6 +88,9 @@ Float:GetPlayerGasMaskProtection(playerid) {
 
 Float:GetPlayerRadiationExposure(playerid) return !IsPlayerConnected(playerid) ? 0.0 : playerExposure[playerid];
 
+static Iterator:balls<216>;
+
+
 Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
     if(!IsPlayerInsideRadiation(playerid)) return 0.0;
     if(GetPlayerInterior(playerid)) {
@@ -102,24 +105,29 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
 
     new Float:protectionPercentage;
 
-    // Calcula se esta esta dentro de uma estrutura
+    // Calcula se esta esta por baixo ou dentro de uma estrutura
     new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
     GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
 
+    foreach(new b : balls) DestroyObject(b);
+
     if (CA_GetRoomHeight(playerPosX, playerPosY, playerPosZ) > 0.0) {
-        if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] Esta por baixo de uma estrutura");
 
-        new Float:collisions[100][3];
-        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 50.0, 20.0, collisions);
+        new Float:collisions[324][3];
+        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 40.0, 10.0, 20.0, collisions);
 
-        // Calculate the protectionPercentage based on roomHeight and numCollisions
+        for(new c; c < numCollisions; c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
+
+        if(radiationDebug) ChatMsg(playerid, GREY, "[CalculateRadiationExposure] Esta por baixo de uma estrutura (%d colisoes)", numCollisions);
+
+        // Calculamos o quanto a estrutura protege
         if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION) {
-            if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a a well-protected structure");
+            if(radiationDebug) ChatMsg(playerid, YELLOW, "[CalculateRadiationExposure] You are under a a well-protected structure");
 
             return 0.0;
         } else {
             protectionPercentage += (numCollisions / float(MIN_COLLISIONS_FOR_PROTECTION)) * 100.0;
-            if(radiationDebug) ChatMsg(playerid, -1, "[CalculateRadiationExposure] You are under a structure, protection percentage: %f", protectionPercentage);
+            if(radiationDebug) ChatMsg(playerid, GREEN, "[CalculateRadiationExposure] You are under a structure, protection percentage: %f", protectionPercentage);
         }
     }
 
@@ -315,7 +323,7 @@ static timer GotoCloud[SEC(1)](playerid, follow) {
 }
 
 static ptask RadiationAreaCheck[SEC(1)](playerid) {
-    if(!IsPlayerSpawned(playerid)) return;
+    if(!IsPlayerSpawned(playerid) || IsPlayerOnAdminDuty(playerid)) return;
 
     new Float:radiationDistance = CalculateDistanceToRadiation(playerid);
 
@@ -327,7 +335,15 @@ static ptask RadiationAreaCheck[SEC(1)](playerid) {
         }
 
         // Atualiza o nivel de exposicao enquanto estiver dentro da nuvem
-        CalculateRadiationExposure(playerid, radiationDistance);
+        new const Float:exposure = CalculateRadiationExposure(playerid, radiationDistance);
+
+        new const Float:hpLost = 2.0 * (exposure / 100.0);
+
+        if(hpLost) {
+            ShowActionText(playerid, sprintf("Perdeu %.2f por exposicao (%.2f) radiativa.", hpLost, exposure), 500); 
+
+            SetPlayerHP(playerid, GetPlayerHP(playerid) - hpLost);
+        }
     } else {
         if(IsPlayerInsideRadiation(playerid)) {
             Iter_Remove(playersInside, playerid);
