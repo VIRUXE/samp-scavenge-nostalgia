@@ -8,20 +8,15 @@ DBStatement:	stmt_AliasesFromHash,
 DBStatement:	stmt_AliasesFromAll;
 
 
-hook OnGameModeInit()
-{
-	stmt_AliasesFromIp = db_prepare(gAccounts, "SELECT "FIELD_PLAYER_NAME" FROM players WHERE "FIELD_PLAYER_IPV4"=? AND "FIELD_PLAYER_ACTIVE"=1 AND "FIELD_PLAYER_NAME"!=? COLLATE NOCASE");
-	stmt_AliasesFromPass = db_prepare(gAccounts, "SELECT "FIELD_PLAYER_NAME" FROM players WHERE "FIELD_PLAYER_PASS"=? AND "FIELD_PLAYER_ACTIVE"=1 AND "FIELD_PLAYER_NAME"!=? COLLATE NOCASE");
-	stmt_AliasesFromHash = db_prepare(gAccounts, "SELECT "FIELD_PLAYER_NAME" FROM players WHERE "FIELD_PLAYER_GPCI"=? AND "FIELD_PLAYER_ACTIVE"=1 AND "FIELD_PLAYER_NAME"!=? COLLATE NOCASE");
-	stmt_AliasesFromAll = db_prepare(gAccounts, "SELECT "FIELD_PLAYER_NAME" FROM players WHERE ("FIELD_PLAYER_PASS"=? OR "FIELD_PLAYER_IPV4"=? OR "FIELD_PLAYER_GPCI" = ?) AND "FIELD_PLAYER_ACTIVE"=1 AND "FIELD_PLAYER_NAME"!=? COLLATE NOCASE");
+hook OnGameModeInit() {
+	stmt_AliasesFromIp   = db_prepare(gAccounts, "SELECT name FROM players WHERE ipv4=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromPass = db_prepare(gAccounts, "SELECT name FROM players WHERE pass=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromHash = db_prepare(gAccounts, "SELECT name FROM players WHERE gpci=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromAll  = db_prepare(gAccounts, "SELECT name FROM players WHERE (pass=? OR ipv4=? OR gpci = ?) AND active=1 AND name!=? COLLATE NOCASE");
 }
 
-stock GetAccountAliasesByIP(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel)
-{
-	new
-		ip,
-		tempname[MAX_PLAYER_NAME],
-		templevel;
+stock GetAccountAliasesByIP(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
+	new ip, tempname[MAX_PLAYER_NAME], templevel;
 
 	GetAccountIP(name, ip);
 
@@ -33,8 +28,7 @@ stock GetAccountAliasesByIP(name[], list[][MAX_PLAYER_NAME], &count, max, &admin
 
 	if(!stmt_execute(stmt_AliasesFromIp)) return 0;
 
-	while(stmt_fetch_row(stmt_AliasesFromIp))
-	{
+	while(stmt_fetch_row(stmt_AliasesFromIp)) {
 		if(count < max) strcat(list[count], tempname, max * MAX_PLAYER_NAME);
 
 		templevel = GetAdminLevelByName(tempname);
@@ -47,12 +41,8 @@ stock GetAccountAliasesByIP(name[], list[][MAX_PLAYER_NAME], &count, max, &admin
 	return 1;
 }
 
-stock GetAccountAliasesByPass(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel)
-{
-	new
-		pass[129],
-		tempname[MAX_PLAYER_NAME],
-		templevel;
+stock GetAccountAliasesByPass(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
+	new pass[129], tempname[MAX_PLAYER_NAME], templevel;
 
 	GetAccountPassword(name, pass);
 
@@ -64,8 +54,7 @@ stock GetAccountAliasesByPass(name[], list[][MAX_PLAYER_NAME], &count, max, &adm
 
 	if(!stmt_execute(stmt_AliasesFromPass)) return 0;
 
-	while(stmt_fetch_row(stmt_AliasesFromPass))
-	{
+	while(stmt_fetch_row(stmt_AliasesFromPass)) {
 		if(count < max) strcat(list[count], tempname, max * MAX_PLAYER_NAME);
 
 		templevel = GetAdminLevelByName(tempname);
@@ -78,12 +67,8 @@ stock GetAccountAliasesByPass(name[], list[][MAX_PLAYER_NAME], &count, max, &adm
 	return 1;
 }
 
-stock GetAccountAliasesByHash(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel)
-{
-	new
-		serial[MAX_GPCI_LEN],
-		tempname[MAX_PLAYER_NAME],
-		templevel;
+stock GetAccountAliasesByHash(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
+	new serial[MAX_GPCI_LEN], tempname[MAX_PLAYER_NAME], templevel;
 
 	GetAccountGPCI(name, serial);
 
@@ -97,8 +82,7 @@ stock GetAccountAliasesByHash(name[], list[][MAX_PLAYER_NAME], &count, max, &adm
 
 	if(!stmt_execute(stmt_AliasesFromHash)) return 0;
 
-	while(stmt_fetch_row(stmt_AliasesFromHash))
-	{
+	while(stmt_fetch_row(stmt_AliasesFromHash)) {
 		if(count < max) strcat(list[count], tempname, max * MAX_PLAYER_NAME);
 
 		templevel = GetAdminLevelByName(tempname);
@@ -111,8 +95,7 @@ stock GetAccountAliasesByHash(name[], list[][MAX_PLAYER_NAME], &count, max, &adm
 	return 1;
 }
 
-stock GetAccountAliasesByAll(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel)
-{
+stock GetAccountAliasesByAll(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
 	new
 		pass[129],
 		ip,
@@ -134,8 +117,7 @@ stock GetAccountAliasesByAll(name[], list[][MAX_PLAYER_NAME], &count, max, &admi
 
 	if(!stmt_execute(stmt_AliasesFromAll)) return 0;
 
-	while(stmt_fetch_row(stmt_AliasesFromAll))
-	{
+	while(stmt_fetch_row(stmt_AliasesFromAll)) {
 		if(count < max) strcat(list[count], tempname, max * MAX_PLAYER_NAME);
 
 		templevel = GetAdminLevelByName(tempname);
@@ -155,8 +137,7 @@ hook OnPlayerLogin(playerid) {
 
 hook OnPlayerRegister(playerid) CheckForExtraAccounts(playerid);
 
-CheckForExtraAccounts(playerid)
-{
+CheckForExtraAccounts(playerid) {
 	if(!IsPlayerRegistered(playerid) || !IsPlayerLoggedIn(playerid)) return 0;
 
 	new
@@ -164,7 +145,7 @@ CheckForExtraAccounts(playerid)
 		list[15][MAX_PLAYER_NAME],
 		count,
 		adminlevel,
-		bool:donewarning,
+		bool:doneWarning,
 		string[(MAX_PLAYER_NAME + 2) * 15];
 
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -175,23 +156,19 @@ CheckForExtraAccounts(playerid)
 
 	if(count == 1) strcat(string, list[0]);
 
-	if(count > 1)
-	{
-		for(new i; i < count && i < sizeof(list); i++)
-		{
+	if(count > 1) {
+		for(new i; i < count && i < sizeof(list); i++) {
 			strcat(string, list[i]);
 			strcat(string, ", ");
 
-			if(IsPlayerBanned(list[i]) && !donewarning)
-			{
+			if(IsPlayerBanned(list[i]) && !doneWarning) {
 				ChatMsgAdmins(1, RED, " > Aviso: Um ou mais desses aliases são banidos");
-				donewarning = true;
+				doneWarning = true;
 			}
 		}
 	}
 
-	if(donewarning && GetAdminsOnline() == 0)
-	{
+	if(doneWarning && GetAdminsOnline() == 0) {
 		KickPlayer(playerid, "Uma de suas contas usadas anteriormente está banida.");
 		return 0;
 	}
