@@ -1,61 +1,25 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
-
-#define FIELD_PLAYER_NAME			"name"	
-#define FIELD_PLAYER_PASS			"pass"	
-#define FIELD_PLAYER_IPV4			"ipv4"	
-#define FIELD_PLAYER_LANGUAGE		"language"
-#define FIELD_PLAYER_ALIVE			"alive"	
-#define FIELD_PLAYER_REGDATE		"regdate"
-#define FIELD_PLAYER_LASTLOG		"lastlog"
-#define FIELD_PLAYER_SPAWNTIME		"spawntime"
-#define FIELD_PLAYER_TOTALSPAWNS	"spawns"
-#define FIELD_PLAYER_WARNINGS		"warnings"
-#define FIELD_PLAYER_GPCI			"gpci"	
-#define FIELD_PLAYER_JOINSENTENCE	"joinsentence"
-#define FIELD_PLAYER_ACTIVE			"active"
-
-enum
-{
-	FIELD_ID_PLAYER_NAME,
-	FIELD_ID_PLAYER_PASS,
-	FIELD_ID_PLAYER_IPV4,
-	FIELD_ID_PLAYER_LANGUAGE,
-	FIELD_ID_PLAYER_ALIVE,
-	FIELD_ID_PLAYER_REGDATE,
-	FIELD_ID_PLAYER_LASTLOG,
-	FIELD_ID_PLAYER_SPAWNTIME,
-	FIELD_ID_PLAYER_TOTALSPAWNS,
-	FIELD_ID_PLAYER_WARNINGS,
-	FIELD_ID_PLAYER_GPCI,
-	FIELD_ID_PLAYER_JOINSENTENCE,
-	FIELD_ID_PLAYER_CLAN,
-	FIELD_ID_PLAYER_VIP,
-	FIELD_ID_PLAYER_ACTIVE
+static enum {
+	NAME,
+	PASS,
+	IPV4,
+	LANGUAGE,
+	ALIVE,
+	REGDATE,
+	LASTLOG,
+	SPAWNTIME,
+	TOTALSPAWNS,
+	WARNINGS,
+	GPCI,
+	JOINSENTENCE,
+	CLAN,
+	VIP,
+	SCORE,
+	KILLS,
+	ALIVETIME,
+	COINS,
+	ACTIVE
 }
 
 
@@ -110,75 +74,73 @@ forward OnPlayerRegister(playerid);
 forward OnPlayerLogin(playerid);
 
 
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS players (\
-		"FIELD_PLAYER_NAME" TEXT NOT NULL,\
-		"FIELD_PLAYER_PASS" TEXT NOT NULL,\
-		"FIELD_PLAYER_IPV4" INTEGER NOT NULL,\
-		"FIELD_PLAYER_LANGUAGE" INTEGER NOT NULL,\
-		"FIELD_PLAYER_ALIVE" INTEGER NOT NULL,\
-		"FIELD_PLAYER_REGDATE" INTEGER NOT NULL,\
-		"FIELD_PLAYER_LASTLOG" INTEGER NOT NULL,\
-		"FIELD_PLAYER_SPAWNTIME" INTEGER NOT NULL,\
-		"FIELD_PLAYER_TOTALSPAWNS" INTEGER NOT NULL,\
-		"FIELD_PLAYER_WARNINGS" INTEGER NOT NULL,\
-		"FIELD_PLAYER_GPCI" TEXT NOT NULL,\
-		"FIELD_PLAYER_JOINSENTENCE" TEXT,\
+		name TEXT NOT NULL,\
+		pass TEXT NOT NULL,\
+		ipv4 INTEGER NOT NULL,\
+		language INTEGER NOT NULL,\
+		alive INTEGER NOT NULL,\
+		regdate INTEGER NOT NULL,\
+		lastlog INTEGER NOT NULL,\
+		spawntime INTEGER NOT NULL,\
+		totalspawns INTEGER NOT NULL,\
+		warnings INTEGER NOT NULL,\
+		gpci TEXT NOT NULL,\
+		joinsentece TEXT,\
 		clan TEXT,\
 		vip INTEGER,\
-		"FIELD_PLAYER_ACTIVE" INTEGER NOT NULL)");
+		score INTEGER,\
+		kills INTEGER,\
+		alivetime INTEGER,\
+		coins INTEGER,\
+		active INTEGER NOT NULL)");
 
-	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS player_index ON players("FIELD_PLAYER_NAME")");
+	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS player_index ON players(name)");
 
-	DatabaseTableCheck(gAccounts, "players", 15);
+	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM players WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-								// name, pass, ipv4, language, alive, regdate, lastlog, spawntime, spawns, warnings, gpci, joinsentence, clan, vip, active
-	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,1)");
-	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_ALIVE"=?, "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,0,0,0,0,1)");
+	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE players SET alive=?, warnings=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetPassword		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_PASS" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetPassword		= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_PASS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetPassword		= db_prepare(gAccounts, "SELECT pass FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetPassword		= db_prepare(gAccounts, "UPDATE players SET pass=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetIpv4			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetIpv4			= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_IPV4"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetIpv4			= db_prepare(gAccounts, "SELECT ipv4 FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetIpv4			= db_prepare(gAccounts, "UPDATE players SET ipv4=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ALIVE" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_ALIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT alive FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE players SET alive=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_REGDATE" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_REGDATE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT regdate FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE players SET regdate=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_LASTLOG" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_LASTLOG"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT lastlog FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE players SET lastlog=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_SPAWNTIME" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_SPAWNTIME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT spawntime FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET spawntime=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_TOTALSPAWNS" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_TOTALSPAWNS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT totalspawns FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET totalspawns=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_WARNINGS" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_WARNINGS"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT warnings FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE players SET warnings=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetGpci			= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_GPCI" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetGpci			= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_GPCI"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetGpci			= db_prepare(gAccounts, "SELECT gpci FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetGpci			= db_prepare(gAccounts, "UPDATE players SET gpci=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetActiveState	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_ACTIVE" FROM players WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
-	stmt_AccountSetActiveState	= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_ACTIVE"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+	stmt_AccountGetActiveState	= db_prepare(gAccounts, "SELECT active FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetActiveState	= db_prepare(gAccounts, "UPDATE players SET active=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT "FIELD_PLAYER_IPV4", "FIELD_PLAYER_PASS", "FIELD_PLAYER_GPCI" FROM players WHERE "FIELD_PLAYER_NAME"=? AND "FIELD_PLAYER_ACTIVE" COLLATE NOCASE");
+	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT ipv4, pass, gpci FROM players WHERE name=? AND active COLLATE NOCASE");
 
-    stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE players SET "FIELD_PLAYER_NAME"=? WHERE "FIELD_PLAYER_NAME"=? COLLATE NOCASE");
+    stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE players SET name=? WHERE name=? COLLATE NOCASE");
 }
 
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
 	if(IsPlayerNPC(playerid)) return Y_HOOKS_CONTINUE_RETURN_0;
-
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/accounts.pwn");
 
 	acc_LoginAttempts[playerid] = 0;
 	acc_IsNewPlayer[playerid]   = false;
@@ -189,15 +151,8 @@ hook OnPlayerConnect(playerid)
 }
 
 
-/*==============================================================================
-
-	Loads database data into memory and applies it to the player.
-
-==============================================================================*/
-
-
-LoadAccount(playerid)
-{
+//	Loads database data into memory and applies it to the player.
+LoadAccount(playerid) {
     if(IsPlayerNPC(playerid)) return 0;
 
 	if(CallLocalFunction("OnPlayerLoadAccount", "d", playerid)) return -1;
@@ -216,6 +171,10 @@ LoadAccount(playerid)
 		warnings,
 		clan[16], // MAX_CLAN_NAME
 		bool:vip,
+		score,
+		kills,
+		alivetime,
+		coins,
 		active;
 
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
@@ -223,61 +182,59 @@ LoadAccount(playerid)
 	stmt_bind_value(stmt_AccountExists, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountExists, 0, DB::TYPE_INTEGER, exists);
 
-	if(!stmt_execute(stmt_AccountExists))
-	{
-		err("[ACCOUNT] executing statement 'stmt_AccountExists'.");
+	if(!stmt_execute(stmt_AccountExists)) {
+		err("[ACCOUNTS] executing statement 'stmt_AccountExists'.");
 		return -1;
 	}
 
-	if(!stmt_fetch_row(stmt_AccountExists))
-	{
-		err("[ACCOUNT] fetching statement result 'stmt_AccountExists'.");
+	if(!stmt_fetch_row(stmt_AccountExists)) {
+		err("[ACCOUNTS] fetching statement result 'stmt_AccountExists'.");
 		return -1;
 	}
 
-	if(exists == 0)
-	{
-		log("[ACCOUNT] %p (%d) (conta nÃ£o existe)", playerid, playerid);
+	if(!exists) {
+		log("[ACCOUNTS] %p (%d) (conta não existe)", playerid, playerid);
 		return 0;
 	}
 
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_PASS, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_IPV4, DB::TYPE_INTEGER, ipv4);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_LANGUAGE, DB::TYPE_INTEGER, language);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ALIVE, DB::TYPE_INTEGER, alive);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_REGDATE, DB::TYPE_INTEGER, regdate);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_LASTLOG, DB::TYPE_INTEGER, lastlog);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_SPAWNTIME, DB::TYPE_INTEGER, spawntime);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_TOTALSPAWNS, DB::TYPE_INTEGER, spawns);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_WARNINGS, DB::TYPE_INTEGER, warnings);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_CLAN, DB::TYPE_STRING, clan, sizeof(clan));
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_VIP, DB::TYPE_INTEGER, vip);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ACTIVE, DB::TYPE_INTEGER, active);
+	stmt_bind_result_field(stmt_AccountLoad, PASS, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
+	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
+	stmt_bind_result_field(stmt_AccountLoad, LANGUAGE, DB::TYPE_INTEGER, language);
+	stmt_bind_result_field(stmt_AccountLoad, ALIVE, DB::TYPE_INTEGER, alive);
+	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regdate);
+	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastlog);
+	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawntime);
+	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, spawns);
+	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
+	stmt_bind_result_field(stmt_AccountLoad, CLAN, DB::TYPE_STRING, clan, sizeof(clan));
+	stmt_bind_result_field(stmt_AccountLoad, VIP, DB::TYPE_INTEGER, vip);
+	stmt_bind_result_field(stmt_AccountLoad, SCORE, DB::TYPE_INTEGER, score);
+	stmt_bind_result_field(stmt_AccountLoad, KILLS, DB::TYPE_INTEGER, vip);
+	stmt_bind_result_field(stmt_AccountLoad, ALIVETIME, DB::TYPE_INTEGER, alivetime);
+	stmt_bind_result_field(stmt_AccountLoad, COINS, DB::TYPE_INTEGER, coins);
+	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
 
-	if(!stmt_execute(stmt_AccountLoad))
-	{
-		err("[ACCOUNT] executing statement 'stmt_AccountLoad'.");
+	if(!stmt_execute(stmt_AccountLoad)) {
+		err("[ACCOUNTS] executing statement 'stmt_AccountLoad'.");
 		return -1;
 	}
 
-	if(!stmt_fetch_row(stmt_AccountLoad))
-	{
-		err("[ACCOUNT] fetching statement result 'stmt_AccountLoad'.");
+	if(!stmt_fetch_row(stmt_AccountLoad)) {
+		err("[ACCOUNTS] fetching statement result 'stmt_AccountLoad'.");
 		return -1;
 	}
 
-	if(!active)
-	{
-		log("[ACCOUNT] %p (%d) (conta inativa) Vivo?: %s, Ãšltimo Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
+	if(!active) {
+		log("[ACCOUNTS] %p (%d) (conta inativa) Vivo?: %s, Último Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
 		return 4;
 	}
 
 	SetPlayerLanguage(playerid, language);
 	if(!isempty(clan)) SetPlayerClan(playerid, clan);
-	SetPlayerAliveState(playerid, alive);
+	SetPlayerAliveState(playerid, alive ? true : false);
 	acc_IsNewPlayer[playerid] = false;
-	acc_HasAccount[playerid] = true;
+	acc_HasAccount[playerid]  = true;
 
 	SetPlayerPassHash(playerid, password);
 	SetPlayerRegTimestamp(playerid, regdate);
@@ -286,33 +243,23 @@ LoadAccount(playerid)
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
 	SetPlayerVip(playerid, vip);
+	SetPlayerScore(playerid, score);
+	SetPlayerDeathCount(playerid, kills);
+	SetPlayerAliveTime(playerid, alivetime);
+	SetPlayerCoins(playerid, coins);
 
-	log("[ACCOUNT] %p (%d) (conta existe. pedindo login) Vivo?: %s, Ãšltimo Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
+	log("[ACCOUNTS] %p (%d) (conta existe. pedindo login) Vivo?: %s, Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
 
 	return 1;
 }
 
-
-/*==============================================================================
-
-	Creates a new account for a player with the specified password hash.
-
-==============================================================================*/
-
-
-CreateAccount(playerid, password[])
-{
+CreateAccount(playerid, password[]) {
     if(IsPlayerNPC(playerid)) return 0;
 
-//	TogglePlayerSpectating(playerid, false);
-
-	new name[MAX_PLAYER_NAME];
-	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-	
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
 
-	stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		name, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		GetPlayerNameEx(playerid), MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
 	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	GetPlayerLanguage(playerid));
@@ -320,10 +267,9 @@ CreateAccount(playerid, password[])
 	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime()); // lastlog
 	stmt_bind_value(stmt_AccountCreate, 6, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
 
-	if(!stmt_execute(stmt_AccountCreate))
-	{
+	if(!stmt_execute(stmt_AccountCreate)) {
 		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "NÃ£o foi possÃ­vel criar sua conta. Por favor, contacte um administrador no Discord.", true);
+		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.", true);
 
 		return 0;
 	}
@@ -332,7 +278,7 @@ CreateAccount(playerid, password[])
 	
 	CheckAdminLevel(playerid);
 
-	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nÃ­vel de admin atual Ã©: %d", GetPlayerAdminLevel(playerid));
+	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
 	acc_IsNewPlayer[playerid] = true;
 	acc_HasAccount[playerid]  = true;
@@ -342,71 +288,47 @@ CreateAccount(playerid, password[])
 	SetPlayerScore(playerid, 0);
 	StopAudioStreamForPlayer(playerid);
 
-	log("[ACCOUNTS] %p (%d) registrou.", playerid, playerid);
-	
 	CallLocalFunction("OnPlayerRegister", "d", playerid);
 
 	return 1;
 }
 
-DisplayRegisterPrompt(playerid)
-{
-	log("[DisplayRegisterPrompt] %p is registering", playerid);
+DisplayRegisterPrompt(playerid) {
 	Dialog_Show(playerid, RegisterPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/register/dialog-title"), sprintf(ls(playerid, "player/account/register/dialog-body"), playerid), ls(playerid, "common/register"), ls(playerid, "common/cancel"));
 
 	return 1;
 }
 
-Dialog:RegisterPrompt(playerid, response, listitem, inputtext[])
-{
-	log("[RegisterPrompt] %p Response: %d", playerid, response);
-
-	if(response)
-	{
-		if(!(6 <= strlen(inputtext) <= 32))
-		{
+Dialog:RegisterPrompt(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		if(!(6 <= strlen(inputtext) <= 32)) {
 			ChatMsg(playerid, YELLOW, "player/account/register/invalid-password");
 			DisplayRegisterPrompt(playerid);
 
 			return 0;
 		}
 
-		new buffer[MAX_PASSWORD_LEN];
+		new password[MAX_PASSWORD_LEN];
 
-		WP_Hash(buffer, MAX_PASSWORD_LEN, inputtext);
+		WP_Hash(password, MAX_PASSWORD_LEN, inputtext);
 
-		log("[RegisterPrompt] CreateAccount %d", playerid);
-		CreateAccount(playerid, buffer);
-	}
-	else Kick(playerid);
+		CreateAccount(playerid, password);
+
+		log("[ACCOUNTS] %p registrou sua conta.", playerid);
+	} else Kick(playerid);
 
 	return 0;
 }
 
-DisplayLoginPrompt(playerid, badpass = 0)
-{
-	new str[200];
-
-	if(badpass)
-		format(str, 200, ls(playerid, "player/account/login/wrong-password"), acc_LoginAttempts[playerid]);
-	else
-		format(str, 200, ls(playerid, "player/account/login/dialog-body"), playerid);
-
-	log("[ACCOUNT] %p (%d) estÃ¡ logando.", playerid, playerid);
-
-	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/login/dialog-title"), str, ls(playerid, "common/enter"), ls(playerid, "common/cancel"));
+DisplayLoginPrompt(playerid, badpass = 0) {
+	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/login/dialog-title"), sprintf(ls(playerid, badpass ? "player/account/login/wrong-password" : "player/account/login/dialog-body"), badpass ? acc_LoginAttempts[playerid] : playerid), ls(playerid, "common/enter"), ls(playerid, "common/cancel"));
 
 	return 1;
 }
 
-Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
-{
-	log("[LoginPrompt] %p Response: %d", playerid, response);
-
-	if(response)
-	{
-		if(strlen(inputtext) < 4) // Chave muito curta
-		{
+Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		if(strlen(inputtext) < 4) {// Chave muito curta
 			acc_LoginAttempts[playerid]++;
 
 			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
@@ -419,7 +341,8 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 		WP_Hash(inputhash, MAX_PASSWORD_LEN, inputtext);
 		GetPlayerPassHash(playerid, storedhash);
 
-		if(isequal(inputhash, storedhash)) Login(playerid); // Chave correta
+		if(isequal(inputhash, storedhash))
+			Login(playerid); // Chave correta
 		else {
 			acc_LoginAttempts[playerid]++;
 
@@ -427,27 +350,19 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[])
 
 			return 1;
 		}
-	}
-	else Kick(playerid);
+	} else Kick(playerid);
 
 	return 0;
 }
 
-/*==============================================================================
-
-	Loads a player's account, updates some data and spawns them.
-
-==============================================================================*/
-
-
-Login(playerid)
-{
+//	Loads a player's account, updates some data and spawns them.
+Login(playerid) {
     if(IsPlayerNPC(playerid)) return 0;
 	
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
 	
-	log("[ACCOUNT] %p (%d) efetuou login. Vivo?: %s", playerid, playerid, IsPlayerAlive(playerid) ? "Sim" : "NÃ£o");
+	log("[ACCOUNTS] %p (%d) efetuou login. Vivo?: %s", playerid, playerid, IsPlayerAlive(playerid) ? "Sim" : "Não");
 
 	// TODO: move to a single query
 	// Atualiza o IP no banco de dados
@@ -460,14 +375,14 @@ Login(playerid)
 	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetGpci);
 
-	// Atualiza o Ãºltimo login no banco de dados
+	// Atualiza o último login no banco de dados
 	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
 	stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetLastLog);
 
 	CheckAdminLevel(playerid);
 
-	acc_LoggedIn[playerid] = true;
+	acc_LoggedIn[playerid]      = true;
 	acc_LoginAttempts[playerid] = 0;
 
 	SetPlayerScreenFade(playerid, 255);
@@ -482,121 +397,82 @@ Login(playerid)
 	return 1;
 }
 
-// Chamado apÃ³s o jogador logar
+// Chamado após o jogador logar
 public OnPlayerLogin(playerid) {
 	AnnouncePlayerJoined(playerid);
 
 	ShowMotd(playerid);
 
-	if(GetPlayerAdminLevel(playerid) > 0)
-	{
+	if(GetPlayerAdminLevel(playerid) > 0) {
 		new reports = GetUnreadReports();
 
-		ChatMsg(playerid, BLUE, " >  Seu nÃ­vel de admin atual Ã©: %d", GetPlayerAdminLevel(playerid));
+		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
-		if(reports > 0) ChatMsg(playerid, YELLOW, " >  %d reports nÃ£o lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
+		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 	}
 
 	return 1;
 }
 
-/*==============================================================================
-
-	Logs the player out, saving their data and deleting their items.
-
-==============================================================================*/
-
-
-Logout(playerid, docombatlogcheck = 1)
-{
+// Logs the player out, saving their data and deleting their items.
+Logout(playerid, docombatlogcheck = 1) {
     if(IsPlayerNPC(playerid)) return 0;
 		
-	if(!acc_LoggedIn[playerid])
-	{
-		log("[LOGOUT] %p not logged in.", playerid);
-		return 0;
-	}
+	if(!acc_LoggedIn[playerid]) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
     GetPlayerPos(playerid, x, y, z);
-    
 	GetPlayerFacingAngle(playerid, r);
 
-	log("[LOGOUT] %p logged out at %.1f, %.1f, %.1f (%.1f) Logged In: %d Alive: %d Knocked Out: %d", playerid, x, y, z, r, acc_LoggedIn[playerid], IsPlayerAlive(playerid), IsPlayerKnockedOut(playerid));
+	log("[ACCOUNTS] %p deslogou at %.1f, %.1f, %.1f (%.1f). Logado: %s Vivo: %s Knocked Out: %s", playerid, x, y, z, r, acc_LoggedIn[playerid] ? "true" : "false", IsPlayerAlive(playerid) ? "true" : "false", IsPlayerKnockedOut(playerid) ? "true" : "false");
 
-	if(IsPlayerOnAdminDuty(playerid))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] ERROR: Player on admin duty, aborting save.");
-		return 0;
-	}
+	if(IsPlayerOnAdminDuty(playerid)) return 0;
 
-	if(docombatlogcheck)
-	{
-		if(gServerMaxUptime - gServerUptime > 30)
-		{
-			new
-				lastattacker,
-				lastweapon;
+	if(docombatlogcheck) {
+		if(gServerMaxUptime - gServerUptime > 30) {
+			new lastattacker, lastweapon;
 
-			if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon))
-			{
-				log("[LOGOUT] Player '%p' combat logged!", playerid);
+			if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) {
+				log("[ACCOUNTS] Player '%p' combat logged!", playerid);
 				ChatMsgAll(YELLOW, " >  %p Deslogou em combate e foi morto!", playerid);
                 SetPlayerSpree(playerid, 0);
                 SetPlayerScore(playerid, GetPlayerScore(playerid) - 1);
                 SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
 				_OnDeath(playerid, lastattacker);
-				SetPlayerAliveState(playerid,  false);
+				SetPlayerAliveState(playerid, false);
 			}
 		}
 	}
 
-	new
-		itemid,
-		ItemType:itemtype;
+	new itemid, ItemType:itemtype;
 
-	itemid = GetPlayerItem(playerid);
+	itemid   = GetPlayerItem(playerid);
 	itemtype = GetItemType(itemid);
 
-	if(IsItemTypeSafebox(itemtype))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] Player is holding a box.");
-		if(!IsContainerEmpty(GetItemExtraData(itemid)))
-		{
-			dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] Player is holding an unempty box, dropping in world.");
+	if(IsItemTypeSafebox(itemtype)) {
+		if(!IsContainerEmpty(GetItemExtraData(itemid))) {
 			CreateItemInWorld(itemid, x + floatsin(-r, degrees), y + floatcos(-r, degrees), z - FLOOR_OFFSET);
-			itemid = INVALID_ITEM_ID;
+			itemid   = INVALID_ITEM_ID;
 			itemtype = INVALID_ITEM_TYPE;
 		}
 	}
 
-	if(IsItemTypeBag(itemtype))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] Player is holding a bag.");
-		if(!IsContainerEmpty(GetItemArrayDataAtCell(itemid, 1)))
-		{
+	if(IsItemTypeBag(itemtype)) {
+		if(!IsContainerEmpty(GetItemArrayDataAtCell(itemid, 1))) {
+			itemid   = INVALID_ITEM_ID;
+			itemtype = INVALID_ITEM_TYPE;
+
 			if(IsValidItem(GetPlayerBagItem(playerid)))
-			{
-				dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] Player is holding an unempty bag and is wearing one, dropping in world.");
 				CreateItemInWorld(itemid, x + floatsin(-r, degrees), y + floatcos(-r, degrees), z - FLOOR_OFFSET);
-				itemid = INVALID_ITEM_ID;
-				itemtype = INVALID_ITEM_TYPE;
-			}
 			else
-			{
-				dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[LOGOUT] Player is holding an unempty bag but is not wearing one, calling GivePlayerBag.");
 				GivePlayerBag(playerid, itemid);
-				itemid = INVALID_ITEM_ID;
-				itemtype = INVALID_ITEM_TYPE;
-			}
 		}
 	}
 
 	SavePlayerData(playerid);
 
-	if(IsPlayerAlive(playerid))
-	{
+	if(IsPlayerAlive(playerid)) {
 		DestroyItem(itemid);
 		DestroyItem(GetPlayerHolsterItem(playerid));
 		DestroyPlayerBag(playerid);
@@ -609,15 +485,15 @@ Logout(playerid, docombatlogcheck = 1)
 
 		if(IsValidItem(GetPlayerMaskItem(playerid))) RemovePlayerMaskItem(playerid);
 
-		if(IsPlayerInAnyVehicle(playerid))
-		{
+		if(IsPlayerInAnyVehicle(playerid)) {
 			new
 				vehicleid = GetPlayerLastVehicle(playerid),
 				Float:health;
 
 			GetVehicleHealth(vehicleid, health);
 
-			if(IsVehicleUpsideDown(vehicleid) || health < 300.0) DestroyVehicle(vehicleid);
+			if(IsVehicleUpsideDown(vehicleid) || health < 300.0)
+				DestroyVehicle(vehicleid);
 			else
 				if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
 
@@ -628,86 +504,40 @@ Logout(playerid, docombatlogcheck = 1)
 	return 1;
 }
 
-
-/*==============================================================================
-
-	Updates the database and calls the binary save functions if required.
-
-==============================================================================*/
-
-
-SavePlayerData(playerid)
-{
+// Updates the database and calls the binary save functions if required.
+SavePlayerData(playerid) {
     if(IsPlayerNPC(playerid)) return 0;
 
-	dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[SavePlayerData] Saving '%p'", playerid);
+	if(!acc_LoggedIn[playerid]) return 0;
 
-	if(!acc_LoggedIn[playerid])
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[SavePlayerData] ERROR: Player isn't logged in");
-		return 0;
-	}
-
-	if(IsPlayerOnAdminDuty(playerid))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[SavePlayerData] ERROR: On admin duty");
-		return 0;
-	}
+	if(IsPlayerOnAdminDuty(playerid)) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
  	GetPlayerPos(playerid, x, y, z);
-        
 	GetPlayerFacingAngle(playerid, r);
 
-	if(IsAtConnectionPos(x, y, z))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 1, "[SavePlayerData] ERROR: At connection pos");
-		return 0;
-	}
+	if(IsAtConnectionPos(x, y, z)) return 0;
 
 	//SaveBlockAreaCheck(x, y, z);
 
-	// Coloca o jogador para cima se ele estiver dentro de um veÃ­culo
+	// Coloca o jogador para cima se ele estiver dentro de um veículo
+	// TODO: Nao colocar para cima caso estive muito perto de um teto
 	if(IsPlayerInAnyVehicle(playerid)) x += 1.5;
 
-	if(IsPlayerAlive(playerid))
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Player is alive");
-		if(IsAtDefaultPos(x, y, z))
-		{
-			dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] ERROR: Player at default position");
-			return 0;
-		}
+	if(IsAtDefaultPos(x, y, z)) return 0;
 
-		if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING)
-		{
-			dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Player is spectating");
-			if(!gServerRestarting)
-			{
-				dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Server is not restarting, aborting save");
-				return 0;
-			}
-		}
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING && !gServerRestarting) return 0;
 
-		stmt_bind_value(stmt_AccountUpdate, 0, DB::TYPE_INTEGER, 1);
-		stmt_bind_value(stmt_AccountUpdate, 1, DB::TYPE_INTEGER, GetPlayerWarnings(playerid));
-		stmt_bind_value(stmt_AccountUpdate, 2, DB::TYPE_PLAYER_NAME, playerid);
+	printf("[ACCOUNTS] Salvando dados do personagem para '%p'", playerid);
 
-		if(!stmt_execute(stmt_AccountUpdate)) err("Statement 'stmt_AccountUpdate' failed to execute.");
+	SavePlayerChar(playerid);
 
-		dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Saving character data");
-		SavePlayerChar(playerid);
-	}
-	else
-	{
-		dbg("gamemodes/sss/core/player/accounts.pwn", 2, "[SavePlayerData] Player is dead");
-		stmt_bind_value(stmt_AccountUpdate, 0, DB::TYPE_INTEGER, 0);
-		stmt_bind_value(stmt_AccountUpdate, 1, DB::TYPE_INTEGER, GetPlayerWarnings(playerid));
-		stmt_bind_value(stmt_AccountUpdate, 2, DB::TYPE_PLAYER_NAME, playerid);
+	stmt_bind_value(stmt_AccountUpdate, 0, DB::TYPE_INTEGER, IsPlayerAlive(playerid) ? 1 : 0);
+	stmt_bind_value(stmt_AccountUpdate, 1, DB::TYPE_INTEGER, GetPlayerWarnings(playerid));
+	stmt_bind_value(stmt_AccountUpdate, 2, DB::TYPE_PLAYER_NAME, playerid);
 
-		if(!stmt_execute(stmt_AccountUpdate)) err("Statement 'stmt_AccountUpdate' failed to execute.");
-	}
+	if(!stmt_execute(stmt_AccountUpdate)) err("Statement 'stmt_AccountUpdate' failed to execute.");
 
 	return 1;
 }
@@ -723,16 +553,16 @@ SavePlayerData(playerid)
 stock GetAccountData(name[], pass[], &ipv4, &alive, &regdate, &lastlog, &spawntime, &totalspawns, &warnings, gpci[], &active)
 {
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_PASS, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_IPV4, DB::TYPE_INTEGER, ipv4);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ALIVE, DB::TYPE_INTEGER, alive);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_REGDATE, DB::TYPE_INTEGER, regdate);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_LASTLOG, DB::TYPE_INTEGER, lastlog);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_SPAWNTIME, DB::TYPE_INTEGER, spawntime);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_TOTALSPAWNS, DB::TYPE_INTEGER, totalspawns);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_WARNINGS, DB::TYPE_INTEGER, warnings);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_GPCI, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
-	stmt_bind_result_field(stmt_AccountLoad, FIELD_ID_PLAYER_ACTIVE, DB::TYPE_INTEGER, active);
+	stmt_bind_result_field(stmt_AccountLoad, PASS, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
+	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
+	stmt_bind_result_field(stmt_AccountLoad, ALIVE, DB::TYPE_INTEGER, alive);
+	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regdate);
+	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastlog);
+	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawntime);
+	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, totalspawns);
+	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
+	stmt_bind_result_field(stmt_AccountLoad, GPCI, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
+	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
 
 	if(!stmt_execute(stmt_AccountLoad))
 	{
@@ -745,27 +575,23 @@ stock GetAccountData(name[], pass[], &ipv4, &alive, &regdate, &lastlog, &spawnti
 	return 1;
 }
 
-// FIELD_ID_PLAYER_NAME
-stock AccountExists(name[])
-{
+// NAME
+stock AccountExists(name[]) {
 	new exists;
 
 	stmt_bind_value(stmt_AccountExists, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountExists, 0, DB::TYPE_INTEGER, exists);
 
-	if(stmt_execute(stmt_AccountExists))
-	{
+	if(stmt_execute(stmt_AccountExists)) {
 		stmt_fetch_row(stmt_AccountExists);
 
-		if(exists)
-			return 1;
+		if(exists) return 1;
 	}
 
 	return 0;
 }
 
-stock SetAccountName(name[], name2[MAX_PLAYER_NAME])
-{
+stock SetAccountName(name[], name2[MAX_PLAYER_NAME]) {
 	stmt_bind_value(stmt_AccountSetName, 0, DB::TYPE_STRING, name2, MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_AccountSetName, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
@@ -773,220 +599,191 @@ stock SetAccountName(name[], name2[MAX_PLAYER_NAME])
 }
 
 
-// FIELD_ID_PLAYER_PASS
-stock GetAccountPassword(name[], password[MAX_PASSWORD_LEN])
-{
+// PASS
+stock GetAccountPassword(name[], password[MAX_PASSWORD_LEN]) {
 	stmt_bind_result_field(stmt_AccountGetPassword, 0, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountGetPassword, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetPassword))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetPassword)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetPassword);
 
 	return 1;
 }
 
-stock SetAccountPassword(name[], password[MAX_PASSWORD_LEN])
-{
+stock SetAccountPassword(name[], password[MAX_PASSWORD_LEN]) {
 	stmt_bind_value(stmt_AccountSetPassword, 0, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountSetPassword, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetPassword);
 }
 
-// FIELD_ID_PLAYER_IPV4
-stock GetAccountIP(name[], &ip)
-{
+// IPV4
+stock GetAccountIP(name[], &ip) {
 	stmt_bind_result_field(stmt_AccountGetIpv4, 0, DB::TYPE_INTEGER, ip);
 	stmt_bind_value(stmt_AccountGetIpv4, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetIpv4))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetIpv4)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetIpv4);
 
 	return 1;
 }
 
-stock SetAccountIP(name[], ip)
-{
+stock SetAccountIP(name[], ip) {
 	stmt_bind_value(stmt_AccountSetIpv4, 0, DB::TYPE_INTEGER, ip);
 	stmt_bind_value(stmt_AccountSetIpv4, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetIpv4);
 }
 
-// FIELD_ID_PLAYER_ALIVE
-stock GetAccountAliveState(name[], &alivestate)
-{
+// ALIVE
+stock GetAccountAliveState(name[], &alivestate) {
 	stmt_bind_result_field(stmt_AccountGetAliveState, 0, DB::TYPE_INTEGER, alivestate);
 	stmt_bind_value(stmt_AccountGetAliveState, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetAliveState))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetAliveState)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetAliveState);
 
 	return 1;
 }
 
-stock SetAccountAliveState(name[], alivestate)
-{
+stock SetAccountAliveState(name[], alivestate) {
 	stmt_bind_value(stmt_AccountSetAliveState, 0, DB::TYPE_INTEGER, alivestate);
 	stmt_bind_value(stmt_AccountSetAliveState, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetAliveState);
 }
 
-// FIELD_ID_PLAYER_REGDATE
+// REGDATE
 stock GetAccountRegistrationDate(name[], &timestamp)
 {
 	stmt_bind_result_field(stmt_AccountGetRegdate, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountGetRegdate, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetRegdate))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetRegdate)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetRegdate);
 
 	return 1;
 }
 
-stock SetAccountRegistrationDate(name[], timestamp)
-{
+stock SetAccountRegistrationDate(name[], timestamp) {
 	stmt_bind_value(stmt_AccountSetRegdate, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountSetRegdate, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetRegdate);
 }
 
-// FIELD_ID_PLAYER_LASTLOG
-stock GetAccountLastLogin(name[], &timestamp)
-{
+// LASTLOG
+stock GetAccountLastLogin(name[], &timestamp) {
 	stmt_bind_result_field(stmt_AccountGetLastLog, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountGetLastLog, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetLastLog))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetLastLog)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetLastLog);
 
 	return 1;
 }
 
-stock SetAccountLastLogin(name[], timestamp)
-{
+stock SetAccountLastLogin(name[], timestamp) {
 	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetLastLog);
 }
 
-// FIELD_ID_PLAYER_SPAWNTIME
-stock GetAccountLastSpawnTimestamp(name[], &timestamp)
-{
+// SPAWNTIME
+stock GetAccountLastSpawnTimestamp(name[], &timestamp) {
 	stmt_bind_result_field(stmt_AccountGetSpawnTime, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountGetSpawnTime, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetSpawnTime))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetSpawnTime)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetSpawnTime);
 
 	return 1;
 }
 
-stock SetAccountLastSpawnTimestamp(name[], timestamp)
-{
+stock SetAccountLastSpawnTimestamp(name[], timestamp) {
 	stmt_bind_value(stmt_AccountSetSpawnTime, 0, DB::TYPE_INTEGER, timestamp);
 	stmt_bind_value(stmt_AccountSetSpawnTime, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetSpawnTime);
 }
 
-// FIELD_ID_PLAYER_TOTALSPAWNS
-stock GetAccountTotalSpawns(name[], &spawns)
-{
+// TOTALSPAWNS
+stock GetAccountTotalSpawns(name[], &spawns) {
 	stmt_bind_result_field(stmt_AccountGetTotalSpawns, 0, DB::TYPE_INTEGER, spawns);
 	stmt_bind_value(stmt_AccountGetTotalSpawns, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetTotalSpawns))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetTotalSpawns)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetTotalSpawns);
 
 	return 1;
 }
 
-stock SetAccountTotalSpawns(name[], spawns)
-{
+stock SetAccountTotalSpawns(name[], spawns) {
 	stmt_bind_value(stmt_AccountSetTotalSpawns, 0, DB::TYPE_INTEGER, spawns);
 	stmt_bind_value(stmt_AccountSetTotalSpawns, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetTotalSpawns);
 }
 
-// FIELD_ID_PLAYER_WARNINGS
-stock GetAccountWarnings(name[], &warnings)
-{
+// WARNINGS
+stock GetAccountWarnings(name[], &warnings) {
 	stmt_bind_result_field(stmt_AccountGetWarnings, 0, DB::TYPE_INTEGER, warnings);
 	stmt_bind_value(stmt_AccountGetWarnings, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetWarnings))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetWarnings)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetWarnings);
 
 	return 1;
 }
 
-stock SetAccountWarnings(name[], warnings)
-{
+stock SetAccountWarnings(name[], warnings) {
 	stmt_bind_value(stmt_AccountSetWarnings, 0, DB::TYPE_INTEGER, warnings);
 	stmt_bind_value(stmt_AccountSetWarnings, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetWarnings);
 }
 
-// FIELD_ID_PLAYER_GPCI
-stock GetAccountGPCI(name[], gpci[MAX_GPCI_LEN])
-{
+// GPCI
+stock GetAccountGPCI(name[], gpci[MAX_GPCI_LEN]) {
 	stmt_bind_result_field(stmt_AccountGetGpci, 0, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 	stmt_bind_value(stmt_AccountGetGpci, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetGpci))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetGpci)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetGpci);
 
 	return 1;
 }
 
-stock SetAccountGPCI(name[], gpci[MAX_GPCI_LEN])
-{
+stock SetAccountGPCI(name[], gpci[MAX_GPCI_LEN]) {
 	stmt_bind_value(stmt_AccountSetGpci, 0, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_AccountSetGpci);
 }
 
-// FIELD_ID_PLAYER_ACTIVE
-stock GetAccountActiveState(name[], &active)
-{
+// ACTIVE
+stock GetAccountActiveState(name[], &active) {
 	stmt_bind_result_field(stmt_AccountGetActiveState, 0, DB::TYPE_INTEGER, active);
 	stmt_bind_value(stmt_AccountGetActiveState, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_AccountGetActiveState))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetActiveState)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetActiveState);
 
 	return 1;
 }
 
-stock SetAccountActiveState(name[], active)
-{
+stock SetAccountActiveState(name[], active) {
 	stmt_bind_value(stmt_AccountSetActiveState, 0, DB::TYPE_INTEGER, active);
 	stmt_bind_value(stmt_AccountSetActiveState, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
@@ -994,44 +791,21 @@ stock SetAccountActiveState(name[], active)
 }
 
 // Pass, IP and gpci
-stock GetAccountAliasData(name[], pass[129], &ip, gpci[MAX_GPCI_LEN])
-{
+stock GetAccountAliasData(name[], pass[129], &ip, gpci[MAX_GPCI_LEN]) {
 	stmt_bind_value(stmt_AccountGetAliasData, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountGetAliasData, 0, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountGetAliasData, 1, DB::TYPE_INTEGER, ip);
 	stmt_bind_result_field(stmt_AccountGetAliasData, 2, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 
-	if(!stmt_execute(stmt_AccountGetAliasData))
-		return 0;
+	if(!stmt_execute(stmt_AccountGetAliasData)) return 0;
 
 	stmt_fetch_row(stmt_AccountGetAliasData);
 
 	return 1;
 }
 
-// acc_IsNewPlayer
-stock IsNewPlayer(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock IsNewPlayer(playerid) return !IsPlayerConnected(playerid) ? 0 : acc_IsNewPlayer[playerid];
 
-	return acc_IsNewPlayer[playerid];
-}
+stock IsPlayerRegistered(playerid) return !IsPlayerConnected(playerid) ? 0 : acc_HasAccount[playerid];
 
-// acc_HasAccount
-stock IsPlayerRegistered(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
-
-	return acc_HasAccount[playerid];
-}
-
-// acc_LoggedIn
-stock IsPlayerLoggedIn(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
-
-	return acc_LoggedIn[playerid];
-}
+stock IsPlayerLoggedIn(playerid) return !IsPlayerConnected(playerid) ? 0 : acc_LoggedIn[playerid];
