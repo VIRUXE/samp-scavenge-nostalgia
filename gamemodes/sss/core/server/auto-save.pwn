@@ -11,11 +11,7 @@ hook OnScriptInit() {
 }
 
 timer AutoSave[MIN(1) + SEC(10)]() {
-	new const players = Iter_Count(Player);
-
-	printf("[AUTO-SAVE] Players %d", players);
-	
-	if(Iter_Count(Player) == 0) {
+	if(!Iter_Count(Player)) {
 		defer AutoSave();
 		return;
 	}

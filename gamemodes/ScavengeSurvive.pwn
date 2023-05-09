@@ -673,7 +673,7 @@ new RequestsClient:client;
 
 // POST-CODE
 
-//#include "sss/core/server/auto-save.pwn"
+#include "sss/core/server/auto-save.pwn"
 #tryinclude "sss/extensions/ext_post.pwn"
 
 #include "sss/world/world.pwn"
