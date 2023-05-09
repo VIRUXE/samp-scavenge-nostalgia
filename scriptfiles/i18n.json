@@ -1682,18 +1682,20 @@
 				]
 			}
 		},
-		"hols-change": [
-			"Arma Trocada",
-			"Weapon Changed"
-		],
-		"hols-put": [
-			"Arma colocada no coldre",
-			"Weapon put in the holster"
-		],
-		"hols-equip": [
-			"Equipado",
-			"Equipped"
-		],
+		"holster": {
+			"change": [
+				"Arma Trocada",
+				"Weapon Changed"
+			],
+			"put": [
+				"Arma colocada no coldre",
+				"Weapon Holstered"
+			],
+			"equip": [
+				"Equipado",
+				"Equipped"
+			]
+		},
 		"reducebleed": [
 			"Taxa de sangramento reduzida de %f para %f",
 			"Reduced bleedrate from %f to %f"
