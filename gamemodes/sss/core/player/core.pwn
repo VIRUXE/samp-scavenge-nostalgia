@@ -67,8 +67,7 @@ forward OnPlayerDisconnected(playerid);
 forward OnDeath(playerid, killerid, reason);
 forward OnPlayerJoinScenario(playerid);
 
-public OnPlayerRequestClass(playerid, classid)
-{
+public OnPlayerRequestClass(playerid, classid) {
 	if(IsPlayerNPC(playerid)) return 1;
 
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
@@ -77,8 +76,10 @@ public OnPlayerRequestClass(playerid, classid)
 }
 
 Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
-	if(response) DisplayRegisterPrompt(playerid);
-	else Kick(playerid);
+	if(response) 
+		DisplayRegisterPrompt(playerid);
+	else 
+		Kick(playerid);
 }
 
 _OnPlayerConnect(playerid) {
@@ -95,15 +96,13 @@ _OnPlayerConnect(playerid) {
 
 	// Obtemos o IP para verificar se o jogador esta banido ou nao
  	new ipstring[16], ipbyte[4];
-
 	GetPlayerIp(playerid, ipstring, 16);
 
  	sscanf(ipstring, "p<.>a<d>[4]", ipbyte);
  	
 	ply_Data[playerid][ply_IP] = ((ipbyte[0] << 24) | (ipbyte[1] << 16) | (ipbyte[2] << 8) | ipbyte[3]);
 
-	if(BanCheck(playerid))
-	{
+	if(BanCheck(playerid)) {
 		TimeoutPlayer(playerid, "Jogador Banido.", false);
 		return 0;
 	}
@@ -322,33 +321,27 @@ public OnPlayerSpawn(playerid)
 	return 1;
 }
 
-public OnPlayerUpdate(playerid)
-{
-	if(IsPlayerInAnyVehicle(playerid))
-	{
+public OnPlayerUpdate(playerid) {
+	if(IsPlayerInAnyVehicle(playerid)) { 
 		static str[8], Float:vx, Float:vy, Float:vz;
 
 		GetVehicleVelocity(GetPlayerLastVehicle(playerid), vx, vy, vz);
 		ply_Data[playerid][ply_Velocity] = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
 		format(str, 32, "%.0fkm/h", ply_Data[playerid][ply_Velocity]);
 		//SetPlayerVehicleSpeedUI(playerid, str);
-	}
-	else
-	{
+	} else { 
 		static Float:vx, Float:vy, Float:vz;
 
 		GetPlayerVelocity(playerid, vx, vy, vz);
 		ply_Data[playerid][ply_Velocity] = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
 	}
 
-	if(ply_Data[playerid][ply_Alive])
-	{
+	if(ply_Data[playerid][ply_Alive]) {
 		if(IsPlayerOnAdminDuty(playerid)) ply_Data[playerid][ply_HitPoints] = 250.0;
 
 		SetPlayerHealth(playerid, ply_Data[playerid][ply_HitPoints]);
 		SetPlayerArmour(playerid, ply_Data[playerid][ply_ArmourPoints]);
-	}
-	else SetPlayerHealth(playerid, 100.0);
+	} else SetPlayerHealth(playerid, 100.0);
 
 	return 1;
 }
@@ -506,19 +499,14 @@ stock SetPlayerWarnings(playerid, timestamp)
 	return 1;
 }
 
-// ply_Alive
-stock IsPlayerAlive(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return 0;
+bool:IsPlayerAlive(playerid) return !IsPlayerConnected(playerid) ? false : ply_Data[playerid][ply_Alive];
 
-	return ply_Data[playerid][ply_Alive];
-}
-
-stock SetPlayerAliveState(playerid, bool:st)
-{
+stock SetPlayerAliveState(playerid, bool:st) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	ply_Data[playerid][ply_Alive] = st;
+
+	printf("[CORE] SetPlayerAliveState(%d, %s)", playerid, booltostr(st));
 
 	return 1;
 }
