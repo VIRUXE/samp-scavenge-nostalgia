@@ -81,9 +81,9 @@ hook OnGameModeInit() {
 		ipv4 INTEGER NOT NULL,\
 		language INTEGER NOT NULL,\
 		alive INTEGER NOT NULL,\
-		regdate INTEGER NOT NULL,\
-		lastlog INTEGER NOT NULL,\
-		spawntime INTEGER NOT NULL,\
+		regDate INTEGER NOT NULL,\
+		lastLog INTEGER NOT NULL,\
+		spawnTime INTEGER NOT NULL,\
 		totalspawns INTEGER NOT NULL,\
 		warnings INTEGER NOT NULL,\
 		gpci TEXT NOT NULL,\
@@ -92,7 +92,7 @@ hook OnGameModeInit() {
 		vip INTEGER,\
 		score INTEGER,\
 		kills INTEGER,\
-		alivetime INTEGER,\
+		aliveTime INTEGER,\
 		coins INTEGER,\
 		active INTEGER NOT NULL)");
 
@@ -113,14 +113,14 @@ hook OnGameModeInit() {
 	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT alive FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE players SET alive=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT regdate FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE players SET regdate=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT regDate FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE players SET regDate=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT lastlog FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE players SET lastlog=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT lastLog FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE players SET lastLog=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT spawntime FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET spawntime=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT spawnTime FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET spawnTime=? WHERE name=? COLLATE NOCASE");
 
 	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT totalspawns FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET totalspawns=? WHERE name=? COLLATE NOCASE");
@@ -164,16 +164,16 @@ LoadAccount(playerid) {
 		ipv4,
 		language,
 		bool:alive,
-		regdate,
-		lastlog,
-		spawntime,
+		regDate,
+		lastLog,
+		spawnTime,
 		spawns,
 		warnings,
 		clan[16], // MAX_CLAN_NAME
 		bool:vip,
 		score,
 		kills,
-		alivetime,
+		aliveTime,
 		coins,
 		active;
 
@@ -202,16 +202,16 @@ LoadAccount(playerid) {
 	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
 	stmt_bind_result_field(stmt_AccountLoad, LANGUAGE, DB::TYPE_INTEGER, language);
 	stmt_bind_result_field(stmt_AccountLoad, ALIVE, DB::TYPE_INTEGER, alive);
-	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regdate);
-	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastlog);
-	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawntime);
+	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regDate);
+	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastLog);
+	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawnTime);
 	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, spawns);
 	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
 	stmt_bind_result_field(stmt_AccountLoad, CLAN, DB::TYPE_STRING, clan, sizeof(clan));
 	stmt_bind_result_field(stmt_AccountLoad, VIP, DB::TYPE_INTEGER, vip);
 	stmt_bind_result_field(stmt_AccountLoad, SCORE, DB::TYPE_INTEGER, score);
 	stmt_bind_result_field(stmt_AccountLoad, KILLS, DB::TYPE_INTEGER, vip);
-	stmt_bind_result_field(stmt_AccountLoad, ALIVETIME, DB::TYPE_INTEGER, alivetime);
+	stmt_bind_result_field(stmt_AccountLoad, ALIVETIME, DB::TYPE_INTEGER, aliveTime);
 	stmt_bind_result_field(stmt_AccountLoad, COINS, DB::TYPE_INTEGER, coins);
 	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
 
@@ -226,29 +226,46 @@ LoadAccount(playerid) {
 	}
 
 	if(!active) {
-		log("[ACCOUNTS] %p (%d) (conta inativa) Vivo?: %s, Último Login: %T", playerid, alive ? "Sim" : "Nao", lastlog);
+		log("[ACCOUNTS] %p (%d) tentou entrar. (conta inativa), Último Login: %T", playerid, lastLog);
 		return 4;
 	}
 
+	new const bool:hasClan = !isempty(clan);
+
 	SetPlayerLanguage(playerid, language);
-	if(!isempty(clan)) SetPlayerClan(playerid, clan);
+	if(hasClan) SetPlayerClan(playerid, clan);
 	SetPlayerAliveState(playerid, alive ? true : false);
 	acc_IsNewPlayer[playerid] = false;
 	acc_HasAccount[playerid]  = true;
 
 	SetPlayerPassHash(playerid, password);
-	SetPlayerRegTimestamp(playerid, regdate);
-	SetPlayerLastLogin(playerid, lastlog);
-	SetPlayerCreationTimestamp(playerid, spawntime);
+	SetPlayerRegTimestamp(playerid, regDate);
+	SetPlayerLastLogin(playerid, lastLog);
+	SetPlayerCreationTimestamp(playerid, spawnTime);
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
 	SetPlayerVip(playerid, vip);
 	SetPlayerScore(playerid, score);
 	SetPlayerDeathCount(playerid, kills);
-	SetPlayerAliveTime(playerid, alivetime);
+	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
 
-	log("[ACCOUNTS] %p (%d) (conta existe. pedindo login) Vivo?: %s, Último Login: %T", playerid, playerid, alive ? "Sim" : "Nao", lastlog);
+	log("[ACCOUNTS] %p (%d) carregou conta:\n\
+		\t-> Último Login: %T\n\
+		\t-> Registrado em: %T\n\
+		\t-> VIP: %s\n\
+		\t-> Ultimo Respawn: %T", 
+		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime);
+
+	log("\t-> Clan: %s\n\
+		\t-> Total de Spawns: %d\n\
+		\t-> Total de Avisos: %d\n\
+		\t-> Score: %d\n\
+		\t-> Total de Mortes: %d\n\
+		\t-> Total de Tempo Vivo: %d\n\
+		\t-> Coins: %d\n\
+		\t-> Vivo?: %s\n",
+		hasClan ? clan : "Nenhum", spawns, warnings, score, kills, aliveTime, coins, booltostr(alive));
 
 	return 1;
 }
@@ -263,8 +280,8 @@ CreateAccount(playerid, password[]) {
 	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
 	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	GetPlayerLanguage(playerid));
-	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime()); // regdate
-	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime()); // lastlog
+	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime()); // regDate
+	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime()); // lastLog
 	stmt_bind_value(stmt_AccountCreate, 6, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
 
 	if(!stmt_execute(stmt_AccountCreate)) {
@@ -362,7 +379,7 @@ Login(playerid) {
 	new serial[MAX_GPCI_LEN];
 	gpci(playerid, serial, MAX_GPCI_LEN);
 	
-	log("[ACCOUNTS] %p (%d) efetuou login. Vivo?: %s", playerid, playerid, IsPlayerAlive(playerid) ? "Sim" : "Não");
+	log("[ACCOUNTS] %p (%d) logou.", playerid, playerid);
 
 	// TODO: move to a single query
 	// Atualiza o IP no banco de dados
@@ -550,15 +567,15 @@ SavePlayerData(playerid) {
 ==============================================================================*/
 
 
-stock GetAccountData(name[], pass[], &ipv4, &alive, &regdate, &lastlog, &spawntime, &totalspawns, &warnings, gpci[], &active)
+stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTime, &totalspawns, &warnings, gpci[], &active)
 {
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountLoad, PASS, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
 	stmt_bind_result_field(stmt_AccountLoad, ALIVE, DB::TYPE_INTEGER, alive);
-	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regdate);
-	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastlog);
-	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawntime);
+	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regDate);
+	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastLog);
+	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawnTime);
 	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, totalspawns);
 	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
 	stmt_bind_result_field(stmt_AccountLoad, GPCI, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
