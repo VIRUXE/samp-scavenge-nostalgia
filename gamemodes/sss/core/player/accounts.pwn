@@ -250,22 +250,8 @@ LoadAccount(playerid) {
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
 
-	log("[ACCOUNTS] %p (%d) carregou conta:\n\
-		\t-> Último Login: %T\n\
-		\t-> Registrado em: %T\n\
-		\t-> VIP: %s\n\
-		\t-> Ultimo Respawn: %T", 
-		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime);
-
-	log("\t-> Clan: %s\n\
-		\t-> Total de Spawns: %d\n\
-		\t-> Total de Avisos: %d\n\
-		\t-> Score: %d\n\
-		\t-> Total de Mortes: %d\n\
-		\t-> Total de Tempo Vivo: %d\n\
-		\t-> Coins: %d\n\
-		\t-> Vivo?: %s\n",
-		hasClan ? clan : "Nenhum", spawns, warnings, score, kills, aliveTime, coins, booltostr(alive));
+	printf("[ACCOUNTS] %p (%d) carregou conta. (Último Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Score: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
+		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, score, kills, aliveTime, coins, booltostr(alive));
 
 	return 1;
 }
@@ -442,7 +428,7 @@ Logout(playerid, docombatlogcheck = 1) {
     GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	log("[ACCOUNTS] %p deslogou at %.1f, %.1f, %.1f (%.1f). Logado: %s Vivo: %s Knocked Out: %s", playerid, x, y, z, r, acc_LoggedIn[playerid] ? "true" : "false", IsPlayerAlive(playerid) ? "true" : "false", IsPlayerKnockedOut(playerid) ? "true" : "false");
+	log("[ACCOUNTS] %p (%d) foi deslogado em %.1f, %.1f, %.1f (%.1f). Logado: %s Vivo: %s Knocked Out: %s", playerid, x, y, z, r, acc_LoggedIn[playerid] ? "true" : "false", IsPlayerAlive(playerid) ? "true" : "false", IsPlayerKnockedOut(playerid) ? "true" : "false");
 
 	if(IsPlayerOnAdminDuty(playerid)) return 0;
 
