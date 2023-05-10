@@ -2,8 +2,7 @@
 
 #include <YSI\y_hooks>
 
-CMD:rank(playerid)
-{
+CMD:rank(playerid) {
     ShowRankingDialog(playerid);
 	return 1;
 }
@@ -12,190 +11,64 @@ ShowRankingDialog(playerid) {
     Dialog_Show(playerid, Ranking, DIALOG_STYLE_LIST,"{35B330}Ranking - Melhores Onlines","1º- Ranking de Score\n2º- Ranking de Spree\n3º- Ranking Mortes\n4º- Ranking Ping\n5º- Ranking Tempo Vivo","Selecionar","Sair");
 }
 
-Dialog:Ranking(playerid, response, listitem, inputtext[])
-{
-	if(response)
-	{
-		switch(listitem)
-		{
-			case 0: ShowTopTenScoreForPlayer(playerid);
-			case 1: ShowTopTenSpreeForPlayer(playerid);
-			case 2: ShowTopTenMortesForPlayer(playerid);
-			case 3: ShowTopTenPingForPlayer(playerid);
-			case 4: ShowTopTenATForPlayer(playerid);
+Dialog:Ranking(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		switch(listitem) {
+			case 0: ShowTopTenScores(playerid);
+			case 1: ShowTopTenSprees(playerid);
+			case 2: ShowTopTenKills(playerid);
+			case 3: ShowTopTenPings(playerid);
+			case 4: ShowTopTenAliveTime(playerid);
 		}
 	}
 
 	return 1;
 }
 
-Dialog:RankingShow(playerid, response, listitem, inputtext[])
-{
+Dialog:RankingShow(playerid, response, listitem, inputtext[]) {
 	if(!response) ShowRankingDialog(playerid);
 	    
 	return 1;
 }
 
-stock ShowTopTenATForPlayer(playerid)
-{
-	new MaxData[11];
-	new MaxDataID[11];
-	new bool:OnTheRank[MAX_PLAYERS];
-	new DataSource[MAX_PLAYERS];
-	new Ranking[570];
+stock ShowTopTenAliveTime(playerid) {
+	new  aliveTime[MAX_PLAYERS], indices[MAX_PLAYERS];
 
-	foreach(new i : Player)
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i)) DataSource[i] = GetPlayerAliveTime(i); //FONTE DE DADOS DO RANKING
+	foreach(new i : Player) {
+		aliveTime[i] = GetPlayerAliveTime(i);
+		indices[i] = i;
+		printf("ShowTopTenAliveTime(%d) foreach %d", i);
+	}
 
-	for(new i; i < 11; i++){MaxData[i] = -1;MaxDataID[i] = -1;} //Preparar variáveis
+	new const currPlayers = Iter_Count(Player);
 
-	foreach(new i : Player) // Posição 1º
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[1])
-			{
-				MaxData[1] = DataSource[i];
-				MaxDataID[1] = i;
+	for (new i = 0; i < currPlayers; i++) {
+		for (new j = 0; j < currPlayers - 1; j++) {
+			if (aliveTime[j] < aliveTime[j + 1]) {
+				new temp = aliveTime[j];
+				aliveTime[j] = aliveTime[j + 1];
+				aliveTime[j + 1] = temp;
+
+				temp = indices[j];
+				indices[j] = indices[j + 1];
+				indices[j + 1] = temp;
 			}
 		}
 	}
-	if(MaxDataID[1] != -1) OnTheRank[MaxDataID[1]] = true;
 
-	foreach(new i : Player) // Posição 2º
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[2] && DataSource[i] <= MaxData[1] && MaxDataID[1] != i && OnTheRank[i] == false)
-			{
-				MaxData[2] = DataSource[i];
-				MaxDataID[2] = i;
-			}
-		}
-	}
-	if(MaxDataID[2] != -1) OnTheRank[MaxDataID[2]] = true;
-
-	foreach(new i : Player)
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[3] && DataSource[i] <= MaxData[2] && MaxDataID[2] != i && OnTheRank[i] == false)
-			{
-				MaxData[3] = DataSource[i];
-				MaxDataID[3] = i;
-			}
-		}
-	}
-	if(MaxDataID[3] != -1) OnTheRank[MaxDataID[3]] = true;
-	foreach(new i : Player) // Posição 4º
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[4] && DataSource[i] <= MaxData[3] && MaxDataID[3] != i && OnTheRank[i] == false)
-			{
-				MaxData[4] = DataSource[i];
-				MaxDataID[4] = i;
-			}
-		}
-	}
-	if(MaxDataID[4] != -1) OnTheRank[MaxDataID[4]] = true;
-
-	foreach(new i : Player) // Posição 5
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[5] && DataSource[i] <= MaxData[4] && MaxDataID[4] != i && OnTheRank[i] == false)
-			{
-				MaxData[5] = DataSource[i];
-				MaxDataID[5] = i;
-			}
-		}
-	}
-	if(MaxDataID[5] != -1) OnTheRank[MaxDataID[5]] = true;
-
-	foreach(new i : Player) // Posição 6
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[6] && DataSource[i] <= MaxData[5] && MaxDataID[5] != i && OnTheRank[i] == false)
-			{
-				MaxData[6] = DataSource[i];
-				MaxDataID[6] = i;
-			}
-		}
-	}
-	if(MaxDataID[6] != -1) OnTheRank[MaxDataID[6]] = true;
-
-	foreach(new i : Player) // Posição 7
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[7] && DataSource[i] <= MaxData[6] && MaxDataID[6] != i && OnTheRank[i] == false)
-			{
-				MaxData[7] = DataSource[i];
-				MaxDataID[7] = i;
-			}
-		}
-	}
-	if(MaxDataID[7] != -1) OnTheRank[MaxDataID[7]] = true;
-
-	foreach(new i : Player) // Posição 8
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[8] && DataSource[i] <= MaxData[7] && MaxDataID[7] != i && OnTheRank[i] == false)
-			{
-				MaxData[8] = DataSource[i];
-				MaxDataID[8] = i;
-			}
-		}
-	}
-	if(MaxDataID[8] != -1) OnTheRank[MaxDataID[8]] = true;
-
-	foreach(new i : Player) // Posição 9
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[9] && DataSource[i] <= MaxData[8] && MaxDataID[8] != i && OnTheRank[i] == false)
-			{
-				MaxData[9] = DataSource[i];
-				MaxDataID[9] = i;
-			}
-		}
-	}
-	if(MaxDataID[9] != -1) OnTheRank[MaxDataID[9]] = true;
-
-	foreach(new i : Player) // Posição 10
-	{
-		if(IsPlayerConnected(i) && !IsPlayerNPC(i))
-		{
-			if(DataSource[i] > MaxData[10] && DataSource[i] <= MaxData[9] && MaxDataID[9] != i && OnTheRank[i] == false)
-			{
-				MaxData[10] = DataSource[i];
-				MaxDataID[10] = i;
-			}
-		}
-	}
-	if(MaxDataID[10] != -1) OnTheRank[MaxDataID[10]] = true;
-
-	for(new i; i < 11; i++)
-	{
-		if(MaxDataID[i] != -1)
-		{
-			new Name[MAX_PLAYER_NAME];
-			GetPlayerName(MaxDataID[i], Name, sizeof(Name));
-			PlayerPlaySound(playerid, 1056, 0.0, 0.0, 0.0);
-			format(Ranking, sizeof(Ranking), "%s\n%iº - %s(id:%i) - %i", Ranking,i,Name,MaxDataID[i],MaxData[i]);
-		}
+	new list[512];
+	for (new i = 0; i < ((currPlayers < 10) ? currPlayers : 10); i++) {
+		new item[64];
+		format(item, sizeof(item), "%d: %p - %d segundos\n", i+1, indices[i], aliveTime[i]);
+		strcat(list, item);
 	}
 
-	Dialog_Show(playerid, RankingShow, DIALOG_STYLE_LIST,"{B4E070}Ranking Tempo Vivo", Ranking, "Sair", "Voltar");
+	Dialog_Show(playerid, RankingShow, DIALOG_STYLE_LIST,"{B4E070}Ranking de Tempo Vivo", list, "Sair", "Voltar");
 
 	return 1;
 }
 
-stock ShowTopTenScoreForPlayer(playerid)
-{
+stock ShowTopTenScores(playerid) {
 	new MaxData[11];
 	new MaxDataID[11];
 	new bool:OnTheRank[MAX_PLAYERS];
@@ -365,8 +238,7 @@ stock ShowTopTenScoreForPlayer(playerid)
 	return 1;
 }
 
-stock ShowTopTenSpreeForPlayer(playerid)
-{
+stock ShowTopTenSprees(playerid) {
 	new MaxData[11];
 	new MaxDataID[11];
 	new bool:OnTheRank[MAX_PLAYERS];
@@ -523,7 +395,7 @@ stock ShowTopTenSpreeForPlayer(playerid)
 	return 1;
 }
 
-stock ShowTopTenMortesForPlayer(playerid)
+stock ShowTopTenKills(playerid)
 {
 	new MaxData[11];
 	new MaxDataID[11];
@@ -682,7 +554,7 @@ stock ShowTopTenMortesForPlayer(playerid)
 	return 1;
 }
 
-stock ShowTopTenPingForPlayer(playerid)
+stock ShowTopTenPings(playerid)
 {
 	new MaxData[11];
 	new MaxDataID[11];
