@@ -84,10 +84,10 @@ hook OnGameModeInit() {
 		regDate INTEGER NOT NULL,\
 		lastLog INTEGER NOT NULL,\
 		spawnTime INTEGER NOT NULL,\
-		totalspawns INTEGER NOT NULL,\
+		totalSpawns INTEGER NOT NULL,\
 		warnings INTEGER NOT NULL,\
 		gpci TEXT NOT NULL,\
-		joinsentece TEXT,\
+		joinSentence TEXT,\
 		clan TEXT,\
 		vip INTEGER,\
 		score INTEGER,\
@@ -122,8 +122,8 @@ hook OnGameModeInit() {
 	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT spawnTime FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET spawnTime=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT totalspawns FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET totalspawns=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT totalSpawns FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET totalSpawns=? WHERE name=? COLLATE NOCASE");
 
 	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT warnings FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE players SET warnings=? WHERE name=? COLLATE NOCASE");
@@ -545,16 +545,7 @@ SavePlayerData(playerid) {
 	return 1;
 }
 
-
-/*==============================================================================
-
-	Interface functions
-
-==============================================================================*/
-
-
-stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTime, &totalspawns, &warnings, gpci[], &active)
-{
+stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTime, &totalSpawns, &warnings, gpci[], &active) {
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountLoad, PASS, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
@@ -562,13 +553,12 @@ stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTi
 	stmt_bind_result_field(stmt_AccountLoad, REGDATE, DB::TYPE_INTEGER, regDate);
 	stmt_bind_result_field(stmt_AccountLoad, LASTLOG, DB::TYPE_INTEGER, lastLog);
 	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawnTime);
-	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, totalspawns);
+	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, totalSpawns);
 	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
 	stmt_bind_result_field(stmt_AccountLoad, GPCI, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
 
-	if(!stmt_execute(stmt_AccountLoad))
-	{
+	if(!stmt_execute(stmt_AccountLoad)) {
 		err("[GetAccountData] executing statement 'stmt_AccountLoad'.");
 		return 0;
 	}
@@ -578,7 +568,6 @@ stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTi
 	return 1;
 }
 
-// NAME
 stock AccountExists(name[]) {
 	new exists;
 
@@ -602,7 +591,6 @@ stock SetAccountName(name[], name2[MAX_PLAYER_NAME]) {
 }
 
 
-// PASS
 stock GetAccountPassword(name[], password[MAX_PASSWORD_LEN]) {
 	stmt_bind_result_field(stmt_AccountGetPassword, 0, DB::TYPE_STRING, password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountGetPassword, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);

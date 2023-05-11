@@ -5,7 +5,7 @@
 GetPlayerJoinSentence(playerid) {
 	new DBResult:result, frase[MAX_JOINSENTENCE_LEN];
 
-	result = db_query(gAccounts, sprintf("SELECT joinsentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	result = db_query(gAccounts, sprintf("SELECT joinSentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	db_get_field(result, 0, frase, sizeof(frase));
 	db_free_result(result);
@@ -35,7 +35,7 @@ CMD:frase(playerid, params[])
 
  	if(strlen(params) > MAX_JOINSENTENCE_LEN) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/big-sentence"));
 
-	db_query(gAccounts, sprintf("UPDATE Player SET joinsentence = '%s' WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET joinSentence = '%s' WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
 
 	return ChatMsg(playerid, GREEN, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/changed"), params);
 }
