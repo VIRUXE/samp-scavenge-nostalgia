@@ -1688,7 +1688,7 @@
 				"Weapon Changed"
 			],
 			"put": [
-				"Arma colocada no coldre",
+				"Arma Colocada no Coldre",
 				"Weapon Holstered"
 			],
 			"equip": [
@@ -1738,8 +1738,8 @@
 				" > Phrase too very long."
 			],
 			"changed": [
-				" > Frase de entrada alterada para",
-				" > Entry phrase changed to:"
+				" > Frase de entrada alterada para: ",
+				" > Entry phrase changed to: "
 			]
 		},
 		"account": {
@@ -2154,15 +2154,15 @@
 				" >  You turn your radio on to the global frequency."
 			],
 			"global-quiet-off": [
-				" >  VocÃª ligou o receptor global do seu radio, agora vocÃª verÃ¡ todo o chat global.",
+				" >  VocÃª ligou o receptor global do seu radio, agora você verá todo o chat global.",
 				" >  You turn on your radio's global receiver, you will now see all global chat."
 			],
 			"global-quiet": [
-				" >  VocÃª desligou o receptor global do seu rÃ¡dio, vocÃª nÃ£o verÃ¡ mais o chat global.",
+				" >  Você desligou o receptor global do seu rádio, você nÃ£o verá mais o chat global.",
 				" >  You turn off your radio's global receiver, you will not see any global chat."
 			],
 			"local": [
-				" >  VocÃª desligou seu radio, chat nÃ£o sera transmitido.",
+				" >  Você desligou seu radio, chat nÃ£o sera transmitido.",
 				" >  You turned your radio off, chat is not broadcasted."
 			],
 			"admin": [
@@ -2179,11 +2179,11 @@
 			" >  Frozen by admin"
 		],
 		"unmuted": [
-			" >  Agora vocÃª esta habilitado a falar.",
+			" >  Agora você esta habilitado a falar.",
 			" >  You are now un-muted."
 		],
 		"aimshout": [
-			" >  Use: /aimshout [texto] - Crie um texto personalizado para aimshout. Apertando BotÃ£o direito e Scroll do mouse ao mesmo tempo.",
+			" >  Use: /aimshout [texto] - Crie um texto personalizado para aimshout. Apertando botão direito e scroll do mouse ao mesmo tempo.",
 			" >  Usage: /aimshout [text] - Sets a custom string you can send by pressing the AIM and LOOK BEHIND keys at the same time."
 		],
 		"aimshout-set": [
@@ -2203,7 +2203,7 @@
 			" >  Muted from global chat for {C_ORANGE}%d {C_YELLOW}seconds, Reason: {C_BLUE}%s"
 		],
 		"mute-timer": [
-			" >  VocÃª estÃ¡ mudo. Tempo restante: %s",
+			" >  Você está mudo. Tempo restante: %s",
 			" >  You are muted. Time remaining: %s"
 		],
 		"muted-reas": [
@@ -2211,11 +2211,11 @@
 			" >  Muted from global chat, Reason: {C_BLUE}%s"
 		],
 		"warned": [
-			" >  VocÃª foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
+			" >  Você foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
 			" >  You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
 		],
 		"warn-counter": [
-			" >  VocÃª tem %d/5 avisos!",
+			" >  Você tem %d/5 avisos!",
 			" >  You have %d/5 warnings!"
 		],
 		"tips": {
@@ -2522,25 +2522,25 @@
 			"Mensagem do Dia",
 			"Message of the Day"
 		],
-		"restart_warning": [
-			"AVISO: O servidor ira reiniciar em 1 minuto. Deslogue para evitar BUGS!",
-			"WARNING: The server will restart in 1 minute. Log out to avoid BUGS!"
+		"restart_warning_1m": [
+			" > AVISO: O respawn de itens ocorrera em 1 minutos. Saia para evitar bugs!",
+			" > WARNING: Item respawn will occur in 1 minutes. Log out to avoid bugs!"
 		],
-		"restart_warning_final": [
-			"Reiniciando servidor e respawnando itens",
-			"Restarting the server and respawning items"
+		"restart_warning_3m": [
+			"> AVISO: O respawn de itens ocorrera em 3 minutos. Saia para evitar bugs!",
+			"> WARNING: Item respawn will occur in 3 minutes. Log out to avoid bugs!"
 		],
 		"drop": {
 			"weapons": [
-				"[ExÃ©rcito]: CAIXA DE ARMAMENTOS CAINDO EM: {C_ORANGE}%s",
+				"[Exercito]: CAIXA DE ARMAMENTOS CAINDO EM: {C_ORANGE}%s",
 				"[ARMY]: BOX OF WEAPONS FALLING INTO: {C_ORANGE}%s"
 			],
 			"supply": [
-				"[ExÃ©rcito]: CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW}CAINDO EM: {C_ORANGE}%s",
+				"[Exercito]: CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW}CAINDO EM: {C_ORANGE}%s",
 				"[ARMY]: SUPPLY DROP: {C_BLUE}%s {C_YELLOW}FALLING INTO: {C_ORANGE}%s"
 			],
 			"supply-request": [
-				"[ExÃ©rcito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
+				"[Exercito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
 				"[ARMY]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
 			]
 		},
@@ -2613,11 +2613,7 @@
 				"Escreva uma breve descricao do bug e como reproduzi-lo. Em seguida siga o report no Discord.",
 				"Write a short description of the bug and how to reproduce it. Follow up on it on Discord."
 			]
-		},
-		"restart_warning_3m": [
-			"> AVISO: O respawn de itens ocorrera em 3 minutos. Saia para evitar bugs!",
-			"> WARNING: Item respawn will occur in 3 minutes. Log out to avoid bugs!"
-		]
+		}
 	},
 	"common": {
 		"lang-shortcode": [
