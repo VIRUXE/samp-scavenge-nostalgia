@@ -1448,7 +1448,7 @@
 		},
 		"molotov": {
 			"petrolcan-no-fuel": [
-				"O Galão não tem gasolina.",
+				"O GalÃ£o nÃ£o tem gasolina.",
 				"Fuel can does not contain petrol"
 			],
 			"fueled": [
@@ -1466,7 +1466,7 @@
 				"Bottle is empty"
 			],
 			"bottle-not-water": [
-				"A garrafa não contem agua",
+				"A garrafa nÃ£o contem agua",
 				"Bottle does not contain water"
 			],
 			"water-added": [
@@ -1474,7 +1474,7 @@
 				"Added 1 water to plant pot"
 			],
 			"no-plant": [
-				"O vaso não contem uma planta ativa",
+				"O vaso nÃ£o contem uma planta ativa",
 				"Pot doesnt contain an active plant."
 			],
 			"invalid-seed": [
@@ -1482,7 +1482,7 @@
 				"Invalid seed type."
 			],
 			"not-grown": [
-				"A planta ainda não cresceu totalmente.",
+				"A planta ainda nÃ£o cresceu totalmente.",
 				"The plant has not fully grown yet."
 			],
 			"harvested": [
@@ -1524,7 +1524,7 @@
 				"Removing %s..."
 			],
 			"not-movable": [
-				"Voce não pode instalar um motor nesse tipo de defesa",
+				"Voce nÃ£o pode instalar um motor nesse tipo de defesa",
 				"You cannot install a motor on that type of defence"
 			],
 			"modifying": [
@@ -1544,7 +1544,7 @@
 				"Keypad installed to defence"
 			],
 			"advanced-keypad-installed": [
-				"Teclado Avançado Instalado na defesa com Sucesso",
+				"Teclado AvanÃ§ado Instalado na defesa com Sucesso",
 				"Advanced Keypad installed to defence"
 			],
 			"destroyed": [
@@ -1552,7 +1552,7 @@
 				"Defence disassembled"
 			],
 			"limit-reached": [
-				" >  ERRO: limite de defesas alcançado, por favor informe um admin.",
+				" >  ERRO: limite de defesas alcanÃ§ado, por favor informe um admin.",
 				" >  ERROR: Defence entity limit reached, please inform an admin."
 			],
 			"code-zero": [
@@ -1572,7 +1572,7 @@
 				" >  Incorrect passcode!"
 			],
 			"code-fast": [
-				" >  Você está digitando códigos muito rápidos, por favor espere %s.",
+				" >  VocÃª estÃ¡ digitando cÃ³digos muito rÃ¡pidos, por favor espere %s.",
 				" >  You are entering codes too fast, please wait %s."
 			]
 		},
@@ -1582,7 +1582,7 @@
 				"Fuel can is full"
 			],
 			"needed": [
-				"Voce precisa de um Galão de Gasolina",
+				"Voce precisa de um GalÃ£o de Gasolina",
 				"You need a petrol can"
 			]
 		},
@@ -1609,7 +1609,7 @@
 					"The machine is currently processing~n~%s left"
 				],
 				"no-items": [
-					"Não tem item dentro",
+					"NÃ£o tem item dentro",
 					"There are no items inside."
 				],
 				"server-restart": [
@@ -1654,7 +1654,7 @@
 				"Sign"
 			],
 			"sign-text": [
-				"Digite o texto que irá aparecer abaixo\nEscrevendo '\\' vai começar uma nova linha.",
+				"Digite o texto que irÃ¡ aparecer abaixo\nEscrevendo '\\' vai comeÃ§ar uma nova linha.",
 				"Type the text that will shows below\nTyping '\\' will start a new line."
 			]
 		}
@@ -1726,7 +1726,7 @@
 				" > Your entrance sentence"
 			],
 			"points": [
-				"Você precisa ter 100 de score para usar este comando",
+				"VocÃª precisa ter 100 de score para usar este comando",
 				"You need have 100 score to use this commando"
 			],
 			"cmd-syntax": [
@@ -1851,7 +1851,7 @@
 			},
 			"dieing": {
 				"food": [
-					"~r~Voce ira começar a morrer de fome! Fome: %.1f%%",
+					"~r~Voce ira comeÃ§ar a morrer de fome! Fome: %.1f%%",
 					"~r~You will start to starve! Hunger: %.1%%"
 				]
 			}
@@ -2109,7 +2109,7 @@
 					" > Player ID not logged in."
 				],
 				"friend-no-invite": [
-					" > Esse jogador não enviou nenhum pedido de amizade.",
+					" > Esse jogador nÃ£o enviou nenhum pedido de amizade.",
 					" > This player has not sent any friend invitations."
 				]
 			},
@@ -2142,27 +2142,27 @@
 		},
 		"radio": {
 			"not-synced": [
-				"Radio não sincronizado",
+				"Radio nÃ£o sincronizado",
 				"Radio not synchronized."
 			],
 			"freq": [
-				" >  Você ligou seu rádio na frequencia %.2f.",
+				" >  VocÃª ligou seu rÃ¡dio na frequencia %.2f.",
 				" >  You turned your radio on to frequency %.2f."
 			],
 			"global": [
-				" >  Você ligou seu radio na frequencia global.",
+				" >  VocÃª ligou seu radio na frequencia global.",
 				" >  You turn your radio on to the global frequency."
 			],
 			"global-quiet-off": [
-				" >  Você ligou o receptor global do seu radio, agora voc� ver� todo o chat global.",
+				" >  VocÃª ligou o receptor global do seu radio, agora você verá todo o chat global.",
 				" >  You turn on your radio's global receiver, you will now see all global chat."
 			],
 			"global-quiet": [
-				" >  Voc� desligou o receptor global do seu r�dio, voc� não ver� mais o chat global.",
+				" >  Você desligou o receptor global do seu rádio, você nÃ£o verá mais o chat global.",
 				" >  You turn off your radio's global receiver, you will not see any global chat."
 			],
 			"local": [
-				" >  Voc� desligou seu radio, chat não sera transmitido.",
+				" >  Você desligou seu radio, chat nÃ£o sera transmitido.",
 				" >  You turned your radio off, chat is not broadcasted."
 			],
 			"admin": [
@@ -2179,11 +2179,11 @@
 			" >  Frozen by admin"
 		],
 		"unmuted": [
-			" >  Agora voc� esta habilitado a falar.",
+			" >  Agora você esta habilitado a falar.",
 			" >  You are now un-muted."
 		],
 		"aimshout": [
-			" >  Use: /aimshout [texto] - Crie um texto personalizado para aimshout. Apertando bot�o direito e scroll do mouse ao mesmo tempo.",
+			" >  Use: /aimshout [texto] - Crie um texto personalizado para aimshout. Apertando botão direito e scroll do mouse ao mesmo tempo.",
 			" >  Usage: /aimshout [text] - Sets a custom string you can send by pressing the AIM and LOOK BEHIND keys at the same time."
 		],
 		"aimshout-set": [
@@ -2191,7 +2191,7 @@
 			" >  AimShout set to '%s'"
 		],
 		"muted-perm": [
-			" >  Você esta permanentemente mudo.",
+			" >  VocÃª esta permanentemente mudo.",
 			" >  You are muted permanently."
 		],
 		"muted-temp": [
@@ -2199,11 +2199,11 @@
 			" >  Muted from global chat for {C_ORANGE}30 {C_RED}seconds for chat flooding"
 		],
 		"muted-time": [
-			" >  Mutado do chat global por {C_ORANGE}%d {C_YELLOW}segundos, Razão: {C_BLUE}%s",
+			" >  Mutado do chat global por {C_ORANGE}%d {C_YELLOW}segundos, RazÃ£o: {C_BLUE}%s",
 			" >  Muted from global chat for {C_ORANGE}%d {C_YELLOW}seconds, Reason: {C_BLUE}%s"
 		],
 		"mute-timer": [
-			" >  Voc� est� mudo. Tempo restante: %s",
+			" >  Você está mudo. Tempo restante: %s",
 			" >  You are muted. Time remaining: %s"
 		],
 		"muted-reas": [
@@ -2211,11 +2211,11 @@
 			" >  Muted from global chat, Reason: {C_BLUE}%s"
 		],
 		"warned": [
-			" >  Voc� foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
+			" >  Você foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
 			" >  You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
 		],
 		"warn-counter": [
-			" >  Voc� tem %d/5 avisos!",
+			" >  Você tem %d/5 avisos!",
 			" >  You have %d/5 warnings!"
 		],
 		"tips": {
@@ -2238,7 +2238,7 @@
 				" >  An error occurred! Please contact an administrator"
 			],
 			"no-match": [
-				" >  A senha que você digitou não coincide com a sua senha atual.",
+				" >  A senha que vocÃª digitou nÃ£o coincide com a sua senha atual.",
 				" >  The entered password you typed doesnt match your current password."
 			],
 			"success": [
@@ -2247,7 +2247,7 @@
 			]
 		},
 		"not-found": [
-			" > O jogador não pode ser encontrado.",
+			" > O jogador nÃ£o pode ser encontrado.",
 			" > The player cannot be found."
 		]
 	},
@@ -2551,16 +2551,16 @@
 			],
 			"lists": {
 				"backpacks": [
-					"\t{C_YELLOW}Lista de Mochilas: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila Média - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots).",
-					"\t{C_YELLOW}List of Backpacks: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila Média - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots)."
+					"\t{C_YELLOW}Lista de Mochilas: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila MÃ©dia - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots).",
+					"\t{C_YELLOW}List of Backpacks: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila MÃ©dia - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots)."
 				],
 				"boxes": [
-					"\t{C_YELLOW}Lista de Caixas: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa Média (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots).",
-					"\t{C_YELLOW}List of Boxes: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa Média (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots)."
+					"\t{C_YELLOW}Lista de Caixas: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa MÃ©dia (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots).",
+					"\t{C_YELLOW}List of Boxes: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa MÃ©dia (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots)."
 				],
 				"defences": [
-					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}Portão de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}Pedaço de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4).",
-					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}Portão de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}Pedaço de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4)."
+					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}PedaÃ§o de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4).",
+					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}PedaÃ§o de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4)."
 				],
 				"bombs": [
 					"\t{C_YELLOW}Lista de Explosivos: (Total: 2)\n\n\t{C_ORANGE}DINAMITE - (3 DE DANO EM METAIS)\n\n\t{C_ORANGE}TNT - (2 DE DANO EM METAIS)\n\n\t{C_ORANGE}IED - (1 DE DANO EM METAIS).",
@@ -2596,13 +2596,13 @@
 				"You can only use that command while on {C_BLUE}administrator duty{C_RED}."
 			],
 			"cant-use-not-logged-in": [
-				" >  Você precisa estar logado para usar esse comando",
+				" >  VocÃª precisa estar logado para usar esse comando",
 				" >  You must be logged in to use that command"
 			]
 		},
 		"bugs": {
 			"submitted": [
-				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Você pode ver uma lista com os problemas em /bugs.",
+				" >  Seu relatÃ³rio de bug foi enviado! Obrigado pelo seu feedback! VocÃª pode ver uma lista com os problemas em /bugs.",
 				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
 			],
 			"failed": [
