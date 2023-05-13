@@ -2,12 +2,9 @@
 
 #define VIP_COLOR 0xFFAA0000
 	
-new 
-bool:	VIP[MAX_PLAYERS],
-		VIP_Anuncio;
+static bool:VIP[MAX_PLAYERS], VIP_Anuncio;
 
-ACMD:setvip[5](playerid, params[])
-{
+ACMD:setvip[5](playerid, params[]) {
 	new targetId;
 
 	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [id/nick]");
@@ -25,8 +22,7 @@ ACMD:setvip[5](playerid, params[])
 	return 1;
 }
 
-CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill, nick, luta
-{
+CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kill, nick, luta
 	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
 
 	new command[8];
@@ -77,13 +73,15 @@ CMD:vip(playerid, params[]) // ajuda, anuncio, reset, skin, pintar, frase, kill,
 	} else if(isequal(command, "skin", true)) {
 		if(GetPlayerSkin(playerid) == 287) return ChatMsg(playerid, RED, " > Você não pode trocar sua skin usando uma Camuflagem.");
 
-		new skinid;
+		new skinId;
 
-		if(sscanf(params, "{s[5]}d", skinid)) return ChatMsg(playerid, RED, " > Use: /vip skin [1-311]");
+		if(sscanf(params, "{s[5]}i", skinId)) return ChatMsg(playerid, RED, " > Use: /vip skin [1-311]");
 
-		if(skinid > 311 || skinid < 1 || skinid == 211 || skinid == 217 || skinid == 287) return ChatMsg(playerid, RED, " > ID de skin inválido.");
+		printf("[VIP] skinId: %d", skinId);
 
-		SetPlayerSkin(playerid, skinid);
+		if(skinId > 311 || skinId < 1 || skinId == 211 || skinId == 217 || skinId == 287) return ChatMsg(playerid, RED, " > ID de skin inválido.");
+
+		SetPlayerSkin(playerid, skinId);
 	} else if(isequal(command, "pintar", true)) {
 		if(!IsPlayerInAnyVehicle(playerid)) return ChatMsg(playerid, RED, " > Você precisa estár dentro de um veículo.");
 
@@ -154,6 +152,11 @@ hook OnPlayerConnect(playerid) {
 	return 1;
 }
 
+// ? Sera mesmo necessario?
+/* hook OnPlayerDisconnect(playerid) {
+	SetPlayerVip(playerid, false);
+} */
+
 hook OnPlayerLogin(playerid) {
 	if(IsPlayerVip(playerid)) {
 		SetPlayerColor(playerid, VIP_COLOR);
@@ -164,22 +167,12 @@ hook OnPlayerLogin(playerid) {
 
 hook OnPlayerSpawnNewChar(playerid) {
 	if(IsPlayerVip(playerid)) {
-		new itemid;
-
-		itemid = CreateItem(item_Satchel);
-		GivePlayerBag(playerid, itemid);
-		
-		itemid = CreateItem(item_Wrench);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Screwdriver);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Map);
-		AddItemToPlayer(playerid, itemid, true, false);
-
-		itemid = CreateItem(item_Bat);
-		GiveWorldItemToPlayer(playerid, itemid);
+		// * Creio que existe uma forma melhor de dar itens ao jogador
+		GivePlayerBag(playerid, CreateItem(item_Satchel));
+		AddItemToPlayer(playerid, CreateItem(item_Wrench), true, false);
+		AddItemToPlayer(playerid, CreateItem(item_Screwdriver), true, false);
+		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
+		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
 	}
 }
 
@@ -189,6 +182,8 @@ stock SetPlayerVip(playerid, bool:toggle) {
 	if(toggle == VIP[playerid]) return 0;
 
     VIP[playerid] = toggle;
+
+	printf("[VIP] SetPlayerVip(%p, %s)", playerid, booltostr(toggle));
 
 	return 1;
 }
