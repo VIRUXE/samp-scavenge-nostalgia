@@ -30,7 +30,7 @@ static
     Float:playerExposure[MAX_PLAYERS], // Exposicao em percentagem
     Float:playerDistance[MAX_PLAYERS]; // Distancia para a nuvem (negativo se ja estiver dentro)
 
-static const MIN_COLLISIONS_FOR_PROTECTION = 320;
+static const MIN_COLLISIONS_FOR_PROTECTION = 1290;
 
 Float:GetRadiationSize() return cloudSize;
 
@@ -88,8 +88,13 @@ Float:GetPlayerGasMaskProtection(playerid) {
 
 Float:GetPlayerRadiationExposure(playerid) return !IsPlayerConnected(playerid) ? 0.0 : playerExposure[playerid];
 
-static Iterator:balls<216>;
+#define MAX_COLLISIONS 1296
 
+static Iterator:balls<MAX_COLLISIONS>;
+
+static timer DeleteBalls[500]() {
+    foreach(new b : balls) DestroyObject(b);
+}
 
 Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
     if(!IsPlayerInsideRadiation(playerid)) return 0.0;
@@ -109,14 +114,16 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
     new Float:playerPosX, Float:playerPosY, Float:playerPosZ;
     GetPlayerPos(playerid, playerPosX, playerPosY, playerPosZ);
 
-    foreach(new b : balls) DestroyObject(b);
-
     if (CA_GetRoomHeight(playerPosX, playerPosY, playerPosZ) > 0.0) {
+        new Float:collisions[MAX_COLLISIONS][3];
+                                                                            // radius, latitude, longitude
+        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 10.0, 10.0, 5.0, collisions);
 
-        new Float:collisions[324][3];
-        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 40.0, 10.0, 20.0, collisions);
+        defer DeleteBalls();
 
-        for(new c; c < numCollisions; c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
+        new const totalObjects = numCollisions > 1000 ? 1000 : numCollisions;
+
+        for(new c; c < totalObjects; c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
 
         if(radiationDebug) ChatMsg(playerid, GREY, "[CalculateRadiationExposure] Esta por baixo de uma estrutura (%d colisoes)", numCollisions);
 
