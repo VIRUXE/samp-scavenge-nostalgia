@@ -696,32 +696,33 @@ stock CA_FindZ_For2DCoord(Float:x, Float:y, &Float:z)
 }
 
 // Explode ray casts in every direction
-stock CA_RayCastExplode(Float:cX, Float:cY, Float:cZ, Float:Radius, Float:intensity = 20.0, Float:collisions[][3])
-{
-	if(intensity < 1.0 || intensity > 360.0 || (((360.0 / intensity) - floatround((360.0 / intensity), floatround_floor)) * intensity))
-		return 0;
+// 
+// Agora com intensidade para latitude e longitude. Nao apenas em esfera.
+stock CA_RayCastExplode(Float:cX, Float:cY, Float:cZ, Float:Radius, Float:intensity_lat = 20.0, Float:intensity_lon = 10.0, Float:collisions[][3]) {
+    if(intensity_lat < 1.0 || intensity_lat > 360.0 || (((360.0 / intensity_lat) - floatround((360.0 / intensity_lat), floatround_floor)) * intensity_lat) ||
+       intensity_lon < 1.0 || intensity_lon > 360.0 || (((180.0 / intensity_lon) - floatround((180.0 / intensity_lon), floatround_floor)) * intensity_lon)) return 0;
 
-	new index;
-	for(new Float:lat = -180.0; lat < 180.0; lat += (intensity * 0.75))
-	for(new Float:lon = -90.0; lon < 90.0; lon += intensity)
-	{
-		new Float:LAT = lat * 3.141593 / 180.0,
-			Float:LON = lon * 3.141593 / 180.0,
-			Float:x = -Radius * floatcos(LAT) * floatcos(LON),
-			Float:y = Radius * floatcos(LAT) * floatsin(LON),
-			Float:z = Radius * floatsin(LAT);
+    new index;
 
-		if(CA_RayCastLine(cX, cY, cZ, cX + x, cY + y, cZ + z, x, y, z))
-		{
-			collisions[index][0] = x;
-			collisions[index][1] = y;
-			collisions[index][2] = z;
-			index++;
+    for(new Float:lat = -180.0; lat < 180.0; lat += intensity_lat)
+		for(new Float:lon = -90.0; lon < 90.0; lon += intensity_lon) {
+			new Float:LAT = lat * 3.141593 / 180.0,
+				Float:LON = lon * 3.141593 / 180.0,
+				Float:x   = -Radius * floatcos(LAT) * floatcos(LON),
+				Float:y   = Radius * floatcos(LAT) * floatsin(LON),
+				Float:z   = Radius * floatsin(LAT);
+
+			if(CA_RayCastLine(cX, cY, cZ, cX + x, cY + y, cZ + z, x, y, z)) {
+				collisions[index][0] = x;
+				collisions[index][1] = y;
+				collisions[index][2] = z;
+				index++;
+			}
 		}
-	}
 
-	return index;
+    return index;
 }
+
 
 /**--------------------------------------------------------------------------**\
 <summary>
