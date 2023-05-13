@@ -140,7 +140,7 @@ _UpdateKeyActions(playerid)
 	{
 		new vehicleid = GetPlayerVehicleID(playerid);
 
-		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsCar(vehicleid)) {
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsCar(vehicleid)  || Vehicle_IsHelicopter(vehicleid) || Vehicle_IsPlane(vehicleid)) {
 			ClearPlayerKeyActionUI(playerid);
 			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "player/key-actions/vehicle/toggle_engine"));
 			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "player/key-actions/vehicle/toggle_lights"));
@@ -151,7 +151,7 @@ _UpdateKeyActions(playerid)
 			return;
 		}
 
-		else if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsBike(vehicleid) || Vehicle_IsHelicopter(vehicleid) || Vehicle_IsBoat(vehicleid) || Vehicle_IsPlane(vehicleid)) {
+		else if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && Vehicle_IsBike(vehicleid) || Vehicle_IsBoat(vehicleid)) {
 			ClearPlayerKeyActionUI(playerid);
 			AddToolTipText(playerid, KEYTEXT_ENGINE, ls(playerid, "player/key-actions/vehicle/toggle_engine"));
 			AddToolTipText(playerid, KEYTEXT_LIGHTS, ls(playerid, "player/key-actions/vehicle/toggle_lights"));
@@ -280,7 +280,7 @@ _UpdateKeyActions(playerid)
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));
 		AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/item_drop"));
 		    
-		if(IsValidItem(GetPlayerHolsterItem(playerid)) && GetPlayerItem(playerid) != INVALID_ITEM_ID)
+		if(IsValidItem(GetPlayerHolsterItem(playerid)) && !IsValidItem(GetPlayerItem(playerid)))
 			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster-get"));
 	}
 
