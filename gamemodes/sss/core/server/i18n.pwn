@@ -171,7 +171,11 @@ stock ConvertEncoding(string[])
 
 
 hook OnGameModeInit() {
-    printf("[i18n] Carregamento %s.", JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n) ? "Falhou" : "Sucedido");
+    new result = JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n);
+
+    printf("[i18n] Carregamento %s.", result ? "Falhou" : "Sucedido");
+
+    if(result) for(;;){}
 }
 
 ACMD:i18n[5](playerid, params[]) {
