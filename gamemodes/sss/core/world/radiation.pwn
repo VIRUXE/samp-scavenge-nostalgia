@@ -113,8 +113,11 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
 
     if (CA_GetRoomHeight(playerPosX, playerPosY, playerPosZ) > 0.0) {
 
+//        new Float:collisions[324][3];
+//        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 40.0, 10.0, 20.0, collisions);
+
         new Float:collisions[324][3];
-        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 40.0, 10.0, 20.0, collisions);
+        new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 40.0, 10.0, collisions);
 
         for(new c; c < numCollisions; c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
 
@@ -179,17 +182,17 @@ static InitializeRadiationCloud() {
 
     switch (border) {
         case 0: { // Borda superior
-            cloudPosX = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
-            cloudPosY = MAP_SIZE_FLOAT;
+            cloudPosX = random_float(-MAP_SIZE, MAP_SIZE);
+            cloudPosY = MAP_SIZE;
         } case 1: { // Borda inferior
-            cloudPosX = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
-            cloudPosY = -MAP_SIZE_FLOAT;
+            cloudPosX = random_float(-MAP_SIZE, MAP_SIZE);
+            cloudPosY = -MAP_SIZE;
         } case 2: { // Borda esquerda
-            cloudPosX = -MAP_SIZE_FLOAT;
-            cloudPosY = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
+            cloudPosX = -MAP_SIZE;
+            cloudPosY = random_float(-MAP_SIZE, MAP_SIZE);
         } case 3: { // Borda direita
-            cloudPosX = MAP_SIZE_FLOAT;
-            cloudPosY = random_float(-MAP_SIZE_FLOAT, MAP_SIZE_FLOAT);
+            cloudPosX = MAP_SIZE;
+            cloudPosY = random_float(-MAP_SIZE, MAP_SIZE);
         }
     }
 
