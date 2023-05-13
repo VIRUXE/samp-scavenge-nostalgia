@@ -31,7 +31,7 @@ ToggleMap(playerid, bool:toggle) {
 hook OnGamemodeInit() {
     mapOverlay = GangZoneCreate(-MAP_SIZE, -MAP_SIZE, MAP_SIZE, MAP_SIZE);
 
-    print("[MAP] GangZone criada."
+    print("[MAP] GangZone criada.");
 }
 
 hook OnPlayerConnect(playerid) {
