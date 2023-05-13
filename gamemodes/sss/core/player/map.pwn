@@ -1,6 +1,7 @@
 #include <YSI\y_hooks>
 
 #define MAP_SIZE 3000
+#define MAP_SIZE_FLOAT float(MAP_SIZE)
 
 forward OnPlayerUsingMap(playerid, bool:yes);
 
@@ -29,6 +30,8 @@ ToggleMap(playerid, bool:toggle) {
 
 hook OnGamemodeInit() {
     mapOverlay = GangZoneCreate(-MAP_SIZE, -MAP_SIZE, MAP_SIZE, MAP_SIZE);
+
+    print("[MAP] GangZone criada."
 }
 
 hook OnPlayerConnect(playerid) {
