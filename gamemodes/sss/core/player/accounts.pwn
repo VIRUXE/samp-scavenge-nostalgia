@@ -419,18 +419,14 @@ public OnPlayerLogin(playerid) {
 
 // Logs the player out, saving their data and deleting their items.
 Logout(playerid, docombatlogcheck = 1) {
-    if(IsPlayerNPC(playerid)) return 0;
-		
-	if(!acc_LoggedIn[playerid]) return 0;
+    if(IsPlayerNPC(playerid) || !acc_LoggedIn[playerid] || IsPlayerOnAdminDuty(playerid)) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
     GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	log("[ACCOUNTS] %p (%d) foi deslogado em %.1f, %.1f, %.1f (%.1f). Logado: %s Vivo: %s Knocked Out: %s", playerid, x, y, z, r, acc_LoggedIn[playerid] ? "true" : "false", IsPlayerAlive(playerid) ? "true" : "false", IsPlayerKnockedOut(playerid) ? "true" : "false");
-
-	if(IsPlayerOnAdminDuty(playerid)) return 0;
+	log("[ACCOUNTS] %p (%d) foi deslogado em %.1f, %.1f, %.1f (%.1f). Logado: %s Vivo: %s Knocked Out: %s", playerid, playerid, x, y, z, r, acc_LoggedIn[playerid] ? "true" : "false", IsPlayerAlive(playerid) ? "true" : "false", IsPlayerKnockedOut(playerid) ? "true" : "false");
 
 	if(docombatlogcheck) {
 		if(gServerMaxUptime - gServerUptime > 30) {
