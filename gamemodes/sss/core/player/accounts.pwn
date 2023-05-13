@@ -509,28 +509,20 @@ Logout(playerid, docombatlogcheck = 1) {
 
 // Updates the database and calls the binary save functions if required.
 SavePlayerData(playerid) {
-    if(IsPlayerNPC(playerid)) return 0;
-
-	if(!acc_LoggedIn[playerid]) return 0;
-
-	if(IsPlayerOnAdminDuty(playerid)) return 0;
+    if(IsPlayerNPC(playerid) || IsPlayerInTutorial(playerid) || !acc_LoggedIn[playerid] || IsPlayerOnAdminDuty(playerid) || (GetPlayerState(playerid) == PLAYER_STATE_SPECTATING && !gServerRestarting)) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
 
  	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	if(IsAtConnectionPos(x, y, z)) return 0;
+	if(IsAtConnectionPos(x, y, z) || IsAtDefaultPos(x, y, z)) return 0;
 
 	//SaveBlockAreaCheck(x, y, z);
 
 	// Coloca o jogador para cima se ele estiver dentro de um veículo
 	// TODO: Nao colocar para cima caso estive muito perto de um teto
 	if(IsPlayerInAnyVehicle(playerid)) x += 1.5;
-
-	if(IsAtDefaultPos(x, y, z)) return 0;
-
-	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING && !gServerRestarting) return 0;
 
 	printf("[ACCOUNTS] Salvando dados do personagem para '%p'", playerid);
 
