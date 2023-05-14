@@ -2291,11 +2291,11 @@
 			],
 			"break-start": [
 				"Arrombando porta do veiculo",
-				"Breaking door from vehicle"
+				"Breaking Vehicle Door"
 			],
 			"trunk-break-start": [
 				"Arrombando porta-malas do veiculo",
-				"Breaking trunk from vehicle"
+				"Breaking Vehicle Trunk"
 			],
 			"door-locked": [
 				"Porta trancada ~n~ Use um Pe de Cabra",
