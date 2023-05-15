@@ -119,13 +119,13 @@ Float:CalculateRadiationExposure(playerid, Float:radiationDistance = -0.0) {
                                                                             // radius, latitude, longitude
         new numCollisions = CA_RayCastExplode(playerPosX, playerPosY, playerPosZ, 10.0, 10.0, 5.0, collisions);
 
-        defer DeleteBalls();
+        if(radiationDebug) {
+            defer DeleteBalls();
 
-        new const totalObjects = numCollisions > 1000 ? 1000 : numCollisions;
-
-        for(new c; c < totalObjects; c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
-
-        if(radiationDebug) ChatMsg(playerid, GREY, "[CalculateRadiationExposure] Esta por baixo de uma estrutura (%d colisoes)", numCollisions);
+            for(new c; c < (numCollisions > 1000 ? 1000 : numCollisions); c++) Iter_Add(balls, CreateObject(1946, collisions[c][0], collisions[c][1], collisions[c][2], 0.0, 0.0, 0.0));
+            
+            ChatMsg(playerid, GREY, "[CalculateRadiationExposure] Esta por baixo de uma estrutura (%d colisoes)", numCollisions);
+        }
 
         // Calculamos o quanto a estrutura protege
         if (numCollisions >= MIN_COLLISIONS_FOR_PROTECTION) {
@@ -246,17 +246,14 @@ static task UpdateRadiationCloud[SEC(1)]() {
     new const Float:cloudMinY   = cloudPosY - cloudHeight / 2.0;
     new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0;
 
-    // Verifica se a posi??o central da nuvem est? sobre a terra
-    if (IsPosition2DOnLand(cloudPosX, cloudPosY)) {
-        if (!isCloudOnLand) {
-            printf("[RADIATION] Nuvem chegou em terra.");
-            isCloudOnLand = true;
-        }
-    } else {
-        if (isCloudOnLand) {
-            printf("[RADIATION] Nuvem saiu de terra.");
-            isCloudOnLand = false;
-        }
+    // Check if the cloud is currently on land.
+    new const bool:isCurrentlyOnLand = IsPosition2DOnLand(cloudPosX, cloudPosY);
+
+    // If the cloud's status has changed...
+    if (isCurrentlyOnLand != isCloudOnLand) {
+        isCloudOnLand = isCurrentlyOnLand;
+
+        printf("[RADIATION] Nuvem %s de terra.", isCloudOnLand ? "chegou em" : "saiu de");
     }
 
     // Atualiza a posi??o e o tamanho da zona de gangue
@@ -265,16 +262,13 @@ static task UpdateRadiationCloud[SEC(1)]() {
     GangZoneDestroy(cloudGangZone);
     cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
 
-    // Liberar componentes do mapa apenas para quem tem o item mapa
     foreach(new p : Player) {
-        if(DoesPlayerHaveMap(p)) {
-            GangZoneShowForPlayer(p, cloudGangZone, COLOR_RADIATION);
+        if(IsPlayerOnAdminDuty(p)) GangZoneShowForPlayer(p, cloudGangZone, COLOR_RADIATION); // Mostrar a nuvem apenas para admins em duty
 
-            if(IsPlayerVip(p)) {
-                DestroyDynamicMapIcon(99);
-                SetPlayerMapIcon(p, 99, cloudPosX, cloudPosY, 0.0, 23, COLOR_RADIATION, MAPICON_GLOBAL);
-            }
-        }
+        /* if(DoesPlayerHaveMap(p) && IsPlayerVip(p)) {
+            DestroyDynamicMapIcon(99);
+            SetPlayerDynamicMapIcon(p, 99, cloudPosX, cloudPosY, 0.0, 23, COLOR_RADIATION, MAPICON_GLOBAL);
+        } */
     }
     
     // Calculate the coordinates for the dummy object
