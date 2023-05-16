@@ -67,7 +67,6 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 		SetPlayerScore(playerid, 0);
 		SetPlayerDeathCount(playerid, 0);
 		SetPlayerSpree(playerid, 0);
-		SavePlayerIniData(playerid);
 
 		ChatMsg(playerid, GREEN, " > Seu status foi resetado.");
 	} else if(isequal(command, "skin", true)) {

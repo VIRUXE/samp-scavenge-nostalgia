@@ -222,7 +222,6 @@ public OnGameModeInit()
 #include <optud>             		// By BrunoBM16:          	https://github.com/Jelly23/OnPlayerTurnUpsideDown
 #include <BustAim>             		// By YashasSamaga:         https://github.com/YashasSamaga/BustAim-AntiAimbfot
 #include <attachment-fix>           // By BrunoBM16:            https://github.com/Jelly23/Proper-attachments-fix
-#include <dini2>                    // By Gammix:               https://github.com/Agneese-Saini/SA-MP/blob/master/pawno/include/dini2.inc
 #include <json>						// By Southclaw:			https://github.com/Southclaws/pawn-json/releases/tag/1.4.1
 #include <requests>					// By Southclaw:			https://github.com/Southclaws/pawn-requests/releases/tag/0.10.0
 
@@ -465,7 +464,6 @@ new RequestsClient:client;
 #include "sss/core/player/disallow-actions.pwn"
 #include "sss/core/player/frase.pwn"
 #include "sss/core/player/gpci-log.pwn"
-#include "sss/core/player/ini.pwn" // By Kolorado
 #include "sss/core/player/ipv4-log.pwn"
 #include "sss/core/player/name-tags.pwn"
 #include "sss/core/player/ped.pwn"
