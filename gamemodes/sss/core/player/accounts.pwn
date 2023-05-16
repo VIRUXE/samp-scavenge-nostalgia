@@ -389,7 +389,12 @@ Login(playerid) {
 	acc_LoginAttempts[playerid] = 0;
 
 	SetPlayerScreenFade(playerid, 255);
-	SpawnCharacter(playerid);
+
+	if(IsPlayerAlive(playerid))
+		SpawnCharacter(playerid);
+	else
+		ShowCharacterCreationScreen(playerid);
+
 	StopAudioStreamForPlayer(playerid);
 
 	TextDrawShowForPlayer(playerid, RestartCount);
@@ -402,6 +407,10 @@ Login(playerid) {
 
 // Chamado após o jogador logar
 public OnPlayerLogin(playerid) {
+ 	ChatMsg(playerid, BLUE, "");
+	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
+	ChatMsg(playerid, BLUE, "");
+	
 	AnnouncePlayerJoined(playerid);
 
 	ShowMotd(playerid);

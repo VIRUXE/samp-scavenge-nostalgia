@@ -39,48 +39,34 @@ Float:	death_RotZ[MAX_PLAYERS],
         death_Spree[MAX_PLAYERS],
 		AliveTime[MAX_PLAYERS];
 
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/death.pwn");
-
-    death_Dying[playerid] = false;
+hook OnPlayerConnect(playerid) {
+	death_Dying[playerid]           = false;
 	death_LastKilledBy[playerid][0] = EOS;
-	death_LastKilledById[playerid] = INVALID_PLAYER_ID;
-	death_Count[playerid] = AliveTime[playerid] = death_Spree[playerid] = 0;
+	death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
+	death_Count[playerid]           = 0;
+	AliveTime[playerid]             = 0;
+	death_Spree[playerid]           = 0;
 }
 
-public OnPlayerDeath(playerid, killerid, reason)
-{
+public OnPlayerDeath(playerid, killerid, reason) {
+	if(IsPlayerNPC(playerid)) return -1; // Don't care about NPCs dieing
+
 	if(IsPlayerConnected(killerid) && !IsPlayerSpawned(killerid)) return -1;
 
-    if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < 1000) return -1;
+    if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < SEC(1)) return -1; // ? Ignorar se morreu a menos de 1 segundo? Impossivel?
 
-    if(gServerMaxUptime - gServerUptime > 30)
-	{
-		if(!IsPlayerNPC(playerid))
-		{
-		    if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) > 6000)
-	  		{
-	  		    death_Count[playerid] ++;
+	death_Count[playerid]++;
 
-	  		    SetPlayerScreenFade(playerid, 255);
-				death_LastDeath[playerid] = GetTickCount();
+	SetPlayerScreenFade(playerid, 255);
+	death_LastDeath[playerid] = GetTickCount();
 
-		        if(!IsPlayerNPC(killerid))
-					killerid = INVALID_PLAYER_ID;
+	if(killerid == INVALID_PLAYER_ID) {
+		killerid = GetLastHitById(playerid);
 
-				if(killerid == INVALID_PLAYER_ID)
-				{
-					killerid = GetLastHitById(playerid);
-
-					if(!IsPlayerConnected(killerid))
-						killerid = INVALID_PLAYER_ID;
-				}
-
-				_OnDeath(playerid, killerid);
-			}
-		}
+		if(!IsPlayerConnected(killerid)) killerid = INVALID_PLAYER_ID;
 	}
+
+	_OnDeath(playerid, killerid);
 
 	return 1;
 }
@@ -89,12 +75,9 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
     AliveTime[playerid] ++;
 }
 
-_OnDeath(playerid, killerid)
-{
+_OnDeath(playerid, killerid) {
 	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
 
-    if(gServerMaxUptime - gServerUptime < 30) return 0; // Menos de 30 segundos para o servidor fechar
-	
 	AliveTime[playerid] = 0;
 	
 	new
@@ -109,9 +92,10 @@ _OnDeath(playerid, killerid)
 	
 	GetPlayerFacingAngle(playerid, death_RotZ[playerid]);
 
-	if(IsPlayerInAnyVehicle(playerid))
-	{
+	if(IsPlayerInAnyVehicle(playerid)) {
 		RemovePlayerFromVehicle(playerid);
+
+		// ? E mesmo necessario?
 		TogglePlayerSpectating(playerid, true);
 		TogglePlayerSpectating(playerid, false);
 		death_PosZ[playerid] += 0.5;
@@ -122,33 +106,27 @@ _OnDeath(playerid, killerid)
 	RemovePlayerWeapon(playerid);
 	RemoveAllDrugs(playerid);
 
-	// Define o clima para o jogador
 	SetPlayerWeather(playerid, GetSettingInt("world/weather"));
 
 	SpawnPlayer(playerid);
 
 	KillPlayer(playerid, killerid, deathreason);
 
-	if(IsPlayerConnected(killerid))
-	{
+	if(IsPlayerConnected(killerid)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
 		SetPlayerScore(killerid, GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1);
 		
-		death_Spree[killerid] ++;
+		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
 		
 		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerid, playerid);
 		
-		SavePlayerIniData(playerid);
-		SavePlayerIniData(killerid);
-
 		GetPlayerName(killerid, death_LastKilledBy[playerid], MAX_PLAYER_NAME);
 		death_LastKilledById[playerid] = killerid;
         SetLastHitById(playerid, INVALID_PLAYER_ID);
 
-		switch(deathreason)
-		{
+		switch(deathreason) {
 			case 0..3, 5..7, 10..15:
 				deathreasonstring = "Espancado até a morte.";
 			case 4:
@@ -176,10 +154,9 @@ _OnDeath(playerid, killerid)
 		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 
 		death_LastKilledBy[playerid][0] = EOS;
-		death_LastKilledById[playerid] = INVALID_PLAYER_ID;
+		death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
 
-		switch(deathreason)
-		{
+		switch(deathreason) {
 			case 53:
 				deathreasonstring = "Se afogou";
 			case 54:
@@ -194,6 +171,7 @@ _OnDeath(playerid, killerid)
 	CreateGravestone(playerid, deathreasonstring, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid] - FLOOR_OFFSET, death_RotZ[playerid]);
 
     SavePlayerData(playerid);
+
 	return 1;
 }
 

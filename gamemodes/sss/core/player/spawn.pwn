@@ -159,11 +159,7 @@ SpawnCharacter(playerid) {
 		ApplyAnimation(playerid, "ROB_BANK", "SHP_HandsUp_Scr", 4.0, 0, 1, 1, 1, 0);
 
 	log("[SPAWN] %p (%d) spawnou personagem existente em %.1f, %.1f, %.1f (%.1f)", playerid, playerid, x, y, z, r);
-	
- 	ChatMsg(playerid, BLUE, "");
-	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
-	ChatMsg(playerid, BLUE, "");
-	
+
 	CallLocalFunction("OnPlayerSpawnCharacter", "d", playerid);
 
 	return 0;
@@ -215,6 +211,9 @@ CreateNewCharacter(playerid, gender) {
 	new Float:x, Float:y, Float:z, Float:r;
 
 	GenerateSpawnPoint(playerid, x, y, z, r);
+	
+	while(IsPointInRadiation(x,y)) GenerateSpawnPoint(playerid, x, y, z, r);
+	
 	Streamer_UpdateEx(playerid, x, y, z, 0, 0);
 	SetPlayerPos(playerid, x, y, z);
 	SetPlayerFacingAngle(playerid, r);
