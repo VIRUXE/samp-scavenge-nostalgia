@@ -34,16 +34,18 @@ static const MIN_COLLISIONS_FOR_PROTECTION = 1290;
 
 Float:GetRadiationSize() return cloudSize;
 
+Float:GetPointDistanceToRadiation(Float:x, Float:y) return Distance2D(x, y, cloudPosX, cloudPosY);
+
+// Check if the 2d point (x, y) is inside the radiation zone
+IsPointInRadiation(Float:x, Float:y) return (GetPointDistanceToRadiation(x,y) <= cloudSize) ? 1 : 0;
+
 // 0.0 na borda e valor negativo dai para dentro
 Float:CalculateDistanceToRadiation(playerid) {
     new Float:playerX, Float:playerY, Float:playerZ;
     GetPlayerPos(playerid, playerX, playerY, playerZ);
 
-    // Calculate the 2D distance between the player and the cloud center
-    new Float:centerDistance = Distance2D(playerX, playerY, cloudPosX, cloudPosY);
-
     // Subtract the size of the cloud to get the distance to the edge
-    new Float:edgeDistance = centerDistance - cloudSize;
+    new Float:edgeDistance = GetPointDistanceToRadiation(playerX, playerY) - cloudSize;
 
     playerDistance[playerid] = edgeDistance;
 
