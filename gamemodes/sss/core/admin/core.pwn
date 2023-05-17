@@ -465,13 +465,9 @@ ACMD:acmds[1](playerid)
 
 CMD:admins(playerid)
 {
-	new
-		title[20],
-		line[52];
+	new line[52];
 
-	gBigString[playerid][0] = EOS;
-
-	format(title, 20, "Lista de Admins (%d)", admin_Total);
+	gBigString[playerid] = "Nenhum.";
 
 	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
@@ -487,7 +483,7 @@ CMD:admins(playerid)
 		strcat(gBigString[playerid], line);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, title, gBigString[playerid], "OK", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, sprintf("Lista de Admins (%d)", admin_Total), gBigString[playerid], "OK", "");
 
 	return 1;
 }
