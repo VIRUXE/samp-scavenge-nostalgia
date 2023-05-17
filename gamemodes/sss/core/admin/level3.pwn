@@ -1,12 +1,9 @@
 #include <YSI\y_hooks>
 
 
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins nível 3\n");
 }
-
-
 
 /*
 ACMD:whitelist[3](playerid, params[])
@@ -112,7 +109,7 @@ ACMD:whitelist[3](playerid, params[])
 
 ACMD:spec[3](playerid, params[])
 {
-	if(!(IsPlayerOnAdminDuty(playerid))) return 6;
+	if(!(IsPlayerOnAdminDuty(playerid))) return CMD_NOT_DUTY;
 
 	// If there's only one player, don't do anything
 	if(Iter_Count(Player) == 1) return 1;
@@ -128,17 +125,11 @@ ACMD:spec[3](playerid, params[])
 			EnterSpectateMode(playerid, targetId);
 		}
 	} else {
-		new targetId = INVALID_PLAYER_ID;
-
-		if(isnumeric(params))
-			targetId = strval(params);
-		else
-			targetId = GetPlayerIDFromName(params);
+		new targetId = isnumeric(params) ? strval(params) : GetPlayerIDFromName(params);
 
 		if(IsPlayerConnected(targetId) && targetId != playerid) {
 			// Não pode observar admins
-			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) 
-				return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
+			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
 
 			EnterSpectateMode(playerid, targetId);
 
@@ -149,17 +140,15 @@ ACMD:spec[3](playerid, params[])
 	return 1;
 }
 
-ACMD:free[3](playerid)
-{
-	if(!IsPlayerOnAdminDuty(playerid)) return 6;
+ACMD:free[3](playerid) {
+	if(!IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
 
 	if(GetPlayerSpectateType(playerid) == SPECTATE_TYPE_FREE) ExitFreeMode(playerid); else EnterFreeMode(playerid);
 
 	return 1;
 }
 
-ACMD:recam[4](playerid, params[])
-{
+ACMD:recam[4](playerid, params[]) {
 	SetCameraBehindPlayer(playerid);
 	return 1;
 }
@@ -293,7 +282,7 @@ ACMD:veiculo[3](playerid, params[]) {
 
 ACMD:move[3](playerid, params[])
 {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return CMD_NOT_DUTY;
 
 	new
 		direction[10],
@@ -364,7 +353,7 @@ ACMD:setactive[3](playerid, params[])
 
 ACMD:irpos[3](playerid, params[])
 {
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
+    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return CMD_NOT_DUTY;
 		
 	new Float:x, Float:y, Float:z;
 
@@ -441,260 +430,14 @@ ACMD:sethp[3](playerid, params[]) {
 
 	if(hp < 0 || hp > 100) return ChatMsg(playerid, RED, " >  HP tem que ser entre 0 e 100.");
 
-	SetPlayerHealth(targetId, hp);
+	SetPlayerHP(targetId, hp);
 
 	printf("[ADMIN] %p (%d) setou a vida de %p (%d) para %d", playerid, playerid, targetId, targetId, hp);
 
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" setou a vida de %P (%d)"C_BLUE" para %d", playerid, playerid, targetId, targetId, hp);
 }
 
-ACMD:bb[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER) return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /bb", playerid, playerid);
-    SetPlayerPos(playerid,0.22, 0.21, 3.11);
-
-	return 1;
-}
-
-ACMD:sf[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /sf", playerid, playerid);
-    SetPlayerPos(playerid,-2026.95, 156.70, 29.03);
-	return 1;
-}
-
-ACMD:lv[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /lv", playerid, playerid);
-    SetPlayerPos(playerid,2026.64, 1008.28, 10.82);
-	return 1;
-}
-
-ACMD:ls[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-	ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ls", playerid, playerid);
-    SetPlayerPos(playerid,1481.09, -1764.00, 18.79);
-	return 1;
-}
-
-ACMD:fc[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /fc", playerid, playerid);
-    SetPlayerPos(playerid,-216.36, 979.20, 20.94);
-	return 1;
-}
-
-ACMD:bs[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /bs", playerid, playerid);
-    SetPlayerPos(playerid,-2506.8413, 2358.6741, 4.9860);
-	return 1;
-}
-
-ACMD:mg[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /mg", playerid, playerid);
-    SetPlayerPos(playerid,1347.8447, 313.6524, 20.5547);
-	return 1;
-}
-
-ACMD:dm[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /dm", playerid, playerid);
-    SetPlayerPos(playerid,619.8964, -542.9938, 16.4536);
-	return 1;
-}
-
-ACMD:pc[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /pc", playerid, playerid);
-    SetPlayerPos(playerid,2332.5959, 38.6790, 26.4816);
-	return 1;
-}
-
-ACMD:ap[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ap", playerid, playerid);
-    SetPlayerPos(playerid,-2144.5183, -2338.9004, 30.6250);
-	return 1;
-}
-
-ACMD:lp[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /lp", playerid, playerid);
-    SetPlayerPos(playerid,-240.3974, 2713.4150, 62.6875);
-	return 1;
-}
-
-ACMD:lb[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /lb", playerid, playerid);
-    SetPlayerPos(playerid,-736.2372, 1547.7043, 39.0007);
-	return 1;
-}
-
-ACMD:eq[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /eq", playerid, playerid);
-    SetPlayerPos(playerid,-1527.5648, 2550.4546, 58.1881);
-	return 1;
-}
-
-ACMD:ec[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ec", playerid, playerid);
-    SetPlayerPos(playerid,-388.5280, 2212.0117, 42.4249);
-	return 1;
-}
-
-ACMD:mc[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /mc", playerid, playerid);
-    SetPlayerPos(playerid,-2323.0515, -1637.6571, 483.7031);
-	return 1;
-}
-
-ACMD:69[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /69", playerid, playerid);
-    SetPlayerPos(playerid,-1359.2432, 498.4693, 21.2500);
-	return 1;
-}
-
-ACMD:cb[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /cb", playerid, playerid);
-    SetPlayerPos(playerid,-1918.1047, 640.4106, 46.5625);
-	return 1;
-}
-
-ACMD:51[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /51", playerid, playerid);
-    SetPlayerPos(playerid,249.6743, 1887.9854, 20.6406);
-	return 1;
-}
-
-ACMD:kacc[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /kacc", playerid, playerid);
-    SetPlayerPos(playerid,2590.4778, 2800.8882, 10.8203);
-	return 1;
-}
-
-ACMD:militarls1[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /militarls1", playerid, playerid);
-    SetPlayerPos(playerid,1900.0914, -457.6173, 27.4642);
-	return 1;
-}
-
-ACMD:militarls2[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /militarls2", playerid, playerid);
-    SetPlayerPos(playerid,-1039.7141, -918.3206, 132.6531);
-	return 1;
-}
-
-ACMD:ilhals[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ilhals", playerid, playerid);
-    SetPlayerPos(playerid,4472.2578, -1718.3352, 8.3501);
-	return 1;
-}
-
-ACMD:ilhalv[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ilhalv", playerid, playerid);
-    SetPlayerPos(playerid,258.3774, 4316.2959, 3.3737);
-	return 1;
-}
-
-ACMD:ilhasf[3](playerid){
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER)
-		return 6;
-
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] "C_BLUE"%p(id:%d) usou o teleporte /ilhasf", playerid, playerid);
-    SetPlayerPos(playerid,-4481.0483, 432.3738, 10.7196);
-	return 1;
-}
-
-ACMD:teleportes[3](playerid)
-{
-    new stringtp[800];
-    strcat(stringtp, ""C_BLUE"Los Santos - /ls\n");
-    strcat(stringtp, ""C_BLUE"Las Venturas - /lv\n");
-    strcat(stringtp, ""C_BLUE"San Fierro - /sf\n");
-    strcat(stringtp, ""C_BLUE"BlueBerry - /bb\n");
-    strcat(stringtp, ""C_BLUE"Bayside - /bs\n");
-    strcat(stringtp, ""C_BLUE"Montgomery - /mg\n");
-    strcat(stringtp, ""C_BLUE"Dillimore - /dm\n");
-    strcat(stringtp, ""C_BLUE"Palomino Creek - /pc\n");
-    strcat(stringtp, ""C_BLUE"Angel Pine - /ap\n");
-    strcat(stringtp, ""C_BLUE"Las Payasadas - /lp\n");
-    strcat(stringtp, ""C_BLUE"Las Barrancas - /lb\n");
-    strcat(stringtp, ""C_BLUE"El Quebrados - /eq\n");
-    strcat(stringtp, ""C_BLUE"El Castillo - /ec\n");
-    strcat(stringtp, ""C_BLUE"MontiChillad - /mc\n");
-    strcat(stringtp, ""C_BLUE"69 - /69\n");
-    strcat(stringtp, ""C_BLUE"Casa Branca - /cb\n");
-    strcat(stringtp, ""C_BLUE"51 - /51\n");
-    strcat(stringtp, ""C_BLUE"K.A.C.C - /kacc\n");
-	strcat(stringtp, ""C_BLUE"Ilha LS - /ilhals\n");
-    strcat(stringtp, ""C_BLUE"Ilha LV - /ilhalv\n");
-    strcat(stringtp, ""C_BLUE"Ilha SF - /ilhasf\n");
-    ShowPlayerDialog(playerid, 11478, DIALOG_STYLE_MSGBOX, "Teleportes", stringtp, "Fechar", "");
-
-	return 1;
-}
-
-ACMD:comandoslvl3[3](playerid)
-{
+ACMD:comandoslvl3[3](playerid) {
     new stringlvl3[800];
     strcat(stringlvl3, "{FFFF00}Comandos dos Admins Nível 3:\n");
     strcat(stringlvl3, "{FF0000}\n");
