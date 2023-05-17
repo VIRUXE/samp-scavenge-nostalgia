@@ -345,7 +345,7 @@ static ptask RadiationAreaCheck[SEC(1)](playerid) {
         if(hpLost) {
             ShowActionText(playerid, sprintf("Perdeu %.2f por exposicao (%.2f) radiativa.", hpLost, exposure), 500); 
 
-            SetPlayerHP(playerid, GetPlayerHP(playerid) - hpLost);
+            DamagePlayer(playerid, hpLost);
         }
     } else {
         if(IsPlayerInsideRadiation(playerid)) {

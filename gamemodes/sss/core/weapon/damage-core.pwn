@@ -139,7 +139,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 	totalbleedrate = totalbleedrate > 1.0 ? 1.0 : totalbleedrate;
 
 	SetPlayerBleedRate(targetid, totalbleedrate);
-	GivePlayerHP(targetid, -(bleedrate * 100.0));
+	HealPlayer(targetid, -(bleedrate * 100.0));
 
 	switch(bodypart)
 	{

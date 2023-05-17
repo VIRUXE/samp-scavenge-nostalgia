@@ -96,7 +96,7 @@ hook OnPlayerScriptUpdate(playerid)
 
 		new intensity = GetPlayerInfectionIntensity(playerid, 1);
 
-		GivePlayerHP(playerid, 0.001925925 * GetPlayerFP(playerid) * (intensity ? 0.5 : 1.0));
+		HealPlayer(playerid, 0.001925925 * GetPlayerFP(playerid) * (intensity ? 0.5 : 1.0));
 
 		if(bld_BleedRate[playerid] < 0.0)
 			bld_BleedRate[playerid] = 0.0;
@@ -107,7 +107,7 @@ hook OnPlayerScriptUpdate(playerid)
 		SetPlayerDrunkLevel(playerid, 2200);
 
 		if(random(100) < 80)
-			GivePlayerHP(playerid, 0.5);
+			HealPlayer(playerid, 0.5);
 	}
 
 	return;

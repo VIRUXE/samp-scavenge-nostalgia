@@ -199,7 +199,7 @@ timer HackKeypadUpdate[100](playerid, keypadid, match)
 
 			kp_HackFailParticle[playerid] = CreateDynamicObject(18724, x, y, z - 1.5, 0.0, 0.0, 0.0);
 			defer kp_PrtDestroy(playerid);
-			GivePlayerHP(playerid, -5);
+			HealPlayer(playerid, -5);
 			KnockOutPlayer(playerid, 3000);
 			defer HackKeypadFinish(playerid, keypadid, kp_Value[playerid], match);
 		}

@@ -76,7 +76,7 @@ hook OnHoldActionFinish(playerid) {
 				ApplyDrug(playerid, drug_Antibiotic);
 			} 
 			case PILL_TYPE_PAINKILL: {
-				GivePlayerHP(playerid, 10.0);
+				HealPlayer(playerid, 10.0);
 				ApplyDrug(playerid, drug_Painkill);
 			} 
 			case PILL_TYPE_LSD: {

@@ -66,9 +66,6 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	return 1;
 }
 
-GivePlayerHP(playerid, Float:hp)
-	SetPlayerHP(playerid, (GetPlayerHP(playerid) + hp));
-
 ShowHitMarker(playerid, weapon)
 {
 /*	if(weapon == 0 || IsWeaponMelee(weapon))

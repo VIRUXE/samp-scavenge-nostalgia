@@ -91,6 +91,8 @@ forward Float:GetPlayerBleedRate(playerid);
 #endif
 
 #define ls(%0,%1) GetLanguageString(%0, %1)
+#define DamagePlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) - %1)
+#define HealPlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) + %1)
 
 /*==============================================================================
 
@@ -578,6 +580,7 @@ new RequestsClient:client;
 #include "sss/core/admin/freeze.pwn"
 #include "sss/core/admin/name-tags.pwn"
 #include "sss/core/admin/player-list.pwn"
+#include "sss/core/admin/teleports.pwn"
 
 #include "sss/core/admin/detfield.pwn"
 #include "sss/core/admin/detfield-cmds.pwn"

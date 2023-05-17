@@ -39,7 +39,7 @@ hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	{
 		switch(weaponid)
 		{
-			case 37: GivePlayerHP(playerid, -(amount * 0.1));
+			case 37: HealPlayer(playerid, -(amount * 0.1));
 			case 53: SetPlayerHealth(playerid, 0.0); // or KnockOutPlayer(playerid, 1500 + random(1500));
 			case 54:
 			{
