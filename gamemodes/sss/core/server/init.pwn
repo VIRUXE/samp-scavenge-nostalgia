@@ -608,7 +608,10 @@ new stock
 	veht_Super,
 	veht_Hustler,
 	veht_Phoenix,
-	veht_NRG;
+	veht_NRG,
+	veht_Cabbie,
+	veht_Turismo,
+	veht_Infernus;
 
 // VEHICLE GROUPS
 new stock
@@ -1743,7 +1746,7 @@ public OnScriptInit()
 
 // 00
 //										model name	 			group			 	category						size					maxfuel	fuelcons	lootindex				trunksize	spawnchance	flags
-	veht_Bobcat		= DefineVehicleType(422, "Bobcat",			vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	60.0,		16.0,	"vehicle_industrial",		40,		76.0);
+	veht_Bobcat		= DefineVehicleType(422, "Bobcat",			vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	60.0,		16.0,	"vehicle_industrial",		40,		30.0);
 	veht_Rustler	= DefineVehicleType(476, "Rustler",			vgroup_Civilian,	VEHICLE_CATEGORY_PLANE,			VEHICLE_SIZE_MEDIUM,	88.0,		19.0,	"vehicle_civilian",			15,		0.8);
 	veht_Maverick	= DefineVehicleType(487, "Maverick",		vgroup_Civilian,	VEHICLE_CATEGORY_HELICOPTER,	VEHICLE_SIZE_LARGE,		240.0,		76.0,	"vehicle_civilian",			80,		10.0);
 	veht_Comet		= DefineVehicleType(480, "Comet",			vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	50.0,		12.0,	"vehicle_civilian",			20,		8.0);
@@ -1759,7 +1762,7 @@ public OnScriptInit()
 	veht_Flatbed	= DefineVehicleType(455, "Flatbed",			vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_LARGE,		70.0,		69.0,	"vehicle_industrial",		140,	8.0);
 	veht_Rumpo		= DefineVehicleType(440, "Rumpo",			vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	55.0,		19.0,	"vehicle_industrial",		80,		45.0);
 	veht_Yankee		= DefineVehicleType(456, "Yankee",			vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	60.0,		45.0,	"vehicle_industrial",		80,		40.0);
-	veht_Yosemite	= DefineVehicleType(554, "Yosemite",		vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	60.0,		13.0,	"vehicle_industrial",		44,		70.0);
+	veht_Yosemite	= DefineVehicleType(554, "Yosemite",		vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	60.0,		13.0,	"vehicle_industrial",		44,		50.0);
 	veht_Dinghy		= DefineVehicleType(473, "Dinghy",			vgroup_Civilian,	VEHICLE_CATEGORY_BOAT,			VEHICLE_SIZE_SMALL,		81.0,		22.0,	"vehicle_civilian",			10,		64.0,	VEHICLE_FLAG_NOT_LOCKABLE | VEHICLE_FLAG_CAN_SURF);
 	veht_Coastguard	= DefineVehicleType(472, "Coastguard",		vgroup_Police,		VEHICLE_CATEGORY_BOAT,			VEHICLE_SIZE_MEDIUM,	120.0,		28.0,	"vehicle_industrial",		24,		35.0,	VEHICLE_FLAG_NOT_LOCKABLE | VEHICLE_FLAG_CAN_SURF);
 	veht_Launch		= DefineVehicleType(595, "Launch",			vgroup_Military,	VEHICLE_CATEGORY_BOAT,			VEHICLE_SIZE_MEDIUM,	213.0,		23.0,	"vehicle_military",			26,		40.0,	VEHICLE_FLAG_NOT_LOCKABLE | VEHICLE_FLAG_CAN_SURF);
@@ -1772,7 +1775,7 @@ public OnScriptInit()
 	veht_Clover		= DefineVehicleType(542, "Clover",			vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	62.0,		26.5,	"vehicle_civilian",			34,		75.0);
 	veht_Sultan		= DefineVehicleType(560, "Sultan",			vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	65.0,		15.0,	"vehicle_civilian",			40,		15.0);
 	veht_Huntley	= DefineVehicleType(579, "Huntley",			vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	70.0,		24.6,	"vehicle_civilian",			50,		57.0);
-	veht_Mesa		= DefineVehicleType(500, "Mesa",			vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	77.0,		22.0,	"vehicle_civilian",			48,		70.0);
+	veht_Mesa		= DefineVehicleType(500, "Mesa",			vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	77.0,		22.0,	"vehicle_civilian",			48,		25.0);
 	veht_Sandking	= DefineVehicleType(495, "Sandking",		vgroup_Unique,		VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	120.0,		26.0,	"vehicle_civilian",			46,		3.5);
 	veht_Bandito	= DefineVehicleType(568, "Bandito",			vgroup_Unique,		VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	48.0,		12.0,	"world_survivor",			15,		3.0,	VEHICLE_FLAG_NOT_LOCKABLE);
 // 30
@@ -1794,7 +1797,7 @@ public OnScriptInit()
 	veht_Marquis	= DefineVehicleType(484, "Marquis",			vgroup_Civilian,	VEHICLE_CATEGORY_BOAT,			VEHICLE_SIZE_LARGE,		900.0,		67.0,	"vehicle_civilian",			100,	50.0,	VEHICLE_FLAG_NOT_LOCKABLE | VEHICLE_FLAG_CAN_SURF);
 	veht_Tug		= DefineVehicleType(583, "Tug",				vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_SMALL,		10.0,		4.0,	"vehicle_industrial",		8,		10.0);
 	veht_BfInject	= DefineVehicleType(424, "BF Injection",	vgroup_Civilian,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	40.0,		8.0,	"vehicle_civilian",			24,		15.0,	VEHICLE_FLAG_NOT_LOCKABLE);
-	veht_Trailer	= DefineVehicleType(611, "Trailer",			vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_SMALL,		0.0,		0.0,	"vehicle_industrial",		50,		20.0,	VEHICLE_FLAG_TRAILER);
+	veht_Trailer	= DefineVehicleType(611, "Trailer",			vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_SMALL,		0.0,		0.0,	"vehicle_industrial",		50,		30.0,	VEHICLE_FLAG_TRAILER);
 	veht_Steamroll	= DefineVehicleType(578, "Steamroller",		vgroup_Unique,		VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_LARGE,		60.0,		13.0,	"world_survivor",			0,		0.1,	VEHICLE_FLAG_CAN_SURF);
 	veht_APC30		= DefineVehicleType(578, "APC-30",			vgroup_Unique,		VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_LARGE,		60.0,		13.0,	"world_survivor",			0,		0.1,	VEHICLE_FLAG_CAN_SURF);
 // 50
@@ -1816,8 +1819,6 @@ public OnScriptInit()
 	veht_Roadpain	= DefineVehicleType(515, "Roadpain",		vgroup_Unique,		VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	210.0,		19.2,	"world_survivor",			0,		1.4);
 	veht_Vortex		= DefineVehicleType(539, "Vortex",			vgroup_Unique,		VEHICLE_CATEGORY_BOAT,			VEHICLE_SIZE_SMALL,		45.0,		11.6,	"vehicle_civilian",			4,		5.1);
 
-//  NOVOS:
-
     veht_Burrito    = DefineVehicleType(482, "Burrito",         vgroup_Industrial,  VEHICLE_CATEGORY_TRUCK,         VEHICLE_SIZE_MEDIUM,    65.0,       15.0,   "vehicle_industrial",     	90,     20.0);
 	veht_Landstalker= DefineVehicleType(400, "Landstalker",		vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	65.0,		20.0,	"vehicle_civilian",			65,	    30.0);
 	veht_Bravura	= DefineVehicleType(401, "Bravura",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		50.0,		15.0,	"vehicle_industrial",		50,	    30.0);
@@ -1827,10 +1828,11 @@ public OnScriptInit()
 	veht_Manana	    = DefineVehicleType(410, "Manana",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		30.0,		8.0,	"vehicle_industrial",		35,	    50.0);
 	veht_Voodoo	    = DefineVehicleType(412, "Voodoo",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	50.0,		10.0,	"vehicle_industrial",		60,	    40.0);
 	veht_Mule	    = DefineVehicleType(414, "Mule",		    vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_MEDIUM,	65.0,		25.0,	"vehicle_industrial",		85,	    40.0);
-	veht_Leviathan	= DefineVehicleType(417, "Leviathan",		vgroup_Civilian,	VEHICLE_CATEGORY_HELICOPTER,	VEHICLE_SIZE_LARGE,		180.0,		40.0,	"vehicle_civilian",			130,	5.0);
+	veht_Leviathan	= DefineVehicleType(417, "Leviathan",		vgroup_Civilian,	VEHICLE_CATEGORY_HELICOPTER,	VEHICLE_SIZE_LARGE,		180.0,		20.0,	"vehicle_civilian",			130,	5.0);
 //   70
 	veht_Esperanto	= DefineVehicleType(419, "Esperanto",		vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_LARGE,		45.0,		10.0,	"vehicle_industrial",		60,	    30.0);
 	veht_Taxi   	= DefineVehicleType(420, "Taxi",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	45.0,		10.0,	"vehicle_industrial",		50,	    30.0);
+	veht_Cabbie   	= DefineVehicleType(438, "Cabbie",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	45.0,		10.0,	"vehicle_industrial",		50,	    30.0);
 	veht_Washington	= DefineVehicleType(421, "Washington",		vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_LARGE,		60.0,		15.0,	"vehicle_industrial",		50,	    30.0);
 	veht_MrWhoopee	= DefineVehicleType(423, "Mr. Whoopee",		vgroup_Industrial,	VEHICLE_CATEGORY_TRUCK,			VEHICLE_SIZE_LARGE,		100.0,		20.0,	"vehicle_industrial",		70,	    30.0);
 	veht_Premier	= DefineVehicleType(426, "Premier",		    vgroup_Industrial,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,    65.0,		20.0,	"vehicle_industrial",		50,	    30.0);
@@ -1849,11 +1851,13 @@ public OnScriptInit()
 	veht_FBI	    = DefineVehicleType(490, "FBI Rancher",		vgroup_Police,	    VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	80.0,		20.0,	"vehicle_police",		    80,	    20.0);
 	veht_Hotring	= DefineVehicleType(494, "Hotring Racer",	vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_MEDIUM,	80.0,		30.0,	"vehicle_civilian",			50,	    20.0);
 	veht_Police	    = DefineVehicleType(497, "Police Maverick",	vgroup_Police,	    VEHICLE_CATEGORY_HELICOPTER,	VEHICLE_SIZE_LARGE,		100.0,		20.0,	"vehicle_police",		    100,	15.0);
-	veht_Super	    = DefineVehicleType(506, "Super GT",		vgroup_Police,	    VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		45.0,		20.0,	"vehicle_police",		    45,	    20.0);
+	veht_Super	    = DefineVehicleType(506, "Super GT",		vgroup_Civilian,	VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		45.0,		20.0,	"vehicle_civilian",		    45,	    20.0);
+	veht_Turismo    = DefineVehicleType(451, "Turismo",			vgroup_Unique,	    VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		45.0,		30.0,	"vehicle_civilian",		    45,	    15.0);
 // 90
 	veht_Phoenix 	= DefineVehicleType(603, "Phoenix", 		vgroup_Industrial,	VEHICLE_CATEGORY_CAR, 		    VEHICLE_SIZE_LARGE,  	50.0,  		7.0, 	"vehicle_industrial", 		70, 	13.0);
 	veht_Hustler    = DefineVehicleType(603, "Hustler",  		vgroup_Industrial, 	VEHICLE_CATEGORY_CAR,  			VEHICLE_SIZE_LARGE,  	50.0,  		6.0, 	"vehicle_industrial",  		65,	    13.0);
 	veht_NRG 		= DefineVehicleType(522, "NRG",		        vgroup_Industrial,	VEHICLE_CATEGORY_MOTORBIKE,	    VEHICLE_SIZE_SMALL,		30.0,		15.0,	"vehicle_industrial",		14,	    30.0);
+	veht_Infernus   = DefineVehicleType(411, "Infernus",		vgroup_Unique,	    VEHICLE_CATEGORY_CAR,			VEHICLE_SIZE_SMALL,		45.0,		30.0,	"vehicle_civilian",		    45,	    15.0);
 
 	// SETTING VEHICLES TO PULL TRAILERS
 	SetVehicleTypeTrailerHitch(veht_Bobcat,		VEHICLE_SIZE_SMALL);
