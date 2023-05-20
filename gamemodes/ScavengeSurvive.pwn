@@ -802,14 +802,10 @@ task RestartUpdate[SEC(1)]()
 	hours   = minutes / 60;
 	minutes = minutes % 60;
 
-	if(gServerUptime <= gServerMaxUptime - 600) { // Faltam 10 ou menos minutos para o restart
-		if(gServerUptime == gServerMaxUptime - 600) // Se for a primeira vez que estamos aqui alteramos a cor do texto
-			TextDrawColor(ClockRestart, 0xFF0000FF);	
-
+	if(gServerUptime <= gServerMaxUptime - 600) // Faltam 10 ou menos minutos para o restart, alteramos a cor do texto
 		format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
-	} else {
+	else
 		format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
-	}
 
 	if(gServerUptime == gServerMaxUptime - 180) { // Faltam 3 minutos para o restart.
 
