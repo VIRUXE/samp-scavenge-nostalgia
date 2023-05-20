@@ -803,10 +803,9 @@ task RestartUpdate[SEC(1)]()
 	minutes = minutes % 60;
 
 	if(gServerUptime <= gServerMaxUptime - 600) { // Faltam 10 ou menos minutos para o restart
-		if(gServerUptime == gServerMaxUptime - 600) { // Se for a primeira vez que estamos aqui alteramos a cor do texto
-			TextDrawColor(RestartCount, 0xFF0000FF);
-			TextDrawColor(ClockRestart, 0xFF0000FF);
-		}	
+		if(gServerUptime == gServerMaxUptime - 600) // Se for a primeira vez que estamos aqui alteramos a cor do texto
+			TextDrawColor(ClockRestart, 0xFF0000FF);	
+
 		format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
 	} else {
 		format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
@@ -820,7 +819,7 @@ task RestartUpdate[SEC(1)]()
 			ChatMsg(i, RED, "");
 		}
 	}
-	else if(gServerUptime == gServerMaxUptime - 180) { // Faltam 1 minuto para o restart.
+	else if(gServerUptime == gServerMaxUptime - 60) { // Faltam 1 minuto para o restart.
 
 		foreach(new i : Player) {
 			ChatMsg(i, RED, "");
