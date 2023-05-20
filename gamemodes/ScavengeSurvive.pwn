@@ -407,7 +407,7 @@ new RequestsClient:client;
 */
 
 #include "sss/core/vehicle/vehicle-type.pwn"
-//#include "sss/core/vehicle/carmour.pwn" ///////////////////////////
+#include "sss/core/vehicle/carmour.pwn"
 #include "sss/core/vehicle/lock.pwn"
 #include "sss/core/vehicle/core.pwn"
 #include "sss/core/player/geo.pwn"
