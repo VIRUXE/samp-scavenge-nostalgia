@@ -51,7 +51,7 @@ Dialog:LocationsDialog(playerid, response, listitem, inputtext[]) {
 ShowLocationsDialog(playerid) {
 	new locStr[2048];
 
-	for(new i = 0; i < sizeof(locations); ++i) strcat(locStr, sprintf("%s - (%s)\n", locations[i][LOCATION_DESCRIPTION], locations[i][LOCATION_NAME]));
+	for(new i = 0; i < sizeof(locations); ++i) strcat(locStr, sprintf("%s - "C_BROWN"(%s)\n", locations[i][LOCATION_DESCRIPTION], locations[i][LOCATION_NAME]));
 
 	Dialog_Show(playerid, LocationsDialog, DIALOG_STYLE_LIST, "Teleportes:", locStr, "Teleportar", "Cancelar");
 }
@@ -78,7 +78,3 @@ ACMD:goto[3](playerid, params[]) {
 }
 
 ACMD:tp[3](playerid, params[]) return acmd_goto_3(playerid, params);
-
-hook OnGameModeInit() {
-	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "goto/tp - Teleportar para destinos comums");
-}

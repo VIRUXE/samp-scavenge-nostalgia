@@ -450,7 +450,7 @@ ACMD:comandoslvl3[3](playerid) {
     strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
     strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova será: 'password')\n");
     strcat(stringlvl3, ""C_BLUE"/setactive - ativar/desativar contas\n");
-    strcat(stringlvl3, ""C_BLUE"/teleportes - Ver os comandos de teleportes\n");
+    strcat(stringlvl3, ""C_BLUE"/goto ou /tp - Ver os comandos de teleportes\n");
     strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");
     ShowPlayerDialog(playerid, 12403, DIALOG_STYLE_MSGBOX, "Admin 3", stringlvl3, "Fechar", "");
 
