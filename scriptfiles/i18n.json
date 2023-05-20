@@ -2332,7 +2332,7 @@
 						"Wheel Replaced"
 					],
 					"front": [
-						"Substituindo Roda Frontal",
+						"Substituindo Roda Dianteira",
 						"Replacing the front Wheel"
 					],
 					"back": [
@@ -2340,19 +2340,19 @@
 						"Replacing the back Wheel"
 					],
 					"front-left": [
-						"Substituindo Roda Frontal Esquerda",
+						"Substituindo Roda Dianteira Esquerda",
 						"Replacing Front Left Wheel"
 					],
 					"front-right": [
-						"Substituindo Roda Frontal Direita",
+						"Substituindo Roda Dianteira Direita",
 						"Replacing Front Right Wheel"
 					],
 					"rear-left": [
-						"Substituindo Roda Dianteira Esquerda",
+						"Substituindo Roda Traseira Esquerda",
 						"Replacing Rear Left Wheel"
 					],
 					"rear-right": [
-						"Substituindo Roda Dianteira Direita",
+						"Substituindo Roda Traseira Direita",
 						"Replacing Rear Right Wheel"
 					]
 				}
