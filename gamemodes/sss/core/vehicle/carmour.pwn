@@ -1,10 +1,7 @@
 #include <YSI_Coding\y_hooks>
 
-
-#define DIRECTORY_CARMOUR	"carmour/"
-#define MAX_CARMOUR			(16)
-#define MAX_CARMOUR_PARTS	(64)
-
+#define MAX_CARMOUR			16
+#define MAX_CARMOUR_PARTS	64
 
 static enum E_ARMOUR_DATA {
 			arm_vehicleType,
@@ -31,8 +28,6 @@ static
 
 
 hook OnGameModeInit() {
-	DirectoryCheck(DIRECTORY_SCRIPTFILES DIRECTORY_CARMOUR);
-
 	new dir:carmourDir = dir_open("./scriptfiles/carmour");
 
 	if(carmourDir == dir:0) {
@@ -93,7 +88,7 @@ LoadOffsetsFromFile(fileName[]) {
 	while(fread(file, line)) {
 		new model, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz;
 
-		if(!sscanf(line, "p<(>{s[20]}p<,>dfffffp<)>f{s[4]}", model, x, y, z, rx, ry, rz)) {
+		if(!sscanf(line, "p<,>dffffff", model, x, y, z, rx, ry, rz)) {
 			if(listIndex >= MAX_CARMOUR_PARTS - 1) {
 				err("Object limit reached while loading '%s'", fileName);
 				break;
