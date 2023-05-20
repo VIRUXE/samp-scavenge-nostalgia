@@ -1,27 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 
@@ -230,23 +206,20 @@ DeconstructDefence(itemid)
 	CallLocalFunction("OnDefenceDestroy", "d", itemid);
 }
 
-
-/*==============================================================================
-
-	Internal
-
-==============================================================================*/
-
-hook OnPlayerDroppedItem(playerid, itemid)
-{
-	new ItemType:itemtype = GetItemType(itemid);
-
-	if(def_ItemTypeDefenceType[itemtype] != INVALID_DEFENCE_TYPE)
-	{
+// Quando o jogador larga uma defesa
+hook OnPlayerDroppedItem(playerid, itemid) {
+    new const ItemType:itemType = GetItemType(itemid);
+    
+    if(def_ItemTypeDefenceType[itemType] != INVALID_DEFENCE_TYPE) {
 		new Float:x, Float:y, Float:z;
-		GetPlayerPos(playerid, x, y, z);
-		CA_RayCastLine(x, y, z, x, y, z - 2.0, z, z, z);
-		SetItemPos(itemid, x, y, z + 0.15);
+		GetItemPos(itemid, x, y, z);
+
+		new Float:hitX, Float:hitY, Float:hitZ;
+		new objectId = CA_RayCastLine(x, y, z, x, y, z - 2.0, hitX, hitY, hitZ);
+
+		if(objectId && objectId != WATER_OBJECT) {
+			SetItemPos(itemid, hitX, hitY, hitZ);
+		}
 	}
 }
 
