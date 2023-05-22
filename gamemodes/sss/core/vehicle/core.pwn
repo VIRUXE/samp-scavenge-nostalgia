@@ -1183,3 +1183,14 @@ stock GetPlayerVehicleExitTick(playerid)
 
 	return veh_ExitTick[playerid];
 }
+
+timer PutPlayerInVehicleTimed[250](playerId, vehicleId, seatId) {
+	if(
+		!IsPlayerConnected(playerId) ||
+		!IsVehicleDead(vehicleId)
+		) return 0;
+
+	PutPlayerInVehicle(playerId, vehicleId, seatId);
+
+	return 1;
+}
