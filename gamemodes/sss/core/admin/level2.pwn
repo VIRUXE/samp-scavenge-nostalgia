@@ -3,7 +3,7 @@
 
 hook OnGameModeInit()
 {
-	RegisterAdminCommand(STAFF_LEVEL_MODERATOR, ""C_BLUE"/comandoslvl2 - Ver a lista de comandos dos admins n√≠vel 2\n");
+	RegisterAdminCommand(STAFF_LEVEL_MODERATOR, ""C_BLUE"/comandoslvl2 - Ver a lista de comandos dos admins nÌvel 2\n");
 }
 
 
@@ -20,15 +20,13 @@ new dutytick[MAX_PLAYERS];
 
 ACMD:duty[2](playerid, params[])
 {
-	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, YELLOW, " >  Voc√™ deve sair do /spec.");
+	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, YELLOW, " >  VocÍ deve sair do /spec.");
 	
-	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000) return ChatMsg(playerid, YELLOW, " >  Aguarde no m√≠nimo 5 segundos para usar esse comando novamente.");
+	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000) return ChatMsg(playerid, YELLOW, " >  Aguarde no m·ximo 5 segundos para usar esse comando novamente.");
 	
-	new
-	    lastattacker,
-		lastweapon;
+	new lastattacker, lastweapon;
 		
-	if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) return ChatMsg(playerid, RED, " >  Voc√™ est√° em combate, aguarde.");
+	if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) return ChatMsg(playerid, RED, " >  VocÍ est· em combate, aguarde.");
 
 	TogglePlayerAdminDuty(playerid, !IsPlayerOnAdminDuty(playerid), !isequal(params, "aqui", true));
 
@@ -45,36 +43,36 @@ ACMD:ir[2](playerid, params[])
 
 	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
 
-	if(!IsPlayerConnected(targetId)) return 4;
+	if(!IsPlayerConnected(targetId)) return CMD_INVALID_PLAYER;
 
-	if(GetPlayerState(targetId) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O admin est√° no modo /spec. Voc√™ n√£o pode ir at√© ele.");
+	if(GetPlayerState(targetId) == PLAYER_STATE_SPECTATING) return CMD_CANT_USE_ON;
 
 	TeleportPlayerToPlayer(playerid, targetId);
 
-	FreezePlayer(targetId, SEC(1));
+	FreezePlayer(targetId, SEC(2));
 
-//	ChatMsg(playerid, YELLOW, " >  Voc√™ teleportou at√© %P", targetId);
 	ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se at√© %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se atÈ %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
 
-ACMD:puxar[2](playerid, params[])
-{
+ACMD:puxar[2](playerid, params[]) {
 	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
-	new targetid;
+	new targetId;
 
-	if(sscanf(params, "r", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
 
-	if(!IsPlayerConnected(targetid)) return 4;
+	if(!IsPlayerConnected(targetId)) return CMD_INVALID_PLAYER;
 
-	if(GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, RED, " > O jogador est√° no modo /spec. Voc√™ n√£o pode puxar ele.");
+	if(IsPlayerInTutorial(targetId)) return CMD_CANT_USE_ON;
 
-	TeleportPlayerToPlayer(targetid, playerid);
+	if(GetPlayerState(targetId) == PLAYER_STATE_SPECTATING) return CMD_CANT_USE_ON;
 
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) puxou %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
+	TeleportPlayerToPlayer(targetId, playerid);
+
+	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) puxou %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
@@ -92,10 +90,10 @@ ACMD:congelar[2](playerid, params[])
 	FreezePlayer(targetid, delay * 1000, true);
 	
 	if(delay > 0) {
-		ChatMsg(playerid, YELLOW, " >  Voc√™ congelou %P"C_YELLOW" por %d segundos", targetid, delay);
+		ChatMsg(playerid, YELLOW, " >  VocÍ congelou %P"C_YELLOW" por %d segundos", targetid, delay);
 		ChatMsg(targetid, YELLOW, "FREEZETIMER", delay);
 	} else {
-		ChatMsg(playerid, YELLOW, " >  Voc√™ congelou %P", targetid);
+		ChatMsg(playerid, YELLOW, " >  VocÍ congelou %P", targetid);
 		ChatMsg(targetid, YELLOW, "FREEZEFROZE");
 	}
 
@@ -112,7 +110,7 @@ ACMD:descongelar[2](playerid, params[])
 
 	UnfreezePlayer(targetid);
 
-	ChatMsg(playerid, YELLOW, " >  Voc√™ descongelou %P", targetid);
+	ChatMsg(playerid, YELLOW, " >  VocÍ descongelou %P", targetid);
 	ChatMsg(targetid, YELLOW, "FREEZEUNFRE");
 
 	return 1;
@@ -120,7 +118,7 @@ ACMD:descongelar[2](playerid, params[])
 
 ACMD:verban[2](playerid, params[])
 {
-	if(!(3 < strlen(params) < MAX_PLAYER_NAME)) return ChatMsg(playerid, RED, " >  Nome de player inv√°lido: '%s'.", params);
+	if(!(3 < strlen(params) < MAX_PLAYER_NAME)) return ChatMsg(playerid, RED, " >  Nome de player inv·lido: '%s'.", params);
 
 	new name[MAX_PLAYER_NAME];
 
@@ -129,7 +127,7 @@ ACMD:verban[2](playerid, params[])
 	if(IsPlayerBanned(name))
 		ShowBanInfo(playerid, name);
 	else
-		ChatMsg(playerid, YELLOW, " >  O jogador '%s' "C_BLUE"n√£o est√° "C_YELLOW"banido.", name);
+		ChatMsg(playerid, YELLOW, " >  O jogador '%s' "C_BLUE"n„o est· "C_YELLOW"banido.", name);
 
 	return 1;
 }
@@ -139,7 +137,7 @@ ACMD:invisible[2](playerid, params[])
 {
 	if(!IsPlayerOnAdminDuty(playerid))
 	{
-		ChatMsg(playerid, YELLOW, " >  Voc√™ deve estar em /duty para usar esse comando.");
+		ChatMsg(playerid, YELLOW, " >  VocÍ deve estar em /duty para usar esse comando.");
 	    return 1;
 	}
 	
@@ -167,7 +165,7 @@ ACMD:invisible[2](playerid, params[])
 		else
 			SetPlayerSkin(playerid, 211);
 			
-	    ChatMsg(playerid, YELLOW, " >  Modo invis√≠vel desativado.");
+	    ChatMsg(playerid, YELLOW, " >  Modo invisÌvel desativado.");
 	    visible[playerid] = true;
 	}
 	else
@@ -178,7 +176,7 @@ ACMD:invisible[2](playerid, params[])
 		else
 			SetPlayerSkin(playerid, 251);
 			
-	    ChatMsg(playerid, YELLOW, " >  Modo invis√≠vel ativado.");
+	    ChatMsg(playerid, YELLOW, " >  Modo invisÌvel ativado.");
 	    visible[playerid] = false;
 	}
 	
@@ -244,10 +242,10 @@ ACMD:comandoslvl2[2](playerid)
     strcat(stringlvl2, ""C_BLUE"/rdpon - /rdpoff - Ver zonas onde possu√≠ fields nas bases (cercado com uma corda em todas as pontas)\n");
     strcat(stringlvl2, ""C_BLUE"/ir /puxar - Teleportar players\n");
     strcat(stringlvl2, ""C_BLUE"/banidos - Lista de banidos do servidor\n");
-    strcat(stringlvl2, ""C_BLUE"/verban - Checar se est√° banido\n");
+    strcat(stringlvl2, ""C_BLUE"/verban - Checar se est· banido\n");
     strcat(stringlvl2, ""C_BLUE"/setmotd - Mudar as not√≠cias do servidor\n");
     strcat(stringlvl2, ""C_BLUE"/setglobal - Mudar o tempo de enviar mensagem no global\n");
-//    strcat(stringlvl2, ""C_BLUE"/invisible - Ficar invis√≠vel (Ajuda detectar wallhack's)\n");
+//    strcat(stringlvl2, ""C_BLUE"/invisible - Ficar invisÌvel (Ajuda detectar wallhack's)\n");
     ShowPlayerDialog(playerid, 12402, DIALOG_STYLE_MSGBOX, "Admin 2", stringlvl2, "Fechar", "");
     return 1;
 }

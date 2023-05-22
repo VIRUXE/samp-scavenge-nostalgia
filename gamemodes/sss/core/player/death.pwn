@@ -57,7 +57,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 
 	death_Count[playerid]++;
 
-	SetPlayerScreenFade(playerid, 255);
+	SetPlayerScreenFade(playerid, FADE_OUT, 255);
 	death_LastDeath[playerid] = GetTickCount();
 
 	if(killerid == INVALID_PLAYER_ID) {
@@ -361,12 +361,8 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 	return;
 }
 
-hook OnPlayerSpawn(playerid)
-{
-	dbg("global", CORE, "[OnPlayerSpawn] in /gamemodes/sss/core/player/death.pwn");
-
-	if(IsPlayerDead(playerid))
-	{
+hook OnPlayerSpawn(playerid) {
+	if(IsPlayerDead(playerid)) {
 		TogglePlayerSpectating(playerid, true);
 		TogglePlayerControllable(playerid, false);
 
@@ -381,7 +377,7 @@ hook OnPlayerSpawn(playerid)
 
 		SelectTextDraw(playerid, 0xFFFFFF88);
 		SetPlayerHP(playerid, 1.0);
-		SetPlayerScreenFade(playerid, 200);
+		SetPlayerScreenFade(playerid, FADE_OUT, 200);
 		TextDrawShowForPlayer(playerid, DeathText);
 		TextDrawShowForPlayer(playerid, DeathButton);
 	}

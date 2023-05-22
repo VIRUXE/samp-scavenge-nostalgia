@@ -269,7 +269,7 @@ ACMD:veiculo[3](playerid, params[]) {
 			if(!IsPlayerConnected(occupants[i])) continue;
 
 			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocá-lo de volta no veículo no preciso momento.
-			PutPlayerInVehicle(occupants[i], vehicleid, i);
+			PutPlayerInVehicleTimed(occupants[i], vehicleid, i);
 		}
 		
 		SaveVehicle(vehicleid);

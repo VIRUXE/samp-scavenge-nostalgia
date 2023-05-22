@@ -1,9 +1,7 @@
 #include <YSI\y_hooks>
 
-
 // Chat modes
-enum
-{
+enum {
 		CHAT_MODE_LOCAL,		// 0 - Speak to players within chatbubble distance
 		CHAT_MODE_GLOBAL,		// 1 - Speak to all players
 		CHAT_MODE_CLAN,			// 2 - Clan Chat
@@ -22,20 +20,16 @@ bool:	GlobalOff = false;
 
 forward OnPlayerSendChat(playerid, text[], Float:frequency);
 
-ACMD:setglobal[2](playerid, params[])
-{
+ACMD:setglobal[2](playerid, params[]) {
 	new timeOff;
 
 	if(sscanf(params, "d", timeOff)) return ChatMsg(playerid, YELLOW, " >  Use: /setglobal [tempo] (0 para desativar)");
 
-	if(timeOff == 0)
-	{
+	if(timeOff == 0) {
 	    ChatMsg(playerid, YELLOW, " > Chat Global desativado.");
 	    GlobalTime2 = 0;
 	    GlobalOff = true;
-	}
-	else
-	{
+	} else {
 	    ChatMsg(playerid, YELLOW, " > Tempo para usar o chat setado para %d segundos", timeOff);
 	    GlobalOff = false;
 	    GlobalTime2 = timeOff;
@@ -44,42 +38,32 @@ ACMD:setglobal[2](playerid, params[])
 	return 1;
 }
 
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/chat.pwn");
-
+hook OnPlayerConnect(playerid) {
     GlobalTime[playerid] = 0;
 	chat_LastMessageTick[playerid] = 0;
 
 	return 1;
 }
 
-hook OnPlayerText(playerid, text[])
-{
-	if(IsPlayerMuted(playerid))
-	{
+hook OnPlayerText(playerid, text[]) {
+	if(IsPlayerMuted(playerid)) {
 		if(GetPlayerMuteRemainder(playerid) == -1)
 			ChatMsg(playerid, RED, "player/muted-perm");
 		else
 			ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
 
 		return 0;
-	}
-	else
-	{
-		if(GetTickCountDifference(GetTickCount(), chat_LastMessageTick[playerid]) < 1000)
-		{
+	} else {
+		if(GetTickCountDifference(GetTickCount(), chat_LastMessageTick[playerid]) < 1000) {
 			chat_MessageStreak[playerid]++;
-			if(chat_MessageStreak[playerid] == 3)
-			{
+
+			if(chat_MessageStreak[playerid] == 3) {
 				TogglePlayerMute(playerid, true, 30);
 				ChatMsg(playerid, RED, "player/muted-temp");
 
 				return 0;
 			}
-		}
-		else
-		{
+		} else {
 			if(chat_MessageStreak[playerid] > 0)
 				chat_MessageStreak[playerid]--;
 		}
@@ -95,8 +79,7 @@ hook OnPlayerText(playerid, text[])
 	return 0;
 }
 
-PlayerSendChat(playerid, chat[], Float:frequency)
-{
+PlayerSendChat(playerid, chat[], Float:frequency) {
 	if(!IsPlayerLoggedIn(playerid)) return 0;
 
 	if(IsPlayerInTutorial(playerid)) {
@@ -114,8 +97,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 	new line1[256], line2[128];
 
-	if(frequency == 0.0)
-	{
+	if(frequency == 0.0) {
 		log("[CHAT][LOCAL] [%p]: %s", playerid, chat);
 
 		new Float:x, Float:y, Float:z;
@@ -130,10 +112,8 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		TruncateChatMessage(line1, line2);
 
-		foreach(new i : Player)
-		{
-			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i))
-			{
+		foreach(new i : Player) {
+			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i)) {
 				SendClientMessage(i, CHAT_LOCAL, line1);
 
 				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
@@ -161,8 +141,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		TruncateChatMessage(line1, line2);
 
-		foreach(new i : Player)
-		{
+		foreach(new i : Player) {
 			if(chat_Quiet[i]) continue;
 
 			if(IsPlayerInTutorial(i)) continue;
@@ -186,10 +165,8 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		TruncateChatMessage(line1, line2);
 
-		foreach(new i : Player)
-		{
-			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i))
-			{
+		foreach(new i : Player) {
+			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i)) {
 				SendClientMessage(i, CHAT_LOCAL, line1);
 
 				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
@@ -199,9 +176,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		//SetPlayerChatBubble(playerid, TagScan(chat), CHAT_LOCAL, 40.0, 10000);
 
 		return 1;
-	}
-	else if(frequency == 3.0)
-	{
+	} else if(frequency == 3.0) {
 		log("[CHAT][ADMIN] [%p]: %s", playerid, chat);
 
 		format(line1, 256, "%C[Admin] (%d) %P"C_WHITE": %s",
@@ -212,10 +187,8 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 
 		TruncateChatMessage(line1, line2);
 
-		foreach(new i : Player)
-		{
-			if(GetPlayerAdminLevel(i) > 0)
-			{
+		foreach(new i : Player) {
+			if(GetPlayerAdminLevel(i) > 0) {
 				SendClientMessage(i, CHAT_LOCAL, line1);
 
 				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
@@ -223,9 +196,7 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 		}
 
 		return 1;
-	}
-	else
-	{
+	} else {
 		/* log("[CHAT][CLAN] [%.2f] [%p]: %s", frequency, playerid, chat);
 
 		format(line1, 256, "[CLAN] (%d) %P"C_WHITE": %s", playerid, playerid, TagScan(chat));
@@ -247,25 +218,20 @@ PlayerSendChat(playerid, chat[], Float:frequency)
 	}
 }
 
-timer GlobalTimer[1500](playerid) // Tempo para liberar o global
-{
-	if(GlobalTime[playerid] != 0)
-	{
+timer GlobalTimer[1500](playerid) { // Tempo para liberar o global
+	if(GlobalTime[playerid] != 0) {
 	    GlobalTime[playerid] --;
 	    defer GlobalTimer(playerid);
     }
 }
 
-
-stock GetPlayerChatMode(playerid)
-{
+stock GetPlayerChatMode(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return chat_Mode[playerid];
 }
 
-stock SetPlayerChatMode(playerid, chatmode)
-{
+stock SetPlayerChatMode(playerid, chatmode) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(chatmode == chat_Mode[playerid]) return 0;
@@ -316,10 +282,8 @@ CMD:l(playerid, params[]) {
 	return 7;
 }
 
-CMD:c(playerid, params[])
-{
-	if(isnull(params))
-	{
+CMD:c(playerid, params[]) {
+	if(isnull(params)) {
 		if(SetPlayerChatMode(playerid, CHAT_MODE_CLAN)) ChatMsg(playerid, GREY, "player/chat/mode/already");
 		ChatMsg(playerid, WHITE, "player/radio/freq", 4.0);
 	} else {
@@ -331,28 +295,23 @@ CMD:c(playerid, params[])
 	return 7;
 }
 
-CMD:me(playerid, params[])
-{
+CMD:me(playerid, params[]) {
 	PlayerSendChat(playerid, params, 2.0);
 
 	return 1;
 }
 
-CMD:globaloff(playerid, params[])
-{
+CMD:globaloff(playerid, params[]) {
 	chat_Quiet[playerid] = !chat_Quiet[playerid];
 
 	return ChatMsg(playerid, WHITE, chat_Quiet[playerid] ? "player/radio/global-quiet" : "player/radio/global-quiet-off");
 }
 
-ACMD:a[1](playerid, params[])
-{
-	if(isnull(params))
-	{
+ACMD:a[1](playerid, params[]) {
+	if(isnull(params)) {
 		SetPlayerChatMode(playerid, CHAT_MODE_ADMIN);
 		ChatMsg(playerid, WHITE, "player/radio/admin");
-	}
-	else {
+	} else {
 		PlayerSendChat(playerid, params, 3.0);
 
 		if(chat_Mode[playerid] == CHAT_MODE_ADMIN)

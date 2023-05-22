@@ -91,6 +91,12 @@ hook OnPlayerConnect(playerid) {
 	spawn_State[playerid] = false;
 }
 
+hook OnScreenFadeFinish(playerid, type, level) {
+	if(type == FADE_OUT) { // Ja escureceu o ecra entao podemos spawnar o jogador
+		
+	}
+}
+
 IsPlayerSpawned(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
@@ -109,6 +115,8 @@ ResetClimate(playerid) {
 PrepareForSpawn(playerid) {
 	printf("PrepareForSpawn(%d)", playerid);
 
+	SetPlayerScreenFade(playerid, FADE_IN, 0, 100, 1);
+
 	ToggleHud(playerid, true);
 
 	if(IsPlayerInTutorial(playerid)) SetPlayerVirtualWorld(playerid, 0);
@@ -125,6 +133,8 @@ PrepareForSpawn(playerid) {
 SpawnCharacter(playerid) {
 	if(IsPlayerSpawned(playerid)) return 1;
 	if(!LoadPlayerChar(playerid)) return 2;
+
+	PrepareForSpawn(playerid);
 
 	new Float:x, Float:y, Float:z, Float:r;
 
@@ -149,8 +159,6 @@ SpawnCharacter(playerid) {
 	else
 		UnfreezePlayer(playerid);
 
-	PrepareForSpawn(playerid);
-
 	if(GetPlayerStance(playerid) == 1)
 		ApplyAnimation(playerid, "SUNBATHE", "PARKSIT_M_OUT", 4.0, 0, 0, 0, 0, 0);
 	else if(GetPlayerStance(playerid) == 2)
@@ -168,7 +176,7 @@ SpawnCharacter(playerid) {
 ShowCharacterCreationScreen(playerid) {
 	log("[CHARACTER] %p (%d) vai criar um novo personagem.", playerid, playerid);
 
-	SetPlayerScreenFade(playerid, 255);
+	SetPlayerScreenFade(playerid, FADE_OUT, 255);
 	TogglePlayerControllable(playerid, false);
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
@@ -196,6 +204,8 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid) {
 
 CreateNewCharacter(playerid, gender) {
 	if(IsPlayerSpawned(playerid)) return 0;
+
+	PrepareForSpawn(playerid);
 
 	PlayerTextDrawHide(playerid, ClassButtonMale[playerid]);
 	PlayerTextDrawHide(playerid, ClassButtonFemale[playerid]);
@@ -262,10 +272,6 @@ CreateNewCharacter(playerid, gender) {
 	else
 		UnfreezePlayer(playerid);
     
-	PrepareForSpawn(playerid);
-
-	SetPlayerScreenFade(playerid, 255);
-
 	log("[SPAWN] %p (%d) criou um novo personagem em %.2f, %.2f, %.2f (%.2f)", playerid, playerid, x, y, z, r);
     
 	CallLocalFunction("OnPlayerSpawnNewChar", "d", playerid);

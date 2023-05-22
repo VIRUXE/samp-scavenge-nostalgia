@@ -237,6 +237,8 @@ KickPlayer(playerid, reason[], bool:tellplayer = true) {
 
 	if(admin_PlayerKicked[playerid]) return 0;
 
+	SetPlayerScreenFade(playerid, 1, 255);
+
 	defer KickPlayerDelay(playerid);
 	admin_PlayerKicked[playerid] = true;
 
@@ -435,30 +437,29 @@ ACMD:acmds[1](playerid)
 {
 	gBigString[playerid][0] = EOS;
 
-	strcat(gBigString[playerid], ""C_RED"/a [Mensagem] - Chat dos STAFF");
+	strcat(gBigString[playerid], "a [mensagem] - Chat de Administração");
 
 	if(admin_Level[playerid] >= 4) {
-		strcat(gBigString[playerid], "\n\n ");
-		strcat(gBigString[playerid], "\n\n ");
+		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[3]);
 	} 
 
 	if(admin_Level[playerid] >= 3) {
-		strcat(gBigString[playerid], "\n\n ");
+		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[2]);
 	} 
 
 	if(admin_Level[playerid] >= 2) {
-		strcat(gBigString[playerid], "\n\n ");
+		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[1]);
 	} 
 
 	if(admin_Level[playerid] >= 1) {
-		strcat(gBigString[playerid], "\n\n ");
+		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[0]);
 	}
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Comandos Admin", gBigString[playerid], "Fechar", "");
+	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Comandos de Admin:", gBigString[playerid], "OK", "");
 
 	return 1;
 }

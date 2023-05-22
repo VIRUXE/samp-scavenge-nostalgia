@@ -96,7 +96,7 @@ timer CheckPlayerSlep[SEC(1)](playerid)
 
 timer SleepingBrightness[300](playerid)
 {
-    SetPlayerScreenFade(playerid, GetPlayerScreenFade(playerid) + 6);
+    // SetPlayerScreenFade(playerid, GetPlayerScreenFade(playerid) + 6);
     if(GetPlayerScreenFade(playerid) < 200) Bed_SleepingBrightness[playerid] = defer SleepingBrightness(playerid);
 }
 

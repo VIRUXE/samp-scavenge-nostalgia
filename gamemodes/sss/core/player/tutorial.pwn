@@ -93,7 +93,9 @@ hook OnPlayerDisconnect(playerid, reason) {
 }
 
 hook OnPlayerRegister(playerid) {
-	EnterTutorial(playerid);
+	// Colocamos a tela preta e depois limpa novamente para criar um efeito suave
+	SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
+	defer EnterTutorial(playerid);
 }
 
 hook OnVehicleSave(vehicleid) {
@@ -409,10 +411,12 @@ IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	return 1;
 }
 
-EnterTutorial(playerid) {
+timer EnterTutorial[SEC(3)](playerid) {
 	if(IsPlayerInTutorial(playerid)) return;
 
 	log("[TUTORIAL] %p (%d) entrou no tutorial.", playerid, playerid);
+
+	SetPlayerScreenFade(playerid, FADE_IN, 0);
 	
 	new virtualworld = playerid + 1;
 

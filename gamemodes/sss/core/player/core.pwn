@@ -79,7 +79,7 @@ Dialog:WelcomeMessage(playerid, response, listitem, inputtext[]) {
 	if(response) 
 		DisplayRegisterPrompt(playerid);
 	else 
-		Kick(playerid);
+		KickPlayer(playerid, "Escolheu nao registrar.");
 }
 
 _OnPlayerConnect(playerid) {
@@ -126,22 +126,36 @@ _OnPlayerConnect(playerid) {
 	return 1;
 }
 
-public OnPlayerConnect(playerid)
-{
+/* 
+	Aqui fazemos verificaÁıes preliminares, antes de tentar colocar o jogador no servidor
+*/
+public OnPlayerConnect(playerid) {
 	if(IsPlayerNPC(playerid)) return 0;
-
-	SetPlayerScreenFade(playerid, 255);
 
 	new ip[16];
 	GetPlayerIp(playerid, ip, 16);
 
-	if(IsOTPModeEnabled() && !isequal(ip, "127.0.0.1")) {
+	new const bool:localhost = isequal(ip, "127.0.0.1");
+
+	if(!localhost) {
+		new version[24];
+
+		GetPlayerVersion(playerid, version, sizeof(version));
+
+		if(!isequal(version, "0.3.7-R5")) {
+			printf("[CORE] OnPlayerConnect(%p) joined with version \"%s\"", playerid, version);
+			KickPlayer(playerid, "Install SA-MP 0.3.7-R5: http://scavengenostalgia.fun/baixar");
+
+			return 1;
+		}
+	}
+
+	if(IsOTPModeEnabled() && !localhost) {
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 
-		ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) estù a esperar pela OTP.", playerid, playerid);
+	 	ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) estù a esperar pela OTP.", playerid, playerid);
 	} else {
-		SetPlayerScreenFade(playerid, 0);
 		_OnPlayerConnect(playerid);
 	}
 
@@ -187,31 +201,27 @@ AnnouncePlayerJoined(playerid) {
 /* 
 	Esta funùùo ù chamada quando o jogador entra num cenario, apùs o OnPlayerConnect.
 
-	Esta funùùo ù chamada apenas uma vez, e ù responsùvel por carregar a conta do jogador, ou criar uma nova conta.
+	Chamada apenas uma vez, e ù responsùvel por carregar a conta do jogador, ou criar uma nova conta.
  */
 public OnPlayerJoinScenario(playerid) {
-	new result = LoadAccount(playerid);
-
-	if(result == -1) // Carregamento abortado
-		KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
-	else if(result == 0) { // Conta nao existe
-		// * Um bocado gambiarra, mas pronto
-		// Como ù necessùrio esperar pela resposta da API entùo por enquanto vai assim
-		RequestPlayerGeo(playerid);
-	} else if(result == 1) { // Conta existe
-		// Verificar se ja tem alguma efetuado. Se nao tiver e porque nao concluiu o tutorial
-		if(GetPlayerTotalSpawns(playerid))
+	switch(LoadAccount(playerid)) {
+		case -1: { // Carregamento abortado
+			KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
+		} case 0: { // Conta nao existe
+			// * Um bocado gambiarra, mas pronto
+			// Como ù necessùrio esperar pela resposta da API entùo por enquanto vai assim
+			// Isso e necessario para escolher automaticamente o idioma para a conta do jogador
+			RequestPlayerGeo(playerid);
+		} case 1: { // Conta existe
 			DisplayLoginPrompt(playerid);
-		else
-			EnterTutorial(playerid);
-	} else if(result == 4) { // Conta existe mas esta desativada
-		ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-		ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criaùùo de 2 ou mais contas no servidor.");
-		ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
-		KickPlayer(playerid, "Conta inativa", false);
+		} case 4: { // Conta existe mas esta desativada
+			ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
+			ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criaùùo de 2 ou mais contas no servidor.");
+			ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
+			KickPlayer(playerid, "Conta inativa", false);
+		}
 	}
 }
-
 
 ResetVariables(playerid)
 {
@@ -701,6 +711,10 @@ timer SetJoinScenario[20](playerid) {
 		{{-1519.95, 2536.79, 57.15}, {-1517.24, 2531.51, 56.33}, {-1517.24, 2531.51, 56.33}}  // Hospital de East Los Santos
 	};
 
+	CallLocalFunction("OnPlayerJoinScenario", "i", playerid);
+
+	SetPlayerScreenFade(playerid, 0, 0); // Limpa a tela para o jogador poder ver o cenario
+
 	// Mùsica na Tela de Login
 	PlayAudioStreamForPlayer(playerid, sprintf("http://scavengenostalgia.fun/audio/login/musica%d.mp3", random(5)));
 
@@ -710,12 +724,8 @@ timer SetJoinScenario[20](playerid) {
 	SetPlayerTime(playerid, 0, 0);
 	SetPlayerWeather(playerid, 20);
   
-	new scenario = random(sizeof(scenarios) - 1);
+	new scenario = random(sizeof(scenarios));
 	SetPlayerCameraPos(playerid, scenarios[scenario][0][0], scenarios[scenario][0][1], scenarios[scenario][0][2]);
 	SetPlayerCameraLookAt(playerid, scenarios[scenario][1][0], scenarios[scenario][1][1], scenarios[scenario][1][2]);
 	SetPlayerPos(playerid, scenarios[scenario][2][0], scenarios[scenario][2][1] - 100, scenarios[scenario][2][2] - 100);
-
-	// log("[JOIN] %p (%d) foi para o cenùrio %d", playerid, playerid, scenario);
-
-	CallLocalFunction("OnPlayerJoinScenario", "i", playerid);
 }

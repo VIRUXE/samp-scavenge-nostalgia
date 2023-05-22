@@ -318,7 +318,8 @@ Dialog:RegisterPrompt(playerid, response, listitem, inputtext[]) {
 		CreateAccount(playerid, password);
 
 		log("[ACCOUNTS] %p registrou sua conta.", playerid);
-	} else Kick(playerid);
+	} else 
+		KickPlayer(playerid, "Escolheu nao registrar");
 
 	return 0;
 }
@@ -344,9 +345,14 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
 		WP_Hash(inputhash, MAX_PASSWORD_LEN, inputtext);
 		GetPlayerPassHash(playerid, storedhash);
 
-		if(isequal(inputhash, storedhash))
-			Login(playerid); // Chave correta
-		else {
+		if(isequal(inputhash, storedhash)) {
+			SetPlayerScreenFade(playerid, FADE_OUT, 255, 10, 1);
+
+			if(GetPlayerTotalSpawns(playerid))
+				defer Login(playerid); // Chave correta
+			else
+				defer EnterTutorial(playerid);
+		} else {
 			acc_LoginAttempts[playerid]++;
 
 			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
@@ -359,7 +365,7 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
 }
 
 //	Loads a player's account, updates some data and spawns them.
-Login(playerid) {
+timer Login[SEC(2)](playerid) {
     if(IsPlayerNPC(playerid)) return 0;
 	
 	new serial[MAX_GPCI_LEN];
@@ -387,8 +393,6 @@ Login(playerid) {
 
 	acc_LoggedIn[playerid]      = true;
 	acc_LoginAttempts[playerid] = 0;
-
-	SetPlayerScreenFade(playerid, 255);
 
 	if(IsPlayerAlive(playerid))
 		SpawnCharacter(playerid);
@@ -422,6 +426,16 @@ public OnPlayerLogin(playerid) {
 
 		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 	}
+
+	new chatModeStr[24] = "Local";
+
+	switch(GetPlayerChatMode(playerid)) {
+		case 1: chatModeStr = "Global";
+		case 2: chatModeStr = "Clan";
+		case 3: chatModeStr = "Admin";
+	}
+
+	ChatMsg(playerid, GREY, " >  Modo de Chat atual: %s", chatModeStr);
 
 	return 1;
 }

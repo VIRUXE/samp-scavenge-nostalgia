@@ -1,31 +1,3 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Big thanks to Onfire559/Adam for the initial concept and developing
-		the idea a lot long ago with some very productive discussions!
-		Recently influenced by Minecraft and DayZ, credits to the creators of
-		those games and their fundamental mechanics and concepts.
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
 #include <a_samp>
 
 /*==============================================================================
@@ -93,6 +65,7 @@ forward Float:GetPlayerBleedRate(playerid);
 #define ls(%0,%1) GetLanguageString(%0, %1)
 #define DamagePlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) - %1)
 #define HealPlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) + %1)
+#define function%0(%1) forward%0(%1); public%0(%1)
 
 /*==============================================================================
 
@@ -453,6 +426,7 @@ new RequestsClient:client;
 //#include "sss/core/player/gpci-whitelist.pwn"
 //#include "sss/core/player/interior.pwn" // By Kolorado
 //#include "sss/core/player/whitelist.pwn"
+#include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/accounts.pwn"
 #include "sss/core/player/afk-check.pwn"
 #include "sss/core/player/aliases.pwn"
@@ -473,7 +447,6 @@ new RequestsClient:client;
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/rank.pwn" // By Kolorado
 #include "sss/core/player/recipes.pwn"
-#include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/spawn.pwn"
 //#include "sss/core/player/status.pwn" // By Kolorado
 #include "sss/core/player/TextDraw.pwn"

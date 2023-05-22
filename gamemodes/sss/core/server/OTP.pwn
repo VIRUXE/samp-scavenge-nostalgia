@@ -54,13 +54,11 @@ stock bool:IsPlayerWaitingOTP(playerid) {
 }
 
 PassOTP(playerid) {
-    if(!IsPlayerConnected(playerid)) return 0;
-    if(!IsPlayerWaitingOTP(playerid)) return 0;
+    if(!IsPlayerConnected(playerid) || !IsPlayerWaitingOTP(playerid)) return 0;
 
     // Remove the code from memory
     otp[playerid][otp_code][0] = EOS;
 
-    SetPlayerScreenFade(playerid, 0);
     _OnPlayerConnect(playerid);
 
     return 1;

@@ -78,8 +78,7 @@ ACMD:avisar[1](playerid, params[])
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) avisou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
-ACMD:kick[1](playerid, params[])
-{
+ACMD:kick[1](playerid, params[]) {
 	new targetid, reason[64], highestadmin;
 
 	foreach(new i : Player) if(GetPlayerAdminLevel(i) > GetPlayerAdminLevel(highestadmin)) highestadmin = i;
@@ -88,9 +87,9 @@ ACMD:kick[1](playerid, params[])
 
 	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" você não pode kickar a si mesmo", playerid);
 
-	if(!IsPlayerConnected(targetid)) return 4;
+	if(!IsPlayerConnected(targetid)) return CMD_INVALID_PLAYER;
 
-	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
+	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return CMD_CANT_USE_ON;
 
 	if(GetPlayerAdminLevel(playerid) != GetPlayerAdminLevel(highestadmin)) ChatMsg(highestadmin, YELLOW, " >  %p kickou o player: (%d)%p motivo: %s", playerid, targetid, targetid, reason);
 
