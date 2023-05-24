@@ -1,4 +1,3 @@
-forward OnSettingsLoaded();
 
 new Node:Settings;
 
@@ -149,7 +148,7 @@ LoadSettings()
 	CallLocalFunction("OnSettingsLoaded", "");
 }
 
-public OnSettingsLoaded() {
+function OnSettingsLoaded() {
 	new Node:node, length;
 	
 	// Carrega as configura??es do servidor
@@ -162,9 +161,10 @@ public OnSettingsLoaded() {
 	// No caso de a propriedade nao existir, coloca em modo de producao
 	gEnvironment = isequal(env, "dev") ? DEVELOPMENT : PRODUCTION;
 
-	JSON_GetString(server, "website", gWebsiteURL);
-	SendRconCommand(sprintf("weburl %s", gWebsiteURL));
-	log("[SETTINGS] Website: %s", gWebsiteURL);
+	new website[64];
+	JSON_GetString(server, "website", website);
+	SendRconCommand(sprintf("weburl %s", website));
+	log("[SETTINGS] Website: %s", website);
 
 	// Podemos carregar ate 24 regras (MAX_RULE)
 	new Node:rules;
@@ -197,9 +197,6 @@ public OnSettingsLoaded() {
 
 	JSON_GetInt(node, "login-freeze-time", gLoginFreezeTime);
 	log("[SETTINGS] Tempo de congelamento de login: %d segundos", gLoginFreezeTime);
-
-	JSON_GetInt(node, "max-tab-out-time", gMaxTaboutTime);
-	log("[SETTINGS] Tempo m?ximo de tab-out: %d segundos", gMaxTaboutTime);
 }
 
 stock GetSettingInt(const name[]) {
