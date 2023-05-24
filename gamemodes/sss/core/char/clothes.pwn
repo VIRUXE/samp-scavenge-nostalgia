@@ -1,33 +1,8 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
 #define MAX_SKIN_NAME	(32)
 
-enum E_SKIN_DATA
-{
+enum E_SKIN_DATA {
 			skin_model,
 			skin_name[MAX_SKIN_NAME],
 			skin_gender,
@@ -39,125 +14,100 @@ Float:		skin_lootSpawnChance,
 
 static
 			skin_Total,
-			skin_Data[MAX_SKINS][E_SKIN_DATA];
-
-static
+			skin_Data[MAX_SKINS][E_SKIN_DATA],
 			skin_CurrentSkin[MAX_PLAYERS],
 			skin_CurrentlyUsing[MAX_PLAYERS];
 
 
-hook OnItemTypeDefined(uname[])
-{
-	if(!strcmp(uname, "Clothes"))
-		SetItemTypeMaxArrayData(GetItemTypeFromUniqueName("Clothes"), 1);
+hook OnItemTypeDefined(uname[]) {
+	if(!strcmp(uname, "Clothes")) SetItemTypeMaxArrayData(GetItemTypeFromUniqueName("Clothes"), 1);
 }
 
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/char/clothes.pwn");
-
-	skin_CurrentlyUsing[playerid] = INVALID_ITEM_ID;
+hook OnPlayerConnect(playerId) {
+	skin_CurrentlyUsing[playerId] = INVALID_ITEM_ID;
 }
 
-
-DefineClothesType(modelid, name[MAX_SKIN_NAME], gender, Float:spawnchance, bool:wearhats, bool:wearmasks)
-{
-	skin_Data[skin_Total][skin_model] = modelid;
-	skin_Data[skin_Total][skin_name] = name;
-	skin_Data[skin_Total][skin_gender] = gender;
+DefineClothesType(modelid, name[MAX_SKIN_NAME], gender, Float:spawnchance, bool:wearhats, bool:wearmasks) {
+	skin_Data[skin_Total][skin_model]           = modelid;
+	skin_Data[skin_Total][skin_name]            = name;
+	skin_Data[skin_Total][skin_gender]          = gender;
 	skin_Data[skin_Total][skin_lootSpawnChance] = spawnchance;
-	skin_Data[skin_Total][skin_canWearHats] = wearhats;
-	skin_Data[skin_Total][skin_canWearMasks] = wearmasks;
+	skin_Data[skin_Total][skin_canWearHats]     = wearhats;
+	skin_Data[skin_Total][skin_canWearMasks]    = wearmasks;
+
 	return skin_Total++;
 }
 
-hook OnItemCreate(itemid)
-{
-	dbg("global", CORE, "[OnItemCreate] in /gamemodes/sss/core/char/clothes.pwn");
-
-	if(GetItemType(itemid) == item_Clothes)
-	{
+hook OnItemCreate(itemId) {
+	if(GetItemType(itemId) == item_Clothes) {
 		new
 			list[MAX_SKINS],
 			idx,
-			skinid;
+			skinId;
 
-		for(new i; i < skin_Total; i++) if(frandom(1.0) < skin_Data[i][skin_lootSpawnChance])
-			list[idx++] = i;
+		for(new i; i < skin_Total; i++) {
+			if(frandom(1.0) < skin_Data[i][skin_lootSpawnChance])
+				list[idx++] = i;
+		}
 
-		skinid = list[random(idx)];
+		skinId = list[random(idx)];
 
-		while(skinid == 287) skinid = list[random(idx)];
+		while(skinId == 287) skinId = list[random(idx)];
 
-		SetItemExtraData(itemid, skinid);
+		SetItemExtraData(itemId, skinId);
 	}
 
 	return 1;
 }
 
-hook OnItemNameRender(itemid, ItemType:itemtype)
-{
-	dbg("global", CORE, "[OnItemNameRender] in /gamemodes/sss/core/char/clothes.pwn");
-
-	if(itemtype == item_Clothes)
-		SetItemNameExtra(itemid, sprintf("%s (%s)", skin_Data[GetItemExtraData(itemid)][skin_name], skin_Data[GetItemExtraData(itemid)][skin_gender] == GENDER_MALE ? "Masculina" : "Feminina"));
+hook OnItemNameRender(itemId, ItemType:itemType) {
+	if(itemType == item_Clothes)
+		SetItemNameExtra(itemId, sprintf("%s (%s)", skin_Data[GetItemExtraData(itemId)][skin_name], skin_Data[GetItemExtraData(itemId)][skin_gender] == GENDER_MALE ? "Masculina" : "Feminina"));
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
-	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/char/clothes.pwn");
+hook OnPlayerKeyStateChange(playerId, newKeys, oldKeys) {
+	if(newKeys == 16) {
+		new itemId = GetPlayerItem(playerId);
 
-	if(newkeys == 16)
-	{
-		new itemid = GetPlayerItem(playerid);
-
-		if(GetItemType(itemid) == item_Clothes)
-		{
-			new skinid = GetItemExtraData(itemid);
-
-			if(skin_Data[skinid][skin_gender] == GetPlayerGender(playerid))
-			{
-				if(GetPlayerSkin(playerid) == 287) ShowActionText(playerid, ls(playerid, "item/clothes/invalid-skin"), 3000);
-				else StartUsingClothes(playerid, itemid);
-			}
-			else ShowActionText(playerid, ls(playerid, "item/clothes/invalid-gender"), 3000, 130);
+		if(GetItemType(itemId) == item_Clothes) {
+			if(skin_Data[GetItemExtraData(itemId)][skin_gender] == GetPlayerGender(playerId)) {
+				if(GetPlayerSkin(playerId) == 287)
+					ShowActionText(playerId, ls(playerId, "item/clothes/invalid-skin"), 3000);
+				else
+					StartUsingClothes(playerId, itemId);
+			} else
+				ShowActionText(playerId, ls(playerId, "item/clothes/invalid-gender"), 3000, 130);
 		}
 	}
 
-	if(oldkeys == 16)
-		if(skin_CurrentlyUsing[playerid] != INVALID_ITEM_ID) StopUsingClothes(playerid);
+	if(oldKeys == 16)
+		if(skin_CurrentlyUsing[playerId] != INVALID_ITEM_ID) StopUsingClothes(playerId);
 
 	return 1;
 }
 
-StartUsingClothes(playerid, itemid)
-{
-	StartHoldAction(playerid, 3000);
-	CancelPlayerMovement(playerid);
-	skin_CurrentlyUsing[playerid] = itemid;
+StartUsingClothes(playerId, itemId) {
+	StartHoldAction(playerId, 3000);
+	CancelPlayerMovement(playerId);
+	skin_CurrentlyUsing[playerId] = itemId;
 }
-StopUsingClothes(playerid)
-{
-	if(skin_CurrentlyUsing[playerid] != INVALID_ITEM_ID)
-	{
-		StopHoldAction(playerid);
-		ClearAnimations(playerid);
-		skin_CurrentlyUsing[playerid] = INVALID_ITEM_ID;
+
+StopUsingClothes(playerId) {
+	if(skin_CurrentlyUsing[playerId] != INVALID_ITEM_ID) {
+		StopHoldAction(playerId);
+		ClearAnimations(playerId);
+		skin_CurrentlyUsing[playerId] = INVALID_ITEM_ID;
 	}
 }
 
-hook OnHoldActionFinish(playerid)
-{
-	dbg("global", CORE, "[OnHoldActionFinish] in /gamemodes/sss/core/char/clothes.pwn");
-
-	if(skin_CurrentlyUsing[playerid] != INVALID_ITEM_ID)
-	{
-		new currentclothes = skin_CurrentSkin[playerid];
-		SetPlayerClothes(playerid, GetItemExtraData(skin_CurrentlyUsing[playerid]));
-		SetItemExtraData(skin_CurrentlyUsing[playerid], currentclothes);
-		StopUsingClothes(playerid);
+hook OnHoldActionFinish(playerId) {
+	if(skin_CurrentlyUsing[playerId] != INVALID_ITEM_ID) {
+		new currentclothes = skin_CurrentSkin[playerId];
+		SetPlayerClothes(playerId, GetItemExtraData(skin_CurrentlyUsing[playerId]));
+		SetItemExtraData(skin_CurrentlyUsing[playerId], currentclothes);
+		StopUsingClothes(playerId);
 
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
@@ -165,72 +115,58 @@ hook OnHoldActionFinish(playerid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-
-stock IsValidClothes(skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return 0;
+stock IsValidClothes(skinId) {
+	if(!(0 <= skinId < skin_Total)) return 0;
 
 	return 1;
 }
 
-stock GetPlayerClothes(playerid)
-{
-	if(!(0 <= playerid < MAX_PLAYERS))
-		return 0;
+stock GetPlayerClothes(playerId) {
+	if(!(0 <= playerId < MAX_PLAYERS)) return 0;
 
-	return skin_CurrentSkin[playerid];
+	return skin_CurrentSkin[playerId];
 }
-stock SetPlayerClothes(playerid, skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return 0;
 
-	SetPlayerSkin(playerid, skin_Data[skinid][skin_model]);
-	skin_CurrentSkin[playerid] = skinid;
+stock SetPlayerClothes(playerId, skinId) {
+	if(!(0 <= skinId < skin_Total)) return 0;
 
-    SetPlayerMaskItem(playerid, GetPlayerMaskItem(playerid));
-    SetPlayerHatItem(playerid, GetPlayerHatItem(playerid));
+	SetPlayerSkin(playerId, skin_Data[skinId][skin_model]);
+	skin_CurrentSkin[playerId] = skinId;
+
+    SetPlayerMaskItem(playerId, GetPlayerMaskItem(playerId));
+    SetPlayerHatItem(playerId, GetPlayerHatItem(playerId));
 	return 1;
 }
-stock GetClothesModel(skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return -1;
 
-	return skin_Data[skinid][skin_model];
+stock GetClothesModel(skinId) {
+	if(!(0 <= skinId < skin_Total)) return -1;
+
+	return skin_Data[skinId][skin_model];
 }
-stock GetClothesName(skinid, name[])
-{
-	if(!(0 <= skinid < skin_Total))
-		return 0;
+
+stock GetClothesName(skinId, name[]) {
+	if(!(0 <= skinId < skin_Total)) return 0;
 
 	name[0] = EOS;
-	strcat(name, skin_Data[skinid][skin_name], MAX_SKIN_NAME);
+	strcat(name, skin_Data[skinId][skin_name], MAX_SKIN_NAME);
 
 	return 1;
 }
 
-stock GetClothesGender(skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return -1;
+stock GetClothesGender(skinId) {
+	if(!(0 <= skinId < skin_Total)) return -1;
 
-	return skin_Data[skinid][skin_gender];
+	return skin_Data[skinId][skin_gender];
 }
 
-stock GetClothesHatStatus(skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return false;
+stock GetClothesHatStatus(skinId) {
+	if(!(0 <= skinId < skin_Total)) return false;
 
-	return skin_Data[skinid][skin_canWearHats];
+	return skin_Data[skinId][skin_canWearHats];
 }
 
-stock GetClothesMaskStatus(skinid)
-{
-	if(!(0 <= skinid < skin_Total))
-		return false;
+stock GetClothesMaskStatus(skinId) {
+	if(!(0 <= skinId < skin_Total)) return false;
 
-	return skin_Data[skinid][skin_canWearMasks];
+	return skin_Data[skinId][skin_canWearMasks];
 }
