@@ -128,27 +128,27 @@ _OnDeath(playerid, killerid) {
 
 		switch(deathreason) {
 			case 0..3, 5..7, 10..15:
-				deathreasonstring = "Espancado at√© a morte.";
+				deathreasonstring = "Espancado atÈ a morte.";
 			case 4:
 				deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
 			case 8:
-				deathreasonstring = "Grandes lacera√ß√µes cobrem o tronco e a cabe√ßa, parece uma espada finamente afiada.";
+				deathreasonstring = "Grandes laceraÁıes cobrem o tronco e a cabeÁa, parece uma espada finamente afiada.";
 			case 9:
-				deathreasonstring = "H√° peda√ßos em todos os lugares, provavelmente sofreu com uma serra el√©trica.";
+				deathreasonstring = "H· pedaÁos em todos os lugares, provavelmente sofreu com uma serra elÈtrica.";
 			case 16, 39, 35, 36, 255:
-				deathreasonstring = "Sofreu uma concuss√£o maci√ßa devido a uma explos√£o.";
+				deathreasonstring = "Sofreu uma concuss„o maciÁa devido a uma explos„o.";
 			case 18, 37:
-				deathreasonstring = "Todo o corpo est√° carbonizado e queimado.";
+				deathreasonstring = "Todo o corpo est· carbonizado e queimado.";
 			case 22..34, 38:
 				deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
 			case 41, 42:
-				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma subst√¢ncia de alta press√£o.";
+				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma subst‚ncia de alta press„o.";
 			case 44, 45:
-				deathreasonstring = "De alguma forma, eles foram mortos por √≥culos.";
+				deathreasonstring = "De alguma forma, eles foram mortos por Ûculos.";
 			case 43:
-				deathreasonstring = "De alguma forma, eles foram mortos por uma c√¢mera.";
+				deathreasonstring = "De alguma forma, eles foram mortos por uma c‚mera.";
 			default:
-				deathreasonstring = "Sangrou at√© a morte";
+				deathreasonstring = "Sangrou atÈ a morte";
 		}
 	} else {
 		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
@@ -160,11 +160,11 @@ _OnDeath(playerid, killerid) {
 			case 53:
 				deathreasonstring = "Se afogou";
 			case 54:
-				deathreasonstring = "A maioria dos ossos est√£o quebrados, parece que eles ca√≠ram de uma grande altura.";
+				deathreasonstring = "A maioria dos ossos est„o quebrados, parece que eles caÌram de uma grande altura.";
 			case 255:
-				deathreasonstring = "Sofreu uma concuss√£o maci√ßa devido a uma explos√£o.";
+				deathreasonstring = "Sofreu uma concuss„o maciÁa devido a uma explos„o.";
 			default:
-				deathreasonstring = "Raz√£o da morte desconhecida.";
+				deathreasonstring = "Raz„o da morte desconhecida.";
 		}
 	}
 
@@ -342,8 +342,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 		.world = world,
 		.interior = interior);
 
-	if(GetPlayerSkin(playerid) == 287)
-	{
+	if(GetPlayerSkin(playerid) == 287) {
 		SetPlayerClothesID(playerid, skin_Civ0M);
 		SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
 
@@ -377,16 +376,14 @@ hook OnPlayerSpawn(playerid) {
 
 		SelectTextDraw(playerid, 0xFFFFFF88);
 		SetPlayerHP(playerid, 1.0);
-		SetPlayerScreenFade(playerid, FADE_OUT, 200);
+
 		TextDrawShowForPlayer(playerid, DeathText);
 		TextDrawShowForPlayer(playerid, DeathButton);
 	}
 }
 
-timer SetDeathCamera[500](playerid)
-{
-	if(!IsPlayerDead(playerid))
-		return;
+timer SetDeathCamera[500](playerid) {
+	if(!IsPlayerDead(playerid)) return;
 
 	InterpolateCameraPos(playerid,
 		death_PosX[playerid] - floatsin(-death_RotZ[playerid], degrees),
@@ -409,27 +406,24 @@ timer SetDeathCamera[500](playerid)
 	return;
 }
 
-hook OnPlayerClickTextDraw(playerid, Text:clickedid)
-{
-	dbg("global", CORE, "[OnPlayerClickTextDraw] in /gamemodes/sss/core/player/death.pwn");
-
-	if(clickedid == DeathButton) // Se quer se reviver
-	{
+hook OnPlayerClickTextDraw(playerid, Text:clickedid) {
+	if(clickedid == DeathButton) { // Se quer se reviver
 		if(!IsPlayerDead(playerid)) {
-			printf("[DEATH] %p (%d) tentou se reviver, mas n√£o est√° morto.", playerid, playerid);
+			printf("[DEATH] %p (%d) tentou se reviver, mas n„o est· morto.", playerid, playerid);
 			return 1;
 		}
 
 		death_Dying[playerid] = false;
-		TogglePlayerSpectating(playerid, false); // ? Porque isso?
+		TogglePlayerSpectating(playerid, false);
 
 		// Esconde a tela actual
 		CancelSelectTextDraw(playerid);
 		TextDrawHideForPlayer(playerid, DeathText);
 		TextDrawHideForPlayer(playerid, DeathButton);
 
-		// Mostra a tela de selec√ß√£o de personagem
-		ShowCharacterCreationScreen(playerid);
+		// Mostra a tela de selecÁ„o de personagem
+		SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
+		defer ShowCharacterCreationScreen(playerid);
 	}
 
 	return 1;
