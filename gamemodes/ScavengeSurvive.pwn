@@ -65,7 +65,6 @@ forward Float:GetPlayerBleedRate(playerid);
 #define ls(%0,%1) GetLanguageString(%0, %1)
 #define DamagePlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) - %1)
 #define HealPlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) + %1)
-#define function%0(%1) forward%0(%1); public%0(%1)
 
 /*==============================================================================
 
@@ -93,7 +92,7 @@ new
 enum {
 	DEVELOPMENT,
 	PRODUCTION
-};
+}
 
 public OnGameModeInit()
 {
@@ -207,7 +206,6 @@ public OnGameModeInit()
 ==============================================================================*/
 
 // Limits
-#define MAX_WEBSITE_NAME			(64)
 #define MAX_RULE					(24)
 #define MAX_RULE_LEN				(128)
 #define MAX_PLAYER_FILE				(MAX_PLAYER_NAME+16)
@@ -229,6 +227,8 @@ public OnGameModeInit()
 #define ACCOUNT_DATABASE			DIRECTORY_MAIN"accounts.db"
 
 // Macros
+#define function%0(%1) forward%0(%1); public%0(%1)
+
 #define CMD:%1(%2)					forward cmd_%1(%2);\
 									public cmd_%1(%2)
 
@@ -285,8 +285,7 @@ public OnGameModeInit()
 #define HUD_STATUS_DIVIDER 15 			// Barra divisória preta no meio do fundo do status
 
 // Attachment slots
-enum
-{
+enum {
 	ATTACHSLOT_ITEM,	// 0 - Same as SIF/Item
 	ATTACHSLOT_BAG,		// 1 - Bag on back
 	ATTACHSLOT_HOLSTER,	// 2 - Item holstering
@@ -319,21 +318,17 @@ new DB:gAccounts;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
 new
-		gWebsiteURL[MAX_WEBSITE_NAME],
 		gRuleList[MAX_RULE][MAX_RULE_LEN],
-
-		// server
 bool:   gCombatLogWindow,
-		gLoginFreezeTime,
-		gMaxTaboutTime;
+		gLoginFreezeTime;
 
 // INTERNAL
 new gBigString[MAX_PLAYERS][4096];
 
 new stock GLOBAL_DEBUG = -1;
 
-// pawn-requestss
-new RequestsClient:client;
+// pawn-requests
+new RequestsClient:requestsClient;
 
 
 /*==============================================================================
@@ -661,9 +656,7 @@ new RequestsClient:client;
 	#error World script MUST have a "GenerateSpawnPoint" function!
 #endif
 
-
-main()
-{
+main() {
 	log("================================================================================");
 	log("    Southclaw's Scavenge and Survive");
 	log("        Copyright (C) 2016 Barnaby \"Southclaw\" Keene");
@@ -678,20 +671,17 @@ main()
 /*
 	This is called absolutely first before any other call.
 */
-OnGameModeInit_Setup()
-{
+OnGameModeInit_Setup() {
 	log("[OnGameModeInit_Setup] Setting up...");
 
 	Streamer_ToggleErrorCallback(true);
 
-	if(!dir_exists(DIRECTORY_SCRIPTFILES))
-	{
+	if(!dir_exists(DIRECTORY_SCRIPTFILES)) {
 		log("ERROR: Directory '"DIRECTORY_SCRIPTFILES"' not found. Creating directory.");
 		dir_create(DIRECTORY_SCRIPTFILES);
 	}
 
-	if(!dir_exists(DIRECTORY_SCRIPTFILES DIRECTORY_MAIN))
-	{
+	if(!dir_exists(DIRECTORY_SCRIPTFILES DIRECTORY_MAIN)) {
 		log("ERROR: Directory '"DIRECTORY_SCRIPTFILES DIRECTORY_MAIN"' not found. Creating directory.");
 		dir_create(DIRECTORY_SCRIPTFILES DIRECTORY_MAIN);
 	}
@@ -706,7 +696,9 @@ OnGameModeInit_Setup()
 	log("[SETTINGS] Global debug level: %d", gGlobalDebugLevel);
 
 	debug_set_level("global", gGlobalDebugLevel);
-	
+
+	requestsClient = RequestsClient("http://sv.scavengenostalgia.fun/", RequestHeaders());
+
 	RestartCount				=TextDrawCreate(18.400001, 433.100067, "Respawn em: ~r~~h~~h~00:00");
 	TextDrawBackgroundColor		(RestartCount, 255);
 	TextDrawFont				(RestartCount, 2);
@@ -728,27 +720,22 @@ OnGameModeInit_Setup()
 	TextDrawSetSelectable		(ClockRestart, 0);
 }
 
-public OnGameModeExit()
-{
+public OnGameModeExit() {
 	log("[OnGameModeExit] Shutting down...");
 	return 1;
 }
 
-public OnScriptExit()
-{
+public OnScriptExit() {
 	log("[OnScriptExit] Shutting down...");
 	return 1;
 }
 
-forward SetRestart(seconds);
-public SetRestart(seconds)
-{
+function SetRestart(seconds) {
 	log("[INFO] Efetuando restart em: %ds", seconds);
 	gServerUptime = gServerMaxUptime - seconds;
 }
 
-RestartGamemode()
-{
+RestartGamemode() {
 	printf("\n[INFO] Efetuando restart!\n");
 
 	foreach(new i : Player) Kick(i);
@@ -759,8 +746,7 @@ RestartGamemode()
 
 timer ServerGMX[SEC(10)]() SendRconCommand("gmx");
 
-task RestartUpdate[SEC(1)]()
-{
+task RestartUpdate[SEC(1)]() {
 	gServerUptime++;
 
 	if(!gServerMaxUptime) return;
@@ -768,28 +754,20 @@ task RestartUpdate[SEC(1)]()
 	// Reiniciar o servidor, caso o tempo limite tenha sido atingido
 	if(gServerUptime == gServerMaxUptime) RestartGamemode();
 
-	new restartStr[36], hours, minutes, seconds;
+	new hours, minutes, seconds;
 
 	minutes = (gServerMaxUptime - gServerUptime) / 60;
 	seconds = (gServerMaxUptime - gServerUptime) % 60;
 	hours   = minutes / 60;
 	minutes = minutes % 60;
 
-	if(gServerUptime <= gServerMaxUptime - 600) // Faltam 10 ou menos minutos para o restart, alteramos a cor do texto
-		format(restartStr, sizeof(restartStr), "Respawn em: ~y~%02d:%02d:%02d", hours, minutes, seconds);
-	else
-		format(restartStr, sizeof(restartStr), "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds);
-
 	if(gServerUptime == gServerMaxUptime - 180) { // Faltam 3 minutos para o restart.
-
 		foreach(new i : Player) {
 			ChatMsg(i, RED, "");
 			ChatMsg(i, RED, "server/restart_warning_3m");
 			ChatMsg(i, RED, "");
 		}
-	}
-	else if(gServerUptime == gServerMaxUptime - 60) { // Faltam 1 minuto para o restart.
-
+	} else if(gServerUptime == gServerMaxUptime - 60) { // Faltam 1 minuto para o restart.
 		foreach(new i : Player) {
 			ChatMsg(i, RED, "");
 			ChatMsg(i, RED, "server/restart_warning_1m");
@@ -797,33 +775,21 @@ task RestartUpdate[SEC(1)]()
 		}
 	}
 
-	TextDrawSetString(RestartCount, restartStr);
+	TextDrawSetString(RestartCount, sprintf(gServerUptime <= gServerMaxUptime - 600 ? "Respawn em: ~y~%02d:%02d:%02d" : "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds));
 }
 
-DirectoryCheck(directory[])
-{
-	if(!dir_exists(directory))
-	{
+DirectoryCheck(directory[]) {
+	if(!dir_exists(directory)) {
 		err("Directory '%s' not found. Creating directory.", directory);
 		dir_create(directory);
 	}
 }
 
-DatabaseTableCheck(DB:database, tablename[], expectedcolumns)
-{
-	new
-		query[96],
-		DBResult:result,
-		dbcolumns;
+DatabaseTableCheck(DB:database, tableName[], expectedColumns) {
+	new const dbColumns = db_num_rows(db_query(database, sprintf("pragma table_info(%s)", tableName)));
 
-	format(query, sizeof(query), "pragma table_info(%s)", tablename);
-	result = db_query(database, query);
-
-	dbcolumns = db_num_rows(result);
-
-	if(dbcolumns != expectedcolumns)
-	{
-		err("Table '%s' has %d columns, expected %d:", tablename, dbcolumns, expectedcolumns);
+	if(dbColumns != expectedColumns) {
+		err("Table '%s' has %d columns, expected %d:", tableName, dbColumns, expectedColumns);
 		err("Please verify table structure against column list in script.");
 
 		// Put the server into a loop to stop it so the user can read the message.
