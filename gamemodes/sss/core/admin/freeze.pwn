@@ -1,69 +1,36 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 static
 bool:	frz_Frozen[MAX_PLAYERS],
 Timer:	frz_DelayTimer[MAX_PLAYERS],
 Timer:	frz_CheckTimer[MAX_PLAYERS];
 
-
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/admin/freeze.pwn");
-
+hook OnPlayerConnect(playerid) {
 	frz_Frozen[playerid] = false;
 
 	return 1;
 }
 
-hook OnPlayerDisconnect(playerid, reason)
-{
-	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/admin/freeze.pwn");
-
+hook OnPlayerDisconnect(playerid, reason) {
 	stop frz_DelayTimer[playerid];
 
 	return 1;
 }
 
-FreezePlayer(playerid, duration = 0, msg = 0)
-{
+FreezePlayer(playerid, duration = 0, msg = 0) {
 	log("[FREEZE] %p (%d) foi congelado por %d segundos", playerid, playerid, duration);
 
 	TogglePlayerControllable(playerid, false);
+	if(msg) ShowActionText(playerid, "player/frozen", SEC(2));
 	frz_Frozen[playerid] = true;
 
-	if(duration > 0)
-	{
+	if(duration > 0) {
 		stop frz_DelayTimer[playerid];
 		frz_DelayTimer[playerid] = defer UnfreezePlayer_delay(playerid, duration, msg);
 	}
 
-	if(duration > 4000 || duration == 0)
-	{
+	// Verificar se tem s0beit
+	if(duration > 4000 || duration == 0) {
 		stop frz_CheckTimer[playerid];
 
 		if(GetPlayerAnimationIndex(playerid) != 1130) // if not falling
@@ -71,41 +38,36 @@ FreezePlayer(playerid, duration = 0, msg = 0)
 	}
 }
 
-UnfreezePlayer(playerid, msg = 0)
-{
+UnfreezePlayer(playerid, msg = 0) {
 	TogglePlayerControllable(playerid, true);
 	frz_Frozen[playerid] = false;
 	stop frz_DelayTimer[playerid];
 	stop frz_CheckTimer[playerid];
 
-	if(msg) ChatMsg(playerid, YELLOW, "player/frozen");
+	if(msg) ShowActionText(playerid, "player/unfrozen", SEC(1));
 }
 
-timer UnfreezePlayer_delay[time](playerid, time, msg)
-{
+timer UnfreezePlayer_delay[time](playerid, time, msg) {
 	#pragma unused time
 
 	UnfreezePlayer(playerid, msg);
 }
 
-timer UnfreezePlayer_check[SEC(4)](playerid)
-{
-	if(GetPlayerAnimationIndex(playerid) == 1130) return; // AnimaÃ§Ã£o de queda
+// * Creio que ja nao funciona nas versoes mais recentes do s0beit
+timer UnfreezePlayer_check[SEC(4)](playerid) {
+	if(GetPlayerAnimationIndex(playerid) == 1130) return; // Animação de queda
 		
 	new Float:z;
 
 	GetPlayerCameraFrontVector(playerid, z, z, z);
 
-	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946) ChatMsgAdmins(2, YELLOW, " >  PossÃ­vel usuÃ¡rio de sobeit: "C_ORANGE"%p (%d)", playerid, playerid);
+	if(-0.994 >= z >= -0.997 || 0.9958 >= z >= 0.9946) ChatMsgAdmins(2, YELLOW, " >  Possível usuário de sobeit: "C_ORANGE"%p (%d)", playerid, playerid);
 
 	return;
 }
 
-
-stock IsPlayerFrozen(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock IsPlayerFrozen(playerid) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return frz_Frozen[playerid];
 }

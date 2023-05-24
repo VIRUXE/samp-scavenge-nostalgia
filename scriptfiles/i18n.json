@@ -2178,6 +2178,10 @@
 			" >  Congelado pelo administrador",
 			" >  Frozen by admin"
 		],
+		"unfrozen": [
+			"Esta agora Descongelado",
+			"You are now Unfrozen"
+		],
 		"unmuted": [
 			" >  Agora você esta habilitado a falar.",
 			" >  You are now un-muted."
