@@ -15,8 +15,8 @@ static enum {
 	JOINSENTENCE,
 	CLAN,
 	VIP,
-	SCORE,
 	KILLS,
+	DEATHS,
 	ALIVETIME,
 	COINS,
 	ACTIVE
@@ -90,8 +90,8 @@ hook OnGameModeInit() {
 		joinSentence TEXT,\
 		clan TEXT,\
 		vip INTEGER,\
-		score INTEGER,\
 		kills INTEGER,\
+		deaths INTEGER,\
 		aliveTime INTEGER,\
 		coins INTEGER,\
 		active INTEGER NOT NULL)");
@@ -171,8 +171,8 @@ LoadAccount(playerid) {
 		warnings,
 		clan[16], // MAX_CLAN_NAME
 		bool:vip,
-		score,
 		kills,
+		deaths,
 		aliveTime,
 		coins,
 		active;
@@ -209,8 +209,8 @@ LoadAccount(playerid) {
 	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
 	stmt_bind_result_field(stmt_AccountLoad, CLAN, DB::TYPE_STRING, clan, sizeof(clan));
 	stmt_bind_result_field(stmt_AccountLoad, VIP, DB::TYPE_INTEGER, vip);
-	stmt_bind_result_field(stmt_AccountLoad, SCORE, DB::TYPE_INTEGER, score);
-	stmt_bind_result_field(stmt_AccountLoad, KILLS, DB::TYPE_INTEGER, vip);
+	stmt_bind_result_field(stmt_AccountLoad, KILLS, DB::TYPE_INTEGER, kills);
+	stmt_bind_result_field(stmt_AccountLoad, DEATHS, DB::TYPE_INTEGER, deaths);
 	stmt_bind_result_field(stmt_AccountLoad, ALIVETIME, DB::TYPE_INTEGER, aliveTime);
 	stmt_bind_result_field(stmt_AccountLoad, COINS, DB::TYPE_INTEGER, coins);
 	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
@@ -245,13 +245,13 @@ LoadAccount(playerid) {
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
 	SetPlayerVip(playerid, vip);
-	SetPlayerScore(playerid, score);
-	SetPlayerDeathCount(playerid, kills);
+	SetPlayerScore(playerid, kills);
+	SetPlayerDeathCount(playerid, deaths);
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
 
-	printf("[ACCOUNTS] %p (%d) carregou conta. (ltimo Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Score: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
-		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, score, kills, aliveTime, coins, booltostr(alive));
+	printf("[ACCOUNTS] %p (%d) carregou conta. (ltimo Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Kills: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
+		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, deaths, kills, aliveTime, coins, booltostr(alive));
 
 	return 1;
 }
@@ -288,7 +288,6 @@ CreateAccount(playerid, password[]) {
 	acc_LoggedIn[playerid]    = true;
 	SetPlayerToolTips(playerid, true);
 	SetPlayerChatMode(playerid, 0);
-	SetPlayerScore(playerid, 0);
 	StopAudioStreamForPlayer(playerid);
 
 	CallLocalFunction("OnPlayerRegister", "d", playerid);
@@ -460,7 +459,6 @@ Logout(playerid, docombatlogcheck = 1) {
 			if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) {
 				log("[ACCOUNTS] Player '%p' combat logged!", playerid);
 				ChatMsgAll(YELLOW, " >  %p Deslogou em combate e foi morto!", playerid);
-                SetPlayerSpree(playerid, 0);
                 SetPlayerScore(playerid, GetPlayerScore(playerid) - 1);
                 SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
 				_OnDeath(playerid, lastattacker);
