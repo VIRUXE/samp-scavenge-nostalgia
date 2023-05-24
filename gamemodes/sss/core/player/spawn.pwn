@@ -37,7 +37,7 @@ forward OnPlayerSpawnNewChar(playerid);
 hook OnGameModeInit() {
 	new Node:spawn, Node:node;
 
-	log("[SPAWN] Carregando configura√ß√µes de spawn...");
+	log("[SPAWN] Carregando configuraÁıes de spawn...");
 
 	JSON_GetObject(Settings, "player", node);
 	JSON_GetObject(node, "spawn", spawn);
@@ -115,7 +115,7 @@ ResetClimate(playerid) {
 PrepareForSpawn(playerid) {
 	printf("PrepareForSpawn(%d)", playerid);
 
-	SetPlayerScreenFade(playerid, FADE_IN, 0, 100, 1);
+	SetPlayerScreenFade(playerid, FADE_IN, 0, 100, 2);
 
 	ToggleHud(playerid, true);
 
@@ -153,7 +153,7 @@ SpawnCharacter(playerid) {
 		ChatMsg(playerid, YELLOW, "player/warn-counter", GetPlayerWarnings(playerid));
 	}
 
-	// Congelar se n√£o for admin n√≠vel 6
+	// Congelar se n„o for admin nÌvel 6
 	if(GetPlayerAdminLevel(playerid) != 6)
 		defer UnfreezePlayer_delay(playerid, SEC(gLoginFreezeTime), 0);
 	else
@@ -173,10 +173,10 @@ SpawnCharacter(playerid) {
 	return 0;
 }
 
-ShowCharacterCreationScreen(playerid) {
+timer ShowCharacterCreationScreen[SEC(2)](playerid) {
 	log("[CHARACTER] %p (%d) vai criar um novo personagem.", playerid, playerid);
 
-	SetPlayerScreenFade(playerid, FADE_OUT, 255);
+	
 	TogglePlayerControllable(playerid, false);
 
 	SetPlayerPos(playerid, DEFAULT_POS_X + 5, DEFAULT_POS_Y, DEFAULT_POS_Z);
@@ -266,7 +266,7 @@ CreateNewCharacter(playerid, gender) {
 
 	SetPlayerAliveState(playerid, true);
 
-	// Congelar se n√£o for admin n√≠vel 6
+	// Congelar se n„o for admin nÌvel 6
 	if(GetPlayerAdminLevel(playerid) != 6)
 		defer UnfreezePlayer_delay(playerid, SEC(gLoginFreezeTime), 0);
 	else

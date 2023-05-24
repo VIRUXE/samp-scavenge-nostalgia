@@ -193,7 +193,7 @@ LoadAccount(playerid) {
 	}
 
 	if(!exists) {
-		log("[ACCOUNTS] %p (%d) (conta n„o existe)", playerid, playerid);
+		log("[ACCOUNTS] %p (%d) (conta nùo existe)", playerid, playerid);
 		return 0;
 	}
 
@@ -226,7 +226,7 @@ LoadAccount(playerid) {
 	}
 
 	if(!active) {
-		log("[ACCOUNTS] %p (%d) tentou entrar. (conta inativa), ⁄ltimo Login: %T", playerid, lastLog);
+		log("[ACCOUNTS] %p (%d) tentou entrar. (conta inativa), ùltimo Login: %T", playerid, lastLog);
 		return 4;
 	}
 
@@ -250,7 +250,7 @@ LoadAccount(playerid) {
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
 
-	printf("[ACCOUNTS] %p (%d) carregou conta. (⁄ltimo Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Score: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
+	printf("[ACCOUNTS] %p (%d) carregou conta. (ùltimo Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Score: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
 		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, score, kills, aliveTime, coins, booltostr(alive));
 
 	return 1;
@@ -272,7 +272,7 @@ CreateAccount(playerid, password[]) {
 
 	if(!stmt_execute(stmt_AccountCreate)) {
 		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "N„o foi possÌvel criar sua conta. Por favor, contacte um administrador no Discord.", true);
+		KickPlayer(playerid, "Nùo foi possùvel criar sua conta. Por favor, contacte um administrador no Discord.", true);
 
 		return 0;
 	}
@@ -281,7 +281,7 @@ CreateAccount(playerid, password[]) {
 	
 	CheckAdminLevel(playerid);
 
-	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nÌvel de admin atual È: %d", GetPlayerAdminLevel(playerid));
+	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nùvel de admin atual ù: %d", GetPlayerAdminLevel(playerid));
 
 	acc_IsNewPlayer[playerid] = true;
 	acc_HasAccount[playerid]  = true;
@@ -384,7 +384,7 @@ timer Login[SEC(2)](playerid) {
 	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetGpci);
 
-	// Atualiza o ˙ltimo login no banco de dados
+	// Atualiza o ùltimo login no banco de dados
 	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
 	stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetLastLog);
@@ -396,8 +396,10 @@ timer Login[SEC(2)](playerid) {
 
 	if(IsPlayerAlive(playerid))
 		SpawnCharacter(playerid);
-	else
+	else {
+		SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
 		ShowCharacterCreationScreen(playerid);
+	}
 
 	StopAudioStreamForPlayer(playerid);
 
@@ -409,7 +411,7 @@ timer Login[SEC(2)](playerid) {
 	return 1;
 }
 
-// Chamado apÛs o jogador logar
+// Chamado apùs o jogador logar
 public OnPlayerLogin(playerid) {
  	ChatMsg(playerid, BLUE, "");
 	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
@@ -422,9 +424,9 @@ public OnPlayerLogin(playerid) {
 	if(GetPlayerAdminLevel(playerid) > 0) {
 		new reports = GetUnreadReports();
 
-		ChatMsg(playerid, BLUE, " >  Seu nÌvel de admin atual È: %d", GetPlayerAdminLevel(playerid));
+		ChatMsg(playerid, BLUE, " >  Seu nùvel de admin atual ù: %d", GetPlayerAdminLevel(playerid));
 
-		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports n„o lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
+		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports nùo lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 	}
 
 	new chatModeStr[24] = "Local";
@@ -435,7 +437,7 @@ public OnPlayerLogin(playerid) {
 		case 3: chatModeStr = "Admin";
 	}
 
-	ChatMsg(playerid, GREY, " >  Modo de Chat atual: %s", chatModeStr);
+	ChatMsg(playerid, GREY, " >  Modo de Chat atual: "C_WHITE"%s", chatModeStr);
 
 	return 1;
 }
@@ -539,7 +541,7 @@ SavePlayerData(playerid) {
 
 	//SaveBlockAreaCheck(x, y, z);
 
-	// Coloca o jogador para cima se ele estiver dentro de um veÌculo
+	// Coloca o jogador para cima se ele estiver dentro de um veùculo
 	// TODO: Nao colocar para cima caso estive muito perto de um teto
 	if(IsPlayerInAnyVehicle(playerid)) x += 1.5;
 
