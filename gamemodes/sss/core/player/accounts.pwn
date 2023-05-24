@@ -193,7 +193,7 @@ LoadAccount(playerid) {
 	}
 
 	if(!exists) {
-		log("[ACCOUNTS] %p (%d) (conta no existe)", playerid, playerid);
+		log("[ACCOUNTS] %p (%d) (conta não existe)", playerid, playerid);
 		return 0;
 	}
 
@@ -226,7 +226,7 @@ LoadAccount(playerid) {
 	}
 
 	if(!active) {
-		log("[ACCOUNTS] %p (%d) tentou entrar. (conta inativa), ltimo Login: %T", playerid, lastLog);
+		log("[ACCOUNTS] %p (%d) tentou entrar. (conta inativa), Último Login: %T", playerid, lastLog);
 		return 4;
 	}
 
@@ -250,7 +250,7 @@ LoadAccount(playerid) {
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
 
-	printf("[ACCOUNTS] %p (%d) carregou conta. (ltimo Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Kills: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
+	printf("[ACCOUNTS] %p (%d) carregou conta. (Último Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Kills: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
 		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, deaths, kills, aliveTime, coins, booltostr(alive));
 
 	return 1;
@@ -272,7 +272,7 @@ CreateAccount(playerid, password[]) {
 
 	if(!stmt_execute(stmt_AccountCreate)) {
 		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "No foi possvel criar sua conta. Por favor, contacte um administrador no Discord.", true);
+		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.", true);
 
 		return 0;
 	}
@@ -281,7 +281,7 @@ CreateAccount(playerid, password[]) {
 	
 	CheckAdminLevel(playerid);
 
-	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nvel de admin atual : %d", GetPlayerAdminLevel(playerid));
+	if(GetPlayerAdminLevel(playerid) > 0) ChatMsg(playerid, BLUE, " >  Seu nível de admin atual : %d", GetPlayerAdminLevel(playerid));
 
 	acc_IsNewPlayer[playerid] = true;
 	acc_HasAccount[playerid]  = true;
@@ -383,7 +383,7 @@ timer Login[SEC(2)](playerid) {
 	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetGpci);
 
-	// Atualiza o ltimo login no banco de dados
+	// Atualiza o Último login no banco de dados
 	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
 	stmt_bind_value(stmt_AccountSetLastLog, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetLastLog);
@@ -423,9 +423,9 @@ public OnPlayerLogin(playerid) {
 	if(GetPlayerAdminLevel(playerid) > 0) {
 		new reports = GetUnreadReports();
 
-		ChatMsg(playerid, BLUE, " >  Seu nvel de admin atual : %d", GetPlayerAdminLevel(playerid));
+		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
 
-		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports no lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
+		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 	}
 
 	new chatModeStr[24] = "Local";
