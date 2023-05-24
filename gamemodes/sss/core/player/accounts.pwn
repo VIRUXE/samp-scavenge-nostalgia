@@ -539,11 +539,15 @@ SavePlayerData(playerid) {
 
 	//SaveBlockAreaCheck(x, y, z);
 
-	// Coloca o jogador para cima se ele estiver dentro de um veùculo
-	// TODO: Nao colocar para cima caso estive muito perto de um teto
-	if(IsPlayerInAnyVehicle(playerid)) x += 1.5;
+	if(IsPlayerInAnyVehicle(playerid)) {
+		if(CA_GetRoomHeight(x, y, z)) { // Se tiver algum teto por cima coloca para tras
+			new const Float:amountBack = 2.0;
 
-	printf("[ACCOUNTS] Salvando dados do personagem para '%p'", playerid);
+			x -= amountBack * floatsin(-r, degrees), y -= amountBack * floatcos(-r, degrees);
+		} else {
+			x += 1.5;
+		}
+	}
 
 	SavePlayerChar(playerid);
 
