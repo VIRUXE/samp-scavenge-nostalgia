@@ -775,7 +775,7 @@ task RestartUpdate[SEC(1)]() {
 		}
 	}
 
-	TextDrawSetString(RestartCount, sprintf(gServerUptime <= gServerMaxUptime - 600 ? "Respawn em: ~y~%02d:%02d:%02d" : "Respawn em: ~r~~h~~h~%02d:%02d:%02d", hours, minutes, seconds));
+	TextDrawSetString(RestartCount, sprintf("Respawn em: ~%s~%02d:%02d:%02d", gServerUptime <= gServerMaxUptime - 600 ? "y" : (seconds % 2 ? "y" : "r"), hours, minutes, seconds));
 }
 
 DirectoryCheck(directory[]) {
