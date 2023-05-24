@@ -1,98 +1,64 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
 
-
-#define MAX_RADIO_FREQ (300.0)
-#define MIN_RADIO_FREQ (0.0)
-
+#define MAX_RADIO_FREQ 300.0
+#define MIN_RADIO_FREQ 0.0
 
 static
-	rad_InventoryItem[MAX_PLAYERS],
-	rad_ViewingRadio[MAX_PLAYERS],
-	rad_OldMode[MAX_PLAYERS],
-	PlayerText:RadioUI_Main[MAX_PLAYERS],
-	PlayerText:RadioUI_Strip[MAX_PLAYERS],
-	PlayerText:RadioUI_KnobL[MAX_PLAYERS],
-	PlayerText:RadioUI_KnobR[MAX_PLAYERS],
-	PlayerText:RadioUI_Mode[MAX_PLAYERS],
-	PlayerText:RadioUI_Freq[MAX_PLAYERS],
-	PlayerText:RadioUI_Power[MAX_PLAYERS],
-	PlayerText:RadioUI_Back[MAX_PLAYERS];
+			rad_InventoryItem[MAX_PLAYERS],
+			rad_ViewingRadio[MAX_PLAYERS],
+			rad_OldMode[MAX_PLAYERS],
+PlayerText:	RadioUI_Main[MAX_PLAYERS],
+PlayerText:	RadioUI_Strip[MAX_PLAYERS],
+PlayerText:	RadioUI_KnobL[MAX_PLAYERS],
+PlayerText:	RadioUI_KnobR[MAX_PLAYERS],
+PlayerText:	RadioUI_Mode[MAX_PLAYERS],
+PlayerText:	RadioUI_Freq[MAX_PLAYERS],
+PlayerText:	RadioUI_Power[MAX_PLAYERS],
+PlayerText:	RadioUI_Back[MAX_PLAYERS],
+Text3D: 	radio_Nametag[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID, ...};
 
-static Text3D: radio_Nametag[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID, ...};
-
-ptask RadioNameTagUpdate[SEC(5)](playerid)
-{
+ptask RadioNameTagUpdate[SEC(5)](playerid) {
 	if(radio_Nametag[playerid] != Text3D:INVALID_3DTEXT_ID) {
 	    DestroyDynamic3DTextLabel(radio_Nametag[playerid]);
 		radio_Nametag[playerid] = Text3D:INVALID_3DTEXT_ID;
 	}
 	
-    if(GetPlayerRadioFrequency(playerid) == 0.0) return;
+	new Float:freq = GetPlayerRadioFrequency(playerid);
+	
+    if(
+		freq == 0.0 || freq == 1.0 || freq == 2.0 || freq == 3.0 ||
+		!IsPlayerSpawned(playerid)
+	) return;
 
-    if(GetPlayerRadioFrequency(playerid) == 1.0) return;
-
-    if(GetPlayerRadioFrequency(playerid) == 2.0) return;
-
-    if(GetPlayerRadioFrequency(playerid) == 3.0) return;
-		    
-    if(!IsPlayerSpawned(playerid)) return;
-			
 	new
 		players[MAX_PLAYERS],
-		maxplayers,
-		name[24];
+		maxplayers;
 		
-	GetPlayerName(playerid, name, 24);
-
-	foreach(new i : Player){
-		if(i == playerid) continue;
+	foreach(new i : Player) {
+		if(
+			i == playerid ||
+			!IsPlayerSpawned(i)
+		) continue;
 			
-		if(!IsPlayerSpawned(i)) continue;
-			
-	    if(GetPlayerRadioFrequency(playerid) == GetPlayerRadioFrequency(i)) players[maxplayers++] = i;
+	    if(freq == GetPlayerRadioFrequency(i)) players[maxplayers++] = i;
 	}
 
 	radio_Nametag[playerid] = CreateDynamic3DTextLabelEx(
-		name, CHAT_RADIO, 0.0, 0.0, 0.5, 300.0, playerid,
+		GetPlayerNameEx(playerid), CHAT_RADIO, 0.0, 0.0, 0.5, 300.0, playerid,
 		.testlos = 0,
 		.streamdistance = 300.0,
 		.players = players,
 		.maxplayers = maxplayers);
 }
 
-hook OnPlayerDisconnect(playerid, reason)
-{
+hook OnPlayerDisconnect(playerid, reason) {
 	DestroyDynamic3DTextLabel(radio_Nametag[playerid]);
 	radio_Nametag[playerid] = Text3D:INVALID_3DTEXT_ID;
+
 	return 1;
 }
 
-ShowRadioUI(playerid)
-{
+ShowRadioUI(playerid) {
 	PlayerTextDrawShow(playerid, RadioUI_Main[playerid]);
 	PlayerTextDrawShow(playerid, RadioUI_Strip[playerid]);
 	PlayerTextDrawShow(playerid, RadioUI_KnobL[playerid]);
@@ -108,8 +74,7 @@ ShowRadioUI(playerid)
 	rad_ViewingRadio[playerid] = true;
 }
 
-HideRadioUI(playerid)
-{
+HideRadioUI(playerid) {
 	PlayerTextDrawHide(playerid, RadioUI_Main[playerid]);
 	PlayerTextDrawHide(playerid, RadioUI_Strip[playerid]);
 	PlayerTextDrawHide(playerid, RadioUI_KnobL[playerid]);
@@ -119,150 +84,104 @@ HideRadioUI(playerid)
 	PlayerTextDrawHide(playerid, RadioUI_Power[playerid]);
 	PlayerTextDrawHide(playerid, RadioUI_Back[playerid]);
 
-	if(!IsPlayerInAnyVehicle(playerid)) DisplayPlayerInventory(playerid);
-	else CancelSelectTextDraw(playerid);
+	if(!IsPlayerInAnyVehicle(playerid)) 
+		DisplayPlayerInventory(playerid);
+	else 
+		CancelSelectTextDraw(playerid);
 
 	rad_ViewingRadio[playerid] = false;
 }
 
-UpdateRadioUI(playerid)
-{
-	new str[18];
+UpdateRadioUI(playerid) {
+	PlayerTextDrawSetString(playerid, RadioUI_Freq[playerid], sprintf("Frequency: %.2f", GetPlayerRadioFrequency(playerid)));
 
-	format(str, 18, "Frequency: %.2f", GetPlayerRadioFrequency(playerid));
-	PlayerTextDrawSetString(playerid, RadioUI_Freq[playerid], str);
-
-	if(GetPlayerChatMode(playerid) == CHAT_MODE_LOCAL)
-	{
-		PlayerTextDrawSetString(playerid, RadioUI_Power[playerid], "off");
-
+	if(GetPlayerChatMode(playerid) == CHAT_MODE_LOCAL) {
 		PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], rad_OldMode[playerid] == CHAT_MODE_GLOBAL ? "global" : "freq");
-	}
-
-	if(GetPlayerChatMode(playerid) == CHAT_MODE_GLOBAL)
-	{
+		PlayerTextDrawSetString(playerid, RadioUI_Power[playerid], "off");
+	} else if(GetPlayerChatMode(playerid) == CHAT_MODE_GLOBAL) {
 		PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], "global");
 		PlayerTextDrawSetString(playerid, RadioUI_Power[playerid], "on");
-	}
-
-	if(GetPlayerChatMode(playerid) == CHAT_MODE_RADIO)
-	{
+	} else if(GetPlayerChatMode(playerid) == CHAT_MODE_RADIO) {
 		PlayerTextDrawSetString(playerid, RadioUI_Mode[playerid], "freq");
 		PlayerTextDrawSetString(playerid, RadioUI_Power[playerid], "on");
 	}
 }
 
-hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
-{
-	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/ui/radio.pwn");
+hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid) {
+	new Float:freq = GetPlayerRadioFrequency(playerid);
 
-	if(playertextid == RadioUI_KnobL[playerid])
-	{
-		if(GetPlayerRadioFrequency(playerid) - 0.5 <= MIN_RADIO_FREQ)
-			SetPlayerRadioFrequency(playerid, MIN_RADIO_FREQ);
-		else
-			SetPlayerRadioFrequency(playerid, GetPlayerRadioFrequency(playerid) - 0.5);
+	if(playertextid == RadioUI_KnobL[playerid]) {
+		SetPlayerRadioFrequency(playerid, freq - 0.5 <= MIN_RADIO_FREQ ? MIN_RADIO_FREQ : freq - 0.5);
 
 		UpdateRadioUI(playerid);
-	}
-	if(playertextid == RadioUI_KnobR[playerid])
-	{
-		if(GetPlayerRadioFrequency(playerid) + 0.5 >= MAX_RADIO_FREQ)
-			SetPlayerRadioFrequency(playerid, MAX_RADIO_FREQ);
-		else
-			SetPlayerRadioFrequency(playerid, GetPlayerRadioFrequency(playerid) + 0.5);
+	} else if(playertextid == RadioUI_KnobR[playerid]) {
+		SetPlayerRadioFrequency(playerid, freq + 0.5 >= MAX_RADIO_FREQ ? MAX_RADIO_FREQ : freq + 0.5);
 
 		UpdateRadioUI(playerid);
-	}
-	if(playertextid == RadioUI_Mode[playerid])
-	{
+	} else if(playertextid == RadioUI_Mode[playerid]) {
 		if(GetPlayerChatMode(playerid) == CHAT_MODE_GLOBAL)
 			SetPlayerChatMode(playerid, CHAT_MODE_RADIO);
 		else if(GetPlayerChatMode(playerid) == CHAT_MODE_RADIO)
 			SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
 
 		UpdateRadioUI(playerid);
-	}
-	if(playertextid == RadioUI_Freq[playerid])
-	{
+	} else if(playertextid == RadioUI_Freq[playerid]) 
 		ShowFrequencyDialog(playerid);
-	}
-	if(playertextid == RadioUI_Power[playerid])
-	{
+	else if(playertextid == RadioUI_Power[playerid]) {
 		if(GetPlayerChatMode(playerid) == CHAT_MODE_LOCAL)
-		{
 			SetPlayerChatMode(playerid, rad_OldMode[playerid] == CHAT_MODE_GLOBAL ? CHAT_MODE_GLOBAL : CHAT_MODE_RADIO);
-		}
-		else
-		{
+		else {
 			rad_OldMode[playerid] = GetPlayerChatMode(playerid);
 			SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
 		}
 
 		UpdateRadioUI(playerid);
-	}
-	if(playertextid == RadioUI_Back[playerid]) HideRadioUI(playerid);
+	} else if(playertextid == RadioUI_Back[playerid])
+		HideRadioUI(playerid);
 
 	return 1;
 }
 
-ShowFrequencyDialog(playerid)
-{
+ShowFrequencyDialog(playerid) {
 	Dialog_Show(playerid, Frequency, DIALOG_STYLE_INPUT, "Frequencia", "Digite uma frequencia entre 0.0 e 300.0", "Aceitar", "Cancelar");
 
 	return 1;
 }
 
-Dialog:Frequency(playerid, response, listitem, inputtext[])
-{
-	if(response)
-	{
+Dialog:Frequency(playerid, response, listitem, inputtext[]) {
+	if(response) {
 		new Float:frequency;
-		if(!sscanf(inputtext, "f", frequency))
-		{
-			if(MIN_RADIO_FREQ <= frequency <= MAX_RADIO_FREQ)
-			{
+
+		if(!sscanf(inputtext, "f", frequency)) {
+			if(MIN_RADIO_FREQ <= frequency <= MAX_RADIO_FREQ) {
 				SetPlayerRadioFrequency(playerid, frequency);
 				log("%p updated frequency to %.2f", playerid, frequency);
 				UpdateRadioUI(playerid);
-			}
-			else ShowFrequencyDialog(playerid);
-		}
-		else ShowFrequencyDialog(playerid);
+			} else 
+				ShowFrequencyDialog(playerid);
+		} else 
+			ShowFrequencyDialog(playerid);
 	}
 }
 
-hook OnPlayerClickTextDraw(playerid, Text:clickedid)
-{
-	dbg("global", CORE, "[OnPlayerClickTextDraw] in /gamemodes/sss/core/ui/radio.pwn");
-
+hook OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	if(clickedid == Text:65535 && rad_ViewingRadio[playerid]) SelectTextDraw(playerid, 0xFFFFFF88);
 }
 
 
-hook OnPlayerOpenInventory(playerid)
-{
-	dbg("global", CORE, "[OnPlayerOpenInventory] in /gamemodes/sss/core/ui/radio.pwn");
-
+hook OnPlayerOpenInventory(playerid) {
 	rad_InventoryItem[playerid] = AddInventoryListItem(playerid, "Radio");
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerSelectExtraItem(playerid, item)
-{
-	dbg("global", CORE, "[OnPlayerSelectExtraItem] in /gamemodes/sss/core/ui/radio.pwn");
-
-	if(item == rad_InventoryItem[playerid]) ShowRadioUI(playerid);}
+hook OnPlayerSelectExtraItem(playerid, item) {
+	if(item == rad_InventoryItem[playerid]) ShowRadioUI(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-
-hook OnPlayerConnect(playerid)
-{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/ui/radio.pwn");
-
+hook OnPlayerConnect(playerid) {
 	RadioUI_Main[playerid]					= CreatePlayerTextDraw(playerid, 320.000000, 200.000000, "RADIO~n~ ~n~ ~n~ ~n~ ~n~ ");
 	PlayerTextDrawAlignment			(playerid, RadioUI_Main[playerid], 2);
 	PlayerTextDrawBackgroundColor	(playerid, RadioUI_Main[playerid], 255);
