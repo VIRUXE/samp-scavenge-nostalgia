@@ -42,55 +42,55 @@
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"GolfClub": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Baton": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Bat": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Spade": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"PoolCue": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"WalkingCa": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Rake": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Cane": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"BigSword": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Spatula": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Pan": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Knife2": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"Broom": [
-				"Essa e uma arma branca robusta, util para desmaiar jogadores.",
+				"Essa e uma arma branca robusta, útil para desmaiar jogadores.",
 				"This is a blunt melee weapon, useful for knocking players out."
 			],
 			"FryingPan": [
@@ -110,23 +110,23 @@
 				"This is a petrol powered chainsaw, extremely lethal."
 			],
 			"Dildo1": [
-				"Util tanto para o prazer e tortura.",
+				"útil tanto para o prazer e tortura.",
 				"Useful for both pleasure and torture."
 			],
 			"Dildo2": [
-				"Util tanto para o prazer e tortura.",
+				"útil tanto para o prazer e tortura.",
 				"Useful for both pleasure and torture."
 			],
 			"Dildo3": [
-				"Util tanto para o prazer e tortura.",
+				"útil tanto para o prazer e tortura.",
 				"Useful for both pleasure and torture."
 			],
 			"Dildo4": [
-				"Util tanto para o prazer e tortura.",
+				"útil tanto para o prazer e tortura.",
 				"Useful for both pleasure and torture."
 			],
 			"Flowers": [
-				"Esse item e inutil como arma.",
+				"Esse item e inútil como arma.",
 				"This item is absolutely useless as a weapon."
 			],
 			"Grenade": [
@@ -134,7 +134,7 @@
 				"Throwable weapon that explodes, causing massive concussion and knockouts."
 			],
 			"Teargas": [
-				"Inutil como uma arma porem pode ser usado como distracao ou sinal.",
+				"Inútil como uma arma porem pode ser usado como distracao ou sinal.",
 				"Useless as a weapon but useful as a distraction or signal."
 			],
 			"Molotov": [
@@ -315,7 +315,7 @@
 			],
 			"LaserPoin": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Timer": [
 				"Usado em craftings.",
@@ -327,19 +327,19 @@
 			],
 			"Pager": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"EasterEgg": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Bucket": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Flag": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"MotionSen": [
 				"Usado em craftings.",
@@ -358,7 +358,7 @@
 				"Use this to repair vehicle wheels by facing them and pressing {KEYTEXT_INTERACT}."
 			],
 			"TntTripMi": [
-				"Arme a TNT no chao segurando F, arme-a dentro de container clicando em Opcoes e em Armar, explodindo assim que alguem abra o container.",
+				"Arme a TNT no chao segurando F, arme-a dentro de container clicando em Opções e em Armar, explodindo assim que alguem abra o container.",
 				""
 			],
 			"IedBomb": [
@@ -383,11 +383,11 @@
 			],
 			"LongPlank": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"GreenGloo": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"RadioPole": [
 				"Usado em craftings.",
@@ -403,11 +403,11 @@
 			],
 			"Pumpkin": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Nailbat": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"ZorroMask": [
 				"Vista isso apertando F.",
@@ -435,11 +435,11 @@
 			],
 			"Dynamite": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Flare": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"TntPhoneB": [
 				"Use um telefone com isso pressionando F para sincronizar os telefones, depois use o telefone para detonar com F.",
@@ -487,7 +487,7 @@
 			],
 			"Money": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"PowerSupp": [
 				"Usado em craftings.",
@@ -523,11 +523,11 @@
 			],
 			"HerpDerp": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Parrot": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"TntProxMi": [
 				"Esse item nao tem utilidade.",
@@ -538,7 +538,7 @@
 				""
 			],
 			"IedTripMi": [
-				"Arme-a no chao pressionando F, arme-a dentro containers clicando em Opcoes e em Armar, assim que o container for aberto a bomba detonara.",
+				"Arme-a no chao pressionando F, arme-a dentro containers clicando em Opções e em Armar, assim que o container for aberto a bomba detonara.",
 				""
 			],
 			"IedProxMi": [
@@ -554,7 +554,7 @@
 				""
 			],
 			"EmpTripMi": [
-				"Arme-a no chao pressionando F, arme-a dentro containers clicando Opcoes e em Armar, assim que o container for aberto a bomba detonara.",
+				"Arme-a no chao pressionando F, arme-a dentro containers clicando Opções e em Armar, assim que o container for aberto a bomba detonara.",
 				""
 			],
 			"EmpProxMi": [
@@ -567,7 +567,7 @@
 			],
 			"Gyroscope": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Motor": [
 				"Use isso para montar uma base ou em craftings.",
@@ -575,15 +575,15 @@
 			],
 			"StarterMo": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"FlareGun": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"PetrolBom": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"CodePart": [
 				"Um item de puzzle, o numero que aparece perto do nome do item e parte de um dos 4 codigos da senha para abrir uma porta em algum lugar.",
@@ -695,51 +695,51 @@
 			],
 			"PisschBox": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Briquette": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Cross": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"RedPanel": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Fork": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Knife3": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Boot": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Doormat": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Keycard": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"BurntLog": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Padlock": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"OilDrum": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Canister": [
 				"Usado em craftings.",
@@ -755,7 +755,7 @@
 			],
 			"Locator": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"PlotPole": [
 				"Usado para salvar todos os itens do chao que estiverem proximos do objeto.",
@@ -779,7 +779,7 @@
 			],
 			"Radio": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"LockBreak": [
 				"Use isso para arrombar veiculos trancados por outros jogadores.",
@@ -787,35 +787,35 @@
 			],
 			"ControlBo": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Computer": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"TallFrame": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"RemoteCon": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Desk": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Table": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Barstool": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"SmallTabl": [
 				"Esse item nao tem utilidade.",
-				"This item has no utility."
+				"This item has no útility."
 			],
 			"Map": [
 				"Com ele no inventario, o seu mapa e liberado.",
@@ -1360,7 +1360,7 @@
 		],
 		"bbq": {
 			"added-petrol": [
-				"1 Litro de gasolina adicionado~n~Tem 10 utilizacoes",
+				"1L de gasolina adicionado~n~Tem 10 útilizacoes",
 				"1L of petrol added~n~10 BBQ uses"
 			],
 			"food-cooked": [
@@ -1390,7 +1390,7 @@
 				"Campfire already fueled"
 			],
 			"fuel-added": [
-				"1 Litro de gasolina adicionado",
+				"1L de gasolina adicionado",
 				"1L of petrol added"
 			],
 			"cooking": [
@@ -1448,7 +1448,7 @@
 		},
 		"molotov": {
 			"petrolcan-no-fuel": [
-				"O GalÃ£o nÃ£o tem gasolina.",
+				"O Galão nao tem gasolina.",
 				"Fuel can does not contain petrol"
 			],
 			"fueled": [
@@ -1466,7 +1466,7 @@
 				"Bottle is empty"
 			],
 			"bottle-not-water": [
-				"A garrafa nÃ£o contem agua",
+				"A garrafa rádio contem agua",
 				"Bottle does not contain water"
 			],
 			"water-added": [
@@ -1474,7 +1474,7 @@
 				"Added 1 water to plant pot"
 			],
 			"no-plant": [
-				"O vaso nÃ£o contem uma planta ativa",
+				"O vaso rádio contem uma planta ativa",
 				"Pot doesnt contain an active plant."
 			],
 			"invalid-seed": [
@@ -1482,7 +1482,7 @@
 				"Invalid seed type."
 			],
 			"not-grown": [
-				"A planta ainda nÃ£o cresceu totalmente.",
+				"A planta ainda rádio cresceu totalmente.",
 				"The plant has not fully grown yet."
 			],
 			"harvested": [
@@ -1524,7 +1524,7 @@
 				"Removing %s..."
 			],
 			"not-movable": [
-				"Voce nÃ£o pode instalar um motor nesse tipo de defesa",
+				"Voce rádio pode instalar um motor nesse tipo de defesa",
 				"You cannot install a motor on that type of defence"
 			],
 			"modifying": [
@@ -1544,7 +1544,7 @@
 				"Keypad installed to defence"
 			],
 			"advanced-keypad-installed": [
-				"Teclado AvanÃ§ado Instalado na defesa com Sucesso",
+				"Teclado Avançado Instalado na defesa com Sucesso",
 				"Advanced Keypad installed to defence"
 			],
 			"destroyed": [
@@ -1552,7 +1552,7 @@
 				"Defence disassembled"
 			],
 			"limit-reached": [
-				" >  ERRO: limite de defesas alcanÃ§ado, por favor informe um admin.",
+				" >  ERRO: limite de defesas alcanÃƒÂ§ado, por favor informe um admin.",
 				" >  ERROR: Defence entity limit reached, please inform an admin."
 			],
 			"code-zero": [
@@ -1572,17 +1572,17 @@
 				" >  Incorrect passcode!"
 			],
 			"code-fast": [
-				" >  VocÃª estÃ¡ digitando cÃ³digos muito rÃ¡pidos, por favor espere %s.",
+				" >  Voce estÃƒÂ¡ digitando cÃƒÂ³digos muito rÃƒÂ¡pidos, por favor espere %s.",
 				" >  You are entering codes too fast, please wait %s."
 			]
 		},
 		"petrolcan": {
 			"full": [
-				"O galao de gasolina esta cheio",
+				"O galão de gasolina esta cheio",
 				"Fuel can is full"
 			],
 			"needed": [
-				"Voce precisa de um GalÃ£o de Gasolina",
+				"Voce precisa de um Galão de Gasolina",
 				"You need a petrol can"
 			]
 		},
@@ -1609,12 +1609,12 @@
 					"The machine is currently processing~n~%s left"
 				],
 				"no-items": [
-					"NÃ£o tem item dentro",
+					"Não tem item dentro",
 					"There are no items inside."
 				],
 				"server-restart": [
-					"O server reiniciara logo, sem tempo para cozinhar.~n~Tente colocar menos itens dentro para reduzir o tempo.",
-					"The server is restarting soon, not enough time to cook.~n~Try putting less items inside to reduce cook time."
+					"O server reiniciará logo, sem tempo para cozinhar.~n~Tente colocar menos itens dentro para reduzir o tempo.",
+					"The server is restarting sãon, not enough time to cook.~n~Try putting less items inside to reduce cook time."
 				],
 				"not-enough-fuel": [
 					"Sem gasolina suficiente. A Maquina requer %.1f por item",
@@ -1654,7 +1654,7 @@
 				"Sign"
 			],
 			"sign-text": [
-				"Digite o texto que irÃ¡ aparecer abaixo\nEscrevendo '\\' vai comeÃ§ar uma nova linha.",
+				"Digite o texto que irá aparecer abaixo\nEscrevendo '\\' vai começar uma nova linha.",
 				"Type the text that will shows below\nTyping '\\' will start a new line."
 			]
 		}
@@ -1668,7 +1668,7 @@
 	"player": {
 		"chat": {
 			"in-tutorial": [
-				"Nao term permissao para utilizar o chat, enquanto se encontra no Tutorial. Se tiver alguma duvida utilize o Discord.",
+				"Nao term permissao para utilizar o chat, enquanto se encontra no Tutorial. Se tiver alguma duvida útilize o Discord.",
 				"You don't have permission to chat in the Tutorial. Use the Discord if you have questions."
 			],
 			"mode": {
@@ -1726,7 +1726,7 @@
 				" > Your entrance sentence"
 			],
 			"points": [
-				"VocÃª precisa ter 100 de score para usar este comando",
+				"Voce precisa ter 100 de score para usar este comando",
 				"You need have 100 score to use this commando"
 			],
 			"cmd-syntax": [
@@ -1851,7 +1851,7 @@
 			},
 			"dieing": {
 				"food": [
-					"~r~Voce ira comeÃ§ar a morrer de fome! Fome: %.1f%%",
+					"~r~Voce ira começar a morrer de fome! Fome: %.1f%%",
 					"~r~You will start to starve! Hunger: %.1%%"
 				]
 			}
@@ -1929,7 +1929,7 @@
 					"Disassemble"
 				],
 				"use_shield": [
-					"Utilizar Escudo",
+					"utilizar Escudo",
 					"Use Shield"
 				],
 				"wear_clothes": [
@@ -2109,7 +2109,7 @@
 					" > Player ID not logged in."
 				],
 				"friend-no-invite": [
-					" > Esse jogador nÃ£o enviou nenhum pedido de amizade.",
+					" > Esse jogador rádio enviou nenhum pedido de amizade.",
 					" > This player has not sent any friend invitations."
 				]
 			},
@@ -2142,28 +2142,28 @@
 		},
 		"radio": {
 			"not-synced": [
-				"Radio nÃ£o sincronizado",
+				"Radio rádio sincronizado",
 				"Radio not synchronized."
 			],
 			"freq": [
-				" >  VocÃª ligou seu rÃ¡dio na frequencia %.2f.",
+				" >  Voce ligou seu rádio na frequencia %.2f.",
 				" >  You turned your radio on to frequency %.2f."
 			],
 			"global": [
-				" >  VocÃª ligou seu radio na frequencia global.",
+				" >  Voce ligou seu radio na frequencia global.",
 				" >  You turn your radio on to the global frequency."
 			],
 			"global-quiet-off": [
-				" >  VocÃª ligou o receptor global do seu radio, agora você verá todo o chat global.",
+				" >  Voce ligou o receptor global do seu radio, agora voce vera todo o chat global.",
 				" >  You turn on your radio's global receiver, you will now see all global chat."
 			],
 			"global-quiet": [
-				" >  Você desligou o receptor global do seu rádio, você nÃ£o verá mais o chat global.",
+				" >  Voce desligou o receptor global do seu rádio, voce rádio vera mais o chat global.",
 				" >  You turn off your radio's global receiver, you will not see any global chat."
 			],
 			"local": [
-				" >  Você desligou seu radio, chat nÃ£o sera transmitido.",
-				" >  You turned your radio off, chat is not broadcasted."
+				" >  Voce ligou o seu radio na frequencia local.",
+				" >  You turned your radio on to the local frequency."
 			],
 			"admin": [
 				" > Admin chat ativado.",
@@ -2183,7 +2183,7 @@
 			"You are now Unfrozen"
 		],
 		"unmuted": [
-			" >  Agora você esta habilitado a falar.",
+			" >  Agora voce esta habilitado a falar.",
 			" >  You are now un-muted."
 		],
 		"aimshout": [
@@ -2195,7 +2195,7 @@
 			" >  AimShout set to '%s'"
 		],
 		"muted-perm": [
-			" >  VocÃª esta permanentemente mudo.",
+			" >  Voce esta permanentemente mudo.",
 			" >  You are muted permanently."
 		],
 		"muted-temp": [
@@ -2203,11 +2203,11 @@
 			" >  Muted from global chat for {C_ORANGE}30 {C_RED}seconds for chat flooding"
 		],
 		"muted-time": [
-			" >  Mutado do chat global por {C_ORANGE}%d {C_YELLOW}segundos, RazÃ£o: {C_BLUE}%s",
+			" >  Mutado do chat global por {C_ORANGE}%d {C_YELLOW}segundos, Razão: {C_BLUE}%s",
 			" >  Muted from global chat for {C_ORANGE}%d {C_YELLOW}seconds, Reason: {C_BLUE}%s"
 		],
 		"mute-timer": [
-			" >  Você está mudo. Tempo restante: %s",
+			" >  Voce esta mudo. Tempo restante: %s",
 			" >  You are muted. Time remaining: %s"
 		],
 		"muted-reas": [
@@ -2215,11 +2215,11 @@
 			" >  Muted from global chat, Reason: {C_BLUE}%s"
 		],
 		"warned": [
-			" >  Você foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
+			" >  Voce foi advertido (%d/5) por: %s. 5 avisos = 1 dia de ban!",
 			" >  You been warned (%d/5) for: %s. 5 warnings = 1 day ban!"
 		],
 		"warn-counter": [
-			" >  Você tem %d/5 avisos!",
+			" >  Voce tem %d/5 avisos!",
 			" >  You have %d/5 warnings!"
 		],
 		"tips": {
@@ -2242,7 +2242,7 @@
 				" >  An error occurred! Please contact an administrator"
 			],
 			"no-match": [
-				" >  A senha que vocÃª digitou nÃ£o coincide com a sua senha atual.",
+				" >  A senha que voce digitou rádio coincide com a sua senha atual.",
 				" >  The entered password you typed doesnt match your current password."
 			],
 			"success": [
@@ -2251,7 +2251,7 @@
 			]
 		},
 		"not-found": [
-			" > O jogador nÃ£o pode ser encontrado.",
+			" > O jogador rádio pode ser encontrado.",
 			" > The player cannot be found."
 		]
 	},
@@ -2410,7 +2410,7 @@
 				"Add Item to Inventory."
 			],
 			"view_inventory_options": [
-				"Abrir Opcoes do Inventario",
+				"Abrir Opções do Inventario",
 				"Open Inventory Options"
 			],
 			"open_container": [
@@ -2422,7 +2422,7 @@
 				"Add Item to Backpack"
 			],
 			"view_container_options": [
-				"Abrir Opcoes da Mochila",
+				"Abrir Opções da Mochila",
 				"Open Backpack Options"
 			],
 			"drop_item": [
@@ -2460,11 +2460,11 @@
 				"This is your character inventory also known as your pockets. This is not your bag."
 			],
 			"access_bag_own": [
-				"Esta e a sua Mochila. Elas soo armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.",
+				"Esta e a sua Mochila. Elas são armazenamento extra. Existem muitos tipos diferentes de mochilas com tamanhos diferentes.",
 				"This is your bag. Bags are extra storage. There are many different types of bags with different sizes."
 			],
 			"item-options": [
-				"Estas soo suas opcoes para o item selecionado. Clique duas vezes em alguma para executar.",
+				"Estas são suas opções para o item selecionado. Clique duas vezes em alguma para executar.",
 				"These are your options for the selected item. Equip puts it in your hand. Combine can be selected on multiple items to attempt to combine them."
 			],
 			"item-drop": [
@@ -2480,7 +2480,7 @@
 				"You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right."
 			],
 			"item-add-container": [
-				"Voce adicionou um item a um container. Os containeres soo lugares para armazenar itens",
+				"Voce adicionou um item a um container. Os containeres são lugares para armazenar itens",
 				"You added an item to a container. Containers are places to store items"
 			],
 			"weapon-holster": [
@@ -2545,7 +2545,7 @@
 			],
 			"supply-request": [
 				"[Exercito]: %p (%d) SOLICITOU UMA CAIXA DE SUPRIMENTOS: {C_BLUE}%s {C_YELLOW} MARCADO UM 'S' NO MAPA!",
-				"[ARMY]: %i(%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
+				"[ARMY]: %p (%d) REQUESTED A SUPPLY DROP: {C_BLUE}%s MARKED WITH A 'S' ICON ON MAP!"
 			]
 		},
 		"command": {
@@ -2555,16 +2555,16 @@
 			],
 			"lists": {
 				"backpacks": [
-					"\t{C_YELLOW}Lista de Mochilas: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila MÃ©dia - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots).",
-					"\t{C_YELLOW}List of Backpacks: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila MÃ©dia - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots)."
+					"\t{C_YELLOW}Lista de Mochilas: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila Media - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots).",
+					"\t{C_YELLOW}List of Backpacks: (Total: 7)\n\n\t{C_ORANGE}Mochila de Acampamento - (18 slots)\n\n\t{C_ORANGE}Mochila de Paraquedas - (15 slots)\n\n\t{C_ORANGE}Mochila Grande - (14 slots)\n\n\t{C_ORANGE}Mochila Larga - (12 slots)\n\n\t{C_ORANGE}Mochila Media - (10 slots)\n\n\t{C_ORANGE}Daypack - (8 slots)\n\n\t{C_ORANGE}Mochila Pequena - (7 slots)."
 				],
 				"boxes": [
-					"\t{C_YELLOW}Lista de Caixas: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa MÃ©dia (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots).",
-					"\t{C_YELLOW}List of Boxes: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa MÃ©dia (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots)."
+					"\t{C_YELLOW}Lista de Caixas: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa Media (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots).",
+					"\t{C_YELLOW}List of Boxes: (Total: 8)\n\n\t{C_ORANGE}Armario (45 Slots)\n\n\t{C_ORANGE}Caixa Grande (15 Slots)\n\n\t{C_ORANGE}Caixa Media (12 Slots)\n\n\t{C_ORANGE}Caixa Pequena (10 Slots)\n\n\t{C_ORANGE}Caixa de Ferramentas (8 Slots)\n\n\t{C_ORANGE}Mala de Viagem (6 Slots)\n\n\t{C_ORANGE}Bolsa de Viagem (6 Slots)\n\n\t{C_ORANGE}Caixinha (5 Slots)."
 				],
 				"defences": [
-					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}PedaÃ§o de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4).",
-					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}PedaÃ§o de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4)."
+					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃƒÂ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}Pedaço de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4).",
+					"\t{C_YELLOW}Lista de Metais: (Total: 17)\n\n\t{C_ORANGE}Metal Blindado - (15/15)\n\n\t{C_ORANGE}Porta Blindada (14/14)\n\n\t{C_ORANGE}Porta de Cofre (13/13)\n\n\t{C_ORANGE}PortÃƒÂ£o de Garagem (12/12)\n\n\t{C_ORANGE}Porta Dupla - (11/11)\n\n\t{C_ORANGE}Porta de Navio - (9/9)\n\n\t{C_ORANGE}Metal Corrugado - (8/8)\n\n\t{C_ORANGE}Painel Isolado - (8/8)\n\n\t{C_ORANGE}Rampa de Madeira - (8/8)\n\n\t{C_ORANGE}Entrada Isolada - (7/7)\n\n\t{C_ORANGE}Grade Grande - (7/7)\n\n\t{C_ORANGE}Painel de Metal - (6/6)\n\n\t{C_ORANGE}Porta de Container - (6/6)\n\n\t{C_ORANGE}Grade - (5/5)\n\n\t{C_ORANGE}Pedaço de Metal - (4/4)\n\n\t{C_ORANGE}Metal Pequeno - (4/4)."
 				],
 				"bombs": [
 					"\t{C_YELLOW}Lista de Explosivos: (Total: 2)\n\n\t{C_ORANGE}DINAMITE - (3 DE DANO EM METAIS)\n\n\t{C_ORANGE}TNT - (2 DE DANO EM METAIS)\n\n\t{C_ORANGE}IED - (1 DE DANO EM METAIS).",
@@ -2600,13 +2600,13 @@
 				"You can only use that command while on {C_BLUE}administrator duty{C_RED}."
 			],
 			"cant-use-not-logged-in": [
-				" >  VocÃª precisa estar logado para usar esse comando",
+				" >  Voce precisa estar logado para usar esse comando",
 				" >  You must be logged in to use that command"
 			]
 		},
 		"bugs": {
 			"submitted": [
-				" >  Seu relatÃ³rio de bug foi enviado! Obrigado pelo seu feedback! VocÃª pode ver uma lista com os problemas em /bugs.",
+				" >  Seu relatório de bug foi enviado! Obrigado pelo seu feedback! Voce pode ver uma lista com os problemas em /bugs.",
 				" >  Your bug report has been submitted! Thank you for your feedback! You can view a list of current issues with /bugs."
 			],
 			"failed": [
@@ -2661,7 +2661,7 @@
 			"Back"
 		],
 		"distance": [
-			"Distancia: %.3f",
+			"Distância: %.3f",
 			"Distance: %.3f"
 		],
 		"register": [
