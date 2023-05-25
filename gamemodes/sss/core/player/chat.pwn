@@ -8,15 +8,15 @@ enum {
 		CHAT_MODE_ADMIN			// 3 - Speak to admins
 }
 
-
-new
-		chat_Mode[MAX_PLAYERS],
-bool:	chat_Quiet[MAX_PLAYERS],
-		chat_MessageStreak[MAX_PLAYERS],
-		chat_LastMessageTick[MAX_PLAYERS],
-		GlobalTime[MAX_PLAYERS],
-		GlobalTime2 = 3,
-bool:	GlobalOff = false;
+static
+			chat_Mode[MAX_PLAYERS],
+bool:		chat_Quiet[MAX_PLAYERS],
+			chat_MessageStreak[MAX_PLAYERS],
+			chat_LastMessageTick[MAX_PLAYERS],
+			GlobalTime[MAX_PLAYERS],
+			GlobalTime2 = 3,
+bool:		GlobalOff = false,
+PlayerText:	chatModeTextDraw;
 
 forward OnPlayerSendChat(playerid, text[], Float:frequency);
 
@@ -41,6 +41,19 @@ ACMD:setglobal[2](playerid, params[]) {
 hook OnPlayerConnect(playerid) {
     GlobalTime[playerid] = 0;
 	chat_LastMessageTick[playerid] = 0;
+
+	chatModeTextDraw = CreatePlayerTextDraw(playerid, 5, 1.133333, "L");
+	PlayerTextDrawLetterSize(playerid, chatModeTextDraw, 0.5, 2);
+	PlayerTextDrawTextSize(playerid, chatModeTextDraw, 19.375, 19.833333);
+	PlayerTextDrawAlignment(playerid, chatModeTextDraw, 1);
+	PlayerTextDrawColor(playerid, chatModeTextDraw, 0xFFFFFFFF);
+	PlayerTextDrawUseBox(playerid, chatModeTextDraw, 0);
+	PlayerTextDrawBoxColor(playerid, chatModeTextDraw, 0x000000AA);
+	PlayerTextDrawSetShadow(playerid, chatModeTextDraw, 0);
+	PlayerTextDrawSetOutline(playerid, chatModeTextDraw, 1);
+	PlayerTextDrawBackgroundColor(playerid, chatModeTextDraw, 0x000000FF);
+	PlayerTextDrawFont(playerid, chatModeTextDraw, 1);
+	PlayerTextDrawSetProportional(playerid, chatModeTextDraw, 1);
 
 	return 1;
 }
@@ -77,6 +90,10 @@ hook OnPlayerText(playerid, text[]) {
 	else if(chat_Mode[playerid] == CHAT_MODE_CLAN) PlayerSendChat(playerid, text, 4.0);
 	
 	return 0;
+}
+
+hook OnPlayerLogin(playerid) {
+	PlayerTextDrawShow(playerid, chatModeTextDraw);
 }
 
 PlayerSendChat(playerid, chat[], Float:frequency) {
@@ -126,7 +143,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 	} else if(frequency == 1.0) {
  		if(GlobalOff) return ChatMsg(playerid, RED, " > Chat global desativado.");
 
-	    if(GlobalTime[playerid] != 0 && !GetPlayerAdminLevel(playerid)) return ChatMsg(playerid, RED, " > VocÃª pode usar o chat global novamente em %d segundo%s.", GlobalTime[playerid], GlobalTime[playerid] > 1 ? "s" : "");
+	    if(GlobalTime[playerid] != 0 && !GetPlayerAdminLevel(playerid)) return ChatMsg(playerid, RED, " > Você pode usar o chat global novamente em %d segundo%s.", GlobalTime[playerid], GlobalTime[playerid] > 1 ? "s" : "");
 
 	    GlobalTime[playerid] = GlobalTime2;
 		defer GlobalTimer(playerid);
@@ -225,23 +242,33 @@ timer GlobalTimer[1500](playerid) { // Tempo para liberar o global
     }
 }
 
-stock GetPlayerChatMode(playerid) {
+GetPlayerChatMode(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return chat_Mode[playerid];
 }
 
-stock SetPlayerChatMode(playerid, chatmode) {
+SetPlayerChatMode(playerid, chatmode) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(chatmode == chat_Mode[playerid]) return 0;
 
 	chat_Mode[playerid] = chatmode;
 
+	new letter[2] = "L";
+
+	switch(chat_Mode[playerid]) {
+		case CHAT_MODE_GLOBAL: letter = "G";
+		case CHAT_MODE_CLAN:   letter = "C";
+		case CHAT_MODE_ADMIN:  letter = "A";
+	}
+
+	PlayerTextDrawSetString(playerid, chatModeTextDraw, letter);
+
 	return 1;
 }
 
-stock IsPlayerGlobalQuiet(playerid) {
+IsPlayerGlobalQuiet(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return chat_Quiet[playerid];
