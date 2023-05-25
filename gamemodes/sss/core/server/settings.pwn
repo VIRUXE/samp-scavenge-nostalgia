@@ -3,10 +3,10 @@ new Node:Settings;
 
 LoadSettings()
 {
-	log("[SETTINGS] Carregando configura??es...");
+	log("[SETTINGS] Carregando configuções...");
 
-	if(JSON_ParseFile("settings.json", Settings)) { // N?o foi poss?vel carregar o arquivo
-		log("[SETTINGS] Erro: N?o foi poss?vel carregar o arquivo de configura??es. Usando as configura??es padr?o.");
+	if(JSON_ParseFile("settings.json", Settings)) { // Não foi possível carregar o arquivo
+		log("[SETTINGS] Erro: Não foi possível carregar o arquivo de configuções. Usando as configuções padr?o.");
 
 		Settings = JSON_Object(
 			"server", JSON_Object(
@@ -22,11 +22,11 @@ LoadSettings()
 					JSON_String("Welcome to the Nostalgia ~ Scavenge server!")
 				),
 				"rules", JSON_Array(
-					JSON_String("N?o use hacks."),
-					JSON_String("N?o use bugs."),
-					JSON_String("N?o use exploits."),
-					JSON_String("N?o use macros."),
-					JSON_String("N?o use programas de terceiros.")
+					JSON_String("Não use hacks."),
+					JSON_String("Não use bugs."),
+					JSON_String("Não use exploits."),
+					JSON_String("Não use macros."),
+					JSON_String("Não use programas de terceiros.")
 				),
 				"otp", JSON_Object(
 					"enabled", JSON_Bool(false),
@@ -55,7 +55,7 @@ LoadSettings()
 				),
 				"tips", JSON_Array(
 					JSON_Array(
-						JSON_String("Caso tenha alguma d?vida, use o /relatorio para falar com algu?m da staff."),
+						JSON_String("Caso tenha alguma d?vida, use o /relatorio para falar com alguém da staff."),
 						JSON_String("If you have any questions, use /report to speak with a staff member.")
 					),
 					JSON_Array(
@@ -71,27 +71,27 @@ LoadSettings()
 						JSON_String("Join our Discord group and stay up-to-date with all the latest news.")
 					),
 					JSON_Array(
-						JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo ? mais legal e lucrativo."),
+						JSON_String("Chame seus amigos para jogar no servidor, jogar em grupo é mais legal e lucrativo."),
 						JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
 					),
 					JSON_Array(
-						JSON_String("Voc? viu algu?m fazendo o que n?o devia? Use /report para denunciar."),
+						JSON_String("Você viu alguém fazendo o que n?o devia? Use /report para denunciar."),
 						JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
 					),
 					JSON_Array(
-						JSON_String("N?o fique triste quando morrer ou perder a base, isso faz parte do jogo."),
+						JSON_String("Não fique triste quando morrer ou perder a base, isso faz parte do jogo."),
 						JSON_String("Don't get upset when you die or lose your base, it's part of the game.")
 					),
 					JSON_Array(
-						JSON_String("Lembre-se que o servidor ? mantido por doa??es, ajude-nos a manter o servidor online."),
+						JSON_String("Lembre-se que o servidor é mantido por doações, ajude-nos a manter o servidor online."),
 						JSON_String("Remember that the server is maintained by donations, help us keep the server online.")
 					),
 					JSON_Array(
-						JSON_String("Voc? pode usar o /ajuda para ver todos os comandos dispon?veis."),
+						JSON_String("Você pode usar o /ajuda para ver todos os comandos disponíveis."),
 						JSON_String("You can use /help to see all the available commands.")
 					),
 					JSON_Array(
-						JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que est?o quebrando as regras."),
+						JSON_String("Lembre-se de utilizar o /votekick para votar em jogadores que estão quebrando as regras."),
 						JSON_String("Remember to use /votekick to vote on players who are breaking the rules.")
 					)
 				),
@@ -119,7 +119,7 @@ LoadSettings()
 							"command", JSON_String("otp")
 						),
 						JSON_Array(
-							JSON_String("'Uma senha ?nica' ou 'Senha de uso ?nico' ? uma senha que ? v?lida apenas por uma sess?o de login ou transa??o e torna-se inv?lida ap?s isso."),
+							JSON_String("'Uma senha única' ou 'Senha de uso único' é uma senha que é válida apenas por uma sessão de login ou transação e torna-se inválida após isso."),
 							JSON_String("One Time Password (OTP) is a password that is valid for only one login session or transaction, and becomes invalid after that.")
 						)
 					)
@@ -151,7 +151,7 @@ LoadSettings()
 function OnSettingsLoaded() {
 	new Node:node, length;
 	
-	// Carrega as configura??es do servidor
+	// Carrega as configuções do servidor
 	new Node:server;
 	JSON_GetObject(Settings, "server", server);
 
@@ -174,7 +174,7 @@ function OnSettingsLoaded() {
 	// Certificar de que n?o tentamos carregar mais regras do que o m?ximo permitido (MAX_RULE)
 	if(length > MAX_RULE) {
 		length = MAX_RULE;
-		log("[SETTINGS] Aviso: O n?mero de regras excede o m?ximo permitido. As regras extras ser?o ignoradas.");
+		log("[SETTINGS] Aviso: O número de regras excede o máximo permitido. As regras extras serão ignoradas.");
 	}
 
 	for(new i = 0; i < length; i++) {
@@ -189,7 +189,7 @@ function OnSettingsLoaded() {
 	JSON_GetInt(server, "max-uptime", gServerMaxUptime);
 	log("[SETTINGS] Ciclo de Restart: %d horas", (gServerMaxUptime ? gServerMaxUptime : 14400) / 3600);
 
-	// Carrega as configura??es do jogador
+	// Carrega as configuções do jogador
 	JSON_GetObject(Settings, "player", node);
 
 	JSON_GetInt(node, "combat-log-window", gCombatLogWindow);
@@ -243,12 +243,10 @@ stock Float:GetSettingFloat(const name[]) {
 }
 
 ACMD:rsettings[5](playerid) {
-	new result = JSON_ParseFile("settings.json", Settings);
-
-	if(!result)
-		ChatMsgAdmins(1, YELLOW, "%p recarregou as definicoes", playerid);
+	if(!JSON_ParseFile("settings.json", Settings))
+		ChatMsgAdmins(1, YELLOW, "%p recarregou as definições", playerid);
 	else
-		ChatMsg(playerid, RED, "Nao foi possivel recarregar as definicoes");
+		ChatMsg(playerid, RED, "Não foi possivel recarregar as definições");
 
 	return 1;
 }
