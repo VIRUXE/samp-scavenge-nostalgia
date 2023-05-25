@@ -115,7 +115,13 @@ _OnDeath(playerid, killerid) {
 	if(IsPlayerConnected(killerid)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		SetPlayerScore(killerid, GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1);
+		new const currScore = GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1;
+
+		SetPlayerScore(killerid, currScore);
+		SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
+
+		db_query(gAccounts, sprintf("UPDATE players SET kills = %d WHERE name = `%s`", currScore, GetPlayerNameEx(killerid)));
+		db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = `%s`", currScore, GetPlayerNameEx(playerid)));
 		
 		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
