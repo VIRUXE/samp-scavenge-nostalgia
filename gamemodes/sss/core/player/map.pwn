@@ -28,8 +28,8 @@ ToggleMap(playerid, bool:toggle) {
     CallLocalFunction("OnPlayerUsingMap", "db", playerid, toggle);
 }
 
-hook OnGamemodeInit() {
-    mapOverlay = GangZoneCreate(-MAP_SIZE, -MAP_SIZE, MAP_SIZE, MAP_SIZE);
+hook OnScriptInit() {
+    mapOverlay = GangZoneCreate(-6000, -6000, 6000, 6000);
 
     print("[MAP] GangZone criada.");
 }
