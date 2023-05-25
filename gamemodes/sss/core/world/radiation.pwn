@@ -259,19 +259,19 @@ static task UpdateRadiationCloud[SEC(1)]() {
     }
 
     // Atualiza a posi??o e o tamanho da zona de gangue
-    static cloudGangZone = INVALID_GANG_ZONE;
+    // static cloudGangZone = INVALID_GANG_ZONE;
 
-    GangZoneDestroy(cloudGangZone);
-    cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
+    // GangZoneDestroy(cloudGangZone);
+    // cloudGangZone = GangZoneCreate(cloudMinX, cloudMinY, cloudMaxX, cloudMaxY);
 
-    foreach(new p : Player) {
-        if(IsPlayerOnAdminDuty(p)) GangZoneShowForPlayer(p, cloudGangZone, COLOR_RADIATION); // Mostrar a nuvem apenas para admins em duty
+    // foreach(new p : Player) {
+        // if(IsPlayerOnAdminDuty(p)) GangZoneShowForPlayer(p, cloudGangZone, COLOR_RADIATION); // Mostrar a nuvem apenas para admins em duty
 
         /* if(DoesPlayerHaveMap(p) && IsPlayerVip(p)) {
             DestroyDynamicMapIcon(99);
             SetPlayerDynamicMapIcon(p, 99, cloudPosX, cloudPosY, 0.0, 23, COLOR_RADIATION, MAPICON_GLOBAL);
         } */
-    }
+    // }
     
     // Calculate the coordinates for the dummy object
     new Float:groundZ;
