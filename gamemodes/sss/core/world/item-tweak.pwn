@@ -102,7 +102,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
         if(Distance(x, y, z, ix, iy, iz) > 10.0){
             GetItemPos(twk_Item[playerid], x, y, z);
 	    	GetItemRot(twk_Item[playerid], rx, ry, rz);
-            ChatMsg(playerid, RED, " > Você moveu o item longe demais e a posição foi resetada.");
+            ChatMsg(playerid, RED, " > Voc� moveu o item longe demais e a posição foi resetada.");
         }
 	    SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);

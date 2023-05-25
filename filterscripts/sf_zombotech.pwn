@@ -333,7 +333,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
         if(FloorRequestedBy[listitem] != INVALID_PLAYER_ID || IsFloorInQueue(listitem))
             GameTextForPlayer(playerid, "~r~O elevador já está em espera neste andar.", 3500, 4);
 		else if(DidPlayerRequestElevator(playerid))
-		    GameTextForPlayer(playerid, "~r~Você já chamou o elevador.", 3500, 4);
+		    GameTextForPlayer(playerid, "~r~Voc� já chamou o elevador.", 3500, 4);
 		else
 	        CallElevator(playerid, listitem);
 

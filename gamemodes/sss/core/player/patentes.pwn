@@ -246,7 +246,7 @@ CheckForExtraAccounts(playerid)
 		
 	if(donewarning && GetAdminsOnline() == 0)
 	{
-		KickPlayer(playerid, "VocÃª foi kickado por suspeita de Multi-Contas. Volte quando um administrador estiver online");
+		KickPlayer(playerid, "Você foi kickado por suspeita de Multi-Contas. Volte quando um administrador estiver online");
 		return 0;
 	}
 	
@@ -260,4 +260,3 @@ CheckForExtraAccounts(playerid)
 
 	return 1;
 }
-

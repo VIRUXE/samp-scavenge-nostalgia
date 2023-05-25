@@ -79,7 +79,7 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 
 	new Float:dist = GetPlayerDistanceFromPoint(playerid, ab_SetX[playerid], ab_SetY[playerid], ab_SetZ[playerid]);
 
-	// Se a distância for maior que 10.0, ou se o jogador estiver em um veículo e a distância for maior que 40.0, ou se o jogador estiver em um veículo e a distância for diferente de 0.0, então o jogador está usando airbreak
+	// Se a distância for maior que 10.0, ou se o jogador estiver em um Ve�culo e a distância for maior que 40.0, ou se o jogador estiver em um Ve�culo e a distância for diferente de 0.0, então o jogador está usando airbreak
 	if( ((!IsPlayerInAnyVehicle(playerid) && dist > 10.0) || (IsPlayerInAnyVehicle(playerid) && dist > 40.0)) || (ab_Check[playerid] && dist != 0.0)) 
 		id = 10; 
 	else {

@@ -52,7 +52,7 @@ hook OnGameModeInit()
 
 	LoadVehiclesFromFolder(DIRECTORY_VEHICLESPAWNS);
 
-	log("[VEHICLE] %d veÃ­culos carregados.", Iter_Count(veh_Index));
+	log("[VEHICLE] %d Veículos carregados.", Iter_Count(veh_Index));
 
 	if(veh_PrintTotal)
 	{

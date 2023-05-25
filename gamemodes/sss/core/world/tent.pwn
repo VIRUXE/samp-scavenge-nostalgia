@@ -225,7 +225,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 StartBuildingTent(playerid, itemid)
 {
-	if(GetPlayerInterior(playerid) != 0) return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
+	if(GetPlayerInterior(playerid) != 0) return SendClientMessage(playerid, RED, " > Voc� não pode construir aqui.");
 		
 	StartHoldAction(playerid, IsPlayerVip(playerid) ? 5000 : 10000);
     	

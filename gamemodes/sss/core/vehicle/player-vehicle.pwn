@@ -62,7 +62,7 @@ hook OnGameModeInit()
 
 	dir_close(direc);
 
-	log("[VEHICLE] %d veÃ­culos de jogador carregados.", Iter_Count(veh_Index));
+	log("[VEHICLE] %d Veículos de jogador carregados.", Iter_Count(veh_Index));
 }
 
 /*==============================================================================
@@ -446,10 +446,10 @@ _SaveVehicle(vehicleid)
 
 	if(active[0])
 	{
-		log("[VEHICLE][SAVE] VeÃ­culo %s (%s; %d) - Fechado: %s com %d itens -> %.2f, %.2f, %.2f",
+		log("[VEHICLE][SAVE] Veículo %s (%s; %d) - Fechado: %s com %d itens -> %.2f, %.2f, %.2f",
 			geid, vehiclename, vehicleid, (_:GetVehicleLockState(vehicleid) ? "Sim" : "NÃ£o"), itemcount, Float:data[VEH_CELL_POSX], Float:data[VEH_CELL_POSY], Float:data[VEH_CELL_POSZ]);
 	}
-	else log("[VEHICLE][DELETE] Removendo veÃ­culo de jogador: %d.", vehicleid);
+	else log("[VEHICLE][DELETE] Removendo Veículo de jogador: %d.", vehicleid);
 	
 	return 1;
 }

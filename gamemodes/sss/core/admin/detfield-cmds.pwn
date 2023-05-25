@@ -467,7 +467,7 @@ ShowDetfieldDeleteException(playerid, detfieldid)
 
 	GetDetectionFieldExceptionName(detfieldid, dfm_CurrentException[playerid], name);
 
-	Dialog_Show(playerid, DetfieldDeleteExc, DIALOG_STYLE_MSGBOX, sprintf("Deletar '%s'", name), "VocÃª tem certeza?", "Voltar", "Deletar");
+	Dialog_Show(playerid, DetfieldDeleteExc, DIALOG_STYLE_MSGBOX, sprintf("Deletar '%s'", name), "Você tem certeza?", "Voltar", "Deletar");
 
 	return 1;
 }
@@ -530,7 +530,7 @@ ShowDetfieldDeletePrompt(playerid, detfieldid)
 
 	GetDetectionFieldName(detfieldid, name);
 
-	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", name), "VocÃª tem certeza?", "Voltar", "Deletar");
+	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", name), "Você tem certeza?", "Voltar", "Deletar");
 
 	return 1;
 }

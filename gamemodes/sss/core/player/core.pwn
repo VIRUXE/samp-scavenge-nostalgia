@@ -199,9 +199,9 @@ AnnouncePlayerJoined(playerid) {
 }
 
 /* 
-	Esta funo  chamada quando o jogador entra num cenario, aps o OnPlayerConnect.
+	Esta função  chamada quando o jogador entra num cenario, após o OnPlayerConnect.
 
-	Chamada apenas uma vez, e  responsvel por carregar a conta do jogador, ou criar uma nova conta.
+	Chamada apenas uma vez, e  responsável por carregar a conta do jogador, ou criar uma nova conta.
  */
 public OnPlayerJoinScenario(playerid) {
 	switch(LoadAccount(playerid)) {
@@ -209,14 +209,14 @@ public OnPlayerJoinScenario(playerid) {
 			KickPlayer(playerid, "Carregamento da conta falhou. Informe um administrador no Discord.");
 		} case 0: { // Conta nao existe
 			// * Um bocado gambiarra, mas pronto
-			// Como  necessrio esperar pela resposta da API ento por enquanto vai assim
+			// Como  necessário esperar pela resposta da API então por enquanto vai assim
 			// Isso e necessario para escolher automaticamente o idioma para a conta do jogador
 			RequestPlayerGeo(playerid);
 		} case 1: { // Conta existe
 			DisplayLoginPrompt(playerid);
 		} case 4: { // Conta existe mas esta desativada
 			ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
-			ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criao de 2 ou mais contas no servidor.");
+			ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");
 			ChatMsg(playerid, YELLOW, " > Saia do servidor e logue em sua conta original ou crie outra.");
 			KickPlayer(playerid, "Conta inativa", false);
 		}
@@ -258,8 +258,7 @@ ResetVariables(playerid)
 	// log("[INFO] Variaveis resetadas para o jogador %d.", playerid);
 }
 
-ptask PlayerUpdateFast[100](playerid)
-{
+ptask PlayerUpdateFast[100](playerid) {
 	/*if(NetStats_MessagesRecvPerSecond(playerid) > 200)
 	{
 		ChatMsgAdmins(3, YELLOW, " >  %p sending %d messages per second.", playerid, NetStats_MessagesRecvPerSecond(playerid));
@@ -277,8 +276,7 @@ ptask PlayerUpdateFast[100](playerid)
 
 ptask PlayerUpdateSlow[SEC(1)](playerid) CallLocalFunction("OnPlayerScriptUpdate", "d", playerid);
 
-public OnPlayerRequestSpawn(playerid)
-{
+public OnPlayerRequestSpawn(playerid) {
 	if(IsPlayerNPC(playerid)) return 1;
 
 	SetSpawnInfo(playerid, NO_TEAM, 0, DEFAULT_POS_X, DEFAULT_POS_Y, DEFAULT_POS_Z, 0.0, 0, 0, 0, 0, 0, 0);
@@ -286,10 +284,8 @@ public OnPlayerRequestSpawn(playerid)
 	return 1;
 }
 
-public OnPlayerClickTextDraw(playerid, Text:clickedid)
-{
-	if(clickedid == Text:65535)
-	{
+public OnPlayerClickTextDraw(playerid, Text:clickedid) {
+	if(clickedid == Text:65535) {
 		if(IsPlayerDead(playerid) && !IsPlayerSpawned(playerid)) SelectTextDraw(playerid, 0xFFFFFF88);
 	}
 

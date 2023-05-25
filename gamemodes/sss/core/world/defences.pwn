@@ -270,7 +270,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 StartBuildingDefence(playerid, itemid)
 {
-	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Voc� não pode construir aqui.");
 
 	// Zonas do mapa em que não se pode construir
 	new const Float:blockedZones[][4] = {
@@ -286,7 +286,7 @@ StartBuildingDefence(playerid, itemid)
 	for(new i = 0; i < sizeof(blockedZones); i++)
 	{
 		if(IsPlayerInRangeOfPoint(playerid, blockedZones[i][0], blockedZones[i][1], blockedZones[i][2], blockedZones[i][3]))
-			return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
+			return ChatMsg(playerid, RED, " > Voc� não pode construir aqui.");
 	}
 
 	new itemtypename[ITM_MAX_NAME];

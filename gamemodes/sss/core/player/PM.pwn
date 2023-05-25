@@ -13,11 +13,11 @@ CMD:pm(playerid, params[]) {
 
     if(targetId == INVALID_PLAYER_ID) return 4;
 
-    if(targetId == playerid) return SendClientMessage(playerid, RED, "[PM]: Você não pode enviar uma mensagem para você mesmo!");
+    if(targetId == playerid) return SendClientMessage(playerid, RED, "[PM]: Voc� não pode enviar uma mensagem para Voc� mesmo!");
 
-    if(PmBlock[playerid]) return SendClientMessage(playerid, RED, "[PM]: Você não pode enviar uma mensagem pois usou /blockpm!");
+    if(PmBlock[playerid]) return SendClientMessage(playerid, RED, "[PM]: Voc� não pode enviar uma mensagem pois usou /blockpm!");
 
-    if(PmBlock[targetId]) return ChatMsg(playerid, RED, "[PM]: Você não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId);
+    if(PmBlock[targetId]) return ChatMsg(playerid, RED, "[PM]: Voc� não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId);
 
     ChatMsg(playerid, RED, "[PM PARA %P (%d)"C_RED"]: {00AA00}%s", targetId, targetId, mensagem);
 

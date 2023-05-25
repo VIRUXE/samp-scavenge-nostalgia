@@ -371,7 +371,7 @@ _twk_AdjustItemPos(playerid, Float:distance, Float:direction, Float:rotation, Fl
 
 	if(new_z < twk_Origin[playerid][2])
 	{
-		ShowActionText(playerid, "Você não pode mover mais para baixo", 6000);
+		ShowActionText(playerid, "Voc� não pode mover mais para baixo", 6000);
 		return 6;
 	}
 

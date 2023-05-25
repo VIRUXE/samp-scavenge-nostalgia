@@ -31,7 +31,7 @@ timer AnunciarLoteria[MIN(1)](){
 
 CMD:loteria(playerid, params[]){
 	if(!IsPlayerSpawned(playerid))
-	    return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Você deve nascer para usar esse comando.");
+	    return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Voc� deve nascer para usar esse comando.");
 
     if(LoteriaNumero == -1)
 		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Loteria não está liberada no momento.");
@@ -54,40 +54,40 @@ CMD:loteria(playerid, params[]){
 		GetPlayerPos(playerid, x, y, z);
 		if(premio == 0){
 		    itemid = CreateItem(item_LocksmithKit, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Kit Chaveiro{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Kit Chaveiro{0cfcec}.");
 		}
 		else if(premio == 1){
 		    itemid = CreateItem(item_AK47Rifle, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}AK-47{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}AK-47{0cfcec}.");
 		}
 		else if(premio == 2){
 		    itemid = CreateItem(item_Rucksack, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Mochila de Acampamento{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Mochila de Acampamento{0cfcec}.");
 		}
 		else if(premio == 3){
 		    itemid = CreateItem(item_Medkit, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Med Kit{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Med Kit{0cfcec}.");
 		}
 		else if(premio == 4){
 		    itemid = CreateItem(item_M16Rifle, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}M16{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}M16{0cfcec}.");
 		}
 		else if(premio == 5){
 		    itemid = CreateItem(item_Spas12, x, y, z);
 		    SetItemExtraData(itemid, 0);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Spas 12{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Spas 12{0cfcec}.");
 		}
 		else if(premio == 6){
 		    itemid = CreateItem(item_XmasHat, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Gorro{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Gorro{0cfcec}.");
 		}
 		else {
 		    itemid = CreateItem(item_Sledgehammer, x, y, z);
-		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, você ganhou o item {FFFFFF}Marreta{0cfcec}.");
+		    ChatMsg(playerid, 0x0cfcecFF, " > Parabéns, Voc� ganhou o item {FFFFFF}Marreta{0cfcec}.");
 		}
 	}
-	else ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Você errou :( ... Tente novamente!");
+	else ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Voc� errou :( ... Tente novamente!");
 	return 1;
 }

@@ -298,7 +298,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 StartBuildingDefence(playerid, itemid)
 {
 	if(GetPlayerInterior(playerid) != 0)
-		return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
+		return SendClientMessage(playerid, RED, " > Voc� não pode construir aqui.");
 		
 	new itemtypename[ITM_MAX_NAME];
 

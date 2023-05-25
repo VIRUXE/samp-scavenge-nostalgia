@@ -242,33 +242,33 @@ ACMD:veiculo[3](playerid, params[]) {
 		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destruido", vehicleid);
 	} else if(isequal(command, "reparar", true)) {// Reparar completamente o veiculo
 		/* 
-			Como o RepairVehicle coloca o veículo com 1000.0 de vida,
+			Como o RepairVehicle coloca o Ve�culo com 1000.0 de vida,
 			precisamos colocar 990.0 para não ser declarado como hack.
 		 */
-		// Primeiro removemos os jogadores do veículo, para o servidor não os declarar como hack
+		// Primeiro removemos os jogadores do Ve�culo, para o servidor não os declarar como hack
 		// Armazemos os jogadores em um array, para os colocarmos de volta depois
-		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o máximo de jogadores que podem estar em um veículo
+		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o máximo de jogadores que podem estar em um Ve�culo
 		
 		foreach(new i : Player) {
 			if(GetPlayerVehicleID(i) == vehicleid) {
 				new seat = GetPlayerVehicleSeat(i);
 
-				if(seat == -1) continue; // Se por alguma razão o jogador já não estiver mais no veículo, continuamos
+				if(seat == -1) continue; // Se por alguma razão o jogador já não estiver mais no Ve�culo, continuamos
 
-				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua posição no veículo
+				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua posição no Ve�culo
 
 				RemovePlayerFromVehicle(i);
 			}
 		}
 
 		RepairVehicle(vehicleid); // Repara a lataria
-		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o veículo mais do que 990.0. Mais do que isso é hack.
+		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o Ve�culo mais do que 990.0. Mais do que isso é hack.
 
-		// Colocamos os jogadores de volta no veículo
+		// Colocamos os jogadores de volta no Ve�culo
 		for(new i = 0; i < sizeof(occupants); i++) {
 			if(!IsPlayerConnected(occupants[i])) continue;
 
-			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocá-lo de volta no veículo no preciso momento.
+			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocá-lo de volta no Ve�culo no preciso momento.
 			PutPlayerInVehicleTimed(occupants[i], vehicleid, i);
 		}
 		
@@ -445,7 +445,7 @@ ACMD:comandoslvl3[3](playerid) {
     strcat(stringlvl3, ""C_BLUE"/(des)banir - Banir/desbanir players\n");
     strcat(stringlvl3, ""C_BLUE"/spec /free - Observar alguém, camera livre\n");
     strcat(stringlvl3, ""C_BLUE"/ip - Pegar ip de players\n");
-    strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar veículos\n");
+    strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar Ve�culos\n");
     strcat(stringlvl3, ""C_BLUE"/move - Mover-se\n");
     strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
     strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova será: 'password')\n");

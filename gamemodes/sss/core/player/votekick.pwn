@@ -65,9 +65,9 @@ CMD:votekick(playerid, params[]) {
 
     if(targetId == INVALID_PLAYER_ID) return SendClientMessage(playerid, RED, "Jogador não encontrado.");
 
-    if(targetId == playerid) return SendClientMessage(playerid, RED, "Você não pode votar contra si mesmo.");
+    if(targetId == playerid) return SendClientMessage(playerid, RED, "Voc� não pode votar contra si mesmo.");
 
-    if(GetPlayerAdminLevel(targetId)) return SendClientMessage(playerid, RED, "Você não pode votar contra um administrador.");   
+    if(GetPlayerAdminLevel(targetId)) return SendClientMessage(playerid, RED, "Voc� não pode votar contra um administrador.");   
 
     votekick_start           = GetTickCount();
     votekick_player          = targetId;
@@ -87,9 +87,9 @@ CMD:votekick(playerid, params[]) {
 CMD:vote(playerid, params[]) {
     if(votekick_player == INVALID_PLAYER_ID) return SendClientMessage(playerid, RED, "Não existe nenhuma votação em andamento.");
 
-    if(votekick_player == playerid) return SendClientMessage(playerid, RED, "Você não pode votar contra si mesmo.");
+    if(votekick_player == playerid) return SendClientMessage(playerid, RED, "Voc� não pode votar contra si mesmo.");
 
-    if(votekick_votes[playerid] != VOTE_NULL) return SendClientMessage(playerid, RED, "Você já votou.");
+    if(votekick_votes[playerid] != VOTE_NULL) return SendClientMessage(playerid, RED, "Voc� já votou.");
 
     if(isequal(params, "sim", true)) {
         votekick_votes[playerid] = VOTE_YES;

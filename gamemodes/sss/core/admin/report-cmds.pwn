@@ -55,7 +55,7 @@ ACMD:blockrr[1](playerid, params[]){
 	new prid;
 	if(sscanf(params, "d", prid)) return ChatMsg(playerid, RED, " > Use /blockrr [id]");
     RelatorioBlock[prid] = !RelatorioBlock[prid];
-    if(RelatorioBlock[prid]) ChatMsg(playerid, YELLOW, " > Você bloqueou %p de usar o /relatorio!", prid);
+    if(RelatorioBlock[prid]) ChatMsg(playerid, YELLOW, " > Voc� bloqueou %p de usar o /relatorio!", prid);
     else ChatMsg(playerid, YELLOW, " > %p agora pode usar /relatorio", prid);
 	return 1;
 }
@@ -139,7 +139,7 @@ timer RelatorioFalse[SEC(1)](playerid)
 
 CMD:report(playerid){
     if(GetPlayerAdminLevel(playerid) > 1)
-        return ChatMsg(playerid, RED, " > Você não pode usar este comando.");
+        return ChatMsg(playerid, RED, " > Voc� não pode usar este comando.");
         
 	ShowReportMenu(playerid);
 
@@ -441,7 +441,7 @@ ShowReportOptions(playerid)
 		}
 
 		if(!strcmp(report_CurrentType[playerid], "VTP"))
-			strcat(options, "Ir para a posição do veículo\n");
+			strcat(options, "Ir para a posição do Ve�culo\n");
 	}
 
 	HidePlayerPageButtons(playerid);
@@ -566,7 +566,7 @@ ShowReportBanPrompt(playerid)
 {
 	if(GetPlayerAdminLevel(playerid) < 3)
 	{
-		ChatMsg(playerid, RED, "Você não tem permissão para banir jogadores.");
+		ChatMsg(playerid, RED, "Voc� não tem permissão para banir jogadores.");
 		ShowReportOptions(playerid);
 
 		return 0;

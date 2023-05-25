@@ -55,7 +55,7 @@ ResetBanVariables(playerid)
 
 FormatBanReasonDialog(playerid)
 {
-	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres é 128. Após essa tela, você definirá a duração do banimento.", "Continuar", "Cancelar");
+	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres é 128. Após essa tela, Voc� definirá a duração do banimento.", "Continuar", "Cancelar");
 }
 
 Dialog:BanReason(playerid, response, listitem, inputtext[])
@@ -125,7 +125,7 @@ FinaliseBan(playerid)
 		return 0;
 	}
 
-	ChatMsg(playerid, YELLOW, " >  Você baniu "C_BLUE"%s", ban_CurrentName[playerid]);
+	ChatMsg(playerid, YELLOW, " >  Voc� baniu "C_BLUE"%s", ban_CurrentName[playerid]);
 
 	log("[BAN] %p baniu %s motivo: %s", playerid, ban_CurrentName[playerid], ban_CurrentReason[playerid]);
 

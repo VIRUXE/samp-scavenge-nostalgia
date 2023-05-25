@@ -85,7 +85,7 @@ ACMD:kick[1](playerid, params[]) {
 
 	if(sscanf(params, "ds[64]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /kick [playerid] [motivo]");
 
-	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" você não pode kickar a si mesmo", playerid);
+	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" Voc� não pode kickar a si mesmo", playerid);
 
 	if(!IsPlayerConnected(targetid)) return CMD_INVALID_PLAYER;
 

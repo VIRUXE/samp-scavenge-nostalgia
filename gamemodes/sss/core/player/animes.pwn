@@ -42,7 +42,7 @@ CMD:handsup(playerid)
 CMD:stop(playerid)
 {
 	if(GetPlayerTotalVelocity(playerid) > 0.0){
-	    SendClientMessage(playerid, RED, " > VocÃª deve estar parado para usar este comando.");
+	    SendClientMessage(playerid, RED, " > Você deve estar parado para usar este comando.");
 	    return 1;
 	}
 	

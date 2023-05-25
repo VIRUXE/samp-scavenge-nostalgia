@@ -109,7 +109,7 @@ hook OnPlayerLogin(playerid) {
 
 CMD:clan(playerid, params[])
 {
-	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > VocÃª deve nascer antes.");
+	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
 
     new command[9];
 

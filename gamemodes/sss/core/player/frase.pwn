@@ -24,9 +24,9 @@ GetPlayerJoinSentence(playerid) {
 
 CMD:frase(playerid, params[])
 {
-    if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, RED, " > VocÃª precisa estar logado para isso.");
+    if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, RED, " > Você precisa estar logado para isso.");
 
-	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > VocÃª precisa ser VIP para usar este comando.");
+	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Você precisa ser VIP para usar este comando.");
 
     if(GetPlayerScore(playerid) < 100) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/points"));
 

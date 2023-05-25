@@ -69,7 +69,7 @@ CMD:savecamera(playerid, params[])
 	if(GetPVarType(playerid, "FlyMode"))
 	    SaveCamera(playerid, params);
 	else
-		SendClientMessage(playerid, -1, "Você não pode usar este comando agora");
+		SendClientMessage(playerid, -1, "Voc� não pode usar este comando agora");
 	return 1;
 }
 
@@ -258,7 +258,7 @@ stock GetNextCameraPositionEx(Float:CP[3], Float:FV[3], &Float:X, &Float:Y, &Flo
 
 stock CancelCameraMode(playerid)
 {
-    SendClientMessage(playerid, 0xF6F600FF, "Você foi spawnado.");
+    SendClientMessage(playerid, 0xF6F600FF, "Voc� foi spawnado.");
 	DeletePVar(playerid, "FlyMode");
 	CancelEdit(playerid);
 	TogglePlayerSpectating(playerid, false);

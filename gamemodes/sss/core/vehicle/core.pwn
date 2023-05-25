@@ -423,7 +423,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	return 1;
 }
 
-// Esconde o status de reparo do ve铆culo, ap贸s 3 segundos.
+// Esconde o status de reparo do Ve韈ulo, ap贸s 3 segundos.
 timer HideRepairStatus[SEC(3)](playerid) {
 	// printf("HideRepairStatus(%d)", playerid);
 
@@ -457,7 +457,7 @@ UpdateRepairStatus(playerid, vehicleid) {
 	PlayerTextDrawColor(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER], 		health >= 988.0 ? -1 : 0xFF0000FF);
 }
 
-// Mostra o status de reparo do ve铆culo, durante 3 segundos.
+// Mostra o status de reparo do Ve韈ulo, durante 3 segundos.
 ShowRepairStatus(playerid, vehicleid, bool:hide = true) {
 	if(veh_ShowingRepairStatus[playerid]) return;
 
@@ -474,7 +474,7 @@ ShowRepairStatus(playerid, vehicleid, bool:hide = true) {
 	PlayerTextDrawShow(playerid, veh_DmgUI[playerid][VEH_TOOL_SPANNER]);
 
 	if(hide)
-		defer HideRepairStatus(playerid); // Esconde o status de reparo do ve铆culo, ap贸s 3 segundos.
+		defer HideRepairStatus(playerid); // Esconde o status de reparo do Ve韈ulo, ap贸s 3 segundos.
 }
 
 PlayerVehicleUpdate(playerid)

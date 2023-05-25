@@ -106,7 +106,7 @@ timer Stop_Sleeping[TIME_SLEEP * SEC(1)](playerid, Float:x, Float:y, Float:z)
 	ClearAnimations(playerid);
 	SetPlayerPos(playerid, x, y, z + 1.0);
 	SetPlayerHP(playerid, 100.0);
-	ChatMsg(playerid, PINK, " > Você dormiu e recuperou a vida. Quando você morrer nascerá aqui.");
+	ChatMsg(playerid, PINK, " > Voc� dormiu e recuperou a vida. Quando Voc� morrer nascerá aqui.");
 }
 
 hook OnPlayerPickUpItem(playerid, itemid)
