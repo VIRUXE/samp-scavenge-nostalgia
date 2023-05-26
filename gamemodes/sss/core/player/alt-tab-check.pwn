@@ -45,7 +45,7 @@ ptask AfkCheckUpdate[100](playerid) {
 	else if((x == 0.0 && y == 0.0 && z == 0.0))
 		comparison = 2500;
 
-	comparison += GetPlayerPing(playerid);
+	comparison += GetPlayerCachedPing(playerid);
 
 	// ShowActionText(playerid, sprintf("%d :: %s%d - %d", playerstate, (tab_Check[playerid] > comparison) ? ("~r~") : ("~w~"), tab_Check[playerid], comparison), 0);
 

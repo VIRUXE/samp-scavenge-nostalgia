@@ -1,20 +1,29 @@
 #include <YSI\y_hooks>
 
-#define PING_CHECK_INTERVAL 1000
-
 static PING_LIMIT;
 static const MAX_STRIKES = 10;
 
-static limitStrikes[MAX_PLAYERS];
+static 
+    cachedPing[MAX_PLAYERS],
+    limitStrikes[MAX_PLAYERS];
 
-static ptask CheckPing[PING_CHECK_INTERVAL](playerid) {
+GetPlayerCachedPing(playerid) {
+    if(!IsPlayerConnected(playerid)) return 0;
+
+    return cachedPing[playerid];
+}
+
+static ptask CheckPing[SEC(1)](playerid) {
     if(!PING_LIMIT) return;
+
     if(IsPlayerOnAdminDuty(playerid)) {
         if(limitStrikes[playerid]) limitStrikes[playerid] = 0;
         return;
     }
 
     new ping = GetPlayerPing(playerid);
+
+    cachedPing[playerid] = ping;
 
     // Check if the ping exceeds the limit
     if (ping > PING_LIMIT) {
