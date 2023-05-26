@@ -183,7 +183,7 @@ ACMD:comandoslvl1[1](playerid)
     strcat(stringlvl1, ""C_BLUE"/(all)country - Mostrar dados da cidade de um player\n");
     strcat(stringlvl1, ""C_BLUE"/cc - Limpar o chat\n");
     strcat(stringlvl1, ""C_BLUE"/rr - Responder relatórios\n");
-    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear alguém de enviar relatório\n");
+    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear algu�m de enviar relatório\n");
 	
     ShowPlayerDialog(playerid, 12401, DIALOG_STYLE_MSGBOX, "Admin 1", stringlvl1, "Fechar", "");
 

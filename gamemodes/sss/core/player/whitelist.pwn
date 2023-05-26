@@ -247,7 +247,7 @@ stock WhitelistKick(playerid){
 		Nosso discord:\n\
 		\t"C_BLUE"www.discord.me/ScavengeSurvive "C_YELLOW"ou "C_BLUE"discord.gg/P6ps6Uxo"C_YELLOW".\n\n\
 		"C_YELLOW"Após ser aceito, basta entrar no servidor novamente.\n\n\n\
-		"C_RED"Oque é whitelist? "C_WHITE"Whitelist serve para evitar que players inapropriados entrem no servidor,\n\
+		"C_RED"Oque � whitelist? "C_WHITE"Whitelist serve para evitar que players inapropriados entrem no servidor,\n\
 		com ela, só entra no servidor quem foi cadastrado e permitido pela staff.\n\n\
 		"C_RED"Quando eu vou ser aceito na whitelist? "C_WHITE" Apos colocar seu nick no discord,\n\
 		Voc� será aceito instantâneamente caso não seja um fake ou algo do tipo. Se Voc� não for aceito\n\

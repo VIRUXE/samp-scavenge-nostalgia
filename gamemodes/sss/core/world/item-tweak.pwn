@@ -64,7 +64,7 @@ hook OnPlayerUpdate(playerid){
 	return 1;
 }
 
-// Corrigir posi√ß√£o do objeto
+// Corrigir PosiÁ„o do objeto
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
 	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID){
 	    TweakResetItemPos(playerid);
@@ -102,7 +102,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
         if(Distance(x, y, z, ix, iy, iz) > 10.0){
             GetItemPos(twk_Item[playerid], x, y, z);
 	    	GetItemRot(twk_Item[playerid], rx, ry, rz);
-            ChatMsg(playerid, RED, " > VocÍ moveu o item longe demais e a posi√ß√£o foi resetada.");
+            ChatMsg(playerid, RED, " > VocÍ moveu o item longe demais e a PosiÁ„o foi resetada.");
         }
 	    SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
@@ -128,7 +128,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 		/*if(Distance(x, y, z, ix, iy, iz) > 8.0)
 		    ShowHelpTip(playerid, "~r~Voce moveu muito longe do local de origem.");
 		else
-		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua posi√ß√£o original\
+		    ShowHelpTip(playerid, "~y~Use a tecla ALT para voltar o objeto a sua PosiÁ„o original\
 			~n~~y~Use ESPACO para mover a c√¢mera~n~~y~~h~Esta proibido grifar a base de outros jogadores.");*/
 	    
 	}

@@ -169,7 +169,7 @@ Dialog:BanReasonEdit(playerid, response, listitem, inputtext[])
 
 ShowBanDurationEdit(playerid)
 {
-	Dialog_Show(playerid, BanDurationEdit, DIALOG_STYLE_INPUT, "Editar a duração do banimento", "Insira a nova duração do banimento abaixo no formato <número> <days/weeks/months>", "Confirmar", "Cancelar");
+	Dialog_Show(playerid, BanDurationEdit, DIALOG_STYLE_INPUT, "Editar a duração do banimento", "Insira a nova duração do banimento abaixo no formato <n�mero> <days/weeks/months>", "Confirmar", "Cancelar");
 
 	return 1;
 }
@@ -188,7 +188,7 @@ Dialog:BanDurationEdit(playerid, response, listitem, inputtext[])
 
 		if(duration == -1)
 		{
-			ChatMsg(playerid, YELLOW, " >  Inválido. Use <Número> <days/weeks/months>.");
+			ChatMsg(playerid, YELLOW, " >  Inválido. Use <n�mero> <days/weeks/months>.");
 			ShowBanDurationEdit(playerid);
 		}
 		else

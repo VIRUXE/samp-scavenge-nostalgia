@@ -54,7 +54,7 @@ hook OnGameModeInit()
 	repeat AddLoot();
 }
 
-// ? wtf que merda Ã© essa??
+// ? wtf que merda é essa??
 new Float:LootAngle;
 timer AddLoot[MIN(1)]()
 {

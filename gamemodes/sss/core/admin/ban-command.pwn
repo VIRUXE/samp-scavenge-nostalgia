@@ -55,7 +55,7 @@ ResetBanVariables(playerid)
 
 FormatBanReasonDialog(playerid)
 {
-	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres é 128. Após essa tela, Voc� definirá a duração do banimento.", "Continuar", "Cancelar");
+	Dialog_Show(playerid, BanReason, DIALOG_STYLE_INPUT, "Insira o motivo do banimento", "Digite o motivo do banimento abaixo. O limite de caracteres � 128. Após essa tela, Voc� definirá a duração do banimento.", "Continuar", "Cancelar");
 }
 
 Dialog:BanReason(playerid, response, listitem, inputtext[])

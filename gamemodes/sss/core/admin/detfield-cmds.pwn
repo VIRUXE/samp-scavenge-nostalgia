@@ -513,7 +513,7 @@ Dialog:DetfieldRename(playerid, response, listitem, inputtext[])
 			ChatMsg(playerid, RED, " >  Já possuí uma field existente com este nome.");
 
 		if(ret == -2)
-			ChatMsg(playerid, RED, " >  Nome de field inválida. Deve começar com um caractere alfabético e pode conter apenas caracteres alfanuméricos.");
+			ChatMsg(playerid, RED, " >  Nome de field inválida. Deve começar com um caractere alfab�tico e pode conter apenas caracteres alfanum�ricos.");
 	}
 
 	ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);

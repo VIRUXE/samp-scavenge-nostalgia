@@ -18,9 +18,9 @@ static
     Timer:votekick_timer;
 
 timer VoteKickTimer[SEC(10)]() {
-    if(!IsPlayerConnected(votekick_player)) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação é cancelada.
+    if(!IsPlayerConnected(votekick_player)) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação � cancelada.
 
-    if (GetTickCount() - votekick_start >= SEC(MAX_VOTING_TIME)) { // Se o tempo máximo da votação for atingido, a votação é cancelada.
+    if (GetTickCount() - votekick_start >= SEC(MAX_VOTING_TIME)) { // Se o tempo máximo da votação for atingido, a votação � cancelada.
         ChatMsgAll(WHITE, "O tempo máximo da votação foi atingido. O jogador %P não foi expulso.", votekick_player);
         
         EndVoting();
@@ -31,7 +31,7 @@ timer VoteKickTimer[SEC(10)]() {
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
-    if(votekick_player == playerid) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação é cancelada.
+    if(votekick_player == playerid) EndVoting(); // Se o jogador que está sendo votado desconectar, a votação � cancelada.
 }
 
 static EndVoting() {
@@ -108,7 +108,7 @@ CMD:vote(playerid, params[]) {
 
     new players = Iter_Count(Player);
 
-    if(CountVotes(VOTE_YES) >= players / 2) { // Se a metade dos jogadores votarem sim, o jogador é expulso.
+    if(CountVotes(VOTE_YES) >= players / 2) { // Se a metade dos jogadores votarem sim, o jogador � expulso.
         ChatMsgAll(GREEN, "Vote Kick: A votação foi aprovada. O jogador %P"C_GREEN" foi expulso.", votekick_player);
 
         TimeoutPlayer(votekick_player, sprintf("Vote Kick: %s", votekick_reason));
@@ -117,7 +117,7 @@ CMD:vote(playerid, params[]) {
         log("[VOTEKICK] %p (%d) foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);
         
         EndVoting();
-    } else if(CountVotes(VOTE_NO) >= players / 2) { // Se a metade dos jogadores votarem não, a votação é cancelada.
+    } else if(CountVotes(VOTE_NO) >= players / 2) { // Se a metade dos jogadores votarem não, a votação � cancelada.
         ChatMsgAll(RED, "A votação foi reprovada. O jogador %P"C_RED" não foi expulso.", votekick_player);
 
         log("[VOTEKICK] %p (%d) não foi expulso por %p (%d). Motivo: %s", votekick_player, playerid, votekick_reason);

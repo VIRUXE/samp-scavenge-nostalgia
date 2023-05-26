@@ -180,7 +180,7 @@ stock SaveCamera(playerid, nome[])
     fwrite(file,str);
     fclose(file);
     SendClientMessage(playerid, 0xF6F600FF, "-----------------------------------------------------------------------------------------------------------------------------");
-	format(str, sizeof str, "A posiÃ§Ã£o da camera '{FFFFFF}%s{F6F600}' foi salva no arquivo ({FFFFFF}%s{F6F600}) em sua pasta 'scriptfiles'",nome, PASTA_SAVE);
+	format(str, sizeof str, "A Posição da camera '{FFFFFF}%s{F6F600}' foi salva no arquivo ({FFFFFF}%s{F6F600}) em sua pasta 'scriptfiles'",nome, PASTA_SAVE);
     SendClientMessage(playerid, 0xF6F600FF, str);
 	SendClientMessage(playerid, 0xF6F600FF, "-----------------------------------------------------------------------------------------------------------------------------");
 	return 1;

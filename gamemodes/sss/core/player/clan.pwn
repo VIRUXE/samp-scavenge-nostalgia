@@ -135,7 +135,7 @@ CMD:clan(playerid, params[])
 
 		if(strlen(clanTag) != MAX_CLAN_TAG) return ChatMsg(playerid, RED, " > A tag do clan deve ter 3 caracteres.");
 
-		if(!isstringalphanumeric(clanName)) return ChatMsg(playerid, RED, " > O nome do clan apenas pode conter caracteres alfanuméricos (A-Z, a-z, 0-9).");
+		if(!isstringalphanumeric(clanName)) return ChatMsg(playerid, RED, " > O nome do clan apenas pode conter caracteres alfanum�ricos (A-Z, a-z, 0-9).");
 
 		if(!isempty(GetClanOwner(clanName))) return ChatMsg(playerid, RED, " > Este clan já existe.");
 

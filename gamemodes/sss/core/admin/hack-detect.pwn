@@ -65,8 +65,7 @@ public OnPlayerAirbreak(playerid, Float:x, Float:y, Float:z, Float:ox, Float:oy,
 
 ==============================================================================*/
 
-ptask player_Check[SEC(1)](playerid)
-{
+ptask player_Check[SEC(1)](playerid) {
     /*==========================================================================
     
 		Anti-Fly
@@ -161,8 +160,7 @@ ptask player_Check[SEC(1)](playerid)
 	CameraDistanceCheck(playerid);
 }
 
-timer vh_ResetVehiclePosition[SEC(1)](vehicleid)
-{
+timer vh_ResetVehiclePosition[SEC(1)](vehicleid) {
 	SetVehicleHealth(vehicleid, 300.0);
 }
 
@@ -192,8 +190,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 		}
 	}
 
-	if(newstate == PLAYER_STATE_PASSENGER)
-	{
+	if(newstate == PLAYER_STATE_PASSENGER) {
 		new
 			vehicleid,
 			E_LOCK_STATE:lockstate;
@@ -201,8 +198,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 		vehicleid = GetPlayerVehicleID(playerid);
 		lockstate = GetVehicleLockState(vehicleid);
 
-		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500)
-		{
+		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500) {
 			AC_KickPlayer(playerid, "Teleporte Veículo");
 			defer StillInVeh(playerid, vehicleid, _:lockstate);
 			return 1;
@@ -212,8 +208,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 	return 1;
 }
 
-timer StillInVeh[SEC(1)](playerid, vehicleid, ls)
-{
+timer StillInVeh[SEC(1)](playerid, vehicleid, ls) {
 	if(!IsPlayerConnected(playerid)) return;
 
 	SetVehicleExternalLock(vehicleid, E_LOCK_STATE:ls);
@@ -230,80 +225,61 @@ static
 	ammo_LastShot[MAX_PLAYERS],
 	ammo_ShotCounter[MAX_PLAYERS];
 
-hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
-{
+hook OnPlayerWeaponShot(playerid, weaponid, hitType, hitid, Float:fX, Float:fY, Float:fZ) {
     if(GetPlayerAdminLevel(playerid) > 0) return 1;
 
-	if(GetTickCountDifference(GetTickCount(), ammo_LastShot[playerid]) < GetWeaponShotInterval(weaponid) + 10)
-	{
+	if(GetTickCountDifference(GetTickCount(), ammo_LastShot[playerid]) < GetWeaponShotInterval(weaponid) + 10) {
 		ammo_ShotCounter[playerid]++;
 
 		if(ammo_ShotCounter[playerid] > GetWeaponMagSize(weaponid))
 			AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
-	}
-	else
+	} else
 		ammo_ShotCounter[playerid] = 1;
 
 	ammo_LastShot[playerid] = GetTickCount();
 
-	switch(weaponid)
-	{
-		case 27:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 222)
-			{
+	switch(weaponid) {
+		case 27: {
+			if(GetPlayerAnimationIndex(playerid) == 222) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-		case 23:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 1454)
-			{
+		case 23: {
+			if(GetPlayerAnimationIndex(playerid) == 1454) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-		case 25:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 1450)
-			{
+		case 25: {
+			if(GetPlayerAnimationIndex(playerid) == 1450) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-		case 29:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 1645)
-			{
+		case 29: {
+			if(GetPlayerAnimationIndex(playerid) == 1645) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-		case 30, 31, 33:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 1367)
-			{
+		case 30, 31, 33: {
+			if(GetPlayerAnimationIndex(playerid) == 1367) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-		case 24:
-		{
-			if(GetPlayerAnimationIndex(playerid) == 1333)
-			{
+		case 24: {
+			if(GetPlayerAnimationIndex(playerid) == 1333) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
 		}
-        case 22, 26, 28, 32, 34, 38:
-		{
+        case 22, 26, 28, 32, 34, 38: {
 			// Do nothing
 		}
-		default:
-		{
-			if(hittype == BULLET_HIT_TYPE_PLAYER)
-			{
+		default: {
+			if(hitType == BULLET_HIT_TYPE_PLAYER) {
 				AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 				return 0;
 			}
@@ -311,10 +287,8 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
 	}
 
 	// by IstuntmanI, thanks!
-	if(hittype == BULLET_HIT_TYPE_PLAYER)
-	{
-		if(!(-20.0 <= fX <= 20.0) || !(-20.0 <= fY <= 20.0) || !(-20.0 <= fZ <= 20.0))
-		{
+	if(hitType == BULLET_HIT_TYPE_PLAYER) {
+		if(!(-20.0 <= fX <= 20.0) || !(-20.0 <= fY <= 20.0) || !(-20.0 <= fZ <= 20.0)) {
 			AC_KickPlayer(playerid, "Weapon - Hack", sprintf("Arma: %d", weaponid));
 			return 0;
 		}
@@ -329,15 +303,13 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
 
 ==============================================================================*/
 
-#define CAMERA_DISTANCE_INCAR			(150.0)
-#define CAMERA_DISTANCE_INCAR_MOVING	(150.0)
-#define CAMERA_DISTANCE_INCAR_CINEMATIC	(250.0)
-#define CAMERA_DISTANCE_INCAR_CINEMOVE	(150.0)
-#define CAMERA_DISTANCE_ONFOOT			(45.0)
+#define CAMERA_DISTANCE_INCAR			150.0
+#define CAMERA_DISTANCE_INCAR_MOVING	150.0
+#define CAMERA_DISTANCE_INCAR_CINEMATIC	250.0
+#define CAMERA_DISTANCE_INCAR_CINEMOVE	150.0
+#define CAMERA_DISTANCE_ONFOOT			45.0
 
-
-enum
-{
+enum {
 	CAMERA_TYPE_NONE,				// 0
 	CAMERA_TYPE_INCAR,				// 1
 	CAMERA_TYPE_INCAR_MOVING,		// 2
@@ -350,19 +322,17 @@ static
 		cd_ReportTick		[MAX_PLAYERS],
 		cd_DetectDelay		[MAX_PLAYERS];
 		
-CameraDistanceCheck(playerid)
-{
+CameraDistanceCheck(playerid) {
 	if(
-		//IsAutoSaving() ||
+		!IsPlayerLoggedIn(playerid) ||
 		IsPlayerDead(playerid) ||
 		IsPlayerUnfocused(playerid) ||
 		IsPlayerOnZipline(playerid) ||
 		IsValidVehicle(GetPlayerSurfingVehicleID(playerid)) ||
 		IsValidObject(GetPlayerSurfingObjectID(playerid)) ||
 		GetPlayerInterior(playerid) != 0 ||
-		GetPlayerVirtualWorld(playerid) != 0 ||
-		!IsPlayerLoggedIn(playerid)) 
-	{
+		GetPlayerVirtualWorld(playerid) != 0
+	) {
 		cd_DetectDelay[playerid] = GetTickCount();
 		return;
 	}
@@ -379,14 +349,11 @@ CameraDistanceCheck(playerid)
 
 	new Float:vx, Float:vy, Float:vz;
 
-	if(IsPlayerInAnyVehicle(playerid))
-	{
+	if(IsPlayerInAnyVehicle(playerid)) {
 		GetVehicleVelocity(GetPlayerVehicleID(playerid), vx, vy, vz);
 
 		if(vz < -1.0) return;
-	}
-	else
-	{
+	} else {
 		GetPlayerVelocity(playerid, vx, vy, vz);
 
 		if(vz < -1.0) return;
@@ -411,45 +378,34 @@ CameraDistanceCheck(playerid)
 
 	if(IsAtDefaultPos(cx, cy, cz)) return;
 
-	if(IsPlayerInAnyVehicle(playerid))
-	{
+	if(IsPlayerInAnyVehicle(playerid)) {
 		new cameramode = GetPlayerCameraMode(playerid);
 
 		GetVehiclePos(GetPlayerVehicleID(playerid), px, py, pz);
 
 		distance = Distance(px, py, pz, cx, cy, cz);
 
-		if(cameramode == 56)
-		{
+		if(cameramode == 56) {
 			type = CAMERA_TYPE_INCAR_CINEMATIC;
 			cmp = CAMERA_DISTANCE_INCAR_CINEMATIC;
-		}
-		else if(cameramode == 57)
-		{
+		} else if(cameramode == 57) {
 			type = CAMERA_TYPE_INCAR_CINEMATIC;
 			cmp = CAMERA_DISTANCE_INCAR_CINEMATIC;
-		}
-		else if(cameramode == 15)
-		{
+		} else if(cameramode == 15) {
 			type = CAMERA_TYPE_INCAR_CINEMOVE;
 			cmp = CAMERA_DISTANCE_INCAR_CINEMOVE;
-		}
-		else
+		} else
 		{
-			if(vx + vy > 0.0)
-			{
+			if(vx + vy > 0.0) {
 				type = CAMERA_TYPE_INCAR_MOVING;
-				cmp = CAMERA_DISTANCE_INCAR_MOVING;
-			}
-			else
-			{
+				cmp  = CAMERA_DISTANCE_INCAR_MOVING;
+			} else {
 				type = CAMERA_TYPE_INCAR;
-				cmp = CAMERA_DISTANCE_INCAR;
+				cmp  = CAMERA_DISTANCE_INCAR;
 			}
 		}
 
-		if(distance > cmp)
-		{
+		if(distance > cmp) {
 			new
 				name[MAX_PLAYER_NAME],
 				reason[128],
@@ -464,9 +420,7 @@ CameraDistanceCheck(playerid)
 
 			cd_ReportTick[playerid] = GetTickCount();
 		}
-	}
-	else
-	{
+	} else {
 		new cameramode = GetPlayerCameraMode(playerid);
 
 		GetPlayerPos(playerid, px, py, pz);
@@ -486,8 +440,7 @@ CameraDistanceCheck(playerid)
 		type = CAMERA_TYPE_ONFOOT;
 		distance = Distance(px, py, pz, cx, cy, cz);
 
-		if(distance > CAMERA_DISTANCE_ONFOOT)
-		{
+		if(distance > CAMERA_DISTANCE_ONFOOT) {
 			new
 				name[MAX_PLAYER_NAME],
 				reason[128],
@@ -531,8 +484,7 @@ IPacket:200(playerid, BitStream:bs){
 	static Float:S;
 	S = floatsqroot(floatpower(floatabs(inCarData[PR_velocity][0]), 2.0) + floatpower(floatabs(inCarData[PR_velocity][1]), 2.0) + floatpower(floatabs(inCarData[PR_velocity][2]), 2.0)) * 253.3;
 
-	if(S > 350.0)
-	{
+	if(S > 350.0) {
 	    if(!IsPlayerDead(playerid) &&
 		   !gServerRestarting &&
 		   GetPlayerWeapon(playerid) != WEAPON_PARACHUTE &&
@@ -546,8 +498,7 @@ IPacket:200(playerid, BitStream:bs){
 	return 1;
 }
 
-IPacket:207(playerid, BitStream:bs)
-{
+IPacket:207(playerid, BitStream:bs) {
     new onFootData[PR_OnFootSync];
 	BS_IgnoreBits(bs, 8);
 	BS_ReadOnFootSync(bs, onFootData);
@@ -582,8 +533,7 @@ IPacket:207(playerid, BitStream:bs)
 		onFootData[PR_animationId] == 1132)
 		return 1;
     
-	if(GetPlayerTotalVelocity(playerid) > 50.0)
-	{
+	if(GetPlayerTotalVelocity(playerid) > 50.0) {
         SetPlayerVelocity(playerid, onFootData[PR_velocity][0] / 2, onFootData[PR_velocity][1] / 2, onFootData[PR_velocity][2]);
         return 0;
 	}
@@ -591,8 +541,7 @@ IPacket:207(playerid, BitStream:bs)
 	return 1;
 }
 
-public OnPlayerSuspectedForAimbot(playerid,hitid,weaponid,warnings)
-{
+public OnPlayerSuspectedForAimbot(playerid,hitid,weaponid,warnings) {
     new
 	    lastattacker,
 		lastweapon;
@@ -603,13 +552,11 @@ public OnPlayerSuspectedForAimbot(playerid,hitid,weaponid,warnings)
 	return 1;
 }
 
-IPacket:206(playerid, BitStream:bs)
-{
+IPacket:206(playerid, BitStream:bs) {
 	new bulletData[PR_BulletSync];
 	BS_IgnoreBits(bs, 8);
 	BS_ReadBulletSync(bs, bulletData);
-	if(!IsPlayerAdmin(playerid) && bulletData[PR_weaponId] == WEAPON_MINIGUN && GetPlayerWeapon(playerid) != WEAPON_MINIGUN)
-	{
+	if(!IsPlayerAdmin(playerid) && bulletData[PR_weaponId] == WEAPON_MINIGUN && GetPlayerWeapon(playerid) != WEAPON_MINIGUN) {
 	    AC_KickPlayer(playerid, "Arma Minigun invisível");
 		return 0;
 	}
@@ -627,8 +574,7 @@ static
 		vt_MovedFarTick[MAX_VEHICLES],
 		vt_MovedFarPlayer[MAX_VEHICLES];
 
-public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z)
-{
+public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z) {
 	if(GetTickCountDifference(GetTickCount(), vt_MovedFarTick[vehicleid]) < 5000) return 1;
 
 	if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < 15000) return 1;
@@ -642,29 +588,24 @@ public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_
     if(GetPlayerAdminLevel(playerid) > 0) return 1;
 
 	new
-		Float:x,
-		Float:y,
-		Float:z,
+		Float:x, Float:y, Float:z,
 		Float:distance;
 
 	GetVehiclePos(vehicleid, x, y, z);
 
 	distance = Distance(x, y, z, new_x, new_y, new_z);
 
-	if(IsNaN(distance))
-	{
+	if(IsNaN(distance)) {
 		RespawnVehicle(vehicleid);
 		return 1;
 	}
 
-	if(20.0 < distance < 500.0)
-	{
+	if(20.0 < distance < 500.0) {
 		new Float:distancetoplayer = 10000.0;
 
 		vt_MovedFarPlayer[vehicleid] = GetClosestPlayerFromPoint(x, y, z, distancetoplayer);
 
-		if(distancetoplayer < 10.0)
-		{
+		if(distancetoplayer < 10.0) {
 			vt_MovedFar[vehicleid] = true;
 			vt_MovedFarTick[vehicleid] = GetTickCount();
 

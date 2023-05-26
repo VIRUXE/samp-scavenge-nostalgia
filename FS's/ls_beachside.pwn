@@ -98,19 +98,19 @@
 static FloorNames[14][] =
 {
 	"Estacionamento",
-	"TÃ©rreo",
+	"Térreo",
 	"Primeiro andar",
 	"Segundo andar",
 	"Terceiro andar",
 	"Quarto andar",
 	"Quinto andar",
 	"Sexto andar",
-	"SÃ©timo andar",
+	"Sétimo andar",
 	"Oitavo andar",
 	"Nono andar",
-	"DÃ©cimo andar",
-	"DÃ©cimo primeiro andar",
-	"DÃ©cimo segundo andar"
+	"Décimo andar",
+	"Décimo primeiro andar",
+	"Décimo segundo andar"
 };
 
 // Elevator floor Z heights

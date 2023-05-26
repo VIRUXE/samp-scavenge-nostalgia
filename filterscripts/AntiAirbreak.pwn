@@ -18,7 +18,7 @@ new bool:ab_Check[MAX_PLAYERS],
 	Float:ab_SetZ[MAX_PLAYERS];
 
 public OnFilterScriptInit() {
-	// Pega a posiÃ§Ã£o dos jogadores conectados
+	// Pega a Posição dos jogadores conectados
     for(new i = 0; i < MAX_PLAYERS; i++) if(IsPlayerConnected(i)) GetPlayerPos(i, ab_SetX[i], ab_SetY[i], ab_SetZ[i]);
 
 	return 1;
@@ -55,14 +55,14 @@ public OnIncomingPacket(playerid, packetid, BitStream:bs){
 	return 1;
 }
 
-// Verifica a posiÃ§Ã£o do jogador e compara com a antiga;
+// Verifica a Posição do jogador e compara com a antiga;
 ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 {
 	if(!IsPlayerConnected(playerid)) return 0;
 	    
 	if(ab_ChangePosTick[playerid] > gettime()) return 1;
 	    
- 	if(ab_SetX[playerid] == x && ab_SetY[playerid] == y && ab_SetZ[playerid] == z) return 1; // Se a posiÃ§Ã£o for igual a antiga, segue
+ 	if(ab_SetX[playerid] == x && ab_SetY[playerid] == y && ab_SetZ[playerid] == z) return 1; // Se a Posição for igual a antiga, segue
 
 	// Se a skin for CJ ou Staff, ignora
 	if(GetPlayerSkin(playerid) == 0 || GetPlayerSkin(playerid) == 217 || GetPlayerSkin(playerid) == 211)
@@ -114,7 +114,7 @@ ab_PosCheck(playerid, Float:x, Float:y, Float:z)
 	        ab_SetZ[playerid] += 0.5;
 	    }
 
-		// Set a posiÃ§Ã£o "correta" para o jogador
+		// Set a Posição "correta" para o jogador
      	new BitStream:bs = BS_New();
 	    BS_WriteValue(bs,
 	        PR_FLOAT, ab_SetX[playerid],

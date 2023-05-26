@@ -247,7 +247,7 @@ ACMD:veiculo[3](playerid, params[]) {
 		 */
 		// Primeiro removemos os jogadores do Veículo, para o servidor nÃ£o os declarar como hack
 		// Armazemos os jogadores em um array, para os colocarmos de volta depois
-		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 Ã© o mÃ¡ximo de jogadores que podem estar em um Veículo
+		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o mÃ¡ximo de jogadores que podem estar em um Veículo
 		
 		foreach(new i : Player) {
 			if(GetPlayerVehicleID(i) == vehicleid) {
@@ -255,14 +255,14 @@ ACMD:veiculo[3](playerid, params[]) {
 
 				if(seat == -1) continue; // Se por alguma razÃ£o o jogador jÃ¡ nÃ£o estiver mais no Veículo, continuamos
 
-				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua posiÃ§Ã£o no Veículo
+				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua Posição no Veículo
 
 				RemovePlayerFromVehicle(i);
 			}
 		}
 
 		RepairVehicle(vehicleid); // Repara a lataria
-		SetVehicleHealth(vehicleid, 990.0); // NÃ£o podemos reparar o Veículo mais do que 990.0. Mais do que isso Ã© hack.
+		SetVehicleHealth(vehicleid, 990.0); // NÃ£o podemos reparar o Veículo mais do que 990.0. Mais do que isso é hack.
 
 		// Colocamos os jogadores de volta no Veículo
 		for(new i = 0; i < sizeof(occupants); i++) {
@@ -443,12 +443,12 @@ ACMD:comandoslvl3[3](playerid) {
     strcat(stringlvl3, "{FF0000}\n");
     strcat(stringlvl3, ""C_BLUE"/(des)congelar - Congelar/descongelar players\n");
     strcat(stringlvl3, ""C_BLUE"/(des)banir - Banir/desbanir players\n");
-    strcat(stringlvl3, ""C_BLUE"/spec /free - Observar alguÃ©m, camera livre\n");
+    strcat(stringlvl3, ""C_BLUE"/spec /free - Observar alguém, camera livre\n");
     strcat(stringlvl3, ""C_BLUE"/ip - Pegar ip de players\n");
     strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar Veículos\n");
     strcat(stringlvl3, ""C_BLUE"/move - Mover-se\n");
     strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
-    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguÃ©m (a senha nova serÃ¡: 'password')\n");
+    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova serÃ¡: 'password')\n");
     strcat(stringlvl3, ""C_BLUE"/setactive - ativar/desativar contas\n");
     strcat(stringlvl3, ""C_BLUE"/goto ou /tp - Ver os comandos de teleportes\n");
     strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");

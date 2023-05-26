@@ -56,7 +56,7 @@ CMD:dormir(playerid)
 	    	Bed_ItemID = 0;
 	}
 
-	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Alguém está dormindo nesta cama.");
+	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Algu�m está dormindo nesta cama.");
 
  	GetItemPos(Bed_ItemID, x, y, z);
  	GetItemPos(Bed_ItemID, x2, y2, z2);

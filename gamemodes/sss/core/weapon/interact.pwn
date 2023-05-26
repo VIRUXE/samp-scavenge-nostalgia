@@ -454,7 +454,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s cont�m apenas %d munições", sourceitemname, sourceitemammo));
 				}
 
 			}
@@ -472,7 +472,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s cont�m apenas %d munições", sourceitemname, sourceitemammo));
 				}
 			}
 		}
@@ -493,7 +493,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s cont�m apenas %d munições", sourceitemname, sourceitemammo));
 				}
 			}
 			else if(GetItemTypeAmmoType(targetitemtype) != -1)
@@ -510,7 +510,7 @@ Dialog:AmmoTransfer(playerid, response, listitem, inputtext[])
 				}
 				else
 				{
-					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s contém apenas %d munições", sourceitemname, sourceitemammo));
+					DisplayTransferAmmoDialog(playerid, trans_ContainerID[playerid], sprintf("%s cont�m apenas %d munições", sourceitemname, sourceitemammo));
 				}
 			}
 		}

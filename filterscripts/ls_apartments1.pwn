@@ -107,14 +107,14 @@ static FloorNames[11][] =
 static Float:FloorZOffsets[11] =
 {
     0.0, 		// Estacionamento
-    13.604544,	// TÃ©rreo
+    13.604544,	// Térreo
     18.808519,	// Primeiro Andar = 13.604544 + 5.203975
     24.012494,  // Segundo Andar = 18.808519 + 5.203975
     29.216469,  // Terceiro Andar = 24.012494 + 5.203975
     34.420444,  // Quarto Andar = 29.216469 + 5.203975
     39.624419,  // Quinto Andar = 34.420444 + 5.203975
     44.828394,  // Sexto Andar = 39.624419 + 5.203975
-    50.032369,  // SÃ©timo Andar = 44.828394 + 5.203975
+    50.032369,  // Sétimo Andar = 44.828394 + 5.203975
     55.236344,  // Oitavo Andar = 50.032369 + 5.203975
     60.440319   // Nono Andar = 55.236344 + 5.203975
 };
@@ -556,4 +556,3 @@ stock Float:GetElevatorZCoordForFloor(floorid)
 
 stock Float:GetDoorsZCoordForFloor(floorid)
 	return (GROUND_Z_COORD + FloorZOffsets[floorid] + ELEVATOR_OFFSET);
-

@@ -430,7 +430,7 @@ ShowReportOptions(playerid)
 
 	if((IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_DEVELOPER)
 	{
-		strcat(options, "Ir para a posi√ß√£o do report\n");
+		strcat(options, "Ir para a PosiÁ„o do report\n");
 
 		if(!strcmp(report_CurrentType[playerid], "TELE"))
 			strcat(options, "Ir para o destino de teleporte\n");
@@ -441,7 +441,7 @@ ShowReportOptions(playerid)
 		}
 
 		if(!strcmp(report_CurrentType[playerid], "VTP"))
-			strcat(options, "Ir para a posi√ß√£o do VeÌculo\n");
+			strcat(options, "Ir para a PosiÁ„o do VeÌculo\n");
 	}
 
 	HidePlayerPageButtons(playerid);
@@ -572,7 +572,7 @@ ShowReportBanPrompt(playerid)
 		return 0;
 	}
 
-	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a dura√ß√£o do banimento", "Digite a dura√ß√£o do banimento abaixo, insira o n√∫mero e o tempo. Exemplo: '1 days': 'days', 'weeks' ou 'months'. Escreva 'forever' para um ban permanente.", "Continar", "Cancelar");
+	Dialog_Show(playerid, BanPrompt, DIALOG_STYLE_INPUT, "Insira a dura√ß√£o do banimento", "Digite a dura√ß√£o do banimento abaixo, insira o n˙mero e o tempo. Exemplo: '1 days': 'days', 'weeks' ou 'months'. Escreva 'forever' para um ban permanente.", "Continar", "Cancelar");
 
 	return 1;
 }

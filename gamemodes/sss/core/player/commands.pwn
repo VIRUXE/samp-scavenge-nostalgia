@@ -56,7 +56,7 @@ CMD:pos(playerid){
 	new Float:x, Float:y, Float:z;
 	GetPlayerPos(playerid, x, y, z);
 
-	ChatMsg(playerid, YELLOW, " >  Sua posiÃ§Ã£o: "C_BLUE"%.2f, %.2f, %.2f", x, y, z);
+	ChatMsg(playerid, YELLOW, " >  Sua Posição: "C_BLUE"%.2f, %.2f, %.2f", x, y, z);
 
 	return 1;
 }
