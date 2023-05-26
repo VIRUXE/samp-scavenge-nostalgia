@@ -118,10 +118,8 @@ _OnDeath(playerid, killerid) {
 		new const currScore = GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1;
 
 		SetPlayerScore(killerid, currScore);
-		SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
 
 		db_query(gAccounts, sprintf("UPDATE players SET kills = %d WHERE name = `%s`", currScore, GetPlayerNameEx(killerid)));
-		db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = `%s`", currScore, GetPlayerNameEx(playerid)));
 		
 		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
@@ -177,6 +175,9 @@ _OnDeath(playerid, killerid) {
 	CreateGravestone(playerid, deathreasonstring, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid] - FLOOR_OFFSET, death_RotZ[playerid]);
 
     SavePlayerData(playerid);
+
+	SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
+	db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = `%s`", GetPlayerNameEx(playerid)));
 
 	return 1;
 }
