@@ -16,7 +16,7 @@ stock TweakItem(playerid, itemid) {
 	if(twk_Item[playerid] != INVALID_ITEM_ID) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
-	new const Float:amount = 2.0;
+	// new const Float:amount = 2.0;
 
 	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
@@ -26,9 +26,9 @@ stock TweakItem(playerid, itemid) {
 	twk_pPos[playerid][2] = z;
 
 	// Move o jogador para tras
-	x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
+	// x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
 
-	SetPlayerPos(playerid, x, y, z);
+	// SetPlayerPos(playerid, x, y, z);
 	
     EditDynamicObject(playerid, GetItemObjectID(itemid));
     
