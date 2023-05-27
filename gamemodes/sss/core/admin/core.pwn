@@ -7,8 +7,7 @@
 
 forward OnAdminToggleDuty(playerid, bool:toggle, bool:goBack);
 
-enum
-{
+enum {
 	STAFF_LEVEL_NONE,
 	STAFF_LEVEL_GAME_MASTER,
 	STAFF_LEVEL_MODERATOR,
@@ -18,35 +17,31 @@ enum
 	STAFF_LEVEL_SECRET
 }
 
-enum e_admin_data
-{
+enum e_admin_data {
 	admin_Name[MAX_PLAYER_NAME],
 	admin_Rank
 }
 
-
 static
 				admin_Data[MAX_ADMIN][e_admin_data],
 				admin_Total,
-				admin_Names[MAX_ADMIN_LEVELS][15] =
-				{
+				admin_Names[MAX_ADMIN_LEVELS][15] = {
 					"Jogador",	// 0 (Unused)
-					"Nível 1",	// 1
-					"Nível 2",	// 2
-					"Nível 3",	// 3
-					"Nível 4",	// 4
-					"Nível 5",	// 5
-					"Nível 6"	// 6
+					"Ajudante",	// 1
+					"Moderador",	// 2
+					"Administrador",	// 3
+					"Lider de Admin",	// 4
+					"Desenvolvedor",	// 5
+					"Desconhecido"	// 6
 				},
-				admin_Colours[MAX_ADMIN_LEVELS] =
-				{
-					0xFFFFFFFF,			// 0 (Unused)
-					0x5DFC0AFF,			// 1
-					0x33CCFFFF,			// 2
-					0x6600FFFF,			// 3
-					0xFF0000FF,			// 4
-					0xFF3200FF,			// 5
-					0x00000000			// 6
+				admin_Colours[MAX_ADMIN_LEVELS] = {
+					WHITE,			// 0 (Unused)
+					TEAL,			// 1
+					BLUE,			// 2
+					ORANGE,			// 3
+					RED,			// 4
+					0x00FF00FF,		// 5
+					BLACK			// 6
 				},
 				admin_Commands[4][512],
 DBStatement:	stmt_AdminLoadAll,
@@ -79,10 +74,8 @@ hook OnScriptInit() {
 }
 
 hook OnPlayerConnect(playerid) {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/admin/core.pwn");
-
-	admin_Level[playerid] = 0;
-	admin_OnDuty[playerid] = 0;
+	admin_Level[playerid]        = 0;
+	admin_OnDuty[playerid]       = 0;
 	admin_PlayerKicked[playerid] = 0;
 
 	SetPVarInt(playerid, "duty", 0);
@@ -91,10 +84,8 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerDisconnected(playerid) {
-	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/admin/core.pwn");
-
-	admin_Level[playerid] = 0;
-	admin_OnDuty[playerid] = 0;
+	admin_Level[playerid]        = 0;
+	admin_OnDuty[playerid]       = 0;
 	admin_PlayerKicked[playerid] = 0;
 }
 
@@ -216,7 +207,7 @@ timer DeferedTimeout[500](playerid, time) {
 	admin_PlayerKicked[playerid] = true;
 }
 
-TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellPlayer = true) {
+TimeoutPlayer(playerid, reason[], bool:tellPlayer = true, time = HOUR(1)) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(admin_PlayerKicked[playerid]) return 0;
@@ -225,7 +216,7 @@ TimeoutPlayer(playerid, reason[], time = HOUR(1), bool:tellPlayer = true) {
 
 	defer DeferedTimeout(playerid, time);
 
-	log("[TIMEOUT] %p (%d) tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
+	log("[TIMEOUT] %p (%d) levou timeout. Tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" foi timeout. Motivo: "C_BLUE"%s", playerid, reason);
 
@@ -301,9 +292,7 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 		new
 			itemid,
 			ItemType:itemtype,
-			Float:x,
-			Float:y,
-			Float:z;
+			Float:x, Float:y, Float:z;
 
 		itemid = GetPlayerItem(playerid);
 		itemtype = GetItemType(itemid);
@@ -344,13 +333,6 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 }
 
 timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
-
-/*==============================================================================
-
-	Interface
-
-==============================================================================*/
-
 
 stock SetPlayerAdminLevel(playerid, level) {
 	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;
@@ -425,36 +407,25 @@ stock RegisterAdminCommand(level, string[]) {
 	return 1;
 }
 
+ACMD:acmds[1](playerid) {
+	gBigString[playerid] = "a [mensagem] - Chat de Administração";
 
-/*==============================================================================
-
-	Commands
-
-==============================================================================*/
-
-
-ACMD:acmds[1](playerid)
-{
-	gBigString[playerid][0] = EOS;
-
-	strcat(gBigString[playerid], "a [mensagem] - Chat de Administração");
-
-	if(admin_Level[playerid] >= 4) {
+	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) {
 		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[3]);
 	} 
 
-	if(admin_Level[playerid] >= 3) {
+	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) {
 		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[2]);
 	} 
 
-	if(admin_Level[playerid] >= 2) {
+	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) {
 		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[1]);
 	} 
 
-	if(admin_Level[playerid] >= 1) {
+	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) {
 		strcat(gBigString[playerid], "\n\n");
 		strcat(gBigString[playerid], admin_Commands[0]);
 	}
@@ -464,16 +435,19 @@ ACMD:acmds[1](playerid)
 	return 1;
 }
 
-CMD:admins(playerid)
-{
+CMD:admins(playerid) {
 	new line[52];
 
-	gBigString[playerid] = "Nenhum.";
+	gBigString[playerid][0] = EOS;
+
+	gBigString[playerid] = C_WHITE"Legenda: "C_GREEN"Online"C_WHITE" - "C_GREY"Offline"C_WHITE;
+
+	strcat(gBigString[playerid], "\n\n");
 
 	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
-		format(line, sizeof(line), "(%s) %s %C(%s)\n",
+		format(line, sizeof(line), "%s %C(%s)\n",
 			GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? "Online" : "Offline",
 			admin_Data[i][admin_Name],
 			admin_Colours[admin_Data[i][admin_Rank]],
