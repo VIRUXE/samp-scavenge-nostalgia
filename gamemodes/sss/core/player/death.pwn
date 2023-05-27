@@ -115,11 +115,11 @@ _OnDeath(playerid, killerid) {
 	if(IsPlayerConnected(killerid)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		new const currScore = GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1;
+		new const newScore = GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1;
 
-		SetPlayerScore(killerid, currScore);
+		SetPlayerScore(killerid, newScore);
 
-		db_query(gAccounts, sprintf("UPDATE players SET kills = %d WHERE name = `%s`", currScore, GetPlayerNameEx(killerid)));
+		db_query(gAccounts, sprintf("UPDATE players SET kills = %d WHERE name = '%s';", newScore, GetPlayerNameEx(killerid)));
 		
 		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
@@ -131,28 +131,17 @@ _OnDeath(playerid, killerid) {
         SetLastHitById(playerid, INVALID_PLAYER_ID);
 
 		switch(deathreason) {
-			case 0..3, 5..7, 10..15:
-				deathreasonstring = "Espancado até a morte.";
-			case 4:
-				deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
-			case 8:
-				deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
-			case 9:
-				deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
-			case 16, 39, 35, 36, 255:
-				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
-			case 18, 37:
-				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
-			case 22..34, 38:
-				deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
-			case 41, 42:
-				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
-			case 44, 45:
-				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
-			case 43:
-				deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
-			default:
-				deathreasonstring = "Sangrou até a morte";
+			case 0..3, 5..7, 10..15: 	deathreasonstring = "Espancado até a morte.";
+			case 4: 					deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
+			case 8: 					deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
+			case 9: 					deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
+			case 16, 39, 35, 36, 255: 	deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
+			case 18, 37: 				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
+			case 22..34, 38: 			deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
+			case 41, 42: 				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
+			case 44, 45: 				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
+			case 43: 					deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
+			default: 					deathreasonstring = "Sangrou até a morte";
 		}
 	} else {
 		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
@@ -161,14 +150,10 @@ _OnDeath(playerid, killerid) {
 		death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
 
 		switch(deathreason) {
-			case 53:
-				deathreasonstring = "Se afogou";
-			case 54:
-				deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
-			case 255:
-				deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
-			default:
-				deathreasonstring = "Razão da morte desconhecida.";
+			case 53: 	deathreasonstring = "Se afogou";
+			case 54: 	deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
+			case 255: 	deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
+			default: 	deathreasonstring = "Razão da morte desconhecida.";
 		}
 	}
 
@@ -177,7 +162,7 @@ _OnDeath(playerid, killerid) {
     SavePlayerData(playerid);
 
 	SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
-	db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = `%s`", GetPlayerNameEx(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	return 1;
 }
