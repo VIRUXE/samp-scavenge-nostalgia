@@ -42,7 +42,7 @@ hook OnPlayerConnect(playerid) {
     GlobalTime[playerid] = 0;
 	chat_LastMessageTick[playerid] = 0;
 
-	chatModeTextDraw = CreatePlayerTextDraw(playerid, 5, 1.133333, "L");
+	chatModeTextDraw = CreatePlayerTextDraw(playerid, 5, 1.133333, "X");
 	PlayerTextDrawLetterSize(playerid, chatModeTextDraw, 0.5, 2);
 	PlayerTextDrawTextSize(playerid, chatModeTextDraw, 19.375, 19.833333);
 	PlayerTextDrawAlignment(playerid, chatModeTextDraw, 1);
@@ -93,7 +93,20 @@ hook OnPlayerText(playerid, text[]) {
 }
 
 hook OnPlayerLogin(playerid) {
+	SetChatModeLetter(playerid);
 	PlayerTextDrawShow(playerid, chatModeTextDraw);
+}
+
+SetChatModeLetter(playerid) {
+	new letter[2] = "L";
+
+	switch(chat_Mode[playerid]) {
+		case CHAT_MODE_GLOBAL: letter = "G";
+		case CHAT_MODE_CLAN:   letter = "C";
+		case CHAT_MODE_ADMIN:  letter = "A";
+	}
+
+	PlayerTextDrawSetString(playerid, chatModeTextDraw, letter);
 }
 
 PlayerSendChat(playerid, chat[], Float:frequency) {
@@ -255,15 +268,7 @@ SetPlayerChatMode(playerid, chatmode) {
 
 	chat_Mode[playerid] = chatmode;
 
-	new letter[2] = "L";
-
-	switch(chat_Mode[playerid]) {
-		case CHAT_MODE_GLOBAL: letter = "G";
-		case CHAT_MODE_CLAN:   letter = "C";
-		case CHAT_MODE_ADMIN:  letter = "A";
-	}
-
-	PlayerTextDrawSetString(playerid, chatModeTextDraw, letter);
+	SetChatModeLetter(playerid);
 
 	return 1;
 }
