@@ -29,7 +29,7 @@ static ptask CheckPing[SEC(1)](playerid) {
     if (ping > PING_LIMIT) {
         limitStrikes[playerid]++;
 
-        if (limitStrikes[playerid] >= MAX_STRIKES) TimeoutPlayer(playerid, sprintf("%s: %d/%d.", ls(playerid, "player/ping"), ping, PING_LIMIT), MIN(1));
+        if (limitStrikes[playerid] >= MAX_STRIKES) TimeoutPlayer(playerid, sprintf("%s: %d/%d.", ls(playerid, "player/ping"), ping, PING_LIMIT), true, MIN(1));
     } else
         limitStrikes[playerid] = 0;
 }
