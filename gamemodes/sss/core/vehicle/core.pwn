@@ -445,7 +445,7 @@ UpdateRepairStatus(playerid, vehicleid) {
 	// printf("UpdateRepairStatus(%d, %d) - Health: %.1f", playerid, vehicleid, health);
 
 	/* 
-		Chunk 1: 300.0 - Motor n√£o liga mais
+		Chunk 1: 300.0 - Motor n„o liga mais
 		Chunk 2: 450.0 - Menos do que isso, o motor vai falhar
 		Chunk 3: 650.0
 		Chunk 4: 800.0

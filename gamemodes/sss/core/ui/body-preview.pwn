@@ -99,7 +99,7 @@ CreateBodyPreviewUI(playerid)
 	PlayerTextDrawBoxColor			(playerid, bod_Background[playerid], 0x00000055);
 	PlayerTextDrawTextSize			(playerid, bod_Background[playerid], 0.0, bod_UIWidth[playerid]);
 
-	bod_Footer[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid] + 204.0, "Não saudável");
+	bod_Footer[playerid]			=CreatePlayerTextDraw(playerid, bod_UIPositionX[playerid], bod_UIPositionY[playerid] + 204.0, "N�o saudável");
 	PlayerTextDrawAlignment			(playerid, bod_Footer[playerid], 2);
 	PlayerTextDrawFont				(playerid, bod_Footer[playerid], 1);
 	PlayerTextDrawLetterSize		(playerid, bod_Footer[playerid], 0.2, 1.0);

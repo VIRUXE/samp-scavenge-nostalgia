@@ -89,7 +89,7 @@ ACMD:additem[4](playerid, params[])
 			}
 		}
 
-		if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Item '%s' nÃ£o encontrado.", tmp);
+		if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Item '%s' não encontrado.", tmp);
 	}
 
 	if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Tipo de item invÃ¡lido: %d", _:type);
@@ -265,7 +265,7 @@ ACMD:tapa[4](playerid, params[])
 	
 	if(sscanf(params, "r", targetid)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
 
-	if(GetPlayerAdminLevel(targetid) > 1) return ChatMsg(playerid, YELLOW, " >  Você nÃ£o pode fazer isto neste player.");
+	if(GetPlayerAdminLevel(targetid) > 1) return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
 
 	new Float:x, Float:y, Float:z;
 	GetPlayerPos(targetid, x, y, z);
@@ -290,12 +290,12 @@ ACMD:aliases[4](playerid, params[])
 		if(IsPlayerConnected(targetid)) GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' nÃ£o estÃ¡ online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 		else
 			return 4;
 	}
 
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' nÃ£o existe.", name);
+	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 
 	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid))
 	{

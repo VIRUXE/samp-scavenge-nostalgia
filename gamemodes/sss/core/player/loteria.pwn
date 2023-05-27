@@ -34,7 +34,7 @@ CMD:loteria(playerid, params[]){
 	    return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Você deve nascer para usar esse comando.");
 
     if(LoteriaNumero == -1)
-		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Loteria nÃ£o estÃ¡ liberada no momento.");
+		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: Loteria não está liberada no momento.");
 
     if(strval(params[0]) > 100 || strval(params[0]) < 0)
 		return ChatMsg(playerid, 0x0cfcecFF, "[Loteria]: O número deve ser entre 0 e 100.");

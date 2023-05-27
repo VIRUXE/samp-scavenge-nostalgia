@@ -121,7 +121,7 @@ CMD:clan(playerid, params[])
 		{33AA33}/clan {FFFFFF}- ok\n"
 		, "Fechar", "");
 	} else if(isequal(command, "procurar", true)) {
-		ChatMsgAll(CHAT_CLAN, "[CLAN] %P (%d) estÃ¡ procurando um clan!", playerid, playerid);
+		ChatMsgAll(CHAT_CLAN, "[CLAN] %P (%d) está procurando um clan!", playerid, playerid);
 	} else if(isequal(command, "criar", true)) {
 		new clanName[MAX_CLAN_NAME], clanTag[MAX_CLAN_TAG];
 
@@ -137,7 +137,7 @@ CMD:clan(playerid, params[])
 
 		if(!isstringalphanumeric(clanName)) return ChatMsg(playerid, RED, " > O nome do clan apenas pode conter caracteres alfanuméricos (A-Z, a-z, 0-9).");
 
-		if(!isempty(GetClanOwner(clanName))) return ChatMsg(playerid, RED, " > Este clan jÃ¡ existe.");
+		if(!isempty(GetClanOwner(clanName))) return ChatMsg(playerid, RED, " > Este clan já existe.");
 
 		log("[CLAN] Criando clan '%s' com tag '%s' para %p (%d)", clanName, clanTag, playerid, playerid);
 		

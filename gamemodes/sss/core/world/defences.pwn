@@ -270,9 +270,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 StartBuildingDefence(playerid, itemid)
 {
-	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você nÃ£o pode construir aqui.");
+	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
 
-	// Zonas do mapa em que nÃ£o se pode construir
+	// Zonas do mapa em que não se pode construir
 	new const Float:blockedZones[][4] = {
 		// [radius, x, y, z]
 		{40.0, 2000.7017, -2139.0505, 13.5537}, // Comerciante Los Santos
@@ -286,7 +286,7 @@ StartBuildingDefence(playerid, itemid)
 	for(new i = 0; i < sizeof(blockedZones); i++)
 	{
 		if(IsPlayerInRangeOfPoint(playerid, blockedZones[i][0], blockedZones[i][1], blockedZones[i][2], blockedZones[i][3]))
-			return ChatMsg(playerid, RED, " > Você nÃ£o pode construir aqui.");
+			return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
 	}
 
 	new itemtypename[ITM_MAX_NAME];

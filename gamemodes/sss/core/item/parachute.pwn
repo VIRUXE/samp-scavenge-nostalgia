@@ -71,4 +71,4 @@ hook OnPlayerDropItem(playerid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-_EquipParachute(playerid) return ChatMsg(playerid, YELLOW, " >  NÃ£o implementado.");
+_EquipParachute(playerid) return ChatMsg(playerid, YELLOW, " >  Não implementado.");

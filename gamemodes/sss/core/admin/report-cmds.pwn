@@ -66,7 +66,7 @@ ACMD:rr[1](playerid, params[])
 
 	if(sscanf(params, "ds[200]", prid, msg)) return ChatMsg(playerid, RED, " > Use /rr [id] [Mensagem]");
 
-	if(RelatorioEnviado[prid] == false) return ChatMsg(playerid, RED, " > Esse player nÃ£o enviou nenhum relatÃ³rio ou jÃ¡ foi respondido.");
+	if(RelatorioEnviado[prid] == false) return ChatMsg(playerid, RED, " > Esse player não enviou nenhum relatÃ³rio ou já foi respondido.");
 
     ChatMsg(prid, GREEN, "="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"="C_WHITE"="C_GREEN"=");
 
@@ -139,7 +139,7 @@ timer RelatorioFalse[SEC(1)](playerid)
 
 CMD:report(playerid){
     if(GetPlayerAdminLevel(playerid) > 1)
-        return ChatMsg(playerid, RED, " > Você nÃ£o pode usar este comando.");
+        return ChatMsg(playerid, RED, " > Você não pode usar este comando.");
         
 	ShowReportMenu(playerid);
 
@@ -148,7 +148,7 @@ CMD:report(playerid){
 
 ShowReportMenu(playerid)
 {
-	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um ID que estÃ¡ online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais prÃ³ximo de mim", ""C_GREEN"Enviar", ""C_RED"Cancelar");
+	Dialog_Show(playerid, ReportMenu, DIALOG_STYLE_LIST, ""C_GREEN"Reportando...", "Especificar um ID que está online agora\nEspeficiar o nome do player\nReportar ultimo player que me matou\nReportar player mais prÃ³ximo de mim", ""C_GREEN"Enviar", ""C_RED"Cancelar");
 	return 1;
 }
 
@@ -327,7 +327,7 @@ Dialog:ReportReasonInput(playerid, response, listitem, inputtext[])
 
 ACMD:reports[1](playerid, params[])
 {
-	if(ShowListOfReports(playerid) == 0) ChatMsg(playerid, YELLOW, " >  NÃ£o existem reports.");
+	if(ShowListOfReports(playerid) == 0) ChatMsg(playerid, YELLOW, " >  Não existem reports.");
 
 	return 1;
 }
@@ -566,7 +566,7 @@ ShowReportBanPrompt(playerid)
 {
 	if(GetPlayerAdminLevel(playerid) < 3)
 	{
-		ChatMsg(playerid, RED, "Você nÃ£o tem permissÃ£o para banir jogadores.");
+		ChatMsg(playerid, RED, "Você não tem permissÃ£o para banir jogadores.");
 		ShowReportOptions(playerid);
 
 		return 0;

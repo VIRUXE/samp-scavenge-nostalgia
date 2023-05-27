@@ -390,7 +390,7 @@ stock ShowTopTenSprees(playerid) {
 		}
 	}
 
-	//format(DialogString, sizeof(DialogString), "%s\n\n{FFFF00}Esta lista exibe somente quem estÃ¡ online\nKills Spree é quantos Você matou sem morrer.",Ranking);
+	//format(DialogString, sizeof(DialogString), "%s\n\n{FFFF00}Esta lista exibe somente quem está online\nKills Spree é quantos Você matou sem morrer.",Ranking);
 	Dialog_Show(playerid, RankingShow, DIALOG_STYLE_LIST, "{B4E070}Ranking de Kills Spree", Ranking, "Sair", "Voltar");
 	return 1;
 }

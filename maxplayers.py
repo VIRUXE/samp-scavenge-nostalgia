@@ -3,7 +3,7 @@ import os
 max_players = input("Quantos jogadores terá o servidor? ") or 40
 max_players = int(max_players)
 
-print(f"Definindo o número máximo de jogadores para {max_players}...")
+print(f"Definindo o número m�ximo de jogadores para {max_players}...")
 
 files = []
 # Procuramos por todos os arquivos de forma recursiva, exceto os que estão na pasta pawno
@@ -31,7 +31,7 @@ for file in files:
                 
                 if curr_max_players != max_players: # if the max players is different from the one we want
                     print(f"\033[1;31m{file}\033[0m ({linenumber}): {line}")
-                    if input("Deseja alterar o número máximo de jogadores? [y/N] ") == 'y':
+                    if input("Deseja alterar o número m�ximo de jogadores? [y/N] ") == 'y':
                         # Alteramos a linha com o define MAX_PLAYERS para o valor desejado
                         lines[linenumber - 1] = f"#define MAX_PLAYERS ({max_players})\n"
 

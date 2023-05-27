@@ -99,7 +99,7 @@ ACMD:field[2](playerid, params[])
 		new ret = ShowDetfieldList(playerid);
 
 		if(ret == 0)
-			ChatMsg(playerid, YELLOW, " >  Não há fields existentes.");
+			ChatMsg(playerid, YELLOW, " >  N�o há fields existentes.");
 	}
 
 	if(!strcmp(params, "log", true, 3))
@@ -118,7 +118,7 @@ ACMD:field[2](playerid, params[])
 
 		if(!IsValidDetectionField(id))
 		{
-			ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
+			ChatMsg(playerid, YELLOW, " >  Nome de field n�o existente");
 			return 1;
 		}
 
@@ -127,7 +127,7 @@ ACMD:field[2](playerid, params[])
 
 		if(ret == 1) ChatMsg(playerid, YELLOW, " >  Exibindo log de entradas para a field: '%s'.", name);
 
-		else ChatMsg(playerid, YELLOW, " >  Não há log de entradas na field: '%s'.", name);
+		else ChatMsg(playerid, YELLOW, " >  N�o há log de entradas na field: '%s'.", name);
 	}
 
 	if(!strcmp(params, "add", true, 3))
@@ -169,7 +169,7 @@ ACMD:field[2](playerid, params[])
 
 		if(!IsValidDetectionField(id))
 		{
-			ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
+			ChatMsg(playerid, YELLOW, " >  Nome de field n�o existente");
 			return 1;
 		}
         dfm_CurrentDetfield[playerid] = id;
@@ -192,7 +192,7 @@ ACMD:field[2](playerid, params[])
 
 		if(!IsValidDetectionField(id))
 		{
-			ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
+			ChatMsg(playerid, YELLOW, " >  Nome de field n�o existente");
 			return 1;
 		}
 
@@ -211,7 +211,7 @@ ACMD:field[2](playerid, params[])
 
 		new count = ShowDetfieldNameFields(playerid, name);
 
-		if(count == 0) ChatMsg(playerid, YELLOW, " >  Não há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", name);
+		if(count == 0) ChatMsg(playerid, YELLOW, " >  N�o há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", name);
 	}
 
 	return 1;
@@ -304,7 +304,7 @@ Dialog:DetfieldListOptions(playerid, response, listitem, inputtext[])
 					new name[MAX_DETFIELD_NAME];
 
 					GetDetectionFieldName(dfm_CurrentDetfield[playerid], name);
-					ChatMsg(playerid, YELLOW, " >  Não há log de entradas em: '%s'.", name);
+					ChatMsg(playerid, YELLOW, " >  N�o há log de entradas em: '%s'.", name);
 					ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 				}
 			}
@@ -344,7 +344,7 @@ ShowDetfieldExceptions(playerid, detfieldid)
 
 	if(GetDetectionFieldExceptionCount(detfieldid) == 0)
 	{
-		ChatMsg(playerid, YELLOW, " >  Não há exceções em: '%s'.", name);
+		ChatMsg(playerid, YELLOW, " >  N�o há exceções em: '%s'.", name);
 		ShowDetfieldListOptions(playerid, detfieldid);
 		return 0;
 	}
@@ -447,7 +447,7 @@ Dialog:DetfieldAddExc(playerid, response, listitem, inputtext[])
 
 		if(ret == -3)
 		{
-			ChatMsg(playerid, RED, " >  Jogador já está na lista");
+			ChatMsg(playerid, RED, " >  Jogador j� est� na lista");
 			ShowDetfieldAddException(playerid, dfm_CurrentDetfield[playerid]);
 		}
 	}
@@ -510,7 +510,7 @@ Dialog:DetfieldRename(playerid, response, listitem, inputtext[])
 		ret = SetDetectionFieldName(dfm_CurrentDetfield[playerid], tmp);
 
 		if(ret == -1)
-			ChatMsg(playerid, RED, " >  Já possuí uma field existente com este nome.");
+			ChatMsg(playerid, RED, " >  J� possuí uma field existente com este nome.");
 
 		if(ret == -2)
 			ChatMsg(playerid, RED, " >  Nome de field inválida. Deve começar com um caractere alfab�tico e pode conter apenas caracteres alfanum�ricos.");

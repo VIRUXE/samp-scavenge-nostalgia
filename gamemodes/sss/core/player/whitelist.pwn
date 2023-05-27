@@ -242,7 +242,7 @@ stock IsNameInWhitelist(name[])
 
 stock WhitelistKick(playerid){
 	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Whitelist",
-		""C_YELLOW"VocÍ foi n√£o pode jogar por que sua conta n√£o foi cadastrado na whitelist.\n\
+		""C_YELLOW"VocÍ foi n„o pode jogar por que sua conta n„o foi cadastrado na whitelist.\n\
 	 	Para se cadastrar, entre em nosso discord e coloque seu nick no chat "C_WHITE"#whitelist"C_YELLOW".\n\n\
 		Nosso discord:\n\
 		\t"C_BLUE"www.discord.me/ScavengeSurvive "C_YELLOW"ou "C_BLUE"discord.gg/P6ps6Uxo"C_YELLOW".\n\n\
@@ -250,10 +250,10 @@ stock WhitelistKick(playerid){
 		"C_RED"Oque È whitelist? "C_WHITE"Whitelist serve para evitar que players inapropriados entrem no servidor,\n\
 		com ela, s√≥ entra no servidor quem foi cadastrado e permitido pela staff.\n\n\
 		"C_RED"Quando eu vou ser aceito na whitelist? "C_WHITE" Apos colocar seu nick no discord,\n\
-		VocÍ ser√° aceito instant√¢neamente caso n√£o seja um fake ou algo do tipo. Se VocÍ n√£o for aceito\n\
+		VocÍ ser√° aceito instant√¢neamente caso n„o seja um fake ou algo do tipo. Se VocÍ n„o for aceito\n\
 		mesmo sendo um mocinho, entre em contato com um administrador.", "Fechar", "");
 
-	KickPlayer(playerid, "N√£o est√° cadastrado na whitelist.");
+	KickPlayer(playerid, "N„o est· cadastrado na whitelist.");
 }
 
 stock ToggleWhitelist(bool:toggle)

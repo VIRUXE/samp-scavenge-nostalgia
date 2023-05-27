@@ -69,7 +69,7 @@ CMD:savecamera(playerid, params[])
 	if(GetPVarType(playerid, "FlyMode"))
 	    SaveCamera(playerid, params);
 	else
-		SendClientMessage(playerid, -1, "Você nÃ£o pode usar este comando agora");
+		SendClientMessage(playerid, -1, "Você não pode usar este comando agora");
 	return 1;
 }
 

@@ -3,7 +3,7 @@
 #define IDLE_FOOD_RATE 0.015
 
 hook OnPlayerScriptUpdate(playerid) {
-    // Verifica se o jogador está em modo administrador, se não estiver "spawnado" ou se estiver em um tutorial
+    // Verifica se o jogador est� em modo administrador, se n�o estiver "spawnado" ou se estiver em um tutorial
     if (IsPlayerOnAdminDuty(playerid) || !IsPlayerSpawned(playerid) || IsPlayerInTutorial(playerid)) return;
 
     // Obtem a intensidade da infecção, o índice da animação, as teclas pressionadas e o nível de comida do jogador
@@ -43,12 +43,12 @@ hook OnPlayerScriptUpdate(playerid) {
     }
 
     // Define o nível de embriaguez do jogador com base no nível de comida e intensidade da infecção,
-    // caso não esteja sob efeito de drogas específicas.
+    // caso n�o esteja sob efeito de drogas específicas.
     if (!IsPlayerUnderDrugEffect(playerid, drug_Morphine) || !IsPlayerUnderDrugEffect(playerid, drug_Air) || !IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) {
         if (food < 30.0) // Se a comida for menor que 30.0, ajusta o nível de embriaguez do jogador
 			SetPlayerDrunkLevel(playerid, infectionIntensity == 0 ? 0 : 2000 + floatround((31.0 - food) * 300.0));
 		else if (infectionIntensity == 0) 
-            SetPlayerDrunkLevel(playerid, 0); // Se não estiver infectado, define o nível de embriaguez como 0
+            SetPlayerDrunkLevel(playerid, 0); // Se n�o estiver infectado, define o nível de embriaguez como 0
 	}
 
 	SetPlayerFP(playerid, food);

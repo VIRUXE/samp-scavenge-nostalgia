@@ -68,6 +68,6 @@ ACMD:info[1](playerid, params[]) {
         }
     }
 
-    return ChatMsg(playerid, GREY, "Comando de Informação '%s' não existe.", command);
+    return ChatMsg(playerid, GREY, "Comando de Informação '%s' n�o existe.", command);
 }
 ACMD:i[1](playerid, params[]) return acmd_info_1(playerid, params);

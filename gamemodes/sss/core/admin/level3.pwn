@@ -14,7 +14,7 @@ ACMD:whitelist[3](playerid, params[])
 
 	if(sscanf(params, "s[7]S()[24]", command, name))
 	{
-		ChatMsg(playerid, YELLOW, " >  Use: /whitelist [add/remover/on/off/auto/lista] - A whitelist estÃ¡ atualmente %s (auto: %s)", IsWhitelistActive() ? ("on") : ("off"), IsWhitelistAuto() ? ("on") : ("off"));
+		ChatMsg(playerid, YELLOW, " >  Use: /whitelist [add/remover/on/off/auto/lista] - A whitelist está atualmente %s (auto: %s)", IsWhitelistActive() ? ("on") : ("off"), IsWhitelistAuto() ? ("on") : ("off"));
 		return 1;
 	}
 
@@ -32,7 +32,7 @@ ACMD:whitelist[3](playerid, params[])
 			ChatMsg(playerid, YELLOW, " >  Adicionado "C_BLUE"%s "C_YELLOW"na whitelist.", name);
 
 		if(result == 0)
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"jÃ¡ estÃ¡ "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"já está "C_YELLOW"na whitelist.");
 
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
@@ -51,7 +51,7 @@ ACMD:whitelist[3](playerid, params[])
 			ChatMsg(playerid, YELLOW, " >  Removido "C_BLUE"%s "C_YELLOW"da whitelist.", name);
 
 		if(result == 0)
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"nÃ£o estÃ¡ "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"não está "C_YELLOW"na whitelist.");
 
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
@@ -86,10 +86,10 @@ ACMD:whitelist[3](playerid, params[])
 	else if(!strcmp(command, "?", true))
 	{
 		if(IsNameInWhitelist(name))
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_BLUE"estÃ¡ "C_YELLOW"na whitelist.");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_BLUE"está "C_YELLOW"na whitelist.");
 
 		else
-			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"nÃ£o estÃ¡ "C_YELLOW"na whitelist");
+			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"não está "C_YELLOW"na whitelist");
 	}
 	else if(!strcmp(command, "lista", true))
 	{
@@ -128,12 +128,12 @@ ACMD:spec[3](playerid, params[])
 		new targetId = isnumeric(params) ? strval(params) : GetPlayerIDFromName(params);
 
 		if(IsPlayerConnected(targetId) && targetId != playerid) {
-			// NÃ£o pode observar admins
+			// Não pode observar admins
 			if(GetPlayerAdminLevel(playerid) < 6 && GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
 
 			EnterSpectateMode(playerid, targetId);
 
-            ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) estÃ¡ observando %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+            ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) está observando %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 		}
 	}
 
@@ -157,11 +157,11 @@ ACMD:ip[3](playerid, params[]) {
 	if(isnumeric(params)) {
 		new targetId = strval(params);
 
-		if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' nÃ£o estÃ¡ online, tente usar o nome do jogador.", targetId);
+		if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
 
 		ChatMsg(playerid, YELLOW, " >  IP de %P"C_YELLOW": %s", targetId, IpIntToStr(GetPlayerIpAsInt(targetId)));
 	} else {
-		if(!AccountExists(params)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' nÃ£o existe.", params);
+		if(!AccountExists(params)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", params);
 
 		new ip;
 		GetAccountIP(params, ip);
@@ -243,17 +243,17 @@ ACMD:veiculo[3](playerid, params[]) {
 	} else if(isequal(command, "reparar", true)) {// Reparar completamente o veiculo
 		/* 
 			Como o RepairVehicle coloca o Veículo com 1000.0 de vida,
-			precisamos colocar 990.0 para nÃ£o ser declarado como hack.
+			precisamos colocar 990.0 para não ser declarado como hack.
 		 */
-		// Primeiro removemos os jogadores do Veículo, para o servidor nÃ£o os declarar como hack
+		// Primeiro removemos os jogadores do Veículo, para o servidor não os declarar como hack
 		// Armazemos os jogadores em um array, para os colocarmos de volta depois
-		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o mÃ¡ximo de jogadores que podem estar em um Veículo
+		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o máximo de jogadores que podem estar em um Veículo
 		
 		foreach(new i : Player) {
 			if(GetPlayerVehicleID(i) == vehicleid) {
 				new seat = GetPlayerVehicleSeat(i);
 
-				if(seat == -1) continue; // Se por alguma razÃ£o o jogador jÃ¡ nÃ£o estiver mais no Veículo, continuamos
+				if(seat == -1) continue; // Se por alguma razÃ£o o jogador já não estiver mais no Veículo, continuamos
 
 				occupants[seat] = i; // Armazenamos o jogador de acordo com a sua Posição no Veículo
 
@@ -262,13 +262,13 @@ ACMD:veiculo[3](playerid, params[]) {
 		}
 
 		RepairVehicle(vehicleid); // Repara a lataria
-		SetVehicleHealth(vehicleid, 990.0); // NÃ£o podemos reparar o Veículo mais do que 990.0. Mais do que isso é hack.
+		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o Veículo mais do que 990.0. Mais do que isso é hack.
 
 		// Colocamos os jogadores de volta no Veículo
 		for(new i = 0; i < sizeof(occupants); i++) {
 			if(!IsPlayerConnected(occupants[i])) continue;
 
-			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, nÃ£o conseguimos colocÃ¡-lo de volta no Veículo no preciso momento.
+			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocÃ¡-lo de volta no Veículo no preciso momento.
 			PutPlayerInVehicleTimed(occupants[i], vehicleid, i);
 		}
 		
@@ -340,7 +340,7 @@ ACMD:setactive[3](playerid, params[])
 
 	if(sscanf(params, "s[24]d", name, active)) return ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
 
-	if(!AccountExists(name)) return ChatMsg(playerid, RED, " >  Essa conta nÃ£o existe.");
+	if(!AccountExists(name)) return ChatMsg(playerid, RED, " >  Essa conta não existe.");
 
 	ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" %s a conta '%s'!", playerid, playerid, active ? ("ativou") : ("desativou"), name);
 
@@ -380,10 +380,10 @@ ACMD:banir[3](playerid, params[])
 		if(IsPlayerConnected(targetid))
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 		else
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' nÃ£o estÃ¡ online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 	}
 
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " > a conta '%s' nÃ£o existe.", name);
+	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " > a conta '%s' não existe.", name);
 
 	if(GetAdminLevelByName(name) > STAFF_LEVEL_NONE) return 2;
 
@@ -403,7 +403,7 @@ ACMD:desbanir[3](playerid, params[])
 	if(UnBanPlayer(name))
 		ChatMsg(playerid, YELLOW, " >  A conta "C_BLUE"%s"C_YELLOW" foi desbanida.", name);
 	else
-		ChatMsg(playerid, YELLOW, " >  A conta '%s' nÃ£o estÃ¡ banida.");
+		ChatMsg(playerid, YELLOW, " >  A conta '%s' não está banida.");
 
 	return 1;
 }
@@ -412,7 +412,7 @@ ACMD:banidos[3](playerid, params[])
 {
 	new result = ShowListOfBans(playerid, 0);
 
-	if(result == 0) return ChatMsg(playerid, YELLOW, " >  NÃ£o hÃ¡ nenhum player banido.");
+	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não hÃ¡ nenhum player banido.");
 
 	if(result == -1) return ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
 
@@ -426,7 +426,7 @@ ACMD:sethp[3](playerid, params[]) {
 
 	if(targetId == INVALID_PLAYER_ID) return 4;
 
-	if(!IsPlayerLoggedIn(targetId)) return ChatMsg(playerid, RED, " >  O jogador nÃ£o estÃ¡ logado.");
+	if(!IsPlayerLoggedIn(targetId)) return ChatMsg(playerid, RED, " >  O jogador não está logado.");
 
 	if(hp < 0 || hp > 100) return ChatMsg(playerid, RED, " >  HP tem que ser entre 0 e 100.");
 

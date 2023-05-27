@@ -40,7 +40,7 @@ hook OnPlayerConnect(playerid)
 
 BanAndEnterInfo(playerid, name[MAX_PLAYER_NAME])
 {
-	BanPlayerByName(name, "NÃ£o informado", playerid, 0);
+	BanPlayerByName(name, "Não informado", playerid, 0);
 	FormatBanReasonDialog(playerid);
 
 	ban_CurrentName[playerid] = name;
@@ -115,7 +115,7 @@ FinaliseBan(playerid)
 {
 	if(isnull(ban_CurrentName[playerid]))
 	{
-		ChatMsg(playerid, RED, " >  Ocorreu um erro: 'ban_CurrentName' estÃ¡ vazio.");
+		ChatMsg(playerid, RED, " >  Ocorreu um erro: 'ban_CurrentName' está vazio.");
 		return 0;
 	}
 

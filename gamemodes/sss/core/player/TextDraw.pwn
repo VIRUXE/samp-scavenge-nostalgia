@@ -4,7 +4,7 @@ static PlayerText:HUD[MAX_PLAYERS][MAX_HUD_COMPONENTS];
 
 /* 
 	Isso continua a ser uma pr√°tica terr√≠vel.
-	Os valores apenas deveria ser atuaiizados quando necess√°rio. N√£o a cada segundo.
+	Os valores apenas deveria ser atuaiizados quando necess√°rio. N„o a cada segundo.
  */
 ptask UpdateHUD[SEC(1)](playerid)
 {
@@ -160,7 +160,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawBoxColor(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 255);
 	PlayerTextDrawTextSize(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 10.000000, 10.000000);
 
-	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "VocÍ est√° sem um clan.");
+	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "VocÍ est· sem um clan.");
 	PlayerTextDrawBackgroundColor(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 255);
 	PlayerTextDrawFont(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 1);
 	PlayerTextDrawLetterSize(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 0.160000, 0.899999);

@@ -1609,7 +1609,7 @@
 					"The machine is currently processing~n~%s left"
 				],
 				"no-items": [
-					"NÃ£o tem item dentro",
+					"Não tem item dentro",
 					"There are no items inside."
 				],
 				"server-restart": [

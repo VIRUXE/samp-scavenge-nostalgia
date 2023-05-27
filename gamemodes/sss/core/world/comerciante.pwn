@@ -80,7 +80,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 30) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins o suficiente."); 
+						return SendClientMessage(playerid, RED, " > Você não tem coins o suficiente."); 
 					}   
 					BuyItem(playerid, 0, 30);
 				}
@@ -88,7 +88,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 25) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}		
 					BuyItem(playerid, 1, 25);
 				}
@@ -96,7 +96,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 25) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 2, 25);
 				}
@@ -104,7 +104,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 20) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 3, 20);
 				}
@@ -112,7 +112,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 20) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 4, 20);
 				}
@@ -120,7 +120,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 15) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 5, 15);
 				}
@@ -128,7 +128,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 10) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 6, 10);
 				}
@@ -136,7 +136,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 				{
 					if(GetPlayerCoins(playerid) < 10) {
 						dialogOpen[playerid] = false;
-						return SendClientMessage(playerid, RED, " > Você nÃ£o tem coins suficiente.");
+						return SendClientMessage(playerid, RED, " > Você não tem coins suficiente.");
 					}
 					BuyItem(playerid, 7, 10);
 				}
@@ -167,7 +167,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 					{
 						SellItem(playerid, itemid, 1);
 					}else{
-						ChatMsg(playerid, RED, " > Você nÃ£o tem o item selecionado em mÃ£os para vender.");
+						ChatMsg(playerid, RED, " > Você não tem o item selecionado em mÃ£os para vender.");
 						dialogOpen[playerid] = false;
 					}
 				}
@@ -177,7 +177,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem)
 					{	
 	                     SellItem(playerid, itemid, 1);
 					}else{
-                        ChatMsg(playerid, RED, " > Você nÃ£o tem o item selecionado em mÃ£os para vender.");
+                        ChatMsg(playerid, RED, " > Você não tem o item selecionado em mÃ£os para vender.");
 						dialogOpen[playerid] = false;
 					}
 				}

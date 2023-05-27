@@ -482,7 +482,7 @@ hook OnPlayerPickUpItem(playerid, itemid)
 	if(exp_ItemTypeExplosive[itemtype] != INVALID_EXPLOSIVE_TYPE)
 	{
 	    if(GetTickCountDifference(GetTickCount(), exp_ArmTick[playerid]) < 1000){
-	        ChatMsg(playerid, RED, " > Você nÃ£o pode pegar este item agora.");
+	        ChatMsg(playerid, RED, " > Você não pode pegar este item agora.");
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 		if(exp_Data[exp_ItemTypeExplosive[itemtype]][exp_trigger] == MOTION)

@@ -12,11 +12,11 @@ ACMD:calar[1](playerid, params[])
 
 	if(sscanf(params, "dds[128]", targetid, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
 
-	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player nÃ£o estÃ¡ conectado.");
+	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
 
 	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid)) return 3;
 
-	if(IsPlayerMuted(targetid)) return ChatMsg(playerid, YELLOW, " >  Esse player jÃ¡ estÃ¡ calado.");
+	if(IsPlayerMuted(targetid)) return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
 
 	if(delay > 0)
 	{
@@ -58,7 +58,7 @@ ACMD:avisar[1](playerid, params[])
 
 	if(sscanf(params, "ds[128]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /avisar [playerid] [motivo]");
 
-	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player nÃ£o estÃ¡ conectado");
+	if(!IsPlayerConnected(targetid)) return ChatMsg(playerid,RED, " >  Esse player não está conectado");
 
 	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
@@ -85,7 +85,7 @@ ACMD:kick[1](playerid, params[]) {
 
 	if(sscanf(params, "ds[64]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /kick [playerid] [motivo]");
 
-	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" Você nÃ£o pode kickar a si mesmo", playerid);
+	if(playerid == targetid) return ChatMsg(playerid, PINK, " >  %P"C_PINK" Você não pode kickar a si mesmo", playerid);
 
 	if(!IsPlayerConnected(targetid)) return CMD_INVALID_PLAYER;
 
@@ -130,12 +130,12 @@ ACMD:history[1](playerid, params[])
 		if(IsPlayerConnected(targetid))
 			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
 		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' nÃ£o estÃ¡ online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
 		else
 			return 4;
 	}
 
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' nÃ£o existe.", name);
+	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 
 	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid))
 	{

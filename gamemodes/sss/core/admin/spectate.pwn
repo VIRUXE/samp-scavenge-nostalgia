@@ -95,7 +95,7 @@ EnterSpectateMode(playerid, targetid) {
 	stop spectate_Timer[playerid];
 	spectate_Timer[playerid] = repeat UpdateSpectateMode(playerid);
 
-	log("[ESPECTADOR] %p est√° espectando %p", playerid, targetid);
+	log("[ESPECTADOR] %p est· espectando %p", playerid, targetid);
 
 	return 1;
 }
@@ -354,7 +354,7 @@ timer UpdateSpectateMode[100](playerid) {
 				GetPlayerFP(targetid),
 				GetPlayerInterior(targetid),
 				GetPlayerVirtualWorld(targetid),
-				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("N√£o"),
+				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("N„o"),
 				GetPlayerBleedRate(targetid),
 				cameramodename,
 				velocity,

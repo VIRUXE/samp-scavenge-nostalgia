@@ -174,7 +174,7 @@ ShowCraftHelp(playerid)
 	strcat(gBigString[playerid], C_GREEN"No chão (Construção):\n\n");
 	strcat(gBigString[playerid], C_WHITE"Coloque todos os ingredientes no chão\n");
 	strcat(gBigString[playerid], C_WHITE"Equipar o item 'Ferramenta' especificado na página da combinação\n");
-	strcat(gBigString[playerid], C_WHITE"Segure a tecla F enquanto está perto dos ingredientes\n\n");
+	strcat(gBigString[playerid], C_WHITE"Segure a tecla F enquanto est� perto dos ingredientes\n\n");
 
 	strcat(gBigString[playerid], C_BLUE"Mesa de Trabalho:\n\n");
 	strcat(gBigString[playerid], C_WHITE"Coloque todos os itens de ingrediente na Mesa de Trabalho (A Mesa de Trabalho atua como uma caixa)\n");

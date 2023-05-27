@@ -48,7 +48,7 @@ CMD:dormir(playerid)
 	}
 
 	if(!Bed_ItemID)
-	    return ChatMsg(playerid, PINK, " > NÃ£o hÃ¡ nenhuma cama por perto");
+	    return ChatMsg(playerid, PINK, " > Não hÃ¡ nenhuma cama por perto");
 
     foreach(new i : Player)
 	{
@@ -56,7 +56,7 @@ CMD:dormir(playerid)
 	    	Bed_ItemID = 0;
 	}
 
-	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Alguém estÃ¡ dormindo nesta cama.");
+	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Alguém está dormindo nesta cama.");
 
  	GetItemPos(Bed_ItemID, x, y, z);
  	GetItemPos(Bed_ItemID, x2, y2, z2);

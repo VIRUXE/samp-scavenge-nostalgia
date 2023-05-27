@@ -47,8 +47,7 @@ hook OnPlayerDisconnect(playerid) {
     if(limitStrikes[playerid]) limitStrikes[playerid] = 0;
 }
 
-ACMD:setpinglimit[5](playerid, params[])
-{
+ACMD:setpinglimit[5](playerid, params[]) {
 	new limit = strval(params);
 
 	if(!(100 < limit < 1000)) return ChatMsg(playerid, YELLOW, " >  O limite tem que ser entre 100 e 1000");

@@ -331,9 +331,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             return 0;
 
         if(FloorRequestedBy[listitem] != INVALID_PLAYER_ID || IsFloorInQueue(listitem))
-            GameTextForPlayer(playerid, "~r~O elevador j√° est√° em espera neste andar.", 3500, 4);
+            GameTextForPlayer(playerid, "~r~O elevador j· est· em espera neste andar.", 3500, 4);
 		else if(DidPlayerRequestElevator(playerid))
-		    GameTextForPlayer(playerid, "~r~VocÍ j√° chamou o elevador.", 3500, 4);
+		    GameTextForPlayer(playerid, "~r~VocÍ j· chamou o elevador.", 3500, 4);
 		else
 	        CallElevator(playerid, listitem);
 
@@ -374,7 +374,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		        if (ElevatorState != ELEVATOR_STATE_MOVING && ElevatorFloor == i)
 		        {
 		            // Display a gametext message and exit here
-		            GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~r~Elevador da Zombotech ~n~~r~J√° est√°~n~~r~Neste Andar!", 3000, 5);
+		            GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~r~Elevador da Zombotech ~n~~r~J· est·~n~~r~Neste Andar!", 3000, 5);
 		            return 1;
 		        }
 				

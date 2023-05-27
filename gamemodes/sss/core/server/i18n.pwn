@@ -192,7 +192,7 @@ ACMD:idioma[3](playerid, params[])
 
 	sscanf(params, "rs[3]", targetId, lang);
 
-	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador n√£o existe.");
+	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador n„o existe.");
 
 	if(isempty(lang)) return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 

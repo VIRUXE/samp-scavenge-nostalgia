@@ -23,7 +23,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 		GetVehicleHealth(vehicleid, vehiclehealth);
 		itemtype = GetItemType(GetPlayerItem(playerid));
 
-		/* if(vehiclehealth >= VEHICLE_HEALTH_MAX) { // NÃ£o precisa de reparos.
+		/* if(vehiclehealth >= VEHICLE_HEALTH_MAX) { // Não precisa de reparos.
 			CancelPlayerMovement(playerid);
 			ShowRepairStatus(playerid, vehicleid);
 			return Y_HOOKS_CONTINUE_RETURN_0;

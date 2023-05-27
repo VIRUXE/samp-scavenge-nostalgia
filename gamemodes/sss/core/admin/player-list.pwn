@@ -185,11 +185,11 @@ Dialog:PlayerListItemOptions(playerid, response, listitem, inputtext[])
 	{
 		case 0:// Go to spawn
 		{
-			ChatMsg(playerid, YELLOW, " >  NÃ£o implementado.");
+			ChatMsg(playerid, YELLOW, " >  Não implementado.");
 		}
 		case 1:// Set spawn
 		{
-			ChatMsg(playerid, YELLOW, " >  NÃ£o implementado.");
+			ChatMsg(playerid, YELLOW, " >  Não implementado.");
 		}
 		case 2:// List accounts used by this IP
 		{

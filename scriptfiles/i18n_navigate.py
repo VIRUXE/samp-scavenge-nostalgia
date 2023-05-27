@@ -18,7 +18,7 @@ def copy_to_clipboard(stdscr, current_path, selected_node=""):
         pyperclip.copy(path_str)
         message = "Caminho copiado para a área de transferência."
     else:
-        message = "Não é possível copiar a rota da raiz."
+        message = "N�o é possível copiar a rota da raiz."
 
     height, width = stdscr.getmaxyx()
 
@@ -181,7 +181,7 @@ def main(stdscr):
 
     json_file_path = Path(sys.argv[1])
     if not json_file_path.is_file():
-        sys.stderr.write(f"Erro: Arquivo '{json_file_path}' não encontrado.\n")
+        sys.stderr.write(f"Erro: Arquivo '{json_file_path}' n�o encontrado.\n")
         sys.exit(1)
 
     with json_file_path.open() as f:

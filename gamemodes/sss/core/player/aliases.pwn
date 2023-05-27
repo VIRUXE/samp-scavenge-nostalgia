@@ -131,7 +131,7 @@ stock GetAccountAliasesByAll(name[], list[][MAX_PLAYER_NAME], &count, max, &admi
 }
 
 hook OnPlayerLogin(playerid) {
-	// Verificar se o jogador tem contas extras se ele n√£o for admin
+	// Verificar se o jogador tem contas extras se ele n„o for admin
 	if(!GetPlayerAdminLevel(playerid)) CheckForExtraAccounts(playerid);
 }
 
@@ -169,7 +169,7 @@ CheckForExtraAccounts(playerid) {
 	}
 
 	if(doneWarning && GetAdminsOnline() == 0) {
-		KickPlayer(playerid, "Uma de suas contas usadas anteriormente est√° banida.");
+		KickPlayer(playerid, "Uma de suas contas usadas anteriormente est· banida.");
 		return 0;
 	}
 

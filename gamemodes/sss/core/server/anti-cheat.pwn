@@ -36,8 +36,8 @@ public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
     if(status == HTTP_STATUS_SERVER_ERROR) { // Server error
 		if(ac_active) {
 			ac_active = false;
-			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat n√£o est√° respondendo!");
-			log("[ANTICHEAT]: Servidor de anti-cheat n√£o est√° respondendo!");
+			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat n„o est· respondendo!");
+			log("[ANTICHEAT]: Servidor de anti-cheat n„o est· respondendo!");
 		}
 	} else { // Esta respondendo corretamente
 		if(!ac_active) {
@@ -59,7 +59,7 @@ public OnGetData(Request:id, E_HTTP_STATUS:status, data[], dataLen) {
 
 				log("[ANTICHEAT] Nao autorizado: %s (%d)", GetPlayerNameEx(playerid), playerid);
 			}
-			case HTTP_STATUS_NOT_FOUND: { // Anti-cheat n√£o iniciado
+			case HTTP_STATUS_NOT_FOUND: { // Anti-cheat n„o iniciado
 				// new adminCount = GetAdminsOnline();
 
 				// Tell all the players that this player joined without using the anti-cheat
@@ -89,8 +89,8 @@ public AnticheatBackendResponse(playerid, response_code, data[])
 	if(response_code == 500) { // Server error
 		if(ac_active) {
 			ac_active = false;
-			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat n√£o est√° respondendo!");
-			log("[ANTICHEAT]: Servidor de anti-cheat n√£o est√° respondendo!");
+			ChatMsgAdmins(1, YELLOW, "[Anti-Cheat] Servidor de anti-cheat n„o est· respondendo!");
+			log("[ANTICHEAT]: Servidor de anti-cheat n„o est· respondendo!");
 		}
 
 		return 1;
@@ -108,7 +108,7 @@ public AnticheatBackendResponse(playerid, response_code, data[])
 			case 403: { // Anti-cheat nao autorizado
 				player_AntiCheat[playerid] = 2;
 			}
-			case 404: { // Anti-cheat n√£o iniciado
+			case 404: { // Anti-cheat n„o iniciado
 				// new adminCount = GetAdminsOnline();
 
 				// Tell all the players that this player joined without using the anti-cheat

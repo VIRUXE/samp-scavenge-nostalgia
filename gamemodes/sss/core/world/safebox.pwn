@@ -197,7 +197,7 @@ hook OnPlayerDropItem(playerid, itemid)
 						SetItemLabel(itemid, sprintf("%s", name), GREEN);
 					}
 					else {
-					    ChatMsg(playerid, RED, " > Você nÃ£o pode dropar esse item aqui.");
+					    ChatMsg(playerid, RED, " > Você não pode dropar esse item aqui.");
 					    return Y_HOOKS_BREAK_RETURN_1;
 					}
 			    }
@@ -207,7 +207,7 @@ hook OnPlayerDropItem(playerid, itemid)
 						SetItemLabel(itemid, sprintf("%s", name), GREEN);
 					}
 					else {
-					    ChatMsg(playerid, RED, " > Você nÃ£o pode dropar esse item aqui.");
+					    ChatMsg(playerid, RED, " > Você não pode dropar esse item aqui.");
 					    return Y_HOOKS_BREAK_RETURN_1;
 					}
 			    }
@@ -268,7 +268,7 @@ _DisplaySafeboxDialog(playerid, itemid, animation)
 	    return 0;
 
     if( (gServerMaxUptime - gServerUptime) < 61 && !gServerRestarting){
-        ChatMsg(playerid, RED, " > Servidor vai reiniciar em instantes, Você nÃ£o pode fazer isto agora.");
+        ChatMsg(playerid, RED, " > Servidor vai reiniciar em instantes, Você não pode fazer isto agora.");
         return Y_HOOKS_BREAK_RETURN_1;
     }
             
@@ -281,7 +281,7 @@ _DisplaySafeboxDialog(playerid, itemid, animation)
 		    if(IsValidTent(GetTentID(i))){
 				if(!CheckPlayerTent(playerid, i)) {
 				    ChatMsg(playerid, RED, "");
-					ChatMsg(playerid, RED, " > Você nÃ£o tem permissÃ£o nesta caixa.");
+					ChatMsg(playerid, RED, " > Você não tem permissÃ£o nesta caixa.");
 			        ChatMsg(playerid, RED, " > Chame um admin para liberÃ¡-la pra Você usando "C_YELLOW"/Relatorio");
 					PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 					ChatMsg(playerid, RED, "");
@@ -291,7 +291,7 @@ _DisplaySafeboxDialog(playerid, itemid, animation)
 		    else if(IsItemTypeDefence(GetItemType(i)) && GetDefenceActive(i)){
 		        if(!CheckPlayerDefence(playerid, i)){
 	             	ChatMsg(playerid, RED, "");
-					ChatMsg(playerid, RED, " > Você nÃ£o tem permissÃ£o nesta caixa.");
+					ChatMsg(playerid, RED, " > Você não tem permissÃ£o nesta caixa.");
 			        ChatMsg(playerid, RED, " > Chame um admin para liberÃ¡-la pra Você usando "C_YELLOW"/Relatorio");
 					PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 					ChatMsg(playerid, RED, "");
