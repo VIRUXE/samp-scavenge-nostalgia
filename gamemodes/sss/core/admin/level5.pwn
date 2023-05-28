@@ -290,8 +290,12 @@ ACMD:setadmin[5](playerid, params[])
 
 		if(!SetPlayerAdminLevel(targetId, level)) return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
 
-		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a Level %d Admin", targetId, level);
-		ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" Made you a Level %d Admin", playerid, level);
+		new rankName[15];
+		
+		rankName = GetAdminRankName(level);
+
+		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a %s", targetId, rankName);
+		ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" colocou voce como "C_WHITE"%s", playerid, rankName);
 	} else {
 		ChatMsg(playerid, YELLOW, " >  Usage: /setadmin [playerid] [level]");
 	}
