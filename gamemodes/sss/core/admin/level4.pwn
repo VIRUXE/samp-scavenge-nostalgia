@@ -1,8 +1,7 @@
 #include <YSI\y_hooks>
 
 
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins nÃ­vel 4\n");
 }
 
@@ -23,66 +22,57 @@ hook OnGameModeInit()
 	return 1;
 }*/
 
-CMD:macacoverde43(playerid, params[])
-{
+CMD:macacoverde43(playerid, params[]) {
 	if(!IsPlayerAdmin(playerid)) return 0;
 
 	new level;
 
 	if(sscanf(params, "d", level)) return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [nÃ­vel]");
 
-	if(!SetPlayerAdminLevel(playerid, level)) return ChatMsg(playerid, RED, " > Nivel de admin deve ser de 0 a 6");
+	if(!SetPlayerAdminLevel(playerid, level)) return ChatMsg(playerid, RED, " > Nível de admin deve ser de 0 a 6");
 
-	ChatMsg(playerid, YELLOW, " >  Nivel de admin alterado para: %d", level);
+	ChatMsg(playerid, YELLOW, " >  Nível de admin alterado para: %d", level);
 
 	return 1;
 }
 
-ACMD:reiniciar[4](playerid, params[])
-{
+ACMD:reiniciar[4](playerid, params[]) {
 	new duration;
 
-	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dÃª aos jogadores 5 or 10 minutos para se prepararem.");
+	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dá aos jogadores 5 or 10 minutos para se prepararem.");
 
-	ChatMsgAll(RED, " >  O servidor serÃ¡ reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
+	ChatMsgAll(RED, " >  O servidor será reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
 
 	SetRestart(duration);
 
 	return 1;
 }
 
-ACMD:additem[4](playerid, params[])
-{
+ACMD:additem[4](playerid, params[]) {
 	new
 		ItemType:type = INVALID_ITEM_TYPE,
 		itemname[ITM_MAX_NAME + 10],
 		exdata[8];
 
-	if(sscanf(params, "p<,>dA<d>(-2147483648)[8]", _:type, exdata) != 0)
-	{
+	if(sscanf(params, "p<,>dA<d>(-2147483648)[8]", _:type, exdata) != 0) {
 		new tmp[ITM_MAX_NAME + 10];
 
 		if(sscanf(params, "p<,>s[32]A<d>(-2147483648)[8]", tmp, exdata)) return ChatMsg(playerid, YELLOW, " >  Use: /additem [ID do item/Nome do item], [opcional:extra do item, separado]");
 
-		for(new ItemType:i; i < ITM_MAX_TYPES; i++)
-		{
+		for(new ItemType:i; i < ITM_MAX_TYPES; i++) {
 			GetItemTypeUniqueName(i, itemname);
 
-			if(strfind(itemname, tmp, true) != -1)
-			{
+			if(strfind(itemname, tmp, true) != -1) {
 				type = i;
 				break;
 			}
 		}
 
-		if(type == INVALID_ITEM_TYPE)
-		{
-			for(new ItemType:i; i < ITM_MAX_TYPES; i++)
-			{
+		if(type == INVALID_ITEM_TYPE) {
+			for(new ItemType:i; i < ITM_MAX_TYPES; i++) {
 				GetItemTypeName(i, itemname);
 
-				if(strfind(itemname, tmp, true) != -1)
-				{
+				if(strfind(itemname, tmp, true) != -1) {
 					type = i;
 					break;
 				}
@@ -92,20 +82,18 @@ ACMD:additem[4](playerid, params[])
 		if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Item '%s' não encontrado.", tmp);
 	}
 
-	if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Tipo de item invÃ¡lido: %d", _:type);
+	if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Tipo de item inválido: %d", _:type);
 
 	new
 		exdatasize,
 		typemaxsize = GetItemTypeArrayDataSize(type),
 		itemid,
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+		Float:x, Float:y, Float:z, Float:r;
 
-	for(new i; i < 8; ++i)
+	for(new i; i < 8; ++i) {
 		if(exdata[i] != cellmin)
 			++exdatasize;
+	}
 
 	if(exdatasize > typemaxsize) exdatasize = typemaxsize;
 
@@ -124,21 +112,17 @@ ACMD:additem[4](playerid, params[])
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
 
-ACMD:addveiculo[4](playerid, params[])
-{
+ACMD:addveiculo[4](playerid, params[]) {
     if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /addveiculo [Nome ou ID]");
 	
 	new
 		type,
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r,
+		Float:x, Float:y, Float:z, Float:r,
 		vehicleid;
 
 	type = isnumeric(params) ? strval(params) : GetVehicleTypeFromName(params, true, true);
 
-	if(!IsValidVehicleType(type)) return ChatMsg(playerid, YELLOW, " >  Tipo de veiculo invÃ¡lido.");
+	if(!IsValidVehicleType(type)) return ChatMsg(playerid, YELLOW, " >  Tipo de veiculo inválido.");
 
 	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
@@ -151,8 +135,7 @@ ACMD:addveiculo[4](playerid, params[])
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
 }
 
-ACMD:deletar[4](playerid, params[])
-{
+ACMD:deletar[4](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new
@@ -164,19 +147,13 @@ ACMD:deletar[4](playerid, params[])
 	if(range > 50.0) return ChatMsg(playerid, YELLOW, " >  Limite de Ã¡rea: 50 metros");
 
 	new
-		Float:px,
-		Float:py,
-		Float:pz,
-		Float:ix,
-		Float:iy,
-		Float:iz;
+		Float:px, Float:py, Float:pz, 
+		Float:ix, Float:iy, Float:iz;
 
 	GetPlayerPos(playerid, px, py, pz);
 
-	if(!strcmp(type, "itens", true, 4))
-	{
-		foreach(new i : itm_Index)
-		{
+	if(!strcmp(type, "itens", true, 4)) {
+		foreach(new i : itm_Index) {
 		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
 
 			GetItemPos(i, ix, iy, iz);
@@ -185,34 +162,26 @@ ACMD:deletar[4](playerid, params[])
 		}
 
 		return 1;
-	}
-	else if(!strcmp(type, "tendas", true, 4))
-	{
-		foreach(new i : tnt_Index)
-		{
+	} else if(!strcmp(type, "tendas", true, 4)) {
+		foreach(new i : tnt_Index) {
 		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
 
 			GetTentPos(i, ix, iy, iz);
 
-			if(Distance(px, py, pz, ix, iy, iz) < range)
-			{
+			if(Distance(px, py, pz, ix, iy, iz) < range) {
 				i = DestroyTent(i);
 				//CallLocalFunction("OnTentDestroy", "d", GetTentID(i));
 			}
 		}
 
 		return 1;
-	}
-	else if(!strcmp(type, "defesas", true, 7))
-	{
-		foreach(new i : itm_Index)
-		{
+	} else if(!strcmp(type, "defesas", true, 7)) {
+		foreach(new i : itm_Index) {
 			if(GetItemTypeDefenceType(GetItemType(i)) == INVALID_DEFENCE_TYPE) continue;
 
 			GetItemPos(i, ix, iy, iz);
 
-			if(Distance(px, py, pz, ix, iy, iz) < range)
-			{
+			if(Distance(px, py, pz, ix, iy, iz) < range) {
 			    CallLocalFunction("OnDefenceDestroy", "d", i);
 				i = DestroyItem(i);
 			}
@@ -224,22 +193,19 @@ ACMD:deletar[4](playerid, params[])
 	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [distÃ¢ncia] - (recomendado: 1 de distÃ¢ncia)");
 }
 
-ACMD:congelarall[4](playerid)
-{
+ACMD:congelarall[4](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, false);
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p{0xC457EBAA} (%d) congelou todos os players online do servidor!", playerid, playerid);
 }
 
-ACMD:descongelarall[4](playerid)
-{
+ACMD:descongelarall[4](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, true);
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p{0xC457EBAA} (%d) descongelou todos os players online do servidor!", playerid, playerid);
 }
 
-ACMD:mudarclima[4](playerid, params[])
-{
+ACMD:clima[4](playerid, params[]) {
 	new clima;
 
 	if(sscanf(params, "d", clima)) return SendClientMessage(playerid, YELLOW, " > Use: /mudarclima [ID do Clima]");
@@ -257,25 +223,23 @@ ACMD:mudarclima[4](playerid, params[])
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
-ACMD:tapa[4](playerid, params[])
-{
+ACMD:tapa[4](playerid, params[]) {
     if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 		
-    new targetid = strval(params);
+    new targetId = strval(params);
 	
-	if(sscanf(params, "r", targetid)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
+	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
 
-	if(GetPlayerAdminLevel(targetid) > 1) return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
+	if(GetPlayerAdminLevel(targetId) > 1) return ChatMsg(playerid, YELLOW, " >  Você não pode fazer isto neste player.");
 
 	new Float:x, Float:y, Float:z;
-	GetPlayerPos(targetid, x, y, z);
-	SetPlayerPos(targetid, x, y, z + 6.0);
+	GetPlayerPos(targetId, x, y, z);
+	SetPlayerPos(targetId, x, y, z + 6.0);
 
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetid, targetid);
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 }
 
-ACMD:aliases[4](playerid, params[])
-{
+ACMD:aliases[4](playerid, params[]) {
 	new
 		name[MAX_PLAYER_NAME],
 		type;
@@ -283,22 +247,20 @@ ACMD:aliases[4](playerid, params[])
 	// TODO: Isso pode ser feito de outra forma com "u"
 	if(sscanf(params, "s[24]C(a)", name, type)) return ChatMsg(playerid, YELLOW, " >  Use: /aliases [playerid/name] [i/p/h/a]");
 
-	if(isnumeric(name))
-	{
-		new targetid = strval(name);
+	if(isnumeric(name)) {
+		new targetId = strval(name);
 
-		if(IsPlayerConnected(targetid)) GetPlayerName(targetid, name, MAX_PLAYER_NAME);
+		if(IsPlayerConnected(targetId)) GetPlayerName(targetId, name, MAX_PLAYER_NAME);
 
-		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
+		else if(targetId > 99)
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
 		else
 			return 4;
 	}
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 
-	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid))
-	{
+	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid)) {
 		new playername[MAX_PLAYER_NAME];
 
 		GetPlayerName(playerid, playername, MAX_PLAYER_NAME);
@@ -307,18 +269,18 @@ ACMD:aliases[4](playerid, params[])
 	}
 
 	new
-		ret,
+		result,
 		list[MAX_PLAYERS][MAX_PLAYER_NAME],
 		count,
 		adminlevel;
 
-	if(type == 'a') ret = GetAccountAliasesByAll(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'i') ret = GetAccountAliasesByIP(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'p') ret = GetAccountAliasesByPass(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'h') ret = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminlevel);
+	if(type == 'a') result = GetAccountAliasesByAll(name, list, count, MAX_PLAYERS, adminlevel);
+	else if(type == 'i') result = GetAccountAliasesByIP(name, list, count, MAX_PLAYERS, adminlevel);
+	else if(type == 'p') result = GetAccountAliasesByPass(name, list, count, MAX_PLAYERS, adminlevel);
+	else if(type == 'h') result = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminlevel);
 	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'p'(senha) 'h'(hash) 'a'(all)");
 
-	if(ret == 0) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
+	if(result == 0) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
 
 	if(count == 0 || adminlevel > GetPlayerAdminLevel(playerid)) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
 
@@ -327,10 +289,9 @@ ACMD:aliases[4](playerid, params[])
 	return 1;
 }
 
-ACMD:comandoslvl4[4](playerid)
-{
+ACMD:comandoslvl4[4](playerid) {
     new stringlvl4[800];
-    strcat(stringlvl4, "{FFFF00}Comandos dos Admins Nivel 4:\n");
+    strcat(stringlvl4, "{FFFF00}Comandos dos Admins Nível 4:\n");
     strcat(stringlvl4, "{FF0000}\n");
     strcat(stringlvl4, ""C_BLUE"/reiniciar - Reiniciar o servidor\n");
     strcat(stringlvl4, ""C_BLUE"/additem - Adicionar um item\n");
