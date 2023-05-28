@@ -371,7 +371,7 @@ ACMD:rad[5](playerid, params[]) {
     if(isequal(subcmd, "exposure", true)) {
         new const Float:exposure = CalculateRadiationExposure(playerid);
 
-        ChatMsg(playerid, COLOR_RADIATION, "Nivel de Exposicao Radioativa: %.2f", exposure);
+        ChatMsg(playerid, COLOR_RADIATION, "Nível de Exposicao Radioativa: %.2f", exposure);
     } else if(isequal(subcmd, "goto", true)) {
         GotoCloud(playerid, false);
     } else if(isequal(subcmd, "follow", true)) {
