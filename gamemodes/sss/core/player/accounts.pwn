@@ -415,16 +415,11 @@ public OnPlayerLogin(playerid) {
  	ChatMsg(playerid, BLUE, "");
 	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
 	ChatMsg(playerid, BLUE, "");
-	
-	AnnouncePlayerJoined(playerid);
 
-	ShowMotd(playerid);
+	if(GetPlayerAdminLevel(playerid)) {
+		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: "C_WHITE"%s", GetAdminRankName(GetPlayerAdminLevel(playerid)));
 
-	if(GetPlayerAdminLevel(playerid) > 0) {
 		new reports = GetUnreadReports();
-
-		ChatMsg(playerid, BLUE, " >  Seu nível de admin atual é: %d", GetPlayerAdminLevel(playerid));
-
 		if(reports) ChatMsg(playerid, YELLOW, " >  %d reports não lidos, use "C_BLUE"/reports "C_YELLOW"para ver.", reports);
 	}
 
@@ -437,6 +432,10 @@ public OnPlayerLogin(playerid) {
 	}
 
 	ChatMsg(playerid, GREY, " >  Modo de Chat atual: "C_WHITE"%s", chatModeStr);
+	
+	AnnouncePlayerJoined(playerid);
+
+	ShowMotd(playerid);
 
 	return 1;
 }
