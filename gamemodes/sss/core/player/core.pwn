@@ -126,9 +126,7 @@ _OnPlayerConnect(playerid) {
 	return 1;
 }
 
-/* 
-	Aqui fazemos verificações preliminares, antes de tentar colocar o jogador no servidor
-*/
+// Aqui fazemos verificações preliminares, antes de tentar colocar o jogador no servidor
 public OnPlayerConnect(playerid) {
 	if(IsPlayerNPC(playerid)) return 0;
 
@@ -143,10 +141,12 @@ public OnPlayerConnect(playerid) {
 		GetPlayerVersion(playerid, version, sizeof(version));
 
 		if(!isequal(version, "0.3.7-R5")) {
-			printf("[CORE] OnPlayerConnect(%p) joined with version \"%s\"", playerid, version);
+			ChatMsg(playerid, RED, "Para entrar no nosso servidor tem que instalar a versão R5 do SA-MP.");
+			ChatMsg(playerid, YELLOW, "Isso faz com que existam menos hackers, pois maior parte dos hacks não está atualizada para essa versão.");
+			ChatMsg(playerid, GREEN, "Obrigado pela sua compreensão!");
 			KickPlayer(playerid, "Install SA-MP 0.3.7-R5: http://scavengenostalgia.fun/baixar");
 
-			return 1;
+			return Y_HOOKS_BREAK_RETURN_0;
 		}
 	}
 
