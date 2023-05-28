@@ -250,7 +250,7 @@ stock WhitelistKick(playerid){
 		"C_RED"Oque é whitelist? "C_WHITE"Whitelist serve para evitar que players inapropriados entrem no servidor,\n\
 		com ela, sÃ³ entra no servidor quem foi cadastrado e permitido pela staff.\n\n\
 		"C_RED"Quando eu vou ser aceito na whitelist? "C_WHITE" Apos colocar seu nick no discord,\n\
-		Você serÃ¡ aceito instantÃ¢neamente caso não seja um fake ou algo do tipo. Se Você não for aceito\n\
+		Você será aceito instantÃ¢neamente caso não seja um fake ou algo do tipo. Se Você não for aceito\n\
 		mesmo sendo um mocinho, entre em contato com um administrador.", "Fechar", "");
 
 	KickPlayer(playerid, "Não está cadastrado na whitelist.");
