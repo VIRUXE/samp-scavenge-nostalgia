@@ -346,9 +346,32 @@ ACMD:a[1](playerid, params[]) {
 	} else {
 		PlayerSendChat(playerid, params, 3.0);
 
-		if(chat_Mode[playerid] == CHAT_MODE_ADMIN)
-			ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
+		if(chat_Mode[playerid] == CHAT_MODE_ADMIN) ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
 	}
 
 	return 7;
+}
+
+ACMD:setchatmode[1](playerid, params[]) {
+	new const sintaxe[] = "> Sintaxe: /setchatmode [jogador] [local/global/clan]";
+	new targetId, mode[7];
+
+	if(sscanf(params, "rs[7]", targetId, mode)) return SendClientMessage(playerid, YELLOW, sintaxe);
+	
+	if(isequal(params, "local")) {
+		SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
+		ChatMsg(playerid, YELLOW, "> Modo de Chat de %p alterado para Local", targetId);
+		ChatMsg(targetId, YELLOW, "> Modo de Chat alterado para Local, por %P", targetId, playerid);
+	} else if(isequal(params, "global")) {
+		SetPlayerChatMode(playerid, CHAT_MODE_GLOBAL);
+		ChatMsg(playerid, YELLOW, "> Modo de Chat de %p alterado para Global", targetId);
+		ChatMsg(targetId, YELLOW, "> Modo de Chat alterado para Global, por %P", targetId, playerid);
+	} else if(isequal(params, "clan")) {
+		SetPlayerChatMode(playerid, CHAT_MODE_CLAN);
+		ChatMsg(playerid, YELLOW, "> Modo de Chat de %p alterado para Clan", targetId);
+		ChatMsg(targetId, YELLOW, "> Modo de Chat alterado para Clan, por %P", targetId, playerid);
+	} else
+		SendClientMessage(playerid, YELLOW, sintaxe);
+
+	return 1;
 }
