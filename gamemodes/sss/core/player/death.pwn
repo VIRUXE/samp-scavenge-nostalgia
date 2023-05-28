@@ -72,7 +72,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 }
 
 ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
-    AliveTime[playerid] ++;
+    if(IsPlayerSpawned(playerid)) AliveTime[playerid]++;
 }
 
 _OnDeath(playerid, killerid) {
@@ -115,11 +115,9 @@ _OnDeath(playerid, killerid) {
 	if(IsPlayerConnected(killerid)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		new const newScore = GetPlayerScore(killerid) + IsPlayerVip(killerid) ? 2 : 1;
+		SetPlayerScore(killerid, GetPlayerScore(killerid) + (IsPlayerVip(killerid) ? 2 : 1));
 
-		SetPlayerScore(killerid, newScore);
-
-		db_query(gAccounts, sprintf("UPDATE players SET kills = %d WHERE name = '%s';", newScore, GetPlayerNameEx(killerid)));
+		db_query(gAccounts, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerid)));
 		
 		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
