@@ -7,7 +7,7 @@
 static Clan[MAX_PLAYERS][MAX_CLAN_NAME];
 
 SetPlayerClan(playerid, clan[MAX_CLAN_NAME]) {
-	strcpy(Clan[playerid], clan, MAX_CLAN_NAME); // Define na memÃ³ria
+	strcpy(Clan[playerid], clan, MAX_CLAN_NAME); // Define na memória
 
 	if(isempty(clan)) 
 		log("[CLAN] Clan removido de %p (%d)", playerid, playerid);
@@ -20,7 +20,7 @@ SavePlayerClan(playerid) {
 
 	clan = GetPlayerClan(playerid);
 
-	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerNameEx(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
 }
 
 GetPlayerClan(playerid) return Clan[playerid];
@@ -28,7 +28,7 @@ GetPlayerClan(playerid) return Clan[playerid];
 GetClanTag(const clan[MAX_CLAN_NAME]) {
 	new DBResult:result, tag[MAX_CLAN_TAG];
 
-	result = db_query(gAccounts, sprintf("SELECT tag FROM clans WHERE name = '%s'", clan));
+	result = db_query(gAccounts, sprintf("SELECT tag FROM clans WHERE name = '%s';", clan));
 
 	db_get_field(result, 0, tag);
 
@@ -43,7 +43,7 @@ GetClanOwner(const clan[MAX_CLAN_NAME]) {
 	// Consulta o banco de dados e retorna o nome do dono do clan
 	new DBResult:result, owner[MAX_PLAYER_NAME];
 
-	result = db_query(gAccounts, sprintf("SELECT owner FROM clans WHERE name = '%s'", clan));
+	result = db_query(gAccounts, sprintf("SELECT owner FROM clans WHERE name = '%s';", clan));
 
 	db_get_field(result, 0, owner);
 
@@ -53,7 +53,7 @@ GetClanOwner(const clan[MAX_CLAN_NAME]) {
 IsPlayerClanOwner(playerid) return isequal(GetClanOwner(GetPlayerClan(playerid)), GetPlayerNameEx(playerid));
 
 AddPlayerToClan(playerid, clan[MAX_CLAN_NAME]) {
-	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s'", clan, GetPlayerNameEx(playerid)));
+	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
 
 	SetPlayerClan(playerid, clan);
 
@@ -107,9 +107,8 @@ hook OnPlayerLogin(playerid) {
 	}
 }
 
-CMD:clan(playerid, params[])
-{
-	if(!IsPlayerSpawned(playerid)) return ChatMsg(playerid, RED, " > Você deve nascer antes.");
+CMD:clan(playerid, params[]) {
+	if(!IsPlayerSpawned(playerid)) return 0;
 
     new command[9];
 
