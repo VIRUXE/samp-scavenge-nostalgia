@@ -161,7 +161,7 @@ ShowCraftHelp(playerid)
 {
 	gBigString[playerid][0] = EOS;
 
-	strcat(gBigString[playerid], "Crafting há uma forma de criar novos itens a partir de itens existentes.\n");
+	strcat(gBigString[playerid], "Crafting h� uma forma de criar novos itens a partir de itens existentes.\n");
 	strcat(gBigString[playerid], "Existem três maneiras de combinar itens em Scavenge e Survive:\n\n");
 
 	strcat(gBigString[playerid], C_YELLOW"Em Telas de inventário (Craftando ou Combinando):\n\n");
