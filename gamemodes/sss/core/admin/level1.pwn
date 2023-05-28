@@ -1,13 +1,10 @@
 #include <YSI\y_hooks>
 
-
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, ""C_BLUE"/comandoslvl1 - Ver a lista de comandos dos admins nÃ­vel 1\n");
 }
 
-ACMD:calar[1](playerid, params[])
-{
+ACMD:calar[1](playerid, params[]) {
 	new targetid, delay, reason[128];
 
 	if(sscanf(params, "dds[128]", targetid, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
@@ -174,7 +171,7 @@ ACMD:comandoslvl1[1](playerid)
 {
     new stringlvl1[800];
 
-    strcat(stringlvl1, "{FFFF00}Comandos dos Admins Nivel 1:\n");
+    strcat(stringlvl1, "{FFFF00}Comandos dos Admins Nível 1:\n");
     strcat(stringlvl1, "{FF0000}\n");
     strcat(stringlvl1, ""C_BLUE"/(des)calar - calar/descalar um player\n");
     strcat(stringlvl1, ""C_BLUE"/avisar - Dar aviso em um player\n");
