@@ -412,7 +412,7 @@ ACMD:banidos[3](playerid, params[])
 {
 	new result = ShowListOfBans(playerid, 0);
 
-	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não hÃ¡ nenhum player banido.");
+	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
 
 	if(result == -1) return ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
 
@@ -448,7 +448,7 @@ ACMD:comandoslvl3[3](playerid) {
     strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar Veículos\n");
     strcat(stringlvl3, ""C_BLUE"/move - Mover-se\n");
     strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
-    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova serÃ¡: 'password')\n");
+    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova será: 'password')\n");
     strcat(stringlvl3, ""C_BLUE"/setactive - ativar/desativar contas\n");
     strcat(stringlvl3, ""C_BLUE"/goto ou /tp - Ver os comandos de teleportes\n");
     strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");
