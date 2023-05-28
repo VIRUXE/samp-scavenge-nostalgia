@@ -48,7 +48,7 @@ CMD:dormir(playerid)
 	}
 
 	if(!Bed_ItemID)
-	    return ChatMsg(playerid, PINK, " > Não hÃ¡ nenhuma cama por perto");
+	    return ChatMsg(playerid, PINK, " > Não há nenhuma cama por perto");
 
     foreach(new i : Player)
 	{
