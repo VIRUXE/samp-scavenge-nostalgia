@@ -28,7 +28,7 @@ hook OnGameModeInit() {
 	RanchPcButton = CreateButton(-691.1692, 942.1066, 13.6328, "Press "KEYTEXT_INTERACT" to use");
 	RanchHdd      = CreateItem(item_HardDrive, -693.1787, 942.0, 15.93, 90.0, 0.0, 37.5);
 
-	                                                                                                                             // Quarry
+	// Quary
 	QuarryDoor = CreateButton(495.451873, 780.096191, -21.747426, "Press "KEYTEXT_INTERACT" to enter");                          // quarry
 	CaveDoor   = CreateButton(-2702.358398, 3801.477050, 52.652801, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW);  // cave 1
 
