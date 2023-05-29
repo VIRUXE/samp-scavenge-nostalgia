@@ -447,10 +447,10 @@ CMD:admins(playerid) {
 	for(new i; i < admin_Total; i++) {
 		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
 
-		format(line, sizeof(line), "%s %C(%s)\n",
+		format(line, sizeof(line), "%s %C%s (%s)\n",
 			GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? "Online" : "Offline",
-			admin_Data[i][admin_Name],
 			admin_Colours[admin_Data[i][admin_Rank]],
+			admin_Data[i][admin_Name],
 			admin_Names[admin_Data[i][admin_Rank]]);
 
 		strcat(gBigString[playerid], GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? C_GREEN : C_GREY);
