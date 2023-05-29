@@ -322,7 +322,7 @@ UpdatePlayerGear(playerid, show = 1)
 
 hook OnPlayerOpenInventory(playerid)
 {
-	dbg("global", CORE, "[OnPlayerOpenInventory] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	ShowPlayerGear(playerid);
 	UpdatePlayerGear(playerid);
@@ -335,7 +335,7 @@ hook OnPlayerOpenInventory(playerid)
 
 hook OnPlayerCloseInventory(playerid)
 {
-	dbg("global", CORE, "[OnPlayerCloseInventory] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	ClearAnimations(playerid);
 	HidePlayerGear(playerid);
@@ -351,7 +351,7 @@ hook OnPlayerCloseInventory(playerid)
 
 hook OnPlayerOpenContainer(playerid, containerid)
 {
-	dbg("global", CORE, "[OnPlayerOpenContainer] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	ShowPlayerGear(playerid);
 	UpdatePlayerGear(playerid);
@@ -364,7 +364,7 @@ hook OnPlayerOpenContainer(playerid, containerid)
 
 hook OnPlayerCloseContainer(playerid, containerid)
 {
-	dbg("global", CORE, "[OnPlayerCloseContainer] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	HidePlayerGear(playerid);
 	HidePlayerHealthInfo(playerid);
@@ -379,7 +379,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 
 hook OnItemRemoveFromCnt(containerid, slotid, playerid)
 {
-	dbg("global", CORE, "[OnItemRemoveFromCnt] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(IsPlayerConnected(playerid))
 		if(containerid == GetBagItemContainerID(GetPlayerBagItem(playerid))) UpdatePlayerGear(playerid);
@@ -389,7 +389,7 @@ hook OnItemRemoveFromCnt(containerid, slotid, playerid)
 
 hook OnItemRemoveFromInv(playerid, itemid, slot)
 {
-	dbg("global", CORE, "[OnItemRemoveFromInv] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	UpdatePlayerGear(playerid, 0);
 
@@ -398,7 +398,7 @@ hook OnItemRemoveFromInv(playerid, itemid, slot)
 
 hook OnItemAddToInventory(playerid, itemid, slot)
 {
-	dbg("global", CORE, "[OnItemAddToInventory] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(IsItemTypeCarry(GetItemType(itemid))) return 1;
 
@@ -410,7 +410,7 @@ hook OnItemAddToInventory(playerid, itemid, slot)
 
 hook OnItemRemovedFromPlayer(playerid, itemid)
 {
-	dbg("global", CORE, "[OnItemRemovedFromPlayer] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(IsItemTypeCarry(GetItemType(itemid))) SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
 	
@@ -419,7 +419,7 @@ hook OnItemRemovedFromPlayer(playerid, itemid)
 
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
-	dbg("global", CORE, "[OnPlayerClickPlayerTD] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(playertextid == GearSlot_Head[UI_ELEMENT_TILE])
 		_inv_HandleGearSlotClick_Head(playerid);
@@ -766,7 +766,7 @@ _inv_HandleGearSlotClick_Back(playerid)
 
 hook OnPlayerViewCntOpt(playerid, containerid)
 {
-	dbg("global", CORE, "[OnPlayerViewCntOpt] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(containerid == GetBagItemContainerID(GetPlayerBagItem(playerid)))
 	{
@@ -789,7 +789,7 @@ hook OnPlayerViewCntOpt(playerid, containerid)
 
 hook OnPlayerSelectCntOpt(playerid, containerid, option)
 {
-	dbg("global", CORE, "[OnPlayerSelectCntOpt] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(containerid == GetBagItemContainerID(GetPlayerBagItem(playerid)))
 	{
@@ -825,7 +825,7 @@ hook OnPlayerSelectCntOpt(playerid, containerid, option)
 
 hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
-	dbg("global", CORE, "[OnPlayerClickTextDraw] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	if(clickedid == Text:65535)
 	{
@@ -853,7 +853,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 
 hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
-	dbg("global", CORE, "[OnPlayerTakeDamage] in /gamemodes/sss/core/char/inventory.pwn");
+
 
 	// ? Que porra e essa?
 	if(IsPlayerSpawned(playerid)) 

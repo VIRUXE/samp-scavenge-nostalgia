@@ -121,7 +121,7 @@ SaveBoxCnt(playerid)
 
 hook OnItemDestroy(itemid)
 {
-	dbg("global", CORE, "[OnItemDestroy] in /gamemodes/sss/core/world/safebox-io.pwn");
+
 
 	if(IsItemTypeSafebox(GetItemType(itemid)) && GetItemType(itemid) != item_Workbench)
 		RemoveSavedItem(itemid, DIRECTORY_SAFEBOX);

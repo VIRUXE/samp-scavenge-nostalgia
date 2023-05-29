@@ -48,7 +48,7 @@ Timer:	fish_Timer[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/item/fishingrod.pwn");
+	
 
 	fish_Status[playerid] = FISH_STATUS_NONE;
 	stop fish_Timer[playerid];
@@ -56,7 +56,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerUseItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/item/fishingrod.pwn");
+
 
 	if(GetItemType(itemid) == item_FishRod)
 	{
@@ -70,7 +70,7 @@ hook OnPlayerUseItem(playerid, itemid)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/item/fishingrod.pwn");
+
 
 	if(GetItemType(GetPlayerItem(playerid)) == item_FishRod)
 	{
@@ -175,7 +175,7 @@ timer _CatchDelay[floatround(fish_Distance[playerid], floatround_round) * 100](p
 
 hook OnHoldActionUpdate(playerid, progress)
 {
-	dbg("global", CORE, "[OnHoldActionUpdate] in /gamemodes/sss/core/item/fishingrod.pwn");
+
 
 	if(fish_Status[playerid] == FISH_STATUS_CASTING)
 		fish_Distance[playerid] = progress / 100;

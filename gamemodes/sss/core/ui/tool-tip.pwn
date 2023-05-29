@@ -29,7 +29,7 @@ HideHelpTip(playerid) PlayerTextDrawHide(playerid, ToolTipText[playerid]);
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/ui/tip-text.pwn");
+	
 
 	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer Veículos");
 	PlayerTextDrawLetterSize(playerid, ToolTipText[playerid], 0.279665, 1.952331);
@@ -47,7 +47,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerPickedUpItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerPickUpItem] in /gamemodes/sss/core/player/tool-tips.pwn");
+
 
 	if(ToolTips[playerid])
 	{
@@ -63,7 +63,7 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 
 hook OnPlayerDropItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerDropItem] in /gamemodes/sss/core/player/tool-tips.pwn");
+
 
 	if(ToolTips[playerid]) HideHelpTip(playerid);
 

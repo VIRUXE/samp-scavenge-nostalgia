@@ -43,11 +43,11 @@ hook OnItemTypeDefined(uname[])
 
 hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItemWithItem] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(withitemid) == item_PlantPot)
 	{
-		dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[_pot_UseItemWithItem] player %d itemid %d withitemid %d", playerid, itemid, withitemid);
+
 		new
 			ItemType:itemtype = GetItemType(itemid),
 			potdata[e_plant_pot_data];
@@ -78,14 +78,10 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 			if(amount <= 0.0)
 				ShowActionText(playerid, ls(playerid, "item/plantpot/empty"), 5000);
-
 			else if(type != liquid_Water)
 				ShowActionText(playerid, ls(playerid, "item/plantpot/bottle-not-water"), 5000);
-				
-			else
-			{
+			else {
 				new Float:transfer = (amount < 0.1) ? amount : 0.1;
-				dbg("gamemodes/sss/core/item/plantpot.pwn", 2, "[_pot_UseItemWithItem] amount %f transfer %f floatround(transfer * 10) = %d", amount, transfer, floatround(transfer * 10));
 
 				SetItemArrayDataAtCell(withitemid, GetItemArrayDataAtCell(withitemid, E_PLANT_POT_WATER) + floatround(transfer * 10), E_PLANT_POT_WATER, 1);
 				SetLiquidItemLiquidAmount(itemid, amount - transfer);
@@ -152,7 +148,7 @@ _pot_Load(itemid)
 		return;
 	}
 
-	dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[_pot_Load] itemid %d", itemid);
+
 	new potdata[e_plant_pot_data];
 
 	GetItemArrayData(itemid, potdata);
@@ -162,7 +158,7 @@ _pot_Load(itemid)
 		return;
 	}
 
-	dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[_pot_Load] pot active, water: %d", potdata[E_PLANT_POT_WATER]);
+
 	if(potdata[E_PLANT_POT_WATER] > 0)
 	{
 		// Sufficiently watered? Grow and drink some water.
@@ -178,7 +174,7 @@ _pot_Load(itemid)
 	// If growth is reduced to 0, Die :(
 	if(potdata[E_PLANT_POT_GROWTH] <= 0)
 	{
-		dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[_pot_Load] growth: %d dying.", potdata[E_PLANT_POT_GROWTH]);
+
 		potdata[E_PLANT_POT_ACTIVE] = 0;
 		potdata[E_PLANT_POT_SEED_TYPE] = -1;
 		potdata[E_PLANT_POT_WATER] = 0;
@@ -194,7 +190,7 @@ _pot_Load(itemid)
 
 _pot_UpdateModel(itemid, bool:toggle = true)
 {
-	dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[_pot_UpdateModel] itemid %d toggle %d", itemid, toggle);
+
 	if(!IsItemInWorld(itemid))
 		toggle = false;
 
@@ -268,18 +264,18 @@ _pot_UpdateModel(itemid, bool:toggle = true)
 
 hook OnItemCreateInWorld(itemid)
 {
-	dbg("global", CORE, "[OnItemCreateInWorld] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(itemid) == item_PlantPot)
 	{
-		dbg("gamemodes/sss/core/item/plantpot.pwn", 1, "[OnItemCreateInWorld] PlantPot itemid %d", itemid);
+
 
 		if(gServerInitialising)
 		{
-			dbg("gamemodes/sss/core/item/plantpot.pwn", 2, "[OnItemCreateInWorld] gServerInitialising true");
+
 			if(GetItemLootIndex(itemid) != -1)
 			{
-				dbg("gamemodes/sss/core/item/plantpot.pwn", 2, "[OnItemCreateInWorld] ItemLootIndex != -1");
+
 				new potdata[e_plant_pot_data];
 
 				potdata[E_PLANT_POT_ACTIVE] = 0;
@@ -292,7 +288,7 @@ hook OnItemCreateInWorld(itemid)
 			}
 			else
 			{
-				dbg("gamemodes/sss/core/item/plantpot.pwn", 2, "[OnItemCreateInWorld] ItemLootIndex == -1");
+
 				_pot_Load(itemid);
 			}
 		}
@@ -301,7 +297,7 @@ hook OnItemCreateInWorld(itemid)
 
 hook OnPlayerUseItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(itemid) == item_PlantPot && IsItemInWorld(itemid))
 	{
@@ -335,7 +331,7 @@ Dialog:PlantPotStatus(playerid, response, listitem, inputtext[])
 
 hook OnPlayerPickUpItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerPickUpItem] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(itemid) == item_PlantPot)
 		_pot_UpdateModel(itemid, false);
@@ -345,7 +341,7 @@ hook OnPlayerPickUpItem(playerid, itemid)
 
 hook OnPlayerDroppedItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerDroppedItem] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(itemid) == item_PlantPot)
 		_pot_UpdateModel(itemid);
@@ -353,7 +349,7 @@ hook OnPlayerDroppedItem(playerid, itemid)
 
 hook OnItemDestroy(itemid)
 {
-	dbg("global", CORE, "[OnItemDestroy] in /gamemodes/sss/core/item/plantpot.pwn");
+
 
 	if(GetItemType(itemid) == item_PlantPot)
 		_pot_UpdateModel(itemid, false);

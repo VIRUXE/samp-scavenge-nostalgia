@@ -110,7 +110,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 hook OnPlayerCloseContainer(playerid, containerid)
 {
-	dbg("global", CORE, "[OnPlayerCloseContainer] in /gamemodes/sss/core/vehicle/trunk.pwn");
+
 
     VehicleTrunkUpdateSave(playerid);
     
@@ -129,7 +129,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 
 hook OnPlayerUseItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/vehicle/trunk.pwn");
+
 
 	if(IsPlayerAtAnyVehicleTrunk(playerid))
 		return Y_HOOKS_BREAK_RETURN_1;

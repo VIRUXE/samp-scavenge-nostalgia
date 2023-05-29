@@ -64,7 +64,7 @@ hook OnGameModeInit()
 }
 hook OnGameModeExit()
 {
-	dbg("global", CORE, "[OnGameModeExit] in /gamemodes/sss/world/puzzles/lockboxlv.pwn");
+
 
 	new
 		dr_state[2],

@@ -38,7 +38,7 @@ static
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/char/infection.pwn");
+	
 
 	infect_InfectionIntensity[playerid][0] = 0;
 	infect_InfectionIntensity[playerid][1] = 0;
@@ -49,7 +49,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
-	dbg("global", CORE, "[OnPlayerDeath] in /gamemodes/sss/core/char/infection.pwn");
+
 
 	infect_InfectionIntensity[playerid][0] = 0;
 	infect_InfectionIntensity[playerid][1] = 0;
@@ -122,14 +122,14 @@ stock SetPlayerInfectionIntensity(playerid, type, amount)
 
 hook OnPlayerSave(playerid, filename[])
 {
-	dbg("global", CORE, "[OnPlayerSave] in /gamemodes/sss/core/char/infection.pwn");
+
 
 	modio_push(filename, _T<I,N,F,C>, 2, infect_InfectionIntensity[playerid]);
 }
 
 hook OnPlayerLoad(playerid, filename[])
 {
-	dbg("global", CORE, "[OnPlayerLoad] in /gamemodes/sss/core/char/infection.pwn");
+
 
 	modio_read(filename, _T<I,N,F,C>, 2, infect_InfectionIntensity[playerid]);
 }

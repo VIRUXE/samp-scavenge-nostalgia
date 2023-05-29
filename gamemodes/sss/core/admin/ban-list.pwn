@@ -231,7 +231,7 @@ Dialog:UnbanPrompt(playerid, response, listitem, inputtext[])
 
 hook OnPlayerDialogPage(playerid, direction)
 {
-	dbg("global", CORE, "[OnPlayerDialogPage] in /gamemodes/sss/core/admin/ban-list.pwn");
+
 
 	if(banlist_ViewingList[playerid])
 	{

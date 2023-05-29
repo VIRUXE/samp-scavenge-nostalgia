@@ -111,7 +111,7 @@ DestroyFireworkProjectile(id)
 
 hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItemWithItem] in /gamemodes/sss/core/item/firework.pwn");
+
 
 	if(GetItemType(itemid) == item_FireLighter && GetItemType(withitemid) == item_FireworkBox)
 	{
@@ -144,7 +144,7 @@ timer FireworkLaunch[SEC(6)](itemid)
 
 hook OnDynamicObjectMoved(objectid)
 {
-	dbg("global", CORE, "[OnDynamicObjectMoved] in /gamemodes/sss/core/item/firework.pwn");
+
 
 	foreach(new i : fwk_ProjectileIndex)
 	{

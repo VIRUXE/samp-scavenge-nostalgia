@@ -66,7 +66,7 @@ hook OnPlayerConnect(playerid)
 {
 	if(!IsPlayerNPC(playerid))
 	{
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/gpci-log.pwn");
+	
 
 	new
 		name[MAX_PLAYER_NAME],

@@ -12,7 +12,7 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 {
-	dbg("global", CORE, "[OnPlayerInteractVehicle] in /gamemodes/sss/core/item/wheel.pwn");
+
 
 	new itemid = GetPlayerItem(playerid);
 	if(GetItemType(itemid) == item_Wheel && PlayerUpdateWheel[playerid] == INVALID_VEHICLE_ID) _WheelRepair(playerid, vehicleid);
@@ -22,7 +22,7 @@ hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 
 /*hook OnPlayerInteractVehicle(playerid, vehicleid, Float:angle)
 {
-	dbg("global", CORE, "[OnPlayerInteractVehicle] in /gamemodes/sss/core/item/wheel.pwn");
+
 
 	new itemid = GetPlayerItem(playerid);
 

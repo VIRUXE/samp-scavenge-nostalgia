@@ -126,7 +126,7 @@ hook OnGameModeInit()
 
 hook OnButtonPress(playerid, buttonid)
 {
-	dbg("global", CORE, "[OnButtonPress] in /gamemodes/sss/world/puzzles/ranch.pwn");
+
 
 	if(buttonid==RanchPcButton)
 	{
@@ -204,7 +204,7 @@ hook OnButtonPress(playerid, buttonid)
 
 hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItemWithBtn] in /gamemodes/sss/world/puzzles/ranch.pwn");
+
 
 	if(buttonid == RanchPcButton && itemid == RanchHdd)
 	{

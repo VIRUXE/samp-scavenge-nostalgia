@@ -97,7 +97,6 @@ LoadPlayerVehicle(filename[])
 	{
 		if(data[0] == 0)
 		{
-			dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 1, "Vehicle set to inactive (file: %s)", filename);
 			modio_finalise_read(modio_getsession_read(filepath));
 			return 0;
 		}
@@ -279,7 +278,7 @@ LoadPlayerVehicle(filename[])
 
 	if(trunksize > 0)
 	{
-		dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 1, "[LoadPlayerVehicle] trunk size: %d", trunksize);
+
 
 		new
 			ItemType:itemtype,
@@ -293,20 +292,20 @@ LoadPlayerVehicle(filename[])
 
 			containerid = GetVehicleContainer(vehicleid);
 
-			dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 1, "[LoadPlayerVehicle] modio read length:%d items:%d", length, itemcount);
+
 
 			for(new i; i < itemcount; i++)
 			{
 				itemtype = GetStoredItemType(i);
 
-				dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 2, "[LoadPlayerVehicle] item %d/%d type:%d", i, itemcount, _:itemtype);
+
 
 				if(itemtype == INVALID_ITEM_TYPE) break;
 
 				if(itemtype == ItemType:0) break;
 
 				itemid = CreateItem(itemtype);
-				dbg("gamemodes/sss/core/vehicle/player-vehicle.pwn", 2, "[LoadPlayerVehicle] created item:%d container:%d", itemid, containerid);
+
 
 				if(!IsItemTypeSafebox(itemtype) && !IsItemTypeBag(itemtype)) SetItemArrayDataFromStored(itemid, i);
 

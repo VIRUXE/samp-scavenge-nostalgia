@@ -60,7 +60,7 @@ hook OnScriptInit()
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/player/whitelist.pwn");
+	
 
 	defer _WhitelistConnect(playerid);
 
@@ -76,7 +76,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerDisconnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/player/whitelist.pwn");
+
 
 	wl_Whitelisted[playerid] = false;
 
@@ -368,7 +368,7 @@ timer _WhitelistConnect[100](playerid)
 
 hook OnPlayerLogin(playerid)
 {
-	dbg("global", CORE, "[OnPlayerLogin] in /gamemodes/sss/core/player/whitelist.pwn");
+
 
 	if(wl_Auto && wl_Active)
 	{

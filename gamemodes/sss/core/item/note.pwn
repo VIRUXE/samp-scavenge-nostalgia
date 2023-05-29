@@ -36,7 +36,7 @@ hook OnItemTypeDefined(uname[])
 
 hook OnPlayerUseItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/item/note.pwn");
+
 
 	if(GetItemType(itemid) == item_Note)
 	{
@@ -82,7 +82,7 @@ Dialog:NoteSet(playerid, response, listitem, inputtext[])
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
-	dbg("global", CORE, "[OnItemNameRender] in /gamemodes/sss/core/item/note.pwn");
+
 
 	if(itemtype == item_Note)
 	{

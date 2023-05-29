@@ -58,7 +58,7 @@ forward OnPlayerUseMachine(playerid, itemid, interactiontype);
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/world/machine.pwn");
+	
 
 	mach_CurrentMachine[playerid] = INVALID_ITEM_ID;
 }
@@ -132,7 +132,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 _mach_PlayerUseMachine(playerid, itemid)
 {
-	dbg("gamemodes/sss/core/world/machine.pwn", 1, "[_mach_PlayerUseMachine] playerid %d itemid %d", playerid, itemid);
+
 
 	mach_CurrentMachine[playerid] = itemid;
 	mach_MachineInteractTick[playerid] = GetTickCount();
@@ -144,7 +144,7 @@ _mach_PlayerUseMachine(playerid, itemid)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/world/machine.pwn");
+
 
 	if(RELEASED(16))
 	{

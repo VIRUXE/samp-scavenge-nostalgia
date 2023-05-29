@@ -32,7 +32,7 @@
 
 hook OnItemCreate(itemid)
 {
-	dbg("global", CORE, "[OnItemCreate] in /gamemodes/sss/core/item/heartshapedbox.pwn");
+
 
 	if(GetItemType(itemid) == item_HeartShapedBox)
 	{

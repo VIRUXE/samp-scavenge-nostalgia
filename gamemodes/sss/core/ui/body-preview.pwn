@@ -56,7 +56,7 @@ PlayerText:	bod_BodyPreview	[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/ui/body-preview.pwn");
+	
 
 	bod_LabelIndex0[playerid] = 0;
 	bod_LabelIndex1[playerid] = 0;
@@ -128,7 +128,7 @@ stock ShowBodyPreviewUI(playerid)
 	if(bod_Shown[playerid])
 	    return 1;
 	    
-	dbg("gamemodes/sss/core/ui/body-preview.pwn", 1, "[ShowBodyPreviewUI]");
+
 
 	PlayerTextDrawSetString(playerid, bod_Header[playerid], ls(playerid, "player/health/status_ui/header"));
 
@@ -144,14 +144,14 @@ stock ShowBodyPreviewUI(playerid)
 
 stock HideBodyPreviewUI(playerid)
 {
-	dbg("gamemodes/sss/core/ui/body-preview.pwn", 1, "[HideBodyPreviewUI]");
+
 	PlayerTextDrawHide(playerid, bod_Header[playerid]);
 	PlayerTextDrawHide(playerid, bod_Background[playerid]);
 	PlayerTextDrawHide(playerid, bod_Footer[playerid]);
 	PlayerTextDrawHide(playerid, bod_BodyPreview[playerid]);
 
     
-	dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[HideBodyPreviewUI] LabelIndex0 %d LabelIndex1 %d", bod_LabelIndex0[playerid], bod_LabelIndex1[playerid]);
+
 	for(new i; i <= bod_LabelIndex0[playerid]; i++)
 	{
 		PlayerTextDrawDestroy(playerid, bod_LabelData0[playerid][i][bl_textdraw]);
@@ -179,7 +179,7 @@ hook OnPlayerDeath(playerid, killerid, reason)
 
 hook OnPlayerCloseInventory(playerid)
 {
-	dbg("global", CORE, "[OnPlayerCloseInventory] in /gamemodes/sss/core/ui/body-preview.pwn");
+
 
 	HideBodyPreviewUI(playerid);
 
@@ -195,7 +195,7 @@ hook OnPlayerCloseContainer(playerid, containerid)
 
 stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textcolour)
 {
-	dbg("gamemodes/sss/core/ui/body-preview.pwn", 1, "[SetBodyPreviewLabel] side:%d index:%d spacing:%.2f string:'%s' col:%x", side, index, spacing, string, textcolour);
+
 
 	if(!bod_Shown[playerid]) return 0;
 
@@ -209,7 +209,7 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 	{
 		if(bod_LabelData0[playerid][index][bl_valid])
 		{
-			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Updating left side index: %d", index);
+
 
 			PlayerTextDrawSetString(playerid, bod_LabelData0[playerid][index][bl_textdraw], string);
 			PlayerTextDrawColor(playerid, bod_LabelData0[playerid][index][bl_textdraw], textcolour);
@@ -217,7 +217,7 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 		}
 		else
 		{
-			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Adding to left side index: %d", index);
+
 
 			bod_LabelData0[playerid][index][bl_valid] = true;
 
@@ -248,7 +248,7 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 	{
 		if(bod_LabelData1[playerid][index][bl_valid])
 		{
-			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Updating right side index: %d", index);
+
 
 			PlayerTextDrawSetString(playerid, bod_LabelData1[playerid][index][bl_textdraw], string);
 			PlayerTextDrawColor(playerid, bod_LabelData1[playerid][index][bl_textdraw], textcolour);
@@ -256,7 +256,7 @@ stock SetBodyPreviewLabel(playerid, side, index, Float:spacing, string[], textco
 		}
 		else
 		{
-			dbg("gamemodes/sss/core/ui/body-preview.pwn", 2, "[SetBodyPreviewLabel] Adding to right side index: %d", index);
+
 
 			bod_LabelData1[playerid][index][bl_valid] = true;
 

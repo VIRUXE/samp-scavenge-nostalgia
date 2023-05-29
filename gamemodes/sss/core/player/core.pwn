@@ -180,7 +180,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerDisconnected(playerid)
 {
-	dbg("global", CORE, "[OnPlayerDisconnected] in /gamemodes/sss/core/player/core.pwn");
+
 
 	ResetVariables(playerid);
 }
@@ -361,7 +361,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
 hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
-	dbg("global", CORE, "[OnPlayerStateChange] in /gamemodes/sss/core/player/core.pwn");
+
 
 	if(newstate == PLAYER_STATE_DRIVER || newstate == PLAYER_STATE_PASSENGER)
 	{
@@ -374,7 +374,7 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 
 hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
-	dbg("global", CORE, "[OnPlayerEnterVehicle] in /gamemodes/sss/core/player/core.pwn");
+
 
 	if(IsPlayerKnockedOut(playerid)) 
 	{

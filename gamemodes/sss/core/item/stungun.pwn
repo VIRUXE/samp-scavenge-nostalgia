@@ -32,7 +32,7 @@ hook OnItemTypeDefined(uname[])
 
 hook OnPlayerMeleePlayer(playerid, targetid, Float:bleedrate, Float:knockmult)
 {
-	dbg("global", CORE, "[OnPlayerMeleePlayer] in /gamemodes/sss/core/item/stungun.pwn");
+
 
 	new itemid = GetPlayerItem(playerid);
 
@@ -65,7 +65,7 @@ hook OnPlayerMeleePlayer(playerid, targetid, Float:bleedrate, Float:knockmult)
 
 hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItemWithItem] in /gamemodes/sss/core/item/stungun.pwn");
+
 
 	if(GetItemType(itemid) == item_StunGun && GetItemType(withitemid) == item_Battery)
 	{
@@ -79,7 +79,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
-	dbg("global", CORE, "[OnItemNameRender] in /gamemodes/sss/core/item/stungun.pwn");
+
 
 	if(itemtype == item_StunGun)
 	{

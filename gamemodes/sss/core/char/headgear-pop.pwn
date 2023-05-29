@@ -27,7 +27,7 @@
 
 hook OnPlayerGiveDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 {
-	dbg("global", CORE, "[OnPlayerGiveDamage] in /gamemodes/sss/core/char/headgear-pop.pwn");
+
 
 	if(bodypart == BODY_PART_HEAD)
 	{

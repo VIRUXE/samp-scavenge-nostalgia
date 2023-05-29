@@ -43,7 +43,7 @@ hook OnItemTypeDefined(uname[])
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/item/injector.pwn");
+	
 
 	inj_CurrentItem[playerid] = -1;
 	inj_CurrentTarget[playerid] = -1;
@@ -51,7 +51,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnItemCreate(itemid)
 {
-	dbg("global", CORE, "[OnItemCreate] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(GetItemLootIndex(itemid) != -1)
 	{
@@ -64,7 +64,7 @@ hook OnItemCreate(itemid)
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
-	dbg("global", CORE, "[OnItemNameRender] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(itemtype == item_AutoInjec)
 	{
@@ -81,7 +81,7 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 
 hook OnPlayerUseItem(playerid, itemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItem] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(GetItemType(itemid) == item_AutoInjec)
 	{
@@ -104,7 +104,7 @@ hook OnPlayerUseItem(playerid, itemid)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-	dbg("global", CORE, "[OnPlayerKeyStateChange] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(oldkeys & 16 && inj_CurrentItem[playerid] != -1)
 		StopInjecting(playerid);
@@ -145,7 +145,7 @@ StopInjecting(playerid)
 
 hook OnHoldActionFinish(playerid)
 {
-	dbg("global", CORE, "[OnHoldActionFinish] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(inj_CurrentItem[playerid] != -1)
 	{
@@ -193,7 +193,7 @@ hook OnHoldActionFinish(playerid)
 
 hook OnPlayerDrugWearOff(playerid, drugtype)
 {
-	dbg("global", CORE, "[OnPlayerDrugWearOff] in /gamemodes/sss/core/item/injector.pwn");
+
 
 	if(drugtype == drug_Heroin)
 	{

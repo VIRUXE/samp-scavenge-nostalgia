@@ -71,7 +71,7 @@ forward Float:GetPlayerKnockoutChance(playerid, Float:knockmult);
 
 hook OnPlayerConnect(playerid)
 {
-	dbg("global", CORE, "[OnPlayerConnect] in /gamemodes/sss/core/weapon/damage-core.pwn");
+	
 
 	dmg_LastHit[playerid][0] = EOS;
 	dmg_LastHitId[playerid] = INVALID_PLAYER_ID;
@@ -133,7 +133,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 	strcpy(wnd_Data[targetid][woundid][wnd_source], source, MAX_WOUND_SRCLEN);
 
 	totalbleedrate += bleedrate;
-	dbg("gamemodes/sss/core/weapon/damage-core.pwn", 2, "[PlayerInflictWound] inflicted bleedrate: %f, total bleedrate = %f", bleedrate, totalbleedrate);
+
 
 	// Truncate result to 1.0
 	totalbleedrate = totalbleedrate > 1.0 ? 1.0 : totalbleedrate;
@@ -163,7 +163,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 
 		if(knockouttime > 1500)
 		{
-			dbg("gamemodes/sss/core/weapon/damage-core.pwn", 2, "[PlayerInflictWound] Knocking out %p for %dms - %d wounds, %f health %f bleedrate", targetid, knockouttime, woundcount, hp, totalbleedrate);
+
 			KnockOutPlayer(targetid, knockouttime);
 		}
 	}
@@ -193,7 +193,7 @@ stock PlayerInflictWound(playerid, targetid, E_WND_TYPE:type, Float:bleedrate, F
 
 hook OnDeath(playerid, killerid, reason)
 {
-	dbg("global", CORE, "[OnDeath] in /gamemodes/sss/core/weapon/damage-core.pwn");
+
 
 	Iter_Clear(wnd_Index[playerid]);
 
@@ -450,7 +450,7 @@ stock SetPlayerWoundDataFromArray(playerid, input[])
 
 hook OnPlayerSave(playerid, filename[])
 {
-	dbg("global", CORE, "[OnPlayerSave] in /gamemodes/sss/core/weapon/damage-core.pwn");
+
 
 	new
 		length,
@@ -463,7 +463,7 @@ hook OnPlayerSave(playerid, filename[])
 
 hook OnPlayerLoad(playerid, filename[])
 {
-	dbg("global", CORE, "[OnPlayerLoad] in /gamemodes/sss/core/weapon/damage-core.pwn");
+
 
 	new data[1 + (MAX_WOUNDS * _:E_WOUND_DATA)];
 

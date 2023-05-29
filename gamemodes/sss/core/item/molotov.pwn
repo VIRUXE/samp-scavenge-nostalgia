@@ -23,7 +23,7 @@
 
 hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
-	dbg("global", CORE, "[OnPlayerUseItemWithItem] in /gamemodes/sss/core/item/molotov.pwn");
+
 
 	if(GetItemType(withitemid) == item_MolotovEmpty)
 	{

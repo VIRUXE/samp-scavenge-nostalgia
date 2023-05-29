@@ -27,7 +27,7 @@
 
 hook OnItemCreate(itemid)
 {
-	dbg("global", CORE, "[OnItemCreate] in /gamemodes/sss/core/weapon/core.pwn");
+
 
 	new lootindex = GetItemLootIndex(itemid);
 

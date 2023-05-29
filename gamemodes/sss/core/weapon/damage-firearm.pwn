@@ -36,7 +36,7 @@ forward OnPlayerShootPlayer(playerid, targetid, bodypart, Float:bleedrate, Float
 
 hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 {
-	dbg("global", CORE, "[OnPlayerGiveDamage] in /gamemodes/sss/core/weapon/damage-firearm.pwn");
+
 
 	if(IsPlayerOnAdminDuty(damagedid))
 		return 0;
@@ -94,7 +94,7 @@ _HandleFirearmDamage(playerid, targetid, bodypart)
 
 _DoFirearmDamage(playerid, targetid, itemid, ItemType:itemtype, bodypart)
 {
-	dbg("gamemodes/sss/core/weapon/damage-firearm.pwn", 1, "[_DoFirearmDamage] playerid: %d targetid: %d itemtype: %d bodypart: %d ", playerid, targetid, _:itemtype, bodypart);
+
 
     /*if(strfind(GetPlayerClan(targetid), GetPlayerClan(playerid), true) != -1 &&
 		strfind(GetPlayerClan(playerid), "Nenhum", true) == -1)
@@ -113,7 +113,7 @@ _DoFirearmDamage(playerid, targetid, itemid, ItemType:itemtype, bodypart)
 	bulletvelocity = GetItemTypeWeaponMuzzVelocity(itemtype);
 	distance = GetDistanceBetweenPlayers(playerid, targetid);
 
-	dbg("gamemodes/sss/core/weapon/damage-firearm.pwn", 2, "[_DoFirearmDamage] bleedrate: %.4f muzzlevel: %.4f distance: %.4f", bleedrate, bulletvelocity, distance);
+
 
 	// Turns the muzzle velocity (initial velocity) into a factor that affects
 	// the bullet velocity depending on the distance it has travelled.
@@ -121,18 +121,18 @@ _DoFirearmDamage(playerid, targetid, itemid, ItemType:itemtype, bodypart)
 	// isn't affected by the distance as much as a weapon with a low muzzle
 	// velocity.
 	velocitydegredationrate = 1.0 - (bulletvelocity / 11300);
-	dbg("gamemodes/sss/core/weapon/damage-firearm.pwn", 2, "[_DoFirearmDamage] velocitydegredationrate: %.4f", velocitydegredationrate);
+
 
 	// Now a graph function, the distance is the 'x' and the degradation rate is
 	// the power. This gives a curved line which gradually lowers the velocity
 	// as the distance increases.
 	bulletvelocity -= floatpower(distance, velocitydegredationrate);
-	dbg("gamemodes/sss/core/weapon/damage-firearm.pwn", 2, "[_DoFirearmDamage] bulletvelocity: %.4f", bulletvelocity);
+
 
 	// Now to combine the bullet velocity with the initial bleed rate of the
 	// bullet calibre which results in the final bleed rate for the player.
 	bleedrate *= bulletvelocity / 1000.0;
-	dbg("gamemodes/sss/core/weapon/damage-firearm.pwn", 2, "[_DoFirearmDamage] bleedrate: %.4f", bleedrate);
+
 
 	knockmult *= bulletvelocity / 50.0;
 

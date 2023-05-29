@@ -30,7 +30,7 @@ static
 
 hook OnPlayerShootPlayer(playerid, targetid, bodypart, Float:bleedrate, Float:knockmult, Float:bulletvelocity, Float:distance)
 {
-	dbg("global", CORE, "[OnPlayerShootPlayer] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	_CombatLogHandleDamage(playerid, targetid, GetPlayerItem(playerid));
 
@@ -39,7 +39,7 @@ hook OnPlayerShootPlayer(playerid, targetid, bodypart, Float:bleedrate, Float:kn
 
 hook OnPlayerMeleePlayer(playerid, targetid, Float:bleedrate, Float:knockmult)
 {
-	dbg("global", CORE, "[OnPlayerMeleePlayer] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	_CombatLogHandleDamage(playerid, targetid, GetPlayerItem(playerid));
 
@@ -48,7 +48,7 @@ hook OnPlayerMeleePlayer(playerid, targetid, Float:bleedrate, Float:knockmult)
 
 hook OnPlayerExplosiveDmg(playerid, Float:bleedrate, Float:knockmult)
 {
-	dbg("global", CORE, "[OnPlayerExplosiveDmg] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	_CombatLogHandleDamage(INVALID_PLAYER_ID, playerid, INVALID_ITEM_ID);
 
@@ -57,7 +57,7 @@ hook OnPlayerExplosiveDmg(playerid, Float:bleedrate, Float:knockmult)
 
 hook OnPlayerVehicleCollide(playerid, targetid, Float:bleedrate, Float:knockmult)
 {
-	dbg("global", CORE, "[OnPlayerVehicleCollide] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	_CombatLogHandleDamage(playerid, targetid, INVALID_ITEM_ID);
 
@@ -83,7 +83,7 @@ _CombatLogHandleDamage(playerid, targetid, itemid)
 
 hook OnPlayerSpawn(playerid)
 {
-	dbg("global", CORE, "[OnPlayerSpawn] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	combatlog_LastAttacker[playerid] = INVALID_PLAYER_ID;
 	combatlog_LastItem[playerid] = INVALID_ITEM_ID;
@@ -91,7 +91,7 @@ hook OnPlayerSpawn(playerid)
 
 hook OnPlayerDisconnect(playerid, reason)
 {
-	dbg("global", CORE, "[OnPlayerDisconnect] in /gamemodes/sss/core/weapon/anti-combat-log.pwn");
+
 
 	if(combatlog_LastAttacked[playerid] != INVALID_PLAYER_ID)
 	{
