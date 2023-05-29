@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_DETFIELD				(250)
 #define MAX_DETFIELD_NAME			(64)
 #define MAX_DETFIELD_EXCEPTIONS		(32)

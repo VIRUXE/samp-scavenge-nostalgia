@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_REPORT_REASON_LENGTH	(128)
 #define MAX_REPORT_TYPE_LENGTH		(40)
 #define MAX_REPORT_INFO_LENGTH		(128)

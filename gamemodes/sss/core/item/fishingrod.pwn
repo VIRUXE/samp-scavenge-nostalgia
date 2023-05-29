@@ -22,11 +22,7 @@
 	This source code was written & provided by Adam Kadar @ github.com/Kadaradam
 
 
-==============================================================================*/
-
-
-#include <YSI\y_hooks>
-
+==============================================================================*/#include <YSI\y_hooks>
 
 #define MAX_FISHING_DISTANCE	(10000)
 #define MIN_FISHING_TIME		(30000)

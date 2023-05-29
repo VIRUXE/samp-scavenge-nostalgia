@@ -19,10 +19,7 @@
 		with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-==============================================================================*/
-
-
-#include <YSI\y_hooks>
+==============================================================================*/#include <YSI\y_hooks>
 #include <YSI\y_va>
 
 #define ALL_TAGS _,Float,Timer,ItemType

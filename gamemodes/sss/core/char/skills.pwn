@@ -25,11 +25,7 @@
 		PlayerGainSkillExperience with the skill name to level them up a bit.
 
 
-==============================================================================*/
-
-
-#include <YSI\y_hooks>
-
+==============================================================================*/#include <YSI\y_hooks>
 
 #define MAX_PLAYER_SKILLS	(50)
 #define MAX_SKILL_NAME		(32)

@@ -1,58 +1,24 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
+#include <YSI\y_hooks>
 
 #define PLOTPOLE_AREA_IDENTIFIER	(2817)
 
-
-#include <YSI\y_hooks>
-
-
-enum e_PLOT_POLE_DATA
-{
+enum e_PLOT_POLE_DATA {
 	E_PLOTPOLE_AREA,
 	E_PLOTPOLE_OBJ1,
 	E_PLOTPOLE_OBJ2,
 	E_PLOTPOLE_OBJ3
 }
 
-
-hook OnItemTypeDefined(uname[])
-{
+hook OnItemTypeDefined(uname[]) {
 	if(!strcmp(uname, "PlotPole"))
 		SetItemTypeMaxArrayData(GetItemTypeFromUniqueName("PlotPole"), e_PLOT_POLE_DATA);
 }
 
-hook OnItemCreateInWorld(itemid)
-{
-	if(GetItemType(itemid) == item_PlotPole)
-	{
+hook OnItemCreateInWorld(itemid) {
+	if(GetItemType(itemid) == item_PlotPole) {
 		new
 			data[e_PLOT_POLE_DATA],
-			Float:x,
-			Float:y,
-			Float:z,
-			Float:rz,
+			Float:x, Float:y, Float:z, Float:rz,
 			areadata[2];
 
 		GetItemPos(itemid, x, y, z);
@@ -71,10 +37,8 @@ hook OnItemCreateInWorld(itemid)
 	}
 }
 
-hook OnItemDestroy(itemid)
-{
-	if(GetItemType(itemid) == item_PlotPole)
-	{
+hook OnItemDestroy(itemid) {
+	if(GetItemType(itemid) == item_PlotPole) {
 		new data[e_PLOT_POLE_DATA];
 		GetItemArrayData(itemid, data);
 		DestroyDynamicArea(data[E_PLOTPOLE_AREA]);
@@ -84,29 +48,21 @@ hook OnItemDestroy(itemid)
 	}
 }
 
-hook OnPlayerPickUpItem(playerid, itemid)
-{
-	if(GetItemType(itemid) == item_PlotPole)
-	{
-		return Y_HOOKS_BREAK_RETURN_1;
-	}
+hook OnPlayerPickUpItem(playerid, itemid) {
+	if(GetItemType(itemid) == item_PlotPole) return Y_HOOKS_BREAK_RETURN_1;
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerEnterDynArea(playerid, areaid)
-{
+hook OnPlayerEnterDynArea(playerid, areaid) {
 	new data[2];
 
 	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, data);
 
-	if(data[0] != PLOTPOLE_AREA_IDENTIFIER)
-		return Y_HOOKS_CONTINUE_RETURN_0;
+	if(data[0] != PLOTPOLE_AREA_IDENTIFIER) return Y_HOOKS_CONTINUE_RETURN_0;
 
-	if(IsValidItem(data[1]))
-	{
-		if(GetItemType(data[1]) == item_PlotPole)
-		{
+	if(IsValidItem(data[1])) {
+		if(GetItemType(data[1]) == item_PlotPole) {
 			new geid[GEID_LEN];
 			GetItemGEID(data[1], geid);
 			ShowActionText(playerid, sprintf(ls(playerid, "item/plotpole/inserted"), geid), 5000);
@@ -116,19 +72,15 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerLeaveDynArea(playerid, areaid)
-{
+hook OnPlayerLeaveDynArea(playerid, areaid) {
 	new data[2];
 
 	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, data);
 
-	if(data[0] != PLOTPOLE_AREA_IDENTIFIER)
-		return Y_HOOKS_CONTINUE_RETURN_0;
+	if(data[0] != PLOTPOLE_AREA_IDENTIFIER) return Y_HOOKS_CONTINUE_RETURN_0;
 
-	if(IsValidItem(data[1]))
-	{
-		if(GetItemType(data[1]) == item_PlotPole)
-		{
+	if(IsValidItem(data[1])) {
+		if(GetItemType(data[1]) == item_PlotPole) {
 			new geid[GEID_LEN];
 			GetItemGEID(data[1], geid);
 			ShowActionText(playerid, sprintf(ls(playerid, "item/plotpole/inserted-left"), geid), 5000);
@@ -138,31 +90,22 @@ hook OnPlayerLeaveDynArea(playerid, areaid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-// utils
-
-stock IsPlayerInPlotPoleArea(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return false;
+stock IsPlayerInPlotPoleArea(playerid) {
+	if(!IsPlayerConnected(playerid)) return false;
 
 	// Todo: implement Streamer_GetPlayerAreas + loop
 	return false;
 }
 
-stock IsItemInPlotPoleArea(itemid)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+stock IsItemInPlotPoleArea(itemid) {
+	new Float:x, Float:y, Float:z;
 
 	GetItemPos(itemid, x, y, z);
 
 	return IsPointInPlotPoleArea(x, y, z);
 }
 
-stock IsPointInPlotPoleArea(Float:x, Float:y, Float:z)
-{
+stock IsPointInPlotPoleArea(Float:x, Float:y, Float:z) {
 	new
 		areas[64],
 		areacount,
@@ -170,14 +113,11 @@ stock IsPointInPlotPoleArea(Float:x, Float:y, Float:z)
 
 	areacount = GetDynamicAreasForPoint(x, y, z, areas);
 
-	for(new i; i < sizeof(areas) && i < areacount; ++i)
-	{
+	for(new i; i < sizeof(areas) && i < areacount; ++i) {
 		Streamer_GetArrayData(STREAMER_TYPE_AREA, areas[i], E_STREAMER_EXTRA_ID, data, 2);
 
-		if(data[0] == PLOTPOLE_AREA_IDENTIFIER)
-		{
-			if(GetItemType(data[1]) == item_PlotPole)
-				return true;
+		if(data[0] == PLOTPOLE_AREA_IDENTIFIER) {
+			if(GetItemType(data[1]) == item_PlotPole) return true;
 		}
 	}
 

@@ -20,11 +20,7 @@
 		with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-==============================================================================*/
-
-
-#include <YSI\y_hooks>
-
+==============================================================================*/#include <YSI\y_hooks>
 
 #define MAX_SAFEBOX_TYPE	(12)
 #define MAX_SAFEBOX_NAME	(32)

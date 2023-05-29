@@ -1,34 +1,8 @@
-/*==============================================================================
-
-
-	Southclaw's Scavenge and Survive
-
-		Copyright (C) 2016 Barnaby "Southclaw" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/
-
-
 #include <YSI\y_hooks>
-
 
 #define RANCH_STUFF_VIRTUALW	(0)
 
-
-new
+static
 	RanchPcButton,
 	RanchHdd,
 	RanchPcState,
@@ -45,33 +19,24 @@ new
 	CaveLiftButtonB,
 	LiftPos;
 
-
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	_Ranch_LoadObjects();
 
 	new buttonid[2];
 
 	// Ranch
-
 	RanchPcButton = CreateButton(-691.1692, 942.1066, 13.6328, "Press "KEYTEXT_INTERACT" to use");
-	RanchHdd = CreateItem(item_HardDrive, -693.1787, 942.0, 15.93, 90.0, 0.0, 37.5);
+	RanchHdd      = CreateItem(item_HardDrive, -693.1787, 942.0, 15.93, 90.0, 0.0, 37.5);
 
-
-	// Quarry
-
-	QuarryDoor = CreateButton(495.451873, 780.096191, -21.747426, "Press "KEYTEXT_INTERACT" to enter"); // quarry
-	CaveDoor = CreateButton(-2702.358398, 3801.477050, 52.652801, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // cave 1
-
+	                                                                                                                             // Quarry
+	QuarryDoor = CreateButton(495.451873, 780.096191, -21.747426, "Press "KEYTEXT_INTERACT" to enter");                          // quarry
+	CaveDoor   = CreateButton(-2702.358398, 3801.477050, 52.652801, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW);  // cave 1
 
 	// Shack
-
 	CreateDynamicObject(2574, -2811.88, -1530.59, 139.84, 0.00, 0.00, 180.00);
 	QuarryDoorKey = CreateItem(item_Key, -2813.96, -1530.55, 140.97, 0.36, -85.14, 25.00);
 
-
 	// Cave 1
-
 	CaveLift = CreateDynamicObject(7246, -2759.4704, 3756.8691, 6.9, 270, 180, 340.9154, RANCH_STUFF_VIRTUALW);
 
 	buttonid[0] = CreateButton(-2796.933349, 3682.779785, 02.515481, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // cave 1
@@ -83,9 +48,7 @@ hook OnGameModeInit()
 	buttonid[1] = CreateButton(-785.9272, 3727.1111, 0.5293, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // cave 3
 	LinkTP(buttonid[0], buttonid[1]);
 
-
 	// Subway/Metro
-
 	buttonid[0] = CreateButton(-1007.395263, 5782.741210, 42.951477, "Press "KEYTEXT_INTERACT" to climb up the ladder", RANCH_STUFF_VIRTUALW);
 	buttonid[1] = CreateButton(2526.719482, -1648.620605, 14.471982, "Press "KEYTEXT_INTERACT" to climb down the ladder");
 	LinkTP(buttonid[0], buttonid[1]);
@@ -98,25 +61,19 @@ hook OnGameModeInit()
 	buttonid[1] = CreateButton(-734.773986, 3861.994628, 12.482711, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // cave
 	LinkTP(buttonid[0], buttonid[1]);
 
-
 	// Fort Claw underground
-
-	buttonid[0]=CreateButton(246.698684, -178.849655, -50.199367, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // underground
-	buttonid[1]=CreateButton(-952.559326, 5137.799804, 46.183383, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // metro station
+	buttonid[0] = CreateButton(246.698684, -178.849655, -50.199367, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // underground
+	buttonid[1] = CreateButton(-952.559326, 5137.799804, 46.183383, "Press "KEYTEXT_INTERACT" to enter", RANCH_STUFF_VIRTUALW); // metro station
 	LinkTP(buttonid[0], buttonid[1]);
 
 	CreateButton(-972.153869, 4303.185058, 48.666248, "~r~Trancado", RANCH_STUFF_VIRTUALW);
 
-
 	// Lift Sequence
-
-	CaveLiftButtonT=CreateButton(-2764.0332, 3757.0466, 46.8343, "Press "KEYTEXT_INTERACT" to use the lift", RANCH_STUFF_VIRTUALW);
-	CaveLiftButtonB=CreateButton(-2764.3410, 3755.5153, 8.2390, "Press "KEYTEXT_INTERACT" to use the lift", RANCH_STUFF_VIRTUALW);
+	CaveLiftButtonT = CreateButton(-2764.0332, 3757.0466, 46.8343, "Press "KEYTEXT_INTERACT" to use the lift", RANCH_STUFF_VIRTUALW);
+	CaveLiftButtonB = CreateButton(-2764.3410, 3755.5153, 8.2390, "Press "KEYTEXT_INTERACT" to use the lift", RANCH_STUFF_VIRTUALW);
 	LiftPos=0;
 
-
 	// Fort Claw Door
-
 	buttonid[0] = CreateButton(264.316284, -171.135223, -50.206447, "Press "KEYTEXT_INTERACT" to activate", RANCH_STUFF_VIRTUALW);
 	buttonid[1] = CreateButton(265.862182, -170.113632, -50.204307, "Press "KEYTEXT_INTERACT" to activate", RANCH_STUFF_VIRTUALW);
 	CreateDoor(5779, buttonid,
@@ -124,76 +81,47 @@ hook OnGameModeInit()
 		265.0322, -168.9355, -46.8575, 0.0, 0.0, 0.0, .worldid = RANCH_STUFF_VIRTUALW);
 }
 
-hook OnButtonPress(playerid, buttonid)
-{
-
-
-	if(buttonid==RanchPcButton)
-	{
+hook OnButtonPress(playerid, buttonid) {
+	if(buttonid == RanchPcButton) {
 	    if(RanchPcState == 0)
-	    {
 	    	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Computer", "You try to turn on the computer but the hard disk is missing.\nYou wonder where it could be and think it's mighty suspicious.\nThere is nothing useful nearby.", "Close", "");
-		}
-
-	    if(RanchPcState == 1)
-	    {
-			if(RanchPcPlayerViewing[playerid])
-			{
+		else if(RanchPcState == 1) {
+			if(RanchPcPlayerViewing[playerid]) {
 			    SetCameraBehindPlayer(playerid);
 			    TogglePlayerControllable(playerid, true);
 			    RanchPcPlayerViewing[playerid] = false;
-			}
-			else
-			{
+			} else {
 			    SetPlayerCameraPos(playerid, -691.141845, 942.489868, 13.759174);
 			    SetPlayerCameraLookAt(playerid, -689.749084, 946.223693, 14.104162);
 			    RanchPcPlayerViewing[playerid] = true;
 			}
 	    }
-
-	}
-
-	if(buttonid == QuarryDoor)
-	{
+	} else if(buttonid == QuarryDoor) {
 	    if(QuarryDoorState == 0)
-	    {
 	    	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Door", "You pull on the door but it won't budge, the lock seems sturdy.\nThere's no way you can get through here without a key.\nPerhaps you should search the shed?", "Close", "");
-	    }
-	    else
-	    {
+	    else {
 			SetPlayerVirtualWorld(playerid, RANCH_STUFF_VIRTUALW);
 			SetPlayerPos(playerid, -2702.358398, 3801.477050, 52.652801);
 			FreezePlayer(playerid, 1000);
 	    }
-	}
-	if(buttonid == CaveDoor)
-	{
+	} else if(buttonid == CaveDoor) {
 		SetPlayerVirtualWorld(playerid, 0);
 		SetPlayerPos(playerid, 495.451873, 780.096191, -21.747426);
 		FreezePlayer(playerid, 1000);
-	}
-	if(buttonid==CaveLiftButtonT)
-	{
-		if(LiftPos)
-		{
+	} else if(buttonid==CaveLiftButtonT) {
+		if(LiftPos) {
 		    MoveDynamicObject(CaveLift, -2759.4704, 3756.8691, 6.9, 2.0, 270, 180, 340.9);
 		    LiftPos=0;
-		}
-		else
-		{
+		} else {
 		    MoveDynamicObject(CaveLift, -2759.4704, 3756.8691, 45.4, 2.0, 270, 180, 340.9);
 		    LiftPos=1;
 		}
 	}
-	if(buttonid==CaveLiftButtonB)
-	{
-		if(LiftPos)
-		{
+	else if(buttonid==CaveLiftButtonB) {
+		if(LiftPos) {
 		    MoveDynamicObject(CaveLift, -2759.4704, 3756.8691, 45.4, 2.0, 270, 180, 340.9);
 		    LiftPos=0;
-		}
-		else
-		{
+		} else {
 		    MoveDynamicObject(CaveLift, -2759.4704, 3756.8691, 6.9, 2.0, 270, 180, 340.9);
 		    LiftPos=1;
 		}
@@ -202,12 +130,8 @@ hook OnButtonPress(playerid, buttonid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
-{
-
-
-	if(buttonid == RanchPcButton && itemid == RanchHdd)
-	{
+hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid) {
+	if(buttonid == RanchPcButton && itemid == RanchHdd) {
 	    ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Computer", "You begin reattaching the hard drive to the computer.", "Close", "");
 		ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_IN", 5.0, 0, 0, 0, 1, 450);
 		defer AttachRanchHdd(playerid);
@@ -221,8 +145,7 @@ hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-timer AttachRanchHdd[2500](playerid)
-{
+timer AttachRanchHdd[2500](playerid) {
 	DestroyItem(RanchHdd);
 	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Computer", "You successfully install the hard drive without electricuting yourself, well done!", "Close", "");
     ApplyAnimation(playerid, "BOMBER", "BOM_PLANT_2IDLE", 4.0, 0, 0, 0, 0, 0);
@@ -241,11 +164,8 @@ timer AttachRanchHdd[2500](playerid)
 		OBJECT_MATERIAL_SIZE_512x512, "Courier New", 16, 1, -1, 0, 0);
 }
 
-
-_Ranch_LoadObjects()
-{
+_Ranch_LoadObjects() {
 	// Quarry (by Southclaw)
-
 	CreateDynamicObject(3865, 494.74981689453, 775.16119384766, -21.255405426025, 0.00000000000, 0.00000000000, 352.05993652344, RANCH_STUFF_VIRTUALW, 0);
 	CreateDynamicObject(16637, 495.3046875, 779.7001953125, -21.165279388428, 2.61474609375, 0.1153564453125, 261.54602050781, RANCH_STUFF_VIRTUALW, 0);
 	CreateDynamicObject(13360, 495.40121459961, 779.74963378906, -21.559215545654, 359.90521240234, 3.7300109863281, 171.87194824219, RANCH_STUFF_VIRTUALW, 0);
@@ -257,14 +177,10 @@ _Ranch_LoadObjects()
 	CreateDynamicObject(11631, 489.69369506836, 783.94360351563, -21.818862915039, 0.00000000000, 0.00000000000, 122.06997680664, RANCH_STUFF_VIRTUALW, 0);
 	CreateDynamicObject(1811, 490.11706542969, 784.48461914063, -22.448837280273, 0.00000000000, 0.00000000000, 23.631530761719, RANCH_STUFF_VIRTUALW, 0);
 
-
 	// LS entrance (by Dogmeat)
-
 	CreateDynamicObject(12986, 2526.416015625, -1649.09375, 13.893012046814, 9.920654296875, 5.9490966796875, 210.89904785156, RANCH_STUFF_VIRTUALW, 0);
 
-
 	// Metro (by Dogmeat)
-
 	CreateDynamicObject(5772, -965.83154296875, 5142.5971679688, 51.17557144165, 0.000000000000, 0.000000000000, 0.000000000000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(6248, -969.96325683594, 5029.7153320313, 47.297080993652, 0.000000000000, 0.000000000000, 318.31506347656, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(6248, -971.69714355469, 4906.447265625, 48.307739257813, 0.000000000000, 0.000000000000, 318.31237792969, RANCH_STUFF_VIRTUALW);
@@ -328,7 +244,6 @@ _Ranch_LoadObjects()
 	CreateDynamicObject(1966, -951.69128417969, 5137.4526367188, 50.718822479248, 0.000000000000, 0.000000000000, 91.252227783203, RANCH_STUFF_VIRTUALW);
 
 	// Cave 1 (by Southclaw)
-
 	CreateDynamicObject(4898, -2775.58032, 3697.31665, 2.62368, 4.29720, 359.14059, 11.25000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(18226, -2793.81396, 3757.43286, 9.34636, 0.00000, 0.00000, 131.76004, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(18225, -2818.26978, 3696.38794, 14.34393, 0.00000, 0.00000, 146.25000, RANCH_STUFF_VIRTUALW);
@@ -375,9 +290,7 @@ _Ranch_LoadObjects()
 	CreateDynamicObject(18225, -2738.29639, 3826.45874, 98.39668, 162.91869, 8.99409, 84.75157, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(3458, -2756.90601, 3757.25098, 35.03610, 180.00000, 88.90686, 153.28900, RANCH_STUFF_VIRTUALW);
 
-
 	// Cave 2 (by Southclaw)
-
 	CreateDynamicObject(4898, -1478.027832, 3679.792725, 7.065671, 353.1245, 0.0000, 270.0000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(4898, -1636.890747, 3657.150635, 4.292534, 351.4056, 355.7028, 98.9040, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(18226, -1577.290771, 3695.325195, 19.113111, 0.0000, 334.2169, 90.0000, RANCH_STUFF_VIRTUALW);
@@ -400,9 +313,7 @@ _Ranch_LoadObjects()
 	CreateDynamicObject(18226, -1499.715088, 3673.565186, 36.379166, 11.1727, 185.5343, 315.0000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(18226, -1486.303101, 3664.326660, 35.203533, 11.1727, 185.5343, 315.0000, RANCH_STUFF_VIRTUALW);
 
-
 	// Cave 3 (by Southclaw)
-
 	CreateDynamicObject(4898, -757.886658, 3781.770752, 0.578399, 7.7349, 0.0000, 0.0000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(6234, -776.257385, 3760.870117, 2.495516, 0.0000, 0.0000, 337.5000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(16139, -751.450378, 3845.472168, 3.631547, 330.7792, 17.1887, 237.9689, RANCH_STUFF_VIRTUALW);
@@ -452,5 +363,4 @@ _Ranch_LoadObjects()
 	CreateDynamicObject(17033, -780.141846, 3789.583008, 2.756541, 0.0000, 0.0000, 0.0000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(17033, -744.587341, 3781.114502, 3.250612, 0.0000, 0.0000, 157.5000, RANCH_STUFF_VIRTUALW);
 	CreateDynamicObject(17033, -742.912659, 3777.167236, 4.750612, 0.0000, 0.0000, 157.5000, RANCH_STUFF_VIRTUALW);
-
 }

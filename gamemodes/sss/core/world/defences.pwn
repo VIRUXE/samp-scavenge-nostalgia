@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_DEFENCE_ITEM		(17)
 #define MAX_DEFENCE				(8000)
 #define INVALID_DEFENCE_ID		(-1)

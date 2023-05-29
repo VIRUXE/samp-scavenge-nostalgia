@@ -19,11 +19,7 @@
 		with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-==============================================================================*/
-
-
-#include <YSI\y_hooks>
-
+==============================================================================*/#include <YSI\y_hooks>
 
 #define MAX_VEHICLES_IN_RANGE			(8)
 #define VEH_STREAMER_AREA_IDENTIFIER	(500)

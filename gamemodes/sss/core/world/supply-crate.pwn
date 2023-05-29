@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_SUPPLY_DROP_TYPE			(5)
 #define MAX_SUPPLY_DROP_TYPE_NAME		(24)
 #define MAX_SUPPLY_DROP_LOCATIONS		(38)

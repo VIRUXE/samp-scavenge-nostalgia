@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define UI_ELEMENT_TITLE	(0)
 #define UI_ELEMENT_TILE		(1)
 #define UI_ELEMENT_ITEM		(2)

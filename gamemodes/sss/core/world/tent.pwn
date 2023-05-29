@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_TENT			(2048)
 #define MAX_TENT_ITEMS		(32)
 #define INVALID_TENT_ID		(-1)

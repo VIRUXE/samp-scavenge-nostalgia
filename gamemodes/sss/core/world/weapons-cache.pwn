@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 #define MAX_WEPCACHE_LOCATIONS			(256)
 #define WEPCACHE_INTERVAL				(1500000 + random(600000)) // 25 minutes + random 10 minutes
 #define WEPCACHE_SIGNAL_INTERVAL		(200000)
