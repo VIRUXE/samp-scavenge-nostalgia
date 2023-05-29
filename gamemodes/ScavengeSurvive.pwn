@@ -94,8 +94,7 @@ enum {
 	PRODUCTION
 }
 
-public OnGameModeInit()
-{
+public OnGameModeInit() {
 	gServerLoadTime_Start = GetTickCount();
 
     UsePlayerPedAnims();
@@ -242,9 +241,6 @@ public OnGameModeInit()
 #define RELEASED(%0)				(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #define PRESSED(%0)					(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 
-
-
-
 // Body parts
 #define BODY_PART_TORSO				(3)
 #define BODY_PART_GROIN				(4)
@@ -294,14 +290,6 @@ enum {
 	ATTACHSLOT_BLOOD,	// 5 - Bleeding particle effect
 	ATTACHSLOT_ARMOUR	// 6 - Armour model slot
 }
-
-
-/*==============================================================================
-
-	Global values
-
-==============================================================================*/
-
 
 new
 bool:	gServerInitialising = true,
@@ -628,9 +616,7 @@ new RequestsClient:requestsClient;
 #include "sss/core/item/bed.pwn" // By Kolor4dO
 #include "sss/core/item/supplydrop.pwn"
 
-
 // BAGS
-
 #include "sss/core/item/bags/item_Backpack.pwn"
 #include "sss/core/item/bags/item_Daypack.pwn"
 #include "sss/core/item/bags/item_HeartShapedBox.pwn"
@@ -640,11 +626,7 @@ new RequestsClient:requestsClient;
 #include "sss/core/item/bags/item_Rucksack.pwn"
 #include "sss/core/item/bags/item_Satchel.pwn"
 
-// POST-CODE
-
 #include "sss/core/server/auto-save.pwn"
-#tryinclude "sss/extensions/ext_post.pwn"
-
 #include "sss/world/world.pwn"
 
 
