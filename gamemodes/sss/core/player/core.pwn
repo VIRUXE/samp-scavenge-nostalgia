@@ -138,17 +138,13 @@ public OnPlayerConnect(playerid) {
 	return 1;
 }
 
-public OnPlayerDisconnect(playerid, reason) {
+public OnPlayerDisconnect(playerid, reason)
+{
 	if(gServerRestarting) return 0;
 
-	if(IsPlayerLoggedIn(playerid)) {
-		if(reason == 0) {
-			foreach(new i : Player)
-				ChatMsg(i, WHITE, "player/left-crash", playerid);
-		} else if(IsPlayerOnAdminDuty(playerid)) {
-			foreach(new i : Player)
-				ChatMsg(i, WHITE, "%p saiu em servi?o.", playerid);
-		}
+	if(reason == 0 && IsPlayerLoggedIn(playerid)) {
+		foreach(new i : Player)
+			ChatMsg(i, WHITE, "player/left-crash", playerid);
 	}
 
 	Logout(playerid);
