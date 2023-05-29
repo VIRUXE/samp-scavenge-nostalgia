@@ -1,9 +1,7 @@
 #include <YSI\y_hooks>
 
-
 // Keypad IDs
-enum
-{
+enum {
 	k_ControlTower,
 	k_MainGate,
 	k_AirstripGate,
@@ -20,8 +18,7 @@ enum
 	k_Lockup
 }
 
-
-new
+static
 	code_ControlTower,
 	code_MainGate,
 	code_AirstripGate,
@@ -55,10 +52,8 @@ new
 	door_Headquarters2,
 	door_Shaft;
 
-hook OnGameModeInit()
-{
-	new
-		buttonid[2];
+hook OnGameModeInit() {
+	new buttonid[2];
 
 	code_ControlTower	= 1000 + random(8999);
 	code_MainGate		= 1000 + random(8999);
@@ -333,89 +328,58 @@ hook OnGameModeInit()
 	CreateDynamicObject(3095, 268.37225, 1884.12219, 15.74065,   0.00000, 0.00000, 0.00000);
 }
 
-hook OnButtonPress(playerid, buttonid)
-{
-
-
-	if(buttonid == btn_ControlTower)
-	{
-		if(lock_ControlTower)
-		{
+hook OnButtonPress(playerid, buttonid) {
+	if(buttonid == btn_ControlTower) {
+		if(lock_ControlTower) {
 			ShowKeypad(playerid, k_ControlTower, code_ControlTower);
 
 			if(GetItemType(GetPlayerItem(playerid)) == item_HackDevice)
 				HackKeypad(playerid, k_ControlTower, code_ControlTower);
-		}
-		else
-		{
+		} else
 			ShowCodeList1(playerid);
-		}
-	}
-
-	if(buttonid == btn_StorageWatch)
-	{
-		if(lock_StorageWatch)
-		{
+	} else if(buttonid == btn_StorageWatch) {
+		if(lock_StorageWatch) {
 			ShowKeypad(playerid, k_StorageWatch, code_StorageWatch);
 
 			if(GetItemType(GetPlayerItem(playerid)) == item_HackDevice)
 				HackKeypad(playerid, k_StorageWatch, code_ControlTower);
-		}
-		else
-		{
+		} else
 			ShowCodeList2(playerid);
-		}
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerActivateDoor(playerid, doorid, newstate)
-{
-
-
+hook OnPlayerActivateDoor(playerid, doorid, newstate) {
 	if(doorid == door_Main)
 		return PlayerActivateDoorButton(playerid, k_MainGate, code_ControlTower);
-
-	if(doorid == door_Airstrip)
+	else if(doorid == door_Airstrip)
 		return PlayerActivateDoorButton(playerid, k_AirstripGate, code_AirstripGate);
-
-	if(doorid == door_BlastDoor1)
+	else if(doorid == door_BlastDoor1)
 		return PlayerActivateDoorButton(playerid, k_BlastDoor, code_BlastDoor);
-
-	if(doorid == door_BlastDoor2)
+	else if(doorid == door_BlastDoor2)
 		return PlayerActivateDoorButton(playerid, k_BlastDoor, code_BlastDoor);
-
-	if(doorid == door_Storage)
+	else if(doorid == door_Storage)
 		return PlayerActivateDoorButton(playerid, k_Storage, code_Storage);
-
-	if(doorid == door_Generator)
+	else if(doorid == door_Generator)
 		return PlayerActivateDoorButton(playerid, k_Generator, code_Generator);
-
-	if(doorid == door_PassageTop)
+	else if(doorid == door_PassageTop)
 		return PlayerActivateDoorButton(playerid, k_PassageTop, code_PassageTop);
-
-	if(doorid == door_PassageBottom)
+	else if(doorid == door_PassageBottom)
 		return PlayerActivateDoorButton(playerid, k_PassageBottom, code_PassageBottom);
-
-	if(doorid == door_Catwalk)
+	else if(doorid == door_Catwalk)
 		return PlayerActivateDoorButton(playerid, k_Catwalk, code_Catwalk);
-
-	if(doorid == door_Headquarters1)
+	else if(doorid == door_Headquarters1)
 		return PlayerActivateDoorButton(playerid, k_Headquarters1, code_Headquarters);
-
-	if(doorid == door_Headquarters2)
+	else if(doorid == door_Headquarters2)
 		return PlayerActivateDoorButton(playerid, k_Headquarters2, code_Headquarters);
-
-	if(doorid == door_Shaft)
+	else if(doorid == door_Shaft)
 		return PlayerActivateDoorButton(playerid, k_Shaft, code_Shaft);
-
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-PlayerActivateDoorButton(playerid, keypad, code)
-{
+PlayerActivateDoorButton(playerid, keypad, code) {
 	ShowKeypad(playerid, keypad, code);
 
 	if(GetItemType(GetPlayerItem(playerid)) == item_HackDevice)
@@ -424,120 +388,80 @@ PlayerActivateDoorButton(playerid, keypad, code)
 	return Y_HOOKS_BREAK_RETURN_1;
 }
 
-hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
-{
+hook OnPlayerKeypadEnter(playerid, keypadid, code, match) {
 
 
 	new itemid = GetPlayerItem(playerid);
 
-	if(GetItemType(itemid) == item_HackDevice)
-		DestroyItem(itemid);
+	if(GetItemType(itemid) == item_HackDevice) DestroyItem(itemid);
 
-	if(keypadid == k_ControlTower)
-	{
-		if(code == match)
-		{
+	if(keypadid == k_ControlTower) {
+		if(code == match) {
 			lock_ControlTower = 0;
 			ShowCodeList1(playerid);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_MainGate)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_MainGate) { 
+		if(code == match) {
 			OpenDoor(door_Main);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_AirstripGate)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_AirstripGate) { 
+		if(code == match) {
 			OpenDoor(door_Airstrip);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_BlastDoor)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_BlastDoor) { 
+		if(code == match) {
 			OpenDoor(door_BlastDoor1);
 			OpenDoor(door_BlastDoor2);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Storage)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Storage) { 
+		if(code == match) {
 			OpenDoor(door_Storage);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_StorageWatch)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_StorageWatch) {
+		if(code == match) {
 			lock_StorageWatch = 0;
 			ShowCodeList2(playerid);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Generator)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Generator) {
+		if(code == match) {
 			OpenDoor(door_Generator);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_PassageTop)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_PassageTop) {
+		if(code == match) {
 			OpenDoor(door_PassageTop);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_PassageBottom)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_PassageBottom) {
+		if(code == match) {
 			OpenDoor(door_PassageBottom);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Catwalk)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Catwalk) {
+		if(code == match) {
 			OpenDoor(door_Catwalk);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Headquarters1)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Headquarters1) {
+		if(code == match) {
 			OpenDoor(door_Headquarters1);
 			OpenDoor(door_Headquarters2);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Headquarters2)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Headquarters2) {
+		if(code == match) {
 			OpenDoor(door_Headquarters1);
 			OpenDoor(door_Headquarters2);
 			HideKeypad(playerid);
 		}
-	}
-	if(keypadid == k_Shaft)
-	{
-		if(code == match)
-		{
+	} else if(keypadid == k_Shaft) {
+		if(code == match) {
 			OpenDoor(door_Shaft);
 			HideKeypad(playerid);
 		}
@@ -546,8 +470,7 @@ hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-ShowCodeList1(playerid)
-{
+ShowCodeList1(playerid) {
 	new str[268];
 
 	format(str, 268,
@@ -568,8 +491,7 @@ ShowCodeList1(playerid)
 	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Painel Principal", str, "Fechar", "");
 }
 
-ShowCodeList2(playerid)
-{
+ShowCodeList2(playerid) {
 	new str[268];
 
 	format(str, 268,
