@@ -1,0 +1,18 @@
+#  MODERATOR
+--------------------
+['field', 'addex', 'duty', 'ir', 'puxar', 'congelar', 'descongelar', 'verban', 'invisible', 'setmotd']
+
+#  GAME_MASTER
+--------------------
+['info', 'i', 'calar', 'descalar', 'avisar', 'kick', 'msg', 'history', 'motd', 'blockrr', 'rr', 'reports']
+
+#  ADMINISTRATOR
+--------------------
+['whitelist', 'spec', 'ip', 'veiculo', 'move', 'resetarsenha', 'setactive', 'irpos', 'banir', 'desbanir', 'banidos', 'sethp', 'goto', 'tp']
+
+# LEAD
+['recam', 'reiniciar', 'additem', 'addveiculo', 'deletar', 'clima', 'tapa', 'aliases']
+
+
+# DEVELOPER
+['gamename', 'hostname', 'mapname', 'loadfs', 'reloadfs', 'unloadfs', 'setplayerscore', 'nametags', 'gotoitem', 'destroyitemid', 'addloot', 'setitemhp', 'vw', 'iw', 'food', 'bleed', 'knockout', 'removewounds', 'setadmin', 'debug', 'sifdebug', 'sifgdebug', 'otp', 'testplist']
