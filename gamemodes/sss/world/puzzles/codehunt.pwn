@@ -1,6 +1,5 @@
 #include <YSI\y_hooks>
 
-
 /*
 x positions in each zone (7 zones)
 4 items, randomly spawning at these positions
@@ -22,8 +21,7 @@ RC = ?
 
 #define MAX_LOCKUP	(7)
 
-enum E_LOCKUP_DATA
-{
+enum E_LOCKUP_DATA {
 	lck_keyCode,
 	lck_keyButton,
 	lck_extButton,
@@ -38,57 +36,54 @@ new
 	lck_Total,
 	lck_CurrentLockup[MAX_PLAYERS];
 
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
     lck_CurrentLockup[playerid] = 0;
 }
 
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	LoadLockup_SF();
 	SetItemTypeMaxArrayData(item_CodePart, 1);
 }
 
-CreateCodeParts(Float:coords[][], size, keycode)
-{
+CreateCodeParts(Float:coords[][], size, keycode) {
 	new
 		output[16],
 		code[4 char],
-		itemid[4],
-		nameextra[4][2];
+		itemId[4],
+		nameExtra[4][2];
 
 	PickFromList(size, 4, output);
 	GetDigits(keycode, code);
 
-	valstr(nameextra[0], code{0});
-	valstr(nameextra[1], code{1});
-	valstr(nameextra[2], code{2});
-	valstr(nameextra[3], code{3});
+	valstr(nameExtra[0], code{0});
+	valstr(nameExtra[1], code{1});
+	valstr(nameExtra[2], code{2});
+	valstr(nameExtra[3], code{3});
 
-	itemid[0] = CreateItem(item_CodePart, coords[output[0]][0], coords[output[0]][1], coords[output[0]][2]);
-	itemid[1] = CreateItem(item_CodePart, coords[output[1]][0], coords[output[1]][1], coords[output[1]][2]);
-	itemid[2] = CreateItem(item_CodePart, coords[output[2]][0], coords[output[2]][1], coords[output[2]][2]);
-	itemid[3] = CreateItem(item_CodePart, coords[output[3]][0], coords[output[3]][1], coords[output[3]][2]);
+	itemId[0] = CreateItem(item_CodePart, coords[output[0]][0], coords[output[0]][1], coords[output[0]][2]);
+	itemId[1] = CreateItem(item_CodePart, coords[output[1]][0], coords[output[1]][1], coords[output[1]][2]);
+	itemId[2] = CreateItem(item_CodePart, coords[output[2]][0], coords[output[2]][1], coords[output[2]][2]);
+	itemId[3] = CreateItem(item_CodePart, coords[output[3]][0], coords[output[3]][1], coords[output[3]][2]);
 
-	SetItemExtraData(itemid[0], code{0});
-	SetItemExtraData(itemid[1], code{1});
-	SetItemExtraData(itemid[2], code{2});
-	SetItemExtraData(itemid[3], code{3});
+	SetItemExtraData(itemId[0], code{0});
+	SetItemExtraData(itemId[1], code{1});
+	SetItemExtraData(itemId[2], code{2});
+	SetItemExtraData(itemId[3], code{3});
 
-	SetItemNameExtra(itemid[0], nameextra[0]);
-	SetItemNameExtra(itemid[1], nameextra[1]);
-	SetItemNameExtra(itemid[2], nameextra[2]);
-	SetItemNameExtra(itemid[3], nameextra[3]);
+	SetItemNameExtra(itemId[0], nameExtra[0]);
+	SetItemNameExtra(itemId[1], nameExtra[1]);
+	SetItemNameExtra(itemId[2], nameExtra[2]);
+	SetItemNameExtra(itemId[3], nameExtra[3]);
 }
 
-CreateLockup(keypadbutton, extButton, intButton)
-{
-	new keycode = 1000 + random(8999);
-	lck_Data[lck_Total][lck_keyCode] = keycode;
+CreateLockup(keypadbutton, extButton, intButton) {
+	new const keycode = 1000 + random(8999);
+
+	lck_Data[lck_Total][lck_keyCode]   = keycode;
 	lck_Data[lck_Total][lck_keyButton] = keypadbutton;
 	lck_Data[lck_Total][lck_extButton] = extButton;
 	lck_Data[lck_Total][lck_intButton] = intButton;
-	lck_Data[lck_Total][lck_locked] = 1;
+	lck_Data[lck_Total][lck_locked]    = 1;
 	LinkTP(extButton, intButton);
 
 	lck_Total++;
@@ -96,23 +91,14 @@ CreateLockup(keypadbutton, extButton, intButton)
 	return keycode;
 }
 
-hook OnButtonPress(playerid, buttonid)
-{
-
-
-	for(new i; i < lck_Total; i++)
-	{
-		if(buttonid == lck_Data[i][lck_keyButton])
-		{
+hook OnButtonPress(playerid, buttonid) {
+	for(new i; i < lck_Total; i++) {
+		if(buttonid == lck_Data[i][lck_keyButton]) {
 			ShowKeypad(playerid, chk_Lockup, lck_Data[i][lck_keyCode]);
 			lck_CurrentLockup[playerid] = i;
 			break;
-		}
-
-		if(buttonid == lck_Data[i][lck_extButton])
-		{
-			if(lck_Data[i][lck_locked])
-			{
+		} else if(buttonid == lck_Data[i][lck_extButton]) {
+			if(lck_Data[i][lck_locked]) {
 				ShowActionText(playerid, ls(playerid, "puzzle/codehunt/nearby-key"));
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
@@ -122,30 +108,22 @@ hook OnButtonPress(playerid, buttonid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerKeypadEnter(playerid, keypadid, code, match)
-{
-
-
-	if(keypadid == chk_Lockup)
-	{
+hook OnPlayerKeypadEnter(playerid, keypadid, code, match) {
+	if(keypadid == chk_Lockup) {
 		if(code == match && lck_CurrentLockup[playerid] != -1)
-		{
 			lck_Data[lck_CurrentLockup[playerid]][lck_locked] = 0;
-		}
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-LoadLockup_SF()
-{
+LoadLockup_SF() {
 	new keycode = CreateLockup(
 		CreateButton(-2493.90112, 313.94443, 29.72062, "Press "KEYTEXT_INTERACT" to interact"),
 		CreateButton(-2499.1262, 315.1892, 29.4147, "Press "KEYTEXT_INTERACT" to go inside"),
 		CreateButton(-2499.1262, 318.6712, 1036.9948, "Press "KEYTEXT_INTERACT" to leave"));
 
-	new Float:coords[][]=
-	{
+	new Float:coords[][] = {
 		{-1988.97327, 1105.93872, 82.59016},
 		{-2701.18188, 849.91577, 70.42641},
 		{-1688.13623, 1331.96411, 16.24742},
