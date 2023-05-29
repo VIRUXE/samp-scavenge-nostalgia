@@ -3,16 +3,14 @@
 #define MAX_HOUSE_TYPES		(4)
 #define MAX_LOOT_POSITIONS	(4)
 
-new
-	LootHouseModels[MAX_HOUSE_TYPES] =
-	{
+static
+	LootHouseModels[MAX_HOUSE_TYPES] = {
 		19490,
 		19492,
 		19494,
 		19496
 	},
-	Float:LootOffsets[MAX_HOUSE_TYPES][MAX_LOOT_POSITIONS][3] =
-	{
+	Float:LootOffsets[MAX_HOUSE_TYPES][MAX_LOOT_POSITIONS][3] = {
 		// 19490
 		{
 			{-3.73, -3.33, -0.42},
@@ -44,41 +42,25 @@ new
 	};
 // Todo: Add offsets for the remaining house models from LS and LV to this
 
-Load_HouseLoot()
-{
+Load_HouseLoot() {
 	new
-		Float:x,
-		Float:y,
-		Float:z,
-
 		object_id,
+		Float:x, Float:y, Float:z, 
+		Float:object_px,Float:object_py,Float:object_pz,
+		Float:object_rx, Float:object_ry, Float:object_rz;
 
-		Float:object_px,
-		Float:object_py,
-		Float:object_pz,
-		Float:object_rx,
-		Float:object_ry,
-		Float:object_rz;
-
-	for(new i; i < CountDynamicObjects(); i++)
-	{
-		if(IsValidDynamicObject(i))
-		{
+	for(new i; i < CountDynamicObjects(); i++) {
+		if(IsValidDynamicObject(i)) {
 			object_id = Streamer_GetIntData(STREAMER_TYPE_OBJECT, i, E_STREAMER_MODEL_ID);
 
-			for(new j; j < MAX_HOUSE_TYPES; j++)
-			{
-				if(random(100) < 60)
-					continue;
+			for(new j; j < MAX_HOUSE_TYPES; j++) {
+				if(random(100) < 60) continue;
 
-				if(object_id == LootHouseModels[j])
-				{
+				if(object_id == LootHouseModels[j]) {
 					GetDynamicObjectPos(i, object_px, object_py, object_pz);
 					GetDynamicObjectRot(i, object_rx, object_ry, object_rz);
-					for(new k; k < MAX_LOOT_POSITIONS; k++)
-					{
-						if(LootOffsets[j][k][0] == 0.0)
-							break;
+					for(new k; k < MAX_LOOT_POSITIONS; k++) {
+						if(LootOffsets[j][k][0] == 0.0) break;
 
 						GetAttachedObjectPos(
 							object_px, object_py, object_pz, object_rx, object_ry, object_rz,
