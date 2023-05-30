@@ -53,24 +53,15 @@ stock TeleportPlayerToPlayer(playerid, targetid)
 	}
 }
 
-stock IsValidUsername(name[])
-{
-	new
-		i,
-		len = strlen(name);
+stock IsValidUsername(name[]) {
+	new i, len = strlen(name);
 
-	if(len < 3)
-		return 0;
+	if(len < 3) return 0;
 
-	while(i < len)
-	{
-		switch(name[i])
-		{
-			case 'a'..'z', 'A'..'Z', '0'..'9', '(', ')', '[', ']', '.', '_', '$', '=', '@':
-				i++;
-
-			default:
-				return 0;
+	while(i < len) {
+		switch(name[i]) {
+			case 'a'..'z', 'A'..'Z', '0'..'9', '(', ')', '[', ']', '.', '_', '$', '=', '@': i++;
+			default: return 0;
 		}
 	}
 
