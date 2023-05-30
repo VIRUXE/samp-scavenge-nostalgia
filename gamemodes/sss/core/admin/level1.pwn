@@ -95,8 +95,8 @@ ACMD:anun[1](playerid, params[]) {
 
 	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /anun [mensagem]");
 
-	ChatMsgAll(COLOR_RADIATION, " > Anúncio de Administração:", playerid, playerid, anuncio);
-	return ChatMsgAll(COLOR_RADIATION, " > %p disse: {FFFFFF}%s", playerid, playerid, anuncio);
+	SendClientMessageToAll(COLOR_RADIATION, " > Anúncio de Administração:");
+	return ChatMsgAll(COLOR_RADIATION, " > %p disse: {FFFFFF}%s", playerid, anuncio);
 }
 
 ACMD:cc[1](playerid) {
