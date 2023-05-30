@@ -85,11 +85,9 @@ stock DefineItemTypeAmmo(ItemType:itemtype, name[], calibre, Float:bleedratemult
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
+	new ammoType = ammo_ItemTypeAmmoType[itemtype];
 
-
-	new ammotype = ammo_ItemTypeAmmoType[itemtype];
-
-	if(ammotype == -1)
+	if(ammoType == -1)
 		return Y_HOOKS_CONTINUE_RETURN_0;
 
 	new
@@ -98,13 +96,11 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 
 	format(str, sizeof(str), "%d, %s, %s",
 		amount,
-		clbr_Data[ammo_Data[ammotype][ammo_calibre]][clbr_name],
-		ammo_Data[ammotype][ammo_name]);
+		clbr_Data[ammo_Data[ammoType][ammo_calibre]][clbr_name],
+		ammo_Data[ammoType][ammo_name]);
 
-	ConvertEncoding(str);
-
-//	if(amount > ammo_Data[ammotype][ammo_size] + 1 && ammo_Data[ammotype][ammo_bleedrateMult] != 0.0)
-//	    SetItemExtraData(itemid, ammo_Data[ammotype][ammo_size] + 1);
+//	if(amount > ammo_Data[ammoType][ammo_size] + 1 && ammo_Data[ammoType][ammo_bleedrateMult] != 0.0)
+//	    SetItemExtraData(itemid, ammo_Data[ammoType][ammo_size] + 1);
 	
 	SetItemNameExtra(itemid, str);
 
@@ -117,10 +113,10 @@ hook OnItemCreate(itemid)
 
 	if(GetItemLootIndex(itemid) != -1)
 	{
-		new ammotype = GetItemTypeAmmoType(GetItemType(itemid));
+		new ammoType = GetItemTypeAmmoType(GetItemType(itemid));
 
-		if(ammotype != -1)
-			SetItemExtraData(itemid, ammo_Data[ammotype][ammo_size] == 1 ? random(1) : random(ammo_Data[ammotype][ammo_size] - 1) + 1);
+		if(ammoType != -1)
+			SetItemExtraData(itemid, ammo_Data[ammoType][ammo_size] == 1 ? random(1) : random(ammo_Data[ammoType][ammo_size] - 1) + 1);
 	}
 }
 
@@ -154,69 +150,69 @@ stock Float:GetCalibreBleedRate(calibre)
 }
 
 // ammo_itemType
-stock ItemType:GetAmmoTypeItemType(ammotype)
+stock ItemType:GetAmmoTypeItemType(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return INVALID_ITEM_TYPE;
 
-	return ammo_Data[ammotype][ammo_itemType];
+	return ammo_Data[ammoType][ammo_itemType];
 }
 
 // ammo_name
-stock GetAmmoTypeName(ammotype, name[])
+stock GetAmmoTypeName(ammoType, name[])
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0;
 
 	name[0] = EOS;
-	strcat(name, ammo_Data[ammotype][ammo_name], MAX_AMMO_CALIBRE_NAME);
+	strcat(name, ammo_Data[ammoType][ammo_name], MAX_AMMO_CALIBRE_NAME);
 
 	return 1;
 }
 
 // ammo_calibre
-stock GetAmmoTypeCalibre(ammotype)
+stock GetAmmoTypeCalibre(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0;
 
-	return ammo_Data[ammotype][ammo_calibre];
+	return ammo_Data[ammoType][ammo_calibre];
 }
 
 // ammo_bleedrateMult
-stock Float:GetAmmoTypeBleedrateMultiplier(ammotype)
+stock Float:GetAmmoTypeBleedrateMultiplier(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0.0;
 
-	return ammo_Data[ammotype][ammo_bleedrateMult];
+	return ammo_Data[ammoType][ammo_bleedrateMult];
 }
 
 // ammo_knockoutMult
-stock Float:GetAmmoTypeKnockoutMultiplier(ammotype)
+stock Float:GetAmmoTypeKnockoutMultiplier(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0.0;
 
-	return ammo_Data[ammotype][ammo_knockoutMult];
+	return ammo_Data[ammoType][ammo_knockoutMult];
 }
 
 // ammo_penetration
-stock Float:GetAmmoTypePenetration(ammotype)
+stock Float:GetAmmoTypePenetration(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0.0;
 
-	return ammo_Data[ammotype][ammo_penetration];
+	return ammo_Data[ammoType][ammo_penetration];
 }
 
 // ammo_size
-stock GetAmmoTypeSize(ammotype)
+stock GetAmmoTypeSize(ammoType)
 {
-	if(!(0 <= ammotype < ammo_Total))
+	if(!(0 <= ammoType < ammo_Total))
 		return 0;
 
-	return ammo_Data[ammotype][ammo_size];
+	return ammo_Data[ammoType][ammo_size];
 }
 
 

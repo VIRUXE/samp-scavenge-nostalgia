@@ -61,23 +61,15 @@ hook OnItemCreate(itemid)
 	}
 }
 
-hook OnItemNameRender(itemid, ItemType:itemtype)
-{
+hook OnItemNameRender(itemid, ItemType:itemtype) {
+	if(itemtype == item_SeedBag) {
+		new seedData[2];
 
+		GetItemArrayData(itemid, seedData);
 
-	if(itemtype == item_SeedBag)
-	{
-		new seeddata[2];
-
-		GetItemArrayData(itemid, seeddata);
-
-		if(seeddata[E_SEED_BAG_AMOUNT] > 0 && 0 <= seeddata[E_SEED_BAG_TYPE] < seed_Total) {
-			ConvertEncoding(seeddata);
-			SetItemNameExtra(itemid, sprintf("%d, %s", seeddata[E_SEED_BAG_AMOUNT], seed_Data[seeddata[E_SEED_BAG_TYPE]][seed_name]));
-		}
-		else {
-			SetItemNameExtra(itemid, "Vazio");
-		}
+		SetItemNameExtra(itemid,
+			seedData[E_SEED_BAG_AMOUNT] > 0 && 0 <= seedData[E_SEED_BAG_TYPE] < seed_Total ? 
+			sprintf("%d, %s", seedData[E_SEED_BAG_AMOUNT], seed_Data[seedData[E_SEED_BAG_TYPE]][seed_name]) : "Vazio");
 	}
 }
 

@@ -57,7 +57,7 @@ ShowLocationsDialog(playerid) {
 }
 
 ACMD:goto[3](playerid, params[]) {
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER) return CMD_NOT_DUTY;
+    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
    	new location[11];
     if(sscanf(params, "s[6]", location)) {

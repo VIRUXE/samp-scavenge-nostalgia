@@ -144,10 +144,10 @@ ActivateDefenceItem(itemid)
     SetItemArrayDataAtCell(itemid, DEFENCE_POSE_VERTICAL, def_pose);
     
 	new
-		itemtypename[ITM_MAX_NAME],
+		itemTypeName[ITM_MAX_NAME],
 		itemdata[e_DEFENCE_DATA];
 
-	GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
+	GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
 	GetItemArrayData(itemid, itemdata);
 
 	itemdata[def_active] = true;
@@ -156,7 +156,7 @@ ActivateDefenceItem(itemid)
 
     SetButtonSize(GetItemButtonID(itemid), 2.2);
 
-    SetItemLabel(itemid, sprintf("%s\n%d/%d", itemtypename, GetItemHitPoints(itemid), GetItemTypeMaxHitPoints(itemtype)), 0xFFFF00FF, 5.0, false);
+    SetItemLabel(itemid, sprintf("%s\n%d/%d", itemTypeName, GetItemHitPoints(itemid), GetItemTypeMaxHitPoints(itemtype)), 0xFFFF00FF, 5.0, false);
     
 
 	return itemid;
@@ -188,11 +188,11 @@ DeconstructDefence(itemid)
 			z -= def_TypeData[def_ItemTypeDefenceType[itemtype]][def_placeOffsetZ];
 	}
 
-    new itemtypename[ITM_MAX_NAME];
+    new itemTypeName[ITM_MAX_NAME];
 
-	GetItemTypeName(def_TypeData[def_ItemTypeDefenceType[itemtype]][def_itemtype], itemtypename);
+	GetItemTypeName(def_TypeData[def_ItemTypeDefenceType[itemtype]][def_itemtype], itemTypeName);
 
-    SetItemLabel(itemid, sprintf("%s", itemtypename), 0xFFFF00FF);
+    SetItemLabel(itemid, sprintf("%s", itemTypeName), 0xFFFF00FF);
 
 	SetItemPos(itemid, x, y, z);
 	SetItemRot(itemid, 0.0, 0.0, 0.0, true);
@@ -261,45 +261,41 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if(oldkeys & 16)
 		StopBuildingDefence(playerid);
 }
 
-StartBuildingDefence(playerid, itemid)
-{
+StartBuildingDefence(playerid, itemid) {
 	if(GetPlayerInterior(playerid) != 0) return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
 
 	// Zonas do mapa em que não se pode construir
 	new const Float:blockedZones[][4] = {
 		// [radius, x, y, z]
-		{40.0, 2000.7017, -2139.0505, 13.5537}, // Comerciante Los Santos
+		{10.0, -688.34, 937.39, 13.63}, // Torino Ranch
+		{40.0, 2000.7017, -2139.0505, 13.5537},  // Comerciante Los Santos
 		{180.0, 4547.9453, -1642.1956, -0.2185}, // Ilha Los Santos
-		{150.0, -1951.6232, 678.3726, 46.5625}, // Casa Branca San Fierro
-		{150.0, -1471.0057, 392.3958, 30.0859}, // Navio 69 San Fierro
-		{150.0, -4474.6050, 476.7611, 10.7196}, // Ilha San Fierro
-		{200.0, 2609.5820, 2749.2007, 26.9102} // K.A.C.C Las Venturas
+		{150.0, -1951.6232, 678.3726, 46.5625},  // Casa Branca San Fierro
+		{150.0, -1471.0057, 392.3958, 30.0859},  // Navio 69 San Fierro
+		{150.0, -4474.6050, 476.7611, 10.7196},  // Ilha San Fierro
+		{200.0, 2609.5820, 2749.2007, 26.9102}   // K.A.C.C Las Venturas
 	};
 
-	for(new i = 0; i < sizeof(blockedZones); i++)
-	{
+	for(new i = 0; i < sizeof(blockedZones); i++) {
 		if(IsPlayerInRangeOfPoint(playerid, blockedZones[i][0], blockedZones[i][1], blockedZones[i][2], blockedZones[i][3]))
 			return ChatMsg(playerid, RED, " > Você não pode construir aqui.");
 	}
 
-	new itemtypename[ITM_MAX_NAME];
+	new itemTypeName[ITM_MAX_NAME];
 
-	GetItemTypeName(GetItemType(itemid), itemtypename);
+	GetItemTypeName(GetItemType(itemid), itemTypeName);
 
 	def_CurrentDefenceItem[playerid] = itemid;
 	
 	StartHoldAction(playerid, IsPlayerVip(playerid) ? 4000 : 8000);
 	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
-	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemtypename));
-
-
+	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemTypeName));
 
 	return 1;
 }
@@ -428,9 +424,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    
 	if(tooltype == item_Crowbar)
 	{
-		new itemtypename[ITM_MAX_NAME];
+		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
+		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 		StartHoldAction(playerid, 8000);
@@ -441,7 +437,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	StartHoldAction(playerid, 8000);
 	    
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
-		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/removing"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/removing"), itemTypeName));
 
 		return 1;
 	}
@@ -456,9 +452,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 		
 	    if(GetItemArrayDataAtCell(itemid, def_pose) == DEFENCE_POSE_HORIZONTAL) return 1;
 
-		new itemtypename[ITM_MAX_NAME];
+		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
+		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 		
@@ -466,7 +462,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemTypeName));
 
 		return 1;
 	}
@@ -481,9 +477,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 			return 1;
 		}
 
-		new itemtypename[ITM_MAX_NAME];
+		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
+		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 
@@ -491,7 +487,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemTypeName));
 
 		return 1;
 	}
@@ -506,9 +502,9 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 			return 1;
 		}
 
-		new itemtypename[ITM_MAX_NAME];
+		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemtypename);
+		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemid;
 
@@ -516,7 +512,7 @@ _InteractDefenceWithItem(playerid, itemid, tool)
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
-		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemtypename));
+		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/modifying"), itemTypeName));
 
 		return 1;
 	}
@@ -952,9 +948,9 @@ hook OnItemHitPointsUpdate(itemid, oldvalue, newvalue)
 	new ItemType:itemtype = GetItemType(itemid);
 
 	if(def_ItemTypeDefenceType[itemtype] != -1) {
-	    new itemtypename[ITM_MAX_NAME];
-		GetItemTypeName(def_TypeData[def_ItemTypeDefenceType[itemtype]][def_itemtype], itemtypename);
-		SetItemLabel(itemid, sprintf("%s\n%d/%d", itemtypename, newvalue, GetItemTypeMaxHitPoints(itemtype)), 0xFFFF00FF, 5.0, false);
+	    new itemTypeName[ITM_MAX_NAME];
+		GetItemTypeName(def_TypeData[def_ItemTypeDefenceType[itemtype]][def_itemtype], itemTypeName);
+		SetItemLabel(itemid, sprintf("%s\n%d/%d", itemTypeName, newvalue, GetItemTypeMaxHitPoints(itemtype)), 0xFFFF00FF, 5.0, false);
 
 	}
 }

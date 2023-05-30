@@ -1,13 +1,14 @@
 #define MAX_LANGUAGE_ENTRY_LENGTH 750 // A rota maior e a "help"
+#define MAX_LANGUAGE_KEY_LENGTH 64
 
 enum {
 	PORTUGUESE,
 	ENGLISH
-};
+}
 
 static
-	lang_PlayerLanguage[MAX_PLAYERS],
-	Node:lang_i18n;
+	playerLanguage[MAX_PLAYERS],
+	Node:jsonData;
 
 static ReplaceTags(content[]) {
     if(strfind(content, "{") == -1) return false; // no tags to parse
@@ -59,21 +60,18 @@ static ReplaceTags(content[]) {
     return true;
 }
 
-GetLanguageString(playerid, const route[]) {
-    new Node:node;
-
+GetLanguageString(playerId, const route[]) {
     // Split the route and navigate through the JSON tree
     new 
+        Node:node,
         routeSplit[12][64],
         routeSplitCount;
 
     routeSplitCount = strexplode(routeSplit, route, "/");
 
-    JSON_GetObject(lang_i18n, routeSplit[0], node);
+    JSON_GetObject(jsonData, routeSplit[0], node);
 
-    for (new i = 1; i < routeSplitCount-1; i++) {
-        JSON_GetObject(node, routeSplit[i], node);
-    }
+    for (new i = 1; i < routeSplitCount-1; i++) JSON_GetObject(node, routeSplit[i], node);
 
     JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
 
@@ -85,19 +83,17 @@ GetLanguageString(playerid, const route[]) {
     strcopy(output, route);
     
     if(len >= 1) {
-        new player_language = GetPlayerLanguage(playerid);
+        new const lang = GetPlayerLanguage(playerId);
         
-        JSON_ArrayObject(node, len == 1 ? 0 : player_language, node);
+        JSON_ArrayObject(node, len == 1 ? 0 : lang, node);
         JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
 
         if(isempty(output)) {
-            printf("[i18n] Route '%s' for language %d is empty", route, player_language);
+            printf("[i18n] Route '%s' for language %d is empty", route, lang);
             return output;
         }
 
         ReplaceTags(output);
-
-        // printf("GetLanguageString(%d (Language: %d), '%s'): %s", playerid, player_language, route, output);
     } else {
         printf("[i18n] Route '%s' doesn't exist.", route);
     }
@@ -105,32 +101,30 @@ GetLanguageString(playerid, const route[]) {
     return output;
 }
 
-GetPlayerLanguage(playerid)
-{
-	if(!IsPlayerConnected(playerid)) return -1;
+GetPlayerLanguage(playerId) {
+	if(!IsPlayerConnected(playerId)) return -1;
 
-	return lang_PlayerLanguage[playerid];
+	return playerLanguage[playerId];
 }
 
-SetPlayerLanguage(playerid, langid)
-{
-	if(!IsPlayerConnected(playerid)) return -1;
+SetPlayerLanguage(playerId, langId) {
+	if(!IsPlayerConnected(playerId)) return -1;
 
-    if(langid != 0 && langid != 1) {
-        printf("[i18n] Invalid language id: %d", langid);
+    if(langId != 0 && langId != 1) {
+        printf("[i18n] Invalid language id: %d", langId);
         PrintBacktrace();
         return -1;
     }
 
-	lang_PlayerLanguage[playerid] = langid;
+	playerLanguage[playerId] = langId;
 
-	log("[LANGUAGE] %p (%d) tem o idioma '%s' (%d)", playerid, playerid, langid == 0 ? "PortuguÃªs" : "English", langid);
+	log("[LANGUAGE] %p (%d) tem o idioma '%s' (%d)", playerId, playerId, langId == 0 ? "Português" : "English", langId);
 
 	return 1;
 }
 
-/* SavePlayerLanguage(playerid, langid) {
-    return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langid, GetPlayerNameEx(playerid)));
+/* SavePlayerLanguage(playerId, langId) {
+    return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langId, GetPlayerNameEx(playerId)));
 } */
 
 /*
@@ -138,11 +132,8 @@ SetPlayerLanguage(playerid, langid)
 	http://forum.sa-mp.com/showpost.php?p=3015480&postcount=6
 
 */
-stock ConvertEncoding(string[])
-{
-	static const
-		real[256] =
-		{
+stock ConvertEncoding(string[]) {
+	new const real[256] = {
 			  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,
 			 16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,
 			 32,  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  45,  46,  47,
@@ -161,8 +152,7 @@ stock ConvertEncoding(string[])
 			240, 174, 165, 166, 167, 245, 168, 247, 248, 169, 170, 171, 172, 253, 254, 255
 		};
 
-	for(new i = 0, len = strlen(string), ch; i != len; ++i)
-	{
+	for(new i = 0, len = strlen(string), ch; i != len; ++i) {
 		// Check if this character is in our reduced range.
 		// If it is, replace it with the real character.
 		if(0 <= (ch = string[i]) < 256) string[i] = real[ch];
@@ -171,42 +161,32 @@ stock ConvertEncoding(string[])
 
 
 hook OnGameModeInit() {
-    new result = JSON_ParseFile("./scriptfiles/i18n.json", lang_i18n);
+    new result = JSON_ParseFile("./scriptfiles/i18n.json", jsonData);
 
     printf("[i18n] Carregamento %s.", result ? "Falhou" : "Sucedido");
 
     if(result) for(;;){}
 }
 
-ACMD:i18n[5](playerid, params[]) {
-    ChatMsg(playerid, -1, params);
-
-    return 1;
-}
-
-ACMD:idioma[3](playerid, params[])
-{
+ACMD:idioma[3](playerId, params[]) {
 	new targetId = INVALID_PLAYER_ID, lang[3];
 
-	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
+	if(isnull(params)) return ChatMsg(playerId, YELLOW, " >  Use: /idioma [id/nick] [pt/en]");
 
 	sscanf(params, "rs[3]", targetId, lang);
 
-	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerid, YELLOW, "Esse jogador não existe.");
+	if(targetId == INVALID_PLAYER_ID) return ChatMsg(playerId, YELLOW, "Esse jogador não existe.");
 
-	if(isempty(lang)) return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
+	if(isempty(lang)) return ChatMsg(playerId, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 
 	if(isequal(lang, "pt")) {
-        SetPlayerLanguage(targetId, 0);
-        // SavePlayerLanguage(playerid, 0);
+        SetPlayerLanguage(targetId, PORTUGUESE);
     } else if(isequal(lang, "en")) {
-        SetPlayerLanguage(targetId, 1);
-        // SavePlayerLanguage(playerid, 1);
+        SetPlayerLanguage(targetId, ENGLISH);
     } else 
-        return ChatMsg(playerid, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
-
+        return ChatMsg(playerId, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 
 	ChatMsg(targetId, YELLOW, " > Seu idioma foi alterado para '%s'.", lang);
 
-	return ChatMsg(playerid, YELLOW, " > Idioma de %P"C_YELLOW" alterado para '%s'.", targetId, lang);
+	return ChatMsg(playerId, YELLOW, " > Idioma de %P"C_YELLOW" alterado para '%s'.", targetId, lang);
 }

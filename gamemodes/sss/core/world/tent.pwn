@@ -233,7 +233,7 @@ StartBuildingTent(playerid, itemid)
 	tnt_CurrentTentItem[playerid] = itemid;
 
 	if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid))
-		ChatMsg(playerid, GREEN, " > [FIELD] ApÃ³s construir a sua base, chame um admin no /relatorio para por uma proteÃ§Ã£o (field) contra hackers.");
+		ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
 	return 1;
 }

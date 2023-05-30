@@ -1,25 +1,21 @@
 #include <YSI\y_hooks>
 
-
 hook OnGameModeInit() {
 	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins nÃ­vel 3\n");
 }
 
 /*
-ACMD:whitelist[3](playerid, params[])
-{
+ACMD:whitelist[3](playerid, params[]) {
 	new
 		command[7],
 		name[MAX_PLAYER_NAME];
 
-	if(sscanf(params, "s[7]S()[24]", command, name))
-	{
+	if(sscanf(params, "s[7]S()[24]", command, name)) {
 		ChatMsg(playerid, YELLOW, " >  Use: /whitelist [add/remover/on/off/auto/lista] - A whitelist está atualmente %s (auto: %s)", IsWhitelistActive() ? ("on") : ("off"), IsWhitelistAuto() ? ("on") : ("off"));
 		return 1;
 	}
 
-	if(!strcmp(command, "add", true))
-	{
+	if(!strcmp(command, "add", true)) {
 		if(isnull(name))
 		{
 			ChatMsg(playerid, YELLOW, " >  Use /whitelist add [nome]");
@@ -37,8 +33,7 @@ ACMD:whitelist[3](playerid, params[])
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
 	}
-	else if(!strcmp(command, "remover", true))
-	{
+	else if(!strcmp(command, "remover", true)) {
 		if(isnull(name))
 		{
 			ChatMsg(playerid, YELLOW, " >  Use /whitelist remover [nome]");
@@ -56,18 +51,15 @@ ACMD:whitelist[3](playerid, params[])
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Ocorreu um erro.");
 	}
-	else if(!strcmp(command, "on", true))
-	{
+	else if(!strcmp(command, "on", true)) {
 		ChatMsgAdmins(1, YELLOW, " >  Whitelist ativada.");
 		ToggleWhitelist(true);
 	}
-	else if(!strcmp(command, "off", true))
-	{
+	else if(!strcmp(command, "off", true)) {
 		ChatMsgAdmins(1, YELLOW, " >  Whitelist desativada");
 		ToggleWhitelist(false);
 	}
-	else if(!strcmp(command, "auto", true))
-	{
+	else if(!strcmp(command, "auto", true)) {
 		if(!IsWhitelistAuto())
 		{
 			ChatMsgAdmins(1, YELLOW, " >  Whitelist automÃ¡tica ativada.");
@@ -83,16 +75,14 @@ ACMD:whitelist[3](playerid, params[])
 			// UpdateSetting("whitelist-auto-toggle", 0);
 		}
 	}
-	else if(!strcmp(command, "?", true))
-	{
+	else if(!strcmp(command, "?", true)) {
 		if(IsNameInWhitelist(name))
 			ChatMsg(playerid, YELLOW, " >  Esse nome "C_BLUE"está "C_YELLOW"na whitelist.");
 
 		else
 			ChatMsg(playerid, YELLOW, " >  Esse nome "C_ORANGE"não está "C_YELLOW"na whitelist");
 	}
-	else if(!strcmp(command, "lista", true))
-	{
+	else if(!strcmp(command, "lista", true)) {
 		new list[(MAX_PLAYER_NAME + 1) * MAX_PLAYERS];
 
 		foreach(new i : Player)
@@ -107,8 +97,7 @@ ACMD:whitelist[3](playerid, params[])
 	return 1;
 }*/
 
-ACMD:spec[3](playerid, params[])
-{
+ACMD:spec[3](playerid, params[]) {
 	if(!(IsPlayerOnAdminDuty(playerid))) return CMD_NOT_DUTY;
 
 	// If there's only one player, don't do anything
@@ -173,7 +162,7 @@ ACMD:ip[3](playerid, params[]) {
 }
 
 ACMD:veiculo[3](playerid, params[]) {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return CMD_NOT_DUTY;
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new command[30], vehicleid;
 
@@ -280,16 +269,14 @@ ACMD:veiculo[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:move[3](playerid, params[])
-{
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return CMD_NOT_DUTY;
+ACMD:move[3](playerid, params[]) {
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new
 		direction[10],
 		Float:amount;
 
-	if(!sscanf(params, "s[10]F(2.0)", direction, amount))
-	{
+	if(!sscanf(params, "s[10]F(2.0)", direction, amount)) {
 		new Float:x, Float:y, Float:z, Float:r;
 
 		GetPlayerPos(playerid, x, y, z);
@@ -297,14 +284,11 @@ ACMD:move[3](playerid, params[])
 
 		if(direction[0] == 'f') // forwards
 			x += amount * floatsin(-r, degrees), y += amount * floatcos(-r, degrees);
-
-		if(direction[0] == 'b') // backwards
+		else if(direction[0] == 'b') // backwards
 			x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
-
-		if(direction[0] == 'u') // up
+		else if(direction[0] == 'u') // up
 			z += amount;
-
-		if(direction[0] == 'd') // down
+		else if(direction[0] == 'd') // down
 			z -= amount;
 
 		SetPlayerPos(playerid, x, y, z);
@@ -318,8 +302,7 @@ ACMD:move[3](playerid, params[])
 	return 1;
 }
 
-ACMD:resetarsenha[3](playerid, params[])
-{
+ACMD:resetarsenha[3](playerid, params[]) {
 	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /resetarsenha [Nick]");
 
 	new buffer[129];
@@ -334,8 +317,7 @@ ACMD:resetarsenha[3](playerid, params[])
 	return 1;
 }
 
-ACMD:setactive[3](playerid, params[])
-{
+ACMD:setactive[3](playerid, params[]) {
 	new name[MAX_PLAYER_NAME], active;
 
 	if(sscanf(params, "s[24]d", name, active)) return ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
@@ -351,14 +333,13 @@ ACMD:setactive[3](playerid, params[])
 	return 1;
 }
 
-ACMD:irpos[3](playerid, params[])
-{
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return CMD_NOT_DUTY;
+ACMD:irpos[3](playerid, params[]) {
+    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 		
 	new Float:x, Float:y, Float:z;
 
 	if(sscanf(params, "fff", x, y, z) && sscanf(params, "p<,>fff", x, y, z))
-		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem vÃ­rgulas)");
+		return ChatMsg(playerid, YELLOW, " > Use: /irpos x, y, z (Com ou sem vírgulas)");
 
 	SetPlayerPos(playerid, x, y, z);
 
@@ -367,20 +348,18 @@ ACMD:irpos[3](playerid, params[])
 	return 1;
 }
 
-ACMD:banir[3](playerid, params[])
-{
+ACMD:banir[3](playerid, params[]) {
 	new name[MAX_PLAYER_NAME];
 
 	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /banir [playerid/nome]");
 
-	if(isnumeric(name))
-	{
-		new targetid = strval(name);
+	if(isnumeric(name)) {
+		new targetId = strval(name);
 
-		if(IsPlayerConnected(targetid))
-			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
+		if(IsPlayerConnected(targetId))
+			GetPlayerName(targetId, name, MAX_PLAYER_NAME);
 		else
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetid);
+			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
 	}
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " > a conta '%s' não existe.", name);
@@ -389,13 +368,10 @@ ACMD:banir[3](playerid, params[])
 
 	BanAndEnterInfo(playerid, name);
 
-	ChatMsg(playerid, YELLOW, " >  Preparando banimento de: %s", name);
-
 	return 1;
 }
 
-ACMD:desbanir[3](playerid, params[])
-{
+ACMD:desbanir[3](playerid, params[]) {
 	new name[MAX_PLAYER_NAME];
 
 	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /desbanir [Nick]");
@@ -408,12 +384,10 @@ ACMD:desbanir[3](playerid, params[])
 	return 1;
 }
 
-ACMD:banidos[3](playerid, params[])
-{
+ACMD:banidos[3](playerid, params[]) {
 	new result = ShowListOfBans(playerid, 0);
 
 	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
-
 	if(result == -1) return ChatMsg(playerid, YELLOW, " >  Ocorreu um erro.");
 
 	return 1;

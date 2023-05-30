@@ -413,35 +413,20 @@ stock ItemTypeResultForCraftingSet(ItemType:itemtype)
 
 ==============================================================================*/
 
-hook OnPlayerViewInvOpt(playerid)
-{
+hook OnPlayerViewInvOpt(playerid) {
 	if(cft_SelectedItemCount[playerid] == 0)
-	{
 		cft_MenuOptionID[playerid] = AddInventoryOption(playerid, "Combinar...");
-	}
-	else
-	{
+	else {
 		new
-			string[128], // TODO: Improve option length
-			itemname[ITM_MAX_NAME];
+			string[128] = "Combinar com ", // TODO: Improve option length
+			itemName[ITM_MAX_NAME];
 
-		string = "Combinar com ";
+		for(new i; i < cft_SelectedItemCount[playerid]; i++) {
+			GetItemTypeName(cft_SelectedItems[playerid][i][cft_selectedItemType], itemName);
 
-		for(new i; i < cft_SelectedItemCount[playerid]; i++)
-		{
-			GetItemTypeName(cft_SelectedItems[playerid][i][cft_selectedItemType], itemname);
-
-			if(i == 0)
-			{
-				format(string, sizeof(string), "%s%s", string, itemname);
-				ConvertEncoding(string);
-			}
-			else
-			{
-				format(string, sizeof(string), "%s+%s", string, itemname);
-				ConvertEncoding(string);
-			}
+			format(string, sizeof(string), i ? "%s+%s" : "%s%s", string, itemName);
 		}
+
 		cft_MenuOptionID[playerid] = AddInventoryOption(playerid, string);
 	}
 
@@ -467,28 +452,18 @@ hook OnPlayerSelectInvOpt(playerid, option)
 hook OnPlayerViewCntOpt(playerid, containerid)
 {
 	if(cft_SelectedItemCount[playerid] == 0)
-	{
 		cft_MenuOptionID[playerid] = AddContainerOption(playerid, "Combinar...");
-	}
-	else
-	{
+	else {
 		new
-			string[128], // TODO: Improve option length
-			itemname[ITM_MAX_NAME];
+			string[128] = "Combinar com ", // TODO: Improve option length
+			itemName[ITM_MAX_NAME];
 
-		string = "Combinar com ";
+		for(new i; i < cft_SelectedItemCount[playerid]; i++) {
+			GetItemTypeName(cft_SelectedItems[playerid][i][cft_selectedItemType], itemName);
 
-		for(new i; i < cft_SelectedItemCount[playerid]; i++)
-		{
-			GetItemTypeName(cft_SelectedItems[playerid][i][cft_selectedItemType], itemname);
-
-			if(i == 0)
-				format(string, sizeof(string), "%s%s", string, itemname);
-
-			else
-
-				format(string, sizeof(string), "%s+%s", string, itemname);
+			format(string, sizeof(string), i ? "%s+%s" : "%s%s", string, itemName);
 		}
+		
 		cft_MenuOptionID[playerid] = AddContainerOption(playerid, string);
 	}
 
@@ -527,9 +502,9 @@ hook OnPlayerCloseContainer(playerid, containerid)
 
 _cft_AddItemToCraftList(playerid, itemid)
 {
-	new itemname[ITM_MAX_NAME];
-	GetItemTypeName(GetItemType(itemid), itemname);
-	sif_d:SIF_DEBUG_LEVEL_INTERNAL:CRAFT_DEBUG("[_cft_AddItemToCraftList] %d added %d (type %d, %s)", playerid, itemid, _:GetItemType(itemid), itemname);
+	new itemName[ITM_MAX_NAME];
+	GetItemTypeName(GetItemType(itemid), itemName);
+	sif_d:SIF_DEBUG_LEVEL_INTERNAL:CRAFT_DEBUG("[_cft_AddItemToCraftList] %d added %d (type %d, %s)", playerid, itemid, _:GetItemType(itemid), itemName);
 
 	cft_SelectedItems[playerid][cft_SelectedItemCount[playerid]][cft_selectedItemType] = GetItemType(itemid);
 	cft_SelectedItems[playerid][cft_SelectedItemCount[playerid]][cft_selectedItemID] = itemid;
@@ -640,10 +615,10 @@ _cft_CraftSelected(playerid, craftset)
 
 	new
 		str[8 + ITM_MAX_NAME],
-		itemname[ITM_MAX_NAME];
+		itemName[ITM_MAX_NAME];
 
-	GetItemTypeName(cft_Result[craftset], itemname);
-	format(str, sizeof(str), "%s Craftado", itemname);
+	GetItemTypeName(cft_Result[craftset], itemName);
+	format(str, sizeof(str), "%s Craftado", itemName);
 	ShowActionText(playerid, str, 3000);
 
 	_cft_ClearCraftList(playerid);

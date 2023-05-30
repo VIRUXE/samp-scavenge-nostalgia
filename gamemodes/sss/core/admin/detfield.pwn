@@ -470,7 +470,7 @@ stock AddDetectionFieldException(detfieldid, name[MAX_PLAYER_NAME]) {
     UpdateDetectionFieldExceptions(detfieldid);
 
 	if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID) {
-		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "ProteÁ„o Field", ""C_GREEN"VocÍ foi adicionado como exceÁ„o em uma base com proteÁ„o field.", "Fechar", "");
+		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "ProteÁ„o Field", ""C_GREEN"VocÍ foi adicionado como exce??o em uma base com proteÁ„o field.", "Fechar", "");
         fld_PlayerInvade[GetPlayerIDFromName(name)] = false;
 	}
 
@@ -689,7 +689,7 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 						"%s"C_YELLOW"\t- Construir.\n\
 						\t- Desmontar com pÈ de cabra.\n\
 						\t- Interagir tendas e caixas.\n\
-						\t- Interagir com veùculos.\n\n", string);
+						\t- Interagir com veÌculos.\n\n", string);
 
 					format(string, 700,
 						"%s"C_WHITE"Se vocÍ entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteÁ„o.\n\n", string);

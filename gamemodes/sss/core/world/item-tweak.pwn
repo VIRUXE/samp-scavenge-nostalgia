@@ -37,8 +37,8 @@ stock TweakItem(playerid, itemid) {
 	return 1;
 }
 
-stock TweakFinalise(playerid){
-	if(twk_Item[playerid] != INVALID_ITEM_ID){
+stock TweakFinalise(playerid) {
+	if(twk_Item[playerid] != INVALID_ITEM_ID) {
 	    TweakResetItemPos(playerid);
         CallLocalFunction("OnItemTweakFinish", "dd", playerid, twk_Item[playerid]);
 //   		ShowHelpTip(playerid, "_");
@@ -47,7 +47,7 @@ stock TweakFinalise(playerid){
 
 		// TODO: Colocar como tip
 		if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid) || GetItemTypeDefenceType(GetItemType(twk_Item[playerid])) != INVALID_DEFENCE_TYPE)
-			ChatMsg(playerid, GREEN, " > [FIELD] ApÃ³s construir a sua base, chame um admin no /relatorio para por uma proteÃ§Ã£o (field) contra hackers.");
+			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
 
    		twk_Item[playerid] = INVALID_ITEM_ID;
     }
@@ -56,19 +56,19 @@ stock TweakFinalise(playerid){
 }
 
 // Anti Bug
-hook OnPlayerUpdate(playerid){
-    if(twk_Item[playerid] != INVALID_ITEM_ID){
+hook OnPlayerUpdate(playerid) {
+    if(twk_Item[playerid] != INVALID_ITEM_ID) {
     	if(GetTickCountDifference(GetTickCount(), twk_MoveTick[playerid]) > 2000)
 			GetPlayerPos(playerid, twk_pPos[playerid][0], twk_pPos[playerid][1], twk_pPos[playerid][2]);
 	}
+
 	return 1;
 }
 
 // Corrigir Posição do objeto
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
-	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID){
-	    TweakResetItemPos(playerid);
-	}
+	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID) TweakResetItemPos(playerid);
+
 	return 1;
 }
 

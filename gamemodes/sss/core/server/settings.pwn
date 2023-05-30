@@ -75,7 +75,7 @@ LoadSettings()
 						JSON_String("Invite your friends to play on the server, playing in a group is more fun and rewarding.")
 					),
 					JSON_Array(
-						JSON_String("Você viu alguém fazendo o que n?o devia? Use /report para denunciar."),
+						JSON_String("Você viu alguém fazendo o não n?o devia? Use /report para denunciar."),
 						JSON_String("Did you see someone doing something they shouldn't? Use /report to report them.")
 					),
 					JSON_Array(
@@ -171,7 +171,7 @@ function OnSettingsLoaded() {
 	JSON_GetArray(server, "rules", rules);
 	JSON_ArrayLength(rules, length);
 
-	// Certificar de que n?o tentamos carregar mais regras do que o m?ximo permitido (MAX_RULE)
+	// Certificar de que não tentamos carregar mais regras do que o m?ximo permitido (MAX_RULE)
 	if(length > MAX_RULE) {
 		length = MAX_RULE;
 		log("[SETTINGS] Aviso: O número de regras excede o máximo permitido. As regras extras serão ignoradas.");

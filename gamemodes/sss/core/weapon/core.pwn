@@ -761,42 +761,31 @@ timer _UnloadWeapon[300](playerid, itemid)
 	return;
 }
 
-hook OnItemNameRender(itemid, ItemType:itemtype)
-{
+hook OnItemNameRender(itemid, ItemType:itemtype) {
+	new itemWeaponId = GetItemTypeWeapon(itemtype);
 
-    
-	new itemweaponid = GetItemTypeWeapon(itemtype);
+	if(itemWeaponId == -1) return Y_HOOKS_CONTINUE_RETURN_0;
 
-	if(itemweaponid == -1)
-		return Y_HOOKS_CONTINUE_RETURN_0;
-
-	if(itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_calibre] == NO_CALIBRE)
-		return Y_HOOKS_CONTINUE_RETURN_0;
+	if(itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_calibre] == NO_CALIBRE) return Y_HOOKS_CONTINUE_RETURN_0;
 
 	new
-		ammotype = GetItemTypeAmmoType(GetItemWeaponItemAmmoItem(itemid)),
-		calibrename[MAX_AMMO_CALIBRE_NAME],
-		ammoname[MAX_AMMO_CALIBRE_NAME],
-		exname[ITM_MAX_TEXT];
+		ammoType = GetItemTypeAmmoType(GetItemWeaponItemAmmoItem(itemid)),
+		calibreName[MAX_AMMO_CALIBRE_NAME],
+		ammoName[MAX_AMMO_CALIBRE_NAME];
 
 	if(itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_flags] & WEAPON_FLAG_LIQUID_AMMO)
-		calibrename = "Liquido";
-
+		calibreName = "Liquido";
 	else
-		GetCalibreName(itmw_Data[itemweaponid][itmw_calibre], calibrename);
+		GetCalibreName(itmw_Data[itemWeaponId][itmw_calibre], calibreName);
 
-	if(ammotype == -1)
-		ammoname = "Descarregado";
-
+	if(ammoType == -1)
+		ammoName = "Descarregado";
 	else
-		GetAmmoTypeName(ammotype, ammoname);
+		GetAmmoTypeName(ammoType, ammoName);
 
-	//log("itemwepaonid %d, calibre %d, ammotype %d", itemweaponid, itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_calibre], ammotype);
+	//log("itemwepaonid %d, calibre %d, ammoType %d", itemWeaponId, itmw_Data[itmw_ItemTypeWeapon[itemtype]][itmw_calibre], ammoType);
 
-	format(exname, sizeof(exname), "%d/%d, %s, %s", GetItemWeaponItemMagAmmo(itemid), GetItemWeaponItemReserve(itemid), calibrename, ammoname);
-	ConvertEncoding(exname);
-
-	SetItemNameExtra(itemid, exname);
+	SetItemNameExtra(itemid, sprintf("%d/%d, %s, %s", GetItemWeaponItemMagAmmo(itemid), GetItemWeaponItemReserve(itemid), calibreName, ammoName));
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
@@ -818,75 +807,75 @@ stock GetItemTypeWeapon(ItemType:itemtype)
 }
 
 // itmw_itemType
-stock GetItemWeaponItemType(itemweaponid)
+stock GetItemWeaponItemType(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_itemType];
+	return itmw_Data[itemWeaponId][itmw_itemType];
 }
 
 // itmw_baseWeapon
-stock GetItemWeaponBaseWeapon(itemweaponid)
+stock GetItemWeaponBaseWeapon(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_baseWeapon];
+	return itmw_Data[itemWeaponId][itmw_baseWeapon];
 }
 
 // itmw_calibre
-stock GetItemWeaponCalibre(itemweaponid)
+stock GetItemWeaponCalibre(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_calibre];
+	return itmw_Data[itemWeaponId][itmw_calibre];
 }
 
 // itmw_muzzVelocity
-stock Float:GetItemWeaponMuzzVelocity(itemweaponid)
+stock Float:GetItemWeaponMuzzVelocity(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0.0;
 
-	return itmw_Data[itemweaponid][itmw_muzzVelocity];
+	return itmw_Data[itemWeaponId][itmw_muzzVelocity];
 }
 
 // itmw_magSize
-stock GetItemWeaponMagSize(itemweaponid)
+stock GetItemWeaponMagSize(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_magSize];
+	return itmw_Data[itemWeaponId][itmw_magSize];
 }
 
 // itmw_maxReserveMags
-stock GetItemWeaponMaxReserveMags(itemweaponid)
+stock GetItemWeaponMaxReserveMags(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_maxReserveMags];
+	return itmw_Data[itemWeaponId][itmw_maxReserveMags];
 }
 
 // itmw_animSet
-stock GetItemWeaponAnimSet(itemweaponid)
+stock GetItemWeaponAnimSet(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_animSet];
+	return itmw_Data[itemWeaponId][itmw_animSet];
 }
 
 // itmw_flags
-stock GetItemWeaponFlags(itemweaponid)
+stock GetItemWeaponFlags(itemWeaponId)
 {
-	if(!(0 <= itemweaponid < itmw_Total))
+	if(!(0 <= itemWeaponId < itmw_Total))
 		return 0;
 
-	return itmw_Data[itemweaponid][itmw_flags];
+	return itmw_Data[itemWeaponId][itmw_flags];
 }
 
 
