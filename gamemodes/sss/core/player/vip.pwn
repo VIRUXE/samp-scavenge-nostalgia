@@ -23,36 +23,43 @@ ACMD:setvip[5](playerid, params[]) {
 }
 
 CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kill, nick, luta
-	if(!IsPlayerVip(playerid)) return ChatMsg(playerid, RED, " > Esse comando é apenas para jogadores VIP.");
+	new help[] = 
+		"{FFFF00}Benefícios de ser VIP: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00){FFAA00}\n\n\
+		- Tem uma maior variedade de Locais de Spawn após morrer\n\
+		- Consegue trocar o Nickname usando {FFFFFF}'nick'{FFAA00}\n\
+		- Consegue trocar o Estilo de Luta usando {FFFFFF}'luta'{FFAA00}\n\
+		- Nickname colorido (destacado)\n\
+		- Cargo VIP permanente no Discord\n\
+		- Chat e Voz VIP no Discord\n\
+		- Consegue se Matar usando {FFFFFF}'kill'{FFAA00}\n\
+		- Consegue fazer um Anúncio VIP no chat usando {FFFFFF}'anuncio'{FFAA00}\n\
+		- Consegue alterar a Cor de Veículos usando {FFFFFF}'pintar'{FFAA00}\n\
+		- Monta e Desmonta estruturas 3x mais rápido\n\
+		- Consegue Consertar o Veículo 3x mais rápido\n\
+		- Consegue Resetar o Status (Kills, Spree, Mortes) com {FFFFFF}'resetar'{FFAA00}\n\
+		- Consegue colocar uma Frase de Login destacada para todos com {FFFFFF}'frase'{FFAA00}\n\
+		- Spawna sem Fome (jogadores sem VIP nascem com 20% de fome faltando)\n\
+		- Recebe o dobro de Kills (Score) ao eliminar algum jogador\n\
+		- Consegue trocar a Skin usando {FFFFFF}'skin'{FFAA00}\n\
+		- Nasce com Chave de Roda, Chave de Fenda, Mapa, Mochila Pequena e um Bastão\n\
+		- Consegue Reparar a Lataria do Veículo ao finalizar o Reparo com Ferramentas.",
+		
+		syntax[] = " > Use: /vip [anuncio, reset, skin, pintar, frase, kill, nick, luta]";
+
+	if(!IsPlayerVip(playerid)) {
+		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", help, "Fechar", "");
+		return 1;
+	}
 
 	new command[8];
 
-	if(sscanf(params, "s[8]", command)) return ChatMsg(playerid, RED, " > Use: /vip [ajuda, anuncio, reset, skin, pintar, frase, kill, nick, luta]");
+	if(sscanf(params, "s[8] ", command)) {
+		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", help, "Fechar", "");
 
-	if(isequal(command, "ajuda", true)) {
-		// TODO: refazer o dialog com informações atualizadas
-		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:",
-		"{FFFF00}Benefícios dos VIPS: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00\n\n\
-		{FFAA00}- Tem uma maior variedade de spawns após morrer\n\
-		{FFAA00}- Consegue trocar o nickname usando {FFFFFF}/mudarnick\n\
-		{FFAA00}- Consegue trocar o estilo de luta usando {FFFFFF}/mudarluta\n\
-		{FFAA00}- Nickname colorido (destacado)\n\
-		{FFAA00}- Cargo VIP permanente no discord\n\
-		{FFAA00}- Chat e canal de voz VIP no discord\n\
-		{FFAA00}- Consegue se matar usando {FFFFFF}/kill\n\
-		{FFAA00}- Consegue fazer um anúncio vip no chat usando {FFFFFF}/avip\n\
-		{FFAA00}- Consegue alterar a cor de veículos usando {FFFFFF}/pintar\n\
-		{FFAA00}- Monta e desmonta estruturas 3x mais rápido\n\
-		{FFAA00}- Consegue consertar o veículo 3x mais rápido\n\
-		{FFAA00}- Consegue resetar o status (Score, Spree, Mortes) com {FFFFFF}/resetarstatus\n\
-		{FFAA00}- Consegue colocar uma frase de login destacada para todos com {FFFFFF}/frase\n\
-		{FFAA00}- Spawna sem fome (jogadores sem vip nascem com 20% de fome faltando)\n\
-		{FFAA00}- Recebe o dobro de kills (score) ao eliminar algum jogador\n\
-		{FFAA00}- Consegue trocar a skin usando {FFFFFF}/skin\n\
-		{FFAA00}- Nasce com chave de roda, chave de fenda, mapa, mochila pequena e um bastão\n\
-		{FFAA00}- Consegue reparar a lataria do veículo ao finalizar o reparo com ferramentas.",
-		"Fechar", "");
-	} else if(isequal(command, "anuncio", true)) {
+		return ChatMsg(playerid, RED, syntax);
+	}
+
+	if(isequal(command, "anuncio", true)) {
 		// Espera 3 segundos para fazer outro anúncio
 		if(VIP_Anuncio && GetTickCountDifference(GetTickCount(), VIP_Anuncio) < SEC(3)) return ChatMsg(playerid, RED, "> O ultimo anúncio foi feito a menos de 3 segundos.");
 
@@ -76,8 +83,6 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 
 		if(sscanf(params, "{s[5]}i", skinId)) return ChatMsg(playerid, RED, " > Use: /vip skin [1-311]");
 
-		printf("[VIP] skinId: %d", skinId);
-
 		if(skinId > 311 || skinId < 1 || skinId == 211 || skinId == 217 || skinId == 287) return ChatMsg(playerid, RED, " > ID de skin inválido.");
 
 		SetPlayerSkin(playerid, skinId);
@@ -86,17 +91,15 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 
 		new cor1, cor2;
 
-		if(sscanf(params, "{s[7]}I(*)I(*)", random(255), cor1, random(255), cor2)) return ChatMsg(playerid, RED, " > Use : /vip pintar (0-255) (0-255)");
+		sscanf(params, "{s[7]}I(*)I(*)", random(255), cor1, random(255), cor2);
 
 		if(cor1 < 0 || cor1 > 255 || cor2 < 0 || cor2 > 255) return ChatMsg(playerid, RED, "Cores de 0 a 255!");
 
 		ChangeVehicleColor(GetPlayerVehicleID(playerid), cor1, cor2);
 	} else if(isequal(command, "kill", true)) {
-		return ChatMsg(playerid, GREY, "Comando desativado.");
-		// Tem que aguardar 1 minuto
-		/* if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < MIN(1)) return CMD_CANT_USE;
+		if(GetTickCountDifference(GetTickCount(), GetPlayerSpawnTick(playerid)) < MIN(1)) return CMD_CANT_USE; // Tem que aguardar 1 minuto
 
-		SetPlayerHP(playerid, 0.0); */
+		SetPlayerHP(playerid, 0.0);
 	} else if(isequal(command, "luta", true)) {
 		new luta;
 
@@ -119,7 +122,7 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 
 		new nick[MAX_PLAYER_NAME];
 
-		if(sscanf(params, "s[24]", nick)) return ChatMsg(playerid, YELLOW, "Use: /vip nick [nick]");
+		if(sscanf(params, "{s[5]}s[24]", nick)) return ChatMsg(playerid, YELLOW, "Use: /vip nick [nick]");
 
 		if(strlen(nick) > MAX_PLAYER_NAME || strlen(nick) < 3) return ChatMsg(playerid, YELLOW, "Seu nick deve ter entre 3 e 22 caracteres.");
 
@@ -139,7 +142,8 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 		ChatMsg(playerid, GREEN, " > Quando for entrar no servidor novamente, altere seu nick no SA-MP.");
 		
 		KickPlayer(playerid, "Relogue com seu novo nick", true);
-	}
+	} else
+		ChatMsg(playerid, RED, syntax);
 
 	return 1;
 }
