@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-#define VIP_COLOR 0xFFAA00FF
+#define VIP_COLOR 0xFFAA0000
 #define MAX_JOINSENTENCE_LEN 90
 
 static bool:VIP[MAX_PLAYERS], VIP_Anuncio;
@@ -145,9 +145,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 
 		SetPlayerName(playerid, nick);
 
-		ChatMsgAll(RED, "  > %P(%d)"C_RED" alterou seu nickname para '%s' (usando /vip nick)", playerid, playerid, nick);
-
-		log("[NICK] %p alterou o nick para '%s'", playerid, nick);
+		ChatMsgAll(RED, "  > %P(%d)"C_RED" alterou seu nickname para '%s' (usando seus beneficios de VIP)", playerid, playerid, nick);
 
 		ChatMsg(playerid, GREEN, " > Você alterou seu nome para "C_WHITE"%s"C_GREEN".", nick);
 		ChatMsg(playerid, GREEN, " > Quando for entrar no servidor novamente, altere seu nick no SA-MP.");
@@ -206,8 +204,6 @@ stock SetPlayerVip(playerid, bool:toggle) {
 	if(toggle == VIP[playerid]) return 0;
 
     VIP[playerid] = toggle;
-
-	printf("[VIP] SetPlayerVip(%p, %s)", playerid, booltostr(toggle));
 
 	return 1;
 }
