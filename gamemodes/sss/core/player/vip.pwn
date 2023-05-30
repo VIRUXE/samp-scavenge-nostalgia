@@ -1,7 +1,8 @@
 #include <YSI\y_hooks>
 
-#define VIP_COLOR 0xFFAA0000
-	
+#define VIP_COLOR 0xFFAA00FF
+#define MAX_JOINSENTENCE_LEN 90
+
 static bool:VIP[MAX_PLAYERS], VIP_Anuncio;
 
 ACMD:setvip[5](playerid, params[]) {
@@ -17,12 +18,10 @@ ACMD:setvip[5](playerid, params[]) {
 
 	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : 0xB8B8B800);
 
-	ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
-
-	return 1;
+	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
 }
 
-CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kill, nick, luta
+CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick, luta
 	new help[] = 
 		"{FFFF00}Benefícios de ser VIP: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00){FFAA00}\n\n\
 		- Tem uma maior variedade de Locais de Spawn após morrer\n\
@@ -55,7 +54,6 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 
 	if(sscanf(params, "s[8] ", command)) {
 		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", help, "Fechar", "");
-
 		return ChatMsg(playerid, RED, syntax);
 	}
 
@@ -70,10 +68,23 @@ CMD:vip(playerid, params[]) { // ajuda, anuncio, reset, skin, pintar, frase, kil
 		ChatMsgAll(VIP_COLOR, "[Anúncio VIP] "C_WHITE"%P (%d): {FFAA00}%s", playerid, playerid, anuncio);
 
 		VIP_Anuncio = GetTickCount();
+	} else if(isequal(command, "frase", true)) {
+		if(GetPlayerScore(playerid) < 100) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/points"));
+
+		new frase[MAX_JOINSENTENCE_LEN];
+
+		if(sscanf(params, "{s[6]}s[*]", MAX_JOINSENTENCE_LEN, frase)) return ChatMsg(playerid, YELLOW, "Sua frase de entrada: %s", GetPlayerJoinSentence(playerid));
+		// if(isnull(params)) return ChatMsg(playerid, YELLOW, ls(playerid, "player/join-sentence/cmd-syntax"));
+
+		db_query(gAccounts, sprintf("UPDATE players SET joinSentence = '%s' WHERE name = '%s';", frase, GetPlayerNameEx(playerid)));
+
+		ChatMsg(playerid, GREEN, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/changed"), frase);
 	} else if(isequal(command, "reset", true)) {
 		SetPlayerScore(playerid, 0);
 		SetPlayerDeathCount(playerid, 0);
 		SetPlayerSpree(playerid, 0);
+
+		db_query(gAccounts, sprintf("UPDATE players SET kills = 0, deaths = 0 WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
 
 		ChatMsg(playerid, GREEN, " > Seu status foi resetado.");
 	} else if(isequal(command, "skin", true)) {
@@ -177,6 +188,16 @@ hook OnPlayerSpawnNewChar(playerid) {
 		AddItemToPlayer(playerid, CreateItem(item_Map), true, false);
 		GiveWorldItemToPlayer(playerid, CreateItem(item_Bat));
 	}
+}
+
+GetPlayerJoinSentence(playerid) {
+	new DBResult:result = db_query(gAccounts, sprintf("SELECT joinSentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
+
+	new frase[MAX_JOINSENTENCE_LEN];
+	db_get_field(result, 0, frase, sizeof(frase));
+	db_free_result(result);
+
+	return frase;
 }
 
 stock IsPlayerVip(playerid) return VIP[playerid];

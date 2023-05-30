@@ -421,7 +421,6 @@ new RequestsClient:requestsClient;
 #include "sss/core/player/commands.pwn"
 #include "sss/core/player/death.pwn"
 #include "sss/core/player/disallow-actions.pwn"
-#include "sss/core/player/frase.pwn"
 #include "sss/core/player/gpci-log.pwn"
 #include "sss/core/player/ipv4-log.pwn"
 #include "sss/core/player/name-tags.pwn"

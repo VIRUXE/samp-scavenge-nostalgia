@@ -162,8 +162,8 @@ public OnPlayerDisconnected(playerid) {
 AnnouncePlayerJoined(playerid) {
 	foreach(new i : Player) {
 		if(i != playerid && IsPlayerLoggedIn(playerid)) {
-			new frase[90]; // MAX_JOINSENTENCE_LEN
-
+			new frase[90];
+			
 			frase = GetPlayerJoinSentence(playerid);
 
 			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(" -> %s", frase) : "");
