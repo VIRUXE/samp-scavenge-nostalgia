@@ -228,7 +228,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true) {
 
 	if(admin_PlayerKicked[playerid]) return 0;
 
-	SetPlayerScreenFade(playerid, 1, 255);
+	SetPlayerScreenFade(playerid, 1, 255, 10);
 
 	defer KickPlayerDelay(playerid);
 	admin_PlayerKicked[playerid] = true;
