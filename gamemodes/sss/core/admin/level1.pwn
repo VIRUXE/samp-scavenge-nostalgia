@@ -15,14 +15,11 @@ ACMD:calar[1](playerid, params[]) {
 
 	if(IsPlayerMuted(targetid)) return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
 
-	if(delay > 0)
-	{
+	if(delay > 0) {
 		TogglePlayerMute(targetid, true, delay);
 		ChatMsg(playerid, YELLOW, " >  Calou o player %P "C_WHITE"por %d segundos.", targetid, delay);
 		ChatMsg(targetid, YELLOW, "player/muted-time", delay, reason);
-	}
-	else
-	{
+	} else {
 		TogglePlayerMute(targetid, true);
 		ChatMsg(playerid, YELLOW, " > Player calado: %P", targetid);
 		ChatMsg(targetid, YELLOW, "player/muted-reas", reason);
@@ -49,8 +46,7 @@ ACMD:descalar[1](playerid, params[])
 	return 1;
 }
 
-ACMD:avisar[1](playerid, params[])
-{
+ACMD:avisar[1](playerid, params[]) {
 	new targetid, reason[128];
 
 	if(sscanf(params, "ds[128]", targetid, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /avisar [playerid] [motivo]");
@@ -66,8 +62,7 @@ ACMD:avisar[1](playerid, params[])
 	ChatMsg(playerid, ORANGE, " >  %P"C_YELLOW" levou um aviso. (%d/3) Motivo: %s", targetid, warnings, reason);
 	ChatMsg(targetid, ORANGE, "WARNEDMESSG", warnings, reason);
 
-	if(warnings >= 3)
-	{
+	if(warnings >= 3) {
 	    SetPlayerWarnings(targetid, 0);
 		KickPlayer(targetid, "Atingiu 3 avisos da administraÃ§Ã£o.");
 	}
@@ -95,24 +90,22 @@ ACMD:kick[1](playerid, params[]) {
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) kickou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetid, targetid, reason);
 }
 
-ACMD:msg[1](playerid, params[])
-{
+ACMD:anun[1](playerid, params[]) {
 	new anuncio[255];
 
-	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
+	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /anun [mensagem]");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin] %P{C457EB} (%d) disse: {FFFFFF}%s", playerid, playerid, anuncio);
+	ChatMsgAll(COLOR_RADIATION, " > Anúncio de Administração:", playerid, playerid, anuncio);
+	return ChatMsgAll(COLOR_RADIATION, " > %p disse: {FFFFFF}%s", playerid, playerid, anuncio);
 }
 
-ACMD:cc[1](playerid)
-{
+ACMD:cc[1](playerid) {
 	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) limpou o chat!", playerid, playerid);
 }
 
-ACMD:history[1](playerid, params[])
-{
+ACMD:history[1](playerid, params[]) {
 	new
 		name[MAX_PLAYER_NAME],
 		type,
@@ -120,8 +113,7 @@ ACMD:history[1](playerid, params[])
 
 	if(sscanf(params, "s[24]C(a)C()", name, type, lookup)) return ChatMsg(playerid, YELLOW, " >  Use: /history [playerid/name] [i/h] [n]");
 
-	if(isnumeric(name))
-	{
+	if(isnumeric(name)) {
 		new targetid = strval(name);
 
 		if(IsPlayerConnected(targetid))
@@ -134,41 +126,37 @@ ACMD:history[1](playerid, params[])
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
 
-	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid))
-	{
+	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid)) {
 		new playername[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, playername, MAX_PLAYER_NAME);
 
 		if(strcmp(name, playername)) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
 	}
 
-	if(type == 'i')
-	{
-		if(lookup == 'n') ShowAccountIPHistoryFromName(playerid, name);
-		else
-		{
+	if(type == 'i') {
+		if(lookup == 'n') 
+			ShowAccountIPHistoryFromName(playerid, name);
+		else {
 			new ip;
 			GetAccountIP(name, ip);
 			ShowAccountIPHistoryFromIP(playerid, ip);
 		}
 	}
-	else if(type == 'h')
-	{
-		if(lookup == 'n') ShowAccountGpciHistoryFromName(playerid, name);
-		else
-		{
+	else if(type == 'h') {
+		if(lookup == 'n') 
+			ShowAccountGpciHistoryFromName(playerid, name);
+		else {
 			new hash[MAX_GPCI_LEN];
 			GetAccountGPCI(name, hash);
 			ShowAccountGpciHistoryFromGpci(playerid, hash);
 		}
-	}
-	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parÃ¢metro opcional 'n' lista o histÃ³rico apenas para esse jogador.");
+	} else
+		return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parâmetro opcional 'n' lista o histÃ³rico apenas para esse jogador.");
 
 	return 1;
 }
 
-ACMD:comandoslvl1[1](playerid)
-{
+ACMD:comandoslvl1[1](playerid) {
     new stringlvl1[800];
 
     strcat(stringlvl1, "{FFFF00}Comandos dos Admins Nível 1:\n");
@@ -176,11 +164,11 @@ ACMD:comandoslvl1[1](playerid)
     strcat(stringlvl1, ""C_BLUE"/(des)calar - calar/descalar um player\n");
     strcat(stringlvl1, ""C_BLUE"/avisar - Dar aviso em um player\n");
     strcat(stringlvl1, ""C_BLUE"/kick - Kickar players\n");
-    strcat(stringlvl1, ""C_BLUE"/msg - Enviar um anÃºncio no chat\n");
+    strcat(stringlvl1, ""C_BLUE"/anun - Enviar um Anúncio no Chat\n");
     strcat(stringlvl1, ""C_BLUE"/(all)country - Mostrar dados da cidade de um player\n");
-    strcat(stringlvl1, ""C_BLUE"/cc - Limpar o chat\n");
-    strcat(stringlvl1, ""C_BLUE"/rr - Responder relatÃ³rios\n");
-    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear alguém de enviar relatÃ³rio\n");
+    strcat(stringlvl1, ""C_BLUE"/cc - Limpar o Chat\n");
+    strcat(stringlvl1, ""C_BLUE"/rr - Responder a um Relatório\n");
+    strcat(stringlvl1, ""C_BLUE"/blockrr - Bloquear alguém de enviar relatórios\n");
 	
     ShowPlayerDialog(playerid, 12401, DIALOG_STYLE_MSGBOX, "Admin 1", stringlvl1, "Fechar", "");
 
