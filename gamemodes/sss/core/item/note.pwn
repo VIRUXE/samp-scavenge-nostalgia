@@ -76,7 +76,6 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		{
 			strins(string, "(...)", 8);
 			string[13] = EOS;
-			ConvertEncoding(string);
 
 			SetItemNameExtra(itemid, string);
 		}

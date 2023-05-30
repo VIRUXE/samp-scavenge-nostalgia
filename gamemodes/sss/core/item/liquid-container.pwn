@@ -112,7 +112,6 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 		if(Float:data[0] > 0.001)
 		{
 			GetLiquidName(data[1], name);
-			ConvertEncoding(name);
 			SetItemNameExtra(itemid, sprintf("%s %.1f/%.2f", name, Float:data[0], liq_Data[liq_ItemTypeLiquidContainer[itemtype]][liq_capacity]));
 		}
 		else {

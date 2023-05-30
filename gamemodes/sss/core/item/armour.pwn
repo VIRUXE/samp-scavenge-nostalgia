@@ -46,8 +46,6 @@ hook OnPlayerUseItem(playerid, itemid)
 
 hook OnItemNameRender(itemid, ItemType:itemtype)
 {
-
-
 	if(itemtype == item_Armour)
 	{
 		new
@@ -55,7 +53,6 @@ hook OnItemNameRender(itemid, ItemType:itemtype)
 			str[11];
 
 		format(str, sizeof(str), "%d", amount);
-		ConvertEncoding(str);
 
 		SetItemNameExtra(itemid, str);
 	}
