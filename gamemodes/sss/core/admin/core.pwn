@@ -32,7 +32,7 @@ static
 					"Administrador",	// 3
 					"Lider de Admin",	// 4
 					"Desenvolvedor",	// 5
-					"Desconhecido"	// 6
+					"Secreto"	// 6
 				},
 				admin_Colours[MAX_ADMIN_LEVELS] = {
 					WHITE,			// 0 (Unused)
