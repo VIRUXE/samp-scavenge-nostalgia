@@ -25,7 +25,7 @@ bool:		IsFading[MAX_PLAYERS];
 forward OnScreenFadeFinish(playerid, type, level);
 public OnScreenFadeFinish(playerid, type, level) {
 
-	printf("[SCREENFADE] OnScreenFadeFinish(%p, %d, %d) stopped fading (%s)", playerid, type, level, type ? "OUT" : "IN");
+	// printf("[SCREENFADE] OnScreenFadeFinish(%p, %d, %d) stopped fading (%s)", playerid, type, level, type ? "OUT" : "IN");
 }
 
 /* 
@@ -38,7 +38,7 @@ SetPlayerScreenFade(playerid, type, level, interval = DEFAULT_FADE_INTERVAL, ste
 	if(level > 255) level    = 255;
 	else if(level < 0) level = 0;
 
-	printf("[SCREENFADE] SetPlayerScreenFade(%p, %d, %d, %d, %d) FadeLevel: %d", playerid, type, level, interval, step, FadeLevel[playerid]);
+	// printf("[SCREENFADE] SetPlayerScreenFade(%p, %d, %d, %d, %d) FadeLevel: %d", playerid, type, level, interval, step, FadeLevel[playerid]);
 
 	IsFading[playerid] = true;
 
