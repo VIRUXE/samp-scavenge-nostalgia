@@ -485,8 +485,6 @@ stock SetPlayerAliveState(playerid, bool:st) {
 
 	ply_Data[playerid][ply_Alive] = st;
 
-	printf("[CORE] SetPlayerAliveState(%d, %s)", playerid, booltostr(st));
-
 	return 1;
 }
 
