@@ -3,8 +3,6 @@
 #define MAP_SIZE 3000
 #define MAP_SIZE_FLOAT float(MAP_SIZE)
 
-forward OnPlayerUsingMap(playerid, bool:yes);
-
 static mapOverlay = INVALID_GANG_ZONE; // Gangzone que cobre o mapa completo
 
 // Mapa apenas pode ir no inventario, por alguma razao
@@ -28,19 +26,21 @@ ToggleMap(playerid, bool:toggle) {
     CallLocalFunction("OnPlayerUsingMap", "db", playerid, toggle);
 }
 
-hook OnScriptInit() {
-    mapOverlay = GangZoneCreate(-6000, -6000, 6000, 6000);
+function OnPlayerUsingMap(playerid, bool:yes) {
+    printf("[MAP] %s map for %p.", yes ? "Showing" : "Hiding", playerid);
+}
 
-    print("[MAP] GangZone criada.");
+hook OnGameModeInit() {
+    mapOverlay = GangZoneCreate(-6000, -6000, 6000, 6000);
 }
 
 hook OnPlayerConnect(playerid) {
-    ToggleMap(playerid, false);
+    // Esconder sempre. Se depois o personagem tiver o item mapa, ele fica liberado
+    GangZoneShowForPlayer(playerid, mapOverlay, 0x000000FF);
 }
 
 hook OnItemAddToInventory(playerid, itemid) {
-    printf("[MAP] OnItemAddToInventory(%d, %d)", playerid, itemid);
-
+    // printf("[MAP] OnItemAddToInventory(%d, %d)", playerid, itemid);
 	if(GetItemType(itemid) == item_Map) ToggleMap(playerid, true);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
@@ -54,13 +54,17 @@ hook OnItemRemoveFInventory(playerid, itemid) {
 
 hook OnPlayerSpawnCharacter(playerid) {
     new bool:map = DoesPlayerHaveMap(playerid);
-    printf("[MAP] OnPlayerSpawnCharacter(%d): Map: %s", playerid, booltostr(map));
+
     ToggleMap(playerid, map);
+    
+    printf("[MAP] OnPlayerSpawnCharacter(%d) -> Has Map: %s", playerid, booltostr(map));
 }
 
 // ? Nao tenho a certeza se esse callback e chamado unicamente ou juntamente com o OnPlayerSpawnCharacter
 hook OnPlayerSpawnNewChar(playerid) {
     new bool:map = DoesPlayerHaveMap(playerid);
-    printf("[MAP] OnPlayerSpawnNewChar(%d): Map: %s", playerid, booltostr(map));
+
     ToggleMap(playerid, map);
+    
+    printf("[MAP] OnPlayerSpawnNewChar(%d) -> Map: %s", playerid, booltostr(map));
 }
