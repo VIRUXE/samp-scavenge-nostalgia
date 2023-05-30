@@ -14,8 +14,6 @@ bool:DoesPlayerHaveMap(playerid) {
 }
 
 ToggleMap(playerid, bool:toggle) {
-    if(toggle == DoesPlayerHaveMap(playerid)) return;
-
     if(toggle)
         GangZoneHideForPlayer(playerid, mapOverlay);
     else
