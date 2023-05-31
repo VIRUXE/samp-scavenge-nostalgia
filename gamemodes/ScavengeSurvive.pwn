@@ -251,8 +251,7 @@ public OnGameModeInit() {
 #define BODY_PART_HEAD				(9)
 
 // Key text
-//#define KEYTEXT_INTERACT			"~k~~VEHICLE_ENTER_EXIT~"
-#define KEYTEXT_INTERACT			"F"
+#define KEYTEXT_INTERACT			"~k~~VEHICLE_ENTER_EXIT~"
 #define KEYTEXT_RELOAD				"~k~~PED_ANSWER_PHONE~"
 #define KEYTEXT_PUT_AWAY			"~k~~CONVERSATION_YES~"
 #define KEYTEXT_DROP_ITEM			"~k~~CONVERSATION_NO~"
