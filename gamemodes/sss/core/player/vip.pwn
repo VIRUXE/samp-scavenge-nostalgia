@@ -69,7 +69,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 
 		VIP_Anuncio = GetTickCount();
 	} else if(isequal(command, "frase", true)) {
-		if(GetPlayerScore(playerid) < 100) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/points"));
+		// if(GetPlayerScore(playerid) < 100) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/points"));
 
 		new frase[MAX_JOINSENTENCE_LEN];
 
