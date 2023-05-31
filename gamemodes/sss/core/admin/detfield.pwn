@@ -101,7 +101,7 @@ hook OnScriptInit() {
 
 	det_Stmt_DetfieldAdd			= db_prepare(det_Database, "INSERT INTO field_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	det_Stmt_DetfieldExists			= db_prepare(det_Database, "SELECT COUNT(*) FROM field_list WHERE name = ?");
-	det_Stmt_DetfieldDelete			= db_prepare(det_Database, "UPDATE field_list SET active = 0 WHERE name = ?");
+	det_Stmt_DetfieldDelete			= db_prepare(det_Database, "DELETE FROM field_list WHERE name = ?");
 	det_Stmt_DetfieldRename			= db_prepare(det_Database, "UPDATE field_list SET name = ? WHERE name = ?");
 	det_Stmt_DetfieldRenameRecords	= db_prepare(det_Database, "UPDATE field_logs SET field = ? WHERE field = ?");
 	det_Stmt_DetfieldSetExcps		= db_prepare(det_Database, "UPDATE field_list SET excps = ? WHERE name = ?");
