@@ -7,25 +7,12 @@
 
 /*
 	Schema:
-		field_list(name, vert1..4, minz, maxz)
+		field_list(name, vert1..4, minZ, maxZ)
 		- Contains a list of detection fields.
 
 		field_logs(field, name, pos, time)
 		- Contains every log record for each field.
 */
-
-#define DETFIELD_DATABASE			DIRECTORY_MAIN"detfield.db"
-
-#define DETFIELD_TABLE_MAIN			"field_list"
-#define FIELD_DETFIELD_NAME			"name"		// 00
-#define FIELD_DETFIELD_VERT1		"vert1"		// 01
-#define FIELD_DETFIELD_VERT2		"vert2"		// 02
-#define FIELD_DETFIELD_VERT3		"vert3" 	// 03
-#define FIELD_DETFIELD_VERT4		"vert4"		// 04
-#define FIELD_DETFIELD_Z1			"minz"		// 05
-#define FIELD_DETFIELD_Z2			"maxz"		// 06
-#define FIELD_DETFIELD_EXCEPTIONS	"excps"		// 07
-#define FIELD_DETFIELD_ACTIVE		"active"	// 08
 
 enum {
 			FIELD_ID_DETFIELD_NAME,
@@ -38,13 +25,6 @@ enum {
 			FIELD_ID_DETFIELD_EXCEPTIONS,
 			FIELD_ID_DETFIELD_ACTIVE
 }
-
-#define DETFIELD_TABLE_LOGS			"field_logs"
-#define FIELD_DETLOG_DETFIELD		"field"		// 00
-#define FIELD_DETLOG_NAME			"name"		// 01
-#define FIELD_DETLOG_POS			"pos"		// 02
-#define FIELD_DETLOG_DATE			"time"		// 03
-#define FIELD_DETLOG_ACTIVE			"active"	// 04
 
 enum {
 			FIELD_ID_DETLOG_FIELD,
@@ -71,7 +51,8 @@ Float:		det_Points			[MAX_DETFIELD][10],
 			det_Exceptions		[MAX_DETFIELD][MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME],
 			det_ExceptionCount	[MAX_DETFIELD],
 Float:		det_MinZ			[MAX_DETFIELD],
-Float:		det_MaxZ			[MAX_DETFIELD];
+Float:		det_MaxZ			[MAX_DETFIELD],
+bool:		det_Active			[MAX_DETFIELD];
 
 new
    Iterator:det_Index<MAX_DETFIELD>;
@@ -97,48 +78,47 @@ DBStatement:det_Stmt_DetfieldGetNameLogs;
 
 static bool:trunk_playerNotAllowed[MAX_PLAYERS];
 
-
 hook OnScriptInit() {
-	det_Database = db_open_persistent(DETFIELD_DATABASE);
+	det_Database = db_open_persistent("data/detfield.db");
 
-	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS "DETFIELD_TABLE_MAIN" (\
-		"FIELD_DETFIELD_NAME" TEXT,\
-		"FIELD_DETFIELD_VERT1" TEXT,\
-		"FIELD_DETFIELD_VERT2" TEXT,\
-		"FIELD_DETFIELD_VERT3" TEXT,\
-		"FIELD_DETFIELD_VERT4" TEXT,\
-		"FIELD_DETFIELD_Z1" REAL,\
-		"FIELD_DETFIELD_Z2" REAL,\
-		"FIELD_DETFIELD_EXCEPTIONS" TEXT,\
-		"FIELD_DETFIELD_ACTIVE" INTEGER)", false));
+	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_list (\
+		name TEXT,\
+		vert1 TEXT,\
+		vert2 TEXT,\
+		vert3 TEXT,\
+		vert4 TEXT,\
+		minz REAL,\
+		maxz REAL,\
+		excps TEXT,\
+		active INTEGER)", false));
 
-	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS "DETFIELD_TABLE_LOGS" (\
-		"FIELD_DETLOG_DETFIELD" TEXT,\
-		"FIELD_DETLOG_NAME" TEXT,\
-		"FIELD_DETLOG_POS" TEXT,\
-		"FIELD_DETLOG_DATE" INTEGER,\
-		"FIELD_DETLOG_ACTIVE" INTEGER)", false));
+	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_logs (\
+		field TEXT,\
+		name TEXT,\
+		pos TEXT,\
+		time INTEGER,\
+		active INTEGER)", false));
 
-	det_Stmt_DetfieldAdd			= db_prepare(det_Database, "INSERT INTO "DETFIELD_TABLE_MAIN" VALUES(?, ?, ?, ?, ?, ?, ?, ?, 1)");
-	det_Stmt_DetfieldExists			= db_prepare(det_Database, "SELECT COUNT(*) FROM "DETFIELD_TABLE_MAIN" WHERE "FIELD_DETFIELD_NAME" = ?");
-	det_Stmt_DetfieldDelete			= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_MAIN" SET "FIELD_DETFIELD_ACTIVE" = 0 WHERE "FIELD_DETFIELD_NAME" = ?");
-	det_Stmt_DetfieldRename			= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_MAIN" SET "FIELD_DETFIELD_NAME" = ? WHERE "FIELD_DETFIELD_NAME" = ?");
-	det_Stmt_DetfieldRenameRecords	= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_LOGS" SET "FIELD_DETLOG_DETFIELD" = ? WHERE "FIELD_DETLOG_DETFIELD" = ?");
-	det_Stmt_DetfieldSetExcps		= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_MAIN" SET "FIELD_DETFIELD_EXCEPTIONS" = ? WHERE "FIELD_DETFIELD_NAME" = ?");
-	det_Stmt_DetfieldLoad			= db_prepare(det_Database, "SELECT * FROM "DETFIELD_TABLE_MAIN" WHERE "FIELD_DETFIELD_ACTIVE" = 1");
-	det_Stmt_DetfieldLogEntry		= db_prepare(det_Database, "INSERT INTO "DETFIELD_TABLE_LOGS" VALUES(?, ?, ?, ?, 1)");
-	det_Stmt_DetfieldLogEntryCount	= db_prepare(det_Database, "SELECT COUNT(*) FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_DETFIELD" = ?");
-	det_Stmt_DetfieldLogList		= db_prepare(det_Database, "SELECT rowid, "FIELD_DETLOG_NAME", "FIELD_DETLOG_POS", "FIELD_DETLOG_DATE" FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_DETFIELD" = ? AND "FIELD_DETLOG_ACTIVE" = 1 ORDER BY "FIELD_DETLOG_DATE" DESC LIMIT ? OFFSET ? COLLATE NOCASE");
-	det_Stmt_DetfieldLogGetName		= db_prepare(det_Database, "SELECT "FIELD_DETLOG_NAME" FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_DETFIELD" = ? AND rowid = ?");
-	det_Stmt_DetfieldLogGetPos		= db_prepare(det_Database, "SELECT "FIELD_DETLOG_POS" FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_DETFIELD" = ? AND rowid = ?");
-	det_Stmt_DetfieldLogGetTime		= db_prepare(det_Database, "SELECT "FIELD_DETLOG_DATE" FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_DETFIELD" = ? AND rowid = ?");
-	det_Stmt_DetfieldLogDelete		= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_LOGS" SET "FIELD_DETLOG_ACTIVE" = 0 WHERE "FIELD_DETLOG_DETFIELD" = ? AND rowid = ?");
-	det_Stmt_DetfieldLogDeleteN		= db_prepare(det_Database, "UPDATE "DETFIELD_TABLE_LOGS" SET "FIELD_DETLOG_ACTIVE" = 0 WHERE "FIELD_DETLOG_DETFIELD" = ? AND "FIELD_DETLOG_NAME" = ?");
-	det_Stmt_DetfieldGetNameLogs	= db_prepare(det_Database, "SELECT "FIELD_DETLOG_DETFIELD", "FIELD_DETLOG_DATE" FROM "DETFIELD_TABLE_LOGS" WHERE "FIELD_DETLOG_NAME" = ? ORDER BY "FIELD_DETLOG_DATE" DESC LIMIT ? OFFSET ? COLLATE NOCASE");
+	det_Stmt_DetfieldAdd			= db_prepare(det_Database, "INSERT INTO field_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	det_Stmt_DetfieldExists			= db_prepare(det_Database, "SELECT COUNT(*) FROM field_list WHERE name = ?");
+	det_Stmt_DetfieldDelete			= db_prepare(det_Database, "UPDATE field_list SET active = 0 WHERE name = ?");
+	det_Stmt_DetfieldRename			= db_prepare(det_Database, "UPDATE field_list SET name = ? WHERE name = ?");
+	det_Stmt_DetfieldRenameRecords	= db_prepare(det_Database, "UPDATE field_logs SET field = ? WHERE field = ?");
+	det_Stmt_DetfieldSetExcps		= db_prepare(det_Database, "UPDATE field_list SET excps = ? WHERE name = ?");
+	det_Stmt_DetfieldLoad			= db_prepare(det_Database, "SELECT * FROM field_list WHERE active = 1");
+	det_Stmt_DetfieldLogEntry		= db_prepare(det_Database, "INSERT INTO field_logs VALUES(?, ?, ?, ?, 1)");
+	det_Stmt_DetfieldLogEntryCount	= db_prepare(det_Database, "SELECT COUNT(*) FROM field_logs WHERE field = ?");
+	det_Stmt_DetfieldLogList		= db_prepare(det_Database, "SELECT rowid, name, pos, time FROM field_logs WHERE field = ? AND active = 1 ORDER BY time DESC LIMIT ? OFFSET ? COLLATE NOCASE");
+	det_Stmt_DetfieldLogGetName		= db_prepare(det_Database, "SELECT name FROM field_logs WHERE field = ? AND rowid = ?");
+	det_Stmt_DetfieldLogGetPos		= db_prepare(det_Database, "SELECT pos FROM field_logs WHERE field = ? AND rowid = ?");
+	det_Stmt_DetfieldLogGetTime		= db_prepare(det_Database, "SELECT time FROM field_logs WHERE field = ? AND rowid = ?");
+	det_Stmt_DetfieldLogDelete		= db_prepare(det_Database, "UPDATE field_logs SET active = 0 WHERE field = ? AND rowid = ?");
+	det_Stmt_DetfieldLogDeleteN		= db_prepare(det_Database, "UPDATE field_logs SET active = 0 WHERE field = ? AND name = ?");
+	det_Stmt_DetfieldGetNameLogs	= db_prepare(det_Database, "SELECT field, time FROM field_logs WHERE name = ? ORDER BY time DESC LIMIT ? OFFSET ? COLLATE NOCASE");
 
 
-	DatabaseTableCheck(det_Database, DETFIELD_TABLE_MAIN, 9);
-	DatabaseTableCheck(det_Database, DETFIELD_TABLE_LOGS, 5);
+	DatabaseTableCheck(det_Database, "field_list", 9);
+	DatabaseTableCheck(det_Database, "field_logs", 5);
 
 	new
 		name[MAX_DETFIELD_NAME],
@@ -146,21 +126,22 @@ hook OnScriptInit() {
 		vert2[64],
 		vert3[64],
 		vert4[64],
-		Float:minz,
-		Float:maxz,
+		Float:minZ,
+		Float:maxZ,
 		exceptions[MAX_PLAYER_NAME * 32],
-
 		Float:points[10],
-		exceptionlist[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME];
+		exceptionList[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME],
+		active;
 
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_NAME, DB::TYPE_STRING, name, MAX_DETFIELD_NAME);
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_VERT1, DB::TYPE_STRING, vert1, sizeof(vert1));
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_VERT2, DB::TYPE_STRING, vert2, sizeof(vert2));
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_VERT3, DB::TYPE_STRING, vert3, sizeof(vert3));
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_VERT4, DB::TYPE_STRING, vert4, sizeof(vert4));
-	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_Z1, DB::TYPE_FLOAT, minz);
-	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_Z2, DB::TYPE_FLOAT, maxz);
+	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_Z1, DB::TYPE_FLOAT, minZ);
+	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_Z2, DB::TYPE_FLOAT, maxZ);
 	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_EXCEPTIONS, DB::TYPE_STRING, exceptions, sizeof(exceptions));
+	stmt_bind_result_field(det_Stmt_DetfieldLoad, FIELD_ID_DETFIELD_ACTIVE, DB::TYPE_INTEGER, active);
 
 	stmt_execute(det_Stmt_DetfieldLoad);
 
@@ -175,20 +156,22 @@ hook OnScriptInit() {
 		points[09] = points[01];
 
 		// Temp, to prevent data "leaking" to the next slot.
-		for(new i; i < MAX_DETFIELD_EXCEPTIONS; i++) exceptionlist[i][0] = EOS;
+		for(new i; i < MAX_DETFIELD_EXCEPTIONS; i++) exceptionList[i][0] = EOS;
 
-		sscanf(exceptions, "a<s[24]>[32]", exceptionlist);
+		sscanf(exceptions, "a<s[24]>[32]", exceptionList);
 
-		CreateDetectionField(name, points, minz, maxz, exceptionlist);
+		CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
+
+		printf("[DETFIELD] %s (%s) -> Ativa: %s", name, exceptionList[0], active ? "Sim" : "Não");
 	}
 
-	log("Loaded %d Detection Fields", Iter_Count(det_Index));
+	log("[DETFIELD] Loaded %d Detection Fields", Iter_Count(det_Index));
 
 	return 1;
 }
 
-stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz, Float:maxz, exceptionlist[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME]) {
-	new id = Iter_Free(det_Index);
+stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ, Float:maxZ, exceptionList[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME], active) {
+	new const id = Iter_Free(det_Index);
 
 	if(id == ITER_NONE) {
 		err("MAX_DETFIELD limit reached.");
@@ -197,16 +180,17 @@ stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz
 
 	if(!IsValidDetectionFieldName(name)) return -2;
 
-	det_AreaID[id] = CreateDynamicPolygon(points, minz, maxz, .maxpoints = 10);
-	det_Name[id] = name;
-	det_Points[id] = points;
-	det_MinZ[id] = minz;
-	det_MaxZ[id] = maxz;
+	det_AreaID[id]         = CreateDynamicPolygon(points, minZ, maxZ, .maxpoints = 10);
+	det_Name[id]           = name;
+	det_Points[id]         = points;
+	det_MinZ[id]           = minZ;
+	det_MaxZ[id]           = maxZ;
 	det_ExceptionCount[id] = 0;
+	det_Active[id]		   = active ? true : false;
 
 	for(new i; i < MAX_DETFIELD_EXCEPTIONS; i++) {
-		if(!isnull(exceptionlist[det_ExceptionCount[id]]))
-			det_Exceptions[id][det_ExceptionCount[id]++] = exceptionlist[i];
+		if(!isnull(exceptionList[det_ExceptionCount[id]]))
+			det_Exceptions[id][det_ExceptionCount[id]++] = exceptionList[i];
 	}
 
 	Iter_Add(det_Index, id);
@@ -214,25 +198,27 @@ stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz
 	return id;
 }
 
-stock DestroyDetectionField(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock DestroyDetectionField(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	DestroyDynamicArea(det_AreaID[detfieldid]);
-	det_Name[detfieldid][0] = EOS;
+	DestroyDynamicArea(det_AreaID[detfieldId]);
+	det_Name[detfieldId][0] = EOS;
 
-	DestroyDetfieldPoly(detfieldid);
+	DestroyDetfieldPoly(detfieldId);
 
-	Iter_Remove(det_Index, detfieldid);
+	Iter_Remove(det_Index, detfieldId);
 
 	return 1;
 }
 
-stock AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz, Float:maxz, exceptionlist[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME]) {
+bool:IsDetectionFieldActive(detfieldId) return det_Active[detfieldId];
+
+AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ, Float:maxZ, exceptionList[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME], active) {
 	if(DetectionFieldExists(name)) return -1;
 
 	if(!IsValidDetectionFieldName(name)) return -2;
 
-	new id = CreateDetectionField(name, points, minz, maxz, exceptionlist);
+	new id = CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
 
 	if(id < 0) return -1;
 
@@ -249,9 +235,9 @@ stock AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz, F
 	format(vert4, sizeof(vert4), "%f %f", points[6], points[7]);
 
 	for(new i; i < det_ExceptionCount[id]; i++) {
-		if(i > 0) strcat(exceptions, " ");
+		if(i) strcat(exceptions, " ");
 
-		strcat(exceptions, exceptionlist[i]);
+		strcat(exceptions, exceptionList[i]);
 	}
 
 	stmt_bind_value(det_Stmt_DetfieldAdd, 0, DB::TYPE_STRING, name, MAX_DETFIELD_NAME);
@@ -259,21 +245,22 @@ stock AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minz, F
 	stmt_bind_value(det_Stmt_DetfieldAdd, 2, DB::TYPE_STRING, vert2, sizeof(vert2));
 	stmt_bind_value(det_Stmt_DetfieldAdd, 3, DB::TYPE_STRING, vert3, sizeof(vert3));
 	stmt_bind_value(det_Stmt_DetfieldAdd, 4, DB::TYPE_STRING, vert4, sizeof(vert4));
-	stmt_bind_value(det_Stmt_DetfieldAdd, 5, DB::TYPE_FLOAT, minz);
-	stmt_bind_value(det_Stmt_DetfieldAdd, 6, DB::TYPE_FLOAT, maxz);
+	stmt_bind_value(det_Stmt_DetfieldAdd, 5, DB::TYPE_FLOAT, minZ);
+	stmt_bind_value(det_Stmt_DetfieldAdd, 6, DB::TYPE_FLOAT, maxZ);
 	stmt_bind_value(det_Stmt_DetfieldAdd, 7, DB::TYPE_STRING, exceptions, sizeof(exceptions));
+	stmt_bind_value(det_Stmt_DetfieldAdd, 8, DB::TYPE_INTEGER, active ? 1 : 0);
 
 	if(!stmt_execute(det_Stmt_DetfieldAdd)) return -4;
 
 	return id;
 }
 
-stock RemoveDetectionField(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock RemoveDetectionField(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	stmt_bind_value(det_Stmt_DetfieldDelete, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldDelete, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 
-	DestroyDetectionField(detfieldid);
+	DestroyDetectionField(detfieldId);
 
 	if(!stmt_execute(det_Stmt_DetfieldDelete)) return 0;
 
@@ -295,28 +282,38 @@ stock DetectionFieldExists(name[]) {
 	return 0;
 }
 
-stock SetDetectionFieldName(detfieldid, name[MAX_DETFIELD_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+SetDetectionFieldActive(detfieldId, bool:active) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
+
+	det_Active[detfieldId] = active;
+
+	db_query(det_Database, sprintf("UPDATE field_list SET active = %d WHERE name = '%s';", active ? 1 : 0, det_Name[detfieldId]));
+
+	log("[DETFIELD] SetDetectionFieldActive(%d, %s)", detfieldId, booltostr(active));
+
+	return 1;
+}
+
+stock SetDetectionFieldName(detfieldId, name[MAX_DETFIELD_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	if(DetectionFieldExists(name)) return -1;
 
 	if(!IsValidDetectionFieldName(name)) return -2;
 
 	stmt_bind_value(det_Stmt_DetfieldRename, 0, DB::TYPE_STRING, name, MAX_DETFIELD_NAME);
-	stmt_bind_value(det_Stmt_DetfieldRename, 1, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldRename, 1, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 
 	stmt_execute(det_Stmt_DetfieldRename);
 
 	stmt_bind_value(det_Stmt_DetfieldRenameRecords, 0, DB::TYPE_STRING, name, MAX_DETFIELD_NAME);
-	stmt_bind_value(det_Stmt_DetfieldRenameRecords, 1, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldRenameRecords, 1, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 
 	stmt_execute(det_Stmt_DetfieldRenameRecords);
-	new query[256];
 
-	format(query, sizeof(query), "ALTER TABLE %s RENAME TO %s", det_Name[detfieldid], name);
-	db_query(det_Database, query);
+	db_query(det_Database, sprintf("ALTER TABLE %s RENAME TO %s", det_Name[detfieldId], name));
 
-	det_Name[detfieldid] = name;
+	det_Name[detfieldId] = name;
 
 	return 1;
 }
@@ -334,9 +331,9 @@ stock GetDetectionFieldList(list[], string[], limit, offset) {
 
 			list[j - offset] = i;
 
-			if(i > 0) strcat(string, "\n", limit * (MAX_DETFIELD_NAME + 1));
+			if(i) strcat(string, "\n", limit * (MAX_DETFIELD_NAME + 1));
 
-			strcat(string, det_Name[i], limit * (MAX_DETFIELD_NAME + 1));
+			strcat(string, det_Active[i] ? det_Name[i] : sprintf("%s%s", C_YELLOW, det_Name[i]), limit * (MAX_DETFIELD_NAME + 1));
 		}
 
 		j++;
@@ -367,8 +364,8 @@ stock GetDetectionFieldNameLog(name[], string[], limit, offset, len = sizeof(str
 	return count;
 }
 
-stock GetDetectionFieldLogBuffer(detfieldid, output[][E_DETLOG_BUFFER_DATA], limit, offset) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldLogBuffer(detfieldId, output[][E_DETLOG_BUFFER_DATA], limit, offset) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new
 		rowid,
@@ -378,7 +375,7 @@ stock GetDetectionFieldLogBuffer(detfieldid, output[][E_DETLOG_BUFFER_DATA], lim
 		Float:x, Float:y, Float:z,
 		count;
 
-	stmt_bind_value(det_Stmt_DetfieldLogList, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogList, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_value(det_Stmt_DetfieldLogList, 1, DB::TYPE_INTEGER, limit);
 	stmt_bind_value(det_Stmt_DetfieldLogList, 2, DB::TYPE_INTEGER, offset);
 
@@ -407,12 +404,12 @@ stock GetDetectionFieldLogBuffer(detfieldid, output[][E_DETLOG_BUFFER_DATA], lim
 
 stock GetDetectionFields() return Iter_Count(det_Index);
 
-stock GetDetectionFieldLogEntries(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldLogEntries(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new count;
 
-	stmt_bind_value(det_Stmt_DetfieldLogEntryCount, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogEntryCount, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_result_field(det_Stmt_DetfieldLogEntryCount, 0, DB::TYPE_INTEGER, count);
 
 	if(!stmt_execute(det_Stmt_DetfieldLogEntryCount)) return 0;
@@ -422,31 +419,31 @@ stock GetDetectionFieldLogEntries(detfieldid) {
 	return count;
 }
 
-stock GetDetectionFieldExceptions(detfieldid, list[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldExceptions(detfieldId, list[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new i;
 
-	for(i = 0; i < det_ExceptionCount[detfieldid]; i++) {
-		if(isnull(det_Exceptions[detfieldid][i])) break;
+	for(i = 0; i < det_ExceptionCount[detfieldId]; i++) {
+		if(isnull(det_Exceptions[detfieldId][i])) break;
 
-		list[i] = det_Exceptions[detfieldid][i];
+		list[i] = det_Exceptions[detfieldId][i];
 	}
 
 	return i;
 }
 
-stock GetDetectionFieldExceptionsList(detfieldid, list[], length, delimiter = '\n') {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldExceptionsList(detfieldId, list[], length, delimiter = '\n') {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new i;
 
-	for(i = 0; i < det_ExceptionCount[detfieldid]; i++) {
-		if(isnull(det_Exceptions[detfieldid][i])) break;
+	for(i = 0; i < det_ExceptionCount[detfieldId]; i++) {
+		if(isnull(det_Exceptions[detfieldId][i])) break;
 
 		if(i > 0) list[strlen(list)] = delimiter;
 
-		strcat(list, det_Exceptions[detfieldid][i], length);
+		strcat(list, det_Exceptions[detfieldId][i], length);
 	}
 
 	return i;
@@ -454,85 +451,83 @@ stock GetDetectionFieldExceptionsList(detfieldid, list[], length, delimiter = '\
 
 static bool:fld_PlayerInvade[MAX_PLAYERS];
 
-stock AddDetectionFieldException(detfieldid, name[MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock AddDetectionFieldException(detfieldId, name[MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	if(det_ExceptionCount[detfieldid] == MAX_DETFIELD_EXCEPTIONS) return -1;
+	if(det_ExceptionCount[detfieldId] == MAX_DETFIELD_EXCEPTIONS) return -1;
 
 	if(!IsValidUsername(name)) return -2;
 
-	if(IsNameInExceptionList(detfieldid, name)) return -3;
+	if(IsNameInExceptionList(detfieldId, name)) return -3;
 
-	det_Exceptions[detfieldid][det_ExceptionCount[detfieldid]] = name;
-	det_ExceptionCount[detfieldid]++;
+	det_Exceptions[detfieldId][det_ExceptionCount[detfieldId]] = name;
+	det_ExceptionCount[detfieldId]++;
 
-	UpdateDetectionFieldExceptions(detfieldid);
-    UpdateDetectionFieldExceptions(detfieldid);
+	UpdateDetectionFieldExceptions(detfieldId);
 
-	if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID) {
-		ShowPlayerDialog(GetPlayerIDFromName(name), 10008, DIALOG_STYLE_MSGBOX, "Proteção Field", ""C_GREEN"Você foi adicionado como exce??o em uma base com proteção field.", "Fechar", "");
-        fld_PlayerInvade[GetPlayerIDFromName(name)] = false;
+	new targetId = GetPlayerIDFromName(name);
+	if(targetId != INVALID_PLAYER_ID) {
+		ChatMsg(targetId, GREEN, "Você foi adicionado como excepção em uma base com proteção field (%s).", det_Name[detfieldId]);
+        fld_PlayerInvade[targetId] = false;
 	}
 
-	return det_ExceptionCount[detfieldid];
+	return det_ExceptionCount[detfieldId];
 }
 
-stock RemoveDetectionFieldExceptionID(detfieldid, exceptionid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock RemoveDetectionFieldExceptionID(detfieldId, exceptionId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	if(!det_ExceptionCount[detfieldid]) return -1;
+	if(!det_ExceptionCount[detfieldId]) return -1;
 
-	if(exceptionid > det_ExceptionCount[detfieldid]) return -2;
+	if(exceptionId > det_ExceptionCount[detfieldId]) return -2;
 
-	for(new i = exceptionid; i < det_ExceptionCount[detfieldid]; i++) {
-		if(i + 1 == det_ExceptionCount[detfieldid]) {
-			det_Exceptions[detfieldid][i][0] = EOS;
+	for(new i = exceptionId; i < det_ExceptionCount[detfieldId]; i++) {
+		if(i + 1 == det_ExceptionCount[detfieldId]) {
+			det_Exceptions[detfieldId][i][0] = EOS;
 			break;
 		}
 
-		det_Exceptions[detfieldid][i] = det_Exceptions[detfieldid][i + 1];
+		det_Exceptions[detfieldId][i] = det_Exceptions[detfieldId][i + 1];
 	}
 
-	det_ExceptionCount[detfieldid]--;
-	UpdateDetectionFieldExceptions(detfieldid);
-	UpdateDetectionFieldExceptions(detfieldid);
+	det_ExceptionCount[detfieldId]--;
+	UpdateDetectionFieldExceptions(detfieldId);
 
-	return det_ExceptionCount[detfieldid];
+	return det_ExceptionCount[detfieldId];
 }
 
-stock RemoveDetectionFieldException(detfieldid, name[MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock RemoveDetectionFieldException(detfieldId, name[MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	if(det_ExceptionCount[detfieldid] == 0) return -1;
+	if(det_ExceptionCount[detfieldId] == 0) return -1;
 
 	new found;
 
-	for(new i; i < det_ExceptionCount[detfieldid]; i++) {
+	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
 		if(!found) {
-			if(!strcmp(det_Exceptions[detfieldid][i], name) && isnull(det_Exceptions[detfieldid][i]))
+			if(!strcmp(det_Exceptions[detfieldId][i], name) && isnull(det_Exceptions[detfieldId][i]))
 				found = true;
 		} else {
-			if(i + 1 == det_ExceptionCount[detfieldid]) {
-				det_Exceptions[detfieldid][i][0] = EOS;
+			if(i + 1 == det_ExceptionCount[detfieldId]) {
+				det_Exceptions[detfieldId][i][0] = EOS;
 				break;
 			}
 
-			det_Exceptions[detfieldid][i] = det_Exceptions[detfieldid][i + 1];
+			det_Exceptions[detfieldId][i] = det_Exceptions[detfieldId][i + 1];
 		}
 	}
 
-	det_ExceptionCount[detfieldid]--;
-	UpdateDetectionFieldExceptions(detfieldid);
-	UpdateDetectionFieldExceptions(detfieldid);
+	det_ExceptionCount[detfieldId]--;
+	UpdateDetectionFieldExceptions(detfieldId);
 
-	return det_ExceptionCount[detfieldid];
+	return det_ExceptionCount[detfieldId];
 }
 
-stock GetDetectionFieldLogEntryName(detfieldid, logentry, name[MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldLogEntryName(detfieldId, logEntry, name[MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	stmt_bind_value(det_Stmt_DetfieldLogGetName, 0, DB::TYPE_INTEGER, logentry);
-	stmt_bind_value(det_Stmt_DetfieldLogGetName, 1, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogGetName, 0, DB::TYPE_INTEGER, logEntry);
+	stmt_bind_value(det_Stmt_DetfieldLogGetName, 1, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_result_field(det_Stmt_DetfieldLogGetName, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	if(!stmt_execute(det_Stmt_DetfieldLogGetName)) return 0;
@@ -542,13 +537,13 @@ stock GetDetectionFieldLogEntryName(detfieldid, logentry, name[MAX_PLAYER_NAME])
 	return 1;
 }
 
-stock GetDetectionFieldLogEntryPos(detfieldid, logentry, &Float:x, &Float:y, &Float:z) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldLogEntryPos(detfieldId, logEntry, &Float:x, &Float:y, &Float:z) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new pos[32];
 
-	stmt_bind_value(det_Stmt_DetfieldLogGetPos, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
-	stmt_bind_value(det_Stmt_DetfieldLogGetPos, 1, DB::TYPE_INTEGER, logentry);
+	stmt_bind_value(det_Stmt_DetfieldLogGetPos, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogGetPos, 1, DB::TYPE_INTEGER, logEntry);
 	stmt_bind_result_field(det_Stmt_DetfieldLogGetPos, 0, DB::TYPE_STRING, pos, sizeof(pos));
 
 	if(!stmt_execute(det_Stmt_DetfieldLogGetPos)) return 0;
@@ -560,13 +555,13 @@ stock GetDetectionFieldLogEntryPos(detfieldid, logentry, &Float:x, &Float:y, &Fl
 	return 1;
 }
 
-stock GetDetectionFieldLogEntryTime(detfieldid, logentry) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldLogEntryTime(detfieldId, logEntry) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	new timestamp;
 
-	stmt_bind_value(det_Stmt_DetfieldLogGetTime, 0, DB::TYPE_INTEGER, logentry);
-	stmt_bind_value(det_Stmt_DetfieldLogGetTime, 1, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogGetTime, 0, DB::TYPE_INTEGER, logEntry);
+	stmt_bind_value(det_Stmt_DetfieldLogGetTime, 1, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_result_field(det_Stmt_DetfieldLogGetTime, 0, DB::TYPE_INTEGER, timestamp);
 
 	if(!stmt_execute(det_Stmt_DetfieldLogGetTime)) return 0;
@@ -576,21 +571,21 @@ stock GetDetectionFieldLogEntryTime(detfieldid, logentry) {
 	return timestamp;
 }
 
-stock DeleteDetectionFieldLogEntry(detfieldid, logentry) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock DeleteDetectionFieldLogEntry(detfieldId, logEntry) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	stmt_bind_value(det_Stmt_DetfieldLogDelete, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
-	stmt_bind_value(det_Stmt_DetfieldLogDelete, 1, DB::TYPE_INTEGER, logentry);
+	stmt_bind_value(det_Stmt_DetfieldLogDelete, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogDelete, 1, DB::TYPE_INTEGER, logEntry);
 
 	if(!stmt_execute(det_Stmt_DetfieldLogDelete)) return 0;
 
 	return 1;
 }
 
-stock DeleteDetectionFieldLogsOfName(detfieldid, name[]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock DeleteDetectionFieldLogsOfName(detfieldId, name[]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	stmt_bind_value(det_Stmt_DetfieldLogDeleteN, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogDeleteN, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_value(det_Stmt_DetfieldLogDeleteN, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	if(!stmt_execute(det_Stmt_DetfieldLogDeleteN)) return 0;
@@ -603,10 +598,21 @@ hook OnPlayerConnect(playerid) {
 	trunk_playerNotAllowed[playerid] = false;
 }
 
-hook OnPlayerLogin(playerid) defer CheckPlayerInvadeField(playerid);
+hook OnPlayerLogin(playerid) {
+	defer CheckPlayerInvadeField(playerid);
+
+	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
+		foreach(new d : det_Index) {
+			if(!det_Active[d]) {
+				SendClientMessage(playerid, YELLOW, " > Existem Detection Fields por Ativar");
+				break;
+			}
+		}
+	}
+}
 
 ACMD:addex[2](playerid, params[]) {
-	new name[24], fieldid;
+	new name[24];
 
     if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use /addex [Nick ou ID]");
 
@@ -623,10 +629,10 @@ ACMD:addex[2](playerid, params[]) {
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  Conta  '%s' não existente.", name);
 
-	fieldid = GetPlayerFieldID(playerid);
+	new const detfieldId = GetPlayerFieldID(playerid);
 
-	if(fieldid) {
-		new result = AddDetectionFieldException(fieldid, name);
+	if(detfieldId) {
+		new result = AddDetectionFieldException(detfieldId, name);
 
 		if(result) return ChatMsg(playerid, GREEN, " > Player "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", name);
 		else if(result == 0) return ChatMsg(playerid, RED, " >  Invalid detection field (error code 0)");
@@ -634,7 +640,7 @@ ACMD:addex[2](playerid, params[]) {
 		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
 		else if(result == -3) return ChatMsg(playerid, RED, " >  O player já está na lista");
 
-		UpdateDetectionFieldExceptions(fieldid);
+		UpdateDetectionFieldExceptions(detfieldId);
 	} else 
 		return ChatMsg(playerid, YELLOW, " > Você não está em nenhuma field.");
 
@@ -647,57 +653,51 @@ timer CheckPlayerInvadeField[SEC(2)](playerid) {
 	GetPlayerPos(playerid, x, y, z);
 
     foreach(new i : det_Index) {
-		if(IsValidDetectionField(i)) {
-			if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
-				if(!IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
-					// TODO: Achar uma forma de simplesmente colocar fora e nao dar spawn aleatorio
-					new Float:r;
+		if(!IsValidDetectionField(i)) continue;
+		if(!IsDetectionFieldActive(i)) continue;
+		
+		if(IsPointInDynamicArea(det_AreaID[i], x, y, z) && !IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
+				// TODO: Achar uma forma de simplesmente colocar fora e nao dar spawn aleatorio
+				new Float:r;
 
-					GenerateSpawnPoint(playerid, x, y, z, r);
-					Streamer_UpdateEx(playerid, x, y, z, 0, 0);
-					SetPlayerPos(playerid, x, y, z);
-					SetPlayerFacingAngle(playerid, r);
-					SetPlayerVirtualWorld(playerid, 0);
-					SetPlayerInterior(playerid, 0);
-					SetCameraBehindPlayer(playerid);
-					fld_PlayerInvade[playerid] = false;
+				GenerateSpawnPoint(playerid, x, y, z, r);
+				Streamer_UpdateEx(playerid, x, y, z, 0, 0);
+				SetPlayerPos(playerid, x, y, z);
+				SetPlayerFacingAngle(playerid, r);
+				SetPlayerVirtualWorld(playerid, 0);
+				SetPlayerInterior(playerid, 0);
+				SetCameraBehindPlayer(playerid);
+				fld_PlayerInvade[playerid] = false;
 
-					ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
-				}
+				ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
 		}
 	}
 }
 
 hook OnPlayerEnterDynArea(playerid, areaid) {
 	foreach(new i : det_Index) {
+		if(!IsDetectionFieldActive(i)) continue;
+
 		if(areaid == det_AreaID[i]) {
 		    if(!IsPlayerOnAdminDuty(playerid)) DetectionFieldLogPlayer(playerid, i);
 
 			if(GetPlayerState(playerid) != PLAYER_STATE_SPECTATING) {
-				if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) ChatMsg(playerid, PINK, " > Você entrou na field field '%s' ID: %d", det_Name[i], i);
+				if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR)
+					ChatMsg(playerid, PINK, " > Você entrou na field '%s'", det_Name[i]);
 			}
 
 			if(!IsPlayerOnAdminDuty(playerid)) {
     			if(!IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
-					new string[700];
-
-					format(string, 700,
-						""C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
-								Você não poderá fazer as seguintes coisas:\n\n");
-
-					format(string, 700,
-						"%s"C_YELLOW"\t- Construir.\n\
+					ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", 
+						C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
+						Você não poderá fazer as seguintes coisas:\n\n\
+						"C_YELLOW"\t- Construir.\n\
 						\t- Desmontar com pé de cabra.\n\
 						\t- Interagir tendas e caixas.\n\
-						\t- Interagir com veículos.\n\n", string);
-
-					format(string, 700,
-						"%s"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /Relatorio para remover a proteção.\n\n", string);
-
-					format(string, 700,
-						"%s"C_RED"[WARNING] Isso serve para evitar que hackers maliciosos invadam bases no servidor.", string);
-
-					ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", string, "Fechar", "");
+						\t- Interagir com veículos.\n\n\
+						"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /relatorio para remover a proteção.\n\n\
+						"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
+					"Fechar", "");
 					
 					ChatMsgAdmins(1, PINK, "[FIELD] %p (%d) Entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
 					
@@ -731,6 +731,8 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
 
 hook OnPlayerLeaveDynArea(playerid, areaid) {
 	foreach(new i : det_Index) {
+		if(!IsDetectionFieldActive(i)) continue;
+
 		if(areaid == det_AreaID[i]) {
 		    if(fld_PlayerInvade[playerid]) {
 				ChatMsgAdmins(1, PINK, "[FIELD] %p(%d) Saiu de uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
@@ -741,14 +743,14 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
 }
 
 stock GetPlayerFieldID(playerid) {
-	new Float:x, Float:y, Float:z, fieldid;
+	new Float:x, Float:y, Float:z, detfieldId;
 	GetPlayerPos(playerid, x, y, z);
 
     foreach(new i : det_Index) {
-	    if(IsValidDetectionField(i)) if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) fieldid = i;
+	    if(IsValidDetectionField(i)) if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) detfieldId = i;
 	}
 
-	return fieldid;
+	return detfieldId;
 }
 
 stock IsPlayerInvaddedField(playerid) {
@@ -764,35 +766,35 @@ stock IsPlayerInvaddedField(playerid) {
 	pinf = false;
 
     foreach(new i : det_Index) {
-	    if(IsValidDetectionField(i)) {
-			if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+	    if(!IsValidDetectionField(i)) continue;
+		if(!IsDetectionFieldActive(i)) continue;
 
-	    	if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-	    	if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x, y + 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x, y - 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x, y + 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y + 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x, y - 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y - 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y + 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y + 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x + 3.0, y - 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-			if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y - 3.0, z))
-    			if(!IsNameInExceptionList(i, pName)) pinf = true;
+		if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y + 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 
-        }
+		if(IsPointInDynamicArea(det_AreaID[i], x - 3.0, y - 3.0, z))
+			if(!IsNameInExceptionList(i, pName)) pinf = true;
 	}
 
 	return pinf;
@@ -807,21 +809,22 @@ stock BlockFieldVehicle(playerid, vehicleid) {
 	GetVehiclePos(vehicleid, vehX, vehY, vehZ);
 
 	foreach(new i : det_Index) {
-		if(IsValidDetectionField(i)) {
-			if(IsPointInDynamicArea(det_AreaID[i], vehX, vehY, vehZ)) trunk_playerNotAllowed[playerid] = !IsNameInExceptionList(i, GetPlayerNameEx(playerid));
-		}
+		if(!IsValidDetectionField(i)) continue;
+		if(!IsDetectionFieldActive(i)) continue;
+
+		if(IsPointInDynamicArea(det_AreaID[i], vehX, vehY, vehZ)) trunk_playerNotAllowed[playerid] = !IsNameInExceptionList(i, GetPlayerNameEx(playerid));
 	}
 
 	return trunk_playerNotAllowed[playerid];
 }
 
-DetectionFieldLogPlayer(playerid, detfieldid) {
+DetectionFieldLogPlayer(playerid, detfieldId) {
 	new name[MAX_PLAYER_NAME];
 
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
-	for(new i; i < det_ExceptionCount[detfieldid]; i++) {
-		if(!strcmp(det_Exceptions[detfieldid][i], name, _, true)) return 0;
+	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
+		if(!strcmp(det_Exceptions[detfieldId][i], name, _, true)) return 0;
 	}
 
 	new Float:x, Float:y, Float:z,
@@ -833,7 +836,7 @@ DetectionFieldLogPlayer(playerid, detfieldid) {
 	format(pos, sizeof(pos), "%.2f %.2f %.2f", x, y, z);
 	timestamp = gettime();
 
-	stmt_bind_value(det_Stmt_DetfieldLogEntry, 0, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldLogEntry, 0, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 	stmt_bind_value(det_Stmt_DetfieldLogEntry, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_value(det_Stmt_DetfieldLogEntry, 2, DB::TYPE_STRING, pos, sizeof(pos));
 	stmt_bind_value(det_Stmt_DetfieldLogEntry, 3, DB::TYPE_INTEGER, timestamp);
@@ -842,51 +845,51 @@ DetectionFieldLogPlayer(playerid, detfieldid) {
 
 	format(line, sizeof(line), "%p, %s\r\n", playerid, TimestampToDateTime(gettime()));
 
-	log("[DET] %p entered %s at %s", playerid, det_Name[detfieldid], TimestampToDateTime(gettime()));
+	log("[DETFIELD] %p entered %s at %s", playerid, det_Name[detfieldId], TimestampToDateTime(gettime()));
 
 	return 1;
 }
 
-UpdateDetectionFieldExceptions(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+UpdateDetectionFieldExceptions(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	new exceptionlist[MAX_DETFIELD_EXCEPTIONS * (MAX_PLAYER_NAME + 1)];
+	new exceptionList[MAX_DETFIELD_EXCEPTIONS * (MAX_PLAYER_NAME + 1)];
 
-	for(new i; i < det_ExceptionCount[detfieldid]; i++) {
-		if(i > 0) strcat(exceptionlist, " ");
+	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
+		if(i) strcat(exceptionList, " ");
 
-		strcat(exceptionlist, det_Exceptions[detfieldid][i]);
+		strcat(exceptionList, det_Exceptions[detfieldId][i]);
 	}
 
-	stmt_bind_value(det_Stmt_DetfieldSetExcps, 0, DB::TYPE_STRING, exceptionlist, sizeof(exceptionlist));
-	stmt_bind_value(det_Stmt_DetfieldSetExcps, 1, DB::TYPE_STRING, det_Name[detfieldid], MAX_DETFIELD_NAME);
+	stmt_bind_value(det_Stmt_DetfieldSetExcps, 0, DB::TYPE_STRING, exceptionList, sizeof(exceptionList));
+	stmt_bind_value(det_Stmt_DetfieldSetExcps, 1, DB::TYPE_STRING, det_Name[detfieldId], MAX_DETFIELD_NAME);
 
 	return stmt_execute(det_Stmt_DetfieldSetExcps);
 }
 
 
-stock IsValidDetectionField(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock IsValidDetectionField(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	return 1;
 }
 
 stock GetTotalDetectionFields() return Iter_Count(det_Index);
 
-stock GetDetectionFieldName(detfieldid, name[MAX_DETFIELD_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldName(detfieldId, name[MAX_DETFIELD_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	name = det_Name[detfieldid];
+	name = det_Name[detfieldId];
 
 	return 1;
 }
 
-stock GetDetectionFieldPos(detfieldid, &Float:x, &Float:y, &Float:z) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldPos(detfieldId, &Float:x, &Float:y, &Float:z) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	x = (det_Points[detfieldid][0] + det_Points[detfieldid][2] + det_Points[detfieldid][4] + det_Points[detfieldid][6]) / 4;
-	y = (det_Points[detfieldid][1] + det_Points[detfieldid][3] + det_Points[detfieldid][5] + det_Points[detfieldid][7]) / 4;
-	z = (det_MinZ[detfieldid] + det_MaxZ[detfieldid]) / 2;
+	x = (det_Points[detfieldId][0] + det_Points[detfieldId][2] + det_Points[detfieldId][4] + det_Points[detfieldId][6]) / 4;
+	y = (det_Points[detfieldId][1] + det_Points[detfieldId][3] + det_Points[detfieldId][5] + det_Points[detfieldId][7]) / 4;
+	z = (det_MinZ[detfieldId] + det_MaxZ[detfieldId]) / 2;
 
 	return 1;
 }
@@ -899,26 +902,26 @@ stock GetDetectionFieldIdFromName(name[], bool:ignorecase = false) {
 	return -1;
 }
 
-stock GetDetectionFieldPoints(detfieldid, Float:points[10]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldPoints(detfieldId, Float:points[10]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	points = det_Points[detfieldid];
-
-	return 1;
-}
-
-stock GetDetectionFieldMinZ(detfieldid, &Float:minz) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
-
-	minz = det_MinZ[detfieldid];
+	points = det_Points[detfieldId];
 
 	return 1;
 }
 
-stock GetDetectionFieldMaxZ(detfieldid, &Float:maxz) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldMinZ(detfieldId, &Float:minZ) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	maxz = det_MaxZ[detfieldid];
+	minZ = det_MinZ[detfieldId];
+
+	return 1;
+}
+
+stock GetDetectionFieldMaxZ(detfieldId, &Float:maxZ) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
+
+	maxZ = det_MaxZ[detfieldId];
 
 	return 1;
 }
@@ -926,12 +929,13 @@ stock GetDetectionFieldMaxZ(detfieldid, &Float:maxz) {
 stock IsValidDetectionFieldName(name[]) {
 	if(!isalphabetic(name[0])) return 0;
 
-	if(!strcmp(name, DETFIELD_TABLE_MAIN)) return 0;
+	if(!strcmp(name, "field_list")) return 0;
 
 	new i;
 
 	while(name[i] != EOS) {
-		if(isalphanumeric(name[i]) || name[i] == '_')
+		// Permitimos caracteres alphanumericos, underscores e tracos
+		if(isalphanumeric(name[i]) || name[i] == '_' || name[i] == '-')
 			i++;
 		else
 			return 0;
@@ -940,37 +944,37 @@ stock IsValidDetectionFieldName(name[]) {
 	return 1;
 }
 
-stock GetDetectionFieldExceptionCount(detfieldid) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldExceptionCount(detfieldId) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	return det_ExceptionCount[detfieldid];
+	return det_ExceptionCount[detfieldId];
 }
 
-stock GetDetectionFieldExceptionName(detfieldid, exceptionid, name[MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock GetDetectionFieldExceptionName(detfieldId, exceptionId, name[MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	if(exceptionid > det_ExceptionCount[detfieldid]) return -1;
+	if(exceptionId > det_ExceptionCount[detfieldId]) return -1;
 
-	name = det_Exceptions[detfieldid][exceptionid];
+	name = det_Exceptions[detfieldId][exceptionId];
 
 	return 1;
 }
 
-stock SetPlayerNameField(oldname[MAX_PLAYER_NAME], newname[MAX_PLAYER_NAME]) {
+stock SetPlayerNameField(oldName[MAX_PLAYER_NAME], newName[MAX_PLAYER_NAME]) {
     foreach(new i : det_Index) {
 	    if(IsValidDetectionField(i)) {
-			if(IsNameInExceptionList(i, oldname)) AddDetectionFieldException(i, newname);
+			if(IsNameInExceptionList(i, oldName)) AddDetectionFieldException(i, newName);
 		}
 	}
 
 	return 1;
 }
 
-stock IsNameInExceptionList(detfieldid, name[MAX_PLAYER_NAME]) {
-	if(!Iter_Contains(det_Index, detfieldid)) return 0;
+stock IsNameInExceptionList(detfieldId, name[MAX_PLAYER_NAME]) {
+	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
-	for(new i; i < det_ExceptionCount[detfieldid]; i++) {
-		if(!strcmp(det_Exceptions[detfieldid][i], name)) return 1;
+	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
+		if(!strcmp(det_Exceptions[detfieldId][i], name)) return 1;
 	}
 
 	return 0;

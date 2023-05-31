@@ -53,67 +53,75 @@ hook OnPlayerConnect(playerid) {
 	dfm_MaxZ[playerid]				= 0.0;
 }
 
-ACMD:field[2](playerid, params[]) {
-	if(isnull(params)) {
-		ChatMsg(playerid, YELLOW, " >  Use: /field lista/add/remover/log");
-		return 1;
-	} else if(!strcmp(params, "lista", true, 4)) {
-		if(!ShowDetfieldList(playerid)) ChatMsg(playerid, YELLOW, " >  Não há fields existentes.");
+CMD:field(playerid, params[]) {
+	if(isnull(params)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add [nome]");
+	
+	if(!strcmp(params, "lista", true, 4)) {
+		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+
+		if(!ShowDetfieldList(playerid)) return ChatMsg(playerid, YELLOW, " >  Não existem fields.");
 	} else if(!strcmp(params, "log", true, 3)) {
-		new name[MAX_DETFIELD_NAME];
+		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
-		if(sscanf(params, "{s[4]}s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /field log [Nome]");
+		new fieldName[MAX_DETFIELD_NAME];
 
-		new id = GetDetectionFieldIdFromName(name);
+		if(sscanf(params, "{s[4]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field log [Nome]");
+
+		new id = GetDetectionFieldIdFromName(fieldName);
 
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
-		ChatMsg(playerid, YELLOW, ShowDetfieldLog(playerid, id) ? " >  Exibindo log de entradas para a field: '%s'." : " >  Não há log de entradas na field: '%s'.", name);
+		ChatMsg(playerid, YELLOW, ShowDetfieldLog(playerid, id) ? " >  Exibindo log de entradas para a field: '%s'." : " >  Não há log de entradas na field: '%s'.", fieldName);
 	} else if(!strcmp(params, "add", true, 3)) {
-		new name[MAX_DETFIELD_NAME];
+		new sintax[] = " >  Use: /field add [nome (Exemplo: 'Nickname-Cidade_Local_Outro')]";
+		new fieldName[MAX_DETFIELD_NAME];
 
-		if(sscanf(params, "{s[4]}s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /field add [Nome]");
+		if(sscanf(params, "{s[4]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, sintax);
 
-		if(!IsValidDetectionFieldName(name)) return ChatMsg(playerid, YELLOW, " >  Use: /field add [Nome (Alfanumerico)]");
+		if(!IsValidDetectionFieldName(fieldName)) return ChatMsg(playerid, YELLOW, sintax);
 
 		GetPlayerPos(playerid, dfm_MinZ[playerid], dfm_MinZ[playerid], dfm_MinZ[playerid]);
 
 		dfm_Editing[playerid]       = true;
-		dfm_Name[playerid]          = name;
+		dfm_Name[playerid]          = fieldName;
 		dfm_MinZ[playerid]         -= 1.0;
 		dfm_MaxZ[playerid]          = dfm_MinZ[playerid] + 3.5;
 		dfm_CurrentPoint[playerid]  = 0;
 
 		AddNewDetectionFieldPoint(playerid);
-
-		return 1;
 	} else if(!strcmp(params, "remover", true, 6)) {
-		new name[MAX_DETFIELD_NAME];
+		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
-		if(sscanf(params, "{s[7]}s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+		new fieldName[MAX_DETFIELD_NAME];
 
-		new id = GetDetectionFieldIdFromName(name);
+		if(sscanf(params, "{s[7]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+
+		new id = GetDetectionFieldIdFromName(fieldName);
 
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
-        dfm_CurrentDetfield[playerid] = id;
+		dfm_CurrentDetfield[playerid] = id;
 		ShowDetfieldDeletePrompt(playerid, id);
 	} else if(!strcmp(params, "rename", true, 6)) {
-		new name[MAX_DETFIELD_NAME];
+		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
-		if(sscanf(params, "{s[7]}s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+		new fieldName[MAX_DETFIELD_NAME];
 
-		new id = GetDetectionFieldIdFromName(name);
+		if(sscanf(params, "{s[7]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+
+		new id = GetDetectionFieldIdFromName(fieldName);
 
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
 		ShowDetfieldRenamePrompt(playerid, id);
 	} else if(!strcmp(params, "nome", true, 4)) {
-		new name[MAX_PLAYER_NAME];
+		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
-		if(sscanf(params, "{s[8]}s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /field nome [Nome]");
+		new fieldName[MAX_PLAYER_NAME];
 
-		if(ShowDetfieldNameFields(playerid, name)) ChatMsg(playerid, YELLOW, " >  Não há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", name);
+		if(sscanf(params, "{s[8]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field nome [Nome]");
+
+		if(ShowDetfieldNameFields(playerid, fieldName)) return ChatMsg(playerid, YELLOW, " >  Não há registro de field encontradas em: '"C_BLUE"%s"C_YELLOW"'.", fieldName);
 	}
 
 	return 1;
@@ -122,28 +130,22 @@ ACMD:field[2](playerid, params[]) {
 ShowDetfieldList(playerid) {
 	dfm_CurrentMenu[playerid] = DFM_MENU_DFLIST;
 
-	new
-		total,
-		count,
-		title[34],
-		list[MAX_DETFIELD_PAGESIZE * (MAX_DETFIELD_NAME + 1)];
+	new list[MAX_DETFIELD_PAGESIZE * (MAX_DETFIELD_NAME + 1)];
 
-	total = GetTotalDetectionFields();
-	count = GetDetectionFieldList(dfm_FieldList[playerid], list, MAX_DETFIELD_PAGESIZE, dfm_PageIndex[playerid]);
+	new const totalFields = GetTotalDetectionFields();
+	new const count       = GetDetectionFieldList(dfm_FieldList[playerid], list, MAX_DETFIELD_PAGESIZE, dfm_PageIndex[playerid]);
 
 	if(!count) {
 		dfm_PageIndex[playerid] = 0;
 		return 0;
 	}
 
-	format(title, sizeof(title), "Lista de Fields (%d-%d of %d)",
-		dfm_PageIndex[playerid],
-		(dfm_PageIndex[playerid] + count > total) ? (total) : (dfm_PageIndex[playerid] + count),
-		total);
-
 	ShowPlayerPageButtons(playerid);
     
-	Dialog_Show(playerid, DetfieldList, DIALOG_STYLE_LIST, title, list, "OpÃ§Ãµes", "Fechar");
+	Dialog_Show(playerid, DetfieldList, DIALOG_STYLE_LIST, sprintf("Lista de Fields (%d-%d de %d)",
+		dfm_PageIndex[playerid],
+		(dfm_PageIndex[playerid] + count > totalFields) ? (totalFields) : (dfm_PageIndex[playerid] + count),
+		totalFields), list, "Opções", "Fechar");
 
 	return 1;
 }
@@ -167,19 +169,18 @@ Dialog:DetfieldList(playerid, response, listitem, inputtext[]) {
 	}
 }
 
-ShowDetfieldListOptions(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldListOptions(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_DFOPTS;
 
-	new
-		name[MAX_DETFIELD_NAME],
-		exceptioncount;
+	new fieldName[MAX_DETFIELD_NAME];
 
-	GetDetectionFieldName(detfieldid, name);
-	exceptioncount = GetDetectionFieldExceptionCount(detfieldid);
+	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldListOptions, DIALOG_STYLE_LIST, name, sprintf("Ver Log\nTeleportar\nExcepções (%d)\nRenomear\nDeletar", exceptioncount), "Selecionar", "Voltar");
+	Dialog_Show(playerid, DetfieldListOptions, DIALOG_STYLE_LIST, fieldName,
+		sprintf("%s\nVer Log\nTeleportar\nExcepções (%d)\nRenomear\nDeletar", IsDetectionFieldActive(detfieldId) ? "Desativar" : "Ativar", GetDetectionFieldExceptionCount(detfieldId)),
+		"Selecionar", "Voltar");
 
 	return 1;
 }
@@ -187,16 +188,19 @@ ShowDetfieldListOptions(playerid, detfieldid) {
 Dialog:DetfieldListOptions(playerid, response, listitem, inputtext[]) {
 	if(response) {
 		switch(listitem) {
-			case 0: {
+			case 0: { // Ativar ou Desativar
+				SetDetectionFieldActive(dfm_CurrentDetfield[playerid], !IsDetectionFieldActive(dfm_CurrentDetfield[playerid]));
+			}
+			case 1: {
 				if(!ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid])) {
-					new name[MAX_DETFIELD_NAME];
+					new fieldName[MAX_DETFIELD_NAME];
 
-					GetDetectionFieldName(dfm_CurrentDetfield[playerid], name);
-					ChatMsg(playerid, YELLOW, " >  Não há log de entradas em: '%s'.", name);
+					GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
+					ChatMsg(playerid, YELLOW, " >  Não há log de entradas em: '%s'.", fieldName);
 					ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 				}
 			}
-			case 1: {
+			case 2: {
 				if(IsPlayerOnAdminDuty(playerid)) {
 					new Float:x, Float:y, Float:z;
 
@@ -205,35 +209,31 @@ Dialog:DetfieldListOptions(playerid, response, listitem, inputtext[]) {
 				} else
 					ChatMsg(playerid, RED, "server/command/need-duty");
 			}
-			case 2: ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
-			case 3: ShowDetfieldRenamePrompt(playerid, dfm_CurrentDetfield[playerid]);
-			case 4: ShowDetfieldDeletePrompt(playerid, dfm_CurrentDetfield[playerid]);
+			case 3: ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
+			case 4: ShowDetfieldRenamePrompt(playerid, dfm_CurrentDetfield[playerid]);
+			case 5: ShowDetfieldDeletePrompt(playerid, dfm_CurrentDetfield[playerid]);
 		}
 	} else
 		ShowDetfieldList(playerid);
 }
 
-ShowDetfieldExceptions(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldExceptions(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTIONS;
 
-	new name[MAX_DETFIELD_NAME];
-	GetDetectionFieldName(detfieldid, name);
+	new fieldName[MAX_DETFIELD_NAME];
+	GetDetectionFieldName(detfieldId, fieldName);
 
-	if(!GetDetectionFieldExceptionCount(detfieldid)) {
-		ChatMsg(playerid, YELLOW, " >  Não há excepções em: '%s'.", name);
-		ShowDetfieldListOptions(playerid, detfieldid);
+	if(!GetDetectionFieldExceptionCount(detfieldId)) {
+		ChatMsg(playerid, YELLOW, " >  Não há excepções em: '%s'.", fieldName);
+		ShowDetfieldListOptions(playerid, detfieldId);
 		return 0;
 	}
 
-	new
-		list[MAX_DETFIELD_EXCEPTIONS * (MAX_PLAYER_NAME + 3)],
-		count;
+	new list[MAX_DETFIELD_EXCEPTIONS * (MAX_PLAYER_NAME + 3)];
 
-	count = GetDetectionFieldExceptionsList(detfieldid, list, sizeof(list), '\n');
-
-	Dialog_Show(playerid, DetfieldExceptions, DIALOG_STYLE_LIST, sprintf("%s Excepções (%d)", name, count), list, "Opções", "Voltar");
+	Dialog_Show(playerid, DetfieldExceptions, DIALOG_STYLE_LIST, sprintf("%s - Excepções (%d)", fieldName, GetDetectionFieldExceptionsList(detfieldId, list, sizeof(list), '\n')), list, "Opções", "Voltar");
 
 	return 1;
 }
@@ -245,17 +245,17 @@ Dialog:DetfieldExceptions(playerid, response, listitem, inputtext[]) {
 		ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 }
 
-ShowDetfieldExceptionOptions(playerid, detfieldid, exceptionid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldExceptionOptions(playerid, detfieldId, exceptionId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
-	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTION_OPTIONS;
-	dfm_CurrentException[playerid] = exceptionid;
+	dfm_CurrentMenu[playerid]      = DFM_MENU_EXCEPTION_OPTIONS;
+	dfm_CurrentException[playerid] = exceptionId;
 
-	new name[MAX_PLAYER_NAME];
+	new fieldName[MAX_PLAYER_NAME];
 
-	GetDetectionFieldExceptionName(detfieldid, exceptionid, name);
+	GetDetectionFieldExceptionName(detfieldId, exceptionId, fieldName);
 
-	Dialog_Show(playerid, DetfieldExceptionOpts, DIALOG_STYLE_LIST, name, sprintf("Adicionar ExceÃ§Ã£o\nDeletar '%s'", name), "Selecionar", "Voltar");
+	Dialog_Show(playerid, DetfieldExceptionOpts, DIALOG_STYLE_LIST, fieldName, sprintf("Adicionar Excepção\nDeletar '%s'", fieldName), "Selecionar", "Voltar");
 
 	return 1;
 }
@@ -270,15 +270,15 @@ Dialog:DetfieldExceptionOpts(playerid, response, listitem, inputtext[]) {
 		ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
 }
 
-ShowDetfieldAddException(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldAddException(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTION_ADD;
 
-	new name[MAX_DETFIELD_NAME];
-	GetDetectionFieldName(detfieldid, name);
+	new fieldName[MAX_DETFIELD_NAME];
+	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldAddExc, DIALOG_STYLE_INPUT, sprintf("Adicionar excepção para: %s", name), "Escreva o nome do jogador:", "Adicionar", "Voltar");
+	Dialog_Show(playerid, DetfieldAddExc, DIALOG_STYLE_INPUT, sprintf("Adicionar excepção para: %s", fieldName), "Escreva o nome do jogador:", "Adicionar", "Voltar");
 
 	return 1;
 }
@@ -314,16 +314,16 @@ Dialog:DetfieldAddExc(playerid, response, listitem, inputtext[]) {
 	return 0;
 }
 
-ShowDetfieldDeleteException(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldDeleteException(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_EXCEPTION_DEL;
 
-	new name[MAX_PLAYER_NAME];
+	new fieldName[MAX_PLAYER_NAME];
 
-	GetDetectionFieldExceptionName(detfieldid, dfm_CurrentException[playerid], name);
+	GetDetectionFieldExceptionName(detfieldId, dfm_CurrentException[playerid], fieldName);
 
-	Dialog_Show(playerid, DetfieldDeleteExc, DIALOG_STYLE_MSGBOX, sprintf("Deletar '%s'", name), "Você tem certeza?", "Voltar", "Deletar");
+	Dialog_Show(playerid, DetfieldDeleteExc, DIALOG_STYLE_MSGBOX, sprintf("Deletar '%s'", fieldName), "Você tem certeza?", "Voltar", "Deletar");
 
 	return 1;
 }
@@ -336,16 +336,16 @@ Dialog:DetfieldDeleteExc(playerid, response, listitem, inputtext[]) {
 	return 0;
 }
 
-ShowDetfieldRenamePrompt(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldRenamePrompt(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_DFRENAME;
 
-	new name[MAX_DETFIELD_NAME];
+	new fieldName[MAX_DETFIELD_NAME];
 
-	GetDetectionFieldName(detfieldid, name);
+	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldRename, DIALOG_STYLE_INPUT, sprintf("Renomear %s", name), "Escreva o novo nome:", "Renomear", "Voltar");
+	Dialog_Show(playerid, DetfieldRename, DIALOG_STYLE_INPUT, "Renomear Field", sprintf("Nome atual: %s\n\nEscreva o novo nome:", fieldName), "Renomear", "Voltar");
 
 	return 1;
 }
@@ -367,49 +367,48 @@ Dialog:DetfieldRename(playerid, response, listitem, inputtext[]) {
 	ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
 }
 
-ShowDetfieldDeletePrompt(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldDeletePrompt(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_DFDELETE;
 
-	new name[MAX_DETFIELD_NAME];
+	new fieldName[MAX_DETFIELD_NAME];
 
-	GetDetectionFieldName(detfieldid, name);
+	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", name), "Você tem certeza?", "Voltar", "Deletar");
+	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", fieldName), "Você tem certeza?", "Voltar", "Deletar");
 
 	return 1;
 }
 
 Dialog:DetfieldDelete(playerid, response, listitem, inputtext[]) {
 	if(!response) {
-	    new name[MAX_DETFIELD_NAME];
-	    new namep[24];
-	    GetPlayerName(playerid, namep, 24);
-	    GetDetectionFieldName(dfm_CurrentDetfield[playerid], name);
-//	    ReportPlayer(namep, sprintf("Removeu a field '%s'", name), -1, "R_FIELD", 0.0,0.0,0.0, 0, 0, "");
-		ChatMsgAdmins(1, BLUE, "[Admin-Log]: %s(id:%d) Deletou a field '%s'", namep, playerid, name);
+	    new fieldName[MAX_DETFIELD_NAME];
+
+	    GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
+//	    ReportPlayer(namep, sprintf("Removeu a field '%s'", fieldName), -1, "R_FIELD", 0.0,0.0,0.0, 0, 0, "");
 	    RemoveDetectionField(dfm_CurrentDetfield[playerid]);
+
+		ChatMsgAdmins(1, BLUE, "[Admin]: %p deletou a field '%s'", playerid, fieldName);
 	}
 
 	ShowDetfieldList(playerid);
 }
 
-ShowDetfieldLog(playerid, detfieldid) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldLog(playerid, detfieldId) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_DFLOG;
 
 	new
 		list[MAX_DETFIELD_LOG_PAGESIZE * (MAX_DETFIELD_NAME + 1)],
-		name[MAX_DETFIELD_NAME],
-		title[MAX_DETFIELD_NAME + 32],
-		count,
-		total;
+		fieldName[MAX_DETFIELD_NAME];
 
-	count = GetDetectionFieldLogBuffer(detfieldid, dfm_LogBuffer[playerid], MAX_DETFIELD_LOG_PAGESIZE, dfm_LogIndex[playerid]);
-	GetDetectionFieldName(detfieldid, name);
-	total = GetDetectionFieldLogEntries(detfieldid);
+	GetDetectionFieldName(detfieldId, fieldName);
+
+	new const count = GetDetectionFieldLogBuffer(detfieldId, dfm_LogBuffer[playerid], MAX_DETFIELD_LOG_PAGESIZE, dfm_LogIndex[playerid]);
+	
+	new const totalEntries = GetDetectionFieldLogEntries(detfieldId);
 
 	for(new i; i < count; i++) {
 		format(list, sizeof(list), "%s%06d:%s %s (%.1f,%.1f,%.1f)\n",
@@ -422,18 +421,16 @@ ShowDetfieldLog(playerid, detfieldid) {
 			dfm_LogBuffer[playerid][i][DETLOG_BUFFER_POS_Z]);
 	}
 
-	format(title, sizeof(title), "%s (%d-%d of %d)", name, dfm_LogIndex[playerid], dfm_LogIndex[playerid] + count, total);
-
 	if(!count) {
 		dfm_LogIndex[playerid] = 0;
 		return 0;
 	}
 	
-    dfm_CurrentDetfield[playerid] = detfieldid;
+    dfm_CurrentDetfield[playerid] = detfieldId;
     
 	ShowPlayerPageButtons(playerid);
 
-	Dialog_Show(playerid, DetfieldLog, DIALOG_STYLE_LIST, title, list, "Selecionar", "Voltar");
+	Dialog_Show(playerid, DetfieldLog, DIALOG_STYLE_LIST, sprintf("%s (%d-%d of %d)", fieldName, dfm_LogIndex[playerid], dfm_LogIndex[playerid] + count, totalEntries), list, "Selecionar", "Voltar");
 
 	return 1;
 }
@@ -448,16 +445,16 @@ Dialog:DetfieldLog(playerid, response, listitem, inputtext[]) {
 	CancelSelectTextDraw(playerid);
 }
 
-ShowDetfieldLogOptions(playerid, detfieldid, logentry) {
-	if(!IsValidDetectionField(detfieldid)) return 0;
+ShowDetfieldLogOptions(playerid, detfieldId, logEntry) {
+	if(!IsValidDetectionField(detfieldId)) return 0;
 
 	dfm_CurrentMenu[playerid] = DFM_MENU_LOGOPTS;
 
-	new name[MAX_DETFIELD_NAME];
+	new fieldName[MAX_DETFIELD_NAME];
 
-	GetDetectionFieldName(detfieldid, name);
-    dfm_CurrentLogEntry[playerid] = logentry;
-	Dialog_Show(playerid, DetfieldLogOpts, DIALOG_STYLE_LIST, name, "Ir\nDeletar\nDeletar todas desse jogador", "Selecionar", "Fechar");
+	GetDetectionFieldName(detfieldId, fieldName);
+    dfm_CurrentLogEntry[playerid] = logEntry;
+	Dialog_Show(playerid, DetfieldLogOpts, DIALOG_STYLE_LIST, fieldName, "Ir\nDeletar\nDeletar todas desse jogador", "Selecionar", "Fechar");
 
 	return 1;
 }
@@ -489,22 +486,17 @@ Dialog:DetfieldLogOpts(playerid, response, listitem, inputtext[]) {
 		ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid]);
 }
 
-ShowDetfieldNameFields(playerid, name[]) {
-	new
-		count,
-		title[64],
-		list[MAX_DETFIELD_PAGESIZE * (MAX_DETFIELD_NAME + 16)];
+ShowDetfieldNameFields(playerid, fieldName[]) {
+	new list[MAX_DETFIELD_PAGESIZE * (MAX_DETFIELD_NAME + 16)];
 
-	count = GetDetectionFieldNameLog(name, list, MAX_DETFIELD_PAGESIZE, dfm_PageIndex[playerid], sizeof(list));
-
-	format(title, sizeof(title), "%s (last %d fields from index %d)", name, count, dfm_PageIndex[playerid]);
+	new const count = GetDetectionFieldNameLog(fieldName, list, MAX_DETFIELD_PAGESIZE, dfm_PageIndex[playerid], sizeof(list));
 
 	if(!count) return 0;
 
 	// TODO: make proper pagination for this menu.
 	ShowPlayerPageButtons(playerid);
 
-	Dialog_Show(playerid, DetfieldName, DIALOG_STYLE_LIST, title, list, "Selecionar", "Voltar");
+	Dialog_Show(playerid, DetfieldName, DIALOG_STYLE_LIST, sprintf("%s (last %d fields from index %d)", fieldName, count, dfm_PageIndex[playerid]), list, "Selecionar", "Voltar");
 
 	return 1;
 }
@@ -538,7 +530,7 @@ hook OnPlayerDialogPage(playerid, direction) {
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if(dfm_Editing[playerid])
-		if(newkeys == 128) AddNewDetectionFieldPoint(playerid);
+		if(newkeys == 128) AddNewDetectionFieldPoint(playerid); // Botao direito do mouse para escolher o ponto
 
 	return 1;
 }
@@ -551,15 +543,16 @@ AddNewDetectionFieldPoint(playerid) {
 		dfm_Points[playerid][(dfm_CurrentPoint[playerid] * 2) + 1],
 		z);
 
-	if(dfm_CurrentPoint[playerid] == 3) {
+	if(dfm_CurrentPoint[playerid] == 3) { // ? Porque no 4o ponto quando existem 10?
 		dfm_Points[playerid][8] = dfm_Points[playerid][0];
 		dfm_Points[playerid][9] = dfm_Points[playerid][1];
 
+		// Adicionamos o criador como excepcao
 		GetPlayerName(playerid, dfm_Exceptions[playerid][0], MAX_PLAYER_NAME);
 
 		dfm_Editing[playerid] = false;
 
-		new result = AddDetectionField(dfm_Name[playerid], dfm_Points[playerid], dfm_MinZ[playerid], dfm_MaxZ[playerid], dfm_Exceptions[playerid]);
+		new result = AddDetectionField(dfm_Name[playerid], dfm_Points[playerid], dfm_MinZ[playerid], dfm_MaxZ[playerid], dfm_Exceptions[playerid], GetPlayerAdminLevel(playerid));
 
 		if(result < 0) 
 			ChatMsg(playerid, RED, " >  Ocorreu um erro ao fazer isto (code: %d)", result);
@@ -569,6 +562,11 @@ AddNewDetectionFieldPoint(playerid) {
 				dfm_Points[playerid][dfm_CurrentPoint[playerid] * 2],
 				dfm_Points[playerid][(dfm_CurrentPoint[playerid] * 2) + 1],
 				dfm_Name[playerid]);
+
+			if(!GetPlayerAdminLevel(playerid)) {
+				SendClientMessage(playerid, ORANGE, " >  Tem que aguardar pela aprovação da sua Detection Field.");
+				ChatMsgAdmins(STAFF_LEVEL_MODERATOR, YELLOW, " >  Detection Field '%s' criada por '%p' aguarda aprovação.", dfm_Name[playerid], playerid);
+			}
 		}
 	} else
 		ChatMsg(playerid, YELLOW, " >  Ponto %d setado para %f, %f. Mova para o próximo ponto e pressione "C_BLUE"~k~~PED_LOCK_TARGET~", dfm_CurrentPoint[playerid] + 1, dfm_Points[playerid][dfm_CurrentPoint[playerid] * 2], dfm_Points[playerid][(dfm_CurrentPoint[playerid] * 2) + 1]);
