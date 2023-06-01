@@ -66,3 +66,7 @@ hook OnPlayerSpawnNewChar(playerid) {
     
     printf("[MAP] OnPlayerSpawnNewChar(%d) -> Map: %s", playerid, booltostr(map));
 }
+
+hook OnAdminToggleDuty(playerid, toggle, goBack) {
+    ToggleMap(playerid, toggle ? true : DoesPlayerHaveMap(playerid));
+}
