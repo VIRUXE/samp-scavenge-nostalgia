@@ -1,5 +1,4 @@
 #define MAX_LANGUAGE_ENTRY_LENGTH 750 // A rota maior e a "help"
-#define MAX_LANGUAGE_KEY_LENGTH 64
 
 enum {
 	PORTUGUESE,
@@ -10,95 +9,21 @@ static
 	playerLanguage[MAX_PLAYERS],
 	Node:jsonData;
 
-static ReplaceTags(content[]) {
-    if(strfind(content, "{") == -1) return false; // no tags to parse
+static const languageStrings[][3][] = {
+	#include "language_strings.pwn"
+};
 
-	enum REPLACEMENTS {
-		TAG[17+1],
-		REPLACEMENT[26+1]
-	};
-	
-    new replacements[][REPLACEMENTS] = {
-        {"C_YELLOW", "{FFFF00}"},
-        {"C_RED", "{E85454}"},
-        {"C_GREEN", "{33AA33}"},
-        {"C_BLUE", "{33CCFF}"},
-        {"C_ORANGE", "{FFAA00}"},
-        {"C_GREY", "{AFAFAF}"},
-        {"C_PINK", "{FFC0CB}"},
-        {"C_NAVY", "{000080}"},
-        {"C_GOLD", "{B8860B}"},
-        {"C_LGREEN", "{00FD4D}"},
-        {"C_TEAL", "{008080}"},
-        {"C_BROWN", "{DEB887}"},
-        {"C_AQUA", "{F0F8FF}"},
-        {"C_BLACK", "{000000}"},
-        {"C_WHITE", "{FFFFFF}"},
-        {"C_SPECIAL", "{0025AA}"},
-        {"KEYTEXT_INTERACT", "~k~~VEHICLE_ENTER_EXIT~~w~"},
-        {"KEYTEXT_RELOAD", "~k~~PED_ANSWER_PHONE~~w~"},
-        {"KEYTEXT_PUT_AWAY", "~k~~CONVERSATION_YES~~w~"},
-        {"KEYTEXT_DROP_ITEM", "~k~~CONVERSATION_NO~~w~"},
-        {"KEYTEXT_INVENTORY", "~k~~GROUP_CONTROL_BWD~~w~"},
-        {"KEYTEXT_ENGINE", "~k~~CONVERSATION_YES~~w~"},
-        {"KEYTEXT_LIGHTS", "~k~~CONVERSATION_NO~~w~"},
-        {"KEYTEXT_DOORS", "~k~~TOGGLE_SUBMISSIONS~~w~"},
-        {"KEYTEXT_RADIO", "R"}
-    };
+GetLanguageString(playerId, const key[]) {
+	new output[MAX_LANGUAGE_ENTRY_LENGTH] = "MISSING";
 
-    for(new i = 0; i < sizeof(replacements); i++) {
-        new formattedTag[20];
-        format(formattedTag, sizeof(formattedTag), "{%s}", replacements[i][TAG]);
+	for(new e; e < sizeof(languageStrings); e++) {
+		if(isequal(languageStrings[e][0], key)) {
+			strcpy(output, languageStrings[e][GetPlayerLanguage(playerId)+1]);
+			break;
+		}
+	}
 
-        new findIndex = -1;
-        while ((findIndex = strfind(content, formattedTag, false, findIndex + 1)) != -1) {
-            strdel(content, findIndex, findIndex + strlen(formattedTag));
-            strins(content, replacements[i][REPLACEMENT], findIndex, strlen(replacements[i][REPLACEMENT]));
-        }
-    }
-
-    return true;
-}
-
-GetLanguageString(playerId, const route[]) {
-    // Split the route and navigate through the JSON tree
-    new 
-        Node:node,
-        routeSplit[12][64],
-        routeSplitCount;
-
-    routeSplitCount = strexplode(routeSplit, route, "/");
-
-    JSON_GetObject(jsonData, routeSplit[0], node);
-
-    for (new i = 1; i < routeSplitCount-1; i++) JSON_GetObject(node, routeSplit[i], node);
-
-    JSON_GetArray(node, routeSplit[routeSplitCount-1], node);
-
-    // Check if the array has at least two entries
-    new len;
-    JSON_ArrayLength(node, len);
-
-    new output[MAX_LANGUAGE_ENTRY_LENGTH];
-    strcopy(output, route);
-    
-    if(len >= 1) {
-        new const lang = GetPlayerLanguage(playerId);
-        
-        JSON_ArrayObject(node, len == 1 ? 0 : lang, node);
-        JSON_GetNodeString(node, output, MAX_LANGUAGE_ENTRY_LENGTH);
-
-        if(isempty(output)) {
-            printf("[i18n] Route '%s' for language %d is empty", route, lang);
-            return output;
-        }
-
-        ReplaceTags(output);
-    } else {
-        printf("[i18n] Route '%s' doesn't exist.", route);
-    }
-
-    return output;
+	return output;
 }
 
 GetPlayerLanguage(playerId) {
@@ -110,11 +35,11 @@ GetPlayerLanguage(playerId) {
 SetPlayerLanguage(playerId, langId) {
 	if(!IsPlayerConnected(playerId)) return -1;
 
-    if(langId != 0 && langId != 1) {
-        printf("[i18n] Invalid language id: %d", langId);
-        PrintBacktrace();
-        return -1;
-    }
+	if(langId != 0 && langId != 1) {
+		printf("[i18n] Invalid language id: %d", langId);
+		PrintBacktrace();
+		return -1;
+	}
 
 	playerLanguage[playerId] = langId;
 
@@ -124,7 +49,7 @@ SetPlayerLanguage(playerId, langId) {
 }
 
 /* SavePlayerLanguage(playerId, langId) {
-    return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langId, GetPlayerNameEx(playerId)));
+	return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langId, GetPlayerNameEx(playerId)));
 } */
 
 /*
@@ -161,11 +86,11 @@ stock ConvertEncoding(string[]) {
 
 
 hook OnGameModeInit() {
-    new result = JSON_ParseFile("./scriptfiles/i18n.json", jsonData);
+	new result = JSON_ParseFile("./scriptfiles/i18n.json", jsonData);
 
-    printf("[i18n] Carregamento %s.", result ? "Falhou" : "Sucedido");
+	printf("[i18n] Carregamento %s.", result ? "Falhou" : "Sucedido");
 
-    if(result) for(;;){}
+	if(result) for(;;){}
 }
 
 ACMD:idioma[3](playerId, params[]) {
@@ -180,11 +105,11 @@ ACMD:idioma[3](playerId, params[]) {
 	if(isempty(lang)) return ChatMsg(playerId, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 
 	if(isequal(lang, "pt")) {
-        SetPlayerLanguage(targetId, PORTUGUESE);
-    } else if(isequal(lang, "en")) {
-        SetPlayerLanguage(targetId, ENGLISH);
-    } else 
-        return ChatMsg(playerId, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
+		SetPlayerLanguage(targetId, PORTUGUESE);
+	} else if(isequal(lang, "en")) {
+		SetPlayerLanguage(targetId, ENGLISH);
+	} else 
+		return ChatMsg(playerId, YELLOW, "Tem que escolher um idioma: /idioma [id/nick] [pt/en]");
 
 	ChatMsg(targetId, YELLOW, " > Seu idioma foi alterado para '%s'.", lang);
 
