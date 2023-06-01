@@ -5,9 +5,7 @@ enum {
 	ENGLISH
 }
 
-static
-	playerLanguage[MAX_PLAYERS],
-	Node:jsonData;
+static playerLanguage[MAX_PLAYERS];
 
 static const languageStrings[][3][] = {
 	#include "language_strings.pwn"
@@ -82,15 +80,6 @@ stock ConvertEncoding(string[]) {
 		// If it is, replace it with the real character.
 		if(0 <= (ch = string[i]) < 256) string[i] = real[ch];
 	}
-}
-
-
-hook OnGameModeInit() {
-	new result = JSON_ParseFile("./scriptfiles/i18n.json", jsonData);
-
-	printf("[i18n] Carregamento %s.", result ? "Falhou" : "Sucedido");
-
-	if(result) for(;;){}
 }
 
 ACMD:idioma[3](playerId, params[]) {
