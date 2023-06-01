@@ -54,13 +54,15 @@ hook OnPlayerConnect(playerid) {
 }
 
 CMD:field(playerid, params[]) {
-	if(isnull(params)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add [nome]");
-	
-	if(isequal(params, "lista", true)) {
+	new command[8];
+
+	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add [nome]");
+
+	if(isequal(command, "lista", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		if(!ShowDetfieldList(playerid)) return ChatMsg(playerid, YELLOW, " >  Não existem fields.");
-	} else if(isequal(params, "log", true)) {
+	} else if(isequal(command, "log", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
@@ -72,7 +74,7 @@ CMD:field(playerid, params[]) {
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
 		ChatMsg(playerid, YELLOW, ShowDetfieldLog(playerid, id) ? " >  Exibindo log de entradas para a field: '%s'." : " >  Não há log de entradas na field: '%s'.", fieldName);
-	} else if(isequal(params, "add", true)) {
+	} else if(isequal(command, "add", true)) {
 		new sintax[] = " >  Use: /field add [nome (Exemplo: 'Nickname-Cidade_Local_Outro')]";
 		new fieldName[MAX_DETFIELD_NAME];
 
@@ -89,7 +91,7 @@ CMD:field(playerid, params[]) {
 		dfm_CurrentPoint[playerid]  = 0;
 
 		AddNewDetectionFieldPoint(playerid);
-	} else if(isequal(params, "remover", true)) {
+	} else if(isequal(command, "remover", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
@@ -102,19 +104,19 @@ CMD:field(playerid, params[]) {
 
 		dfm_CurrentDetfield[playerid] = id;
 		ShowDetfieldDeletePrompt(playerid, id);
-	} else if(isequal(params, "rename", true)) {
+	} else if(isequal(command, "rename", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
 
-		if(sscanf(params, "{s[7]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+		if(sscanf(params, "{s[7]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field rename [Nome]");
 
 		new id = GetDetectionFieldIdFromName(fieldName);
 
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
 		ShowDetfieldRenamePrompt(playerid, id);
-	} else if(isequal(params, "nome", true)) {
+	} else if(isequal(command, "nome", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_PLAYER_NAME];
