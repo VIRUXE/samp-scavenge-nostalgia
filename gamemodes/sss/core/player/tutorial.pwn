@@ -140,6 +140,8 @@ hook OnPlayerOpenInventory(playerid) {
 
 		// PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
 
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
+
 		IncreaseTutorialProgress(playerid, OPEN_INVENTORY);
 
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/access_inventory"));
@@ -170,6 +172,8 @@ hook OnPlayerOpenContainer(playerid, containerid) {
 			} */
 
 			// PlayerTextDrawHide(playerid, Tutorial[playerid][TUT_STATUS]);
+
+			for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 			
 			IncreaseTutorialProgress(playerid, OPEN_CONTAINER);
 
@@ -303,6 +307,8 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid) {
 	if(IsPlayerInTutorial(playerid)) {
 		IncreaseTutorialProgress(playerid, USE_ITEM_ON_ANOTHER_ITEM);
 
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
+
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-use-item"));
 	}
 }
@@ -310,6 +316,8 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid) {
 hook OnTentBuilt(playerid, tentid) {
 	if(IsPlayerInTutorial(playerid)) {
 		IncreaseTutorialProgress(playerid, BUILD_TENT);
+
+		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/tent-built"));
 	}
@@ -376,6 +384,9 @@ public OnPlayerProgressTutorial(playerid, stepsCompleted) {
 
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
+			
+			for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
+
 			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
 			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
 		}
