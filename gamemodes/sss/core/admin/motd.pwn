@@ -6,7 +6,8 @@ forward OnPlayerAcceptMotd(playerid);
 
 static 
     randomButton[MAX_PLAYERS],
-    motd[MAX_MOTD_LEN];
+    responseTick[MAX_PLAYERS],
+    newMotd[MAX_MOTD_LEN];
 
 GetMotd(playerid) {
     new Node:node, tmp[MAX_MOTD_LEN];
@@ -22,12 +23,21 @@ GetMotd(playerid) {
 ShowMotd(playerid) {
     randomButton[playerid] = random(2);
 
+    new motd[MAX_MOTD_LEN];
+
+    motd = GetMotd(playerid);
+
+    if(responseTick[playerid] > 0 && GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+        strcat(motd, GetPlayerLanguage(playerid) ? C_RED"\n\nYou need to read the entire message before accepting!" : C_RED"\n\nTem que ler a mensagem inteira antes de aceitar!");
+
     Dialog_Show(playerid, ShowMotd, DIALOG_STYLE_MSGBOX, 
         ls(playerid, "server/motd"), 
-        GetMotd(playerid), 
+        motd, 
         ls(playerid, randomButton[playerid] ? "common/accept" : "common/cancel"), 
         ls(playerid, randomButton[playerid] ? "common/cancel" : "common/accept")
     );
+
+    responseTick[playerid] = GetTickCount();
 
     return 1;
 }
@@ -45,7 +55,7 @@ SetPortugueseMotd(playerid) {
 SetEnglishMotd(playerid) {
     Dialog_Show(playerid, SetEnglishMotd, DIALOG_STYLE_INPUT, 
         "Mensagem do Dia, em Inglês:", 
-        sprintf("Essa é a mensagem em Português:\n\t%s\n\nAgora escreva a mensagem do dia em Inglês, no máximo até %d caractéres:", motd, MAX_MOTD_LEN),
+        sprintf("Essa é a mensagem em Português:\n\t%s\n\nAgora escreva a mensagem do dia em Inglês, no máximo até %d caractéres:", newMotd, MAX_MOTD_LEN),
         "Confirmar", "Cancelar"
     );
 }
@@ -55,9 +65,19 @@ public OnPlayerAcceptMotd(playerid) {
 
 Dialog:ShowMotd(playerid, response, listitem, inputtext[]) {
     if(response) {
-        if(!randomButton[playerid]) ShowMotd(playerid); else CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
+        if(!randomButton[playerid]) ShowMotd(playerid); else {
+            if(GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+                ShowMotd(playerid);
+            else 
+                CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
+        }
     } else {
-        if(randomButton[playerid]) ShowMotd(playerid); else CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
+        if(randomButton[playerid]) ShowMotd(playerid); else {
+            if(GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+                ShowMotd(playerid);
+            else 
+                CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
+        }
     }
 }
 
@@ -67,7 +87,7 @@ Dialog:SetPortugueseMotd(playerid, response, listitem, inputtext[]) {
             ChatMsg(playerid, RED, "MOTD demasiado comprido");
             SetPortugueseMotd(playerid);
         } else {
-            strcpy(motd, inputtext);
+            strcpy(newMotd, inputtext);
 
             SetEnglishMotd(playerid);
         }
@@ -83,7 +103,7 @@ Dialog:SetEnglishMotd(playerid, response, listitem, inputtext[]) {
             // Salvar no "settings.json"
             new Node:server;
             JSON_GetObject(Settings, "server", server);
-            JSON_SetArray(server, "motd", JSON_Array(JSON_String(motd), JSON_String(inputtext)));
+            JSON_SetArray(server, "motd", JSON_Array(JSON_String(newMotd), JSON_String(inputtext)));
             JSON_SetObject(Settings, "server", server);
 
             JSON_SaveFile("settings.json", Settings, true);
@@ -105,3 +125,7 @@ ACMD:motd[1](playerid, params[]) {
 }
 
 ACMD:setmotd[2](playerid, params[]) return SetPortugueseMotd(playerid);
+
+hook OnPlayerDisconnect(playerid) {
+    responseTick[playerid] = 0;
+}
