@@ -6,7 +6,6 @@
 #define COOKER_STATE_COOK	(1)
 
 
-// Struct for item data
 enum //E_BBQ_DATA
 {
 			bbq_state,
@@ -17,7 +16,6 @@ enum //E_BBQ_DATA
 			bbq_grillPart2,
 Timer:		bbq_cookTimer
 }
-
 
 static
 			bbq_PlaceFoodTick[MAX_PLAYERS],
@@ -32,18 +30,12 @@ hook OnItemTypeDefined(uname[])
 
 hook OnItemCreate(itemid)
 {
-
-
 	if(GetItemType(itemid) == item_Barbecue)
 	{
-
-
 		new data[7];
 
 		if(GetItemLootIndex(itemid) != -1)
-		{
 			data[bbq_fuel] = random(10);
-		}
 
 		data[bbq_state] = COOKER_STATE_NONE;
 		data[bbq_grillItem1] = INVALID_ITEM_ID;
@@ -52,57 +44,31 @@ hook OnItemCreate(itemid)
 		data[bbq_grillPart2] = INVALID_ITEM_ID;
 		data[bbq_cookTimer] = Timer:0;
 
-
-
-
-
-
-
-
-
 		SetItemArrayData(itemid, data, 7);
 	}
 }
 
 hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 {
-
-
-
-
 	if(GetItemType(withitemid) == item_Barbecue)
 	{
 		if(_UseBbqHandler(playerid, itemid, withitemid))
 			return 1;
 	}
 
-
-
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
 _UseBbqHandler(playerid, itemid, withitemid)
 {
-
-
 	new data[7];
 
 	GetItemArrayData(withitemid, data);
-
-
-
-
-
-
-
-
 
 	new ItemType:itemtype = GetItemType(itemid);
 
 	if(GetItemTypeLiquidContainerType(itemtype) != -1)
 	{
-
-
 		if(GetLiquidItemLiquidType(itemid) != liquid_Petrol)
 		{
 			ShowActionText(playerid, ls(playerid, "item/molotov/petrolcan-no-fuel"), 3000);
@@ -120,37 +86,27 @@ _UseBbqHandler(playerid, itemid, withitemid)
 			SetItemArrayDataAtCell(withitemid, data[bbq_fuel] + 10, bbq_fuel);
 			ShowActionText(playerid, ls(playerid, "item/bbq/added-petrol"), 3000);
 		}
-		else
-		{
+		else 
 			ShowActionText(playerid, ls(playerid, "item/jerrycan-empty"), 3000);
-		}
 
 		return 1;
 	}
 
 	if(IsItemTypeFood(itemtype))
 	{
-
-
 		if(GetItemExtraData(itemid) != 0)
 		{
 			ShowActionText(playerid, ls(playerid, "item/bbq/food-cooked"), 3000);
 			return 1;
 		}
 
-		new
-			Float:x,
-			Float:y,
-			Float:z,
-			Float:r;
+		new Float:x, Float:y, Float:z, Float:r;
 
 		GetItemPos(withitemid, x, y, z);
 		GetItemRot(withitemid, r, r, r);
 
 		if(data[bbq_grillItem1] <= 0)// == INVALID_ITEM_ID) temp fix
 		{
-
-
 			CreateItemInWorld(itemid,
 				x + (0.25 * floatsin(-r + 90.0, degrees)),
 				y + (0.25 * floatcos(-r + 90.0, degrees)),
@@ -166,8 +122,6 @@ _UseBbqHandler(playerid, itemid, withitemid)
 		}
 		else if(data[bbq_grillItem2] <= 0)// == INVALID_ITEM_ID) temp fix
 		{
-
-
 			CreateItemInWorld(itemid,
 				x + (0.25 * floatsin(-r - 90.0, degrees)),
 				y + (0.25 * floatcos(-r - 90.0, degrees)),
@@ -185,11 +139,8 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 	if(itemtype == item_FireLighter)
 	{
-
-
 		if(data[bbq_fuel] <= 0)
 		{
-
 			ShowActionText(playerid, ls(playerid, "item/bbq/needs-petrol"), 3000);
 			return 1;
 		}
@@ -211,13 +162,7 @@ _UseBbqHandler(playerid, itemid, withitemid)
 
 _LightBBQ(itemid)
 {
-
-
-	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:r;
+	new Float:x, Float:y, Float:z, Float:r;
 
 	GetItemPos(itemid, x, y, z);
 	GetItemRot(itemid, r, r, r);
@@ -239,8 +184,6 @@ _LightBBQ(itemid)
 
 timer bbq_FinishCooking[SEC(30)](itemid)
 {
-
-
 	new data[7];
 
 	GetItemArrayData(itemid, data);
@@ -258,26 +201,14 @@ timer bbq_FinishCooking[SEC(30)](itemid)
 
 hook OnPlayerPickUpItem(playerid, itemid)
 {
-
-
-
 	if(GetItemType(itemid) == item_Barbecue)
 	{
-
 		if(GetTickCountDifference(GetTickCount(), bbq_PlaceFoodTick[playerid]) < 1000)
 			return Y_HOOKS_BREAK_RETURN_1;
 
 		new data[7];
 
 		GetItemArrayData(itemid, data);
-
-
-
-
-
-
-
-
 
 		if(data[bbq_state] != COOKER_STATE_NONE)
 			return Y_HOOKS_BREAK_RETURN_1;
@@ -299,19 +230,11 @@ hook OnPlayerPickUpItem(playerid, itemid)
 
 	if(bbq_ItemBBQ[itemid] != -1)
 	{
-
-
 		if(GetItemArrayDataAtCell(bbq_ItemBBQ[itemid], bbq_grillItem1) == itemid)
-		{
-
 			SetItemArrayDataAtCell(bbq_ItemBBQ[itemid], INVALID_ITEM_ID, bbq_grillItem1);
-		}
 
 		else if(GetItemArrayDataAtCell(bbq_ItemBBQ[itemid], bbq_grillItem2) == itemid)
-		{
-
 			SetItemArrayDataAtCell(bbq_ItemBBQ[itemid], INVALID_ITEM_ID, bbq_grillItem2);
-		}
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
