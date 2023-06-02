@@ -197,6 +197,7 @@ public OnGameModeInit() {
 #include <attachment-fix>           // By BrunoBM16:            https://github.com/Jelly23/Proper-attachments-fix
 #include <json>						// By Southclaw:			https://github.com/Southclaws/pawn-json/releases/tag/1.4.1
 #include <requests>					// By Southclaw:			https://github.com/Southclaws/pawn-requests/releases/tag/0.10.0
+#include <discord-connector>
 
 /*==============================================================================
 
@@ -317,17 +318,6 @@ new stock GLOBAL_DEBUG = -1;
 // pawn-requests
 new RequestsClient:requestsClient;
 
-
-/*==============================================================================
-
-	Gamemode Scripts
-
-==============================================================================*/
-
-
-// API Pre
-#tryinclude "sss/extensions/ext_pre.pwn"
-
 // UTILITIES
 #include "sss/utils/logging.pwn"
 #include "sss/utils/math.pwn"
@@ -349,6 +339,7 @@ new RequestsClient:requestsClient;
 
 // SERVER CORE
 #include "sss/core/server/settings.pwn"
+#include "sss/core/server/discord.pwn"
 #include "sss/core/server/OTP.pwn"
 #include "sss/core/server/text-tags.pwn"
 #include "sss/core/server/weather.pwn"
