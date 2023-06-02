@@ -69,12 +69,11 @@ hook OnItemCreate(itemid)
 {
 	new machinetype = mach_ItemTypeMachine[GetItemType(itemid)];
 
-	if(machinetype == -1)
-		return Y_HOOKS_CONTINUE_RETURN_0;
+	if(machinetype == -1) return Y_HOOKS_CONTINUE_RETURN_0;
 
 	new name[ITM_MAX_NAME];
 
-	GetItemName(itemid, name);
+	GetItemName(itemid, PORTUGUESE, name);
 
 	new containerid = CreateContainer(name, mach_ContainerSize[machinetype]);
 

@@ -198,11 +198,10 @@ HidePlayerHealthInfo(playerid) {
 }
 
 UpdatePlayerGear(playerid, show = 1) {
-	new
+	new 
 		tmp[5 + ITM_MAX_NAME + ITM_MAX_TEXT],
-		itemId;
-
-	itemId = GetPlayerHatItem(playerid);
+		itemId = GetPlayerHatItem(playerid),
+		langId = GetPlayerLanguage(playerid);
 
 	if(IsValidItem(itemId)) {
 		GetItemTypeName(GetItemType(itemId), tmp);
@@ -227,7 +226,7 @@ UpdatePlayerGear(playerid, show = 1) {
 
 	itemId = GetPlayerItem(playerid);
 	if(IsValidItem(itemId)) {
-		GetItemName(itemId, tmp);
+		GetItemName(itemId, langId, tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemId)), tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hand[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hand[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemId)));
@@ -239,7 +238,7 @@ UpdatePlayerGear(playerid, show = 1) {
 
 	itemId = GetPlayerHolsterItem(playerid);
 	if(IsValidItem(itemId)) {
-		GetItemName(itemId, tmp);
+		GetItemName(itemId, langId, tmp);
 		format(tmp, sizeof(tmp), "(%02d) %s", GetItemTypeSize(GetItemType(itemId)), tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Hols[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Hols[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemId)));
@@ -260,7 +259,7 @@ UpdatePlayerGear(playerid, show = 1) {
 
 	itemId = GetPlayerBagItem(playerid);
 	if(IsValidItem(itemId)) {
-		GetItemName(itemId, tmp);
+		GetItemName(itemId, langId, tmp);
 		PlayerTextDrawSetString(playerid, GearSlot_Back[UI_ELEMENT_ITEM], tmp);
 		PlayerTextDrawSetPreviewModel(playerid, GearSlot_Back[UI_ELEMENT_TILE], GetItemTypeModel(GetItemType(itemId)));
 		PlayerTextDrawSetPreviewRot(playerid, GearSlot_Back[UI_ELEMENT_TILE], 0.0, 0.0, -45.0, 1.0);

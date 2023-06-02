@@ -292,6 +292,8 @@ timer UpdateSpectateMode[100](playerid) {
 			title[MAX_PLAYER_NAME + 6],
 			str[256];
 
+		new langId = GetPlayerLanguage(playerid);
+
 		if(!IsPlayerHudOn(playerid)) {
 			PlayerTextDrawHide(playerid, spectate_Info);
 			return;
@@ -305,7 +307,8 @@ timer UpdateSpectateMode[100](playerid) {
 
 			invehicleas = GetPlayerState(targetid) == PLAYER_STATE_DRIVER ? "Motorista" : "Passageiro";
 
-			if(!GetItemName(GetPlayerItem(targetid), itemname)) itemname = "Nenhum";
+
+			if(!GetItemName(GetPlayerItem(targetid), langId, itemname)) itemname = "Nenhum";
 
 			GetCameraModeName(GetPlayerCameraMode(targetid), cameramodename);
 
@@ -337,9 +340,9 @@ timer UpdateSpectateMode[100](playerid) {
 				Float:vz,
 				Float:velocity;
 
-			if(!GetItemName(GetPlayerItem(targetid), itemname)) itemname = "Nenhum";
+			if(!GetItemName(GetPlayerItem(targetid), langId, itemname)) itemname = "Nenhum";
 
-			if(!GetItemName(GetPlayerHolsterItem(targetid), holsteritemname)) holsteritemname = "Nenhum";
+			if(!GetItemName(GetPlayerHolsterItem(targetid), langId, holsteritemname)) holsteritemname = "Nenhum";
 
 			GetCameraModeName(GetPlayerCameraMode(targetid), cameramodename);
 			GetPlayerVelocity(targetid, vx, vy, vz);
