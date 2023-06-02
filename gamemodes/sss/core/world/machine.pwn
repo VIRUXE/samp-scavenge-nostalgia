@@ -1,15 +1,6 @@
 #include <YSI\y_hooks>
 
-
-/*==============================================================================
-
-	Setup
-
-==============================================================================*/
-
-
 #define MAX_MACHINE_TYPE (4)
-
 
 static
 			mach_Total,
@@ -21,34 +12,13 @@ static
 			mach_MachineInteractTick[MAX_PLAYERS],
 Timer:		mach_HoldTimer[MAX_PLAYERS];
 
-
 forward OnPlayerUseMachine(playerid, itemid, interactiontype);
 
-
-/*==============================================================================
-
-	Zeroing
-
-==============================================================================*/
-
-
-hook OnPlayerConnect(playerid)
-{
-	
-
+hook OnPlayerConnect(playerid) {
 	mach_CurrentMachine[playerid] = INVALID_ITEM_ID;
 }
 
-
-/*==============================================================================
-
-	Core Functions
-
-==============================================================================*/
-
-
-stock DefineMachineType(ItemType:itemtype, arraydata, containersize)
-{
+stock DefineMachineType(ItemType:itemtype, arraydata, containersize) {
 	SetItemTypeMaxArrayData(itemtype, arraydata);
 
 	mach_ItemTypeMachine[itemtype] = mach_Total;
@@ -57,16 +27,7 @@ stock DefineMachineType(ItemType:itemtype, arraydata, containersize)
 	return mach_Total++;
 }
 
-
-/*==============================================================================
-
-	Internal Functions and Hooks
-
-==============================================================================*/
-
-
-hook OnItemCreate(itemid)
-{
+hook OnItemCreate(itemid) {
 	new machinetype = mach_ItemTypeMachine[GetItemType(itemid)];
 
 	if(machinetype == -1) return Y_HOOKS_CONTINUE_RETURN_0;
@@ -83,10 +44,8 @@ hook OnItemCreate(itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerPickUpItem(playerid, itemid)
-{
-	if(mach_ItemTypeMachine[GetItemType(itemid)] != -1)
-	{
+hook OnPlayerPickUpItem(playerid, itemid) {
+	if(mach_ItemTypeMachine[GetItemType(itemid)] != -1) {
 		_mach_PlayerUseMachine(playerid, itemid);
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
@@ -94,10 +53,8 @@ hook OnPlayerPickUpItem(playerid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
-{
-	if(mach_ItemTypeMachine[GetItemType(withitemid)] != -1)
-	{
+hook OnPlayerUseItemWithItem(playerid, itemid, withitemid) {
+	if(mach_ItemTypeMachine[GetItemType(withitemid)] != -1) {
 		_mach_PlayerUseMachine(playerid, withitemid);
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
@@ -105,10 +62,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-_mach_PlayerUseMachine(playerid, itemid)
-{
-
-
+_mach_PlayerUseMachine(playerid, itemid) {
 	mach_CurrentMachine[playerid] = itemid;
 	mach_MachineInteractTick[playerid] = GetTickCount();
 
@@ -117,16 +71,10 @@ _mach_PlayerUseMachine(playerid, itemid)
 	return 0;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
-
-
-	if(RELEASED(16))
-	{
-		if(mach_CurrentMachine[playerid] != INVALID_ITEM_ID)
-		{
-			if(GetTickCountDifference(GetTickCount(), mach_MachineInteractTick[playerid]) < 250)
-			{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if(RELEASED(16)) {
+		if(mach_CurrentMachine[playerid] != INVALID_ITEM_ID) {
+			if(GetTickCountDifference(GetTickCount(), mach_MachineInteractTick[playerid]) < 250) {
 				stop mach_HoldTimer[playerid];
 				_mach_TapInteract(playerid);
 			}
@@ -136,66 +84,42 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	return 1;
 }
 
-_mach_TapInteract(playerid)
-{
-	if(mach_CurrentMachine[playerid] == INVALID_ITEM_ID)
-		return;
+_mach_TapInteract(playerid) {
+	if(mach_CurrentMachine[playerid] == INVALID_ITEM_ID) return;
 
 	CallLocalFunction("OnPlayerUseMachine", "ddd", playerid, mach_CurrentMachine[playerid], 0);
 
 	mach_CurrentMachine[playerid] = INVALID_ITEM_ID;
 }
 
-timer _mach_HoldInteract[250](playerid)
-{
-	if(mach_CurrentMachine[playerid] == INVALID_ITEM_ID)
-		return;
+timer _mach_HoldInteract[250](playerid) {
+	if(mach_CurrentMachine[playerid] == INVALID_ITEM_ID) return;
 
 	CallLocalFunction("OnPlayerUseMachine", "ddd", playerid, mach_CurrentMachine[playerid], 1);
 
 	mach_CurrentMachine[playerid] = INVALID_ITEM_ID;
 }
 
-
-/*==============================================================================
-
-	Interface Functions
-
-==============================================================================*/
-
-
-// mach_ItemTypeMachine
-stock GetItemTypeMachineType(ItemType:itemtype)
-{
-	if(!IsValidItemType(itemtype))
-		return -1;
+stock GetItemTypeMachineType(ItemType:itemtype) {
+	if(!IsValidItemType(itemtype)) return -1;
 
 	return mach_ItemTypeMachine[itemtype];
 }
 
-// mach_ContainerSize
-stock GetMachineTypeContainerSize(machinetype)
-{
-	if(!(0 <= machinetype < mach_Total))
-		return 0;
+stock GetMachineTypeContainerSize(machinetype) {
+	if(!(0 <= machinetype < mach_Total)) return 0;
 
 	return mach_ContainerSize[machinetype];
 }
 
-// mach_ContainerMachineItem
-stock GetContainerMachineItem(containerid)
-{
-	if(!IsValidContainer(containerid))
-		return -1;
+stock GetContainerMachineItem(containerid) {
+	if(!IsValidContainer(containerid)) return -1;
 
 	return mach_ContainerMachineItem[containerid];
 }
 
-// mach_CurrentMachine
-stock GetPlayerCurrentMachine(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return -1;
+stock GetPlayerCurrentMachine(playerid) {
+	if(!IsPlayerConnected(playerid)) return -1;
 
 	return mach_CurrentMachine[playerid];
 }
