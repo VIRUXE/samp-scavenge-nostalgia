@@ -27,7 +27,7 @@ ShowMotd(playerid) {
 
     motd = GetMotd(playerid);
 
-    if(responseTick[playerid] > 0 && GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+    if(responseTick[playerid] > 0 && GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(5))
         strcat(motd, GetPlayerLanguage(playerid) ? C_RED"\n\nYou need to read the entire message before accepting!" : C_RED"\n\nTem que ler a mensagem inteira antes de aceitar!");
 
     Dialog_Show(playerid, ShowMotd, DIALOG_STYLE_MSGBOX, 
