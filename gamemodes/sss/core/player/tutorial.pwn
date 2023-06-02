@@ -18,7 +18,7 @@
 #include <YSI\y_hooks>
 #include <YSI\y_timers>
 
-forward OnPlayerProgressTutorial(playerid, stepscompleted);
+forward OnPlayerProgressTutorial(playerid, stepsCompleted);
 forward OnPlayerExitTutorial(playerid, bool:completed);
 
 #define MAX_TUTORIAL_ITEMS 20
@@ -103,7 +103,7 @@ hook OnVehicleSave(vehicleid) {
 	// Nï¿½o salvar veï¿½culos do tutorial
 	foreach(new i : Player) {
 		if(vehicleid == Tutorial[i][TUT_VEHICLE]) {
-			printf("[TUTORIAL] Veï¿½culo %d de %p (%d) nï¿½o serï¿½ salvo.", vehicleid, i, i);
+			printf("[TUTORIAL] Veï¿½culo %d de %p (%d) não serï¿½ salvo.", vehicleid, i, i);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 	}
@@ -116,7 +116,7 @@ hook OnPlayerWearBag(playerid, itemid) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/access_bag"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, EQUIP_BACKPACK);
@@ -132,7 +132,7 @@ hook OnPlayerOpenInventory(playerid) {
 	    	// PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?&q=%s&tl=%s-TW&client=tw-ob",
 				ls(playerid, "tutorial/tip/access_inventory"), ls(playerid, "common/lang-shortcode")));
 
-//			https://translate.google.com/translate_tts?ie=UTF-8&q=Este ï¿½ o seu inventï¿½rio. Tambï¿½m conhecido como seus bolsos. Esta nï¿½o ï¿½ sua mochila.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Este ï¿½ o seu inventï¿½rio. Tambï¿½m conhecido como seus bolsos. Esta não ï¿½ sua mochila.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=This is your character inventory also known as your pockets. This is not your bag.&tl=EN-TW&client=tw-ob
 
             PlayerTutorial_VozInv[playerid] = true;
@@ -214,7 +214,7 @@ hook OnPlayerDroppedItem(playerid, itemid) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-drop"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando vocï¿½ soltar um item, outros jogadores podem pegï¿½-lo.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Quando você soltar um item, outros jogadores podem pegï¿½-lo.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=When you drop an item, other players can pick it up.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, DROP_ITEM);
@@ -230,7 +230,7 @@ hook OnItemAddedToInventory(playerid, itemid, slot) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item ao seu inventï¿½rio. Se o seu inventï¿½rio estiver cheio, o item serï¿½ colocado na sua Mochila.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item ao seu inventï¿½rio. Se o seu inventï¿½rio estiver cheio, o item serï¿½ colocado na sua Mochila.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your inventory. If your inventory is full, the item will be put in your bag.&tl=EN-TW&client=tw-ob
 
 		IncreaseTutorialProgress(playerid, ADD_ITEM_TO_INVENTORY);
@@ -265,7 +265,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid) {
 			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-bag"), ls(playerid, "common/lang-shortcode")));
 			for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 		
-//			https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item a sua mochila. Vocï¿½ pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a sua mochila. Você pode acessar sua mochila pressionando H e clicando no ï¿½cone Mochila na parte inferior direita.&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to your bag. You can access your bag by pressing H and clicking the Bag icon at the bottom right.&tl=EN-TW&client=tw-ob
 
 			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-bag"));
@@ -273,7 +273,7 @@ hook OnItemAddedToContainer(containerid, itemid, playerid) {
 			PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/item-add-container"), ls(playerid, "common/lang-shortcode")));
 			for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 		
-//			https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ adicionou um item a um container. Os containeres sï¿½o lugares para armazenar itens&tl=PT-TW&client=tw-ob
+//			https://translate.google.com/translate_tts?ie=UTF-8&q=Você adicionou um item a um container. Os containeres sï¿½o lugares para armazenar itens&tl=PT-TW&client=tw-ob
 //			https://translate.google.com/translate_tts?ie=UTF-8&q=You added an item to a container. Containers are places to store items &tl=EN-TW&client=tw-ob
 
 			ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/item-add-container"));
@@ -288,7 +288,7 @@ hook OnPlayerHolsteredItem(playerid, itemid) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/tip/weapon-holster"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 		
-//		https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
+//		https://translate.google.com/translate_tts?ie=UTF-8&q=Você colocou um item no coldre. Os itens no coldre podem ser rapidamente acessados pressionando Y novamente.&tl=PT-TW&client=tw-ob
 //		https://translate.google.com/translate_tts?ie=UTF-8&q=You have holstered an item. Holstered items can be quickly accessed by pressing Y again.&tl=EN-TW&client=tw-ob
 
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/tip/weapon-holster"));
@@ -341,29 +341,28 @@ hook OnVehicleRepairStopped(playerid, vehicleid) {
 	}
 }
 
-public OnPlayerProgressTutorial(playerid, stepscompleted) {
-	printf("OnPlayerProgressTutorial(%d, %d)", playerid, stepscompleted);
-
-	if(stepscompleted == MAX_TUTORIAL_STEPS) {
+public OnPlayerProgressTutorial(playerid, stepsCompleted) {
+	if(stepsCompleted == MAX_TUTORIAL_STEPS) {
 		HideRepairStatus(playerid);
 		SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
 		defer ExitTutorial(playerid, true);
+
+		ChatMsgAdmins(STAFF_LEVEL_GAME_MASTER, GREEN, "%p concluiu o Tutorial.", playerid);
 	} else {
-		// TODO: Fazer internacionalizacao
-		new const steps[][] = {
-			"Abrir Inventario",
-			"Equipar Mochila",
-			"Adicionar Item ao Inventario",
-			"Abrir Opcoes do Inventario",
-			"Abrir Mochila",
-			"Adicionar Item a Mochila",
-			"Abrir Opcoes da Mochila",
-			"Dropar Item",
-			"Colocar Arma no Coldre",
-			"Construir Metal Corrugado",
-			"Terminar Edicao da Defesa",
-			"Montar Tenda",
-			"Reparar Veiculo"
+		new const steps[][2][] = {
+			{"Abrir Inventario", "Open Inventory"},
+			{"Equipar Mochila", "Equip Backpack"},
+			{"Adicionar Item ao Inventario", "Add Item to Inventory"},
+			{"Abrir Opcoes do Inventario", "Open Inventory Options"},
+			{"Abrir Mochila", "Open Backpack"},
+			{"Adicionar Item a Mochila", "Add Item to Backpack"},
+			{"Abrir Opcoes da Mochila", "Open Backpack Options"},
+			{"Dropar Item", "Drop Item"},
+			{"Colocar Arma no Coldre", "Holster Weapon"},
+			{"Construir Metal Corrugado", "Build Corrugated Metal"},
+			{"Terminar Edicao da Defesa", "Finish Editing a Defence"},
+			{"Montar Tenda", "Build Tent"},
+			{"Reparar Veiculo", "Repair Vehicle"}
 		};
 
 		// Encontra a tarefa mais baixa que ainda nao foi completada
@@ -375,14 +374,13 @@ public OnPlayerProgressTutorial(playerid, stepscompleted) {
 			}
 		}
 
-		// TODO: Fazer internacionalizacao
 		// Dicas para cada tarefa/passo
 		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
-			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Vocï¿½ acabou de interagir um item com outro. Em muitos momentos do jogo vocï¿½ usarï¿½ essa funï¿½ï¿½o. Exemplo:");
-			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construï¿½ï¿½es, e diversas combinaï¿½ï¿½es de itens.");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Você acabou de interagir um item com outro. Em muitos momentos do jogo você usará essa função. Exemplo:");
+			ChatMsg(playerid, GREEN, " > Dica: "C_GOLD"Carregar uma arma, craftings, construções, e diversas combinações de itens.");
 		}
 
-		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~Tarefa Atual ~y~(%d/%d)~w~:~n~%s", stepscompleted+1, MAX_TUTORIAL_STEPS, steps[next_step]));
+		PlayerTextDrawSetString(playerid, Tutorial[playerid][TUT_STATUS], sprintf("~b~%s ~y~(%d/%d)~w~:~n~%s", GetPlayerLanguage(playerid) ? "Current Task" : "Tarefa Atual", stepsCompleted+1, MAX_TUTORIAL_STEPS, steps[next_step][GetPlayerLanguage(playerid)]));
 	}
 }
 
@@ -395,18 +393,18 @@ IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	// Limpa o chat
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
-	GameTextForPlayer(playerid, "Tarefa Concluida", 3000, 6);
+	GameTextForPlayer(playerid, GetPlayerLanguage(playerid) ? "Task Completed" : "Tarefa Concluida", 3000, 6);
 	PlayerPlaySound(playerid, 5205, 0.0, 0.0, 0.0);
 
 	Tutorial[playerid][TUT_STEPS][step] = true;
 
 	// Calculate how many steps are completed
-	new stepscompleted = 0;
+	new stepsCompleted = 0;
 	for(new s = 0; s < MAX_TUTORIAL_STEPS; s++) {
-		if(IsStepCompleted(playerid, E_TUTORIAL_STEPS:s)) stepscompleted++;
+		if(IsStepCompleted(playerid, E_TUTORIAL_STEPS:s)) stepsCompleted++;
 	}
 
-	CallLocalFunction("OnPlayerProgressTutorial", "ii", playerid, stepscompleted);
+	CallLocalFunction("OnPlayerProgressTutorial", "ii", playerid, stepsCompleted);
 
 	return 1;
 }
@@ -607,10 +605,10 @@ timer ExitTutorial[SEC(2)](playerid, bool:completed) {
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 		
-	//	https://translate.google.com/translate_tts?ie=UTF-8&q=Vocï¿½ saiu do tutorial, para voltar terï¿½ que morrer.&tl=PT-TW&client=tw-ob
+	//	https://translate.google.com/translate_tts?ie=UTF-8&q=Você saiu do tutorial, para voltar terá que morrer.&tl=PT-TW&client=tw-ob
 	//	https://translate.google.com/translate_tts?ie=UTF-8&q=You left the tutorial, to return you will have to die.&tl=EN-TW&client=tw-ob
 
-		// ! Eu jï¿½ fiz uma funï¿½ï¿½o chamada ClearChat. Agora nï¿½o sei em que branch ficou essa merda. Vou ter que procurar.
+		// ! Eu já fiz uma função chamada ClearChat. Agora não sei em que branch ficou essa merda. Vou ter que procurar.
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, GREEN, "");
 
 		ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/exit"));
