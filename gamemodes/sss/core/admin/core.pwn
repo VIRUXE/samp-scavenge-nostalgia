@@ -294,7 +294,7 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 			ItemType:itemtype,
 			Float:x, Float:y, Float:z;
 
-		itemid = GetPlayerItem(playerid);
+		itemid   = GetPlayerItem(playerid);
 		itemtype = GetItemType(itemid);
 
 		GetPlayerPos(playerid, x, y, z);
@@ -323,9 +323,10 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 		
 		LoadPlayerChar(playerid);
 
-		//ToggleNameTagsForPlayer(playerid, false);
 		defer PlayerDutyFalse(playerid);
 	}
+
+	ToggleNameTagsForPlayer(playerid, toggle);
 
 	SetPVarInt(playerid, "duty", toggle);
 
@@ -337,13 +338,9 @@ timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
 stock SetPlayerAdminLevel(playerid, level) {
 	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;
 
-	new name[MAX_PLAYER_NAME];
-
-	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-
 	admin_Level[playerid] = level;
 
-	UpdateAdmin(name, level);
+	UpdateAdmin(GetPlayerNameEx(playerid), level);
 
 	return 1;
 }
