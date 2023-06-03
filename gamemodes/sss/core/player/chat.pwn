@@ -38,6 +38,10 @@ ACMD:setglobal[2](playerid, params[]) {
 	return 1;
 }
 
+hook OnGamemodeInit() {
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "setglobal", "Mudar o tempo de enviar mensagem no global");
+}
+
 hook OnPlayerConnect(playerid) {
     GlobalTime[playerid] = 0;
 	chat_LastMessageTick[playerid] = 0;

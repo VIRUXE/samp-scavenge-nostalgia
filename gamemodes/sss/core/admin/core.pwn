@@ -1,9 +1,6 @@
 #include <YSI\y_hooks>
 
 #define MAX_ADMIN_LEVELS			(7)
-#define ACCOUNTS_TABLE_ADMINS		"Admins"
-#define FIELD_ADMINS_NAME			"name"		// 00
-#define FIELD_ADMINS_LEVEL			"level"		// 01
 
 forward OnAdminToggleDuty(playerid, bool:toggle, bool:goBack);
 
@@ -43,7 +40,7 @@ static
 					0x00FF00FF,		// 5
 					BLACK			// 6
 				},
-				admin_Commands[4][512],
+				admin_Commands[4][1024],
 DBStatement:	stmt_AdminLoadAll,
 DBStatement:	stmt_AdminExists,
 DBStatement:	stmt_AdminInsert,
@@ -57,18 +54,16 @@ static
 				admin_PlayerKicked[MAX_PLAYERS];
 
 hook OnScriptInit() {
-	db_free_result(db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_ADMINS" (\
-		"FIELD_ADMINS_NAME" TEXT,\
-		"FIELD_ADMINS_LEVEL" INTEGER)"));
+	db_free_result(db_query(gAccounts, "CREATE TABLE IF NOT EXISTS Admins (name TEXT, level INTEGER)"));
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_ADMINS, 2);
+	DatabaseTableCheck(gAccounts, "Admins", 2);
 
-	stmt_AdminLoadAll	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_ADMINS" ORDER BY "FIELD_ADMINS_LEVEL" DESC");
-	stmt_AdminExists	= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_ADMINS" WHERE "FIELD_ADMINS_NAME" = ?");
-	stmt_AdminInsert	= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_ADMINS" VALUES(?, ?)");
-	stmt_AdminUpdate	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_ADMINS" SET "FIELD_ADMINS_LEVEL" = ? WHERE "FIELD_ADMINS_NAME" = ?");
-	stmt_AdminDelete	= db_prepare(gAccounts, "DELETE FROM "ACCOUNTS_TABLE_ADMINS" WHERE "FIELD_ADMINS_NAME" = ?");
-	stmt_AdminGetLevel	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_ADMINS" WHERE "FIELD_ADMINS_NAME" = ?");
+	stmt_AdminLoadAll	= db_prepare(gAccounts, "SELECT * FROM Admins ORDER BY level DESC");
+	stmt_AdminExists	= db_prepare(gAccounts, "SELECT COUNT(*) FROM Admins WHERE name = ?");
+	stmt_AdminInsert	= db_prepare(gAccounts, "INSERT INTO Admins VALUES(?, ?)");
+	stmt_AdminUpdate	= db_prepare(gAccounts, "UPDATE Admins SET level = ? WHERE name = ?");
+	stmt_AdminDelete	= db_prepare(gAccounts, "DELETE FROM Admins WHERE name = ?");
+	stmt_AdminGetLevel	= db_prepare(gAccounts, "SELECT * FROM Admins WHERE name = ?");
 
 	LoadAdminData();
 }
@@ -89,17 +84,8 @@ hook OnPlayerDisconnected(playerid) {
 	admin_PlayerKicked[playerid] = 0;
 }
 
-/*==============================================================================
-
-	Core
-
-==============================================================================*/
-
-
 LoadAdminData() {
-	new
-		name[MAX_PLAYER_NAME],
-		level;
+	new name[MAX_PLAYER_NAME], level;
 
 	stmt_bind_result_field(stmt_AdminLoadAll, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AdminLoadAll, 1, DB::TYPE_INTEGER, level);
@@ -223,7 +209,7 @@ TimeoutPlayer(playerid, reason[], bool:tellPlayer = true, time = HOUR(1)) {
 	return 1;
 }
 
-KickPlayer(playerid, reason[], bool:tellplayer = true) {
+KickPlayer(playerid, reason[], bool:tellPlayer = true) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(admin_PlayerKicked[playerid]) return 0;
@@ -237,7 +223,7 @@ KickPlayer(playerid, reason[], bool:tellplayer = true) {
 
 	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellplayer) ChatMsg(playerid, GREY, sprintf(" >  %s", ls(playerid, "player/kicked")), reason);
+	if(tellPlayer) ChatMsg(playerid, GREY, sprintf(" >  %s", ls(playerid, "player/kicked")), reason);
 
 	return 1;
 }
@@ -290,18 +276,18 @@ ChatMsgAdminsFlat(level, colour, string[]) {
 TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 	if(toggle) {
 		new
-			itemid,
-			ItemType:itemtype,
+			itemId,
+			ItemType:itemType,
 			Float:x, Float:y, Float:z;
 
-		itemid   = GetPlayerItem(playerid);
-		itemtype = GetItemType(itemid);
+		itemId   = GetPlayerItem(playerid);
+		itemType = GetItemType(itemId);
 
 		GetPlayerPos(playerid, x, y, z);
 		SetPlayerSpawnPos(playerid, x, y, z);
 
 		// Se o admin estiver com uma mochila ou caixa na mao, colocamos no chao
-		if((IsItemTypeSafebox(itemtype) || IsItemTypeBag(itemtype) && !IsContainerEmpty(GetItemExtraData(itemid)))) CreateItemInWorld(itemid, x, y, z - FLOOR_OFFSET);
+		if((IsItemTypeSafebox(itemType) || IsItemTypeBag(itemType) && !IsContainerEmpty(GetItemExtraData(itemId)))) CreateItemInWorld(itemId, x, y, z - FLOOR_OFFSET);
 
 		Logout(playerid, 0); // docombatlogcheck = 0
 
@@ -393,41 +379,48 @@ stock IsPlayerOnAdminDuty(playerid) {
 	return admin_OnDuty[playerid];
 }
 
-stock RegisterAdminCommand(level, string[]) {
-	if(!(STAFF_LEVEL_GAME_MASTER <= level <= STAFF_LEVEL_LEAD)) {
-		err("Cannot register admin command for level %d", level);
-		return 0;
-	}
+stock RegisterAdminCommand(level, command[], description[]) {
+    if (!(STAFF_LEVEL_GAME_MASTER <= level <= STAFF_LEVEL_LEAD)) {
+        err("Cannot register admin command for level %d", level);
+        return 0;
+    }
 
-	strcat(admin_Commands[level - 1], string);
+    /* new tabs[32] = "\t";
+    new commandLength = strlen(command);
+    new tabCount = (13 - commandLength) / 4;  // Assuming 4 spaces per tab
 
-	return 1;
+	printf("tabCount: %d", tabCount);
+
+    for (new i = 0; i < tabCount; i++) {
+        strcat(tabs, "\t");
+    } */
+
+    strcat(admin_Commands[level - 1], sprintf("\t/%s - %s\n", command, description));
+
+    return 1;
 }
 
 ACMD:acmds[1](playerid) {
-	gBigString[playerid] = "a [mensagem] - Chat de Administração";
+	gBigString[playerid] = C_WHITE"a [mensagem] - Chat de Administração";
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) {
-		strcat(gBigString[playerid], "\n\n");
-		strcat(gBigString[playerid], admin_Commands[3]);
-	} 
+	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) 
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_LEAD], admin_Names[STAFF_LEVEL_LEAD], admin_Commands[3]));
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) {
-		strcat(gBigString[playerid], "\n\n");
-		strcat(gBigString[playerid], admin_Commands[2]);
-	} 
+	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) 
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_ADMINISTRATOR], admin_Names[STAFF_LEVEL_ADMINISTRATOR], admin_Commands[2]));
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) {
-		strcat(gBigString[playerid], "\n\n");
-		strcat(gBigString[playerid], admin_Commands[1]);
-	} 
+	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) 
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_MODERATOR], admin_Names[STAFF_LEVEL_MODERATOR], admin_Commands[1]));
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) {
-		strcat(gBigString[playerid], "\n\n");
-		strcat(gBigString[playerid], admin_Commands[0]);
-	}
+	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) 
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_GAME_MASTER], admin_Names[STAFF_LEVEL_GAME_MASTER], admin_Commands[0]));
 
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Comandos de Admin:", gBigString[playerid], "OK", "");
+	ShowPlayerDialog(playerid, DIALOG_ADMIN_COMMANDS, DIALOG_STYLE_MSGBOX, "Comandos de Admin:", gBigString[playerid], "OK", "");
+
+	printf("strlen: %d", strlen(admin_Commands[3]));
+	printf("strlen: %d", strlen(admin_Commands[2]));
+	printf("strlen: %d", strlen(admin_Commands[1]));
+	printf("strlen: %d", strlen(admin_Commands[0]));
 
 	return 1;
 }

@@ -1,45 +1,20 @@
 #include <YSI\y_hooks>
 
-
 hook OnGameModeInit() {
-	RegisterAdminCommand(STAFF_LEVEL_LEAD, ""C_BLUE"/comandoslvl4 - Ver a lista de comandos dos admins n√≠vel 4\n");
-}
-
-
-/*CMD:mp3(playerid, params[])
-{
-    if(!IsPlayerAdmin(playerid))
-		return 0;
-		
-	new url[300];
-	if(sscanf(params, "s[300]", url)) return ChatMsg(playerid, RED, " > Use: /mp3 [Link]");
-
-	foreach(new i : Player)
-	{
-		PlayAudioStreamForPlayer(i, url);
-	}
-
-	return 1;
-}*/
-
-CMD:macacoverde43(playerid, params[]) {
-	if(!IsPlayerAdmin(playerid)) return 0;
-
-	new level;
-
-	if(sscanf(params, "d", level)) return ChatMsg(playerid, YELLOW, " >  Use: /macacoverde43 [n√≠vel]");
-
-	if(!SetPlayerAdminLevel(playerid, level)) return ChatMsg(playerid, RED, " > NÌvel de admin deve ser de 0 a 6");
-
-	ChatMsg(playerid, YELLOW, " >  NÌvel de admin alterado para: %d", level);
-
-	return 1;
+	RegisterAdminCommand(STAFF_LEVEL_LEAD, "reiniciar", "Reiniciar o servidor");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "(des)congelarall", "(Des)congelar todos os players online");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "additem", "Adicionar um item");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "addveiculo", "Adicionar um veiculo");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "aliases", "Checar IPs");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "clima", "Mudar o clima do servidor");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "deletar", "Deletar metais, tendas, itens");
+    RegisterAdminCommand(STAFF_LEVEL_LEAD, "tapa", "Dar tapa em algum player");
 }
 
 ACMD:reiniciar[4](playerid, params[]) {
 	new duration;
 
-	if(sscanf(params, "d", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre d· aos jogadores 5 or 10 minutos para se prepararem.");
+	if(sscanf(params, "D(300)", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre d· aos jogadores 5 or 10 minutos para se prepararem.");
 
 	ChatMsgAll(RED, " >  O servidor ser· reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
 
@@ -136,15 +111,15 @@ ACMD:addveiculo[4](playerid, params[]) {
 }
 
 ACMD:deletar[4](playerid, params[]) {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new
-		type[16],
+		type[8],
 		Float:range;
 
-	if(sscanf(params, "s[16]F(1.5)", type, range)) return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [Dist√¢ncia (recomendado: 1)]");
+	if(sscanf(params, "s[7]F(1.5)", type, range)) return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] (dist‚ncia)");
 
-	if(range > 50.0) return ChatMsg(playerid, YELLOW, " >  Limite de √°rea: 50 metros");
+	if(range > 50.0) return ChatMsg(playerid, YELLOW, " >  Limite de ¡rea: 50 metros");
 
 	new
 		Float:px, Float:py, Float:pz, 
@@ -190,7 +165,7 @@ ACMD:deletar[4](playerid, params[]) {
 		return 1;
 	}
 
-	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [dist√¢ncia] - (recomendado: 1 de dist√¢ncia)");
+	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [dist‚ncia] - (recomendado: 1 de dist‚ncia)");
 }
 
 ACMD:congelarall[4](playerid) {
@@ -208,7 +183,7 @@ ACMD:descongelarall[4](playerid) {
 ACMD:clima[4](playerid, params[]) {
 	new clima;
 
-	if(sscanf(params, "d", clima)) return SendClientMessage(playerid, YELLOW, " > Use: /mudarclima [ID do Clima]");
+	if(sscanf(params, "D(20)", clima)) return SendClientMessage(playerid, YELLOW, " > Use: /mudarclima [ID do Clima]");
 
 	if(clima < 0 || clima > 45) return ChatMsg(playerid, RED," > Climas: 0 a 45");
 
@@ -224,13 +199,13 @@ ACMD:clima[4](playerid, params[]) {
 }
 
 ACMD:tapa[4](playerid, params[]) {
-    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
+    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 		
-    new targetId = strval(params);
+    new targetId;
 	
-	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [ID]");
+	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [id/nick]");
 
-	if(GetPlayerAdminLevel(targetId) > 1) return ChatMsg(playerid, YELLOW, " >  VocÍ n„o pode fazer isto neste player.");
+	if(GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
 
 	new Float:x, Float:y, Float:z;
 	GetPlayerPos(targetId, x, y, z);
@@ -245,28 +220,15 @@ ACMD:aliases[4](playerid, params[]) {
 		type;
 
 	// TODO: Isso pode ser feito de outra forma com "u"
-	if(sscanf(params, "s[24]C(a)", name, type)) return ChatMsg(playerid, YELLOW, " >  Use: /aliases [playerid/name] [i/p/h/a]");
+	if(sscanf(params, "s[24]C(a)", name, type)) return ChatMsg(playerid, YELLOW, " >  Use: /aliases [id/nick] [i/p/h/a]");
 
 	if(isnumeric(name)) {
 		new targetId = strval(name);
 
 		if(IsPlayerConnected(targetId)) GetPlayerName(targetId, name, MAX_PLAYER_NAME);
-
-		else if(targetId > 99)
-			ChatMsg(playerid, YELLOW, " >  O ID '%d' n„o est· online, tente usar o nome do jogador.", targetId);
-		else
-			return 4;
 	}
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' n„o existe.", name);
-
-	if(GetAdminLevelByName(name) > GetPlayerAdminLevel(playerid)) {
-		new playername[MAX_PLAYER_NAME];
-
-		GetPlayerName(playerid, playername, MAX_PLAYER_NAME);
-
-		if(strcmp(name, playername)) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
-	}
 
 	new
 		result,
@@ -280,9 +242,9 @@ ACMD:aliases[4](playerid, params[]) {
 	else if(type == 'h') result = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminlevel);
 	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'p'(senha) 'h'(hash) 'a'(all)");
 
-	if(result == 0) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
+	if(!result) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
 
-	if(count == 0 || adminlevel > GetPlayerAdminLevel(playerid)) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
+	if(!count) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
 
 	ShowPlayerList(playerid, list, (count > MAX_PLAYERS) ? MAX_PLAYERS : count, true);
 
@@ -293,16 +255,7 @@ ACMD:comandoslvl4[4](playerid) {
     new stringlvl4[800];
     strcat(stringlvl4, "{FFFF00}Comandos dos Admins NÌvel 4:\n");
     strcat(stringlvl4, "{FF0000}\n");
-    strcat(stringlvl4, ""C_BLUE"/reiniciar - Reiniciar o servidor\n");
-    strcat(stringlvl4, ""C_BLUE"/additem - Adicionar um item\n");
-    strcat(stringlvl4, ""C_BLUE"/addveiculo - Adicionar um veiculo\n");
-    strcat(stringlvl4, ""C_BLUE"/deletar - Deletar metais, tendas, itens\n");
-    strcat(stringlvl4, ""C_BLUE"/(des)congelarall - Descongelar/congelar todos os players online\n");
-    strcat(stringlvl4, ""C_BLUE"/mudarclima - Mudar o clima do servidor\n");
-//    strcat(stringlvl4, ""C_BLUE"/mudarhora - Mudar a hora do servidor\n");
-    strcat(stringlvl4, ""C_BLUE"/tapa - Dar tapa em algum player\n");
-    strcat(stringlvl4, ""C_BLUE"/aliases - Checar IPs\n");
-//    strcat(stringlvl4, ""C_BLUE"/mp3 - Tocar m√∫sica para os jogadores\n");
+
     ShowPlayerDialog(playerid, 12404, DIALOG_STYLE_MSGBOX, "Admin 4", stringlvl4, "Fechar", "");
 	
     return 1;
