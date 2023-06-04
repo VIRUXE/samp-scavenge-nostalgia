@@ -166,7 +166,7 @@ AnnouncePlayerJoined(playerid) {
 			
 			frase = GetPlayerJoinSentence(playerid);
 
-			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(" -> %s", frase) : "");
+			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf("> %s", frase) : "");
 		}
 	}
 }
