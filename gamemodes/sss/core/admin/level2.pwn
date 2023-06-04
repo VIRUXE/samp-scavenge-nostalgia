@@ -1,25 +1,24 @@
 #include <YSI\y_hooks>
 
-
-hook OnGameModeInit()
-{
-	RegisterAdminCommand(STAFF_LEVEL_MODERATOR, ""C_BLUE"/comandoslvl2 - Ver a lista de comandos dos admins nível 2\n");
+hook OnGameModeInit() {
+	RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "duty", "Entrar em modo admin");
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "banidos", "Lista de banidos do servidor");
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "field", "Detection Fields");
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "ir/puxar", "Teleportar players");
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "verban", "Checar se está banido");
 }
-
 
 //static bool:visible[MAX_PLAYERS];
 
 /*
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
     visible[playerid] = true;
 }
 */
 
 new dutytick[MAX_PLAYERS];
 
-ACMD:duty[2](playerid, params[])
-{
+ACMD:duty[2](playerid, params[]) {
 	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, YELLOW, " >  Você deve sair do /spec.");
 	
 	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000) return ChatMsg(playerid, YELLOW, " >  Aguarde no máximo 5 segundos para usar esse comando novamente.");
@@ -35,8 +34,7 @@ ACMD:duty[2](playerid, params[])
 	return 1;
 }
 
-ACMD:ir[2](playerid, params[])
-{
+ACMD:ir[2](playerid, params[]) {
 	if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_SECRET) return 6;
 
 	new targetId;
@@ -77,8 +75,7 @@ ACMD:puxar[2](playerid, params[]) {
 	return 1;
 }
 
-ACMD:congelar[2](playerid, params[])
-{
+ACMD:congelar[2](playerid, params[]) {
 	new targetid, delay;
 
 	if(sscanf(params, "dD(0)", targetid, delay)) return ChatMsg(playerid, YELLOW, " >  Use: /congelar [playerid] [segundos]");
@@ -100,8 +97,7 @@ ACMD:congelar[2](playerid, params[])
 	return 1;
 }
 
-ACMD:descongelar[2](playerid, params[])
-{
+ACMD:descongelar[2](playerid, params[]) {
 	new targetid;
 
 	if(sscanf(params, "d", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /descongelar [playerid]");
@@ -116,8 +112,7 @@ ACMD:descongelar[2](playerid, params[])
 	return 1;
 }
 
-ACMD:verban[2](playerid, params[])
-{
+ACMD:verban[2](playerid, params[]) {
 	if(!(3 < strlen(params) < MAX_PLAYER_NAME)) return ChatMsg(playerid, RED, " >  Nome de player inválido: '%s'.", params);
 
 	new name[MAX_PLAYER_NAME];
@@ -133,8 +128,7 @@ ACMD:verban[2](playerid, params[])
 }
 
 /*
-ACMD:invisible[2](playerid, params[])
-{
+ACMD:invisible[2](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid))
 	{
 		ChatMsg(playerid, YELLOW, " >  Você deve estar em /duty para usar esse comando.");
@@ -183,8 +177,7 @@ ACMD:invisible[2](playerid, params[])
 	return 1;
 }
 
-hook OnPlayerStreamIn(playerid, forplayerid)
-{
+hook OnPlayerStreamIn(playerid, forplayerid) {
     if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(playerid)) > 10000)
 	{
 	    if(GetTickCountDifference(GetTickCount(), GetPlayerServerJoinTick(forplayerid)) > 10000)
@@ -203,8 +196,7 @@ hook OnPlayerStreamIn(playerid, forplayerid)
 	}
 }
 
-ShowPlayerForPlayer(playerid, toplayerid)
-{
+ShowPlayerForPlayer(playerid, toplayerid) {
     new BitStream:bs = BS_New();
 
     BS_WriteValue(
@@ -217,8 +209,7 @@ ShowPlayerForPlayer(playerid, toplayerid)
     return 1;
 }
 
-RemovePlayerForPlayer(playerid, toplayerid)
-{
+RemovePlayerForPlayer(playerid, toplayerid) {
     new BitStream:bs = BS_New();
 
     BS_WriteValue(
@@ -231,21 +222,3 @@ RemovePlayerForPlayer(playerid, toplayerid)
     return 1;
 }
 */
-
-ACMD:comandoslvl2[2](playerid)
-{
-    new stringlvl2[800];
-    strcat(stringlvl2, "{FFFF00}Comandos dos Admins NÃ­vel 2:\n");
-    strcat(stringlvl2, "{FF0000}\n");
-    strcat(stringlvl2, ""C_BLUE"/duty - Entrar em modo admin\n");
-    strcat(stringlvl2, ""C_BLUE"/field - Ver comandos de field no servidor\n");
-    strcat(stringlvl2, ""C_BLUE"/rdpon - /rdpoff - Ver zonas onde possuÃ­ fields nas bases (cercado com uma corda em todas as pontas)\n");
-    strcat(stringlvl2, ""C_BLUE"/ir /puxar - Teleportar players\n");
-    strcat(stringlvl2, ""C_BLUE"/banidos - Lista de banidos do servidor\n");
-    strcat(stringlvl2, ""C_BLUE"/verban - Checar se está banido\n");
-    strcat(stringlvl2, ""C_BLUE"/setmotd - Mudar as notÃ­cias do servidor\n");
-    strcat(stringlvl2, ""C_BLUE"/setglobal - Mudar o tempo de enviar mensagem no global\n");
-//    strcat(stringlvl2, ""C_BLUE"/invisible - Ficar invisível (Ajuda detectar wallhack's)\n");
-    ShowPlayerDialog(playerid, 12402, DIALOG_STYLE_MSGBOX, "Admin 2", stringlvl2, "Fechar", "");
-    return 1;
-}

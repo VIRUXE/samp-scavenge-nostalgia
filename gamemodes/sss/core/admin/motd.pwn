@@ -66,14 +66,14 @@ public OnPlayerAcceptMotd(playerid) {
 Dialog:ShowMotd(playerid, response, listitem, inputtext[]) {
     if(response) {
         if(!randomButton[playerid]) ShowMotd(playerid); else {
-            if(GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+            if(!GetPlayerAdminLevel(playerid) && GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
                 ShowMotd(playerid);
             else 
                 CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
         }
     } else {
         if(randomButton[playerid]) ShowMotd(playerid); else {
-            if(GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
+            if(!GetPlayerAdminLevel(playerid) && GetTickCountDifference(GetTickCount(), responseTick[playerid]) < SEC(3))
                 ShowMotd(playerid);
             else 
                 CallLocalFunction("OnPlayerAcceptMotd", "d", playerid);
@@ -125,6 +125,10 @@ ACMD:motd[1](playerid, params[]) {
 }
 
 ACMD:setmotd[2](playerid, params[]) return SetPortugueseMotd(playerid);
+
+hook OnGamemodeInit() {
+    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "setmotd", "Mudar as notícias do servidor");
+}
 
 hook OnPlayerDisconnect(playerid) {
     responseTick[playerid] = 0;

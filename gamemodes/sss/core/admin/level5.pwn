@@ -220,13 +220,13 @@ ACMD:clone[5](playerid) {
 	return 1;
 }
 
-ACMD:setadmin[5](playerid, params[]) {
+CMD:setadmin(playerid, params[]) {
+	if(!IsPlayerAdmin(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return 0;
+
 	new targetId, level;
 
 	if(!sscanf(params, "rd", targetId, level)) {
-		if(playerid == targetId) return ChatMsg(playerid, RED, " >  You cannot set your own level");
-
-		if(targetId == INVALID_PLAYER_ID) return 4;
+		if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
 
 		if(!SetPlayerAdminLevel(targetId, level)) return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
 
@@ -237,7 +237,7 @@ ACMD:setadmin[5](playerid, params[]) {
 		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a %s", targetId, rankName);
 		ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" colocou voce como "C_WHITE"%s", playerid, rankName);
 	} else
-		ChatMsg(playerid, YELLOW, " >  Usage: /setadmin [playerid] [level]");
+		ChatMsg(playerid, YELLOW, " >  Usage: /setadmin [id/nick] [level]");
 
 	return 1;
 }
@@ -328,7 +328,7 @@ ACMD:otp[5](playerid, params[]) {
 
 		ChatMsgAdmins(1, YELLOW, " >  Modo de Chave Unica %s", !otp ? "ativado" : "desativado");
 	} else {
-		if (targetId == INVALID_PLAYER_ID) return 4;
+		if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
 		if(!IsPlayerWaitingOTP(targetId)) return ChatMsg(playerid, YELLOW, " >  Este jogador nao esta esperando por uma chave unica.");
 
 		PassOTP(targetId);

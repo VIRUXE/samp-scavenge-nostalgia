@@ -1,7 +1,19 @@
 #include <YSI\y_hooks>
 
 hook OnGameModeInit() {
-	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, ""C_BLUE"/comandoslvl3 - Ver a lista de comandos dos admins nÃ­vel 3\n");
+	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)congelar", "Congelar/descongelar players");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)banir", "Banir/desbanir players");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "delreports", "Apagar todos os reports enviados");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "goto ou tp", "Ver os comandos de teleportes");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "ip", "Pegar ip de players");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "irpos", "Ir em uma determinada coordenada");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "move", "Para mover no mundo");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "recam", "Da reset na camara depois de /free");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "resetarsenha", "Resetar senha de alguém (a senha nova será: 'password')");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "setactive", "ativar/desativar contas");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "sethp", "Define a vida de um jogador");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "spec/free", "Observar alguém, camera livre");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "veiculo", "Controlar Veículos");
 }
 
 /*
@@ -409,24 +421,4 @@ ACMD:sethp[3](playerid, params[]) {
 	printf("[ADMIN] %p (%d) setou a vida de %p (%d) para %d", playerid, playerid, targetId, targetId, hp);
 
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P (%d)"C_BLUE" setou a vida de %P (%d)"C_BLUE" para %d", playerid, playerid, targetId, targetId, hp);
-}
-
-ACMD:comandoslvl3[3](playerid) {
-    new stringlvl3[800];
-    strcat(stringlvl3, "{FFFF00}Comandos dos Admins NÃ­vel 3:\n");
-    strcat(stringlvl3, "{FF0000}\n");
-    strcat(stringlvl3, ""C_BLUE"/(des)congelar - Congelar/descongelar players\n");
-    strcat(stringlvl3, ""C_BLUE"/(des)banir - Banir/desbanir players\n");
-    strcat(stringlvl3, ""C_BLUE"/spec /free - Observar alguém, camera livre\n");
-    strcat(stringlvl3, ""C_BLUE"/ip - Pegar ip de players\n");
-    strcat(stringlvl3, ""C_BLUE"/veiculo - Controlar Veículos\n");
-    strcat(stringlvl3, ""C_BLUE"/move - Mover-se\n");
-    strcat(stringlvl3, ""C_BLUE"/irpos - Ir em uma determinada coordenada\n");
-    strcat(stringlvl3, ""C_BLUE"/resetarsenha - Resetar senha de alguém (a senha nova será: 'password')\n");
-    strcat(stringlvl3, ""C_BLUE"/setactive - ativar/desativar contas\n");
-    strcat(stringlvl3, ""C_BLUE"/goto ou /tp - Ver os comandos de teleportes\n");
-    strcat(stringlvl3, ""C_BLUE"/delreports - Apagar todos os reports enviados\n");
-    ShowPlayerDialog(playerid, 12403, DIALOG_STYLE_MSGBOX, "Admin 3", stringlvl3, "Fechar", "");
-
-    return 1;
 }

@@ -318,6 +318,10 @@ new stock GLOBAL_DEBUG = -1;
 // pawn-requests
 new RequestsClient:requestsClient;
 
+enum {
+	DIALOG_ADMIN_COMMANDS
+}
+
 // UTILITIES
 #include "sss/utils/logging.pwn"
 #include "sss/utils/math.pwn"
