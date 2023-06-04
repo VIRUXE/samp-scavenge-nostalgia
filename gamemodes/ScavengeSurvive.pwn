@@ -65,6 +65,8 @@ forward Float:GetPlayerBleedRate(playerid);
 #define ls(%0,%1) GetLanguageString(%0, %1)
 #define DamagePlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) - %1)
 #define HealPlayer(%0,%1) SetPlayerHP(%0, GetPlayerHP(%0) + %1)
+#define TakeScore(%0,%1) SetPlayerScore(%0, GetPlayerScore(%0) - %1)
+#define GiveScore(%0,%1) SetPlayerScore(%0, GetPlayerScore(%0) + %1)
 
 /*==============================================================================
 
