@@ -13,15 +13,20 @@ Float:	death_RotZ[MAX_PLAYERS],
 		death_LastKilledById[MAX_PLAYERS],
 		death_Count[MAX_PLAYERS],
         death_Spree[MAX_PLAYERS],
-		AliveTime[MAX_PLAYERS];
+		aliveTime[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid) {
 	death_Dying[playerid]           = false;
 	death_LastKilledBy[playerid][0] = EOS;
 	death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
 	death_Count[playerid]           = 0;
-	AliveTime[playerid]             = 0;
+	aliveTime[playerid]             = 0;
 	death_Spree[playerid]           = 0;
+}
+
+hook OnPlayerLogin(playerid) {
+	new const hoursAlive = aliveTime[playerid] / 3600;
+	if(hoursAlive) GiveScore(playerid, hoursAlive);
 }
 
 public OnPlayerDeath(playerid, killerid, reason) {
@@ -48,18 +53,31 @@ public OnPlayerDeath(playerid, killerid, reason) {
 }
 
 ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
-    if(IsPlayerSpawned(playerid)) AliveTime[playerid]++;
+	if(
+		!IsPlayerSpawned(playerid) ||
+		!IsPlayerAlive(playerid) ||
+		IsPlayerUnfocused(playerid) ||
+		IsPlayerOnAdminDuty(playerid) ||
+		IsPlayerInTutorial(playerid)
+	) return;
+
+	aliveTime[playerid]++;
+
+	db_query(gAccounts, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+
+	if(aliveTime[playerid] % 3600 == 0) GiveScore(playerid, 1);
 }
 
 _OnDeath(playerid, killerid) {
 	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
-
-	AliveTime[playerid] = 0;
 	
 	new
-		deathreason = GetLastHitByWeapon(playerid),
-		deathreasonstring[256];
+		deathReason = GetLastHitByWeapon(playerid),
+		deathReasonString[256];
 
+	db_query(gAccounts, sprintf("UPDATE players SET aliveTime = 0 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+
+	aliveTime[playerid] = 0;
 	death_Dying[playerid] = true;
 	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, false);
@@ -86,10 +104,10 @@ _OnDeath(playerid, killerid) {
 
 	SpawnPlayer(playerid);
 
-	KillPlayer(playerid, killerid, deathreason);
+	KillPlayer(playerid, killerid, deathReason);
 
 	if(IsPlayerConnected(killerid)) {
-		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
+		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
 		SetPlayerScore(killerid, GetPlayerScore(killerid) + (IsPlayerVip(killerid) ? 2 : 1));
 
@@ -104,34 +122,34 @@ _OnDeath(playerid, killerid) {
 		death_LastKilledById[playerid] = killerid;
         SetLastHitById(playerid, INVALID_PLAYER_ID);
 
-		switch(deathreason) {
-			case 0..3, 5..7, 10..15: 	deathreasonstring = "Espancado até a morte.";
-			case 4: 					deathreasonstring = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
-			case 8: 					deathreasonstring = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
-			case 9: 					deathreasonstring = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
-			case 16, 39, 35, 36, 255: 	deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
-			case 18, 37: 				deathreasonstring = "Todo o corpo está carbonizado e queimado.";
-			case 22..34, 38: 			deathreasonstring = "Morreu de perda de sangue causada pelo que parece balas.";
-			case 41, 42: 				deathreasonstring = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
-			case 44, 45: 				deathreasonstring = "De alguma forma, eles foram mortos por óculos.";
-			case 43: 					deathreasonstring = "De alguma forma, eles foram mortos por uma câmera.";
-			default: 					deathreasonstring = "Sangrou até a morte";
+		switch(deathReason) {
+			case 0..3, 5..7, 10..15: 	deathReasonString = "Espancado até a morte.";
+			case 4: 					deathReasonString = "Sofreu pequenos cortes no tronco, possivelmente de uma faca.";
+			case 8: 					deathReasonString = "Grandes lacerações cobrem o tronco e a cabeça, parece uma espada finamente afiada.";
+			case 9: 					deathReasonString = "Há pedaços em todos os lugares, provavelmente sofreu com uma serra elétrica.";
+			case 16, 39, 35, 36, 255: 	deathReasonString = "Sofreu uma concussão maciça devido a uma explosão.";
+			case 18, 37: 				deathReasonString = "Todo o corpo está carbonizado e queimado.";
+			case 22..34, 38: 			deathReasonString = "Morreu de perda de sangue causada pelo que parece balas.";
+			case 41, 42: 				deathReasonString = "Esse corpo foi pulverizado e sufocado por uma substância de alta pressão.";
+			case 44, 45: 				deathReasonString = "De alguma forma, eles foram mortos por óculos.";
+			case 43: 					deathReasonString = "De alguma forma, eles foram mortos por uma câmera.";
+			default: 					deathReasonString = "Sangrou até a morte";
 		}
 	} else {
-		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathreason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
+		log("[DEATH] %p died because of %d at %f, %f, %f (%f)", playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 
 		death_LastKilledBy[playerid][0] = EOS;
 		death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
 
-		switch(deathreason) {
-			case 53: 	deathreasonstring = "Se afogou";
-			case 54: 	deathreasonstring = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
-			case 255: 	deathreasonstring = "Sofreu uma concussão maciça devido a uma explosão.";
-			default: 	deathreasonstring = "Razão da morte desconhecida.";
+		switch(deathReason) {
+			case 53: 	deathReasonString = "Se afogou";
+			case 54: 	deathReasonString = "A maioria dos ossos estão quebrados, parece que eles caíram de uma grande altura.";
+			case 255: 	deathReasonString = "Sofreu uma concussão maciça devido a uma explosão.";
+			default: 	deathReasonString = "Razão da morte desconhecida.";
 		}
 	}
 
-	CreateGravestone(playerid, deathreasonstring, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid] - FLOOR_OFFSET, death_RotZ[playerid]);
+	CreateGravestone(playerid, deathReasonString, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid] - FLOOR_OFFSET, death_RotZ[playerid]);
 
     SavePlayerData(playerid);
 
@@ -141,8 +159,7 @@ _OnDeath(playerid, killerid) {
 	return 1;
 }
 
-DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
-{
+DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	new
 		itemid,
 		interior = GetPlayerInterior(playerid),
@@ -154,8 +171,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 
 	itemid = GetPlayerItem(playerid);
 
-	if(IsValidItem(itemid))
-	{
+	if(IsValidItem(itemid)) {
 		CreateItemInWorld(itemid,
 			x + floatsin(345.0, degrees),
 			y + floatcos(345.0, degrees),
@@ -171,8 +187,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 
 	itemid = GetPlayerHolsterItem(playerid);
 
-	if(IsValidItem(itemid))
-	{
+	if(IsValidItem(itemid)) {
 		RemovePlayerHolsterItem(playerid);
 
 		CreateItemInWorld(itemid,
@@ -188,8 +203,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 		Inventory
 	*/
 
-	for(new i; i < INV_MAX_SLOTS; i++)
-	{
+	for(new i; i < INV_MAX_SLOTS; i++) {
 		itemid = GetInventorySlotItem(playerid, 0);
 
 		if(!IsValidItem(itemid))
@@ -211,8 +225,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 
 	itemid = GetPlayerBagItem(playerid);
 
-	if(IsValidItem(itemid))
-	{
+	if(IsValidItem(itemid)) {
 		RemovePlayerBag(playerid);
 
 		SetItemPos(itemid, x, y, z - FLOOR_OFFSET);
@@ -227,8 +240,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 
 	itemid = RemovePlayerHatItem(playerid);
 
-	if(IsValidItem(itemid))
-	{
+	if(IsValidItem(itemid)) {
 		CreateItemInWorld(itemid,
 			x + floatsin(270.0, degrees),
 			y + floatcos(270.0, degrees),
@@ -244,8 +256,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 
 	itemid = RemovePlayerMaskItem(playerid);
 
-	if(IsValidItem(itemid))
-	{
+	if(IsValidItem(itemid)) {
 		CreateItemInWorld(itemid,
 			x + floatsin(280.0, degrees),
 			y + floatcos(280.0, degrees),
@@ -259,8 +270,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 		Armour item
 	*/
 
-	if(GetPlayerAP(playerid) > 0.0)
-	{
+	if(GetPlayerAP(playerid) > 0.0) {
 		itemid = CreateItemInWorld(RemovePlayerArmourItem(playerid),
 			x + floatsin(80.0, degrees),
 			y + floatcos(80.0, degrees),
@@ -276,15 +286,13 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death)
 		These items should only be dropped on death.
 	*/
 
-	if(!death)
-		return;
+	if(!death) return;
 
 	/*
 		Handcuffs
 	*/
 
-	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED)
-	{
+	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED) {
 		CreateItem(item_HandCuffs,
 			x + floatsin(135.0, degrees),
 			y + floatcos(135.0, degrees),
@@ -430,15 +438,13 @@ hook OnGameModeInit() {
 	TextDrawSetSelectable		(DeathButton, true);
 }
 
-stock IsPlayerDead(playerid)
-{
+stock IsPlayerDead(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return death_Dying[playerid];
 }
 
-stock GetPlayerDeathPos(playerid, &Float:x, &Float:y, &Float:z)
-{
+stock GetPlayerDeathPos(playerid, &Float:x, &Float:y, &Float:z) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	x = death_PosX[playerid];
@@ -448,8 +454,7 @@ stock GetPlayerDeathPos(playerid, &Float:x, &Float:y, &Float:z)
 	return 1;
 }
 
-stock GetPlayerDeathRot(playerid, &Float:r)
-{
+stock GetPlayerDeathRot(playerid, &Float:r) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	r = death_RotZ;
@@ -458,10 +463,8 @@ stock GetPlayerDeathRot(playerid, &Float:r)
 }
 
 // death_LastKilledBy
-stock GetLastKilledBy(playerid, name[MAX_PLAYER_NAME])
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock GetLastKilledBy(playerid, name[MAX_PLAYER_NAME]) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	name = death_LastKilledBy[playerid];
 
@@ -469,34 +472,20 @@ stock GetLastKilledBy(playerid, name[MAX_PLAYER_NAME])
 }
 
 // death_LastKilledById
-stock GetLastKilledById(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock GetLastKilledById(playerid) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return death_LastKilledById[playerid];
 }
 
-stock GetPlayerAliveTime(playerid)
-	return AliveTime[playerid];
+stock GetPlayerAliveTime(playerid) return aliveTime[playerid];
 	
-stock SetPlayerAliveTime(playerid, time){
-    AliveTime[playerid] = time;
-	return 1;
-}
+stock SetPlayerAliveTime(playerid, time) aliveTime[playerid] = time;
 
-stock GetPlayerDeathCount(playerid)
-	return death_Count[playerid];
+stock GetPlayerDeathCount(playerid) return death_Count[playerid];
 
-stock SetPlayerDeathCount(playerid, dead){
-	death_Count[playerid] = dead;
-	return 1;
-}
+stock SetPlayerDeathCount(playerid, dead) death_Count[playerid] = dead;
 
-stock GetPlayerSpree(playerid)
-	return death_Spree[playerid];
+stock GetPlayerSpree(playerid) return death_Spree[playerid];
 
-stock SetPlayerSpree(playerid, spree){
-	death_Spree[playerid] = spree;
-	return 1;
-}
+stock SetPlayerSpree(playerid, spree) death_Spree[playerid] = spree;

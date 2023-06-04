@@ -408,7 +408,7 @@
 {"player/holster/put", "Arma Colocada no Coldre", "Weapon Holstered"},
 {"player/holster/equip", "Equipado", "Equipped"},
 {"player/reducebleed", "Taxa de sangramento reduzida de %f para %f", "Reduced bleedrate from %f to %f"},
-{"player/join", "%P (%s) entrou no servidor %s", "%P (%s) joined the server %s"},
+{"player/join", "%P (%s) {FFFFFF}entrou no servidor %s", "%P (%s) {FFFFFF}joined the server %s"},
 {"player/left", "%P saiu do servidor", "%P left the server"},
 {"player/left-crash", "%P foi timeout ou crashou", "%P either crashed or was timed out"},
 {"player/ping", "Ping muito alto", "Ping too high"},
