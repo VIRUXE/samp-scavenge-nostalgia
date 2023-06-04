@@ -348,7 +348,6 @@ enum {
 #include "sss/core/server/discord.pwn"
 #include "sss/core/server/OTP.pwn"
 #include "sss/core/server/text-tags.pwn"
-#include "sss/core/server/weather.pwn"
 //#include "sss/core/server/save-block.pwn"
 #include "sss/core/server/i18n.pwn"
 #include "sss/core/server/anti-cheat.pwn"
@@ -534,7 +533,7 @@ enum {
 
 #include "sss/core/admin/detfield.pwn"
 #include "sss/core/admin/detfield-cmds.pwn"
-#include "sss/core/admin/detfield-draw.pwn"
+// #include "sss/core/admin/detfield-draw.pwn"
 
 
 // ITEMS
