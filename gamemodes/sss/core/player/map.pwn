@@ -25,7 +25,6 @@ ToggleMap(playerid, bool:toggle) {
 }
 
 function OnPlayerUsingMap(playerid, bool:yes) {
-    printf("[MAP] %s map for %p.", yes ? "Showing" : "Hiding", playerid);
 }
 
 hook OnGameModeInit() {
@@ -64,7 +63,7 @@ hook OnPlayerSpawnNewChar(playerid) {
 
     ToggleMap(playerid, map);
     
-    printf("[MAP] OnPlayerSpawnNewChar(%d) -> Map: %s", playerid, booltostr(map));
+    printf("[MAP] OnPlayerSpawnNewChar(%d) -> Has Map: %s", playerid, booltostr(map));
 }
 
 hook OnAdminToggleDuty(playerid, toggle, goBack) {
