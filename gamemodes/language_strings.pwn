@@ -410,7 +410,7 @@
 {"player/reducebleed", "Taxa de sangramento reduzida de %f para %f", "Reduced bleedrate from %f to %f"},
 {"player/join", "%P (%s) {FFFFFF}entrou no servidor %s", "%P (%s) {FFFFFF}joined the server %s"},
 {"player/left", "%P saiu do servidor", "%P left the server"},
-{"player/left-crash", "%P perdeu a conexão ou crashou", "%P either crashed or lose the connection"},
+{"player/left-crash", "%P perdeu a conexão ou crashou", "%P either crashed or lost connection"},
 {"player/ping", "Ping muito alto", "Ping too high"},
 {"player/kicked", " >  Kickado, motivo: {33CCFF}%s", " >  Kicked, reason: {33CCFF}%s"},
 {"player/join-sentence/onplayerlogin", " > Sua frase de entrada", " > Your entrance sentence"},

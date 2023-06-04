@@ -57,18 +57,6 @@ ACMD:unloadfs[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:setscore[5](playerid, params[]) {
-	new targetId, score;
-	if(sscanf(params, "dd", targetId, score)) return ChatMsg(playerid,YELLOW," >  Use: /setplayerscore [id] [score]");
-	
-	SetPlayerScore(targetId, score);
-
-	ChatMsg(playerid, YELLOW, " >  Score de %d %P "C_YELLOW"setado para "C_BLUE"%d", targetId, targetId, score);
-	ChatMsg(targetId, YELLOW, " >  Seu score foi setado para "C_BLUE"%d", score);
-
-	return 1;
-}
-
 ACMD:nametags[5](playerid, params[]) {
 	ToggleNameTagsForPlayer(playerid, !GetPlayerNameTagsToggle(playerid));
 	ChatMsg(playerid, YELLOW, " >  Nametags toggled %s", (GetPlayerNameTagsToggle(playerid)) ? ("on") : ("off"));
