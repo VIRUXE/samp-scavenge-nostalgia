@@ -245,7 +245,7 @@ LoadAccount(playerid) {
 	SetPlayerTotalSpawns(playerid, spawns);
 	SetPlayerWarnings(playerid, warnings);
 	SetPlayerVip(playerid, vip);
-	SetPlayerScore(playerid, kills);
+	GiveScore(playerid, kills);
 	SetPlayerDeathCount(playerid, deaths);
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);
@@ -458,7 +458,7 @@ Logout(playerid, docombatlogcheck = 1) {
 			if(IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) {
 				log("[ACCOUNTS] Player '%p' combat logged!", playerid);
 				ChatMsgAll(YELLOW, " >  %p Deslogou em combate e foi morto!", playerid);
-                SetPlayerScore(playerid, GetPlayerScore(playerid) - 1);
+                TakeScore(playerid, 1);
                 SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
 				_OnDeath(playerid, lastattacker);
 				SetPlayerAliveState(playerid, false);

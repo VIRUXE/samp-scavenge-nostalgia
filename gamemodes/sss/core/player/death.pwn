@@ -25,8 +25,8 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerLogin(playerid) {
-	new const hoursAlive = aliveTime[playerid] / 3600;
-	if(hoursAlive) GiveScore(playerid, hoursAlive);
+	new const minutesAlive = aliveTime[playerid] / 60;
+	if(minutesAlive) GiveScore(playerid, minutesAlive);
 }
 
 public OnPlayerDeath(playerid, killerid, reason) {
@@ -65,7 +65,7 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	db_query(gAccounts, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
-	if(aliveTime[playerid] % 3600 == 0) GiveScore(playerid, 1);
+	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
 }
 
 _OnDeath(playerid, killerid) {
@@ -109,7 +109,7 @@ _OnDeath(playerid, killerid) {
 	if(IsPlayerConnected(killerid)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		SetPlayerScore(killerid, GetPlayerScore(killerid) + (IsPlayerVip(killerid) ? 2 : 1));
+		GiveScore(killerid, IsPlayerVip(killerid) ? 2 : 1);
 
 		db_query(gAccounts, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerid)));
 		
@@ -163,7 +163,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	new
 		itemid,
 		interior = GetPlayerInterior(playerid),
-		world = GetPlayerVirtualWorld(playerid);
+		world    = GetPlayerVirtualWorld(playerid);
 
 	/*
 		Held item
