@@ -325,7 +325,7 @@ stock IsPlayerInPlayerArea(playerid, targetid)
 ==============================================================================*/
 
 
-stock ShowActionText(playerid, message[], time=0, width=200)
+stock ShowActionText(playerid, message[], time=3000, width=200)
 {
     if(!IsPlayerNPC(playerid))
 	{
