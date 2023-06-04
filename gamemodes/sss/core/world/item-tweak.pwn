@@ -66,14 +66,14 @@ hook OnPlayerUpdate(playerid) {
 }
 
 // Corrigir Posição do objeto
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID) TweakResetItemPos(playerid);
 
 	return 1;
 }
 
-TweakResetItemPos(playerid){
-    if(twk_Item[playerid] != INVALID_ITEM_ID){
+TweakResetItemPos(playerid) {
+    if(twk_Item[playerid] != INVALID_ITEM_ID) {
 	    new
 			Float:x, Float:y, Float:z,
 			Float:rx, Float:ry, Float:rz;
@@ -86,41 +86,40 @@ TweakResetItemPos(playerid){
 	    
 	    CallLocalFunction("OnItemTweakUpdate", "ddffffff", playerid, twk_Item[playerid], x, y, z, rx, ry, rz);
     }
+
 	return 1;
 }
 
-public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz){
+public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz) {
     twk_MoveTick[playerid] = GetTickCount();
     
-	if(GetItemObjectID(twk_Item[playerid]) != objectid)
-	    return 1;
+	if(GetItemObjectID(twk_Item[playerid]) != objectid) return 1;
 	    
     new Float:ix, Float:iy, Float:iz;
 	GetItemPos(twk_Item[playerid], ix, iy, iz);
 	
-    if(response == EDIT_RESPONSE_FINAL){
-        if(Distance(x, y, z, ix, iy, iz) > 10.0){
+    if(response == EDIT_RESPONSE_FINAL) {
+        if(Distance(x, y, z, ix, iy, iz) > 10.0) {
             GetItemPos(twk_Item[playerid], x, y, z);
 	    	GetItemRot(twk_Item[playerid], rx, ry, rz);
             ChatMsg(playerid, RED, " > Você moveu o item longe demais e a Posição foi resetada.");
         }
+
 	    SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
 	    TweakFinalise(playerid);
-	}
-	else if(response == EDIT_RESPONSE_CANCEL){
+	} else if(response == EDIT_RESPONSE_CANCEL) {
      	GetItemPos(twk_Item[playerid], x, y, z);
 	    GetItemRot(twk_Item[playerid], rx, ry, rz);
 
         SetItemPos(twk_Item[playerid], x, y, z);
 	    SetItemRot(twk_Item[playerid], rx, ry, rz);
-		ChatMsg(playerid, RED, " > EdiÃ§Ã£o cancelada.");
+		ChatMsg(playerid, RED, " > Edição cancelada.");
 		TweakFinalise(playerid);
-	}
-	else if(response == EDIT_RESPONSE_UPDATE){
+	} else if(response == EDIT_RESPONSE_UPDATE) {
 	    CallLocalFunction("OnItemTweakUpdate", "ddffffff", playerid, twk_Item[playerid], x, y, z, rx, ry, rz);
    			
-	    if(GetPlayerDistanceFromPoint(playerid, x, y, z) < 6.0){
+	    if(GetPlayerDistanceFromPoint(playerid, x, y, z) < 6.0) {
 		    SetPlayerVelocity(playerid, 0.0, 0.0, 0.0);
 		    SetPlayerPos(playerid, twk_pPos[playerid][0], twk_pPos[playerid][1], twk_pPos[playerid][2]);
 	    }
@@ -135,5 +134,4 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 	return 1;
 }
 
-stock twk_ItemPlayer(playerid)
-	return twk_Item[playerid];
+stock twk_ItemPlayer(playerid) return twk_Item[playerid];

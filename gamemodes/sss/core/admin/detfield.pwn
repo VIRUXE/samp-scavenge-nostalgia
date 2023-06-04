@@ -52,6 +52,7 @@ Float:		det_Points			[MAX_DETFIELD][10],
 			det_ExceptionCount	[MAX_DETFIELD],
 Float:		det_MinZ			[MAX_DETFIELD],
 Float:		det_MaxZ			[MAX_DETFIELD],
+			det_Lines			[MAX_DETFIELD][8],
 bool:		det_Active			[MAX_DETFIELD];
 
 new
@@ -195,6 +196,19 @@ stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ
 
 	Iter_Add(det_Index, id);
 
+	// Linhas (Corda: 19087, Length: 2.46)
+	for(new i; i < 8; i += 2) {
+		// Linhas para baixo
+		det_Lines[id][i + 0] = CreateLineSegment(18649, 2.00,
+			points[i + 0], points[i + 1], minZ,
+			points[i + 2], points[i + 3], minZ, .objlengthoffset = -(2.00/2));
+
+		// Linhas para cima
+		det_Lines[id][i + 1] = CreateLineSegment(18649, 2.00,
+			points[i + 0], points[i + 1], maxZ,
+			points[i + 2], points[i + 3], maxZ, .objlengthoffset = -(2.00/2));
+	}
+
 	return id;
 }
 
@@ -204,7 +218,10 @@ stock DestroyDetectionField(detfieldId) {
 	DestroyDynamicArea(det_AreaID[detfieldId]);
 	det_Name[detfieldId][0] = EOS;
 
-	DestroyDetfieldPoly(detfieldId);
+	for(new i; i < 8; i++) {
+		DestroyLineSegment(det_Lines[detfieldId][i]);
+		det_Lines[detfieldId][i] = INVALID_LINE_SEGMENT_ID;
+	}
 
 	Iter_Remove(det_Index, detfieldId);
 
