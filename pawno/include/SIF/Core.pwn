@@ -63,7 +63,7 @@ forward IsPlayerInPlayerArea(playerid, targetid);
 Checks if a player is standing next to another player.
 */
 
-forward ShowActionText(playerid, message[], time=0, width=200);
+forward ShowActionText(playerid, message[], time=3000, width=200);
 /*
 # Description
 Display a small message in the center of the player's screen.
