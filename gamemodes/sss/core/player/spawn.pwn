@@ -113,8 +113,6 @@ ResetClimate(playerid) {
 }
 
 PrepareForSpawn(playerid) {
-	printf("PrepareForSpawn(%d)", playerid);
-
 	SetPlayerScreenFade(playerid, FADE_IN, 0, 100, 2);
 
 	ToggleHud(playerid, true);
