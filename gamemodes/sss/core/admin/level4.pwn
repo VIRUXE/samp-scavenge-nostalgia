@@ -14,9 +14,9 @@ hook OnGameModeInit() {
 ACMD:reiniciar[4](playerid, params[]) {
 	new duration;
 
-	if(sscanf(params, "D(300)", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar [segundos] - Sempre dá aos jogadores 5 or 10 minutos para se prepararem.");
+	if(sscanf(params, "D(300)", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar (segundos)");
 
-	ChatMsgAll(RED, " >  O servidor será reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
+	// ChatMsgAll(RED, " >  O servidor será reiniciado em: "C_BLUE"%02d:%02d"C_RED".", duration / 60, duration % 60);
 
 	SetRestart(duration);
 
@@ -234,12 +234,12 @@ ACMD:aliases[4](playerid, params[]) {
 		result,
 		list[MAX_PLAYERS][MAX_PLAYER_NAME],
 		count,
-		adminlevel;
+		adminLevel;
 
-	if(type == 'a') result = GetAccountAliasesByAll(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'i') result = GetAccountAliasesByIP(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'p') result = GetAccountAliasesByPass(name, list, count, MAX_PLAYERS, adminlevel);
-	else if(type == 'h') result = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminlevel);
+	if(type == 'a') result = GetAccountAliasesByAll(name, list, count, MAX_PLAYERS, adminLevel);
+	else if(type == 'i') result = GetAccountAliasesByIP(name, list, count, MAX_PLAYERS, adminLevel);
+	else if(type == 'p') result = GetAccountAliasesByPass(name, list, count, MAX_PLAYERS, adminLevel);
+	else if(type == 'h') result = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminLevel);
 	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'p'(senha) 'h'(hash) 'a'(all)");
 
 	if(!result) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
@@ -249,14 +249,4 @@ ACMD:aliases[4](playerid, params[]) {
 	ShowPlayerList(playerid, list, (count > MAX_PLAYERS) ? MAX_PLAYERS : count, true);
 
 	return 1;
-}
-
-ACMD:comandoslvl4[4](playerid) {
-    new stringlvl4[800];
-    strcat(stringlvl4, "{FFFF00}Comandos dos Admins Nível 4:\n");
-    strcat(stringlvl4, "{FF0000}\n");
-
-    ShowPlayerDialog(playerid, 12404, DIALOG_STYLE_MSGBOX, "Admin 4", stringlvl4, "Fechar", "");
-	
-    return 1;
 }
