@@ -54,6 +54,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 
 ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 	if(
+		!IsPlayerLoggedIn(playerid) ||
 		!IsPlayerSpawned(playerid) ||
 		!IsPlayerAlive(playerid) ||
 		IsPlayerUnfocused(playerid) ||
@@ -66,9 +67,11 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 	db_query(Database, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
+
+	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "%p completou agora mais uma hora vivo!", playerid); 
 }
 
-_OnDeath(playerid, killerid) {
+_OnDeath(playerid, killerId) {
 	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
 	
 	new
@@ -104,22 +107,22 @@ _OnDeath(playerid, killerid) {
 
 	SpawnPlayer(playerid);
 
-	KillPlayer(playerid, killerid, deathReason);
+	KillPlayer(playerid, killerId, deathReason);
 
-	if(IsPlayerConnected(killerid)) {
-		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerid, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
+	if(IsPlayerConnected(killerId)) {
+		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerId, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		GiveScore(killerid, IsPlayerVip(killerid) ? 2 : 1);
+		GiveScore(killerId, IsPlayerVip(killerId) ? 2 : 1);
 
-		db_query(Database, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerid)));
+		db_query(Database, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerId)));
 		
-		death_Spree[killerid]++;
+		death_Spree[killerId]++;
 		death_Spree[playerid] = 0;
 		
-		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerid, playerid);
+		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerId, playerid);
 		
-		GetPlayerName(killerid, death_LastKilledBy[playerid], MAX_PLAYER_NAME);
-		death_LastKilledById[playerid] = killerid;
+		GetPlayerName(killerId, death_LastKilledBy[playerid], MAX_PLAYER_NAME);
+		death_LastKilledById[playerid] = killerId;
         SetLastHitById(playerid, INVALID_PLAYER_ID);
 
 		switch(deathReason) {
