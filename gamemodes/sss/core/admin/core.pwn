@@ -295,22 +295,25 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 
 		RemoveAllDrugs(playerid);
 
-		admin_OnDuty[playerid] = true;
+		SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
 
-		if(GetPlayerGender(playerid) == GENDER_MALE) SetPlayerSkin(playerid, 217); else SetPlayerSkin(playerid, 211);
-	} else {
-		new Float:x, Float:y, Float:z;
+		// Tornamos os markers dos jogadores visiveis
+		foreach(new p : Player) SetPlayerMarkerForPlayer(playerid, p, (GetPlayerColor(p) | 0x000000FF));
+	} else { // Sair de Duty
+		LoadPlayerChar(playerid);
 
 		// Se voltamos para o local onde entramos no duty...
 		if(goBack) {
+			new Float:x, Float:y, Float:z;
 			GetPlayerSpawnPos(playerid, x, y, z);
 			SetPlayerPos(playerid, x, y, z);
 		}
-		
-		LoadPlayerChar(playerid);
 
-		defer PlayerDutyFalse(playerid);
+		// Removemos os markers dos jogadores
+		foreach(new p : Player) SetPlayerMarkerForPlayer(playerid, p, (GetPlayerColor(p) & 0xFFFFFF00));
 	}
+
+	admin_OnDuty[playerid] = toggle;
 
 	ToggleNameTagsForPlayer(playerid, toggle);
 
@@ -318,8 +321,6 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 
 	CallLocalFunction("OnAdminToggleDuty", "dbb", playerid, toggle, goBack);
 }
-
-timer PlayerDutyFalse[1500](playerid) admin_OnDuty[playerid] = false;
 
 stock SetPlayerAdminLevel(playerid, level) {
 	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;

@@ -437,6 +437,13 @@ public OnPlayerLogin(playerid) {
 
 	ShowMotd(playerid);
 
+	// Mostrar o marcador para os admins que estiverem em duty
+	foreach(new p : Player) {
+		if(!IsPlayerOnAdminDuty(p)) continue;
+
+		SetPlayerMarkerForPlayer(p, playerid, (GetPlayerColor(playerid) | 0x000000FF));
+	}
+
 	return 1;
 }
 
