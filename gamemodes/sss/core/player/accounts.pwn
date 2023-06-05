@@ -75,7 +75,7 @@ forward OnPlayerLogin(playerid);
 
 
 hook OnGameModeInit() {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS players (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS players (\
 		name TEXT NOT NULL,\
 		pass TEXT NOT NULL,\
 		ipv4 INTEGER NOT NULL,\
@@ -96,47 +96,47 @@ hook OnGameModeInit() {
 		coins INTEGER,\
 		active INTEGER NOT NULL)");
 
-	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS player_index ON players(name)");
+	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON players(name)");
 
-	stmt_AccountExists			= db_prepare(gAccounts, "SELECT COUNT(*) FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountExists			= db_prepare(Database, "SELECT COUNT(*) FROM players WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountCreate			= db_prepare(gAccounts, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,0,0,0,0,1)");
-	stmt_AccountLoad			= db_prepare(gAccounts, "SELECT * FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountUpdate			= db_prepare(gAccounts, "UPDATE players SET alive=?, warnings=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountCreate			= db_prepare(Database, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,0,0,0,0,1)");
+	stmt_AccountLoad			= db_prepare(Database, "SELECT * FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountUpdate			= db_prepare(Database, "UPDATE players SET alive=?, warnings=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetPassword		= db_prepare(gAccounts, "SELECT pass FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetPassword		= db_prepare(gAccounts, "UPDATE players SET pass=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetPassword		= db_prepare(Database, "SELECT pass FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetPassword		= db_prepare(Database, "UPDATE players SET pass=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetIpv4			= db_prepare(gAccounts, "SELECT ipv4 FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetIpv4			= db_prepare(gAccounts, "UPDATE players SET ipv4=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetIpv4			= db_prepare(Database, "SELECT ipv4 FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetIpv4			= db_prepare(Database, "UPDATE players SET ipv4=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetAliveState	= db_prepare(gAccounts, "SELECT alive FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetAliveState	= db_prepare(gAccounts, "UPDATE players SET alive=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetAliveState	= db_prepare(Database, "SELECT alive FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetAliveState	= db_prepare(Database, "UPDATE players SET alive=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetRegdate		= db_prepare(gAccounts, "SELECT regDate FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetRegdate		= db_prepare(gAccounts, "UPDATE players SET regDate=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetRegdate		= db_prepare(Database, "SELECT regDate FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetRegdate		= db_prepare(Database, "UPDATE players SET regDate=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetLastLog		= db_prepare(gAccounts, "SELECT lastLog FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetLastLog		= db_prepare(gAccounts, "UPDATE players SET lastLog=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetLastLog		= db_prepare(Database, "SELECT lastLog FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetLastLog		= db_prepare(Database, "UPDATE players SET lastLog=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetSpawnTime	= db_prepare(gAccounts, "SELECT spawnTime FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetSpawnTime	= db_prepare(gAccounts, "UPDATE players SET spawnTime=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetSpawnTime	= db_prepare(Database, "SELECT spawnTime FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetSpawnTime	= db_prepare(Database, "UPDATE players SET spawnTime=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetTotalSpawns	= db_prepare(gAccounts, "SELECT totalSpawns FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetTotalSpawns	= db_prepare(gAccounts, "UPDATE players SET totalSpawns=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetTotalSpawns	= db_prepare(Database, "SELECT totalSpawns FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetTotalSpawns	= db_prepare(Database, "UPDATE players SET totalSpawns=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetWarnings		= db_prepare(gAccounts, "SELECT warnings FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetWarnings		= db_prepare(gAccounts, "UPDATE players SET warnings=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetWarnings		= db_prepare(Database, "SELECT warnings FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetWarnings		= db_prepare(Database, "UPDATE players SET warnings=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetGpci			= db_prepare(gAccounts, "SELECT gpci FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetGpci			= db_prepare(gAccounts, "UPDATE players SET gpci=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetGpci			= db_prepare(Database, "SELECT gpci FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetGpci			= db_prepare(Database, "UPDATE players SET gpci=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetActiveState	= db_prepare(gAccounts, "SELECT active FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetActiveState	= db_prepare(gAccounts, "UPDATE players SET active=? WHERE name=? COLLATE NOCASE");
+	stmt_AccountGetActiveState	= db_prepare(Database, "SELECT active FROM players WHERE name=? COLLATE NOCASE");
+	stmt_AccountSetActiveState	= db_prepare(Database, "UPDATE players SET active=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetAliasData	= db_prepare(gAccounts, "SELECT ipv4, pass, gpci FROM players WHERE name=? AND active COLLATE NOCASE");
+	stmt_AccountGetAliasData	= db_prepare(Database, "SELECT ipv4, pass, gpci FROM players WHERE name=? AND active COLLATE NOCASE");
 
-    stmt_AccountSetName			= db_prepare(gAccounts, "UPDATE players SET name=? WHERE name=? COLLATE NOCASE");
+    stmt_AccountSetName			= db_prepare(Database, "UPDATE players SET name=? WHERE name=? COLLATE NOCASE");
 }
 
 hook OnPlayerConnect(playerid) {

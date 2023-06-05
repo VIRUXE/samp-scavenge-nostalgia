@@ -9,10 +9,10 @@ DBStatement:	stmt_AliasesFromAll;
 
 
 hook OnGameModeInit() {
-	stmt_AliasesFromIp   = db_prepare(gAccounts, "SELECT name FROM players WHERE ipv4=? AND active=1 AND name!=? COLLATE NOCASE");
-	stmt_AliasesFromPass = db_prepare(gAccounts, "SELECT name FROM players WHERE pass=? AND active=1 AND name!=? COLLATE NOCASE");
-	stmt_AliasesFromHash = db_prepare(gAccounts, "SELECT name FROM players WHERE gpci=? AND active=1 AND name!=? COLLATE NOCASE");
-	stmt_AliasesFromAll  = db_prepare(gAccounts, "SELECT name FROM players WHERE (pass=? OR ipv4=? OR gpci = ?) AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromIp   = db_prepare(Database, "SELECT name FROM players WHERE ipv4=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromPass = db_prepare(Database, "SELECT name FROM players WHERE pass=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromHash = db_prepare(Database, "SELECT name FROM players WHERE gpci=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromAll  = db_prepare(Database, "SELECT name FROM players WHERE (pass=? OR ipv4=? OR gpci = ?) AND active=1 AND name!=? COLLATE NOCASE");
 }
 
 stock GetAccountAliasesByIP(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {

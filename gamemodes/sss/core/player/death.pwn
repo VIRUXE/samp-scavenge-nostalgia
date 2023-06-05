@@ -63,7 +63,7 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	aliveTime[playerid]++;
 
-	db_query(gAccounts, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
 }
@@ -75,7 +75,7 @@ _OnDeath(playerid, killerid) {
 		deathReason = GetLastHitByWeapon(playerid),
 		deathReasonString[256];
 
-	db_query(gAccounts, sprintf("UPDATE players SET aliveTime = 0 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET aliveTime = 0 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	aliveTime[playerid] = 0;
 	death_Dying[playerid] = true;
@@ -111,7 +111,7 @@ _OnDeath(playerid, killerid) {
 	
 		GiveScore(killerid, IsPlayerVip(killerid) ? 2 : 1);
 
-		db_query(gAccounts, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerid)));
+		db_query(Database, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerid)));
 		
 		death_Spree[killerid]++;
 		death_Spree[playerid] = 0;
@@ -154,7 +154,7 @@ _OnDeath(playerid, killerid) {
     SavePlayerData(playerid);
 
 	SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
-	db_query(gAccounts, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	return 1;
 }

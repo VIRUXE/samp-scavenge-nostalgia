@@ -14,7 +14,7 @@ ACMD:setvip[5](playerid, params[]) {
 
 	SetPlayerVip(targetId, !VIP[targetId]);
 
-	db_query(gAccounts, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
+	db_query(Database, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
 
 	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : 0xB8B8B800);
 
@@ -76,7 +76,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 		if(sscanf(params, "{s[6]}s[*]", MAX_JOINSENTENCE_LEN, frase)) return ChatMsg(playerid, YELLOW, "Sua frase de entrada: %s", GetPlayerJoinSentence(playerid));
 		// if(isnull(params)) return ChatMsg(playerid, YELLOW, ls(playerid, "player/join-sentence/cmd-syntax"));
 
-		db_query(gAccounts, sprintf("UPDATE players SET joinSentence = '%s' WHERE name = '%s';", frase, GetPlayerNameEx(playerid)));
+		db_query(Database, sprintf("UPDATE players SET joinSentence = '%s' WHERE name = '%s';", frase, GetPlayerNameEx(playerid)));
 
 		ChatMsg(playerid, GREEN, " >  %s: "C_WHITE"%s", ls(playerid, "player/join-sentence/changed"), frase);
 	} else if(isequal(command, "reset", true)) {
@@ -84,7 +84,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 		SetPlayerDeathCount(playerid, 0);
 		SetPlayerSpree(playerid, 0);
 
-		db_query(gAccounts, sprintf("UPDATE players SET kills = 0, deaths = 0 WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
+		db_query(Database, sprintf("UPDATE players SET kills = 0, deaths = 0 WHERE name = '%s';", params, GetPlayerNameEx(playerid)));
 
 		ChatMsg(playerid, GREEN, " > Seu status foi resetado.");
 	} else if(isequal(command, "skin", true)) {
@@ -189,7 +189,7 @@ hook OnPlayerSpawnNewChar(playerid) {
 }
 
 GetPlayerJoinSentence(playerid) {
-	new DBResult:result = db_query(gAccounts, sprintf("SELECT joinSentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	new DBResult:result = db_query(Database, sprintf("SELECT joinSentence FROM players WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	new frase[MAX_JOINSENTENCE_LEN];
 	db_get_field(result, 0, frase, sizeof(frase));

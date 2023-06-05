@@ -47,7 +47,7 @@ SetPlayerLanguage(playerId, langId) {
 }
 
 /* SavePlayerLanguage(playerId, langId) {
-	return db_query(gAccounts, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langId, GetPlayerNameEx(playerId)));
+	return db_query(Database, sprintf("UPDATE players SET language = %d WHERE name = '%s'", langId, GetPlayerNameEx(playerId)));
 } */
 
 /*

@@ -24,17 +24,17 @@ DBStatement:	stmt_Ipv4GetRecordsFromName;
 
 hook OnGameModeInit()
 {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_IPV4" (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_IPV4" (\
 		"FIELD_IPV4_NAME" TEXT,\
 		"FIELD_IPV4_IPV4" INTEGER,\
 		"FIELD_IPV4_DATE" INTEGER)");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_IPV4, 3);
+	DatabaseTableCheck(Database, ACCOUNTS_TABLE_IPV4, 3);
 
-	stmt_Ipv4Insert				= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_IPV4" VALUES(?,?,?)");
-	stmt_Ipv4CheckName			= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_NAME"=? AND "FIELD_IPV4_IPV4"=?");
-	stmt_Ipv4GetRecordsFromIP	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_IPV4"=? ORDER BY "FIELD_IPV4_DATE" DESC");
-	stmt_Ipv4GetRecordsFromName	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_NAME"=? COLLATE NOCASE ORDER BY "FIELD_IPV4_DATE" DESC");
+	stmt_Ipv4Insert				= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_IPV4" VALUES(?,?,?)");
+	stmt_Ipv4CheckName			= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_NAME"=? AND "FIELD_IPV4_IPV4"=?");
+	stmt_Ipv4GetRecordsFromIP	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_IPV4"=? ORDER BY "FIELD_IPV4_DATE" DESC");
+	stmt_Ipv4GetRecordsFromName	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_IPV4" WHERE "FIELD_IPV4_NAME"=? COLLATE NOCASE ORDER BY "FIELD_IPV4_DATE" DESC");
 }
 
 hook OnPlayerConnect(playerid)

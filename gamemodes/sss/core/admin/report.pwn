@@ -86,7 +86,7 @@ DBStatement:	stmt_ReportGetUnread;
 
 hook OnGameModeInit()
 {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_REPORTS" (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_REPORTS" (\
 		"FIELD_REPORTS_NAME" TEXT,\
 		"FIELD_REPORTS_REASON" TEXT,\
 		"FIELD_REPORTS_DATE" INTEGER,\
@@ -101,17 +101,17 @@ hook OnGameModeInit()
 		"FIELD_REPORTS_BY" TEXT,\
 		"FIELD_REPORTS_ACTIVE" INTEGER)");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_REPORTS, 13);
+	DatabaseTableCheck(Database, ACCOUNTS_TABLE_REPORTS, 13);
 
-	stmt_ReportInsert		= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_REPORTS" VALUES(?, ?, ?, '0', ?, ?, ?, ?, ?, ?, ?, ?, 1)");
-	stmt_ReportDelete		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE rowid = ?");
-	stmt_ReportDeleteName	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_NAME" = ?");
-	stmt_ReportDeleteRead	= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_READ" = 1");
-	stmt_ReportNameExists	= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_NAME" = ?");
-	stmt_ReportList			= db_prepare(gAccounts, "SELECT "FIELD_REPORTS_NAME", "FIELD_REPORTS_READ", "FIELD_REPORTS_TYPE", rowid FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_ACTIVE"=1");
-	stmt_ReportInfo			= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_REPORTS" WHERE rowid = ?");
-	stmt_ReportSetRead		= db_prepare(gAccounts, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_READ" = ? WHERE rowid = ?");
-	stmt_ReportGetUnread	= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_READ" = 0");
+	stmt_ReportInsert		= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_REPORTS" VALUES(?, ?, ?, '0', ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+	stmt_ReportDelete		= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE rowid = ?");
+	stmt_ReportDeleteName	= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_NAME" = ?");
+	stmt_ReportDeleteRead	= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_READ" = 1");
+	stmt_ReportNameExists	= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_NAME" = ?");
+	stmt_ReportList			= db_prepare(Database, "SELECT "FIELD_REPORTS_NAME", "FIELD_REPORTS_READ", "FIELD_REPORTS_TYPE", rowid FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_ACTIVE"=1");
+	stmt_ReportInfo			= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_REPORTS" WHERE rowid = ?");
+	stmt_ReportSetRead		= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_READ" = ? WHERE rowid = ?");
+	stmt_ReportGetUnread	= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_READ" = 0");
 }
 
 

@@ -24,17 +24,17 @@ DBStatement:	stmt_GpciGetRecordsFromName;
 
 hook OnGameModeInit()
 {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_GPCI" (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_GPCI" (\
 		"FIELD_GPCI_NAME" TEXT,\
 		"FIELD_GPCI_GPCI" TEXT,\
 		"FIELD_GPCI_DATE" INTEGER)");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_GPCI, 3);
+	DatabaseTableCheck(Database, ACCOUNTS_TABLE_GPCI, 3);
 
-	stmt_GpciInsert				= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_GPCI" VALUES(?,?,?)");
-	stmt_GpciCheckName			= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_NAME"=? AND "FIELD_GPCI_GPCI"=?");
-	stmt_GpciGetRecordsFromGpci	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_GPCI"=? ORDER BY "FIELD_GPCI_DATE" DESC");
-	stmt_GpciGetRecordsFromName	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_NAME"=? COLLATE NOCASE ORDER BY "FIELD_GPCI_DATE" DESC");
+	stmt_GpciInsert				= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_GPCI" VALUES(?,?,?)");
+	stmt_GpciCheckName			= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_NAME"=? AND "FIELD_GPCI_GPCI"=?");
+	stmt_GpciGetRecordsFromGpci	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_GPCI"=? ORDER BY "FIELD_GPCI_DATE" DESC");
+	stmt_GpciGetRecordsFromName	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_GPCI" WHERE "FIELD_GPCI_NAME"=? COLLATE NOCASE ORDER BY "FIELD_GPCI_DATE" DESC");
 }
 
 hook OnPlayerConnect(playerid)

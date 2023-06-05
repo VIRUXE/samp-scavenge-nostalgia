@@ -20,7 +20,7 @@ SavePlayerClan(playerid) {
 
 	clan = GetPlayerClan(playerid);
 
-	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
 }
 
 GetPlayerClan(playerid) return Clan[playerid];
@@ -28,7 +28,7 @@ GetPlayerClan(playerid) return Clan[playerid];
 GetClanTag(const clan[MAX_CLAN_NAME]) {
 	new DBResult:result, tag[MAX_CLAN_TAG];
 
-	result = db_query(gAccounts, sprintf("SELECT tag FROM clans WHERE name = '%s';", clan));
+	result = db_query(Database, sprintf("SELECT tag FROM clans WHERE name = '%s';", clan));
 
 	db_get_field(result, 0, tag);
 
@@ -43,7 +43,7 @@ GetClanOwner(const clan[MAX_CLAN_NAME]) {
 	// Consulta o banco de dados e retorna o nome do dono do clan
 	new DBResult:result, owner[MAX_PLAYER_NAME];
 
-	result = db_query(gAccounts, sprintf("SELECT owner FROM clans WHERE name = '%s';", clan));
+	result = db_query(Database, sprintf("SELECT owner FROM clans WHERE name = '%s';", clan));
 
 	db_get_field(result, 0, owner);
 
@@ -53,7 +53,7 @@ GetClanOwner(const clan[MAX_CLAN_NAME]) {
 IsPlayerClanOwner(playerid) return isequal(GetClanOwner(GetPlayerClan(playerid)), GetPlayerNameEx(playerid));
 
 AddPlayerToClan(playerid, clan[MAX_CLAN_NAME]) {
-	db_query(gAccounts, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
 
 	SetPlayerClan(playerid, clan);
 
@@ -79,7 +79,7 @@ bool:RemovePlayerFromClan(playerid) {
 }
 
 hook OnGameModeInit() {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS clans (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS clans (\
 		name TEXT NOT NULL,\
 		tag TEXT NOT NULL,\
 		owner TEXT NOT NULL,\
@@ -87,9 +87,9 @@ hook OnGameModeInit() {
 		last_used INTEGER NOT NULL,\
 		active INTEGER NOT NULL)");
 
-	if(db_changes(gAccounts)) log("[CLAN] Tabela de banco de dados criada.");
+	if(db_changes(Database)) log("[CLAN] Tabela de banco de dados criada.");
 
-	db_query(gAccounts, "CREATE INDEX IF NOT EXISTS clan_index ON clans(name)");
+	db_query(Database, "CREATE INDEX IF NOT EXISTS clan_index ON clans(name)");
 }
 
 hook OnPlayerLogin(playerid) {

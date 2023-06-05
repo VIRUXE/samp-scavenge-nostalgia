@@ -54,16 +54,16 @@ static
 				admin_PlayerKicked[MAX_PLAYERS];
 
 hook OnScriptInit() {
-	db_free_result(db_query(gAccounts, "CREATE TABLE IF NOT EXISTS Admins (name TEXT, level INTEGER)"));
+	db_free_result(db_query(Database, "CREATE TABLE IF NOT EXISTS Admins (name TEXT, level INTEGER)"));
 
-	DatabaseTableCheck(gAccounts, "Admins", 2);
+	DatabaseTableCheck(Database, "Admins", 2);
 
-	stmt_AdminLoadAll	= db_prepare(gAccounts, "SELECT * FROM Admins ORDER BY level DESC");
-	stmt_AdminExists	= db_prepare(gAccounts, "SELECT COUNT(*) FROM Admins WHERE name = ?");
-	stmt_AdminInsert	= db_prepare(gAccounts, "INSERT INTO Admins VALUES(?, ?)");
-	stmt_AdminUpdate	= db_prepare(gAccounts, "UPDATE Admins SET level = ? WHERE name = ?");
-	stmt_AdminDelete	= db_prepare(gAccounts, "DELETE FROM Admins WHERE name = ?");
-	stmt_AdminGetLevel	= db_prepare(gAccounts, "SELECT * FROM Admins WHERE name = ?");
+	stmt_AdminLoadAll	= db_prepare(Database, "SELECT * FROM Admins ORDER BY level DESC");
+	stmt_AdminExists	= db_prepare(Database, "SELECT COUNT(*) FROM Admins WHERE name = ?");
+	stmt_AdminInsert	= db_prepare(Database, "INSERT INTO Admins VALUES(?, ?)");
+	stmt_AdminUpdate	= db_prepare(Database, "UPDATE Admins SET level = ? WHERE name = ?");
+	stmt_AdminDelete	= db_prepare(Database, "DELETE FROM Admins WHERE name = ?");
+	stmt_AdminGetLevel	= db_prepare(Database, "SELECT * FROM Admins WHERE name = ?");
 
 	LoadAdminData();
 }

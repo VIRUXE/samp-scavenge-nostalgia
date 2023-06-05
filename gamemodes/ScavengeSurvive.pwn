@@ -304,7 +304,7 @@ bool:	gServerRestarting = false,
 new Text:RestartCount = Text:INVALID_TEXT_DRAW, Text:ClockRestart = Text:INVALID_TEXT_DRAW;
 
 // Banco de Dados
-new DB:gAccounts;
+new DB:Database;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
 new
@@ -401,9 +401,7 @@ enum {
 
 // PLAYER INTERNAL SCRIPTS
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
-//#include "sss/core/player/gpci-whitelist.pwn"
 //#include "sss/core/player/interior.pwn" // By Kolorado
-//#include "sss/core/player/whitelist.pwn"
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/accounts.pwn"
 #include "sss/core/player/afk-check.pwn"
@@ -661,7 +659,7 @@ OnGameModeInit_Setup() {
 		dir_create(DIRECTORY_SCRIPTFILES DIRECTORY_MAIN);
 	}
 
-	gAccounts = db_open_persistent(ACCOUNT_DATABASE);
+	Database = db_open_persistent(ACCOUNT_DATABASE);
 
 	LoadSettings();
 

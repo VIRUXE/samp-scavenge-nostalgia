@@ -25,17 +25,17 @@ DBStatement:	stmt_HostGetRecordsFromName;
 
 hook OnGameModeInit()
 {
-	db_query(gAccounts, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_HOST" (\
+	db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_HOST" (\
 		"FIELD_HOST_NAME" TEXT,\
 		"FIELD_HOST_HOST" TEXT,\
 		"FIELD_HOST_DATE" INTEGER)");
 
-	DatabaseTableCheck(gAccounts, ACCOUNTS_TABLE_HOST, 3);
+	DatabaseTableCheck(Database, ACCOUNTS_TABLE_HOST, 3);
 
-	stmt_HostInsert				= db_prepare(gAccounts, "INSERT INTO "ACCOUNTS_TABLE_HOST" VALUES(?,?,?)");
-	stmt_HostCheckName			= db_prepare(gAccounts, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_NAME"=? AND "FIELD_HOST_HOST"=?");
-	stmt_HostGetRecordsFromHost	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_HOST"=?");
-	stmt_HostGetRecordsFromName	= db_prepare(gAccounts, "SELECT * FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_NAME"=? COLLATE NOCASE");
+	stmt_HostInsert				= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_HOST" VALUES(?,?,?)");
+	stmt_HostCheckName			= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_NAME"=? AND "FIELD_HOST_HOST"=?");
+	stmt_HostGetRecordsFromHost	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_HOST"=?");
+	stmt_HostGetRecordsFromName	= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_HOST" WHERE "FIELD_HOST_NAME"=? COLLATE NOCASE");
 }
 
 hook OnPlayerConnect(playerid)
