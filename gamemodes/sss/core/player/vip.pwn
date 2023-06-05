@@ -69,12 +69,9 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 
 		VIP_Anuncio = GetTickCount();
 	} else if(isequal(command, "frase", true)) {
-		// if(GetPlayerScore(playerid) < 100) return ChatMsg(playerid, RED, ls(playerid, "player/join-sentence/points"));
-
 		new frase[MAX_JOINSENTENCE_LEN];
 
 		if(sscanf(params, "{s[6]}s[*]", MAX_JOINSENTENCE_LEN, frase)) return ChatMsg(playerid, YELLOW, "Sua frase de entrada: %s", GetPlayerJoinSentence(playerid));
-		// if(isnull(params)) return ChatMsg(playerid, YELLOW, ls(playerid, "player/join-sentence/cmd-syntax"));
 
 		db_query(Database, sprintf("UPDATE players SET joinSentence = '%s' WHERE name = '%s';", frase, GetPlayerNameEx(playerid)));
 
