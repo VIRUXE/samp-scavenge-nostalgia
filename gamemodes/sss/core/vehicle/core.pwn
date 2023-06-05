@@ -545,7 +545,7 @@ PlayerVehicleUpdate(playerid) {
 		PlayerTextDrawHide(playerid, veh_FuelUI[playerid]);
 
 	if(IsVehicleTypeLockable(vehicleType)) {
-		PlayerTextDrawColor(playerid, veh_DoorsUI[playerid], VehicleDoorsState(vehicleid) ? VEHICLE_UI_ACTIVE : VEHICLE_UI_INACTIVE);
+		PlayerTextDrawColor(playerid, veh_DoorsUI[playerid], VehicleDoorsState(vehicleid) ? VEHICLE_UI_INACTIVE : VEHICLE_UI_ACTIVE);
 
 		PlayerTextDrawShow(playerid, veh_DoorsUI[playerid]);
 	} else
@@ -1082,11 +1082,13 @@ stock GetPlayerVehicleExitTick(playerid) {
 	return veh_ExitTick[playerid];
 }
 
-timer PutPlayerInVehicleTimed[500](playerId, vehicleId, seatId) {
+timer PutPlayerInVehicleTimed[750](playerId, vehicleId, seatId) {
 	if(
 		!IsPlayerConnected(playerId) ||
 		!IsVehicleDead(vehicleId)
 		) return 0;
+
+	printf("[VEHICLE] PutPlayerInVehicleTimed(%d, %d, %d)", playerId, vehicleId, seatId);
 
 	PutPlayerInVehicle(playerId, vehicleId, seatId);
 
