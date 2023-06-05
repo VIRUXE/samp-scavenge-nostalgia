@@ -1553,14 +1553,14 @@ public OnScriptInit() {
 	skin_BusiF	= DefineClothesType(141,	"Skin:141",			1, 0.1,		true, true);
 	
 	// DRUG TYPE DEFINITIONS
-	drug_Antibiotic	= DefineDrugType("Antibiùtico",	300000);
-	drug_Painkill	= DefineDrugType("Analgùsico",	300000);
+	drug_Antibiotic	= DefineDrugType("AntibiÛtico",	300000);
+	drug_Painkill	= DefineDrugType("AnalgÈsico",	300000);
 	drug_Lsd		= DefineDrugType("LSD",			300000);
 	drug_Air		= DefineDrugType("AR",			300000);
 	drug_Morphine	= DefineDrugType("Morfina",		300000);
 	drug_Adrenaline	= DefineDrugType("Adrenalina",	300000);
-	drug_Heroin		= DefineDrugType("Heroùna",		300000);
-	drug_DTPA		= DefineDrugType("ùcido DTPA",	300000);
+	drug_Heroin		= DefineDrugType("HeroÌna",		300000);
+	drug_DTPA		= DefineDrugType("¡cido DTPA",	300000);
 
 
 	// LIQUID TYPE DEFINITIONS
@@ -1576,21 +1576,21 @@ public OnScriptInit() {
 	liquid_Champagne		= DefineLiquidType("Champanhe",				0.2);
 	liquid_Ethanol			= DefineLiquidType("Etanol",				-44.1);
 	liquid_Turpentine		= DefineLiquidType("Terebintina",			-101.0);
-	liquid_HydroAcid		= DefineLiquidType("ùcido Clorùdrico",		-101.0);
+	liquid_HydroAcid		= DefineLiquidType("¡cido ClorÛdrico",		-101.0);
 	liquid_CarbonatedWater	= DefineLiquidType("¡gua com G·s",			0.1);
 	liquid_Lemon			= DefineLiquidType("Suco de Lim„o",			2.1);
-	liquid_Sugar			= DefineLiquidType("Aùucar",				0.8);
+	liquid_Sugar			= DefineLiquidType("AÁucar",				0.8);
 	liquid_Petrol			= DefineLiquidType("Gasolina",				-8.0);
 	liquid_Diesel			= DefineLiquidType("Diesel",				-8.0);
 	liquid_Oil				= DefineLiquidType("”leo",					-8.0);
-	liquid_BakingSoda		= DefineLiquidType("Bicarbonato de Sùdio",	0.1);
-	liquid_ProteinPowder	= DefineLiquidType("Proteùna em Pù",		4.5);
-	liquid_IronPowder		= DefineLiquidType("Pù de Ferro",			0.0);
-	liquid_IronOxide		= DefineLiquidType("ùxido de Ferro",		-5.0);
-	liquid_CopperOxide		= DefineLiquidType("ùxido de Cobre",		-5.0);
-	liquid_Magnesium		= DefineLiquidType("Magnùsio",				0.0);
-	liquid_StrongWhiskey	= DefineLiquidType("Whisky ùcido",			-5.0,	liquid_Whiskey, liquid_Ethanol);
-	liquid_Fun				= DefineLiquidType("Diversùo",				-7.0,	liquid_Ethanol, liquid_Turpentine, liquid_HydroAcid);
+	liquid_BakingSoda		= DefineLiquidType("Bicarbonato de SÛdio",	0.1);
+	liquid_ProteinPowder	= DefineLiquidType("ProteÌna em PÛ",		4.5);
+	liquid_IronPowder		= DefineLiquidType("PÛ de Ferro",			0.0);
+	liquid_IronOxide		= DefineLiquidType("”xido de Ferro",		-5.0);
+	liquid_CopperOxide		= DefineLiquidType("”xido de Cobre",		-5.0);
+	liquid_Magnesium		= DefineLiquidType("MagnÈsio",				0.0);
+	liquid_StrongWhiskey	= DefineLiquidType("Whisky Forte",			-5.0,	liquid_Whiskey, liquid_Ethanol);
+	liquid_Fun				= DefineLiquidType("Divers„o",				-7.0,	liquid_Ethanol, liquid_Turpentine, liquid_HydroAcid);
 	liquid_Lemonade			= DefineLiquidType("Limonada",				2.1,	liquid_CarbonatedWater, liquid_Lemon, liquid_Sugar);
 	liquid_Orangeade		= DefineLiquidType("Laranjada",				2.5,	liquid_CarbonatedWater, liquid_Orange, liquid_Sugar);
 	liquid_Thermite			= DefineLiquidType("Thermite Mix I",		-101.0,	liquid_IronPowder, liquid_IronOxide, liquid_Magnesium);
