@@ -138,8 +138,9 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 
 		GetPlayerPos(playerid, x, y, z);
 
-		format(line1, 256, "[L][%s] (%d) %P"C_WHITE": %s",
-			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
+		format(line1, 256, "[L][%s] %C%p (%d)"C_WHITE": %s",
+			GetPlayerLanguage(playerid) == PORTUGUESE ? "PT" : "EN",
+			IsPlayerOnAdminDuty(playerid) ? GetAdminRankColour(GetPlayerAdminLevel(playerid)) : GetPlayerColor(playerid),
 			playerid,
 			playerid,
 			TagScan(chat));
@@ -167,8 +168,9 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 		
 		log("[CHAT][GLOBAL] [%p]: %s", playerid, chat);
 
-		format(line1, 256, "[GLOBAL][%s] (%d) %P"C_WHITE": %s",
+		format(line1, 256, "[GLOBAL][%s] %C%p (%d)"C_WHITE": %s",
 			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
+			IsPlayerOnAdminDuty(playerid) ? GetAdminRankColour(GetPlayerAdminLevel(playerid)) : GetPlayerColor(playerid),
 			playerid,
 			playerid,
 			TagScan(chat, true));
@@ -213,7 +215,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 	} else if(frequency == 3.0) {
 		log("[CHAT][ADMIN] [%p]: %s", playerid, chat);
 
-		format(line1, 256, "%C[Admin] (%d) %P"C_WHITE": %s",
+		format(line1, 256, "%C[ADMIN] %P (%d)"C_WHITE": %s",
 			GetAdminRankColour(GetPlayerAdminLevel(playerid)),
 			playerid,
 			playerid,
