@@ -1,10 +1,7 @@
 #include <YSI\y_hooks>
 
-
 // Entities
-
-
-new
+static
 	ch_gate,
 	ch_doorBtn,
 	ch_door,
@@ -12,20 +9,11 @@ new
 	ch_battery,
 	ch_fusebox,
 	ch_keypad,
-	ch_keypadprt;
-
-
-// Variables
-
-
-new
+	ch_keypadprt,
 	bool:ch_doorstate = false;
 
-
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
 	new buttons[1];
-
 
 	ch_gate = CreateButton(-2307.81, -1650.67, 484.36, "Pressione F para ativar", 0);
 
@@ -35,7 +23,6 @@ hook OnGameModeInit()
 		-2312.10, -1652.69, 484.41,   0.00, 0.00, -154.50,
 		-2317.88, -1655.44, 484.41,   0.00, 0.00, -154.50,
 		.maxbuttons = 1, .movespeed = 1.0, .closedelay = -1);
-
 
 	ch_doorBtn = CreateButton(-2311.4900, -1647.7000, 484.3600, "Pressione F para usar", 0, 0);
 
@@ -61,7 +48,6 @@ hook OnGameModeInit()
 	AddItemToContainer(CreateContainer("Gerador", 6, CreateButton(-2318.9067, -1636.5662, 483.7031, "Gerador")), CreateItem(item_Medkit));
 
 	// Building
-
 	CreateDynamicObject(1411, -2316.07, -1654.99, 484.25,   0.00, 0.00, -154.92);
 	CreateDynamicObject(1411, -2305.65, -1649.83, 484.25,   0.00, 0.00, -153.54);
 	CreateDynamicObject(1411, -2300.96, -1647.49, 484.25,   0.00, 0.00, -153.54);
@@ -224,24 +210,19 @@ hook OnGameModeInit()
 	CreateDynamicObject(19273, -2307.80, -1650.67, 484.36,   0.00, 0.00, -153.54);
 
 	// Sign
-
 	SetDynamicObjectMaterialText(
 		CreateDynamicObject(18244, -2309.60, -1646.11, 487.69,   90.00, 0.00, 25.86),
 		0, "Mt. Chill\nRadio", OBJECT_MATERIAL_SIZE_512x256, "Impact", 72, 0, -1, 4278216843, 1);
 }
 
-hook OnPlayerActivateDoor(playerid, doorid, newstate)
-{
+hook OnPlayerActivateDoor(playerid, doorid, newstate) {
+	if(doorid == ch_door) {
+		if(IsValidItem(GetPlayerItem(playerid))) return Y_HOOKS_BREAK_RETURN_1;
 
+		if(ch_doorstate == false && !IsValidItem(GetPlayerItem(playerid))) {
+			new playerLang = GetPlayerLanguage(playerid);
 
-	if(doorid == ch_door)
-	{
-		if(IsValidItem(GetPlayerItem(playerid)))
-			return Y_HOOKS_BREAK_RETURN_1;
-
-		if(ch_doorstate == false && !IsValidItem(GetPlayerItem(playerid)))
-		{
-			ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Porta", "O teclado parece estar quebrado", "Fechar", "");
+			ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, !playerLang ? "Porta" : "Door", !playerLang ? "O teclado parece estar quebrado" : "The keypad appears to be broken", !playerLang ? "Fechar" : "Close", "");
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
 	}
@@ -249,22 +230,17 @@ hook OnPlayerActivateDoor(playerid, doorid, newstate)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
-{
-
-
-	if(buttonid == ch_doorBtn)
-	{
-		if(itemid == ch_fusebox)
-		{
+hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid) {
+	if(buttonid == ch_doorBtn) {
+		if(itemid == ch_fusebox) {
 			DestroyItem(ch_fusebox);
+
 			ch_fusebox = INVALID_ITEM_ID;
 			ch_doorstate = true;
-		}
-		if(itemid == ch_battery)
-		{
+		} else if(itemid == ch_battery) { // Com bateria vai dar curto circuito e quebrar a porta
 			DestroyButton(ch_doorBtn);
 			ch_keypadprt = CreateDynamicObject(18724, -2311.4900, -1647.7000, 482.3600, 0.0000, 0.0000, 26.2200);
+
 			defer ch_keypadprt_destroy();
 			defer ch_keypad_move();
 		}
@@ -273,11 +249,10 @@ hook OnPlayerUseItemWithBtn(playerid, buttonid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-timer ch_keypad_move[400]()
-{
+timer ch_keypad_move[400]() {
 	MoveDynamicObject(ch_keypad, -2311.5601, -1647.6781, 484.2200, 2.8, 0.0000, 32.0000, 26.0000);	
 }
-timer ch_keypadprt_destroy[SEC(2)]()
-{
+
+timer ch_keypadprt_destroy[SEC(2)]() {
 	DestroyDynamicObject(ch_keypadprt);
 }
