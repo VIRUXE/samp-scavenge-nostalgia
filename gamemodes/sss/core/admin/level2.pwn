@@ -16,12 +16,13 @@ hook OnPlayerConnect(playerid) {
 }
 */
 
-new dutytick[MAX_PLAYERS];
 
 ACMD:duty[2](playerid, params[]) {
+	static dutyTick[MAX_PLAYERS];
+
 	if(GetPlayerState(playerid) == PLAYER_STATE_SPECTATING) return ChatMsg(playerid, YELLOW, " >  Você deve sair do /spec.");
 	
-	if(GetTickCountDifference(GetTickCount(), dutytick[playerid]) < 5000) return ChatMsg(playerid, YELLOW, " >  Aguarde no máximo 5 segundos para usar esse comando novamente.");
+	if(GetTickCountDifference(GetTickCount(), dutyTick[playerid]) < SEC(5)) return ChatMsg(playerid, YELLOW, " >  Aguarde no minimo 5 segundos para utilizar esse comando novamente.");
 	
 	new lastattacker, lastweapon;
 		
@@ -29,7 +30,7 @@ ACMD:duty[2](playerid, params[]) {
 
 	TogglePlayerAdminDuty(playerid, !IsPlayerOnAdminDuty(playerid), !isequal(params, "aqui", true));
 
-    dutytick[playerid] = GetTickCount();
+    dutyTick[playerid] = GetTickCount();
     
 	return 1;
 }
