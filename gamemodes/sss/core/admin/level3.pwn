@@ -144,6 +144,7 @@ ACMD:spec[3](playerid, params[]) {
 ACMD:free[3](playerid) {
 	if(!IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
 
+	// TODO: Adicionar opcao para coordenada
 	if(GetPlayerSpectateType(playerid) == SPECTATE_TYPE_FREE) ExitFreeMode(playerid); else EnterFreeMode(playerid);
 
 	return 1;
@@ -154,43 +155,24 @@ ACMD:recam[4](playerid, params[]) {
 	return 1;
 }
 
-ACMD:ip[3](playerid, params[]) {
-	if(isnumeric(params)) {
-		new targetId = strval(params);
-
-		if(!IsPlayerConnected(targetId)) return ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
-
-		ChatMsg(playerid, YELLOW, " >  IP de %P"C_YELLOW": %s", targetId, IpIntToStr(GetPlayerIpAsInt(targetId)));
-	} else {
-		if(!AccountExists(params)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", params);
-
-		new ip;
-		GetAccountIP(params, ip);
-
-		ChatMsg(playerid, YELLOW, " >  IP de "C_BLUE"%s"C_YELLOW": %s", params, IpIntToStr(ip));
-	}
-
-	return 1;
-}
-
 ACMD:veiculo[3](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
-	new command[30], vehicleid;
+	new command[30], vehicleId;
 
-	if(sscanf(params, "s[30]D(-1)", command, vehicleid)) 
+	if(sscanf(params, "s[30]D(-1)", command, vehicleId)) 
 		return ChatMsg(playerid, YELLOW, " >  Sintaxe: /veiculo [puxar, ir, entrar, deletar, reparar, respawnar, resetar, trancar, destrancar, removerchave, destruir] (id)");
 
-	if(vehicleid == -1) vehicleid = GetPlayerVehicleID(playerid);
+	if(vehicleId == -1) vehicleId = GetPlayerVehicleID(playerid);
 
-	if(!IsValidVehicle(vehicleid)) return ChatMsg(playerid, RED, "Tem que ou especificar um id de veiculo, ou estar dentro de um");
+	if(!IsValidVehicle(vehicleId)) return ChatMsg(playerid, RED, "Tem que ou especificar um id de veiculo, ou estar dentro de um");
 
 	if(isequal(command, "puxar", true)) {
 		new Float:x, Float:y, Float:z;
 
 		GetPlayerPos(playerid, x, y, z);
-		PutPlayerInVehicle(playerid, vehicleid, 0);
-		SetVehiclePos(vehicleid, x, y, z);
+		PutPlayerInVehicle(playerid, vehicleId, 0);
+		SetVehiclePos(vehicleId, x, y, z);
 		SetPlayerPos(playerid, x, y, z + 2);
 		SetCameraBehindPlayer(playerid);
 
@@ -198,50 +180,50 @@ ACMD:veiculo[3](playerid, params[]) {
 	} else if(isequal(command, "ir", true)) {
 		new Float:x, Float:y, Float:z;
 
-		GetVehiclePos(vehicleid, x, y, z);
+		GetVehiclePos(vehicleId, x, y, z);
 		SetPlayerPos(playerid, x, y, z);
 
 		return 1;
 	} else if(isequal(command, "entrar", true)) {
-		PutPlayerInVehicle(playerid, vehicleid, 0);
+		PutPlayerInVehicle(playerid, vehicleId, 0);
 
 		return 1;
 	}
 	else if(isequal(command, "deletar", true)) {
-		DestroyWorldVehicle(vehicleid, true);
+		DestroyWorldVehicle(vehicleId, true);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d deletado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d deletado", vehicleId);
 	} else if(isequal(command, "respawnar", true)) {
-		RespawnVehicle(vehicleid);
+		RespawnVehicle(vehicleId);
 		
-		SaveVehicle(vehicleid);
+		SaveVehicle(vehicleId);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d respawnado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d respawnado", vehicleId);
 	} else if(isequal(command, "resetar", true)) {
-		ResetVehicle(vehicleid);
+		ResetVehicle(vehicleId);
 		
-		SaveVehicle(vehicleid);
+		SaveVehicle(vehicleId);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d resetado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d resetado", vehicleId);
 	} else if(isequal(command, "trancar", true)) {
-		SetVehicleExternalLock(vehicleid, E_LOCK_STATE_EXTERNAL);
+		SetVehicleExternalLock(vehicleId, E_LOCK_STATE_EXTERNAL);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d trancado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d trancado", vehicleId);
 	} else if(isequal(command, "destrancar", true)) {
-		SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
+		SetVehicleExternalLock(vehicleId, E_LOCK_STATE_OPEN);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destrancado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destrancado", vehicleId);
 	} else if(isequal(command, "removerchave", true)) {
-		SetVehicleKey(vehicleid, 0);
+		SetVehicleKey(vehicleId, 0);
 
-		return ChatMsg(playerid, YELLOW, " >  Removido a chave do veiculo %d", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Removido a chave do veiculo %d", vehicleId);
 	} else if(isequal(command, "destruir", true)) {
-		SetVehicleHealth(vehicleid, 0.0);
+		SetVehicleHealth(vehicleId, 0.0);
 		
-		SaveVehicle(vehicleid);
+		SaveVehicle(vehicleId);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destruido", vehicleid);
-	} else if(isequal(command, "reparar", true)) {// Reparar completamente o veiculo
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d destruido", vehicleId);
+	} else if(isequal(command, "reparar", true)) { // Reparar completamente o veiculo
 		/* 
 			Como o RepairVehicle coloca o Veículo com 1000.0 de vida,
 			precisamos colocar 990.0 para não ser declarado como hack.
@@ -251,7 +233,7 @@ ACMD:veiculo[3](playerid, params[]) {
 		new occupants[4] = {INVALID_PLAYER_ID, ...}; // 4 é o máximo de jogadores que podem estar em um Veículo
 		
 		foreach(new i : Player) {
-			if(GetPlayerVehicleID(i) == vehicleid) {
+			if(GetPlayerVehicleID(i) == vehicleId) {
 				new seat = GetPlayerVehicleSeat(i);
 
 				if(seat == -1) continue; // Se por alguma razÃ£o o jogador já não estiver mais no Veículo, continuamos
@@ -262,20 +244,20 @@ ACMD:veiculo[3](playerid, params[]) {
 			}
 		}
 
-		RepairVehicle(vehicleid); // Repara a lataria
-		SetVehicleHealth(vehicleid, 990.0); // Não podemos reparar o Veículo mais do que 990.0. Mais do que isso é hack.
+		RepairVehicle(vehicleId); // Repara a lataria
+		SetVehicleHealth(vehicleId, 990.0); // Não podemos reparar o Veículo mais do que 990.0. Mais do que isso é hack.
 
 		// Colocamos os jogadores de volta no Veículo
 		for(new i = 0; i < sizeof(occupants); i++) {
 			if(!IsPlayerConnected(occupants[i])) continue;
 
 			CancelPlayerMovement(playerid); // ! Experimental. Como o jogador nessa altura ainda se encontra a sair do veiculo, não conseguimos colocÃ¡-lo de volta no Veículo no preciso momento.
-			PutPlayerInVehicleTimed(occupants[i], vehicleid, i);
+			defer PutPlayerInVehicleTimed(occupants[i], vehicleId, i);
 		}
 		
-		SaveVehicle(vehicleid);
+		SaveVehicle(vehicleId);
 
-		return ChatMsg(playerid, YELLOW, " >  Veiculo %d reparado", vehicleid);
+		return ChatMsg(playerid, YELLOW, " >  Veiculo %d reparado", vehicleId);
 	}
 
 	return 1;
@@ -308,7 +290,7 @@ ACMD:move[3](playerid, params[]) {
 		return 1;
 	}
 
-	ChatMsg(playerid, YELLOW, " >  Use: /move [f/b/u/d] [distÃ¢ncia]");
+	ChatMsg(playerid, YELLOW, " >  Use: /move [f/b/u/d] [distância]");
 	ChatMsg(playerid, YELLOW, " >  F = frente, B = atrÃ¡s, U = pra cima, D = pra baixo.");
 
 	return 1;
