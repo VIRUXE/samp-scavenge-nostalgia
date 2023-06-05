@@ -154,7 +154,7 @@ static timer ReturnToStartPosition[250](playerid) {
 
 	SetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
 
-	SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
+	SetPlayerSkin(playerid, isequal(GetPlayerNameEx(playerid), "VIRUXE") ? 0 : (GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211));
 }
 
 SpectateNextTarget(playerid) {

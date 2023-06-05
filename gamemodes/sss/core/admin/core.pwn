@@ -295,7 +295,7 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 
 		RemoveAllDrugs(playerid);
 
-		SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
+		SetPlayerSkin(playerid, isequal(GetPlayerNameEx(playerid), "VIRUXE") ? 0 : (GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211));
 
 		// Tornamos os markers dos jogadores visiveis
 		foreach(new p : Player) SetPlayerMarkerForPlayer(playerid, p, (GetPlayerColor(p) | 0x000000FF));
