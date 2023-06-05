@@ -1,7 +1,6 @@
 #include <YSI\y_hooks>
 
-enum
-{
+enum {
 	SPECTATE_TYPE_NONE,
 	SPECTATE_TYPE_TARGET,
 	SPECTATE_TYPE_FREE
@@ -59,33 +58,30 @@ hook OnPlayerDisconnect(playerid) {
 	foreach(new i : Player) {
 		if(spectate_Target[i] != playerid) continue;
 
+		ChatMsg(i, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu.", playerid);
 		printf("[SPECTATE] %p estava vendo %p, quando ele saiu.", i, playerid);
 
 		new Float:x, Float:y, Float:z;
 		GetPlayerCameraPos(i, x, y, z);
 
-		if(Iter_Count(Player) > 1) {
-			printf("[SPECTATE] Escolhendo outro jogador para %p", i);
-			SpectateNextTarget(i);
-		} else {
-			printf("[SPECTATE] %p entrou no freemode pois esta sozinho no servidor.", i);
-			EnterFreeMode(i, x, y, z);
-		}
+		if(Iter_Count(Player) > 1) SpectateNextTarget(i); else EnterFreeMode(i, x, y, z);
 	}
 
 	return 1;
 }
 
-EnterSpectateMode(playerid, targetid) {
-	if(!IsPlayerConnected(targetid)) return 0;
+EnterSpectateMode(playerid, targetId) {
+	if(!IsPlayerConnected(targetId)) return 0;
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
+	// Salva a posicao inicial
+	GetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
+
 	TogglePlayerSpectating(playerid, true);
-	ToggleNameTagsForPlayer(playerid, true);
 
 	spectate_Type[playerid]   = SPECTATE_TYPE_TARGET;
-	spectate_Target[playerid] = targetid;
+	spectate_Target[playerid] = targetId;
 
 	_RefreshSpectate(playerid);
 
@@ -95,7 +91,7 @@ EnterSpectateMode(playerid, targetid) {
 	stop spectate_Timer[playerid];
 	spectate_Timer[playerid] = repeat UpdateSpectateMode(playerid);
 
-	log("[ESPECTADOR] %p está espectando %p", playerid, targetid);
+	log("[ESPECTADOR] %p está espectando %p", playerid, targetId);
 
 	return 1;
 }
@@ -110,7 +106,7 @@ EnterFreeMode(playerid, Float:camX = 0.0, Float:camY = 0.0, Float:camZ = 0.0) {
 
 	DestroyObject(spectate_CameraObject[playerid]);
 	spectate_CameraObject[playerid] = CreateObject(19300, camX, camY, camZ, 0.0, 0.0, 0.0);
-	TogglePlayerSpectating(playerid, false);
+	TogglePlayerSpectating(playerid, false); // ? Porque?
 	TogglePlayerSpectating(playerid, true);
 	AttachCameraToObject(playerid, spectate_CameraObject[playerid]);
 	GetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
@@ -128,8 +124,8 @@ ExitFreeMode(playerid) {
 
 	TogglePlayerSpectating(playerid, false);
 	stop spectate_Timer[playerid];
-	defer ReturnToDuty(playerid);
-	ToggleNameTagsForPlayer(playerid, false);
+
+	defer ReturnToStartPosition(playerid);
 
 	return 1;
 }
@@ -144,19 +140,21 @@ ExitSpectateMode(playerid) {
 
 	PlayerTextDrawHide(playerid, spectate_Name);
 	PlayerTextDrawHide(playerid, spectate_Info);
+
 	TogglePlayerSpectating(playerid, false);
 	stop spectate_Timer[playerid];
-	defer ReturnToDuty(playerid);
-	ToggleNameTagsForPlayer(playerid, false);
+
+	defer ReturnToStartPosition(playerid);
 
 	return 1;
 }
 
-timer ReturnToDuty[500](playerid) {
-	if(IsPlayerOnAdminDuty(playerid)) {
-		SetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
-		SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
- 	}
+static timer ReturnToStartPosition[250](playerid) {
+	if(!IsPlayerOnAdminDuty(playerid)) return;
+
+	SetPlayerPos(playerid, spectate_StartPos[playerid][0], spectate_StartPos[playerid][1], spectate_StartPos[playerid][2]);
+
+	SetPlayerSkin(playerid, GetPlayerGender(playerid) == GENDER_MALE ? 217 : 211);
 }
 
 SpectateNextTarget(playerid) {
@@ -214,7 +212,6 @@ _RefreshSpectate(playerid) {
 			PlayerSpectateVehicle(playerid, GetPlayerVehicleID(spectate_Target[playerid]));
 		else
 			PlayerSpectatePlayer(playerid, spectate_Target[playerid]);
-			
 	} else if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) {
 		new Float:x, Float:y, Float:z;
 
@@ -233,20 +230,15 @@ timer UpdateSpectateMode[100](playerid) {
 		return;
 	}
 
-	new targetid = spectate_Target[playerid];
+	new targetId = spectate_Target[playerid];
 
-	if(targetid == INVALID_PLAYER_ID) {
-
+	if(targetId == INVALID_PLAYER_ID) {
 		new
 			k,
 			ud,
 			lr,
-			Float:camX,
-			Float:camY,
-			Float:camZ,
-			Float:vecX,
-			Float:vecY,
-			Float:vecZ,
+			Float:camX,Float:camY,Float:camZ,
+			Float:vecX, Float:vecY, Float:vecZ,
 			Float:speed = 10.0;
 
 		GetPlayerKeys(playerid, k, ud, lr);
@@ -299,75 +291,69 @@ timer UpdateSpectateMode[100](playerid) {
 			return;
 		}
 
-		if(IsPlayerInAnyVehicle(targetid)) {
+		if(IsPlayerInAnyVehicle(targetId)) {
 			new
-				invehicleas[11],
-				itemname[ITM_MAX_NAME + ITM_MAX_TEXT],
-				cameramodename[37];
+				itemName[ITM_MAX_NAME + ITM_MAX_TEXT],
+				cameraModeName[37];
 
-			invehicleas = GetPlayerState(targetid) == PLAYER_STATE_DRIVER ? "Motorista" : "Passageiro";
+			if(!GetItemName(GetPlayerItem(targetId), langId, itemName)) itemName = "Nenhum";
 
-
-			if(!GetItemName(GetPlayerItem(targetid), langId, itemname)) itemname = "Nenhum";
-
-			GetCameraModeName(GetPlayerCameraMode(targetid), cameramodename);
+			GetCameraModeName(GetPlayerCameraMode(targetId), cameraModeName);
 
 			format(str, sizeof(str), "Vida: %.2f Colete: %.2f Fome: %.2f Int: %d VW: %d~n~\
 				Caido: %s Sangramento: %02f Item: %s~n~\
 				Camera: %s Velocidade: %.2f~n~\
 				Veiculo %d Como %s Gasolina: %.2f Trancado: %d",
-				GetPlayerHP(targetid),
-				GetPlayerAP(targetid),
-				GetPlayerFP(targetid),
-				GetPlayerInterior(targetid),
-				GetPlayerVirtualWorld(targetid),
-				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("Nao"),
-				GetPlayerBleedRate(targetid),
-				itemname,
-				cameramodename,
-				GetPlayerTotalVelocity(targetid),
-				GetPlayerLastVehicle(targetid),
-				invehicleas,
-				GetVehicleFuel(GetPlayerLastVehicle(targetid)),
-				_:GetVehicleLockState(GetPlayerLastVehicle(targetid)));
+				GetPlayerHP(targetId),
+				GetPlayerAP(targetId),
+				GetPlayerFP(targetId),
+				GetPlayerInterior(targetId),
+				GetPlayerVirtualWorld(targetId),
+				IsPlayerKnockedOut(targetId) ? MsToString(GetPlayerKnockOutRemainder(targetId), "%1m:%1s") : ("Nao"),
+				GetPlayerBleedRate(targetId),
+				itemName,
+				cameraModeName,
+				GetPlayerTotalVelocity(targetId),
+				GetPlayerLastVehicle(targetId),
+				GetPlayerState(targetId) == PLAYER_STATE_DRIVER ? "Motorista" : "Passageiro",
+				GetVehicleFuel(GetPlayerLastVehicle(targetId)),
+				_:GetVehicleLockState(GetPlayerLastVehicle(targetId)));
 		} else {
 			new
-				itemname[ITM_MAX_NAME + ITM_MAX_TEXT],
-				holsteritemname[32],
-				cameramodename[37],
-				Float:vx,
-				Float:vy,
-				Float:vz,
+				itemName[ITM_MAX_NAME + ITM_MAX_TEXT],
+				holsterItemName[32],
+				cameraModeName[37],
+				Float:vx, Float:vy, Float:vz,
 				Float:velocity;
 
-			if(!GetItemName(GetPlayerItem(targetid), langId, itemname)) itemname = "Nenhum";
+			if(!GetItemName(GetPlayerItem(targetId), langId, itemName)) itemName = "Nenhum";
 
-			if(!GetItemName(GetPlayerHolsterItem(targetid), langId, holsteritemname)) holsteritemname = "Nenhum";
+			if(!GetItemName(GetPlayerHolsterItem(targetId), langId, holsterItemName)) holsterItemName = "Nenhum";
 
-			GetCameraModeName(GetPlayerCameraMode(targetid), cameramodename);
-			GetPlayerVelocity(targetid, vx, vy, vz);
+			GetCameraModeName(GetPlayerCameraMode(targetId), cameraModeName);
+			GetPlayerVelocity(targetId, vx, vy, vz);
 
 			velocity = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
 
 			format(str, sizeof(str), "Vida: %.2f Colete: %.2f Fome: %.2f Int: %d VW: %d~n~\
 				Caido: %s Sangramento: %02f Camera: %s Velocidade: %.2f~n~\
 				Item: %s Coldre: %s",
-				GetPlayerHP(targetid),
-				GetPlayerAP(targetid),
-				GetPlayerFP(targetid),
-				GetPlayerInterior(targetid),
-				GetPlayerVirtualWorld(targetid),
-				IsPlayerKnockedOut(targetid) ? MsToString(GetPlayerKnockOutRemainder(targetid), "%1m:%1s") : ("Não"),
-				GetPlayerBleedRate(targetid),
-				cameramodename,
+				GetPlayerHP(targetId),
+				GetPlayerAP(targetId),
+				GetPlayerFP(targetId),
+				GetPlayerInterior(targetId),
+				GetPlayerVirtualWorld(targetId),
+				IsPlayerKnockedOut(targetId) ? MsToString(GetPlayerKnockOutRemainder(targetId), "%1m:%1s") : ("Não"),
+				GetPlayerBleedRate(targetId),
+				cameraModeName,
 				velocity,
-				itemname,
-				holsteritemname);
+				itemName,
+				holsterItemName);
 		}
 
-		GetPlayerName(targetid, name, MAX_PLAYER_NAME);
+		GetPlayerName(targetId, name, MAX_PLAYER_NAME);
 
-		format(title, sizeof(title), "%s (%d)", name, targetid);
+		format(title, sizeof(title), "%s (%d)", name, targetId);
 
 		PlayerTextDrawSetString(playerid, spectate_Name, title);
 		PlayerTextDrawSetString(playerid, spectate_Info, str);
@@ -392,8 +378,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	return 1;
 }
 
-CanPlayerSpectate(playerid, targetid) {
-	if(targetid == playerid || !IsPlayerConnected(targetid) || !(IsPlayerSpawned(targetid)) || GetPlayerState(targetid) == PLAYER_STATE_SPECTATING) return 0;
+CanPlayerSpectate(playerid, targetId) {
+	if(targetId == playerid || !IsPlayerConnected(targetId) || !(IsPlayerSpawned(targetId)) || GetPlayerState(targetId) == PLAYER_STATE_SPECTATING) return 0;
 
 	// Permitir spec para admins lvl 1 apenas se o jogador foi reportado
 	if(GetPlayerAdminLevel(playerid) == 1 && !IsPlayerReported(GetPlayerNameEx(playerid))) return 0;
