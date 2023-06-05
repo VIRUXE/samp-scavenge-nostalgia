@@ -1,50 +1,18 @@
-/*==============================================================================
-
-
-	Southclaws' Scavenge and Survive
-
-		Copyright (C) 2017 Barnaby "Southclaws" Keene
-
-		This program is free software: you can redistribute it and/or modify it
-		under the terms of the GNU General Public License as published by the
-		Free Software Foundation, either version 3 of the License, or (at your
-		option) any later version.
-
-		This program is distributed in the hope that it will be useful, but
-		WITHOUT ANY WARRANTY; without even the implied warranty of
-		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-		See the GNU General Public License for more details.
-
-		You should have received a copy of the GNU General Public License along
-		with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-==============================================================================*/#include <YSI\y_hooks>
-
+#include <YSI\y_hooks>
 
 static
 	trl_VehicleTrailer[MAX_VEHICLES] = {INVALID_VEHICLE_ID, ...},
 	trl_TrailerVehicle[MAX_VEHICLES] = {INVALID_VEHICLE_ID, ...},
 	trl_VehicleTypeHitchSize[MAX_VEHICLE_TYPE] = {-1, ...};
 
-
-/*==============================================================================
-
-	Core
-
-==============================================================================*/
-
-
 /*
 	Used to set which vehicle types can pull specific sizes of trailers. The
 	default is -1 (invalid size).
 */
-stock SetVehicleTypeTrailerHitch(vehicletype, maxtrailersize)
-{
-	if(!IsValidVehicleType(vehicletype))
-		return 0;
+stock SetVehicleTypeTrailerHitch(vehicleType, maxtrailersize) {
+	if(!IsValidVehicleType(vehicleType)) return 0;
 
-	trl_VehicleTypeHitchSize[vehicletype] = maxtrailersize;
+	trl_VehicleTypeHitchSize[vehicleType] = maxtrailersize;
 
 	return 1;
 }
@@ -53,40 +21,25 @@ stock SetVehicleTypeTrailerHitch(vehicletype, maxtrailersize)
 	Don't use AttachTrailerToVehicle anywhere else! Use this instead, which
 	ensures everything stays synced properly.
 */
-stock SetVehicleTrailer(vehicleid, trailerid)
-{
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+stock SetVehicleTrailer(vehicleId, trailerId) {
+	if(!IsValidVehicle(vehicleId) || !IsValidVehicle(trailerId)) return 0;
 
-	if(!IsValidVehicle(trailerid))
-		return 0;
-
-	if(trl_VehicleTrailer[vehicleid] != INVALID_VEHICLE_ID && trl_VehicleTrailer[vehicleid] != trailerid)
-	{
-		if(IsValidVehicle(trl_VehicleTrailer[vehicleid]))
+	if(trl_VehicleTrailer[vehicleId] != INVALID_VEHICLE_ID && trl_VehicleTrailer[vehicleId] != trailerId) {
+		if(IsValidVehicle(trl_VehicleTrailer[vehicleId]))
 			return 0;
 	}
 
-	if(trl_TrailerVehicle[trailerid] != INVALID_VEHICLE_ID && trl_TrailerVehicle[trailerid] != vehicleid)
-	{
-		if(IsValidVehicle(trl_TrailerVehicle[trailerid]))
+	if(trl_TrailerVehicle[trailerId] != INVALID_VEHICLE_ID && trl_TrailerVehicle[trailerId] != vehicleId) {
+		if(IsValidVehicle(trl_TrailerVehicle[trailerId]))
 			return 0;
 	}
 
-	new
-		vehicletype,
-		trailersize;
+	if(trl_VehicleTypeHitchSize[GetVehicleType(vehicleId)] != GetVehicleTypeSize(GetVehicleType(trailerId))) return 0;
 
-	vehicletype = GetVehicleType(vehicleid);
-	trailersize = GetVehicleTypeSize(GetVehicleType(trailerid));
+	trl_VehicleTrailer[vehicleId] = trailerId;
+	trl_TrailerVehicle[trailerId] = vehicleId;
 
-	if(trl_VehicleTypeHitchSize[vehicletype] != trailersize)
-		return 0;
-
-	trl_VehicleTrailer[vehicleid] = trailerid;
-	trl_TrailerVehicle[trailerid] = vehicleid;
-
-	AttachTrailerToVehicle(trailerid, vehicleid);
+	AttachTrailerToVehicle(trailerId, vehicleId);
 
 	return 1;
 }
@@ -94,20 +47,17 @@ stock SetVehicleTrailer(vehicleid, trailerid)
 /*
 	Likewise, don't use DetachTrailerFromVehicle anywhere, use this instead.
 */
-stock RemoveVehicleTrailer(vehicleid)
-{
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+stock RemoveVehicleTrailer(vehicleId) {
+	if(!IsValidVehicle(vehicleId)) return 0;
 
-	new trailerid = trl_VehicleTrailer[vehicleid];
+	new trailerId = trl_VehicleTrailer[vehicleId];
 
-	if(!IsValidVehicle(trailerid))
-		return 0;
+	if(!IsValidVehicle(trailerId)) return 0;
 
-	trl_VehicleTrailer[vehicleid] = INVALID_VEHICLE_ID;
-	trl_TrailerVehicle[trailerid] = INVALID_VEHICLE_ID;
+	trl_VehicleTrailer[vehicleId] = INVALID_VEHICLE_ID;
+	trl_TrailerVehicle[trailerId] = INVALID_VEHICLE_ID;
 
-	DetachTrailerFromVehicle(vehicleid);
+	DetachTrailerFromVehicle(vehicleId);
 
 	return 1;
 }
@@ -117,23 +67,19 @@ stock RemoveVehicleTrailer(vehicleid)
 	server-side trailer which is more reliable. A combination of both could be
 	used for anti-cheat however.
 */
-stock GetVehicleTrailerID(vehicleid)
-{
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+stock GetVehicleTrailerID(vehicleId) {
+	if(!IsValidVehicle(vehicleId)) return 0;
 
-	return trl_VehicleTrailer[vehicleid];
+	return trl_VehicleTrailer[vehicleId];
 }
 
 /*
 	Return the vehicle that's pulling the specified trailer because why not.
 */
-stock GetTrailerVehicleID(vehicleid)
-{
-	if(!IsValidVehicle(vehicleid))
-		return 0;
+stock GetTrailerVehicleID(vehicleId) {
+	if(!IsValidVehicle(vehicleId)) return 0;
 
-	return trl_TrailerVehicle[vehicleid];
+	return trl_TrailerVehicle[vehicleId];
 }
 
 
@@ -151,45 +97,38 @@ stock GetTrailerVehicleID(vehicleid)
 	also cleared on the server side (so the server doesn't still think the
 	trailer is attached).
 */
-task _trailerSync[SEC(1)]()
-{
-	new trailerid;
+task _trailerSync[SEC(1)]() {
+	new trailerId;
 
-	foreach(new i : veh_Index)
-	{
+	foreach(new i : veh_Index) {
 		// If this vehicle doesn't have a trailer, skip.
-		if(trl_VehicleTrailer[i] == INVALID_VEHICLE_ID)
-		{
-			trailerid = GetVehicleTrailer(i);
+		if(trl_VehicleTrailer[i] == INVALID_VEHICLE_ID) {
+			trailerId = GetVehicleTrailer(i);
 
 			// Check for a client-sided trailer and try to add it
-			if(IsValidVehicle(trailerid))
-				SetVehicleTrailer(i, trailerid);
-
+			if(IsValidVehicle(trailerId))
+				SetVehicleTrailer(i, trailerId);
 			else
 				continue;
 		}
 
 		// If this vehicle apparently did have a trailer but it doesn't exist,
 		// clear that trailer from memory.
-		if(!IsValidVehicle(trl_VehicleTrailer[i]))
-		{
+		if(!IsValidVehicle(trl_VehicleTrailer[i])) {
 			trl_TrailerVehicle[trl_VehicleTrailer[i]] = INVALID_VEHICLE_ID;
-			trl_VehicleTrailer[i] = INVALID_VEHICLE_ID;
+			trl_VehicleTrailer[i]                     = INVALID_VEHICLE_ID;
 			continue;
 		}
 
 		// If the vehicle does have a trailer client-side and it's the server
 		// side trailer, everything is fine so skip.
-		if(GetVehicleTrailer(i) == trl_VehicleTrailer[i])
-			continue;
+		if(GetVehicleTrailer(i) == trl_VehicleTrailer[i]) continue;
 
 		// If not, and the vehicle is occupied then remove the trailer using the
 		// function to remove it server-side. If the vehicle isn't occupied,
 		// attach the trailer again for all streamed players.
 		if(IsVehicleOccupied(i))
 			RemoveVehicleTrailer(i);
-
 		else
 			AttachTrailerToVehicle(trl_VehicleTrailer[i], i);
 	}
@@ -198,97 +137,69 @@ task _trailerSync[SEC(1)]()
 /*
 	If a vehicle pulling a trailer or a trailer itself dies, clean up.
 */
-hook OnVehicleDeath(vehicleid, killerid)
-{
-
-
-	if(IsValidVehicle(trl_VehicleTrailer[vehicleid]))
-	{
-		trl_TrailerVehicle[trl_VehicleTrailer[vehicleid]] = INVALID_VEHICLE_ID;
-		trl_VehicleTrailer[vehicleid] = INVALID_VEHICLE_ID;
+hook OnVehicleDeath(vehicleId, killerid) {
+	if(IsValidVehicle(trl_VehicleTrailer[vehicleId])) {
+		trl_TrailerVehicle[trl_VehicleTrailer[vehicleId]] = INVALID_VEHICLE_ID;
+		trl_VehicleTrailer[vehicleId] = INVALID_VEHICLE_ID;
 	}
 
-	if(IsValidVehicle(trl_TrailerVehicle[vehicleid]))
-	{
-		trl_VehicleTrailer[trl_TrailerVehicle[vehicleid]] = INVALID_VEHICLE_ID;
-		trl_TrailerVehicle[vehicleid] = INVALID_VEHICLE_ID;
+	if(IsValidVehicle(trl_TrailerVehicle[vehicleId])) {
+		trl_VehicleTrailer[trl_TrailerVehicle[vehicleId]] = INVALID_VEHICLE_ID;
+		trl_TrailerVehicle[vehicleId] = INVALID_VEHICLE_ID;
 	}
 
 	return 1;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if(!IsPlayerInAnyVehicle(playerid)) return 1;
 
-
-	if(!IsPlayerInAnyVehicle(playerid))
-		return 1;
-
-	if(newkeys == KEY_ACTION)
-		_HandleTrailerTowKey(playerid);
+	if(newkeys == KEY_ACTION) _HandleTrailerTowKey(playerid);
 
 	return 1;
 }
 
-_HandleTrailerTowKey(playerid)
-{
+_HandleTrailerTowKey(playerid) {
 	new
-		vehicleid,
-		vehicletype;
+		vehicleId,
+		vehicleType;
 
-	vehicleid = GetPlayerVehicleID(playerid);
-	vehicletype = GetVehicleType(vehicleid);
+	vehicleId = GetPlayerVehicleID(playerid);
+	vehicleType = GetVehicleType(vehicleId);
 
-	if(!IsValidVehicleType(vehicletype))
-		return 0;
+	if(!IsValidVehicleType(vehicleType)) return 0;
 
-	if(trl_VehicleTypeHitchSize[vehicletype] == -1)
-		return 0;
+	if(trl_VehicleTypeHitchSize[vehicleType] == -1) return 0;
 
 	new
-		tmptype,
-		Float:vx1,
-		Float:vy1,
-		Float:vz1,
-		Float:size_x1,
-		Float:size_y1,
-		Float:size_z1,
-		Float:vx2,
-		Float:vy2,
-		Float:vz2,
-		Float:size_x2,
-		Float:size_y2,
-		Float:size_z2;
+		tmpType,
+		Float:vx1, Float:vy1, Float:vz1,
+		Float:size_x1, Float:size_y1, Float:size_z1,
+		Float:vx2, Float:vy2, Float:vz2,
+		Float:size_x2, Float:size_y2, Float:size_z2;
 
+	GetVehiclePos(vehicleId, vx1, vy1, vz1);
+	GetVehicleModelInfo(GetVehicleTypeModel(vehicleType), VEHICLE_MODEL_INFO_SIZE, size_x1, size_y1, size_z1);
 
-	GetVehiclePos(vehicleid, vx1, vy1, vz1);
-	GetVehicleModelInfo(GetVehicleTypeModel(vehicletype), VEHICLE_MODEL_INFO_SIZE, size_x1, size_y1, size_z1);
-
-	if(IsTrailerAttachedToVehicle(vehicleid))
-	{
-		RemoveVehicleTrailer(vehicleid);
+	if(IsTrailerAttachedToVehicle(vehicleId)) {
+		RemoveVehicleTrailer(vehicleId);
 		return 1;
 	}
 
-	foreach(new i : veh_Index)
-	{
-		if(i == vehicleid)
-			continue;
+	foreach(new i : veh_Index) {
+		if(i == vehicleId) continue;
 
-		tmptype = GetVehicleType(i);
+		tmpType = GetVehicleType(i);
 
-		if(!IsVehicleTypeTrailer(tmptype))
-			continue;
+		if(!IsVehicleTypeTrailer(tmpType)) continue;
 
-		if(GetVehicleTypeSize(tmptype) != trl_VehicleTypeHitchSize[vehicletype])
-			continue;
+		if(GetVehicleTypeSize(tmpType) != trl_VehicleTypeHitchSize[vehicleType]) continue;
 
 		GetVehiclePos(i, vx2, vy2, vz2);
-		GetVehicleModelInfo(GetVehicleTypeModel(tmptype), VEHICLE_MODEL_INFO_SIZE, size_x2, size_y2, size_z2);
+		GetVehicleModelInfo(GetVehicleTypeModel(tmpType), VEHICLE_MODEL_INFO_SIZE, size_x2, size_y2, size_z2);
 
-		if(Distance(vx1, vy1, vz1, vx2, vy2, vz2) < size_y1 + size_y2 + 1.0)
-		{
-			SetVehicleTrailer(vehicleid, i);
+		if(Distance(vx1, vy1, vz1, vx2, vy2, vz2) < size_y1 + size_y2 + 1.0) {
+			SetVehicleTrailer(vehicleId, i);
 
 			break;
 		}
