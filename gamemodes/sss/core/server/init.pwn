@@ -622,16 +622,13 @@ new stock
 	vgroup_Military,
 	vgroup_Unique;
 
-public OnScriptInit()
-{
+public OnScriptInit() {
     //DisableInteriorEnterExits();
     
 	UsePlayerPedAnims();
 	EnableStuntBonusForAll(false);
 	ManualVehicleEngineAndLights();
 	AllowInteriorWeapons(true);
-
-
 
 // ITEM TYPE DEFINITIONS
 // 00
@@ -912,7 +909,7 @@ public OnScriptInit()
 	item_Wine2			= DefineItemType("Vinho", "", "Wine2",			19821,	1,	0.0, 0.0, 0.0,			0.0,	0.169000, 0.053000, -0.506999,  -178.499954, -170.700210, -10.200168, .maxhitpoints = 1);
 	item_Wine3			= DefineItemType("Vinho", "", "Wine3",			19822,	1,	0.0, 0.0, 0.0,			0.0,	0.169000, 0.053000, -0.423999,  -178.499954, -170.700210, -10.200168, .maxhitpoints = 1);
 // 260
-	item_Whisky			= DefineItemType("Uùsque", "", "Whisky",			19823,	1,	0.0, 0.0, 0.0,			0.0,	0.132000, 0.041000, -0.286999,  -178.499954, -170.700210, -10.200168, .maxhitpoints = 1);
+	item_Whisky			= DefineItemType("UÌsque", "", "Whisky",			19823,	1,	0.0, 0.0, 0.0,			0.0,	0.132000, 0.041000, -0.286999,  -178.499954, -170.700210, -10.200168, .maxhitpoints = 1);
 	item_Champagne		= DefineItemType("Champanhe", "", "Champagne",		19824,	1,	0.0, 0.0, 0.0,			0.0,	0.132000, 0.041000, -0.346999,  -178.499954, -170.700210, -10.200168, .maxhitpoints = 1);
 	item_Ham			= DefineItemType("Presunto", "", "Ham",				19847,	1,	0.0, 0.0, 0.0,			0.0,	0.085000, 0.024000, 0.044000,  -77.199935, -167.100173, 15.799836, .maxhitpoints = 1);
 	item_Steak			= DefineItemType("Bife", "", "Steak",			19882,	1,	0.0, 0.0, 0.0,			-0.02,	0.148000, 0.024000, 0.044000,  -77.199935, -167.100173, 15.799836, .maxhitpoints = 1);
@@ -1294,9 +1291,9 @@ public OnScriptInit()
 	DefineItemTypeAmmo(item_Ammo9mmFMJ,			"FMJ",				calibre_9mm,	1.2,	0.5,	0.8,	20);
 	DefineItemTypeAmmo(item_AmmoFlechette,		"Flechette",		calibre_12g,	1.0,	0.6,	0.2,	8);
 	DefineItemTypeAmmo(item_AmmoHomeBuck,		"Improvisado",		calibre_12g,	1.2,	0.8,	0.4,	14);
-	DefineItemTypeAmmo(item_Ammo556Tracer,		"Traùante",			calibre_556,	0.9,	1.1,	0.5,	30);
+	DefineItemTypeAmmo(item_Ammo556Tracer,		"TraÁante",			calibre_556,	0.9,	1.1,	0.5,	30);
 	DefineItemTypeAmmo(item_Ammo556HP,			"Ponta Oca",		calibre_556,	1.3,	1.6,	0.4,	30);
-	DefineItemTypeAmmo(item_Ammo357Tracer,		"Traùante",			calibre_357,	1.2,	1.1,	0.6,	10);
+	DefineItemTypeAmmo(item_Ammo357Tracer,		"TraÁante",			calibre_357,	1.2,	1.1,	0.6,	10);
 	DefineItemTypeAmmo(item_Ammo762,			"FMJ",				calibre_762,	1.3,	1.1,	0.9,	30);
 	DefineItemTypeAmmo(item_Ammo50BMG,			"BMG",				calibre_50bmg,	1.8,	1.8,	1.0,	16);
 	DefineItemTypeAmmo(item_Ammo308,			"FMJ",				calibre_308,	1.2,	1.1,	0.8,	10);
@@ -1354,7 +1351,6 @@ public OnScriptInit()
 	DefineDefenceItem(item_DoorBlin,	0.0, 0.0, 90.0,		0.0, 90.0, 0.0,		1.62882, true); // 6
     DefineDefenceItem(item_PortaCofre,  0.0, 180.0, 0.0,  	90.0, 90.0, 180.0,  1.40865, true); // 6
 	DefineDefenceItem(item_GarageDoor, 	0.0, 0.0, 0.0,		90.0, 0.0, 0.0,  	1.62882, true); // 8
-//	DefineDefenceItem(item_DupleDoor, 	0.0, 0.0, 90.0,		0.0, 90.0, 90.0,  	1.26817, true); // 8
 	DefineDefenceItem(item_DupleDoor, 	0.0, 0.0, 90.0,		0.0, 90.0, 90.0,  	1.26817, true); // 8
 	DefineDefenceItem(item_ShipDoor,	90.0, 90.0, 0.0,	180.0, 90.0, 0.0,	1.39421, true); // 9
 	DefineDefenceItem(item_InsulDoor,	0.0, 0.0, 90.0,		0.0, 90.0, 0.0,		1.72882, false); // 6
@@ -1396,8 +1392,8 @@ public OnScriptInit()
 	
 	// SEED TYPE DEFINITIONS
 	DefineSeedType("Tomate", item_Tomato,	4, 631, 0.90649);
-	DefineSeedType("Maùa", item_RedApple,	5, 802, 0.72044);
-	DefineSeedType("Maùa", item_GrnApple,	5, 802, 0.72044);
+	DefineSeedType("MaÁ„", item_RedApple,	5, 802, 0.72044);
+	DefineSeedType("MaÁ„", item_GrnApple,	5, 802, 0.72044);
 	DefineSeedType("Banana", item_Banana,	6, 804, 1.31168);
 	DefineSeedType("Lim„o", item_Lemon,		5, 810, 0.72044);
 	DefineSeedType("Laranja", item_Orange,	5, 810, 0.72044);
@@ -1485,7 +1481,7 @@ public OnScriptInit()
 
     // SUPPLY DROP TYPE DEFINITIONS
     
-	DefineSupplyDropType("Alimentaùùo e Medicina",		"airdrop_food_medical",			900,	600,	3);
+	DefineSupplyDropType("AlimentaÁ„o e Medicina",		"airdrop_food_medical",			900,	600,	3);
 	DefineSupplyDropType("Armas de Baixo Grau", 		"airdrop_low_weapons",			2400,	1200,	4);
 	DefineSupplyDropType("Armas Militares", 			"airdrop_military_weapons",		4200,	1800,	6);
 	DefineSupplyDropType("Suprimentos Industriais", 	"airdrop_industrial",			2000,	900,	5);
@@ -1573,8 +1569,8 @@ public OnScriptInit()
 	liquid_PurifiedWater	= DefineLiquidType("¡gua Purificada",		1.5);
 	liquid_Milk				= DefineLiquidType("Leite",					2.1);
 	liquid_Orange			= DefineLiquidType("Suco de Laranja",		1.0);
-	liquid_Apple			= DefineLiquidType("Suco de Maùa",			1.0);
-	liquid_Whiskey			= DefineLiquidType("Uùsque",				0.1);
+	liquid_Apple			= DefineLiquidType("Suco de MaÁ„",			1.0);
+	liquid_Whiskey			= DefineLiquidType("UÌsque",				0.1);
 	liquid_WineRed			= DefineLiquidType("Vinho Tinto",			0.4);
 	liquid_WineWhite		= DefineLiquidType("Vinho Branco",			0.4);
 	liquid_Champagne		= DefineLiquidType("Champanhe",				0.2);
