@@ -1,6 +1,6 @@
 #include <YSI\y_hooks>
 
-new bool:PmBlock[MAX_PLAYERS] = {false, ...};
+static bool:PmBlock[MAX_PLAYERS] = {false, ...};
 
 hook OnPlayerDisconnect(playerid) PmBlock[playerid] = false;
 
@@ -19,9 +19,9 @@ CMD:pm(playerid, params[]) {
 
     if(PmBlock[targetId]) return ChatMsg(playerid, RED, "[PM]: Você não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId);
 
-    ChatMsg(playerid, RED, "[PM PARA %P (%d)"C_RED"]: {00AA00}%s", targetId, targetId, mensagem);
+    ChatMsg(playerid, RED, "[PM PARA %C%p (%d)"C_RED"]: {00AA00}%s", IsPlayerOnAdminDuty(targetId) ? GetAdminRankColour(GetPlayerAdminLevel(targetId)) : GetPlayerColor(targetId), targetId, targetId, mensagem);
 
-    ChatMsg(targetId, 0x555555AA, "[PM DE %P (%d){555555}]: {00AA00}%s", playerid, playerid, mensagem);
+    ChatMsg(targetId, 0x555555AA, "[PM DE %C%p (%d){555555}]: {00AA00}%s", IsPlayerOnAdminDuty(playerid) ? GetAdminRankColour(GetPlayerAdminLevel(playerid)) : GetPlayerColor(playerid), playerid, playerid, mensagem);
         
     GameTextForPlayer(targetId, "~G~~H~ MENSAGEM RECEBIDA!", 3000, 1);
     
