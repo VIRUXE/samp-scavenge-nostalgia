@@ -84,9 +84,10 @@ _OnDeath(playerid, killerId) {
 
 	death_LastDeath[playerid] = GetTickCount();
 	death_Count[playerid]++;
+	death_Spree[playerid] = 0;
 	death_Kills[playerid] = 0;
-	aliveTime[playerid] = 0;
 	death_Dying[playerid] = true;
+	aliveTime[playerid] = 0;
 	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, false);
 
@@ -123,7 +124,6 @@ _OnDeath(playerid, killerId) {
 		
 		death_Kills[killerId]++;
 		death_Spree[killerId]++;
-		death_Spree[playerid] = 0;
 
 		SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, ret_valstr(death_Kills[killerId]));
 		
