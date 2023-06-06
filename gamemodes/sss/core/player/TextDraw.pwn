@@ -6,28 +6,25 @@ static PlayerText:HUD[MAX_PLAYERS][MAX_HUD_COMPONENTS];
 	Isso continua a ser uma prÃ¡tica terrÃ­vel.
 	Os valores apenas deveria ser atuaiizados quando necessÃ¡rio. Não a cada segundo.
  */
-ptask UpdateHUD[SEC(1)](playerid)
-{
-	if(!IsPlayerSpawned(playerid))
-		return 0;
+ptask UpdateHUD[SEC(1)](playerid) {
+	if(!IsPlayerSpawned(playerid)) return 0;
 
-	new Float:food, Float:bleed, clan[MAX_CLAN_NAME];
-		
-	food  = GetPlayerFP(playerid);
-	bleed = GetPlayerBleedRate(playerid);
-	clan  = GetPlayerClan(playerid);
+	new const Float:food          = GetPlayerFP(playerid);
+	new const Float:bleed         = GetPlayerBleedRate(playerid);
+	new clan[MAX_CLAN_NAME];
+	
+	clan = GetPlayerClan(playerid);
     
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_FOOD_VALUE],  sprintf("~%s~~h~~h~%0.1f", food >= 20.0 ? "g" : "r", food));
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_BLEED_VALUE], sprintf("~%s~~h~~h~%0.2f", bleed > 0.009999 ? "r" : "g", bleed));
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_KILLS_VALUE], sprintf("%d", GetPlayerScore(playerid)));
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_PED_VALUE],   sprintf("%d", GetPlayerPED(playerid)));
-	PlayerTextDrawSetString(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE],  strlen(clan) > 5 ? clan : "Sem Clan");
+	SetHudComponentString(playerid, HUD_STATUS_FOOD_VALUE,  sprintf("~%s~~h~~h~%0.1f", food >= 20.0 ? "g" : "r", food));
+	SetHudComponentString(playerid, HUD_STATUS_BLEED_VALUE, sprintf("~%s~~h~~h~%0.2f", bleed > 0.009999 ? "r" : "g", bleed));
+	SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, sprintf("%d", GetPlayerScore(playerid)));
+	SetHudComponentString(playerid, HUD_STATUS_PED_VALUE,   sprintf("%d", GetPlayerPED(playerid)));
+	SetHudComponentString(playerid, HUD_STATUS_CLAN_VALUE,  strlen(clan) > 5 ? clan : "Sem Clan");
 
 	return 1;
 }
 
-hook OnPlayerConnect(playerid)
-{
+hook OnPlayerConnect(playerid) {
 	HUD[playerid][HUD_STATUS_BG] = CreatePlayerTextDraw(playerid, 652.000000, 421.000000, "_");
 	PlayerTextDrawBackgroundColor(playerid, HUD[playerid][HUD_STATUS_BG], 255);
 	PlayerTextDrawFont(playerid, HUD[playerid][HUD_STATUS_BG], 0);
@@ -160,7 +157,7 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawBoxColor(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 255);
 	PlayerTextDrawTextSize(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 10.000000, 10.000000);
 
-	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Você está sem um clan.");
+	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Sem clan.");
 	PlayerTextDrawBackgroundColor(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 255);
 	PlayerTextDrawFont(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 1);
 	PlayerTextDrawLetterSize(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 0.160000, 0.899999);
@@ -206,8 +203,11 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawTextSize			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 108.000000, 89.000000);
 }
 
-ToggleHudComponent(playerid, componentid, bool:toggle)
-{
+SetHudComponentString(playerid, componentId, string[]) {
+	PlayerTextDrawSetString(playerid, HUD[playerid][componentId], string);
+}
+
+ToggleHudComponent(playerid, componentid, bool:toggle) {
 	if(componentid >= MAX_HUD_COMPONENTS) {
 		printf("ToggleHudComponent: Invalid component id %d", componentid);
 		return;
@@ -219,8 +219,7 @@ ToggleHudComponent(playerid, componentid, bool:toggle)
 		PlayerTextDrawHide(playerid, HUD[playerid][componentid]);
 }
 
-ToggleHud(playerid, bool:toggle)
-{
+ToggleHud(playerid, bool:toggle) {
 	ToggleHudComponent(playerid, HUD_STATUS_BG, toggle);
 	ToggleHudComponent(playerid, HUD_STATUS_FOOD_SPRITE, toggle);
 	ToggleHudComponent(playerid, HUD_STATUS_FOOD_VALUE, toggle);

@@ -246,6 +246,7 @@ LoadAccount(playerid) {
 	SetPlayerWarnings(playerid, warnings);
 	SetPlayerVip(playerid, vip);
 	GiveScore(playerid, kills);
+	SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, ret_valstr(kills));
 	SetPlayerDeathCount(playerid, deaths);
 	SetPlayerAliveTime(playerid, aliveTime);
 	SetPlayerCoins(playerid, coins);

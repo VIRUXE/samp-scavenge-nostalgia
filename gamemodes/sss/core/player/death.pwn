@@ -13,6 +13,7 @@ Float:	death_RotZ[MAX_PLAYERS],
 		death_LastKilledById[MAX_PLAYERS],
 		death_Count[MAX_PLAYERS],
         death_Spree[MAX_PLAYERS],
+		death_Kills[MAX_PLAYERS],
 		aliveTime[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid) {
@@ -20,8 +21,9 @@ hook OnPlayerConnect(playerid) {
 	death_LastKilledBy[playerid][0] = EOS;
 	death_LastKilledById[playerid]  = INVALID_PLAYER_ID;
 	death_Count[playerid]           = 0;
-	aliveTime[playerid]             = 0;
 	death_Spree[playerid]           = 0;
+	death_Kills[playerid]           = 0;
+	aliveTime[playerid]             = 0;
 }
 
 hook OnPlayerLogin(playerid) {
@@ -36,10 +38,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 
     if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < SEC(1)) return -1; // ? Ignorar se morreu a menos de 1 segundo? Impossivel?
 
-	death_Count[playerid]++;
-
 	SetPlayerScreenFade(playerid, FADE_OUT, 255);
-	death_LastDeath[playerid] = GetTickCount();
 
 	if(killerid == INVALID_PLAYER_ID) {
 		killerid = GetLastHitById(playerid);
@@ -68,7 +67,10 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
 
-	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "%p completou agora mais uma hora vivo!", playerid); 
+	new const hoursAlive = aliveTime[playerid] / 3600;
+
+	// TODO: Ingles
+	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
 }
 
 _OnDeath(playerid, killerId) {
@@ -78,8 +80,11 @@ _OnDeath(playerid, killerId) {
 		deathReason = GetLastHitByWeapon(playerid),
 		deathReasonString[256];
 
-	db_query(Database, sprintf("UPDATE players SET aliveTime = 0 WHERE name = '%s';", GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET aliveTime = 0, kills = 0, deaths = deaths + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
+	death_LastDeath[playerid] = GetTickCount();
+	death_Count[playerid]++;
+	death_Kills[playerid] = 0;
 	aliveTime[playerid] = 0;
 	death_Dying[playerid] = true;
 	SetPlayerSpawnedState(playerid, false);
@@ -116,8 +121,11 @@ _OnDeath(playerid, killerId) {
 
 		db_query(Database, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerId)));
 		
+		death_Kills[killerId]++;
 		death_Spree[killerId]++;
 		death_Spree[playerid] = 0;
+
+		SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, ret_valstr(death_Kills[killerId]));
 		
 		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerId, playerid);
 		
@@ -155,9 +163,6 @@ _OnDeath(playerid, killerId) {
 	CreateGravestone(playerid, deathReasonString, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid] - FLOOR_OFFSET, death_RotZ[playerid]);
 
     SavePlayerData(playerid);
-
-	SetPlayerDeathCount(playerid, GetPlayerDeathCount(playerid) + 1);
-	db_query(Database, sprintf("UPDATE players SET deaths = deaths + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	return 1;
 }
