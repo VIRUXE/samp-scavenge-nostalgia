@@ -115,6 +115,8 @@ _OnDeath(playerid, killerId) {
 
 	KillPlayer(playerid, killerId, deathReason);
 
+	SendDeathMessage(killerId, playerid, deathReason);
+
 	if(IsPlayerConnected(killerId)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerId, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
@@ -127,7 +129,7 @@ _OnDeath(playerid, killerId) {
 
 		SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, ret_valstr(death_Kills[killerId]));
 		
-		foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerId, playerid);
+		// foreach(new i : Player) ChatMsg(i, RED, "player/chatkill", killerId, playerid);
 		
 		GetPlayerName(killerId, death_LastKilledBy[playerid], MAX_PLAYER_NAME);
 		death_LastKilledById[playerid] = killerId;
