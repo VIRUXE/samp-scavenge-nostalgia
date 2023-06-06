@@ -512,7 +512,7 @@
 {"player/radio/global-quiet", " >  Você desligou o receptor global do seu radio, você radio vera mais o chat global.", " >  You turn off your radio's global receiver, you will not see any global chat."},
 {"player/radio/local", " >  Você ligou o seu radio na frequencia local.", " >  You turned your radio on to the local frequency."},
 {"player/radio/admin", " > Admin chat ativado.", " > Admin chat activated."},
-{"player/chatkill", "[KILL] {FFFF00}%p matou %p{E85454}!", "[KILL] {FFFF00}%p killed %p{E85454}!"},
+// {"player/chatkill", "[KILL] {FFFF00}%p matou %p{E85454}!", "[KILL] {FFFF00}%p killed %p{E85454}!"},
 {"player/frozen", " >  Congelado pelo administrador", " >  Frozen by admin"},
 {"player/unfrozen", "Esta agora Descongelado", "You are now Unfrozen"},
 {"player/unmuted", " >  Agora você esta habilitado a falar.", " >  You are now un-muted."},
