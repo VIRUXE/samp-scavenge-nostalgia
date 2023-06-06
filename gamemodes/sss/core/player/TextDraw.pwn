@@ -17,8 +17,7 @@ ptask UpdateHUD[SEC(1)](playerid) {
     
 	SetHudComponentString(playerid, HUD_STATUS_FOOD_VALUE,  sprintf("~%s~~h~~h~%0.1f", food >= 20.0 ? "g" : "r", food));
 	SetHudComponentString(playerid, HUD_STATUS_BLEED_VALUE, sprintf("~%s~~h~~h~%0.2f", bleed > 0.009999 ? "r" : "g", bleed));
-	SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, sprintf("%d", GetPlayerScore(playerid)));
-	SetHudComponentString(playerid, HUD_STATUS_PED_VALUE,   sprintf("%d", GetPlayerPED(playerid)));
+	SetHudComponentString(playerid, HUD_STATUS_PED_VALUE,   ret_valstr(GetPlayerPedCount(playerid)));
 	SetHudComponentString(playerid, HUD_STATUS_CLAN_VALUE,  strlen(clan) > 5 ? clan : "Sem Clan");
 
 	return 1;
@@ -157,7 +156,7 @@ hook OnPlayerConnect(playerid) {
 	PlayerTextDrawBoxColor(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 255);
 	PlayerTextDrawTextSize(playerid, HUD[playerid][HUD_STATUS_CLAN_SPRITE], 10.000000, 10.000000);
 
-	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Sem clan.");
+	HUD[playerid][HUD_STATUS_CLAN_VALUE] = CreatePlayerTextDraw(playerid, 574.000000, 404.000000, "Sem Clan");
 	PlayerTextDrawBackgroundColor(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 255);
 	PlayerTextDrawFont(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 1);
 	PlayerTextDrawLetterSize(playerid, HUD[playerid][HUD_STATUS_CLAN_VALUE], 0.160000, 0.899999);
