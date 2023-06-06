@@ -1,16 +1,18 @@
-stock GetPlayerPED(playerid) {
-	new ped;
+stock GetPlayerPedCount(playerid) {
+	new count;
 
 	foreach(new i : Player) {
-		if(i == playerid) continue; // skip self
-		if(!IsPlayerStreamedIn(i, playerid)) continue; // skip if not streamed in
-		if(IsPlayerOnAdminDuty(i)) continue; // skip if admin
-		if(!IsPlayerSpawned(i)) continue;
+		if(
+			i == playerid ||
+			!IsPlayerStreamedIn(i, playerid) ||
+			IsPlayerOnAdminDuty(i) ||
+			!IsPlayerSpawned(i)
+		) continue;
 
-		ped++;
+		count++;
 	}
 		
-	return ped;
+	return count;
 }
 
 /*stock GetPlayerVEH(playerid) {
