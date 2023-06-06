@@ -92,18 +92,14 @@ CMD:field(playerid, params[]) {
 
 		AddNewDetectionFieldPoint(playerid);
 	} else if(isequal(command, "remover", true)) {
-		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		new const detfieldId = IsPlayerInsideDetectionField(playerid);
 
-		new fieldName[MAX_DETFIELD_NAME];
+		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(sscanf(params, "{s[7]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, " >  Use: /field remover [Nome]");
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) || GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid)) return SendClientMessage(playerid, RED, "Você não pode remover essa Detection Field.");
 
-		new id = GetDetectionFieldIdFromName(fieldName);
-
-		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
-
-		dfm_CurrentDetfield[playerid] = id;
-		ShowDetfieldDeletePrompt(playerid, id);
+		dfm_CurrentDetfield[playerid] = detfieldId;
+		ShowDetfieldDeletePrompt(playerid, detfieldId);
 	} else if(isequal(command, "rename", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
@@ -280,7 +276,7 @@ ShowDetfieldAddException(playerid, detfieldId) {
 	new fieldName[MAX_DETFIELD_NAME];
 	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldAddExc, DIALOG_STYLE_INPUT, sprintf("Adicionar excepção para: %s", fieldName), "Escreva o nome do jogador:", "Adicionar", "Voltar");
+	Dialog_Show(playerid, DetfieldAddExc, DIALOG_STYLE_INPUT, "Adicionar Excepção:", sprintf("Detection Field: %s\n\nEscreva o nome do jogador que quer adicionar:", fieldName), "Adicionar", "Voltar");
 
 	return 1;
 }
@@ -363,7 +359,7 @@ Dialog:DetfieldRename(playerid, response, listitem, inputtext[]) {
 		if(result == -1)
 			ChatMsg(playerid, RED, " >  Já possui uma field existente com este nome.");
 		else if(result == -2)
-			ChatMsg(playerid, RED, " >  Nome de field inválida. Deve comeÃ§ar com um caractere alfabético e pode conter apenas caracteres alfanuméricos.");
+			ChatMsg(playerid, RED, " >  Nome de field inválida. Deve começar com um caracter alfabético e pode conter apenas caracteres alfanuméricos.");
 	}
 
 	ShowDetfieldListOptions(playerid, dfm_CurrentDetfield[playerid]);
@@ -378,7 +374,7 @@ ShowDetfieldDeletePrompt(playerid, detfieldId) {
 
 	GetDetectionFieldName(detfieldId, fieldName);
 
-	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", fieldName), "Você tem certeza?", "Voltar", "Deletar");
+	Dialog_Show(playerid, DetfieldDelete, DIALOG_STYLE_MSGBOX, sprintf("Deletar %s", fieldName), "Você tem certeza?", GetPlayerAdminLevel(playerid) ? "Voltar" : "Sair", "Deletar");
 
 	return 1;
 }
@@ -388,13 +384,12 @@ Dialog:DetfieldDelete(playerid, response, listitem, inputtext[]) {
 	    new fieldName[MAX_DETFIELD_NAME];
 
 	    GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
-//	    ReportPlayer(namep, sprintf("Removeu a field '%s'", fieldName), -1, "R_FIELD", 0.0,0.0,0.0, 0, 0, "");
 	    RemoveDetectionField(dfm_CurrentDetfield[playerid]);
 
-		ChatMsgAdmins(1, BLUE, "[Admin]: %p deletou a field '%s'", playerid, fieldName);
+		ChatMsgAdmins(1, BLUE, "[FIELD]: Field '%s' removida por '%p'", fieldName, playerid);
 	}
 
-	ShowDetfieldList(playerid);
+	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) ShowDetfieldList(playerid);
 }
 
 ShowDetfieldLog(playerid, detfieldId) {
