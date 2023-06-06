@@ -196,17 +196,18 @@ stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ
 
 	Iter_Add(det_Index, id);
 
-	// Linhas (Corda: 19087, Length: 2.46)
+	// Linhas (Corda: 19087, Length: 2.46 / Neon: 18649 (verde), Length: 2.00)
+	new const lineObjectId = active ? 18652 : 18647, Float:objectLength = 2.00;
 	for(new i; i < 8; i += 2) {
 		// Linhas para baixo
-		det_Lines[id][i + 0] = CreateLineSegment(18649, 2.00,
+		det_Lines[id][i + 0] = CreateLineSegment(lineObjectId, objectLength,
 			points[i + 0], points[i + 1], minZ,
-			points[i + 2], points[i + 3], minZ, .objlengthoffset = -(2.00/2));
+			points[i + 2], points[i + 3], minZ, .objlengthoffset = -(objectLength/2));
 
 		// Linhas para cima
-		det_Lines[id][i + 1] = CreateLineSegment(18649, 2.00,
+		det_Lines[id][i + 1] = CreateLineSegment(lineObjectId, objectLength,
 			points[i + 0], points[i + 1], maxZ,
-			points[i + 2], points[i + 3], maxZ, .objlengthoffset = -(2.00/2));
+			points[i + 2], points[i + 3], maxZ, .objlengthoffset = -(objectLength/2));
 	}
 
 	return id;
@@ -616,7 +617,23 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerLogin(playerid) {
-	defer CheckPlayerInvadeField(playerid);
+	new detfieldId = IsPlayerInsideDetectionField(playerid);
+
+	if(detfieldId != -1 && !IsNameInExceptionList(detfieldId, GetPlayerNameEx(playerid))) {
+		// TODO: Achar uma forma de simplesmente colocar fora e nao dar spawn aleatorio
+		new Float:x, Float:y, Float:z, Float:r;
+
+		GenerateSpawnPoint(playerid, x, y, z, r);
+		Streamer_UpdateEx(playerid, x, y, z, 0, 0);
+		SetPlayerPos(playerid, x, y, z);
+		SetPlayerFacingAngle(playerid, r);
+		SetPlayerVirtualWorld(playerid, 0);
+		SetPlayerInterior(playerid, 0);
+		SetCameraBehindPlayer(playerid);
+		fld_PlayerInvade[playerid] = false;
+
+		ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
+	}
 
 	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
@@ -646,7 +663,7 @@ ACMD:addex[2](playerid, params[]) {
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  Conta  '%s' não existente.", name);
 
-	new const detfieldId = GetPlayerFieldID(playerid);
+	new const detfieldId = IsPlayerInsideDetectionField(playerid);
 
 	if(detfieldId) {
 		new result = AddDetectionFieldException(detfieldId, name);
@@ -664,31 +681,26 @@ ACMD:addex[2](playerid, params[]) {
 	return 1;
 }
 
-timer CheckPlayerInvadeField[SEC(2)](playerid) {
-    new Float:x, Float:y, Float:z;
+IsPlayerInsideDetectionField(playerid) {
+	new Float:x, Float:y, Float:z;
 
-	GetPlayerPos(playerid, x, y, z);
+	GetPlayerPos(playerid, x,y,z);
 
-    foreach(new i : det_Index) {
-		if(!IsValidDetectionField(i)) continue;
+	foreach(new i : det_Index) {
 		if(!IsDetectionFieldActive(i)) continue;
 		
-		if(IsPointInDynamicArea(det_AreaID[i], x, y, z) && !IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
-				// TODO: Achar uma forma de simplesmente colocar fora e nao dar spawn aleatorio
-				new Float:r;
-
-				GenerateSpawnPoint(playerid, x, y, z, r);
-				Streamer_UpdateEx(playerid, x, y, z, 0, 0);
-				SetPlayerPos(playerid, x, y, z);
-				SetPlayerFacingAngle(playerid, r);
-				SetPlayerVirtualWorld(playerid, 0);
-				SetPlayerInterior(playerid, 0);
-				SetCameraBehindPlayer(playerid);
-				fld_PlayerInvade[playerid] = false;
-
-				ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
-		}
+		if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) return i;
 	}
+
+	return -1;
+}
+
+IsPlayerDetectionFieldOwner(playerid, detfieldId) {
+	if(IsValidDetectionField(detfieldId)) return -1;
+
+	if(isequal(det_Exceptions[detfieldId][0], GetPlayerNameEx(playerid))) return 1;
+
+	return 0;
 }
 
 hook OnPlayerEnterDynArea(playerid, areaid) {
@@ -696,16 +708,11 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 		if(!IsDetectionFieldActive(i)) continue;
 
 		if(areaid == det_AreaID[i]) {
-		    if(!IsPlayerOnAdminDuty(playerid)) DetectionFieldLogPlayer(playerid, i);
-
-			if(GetPlayerState(playerid) != PLAYER_STATE_SPECTATING) {
-				if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR)
-					ChatMsg(playerid, PINK, " > Você entrou na field '%s'", det_Name[i]);
-			}
-
 			if(!IsPlayerOnAdminDuty(playerid)) {
+				DetectionFieldLogPlayer(playerid, i);
+
     			if(!IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
-					ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", 
+					ShowPlayerDialog(playerid, DIALOG_ENTER_DETFIELD, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", 
 						C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
 						Você não poderá fazer as seguintes coisas:\n\n\
 						"C_YELLOW"\t- Construir.\n\
@@ -716,14 +723,15 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 						"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
 					"Fechar", "");
 					
-					ChatMsgAdmins(1, PINK, "[FIELD] %p (%d) Entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
+					ChatMsgAdmins(1, PINK, "[FIELD] %p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
 					
 					PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 
 				    fld_PlayerInvade[playerid] = true;
 				} else
-					ShowHelpTip(playerid, "Voce entrou como excecao em uma base com protecao field.", 8000);
-			}
+					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
+			} else if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR)
+				ChatMsg(playerid, PINK, " > Você entrou na field '%s'", det_Name[i]);
 		}
 	}
 }
@@ -759,17 +767,6 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
 	}
 }
 
-stock GetPlayerFieldID(playerid) {
-	new Float:x, Float:y, Float:z, detfieldId;
-	GetPlayerPos(playerid, x, y, z);
-
-    foreach(new i : det_Index) {
-	    if(IsValidDetectionField(i)) if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) detfieldId = i;
-	}
-
-	return detfieldId;
-}
-
 stock IsPlayerInvaddedField(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
@@ -783,7 +780,6 @@ stock IsPlayerInvaddedField(playerid) {
 	pinf = false;
 
     foreach(new i : det_Index) {
-	    if(!IsValidDetectionField(i)) continue;
 		if(!IsDetectionFieldActive(i)) continue;
 
 		if(IsPointInDynamicArea(det_AreaID[i], x, y, z))
@@ -826,7 +822,6 @@ stock BlockFieldVehicle(playerid, vehicleid) {
 	GetVehiclePos(vehicleid, vehX, vehY, vehZ);
 
 	foreach(new i : det_Index) {
-		if(!IsValidDetectionField(i)) continue;
 		if(!IsDetectionFieldActive(i)) continue;
 
 		if(IsPointInDynamicArea(det_AreaID[i], vehX, vehY, vehZ)) trunk_playerNotAllowed[playerid] = !IsNameInExceptionList(i, GetPlayerNameEx(playerid));
@@ -841,7 +836,8 @@ DetectionFieldLogPlayer(playerid, detfieldId) {
 	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
 	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
-		if(!strcmp(det_Exceptions[detfieldId][i], name, _, true)) return 0;
+		if(!strcmp(det_Exceptions[detfieldId][i], name, _, true)) 
+			return 0;
 	}
 
 	new Float:x, Float:y, Float:z,
@@ -979,9 +975,8 @@ stock GetDetectionFieldExceptionName(detfieldId, exceptionId, name[MAX_PLAYER_NA
 
 stock SetPlayerNameField(oldName[MAX_PLAYER_NAME], newName[MAX_PLAYER_NAME]) {
     foreach(new i : det_Index) {
-	    if(IsValidDetectionField(i)) {
-			if(IsNameInExceptionList(i, oldName)) AddDetectionFieldException(i, newName);
-		}
+		if(IsNameInExceptionList(i, oldName))
+			AddDetectionFieldException(i, newName);
 	}
 
 	return 1;
@@ -991,7 +986,8 @@ stock IsNameInExceptionList(detfieldId, name[MAX_PLAYER_NAME]) {
 	if(!Iter_Contains(det_Index, detfieldId)) return 0;
 
 	for(new i; i < det_ExceptionCount[detfieldId]; i++) {
-		if(!strcmp(det_Exceptions[detfieldId][i], name)) return 1;
+		if(!strcmp(det_Exceptions[detfieldId][i], name)) 
+			return 1;
 	}
 
 	return 0;
