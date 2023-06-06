@@ -1,6 +1,8 @@
 #include <YSI\y_hooks>
 
-static PlayerText:HUD[MAX_PLAYERS][MAX_HUD_COMPONENTS];
+static 
+	PlayerText:HUD[MAX_PLAYERS][MAX_HUD_COMPONENTS],
+	Text:URL;
 
 /* 
 	Isso continua a ser uma prática terrível.
@@ -21,6 +23,21 @@ ptask UpdateHUD[SEC(1)](playerid) {
 	SetHudComponentString(playerid, HUD_STATUS_CLAN_VALUE,  strlen(clan) > 5 ? clan : "Sem Clan");
 
 	return 1;
+}
+
+hook OnGamemodeInit() {
+	URL = TextDrawCreate(232.625, 0.583333, "scavengenostalgia.fun:7777");
+	TextDrawLetterSize(URL, 0.359904, 1.361111);
+	TextDrawTextSize(URL, 405, 14.583333);
+	TextDrawAlignment(URL, 1);
+	TextDrawColor(URL, 0xFFFFFFFF);
+	TextDrawUseBox(URL, 0);
+	TextDrawBoxColor(URL, 0x000000AA);
+	TextDrawSetShadow(URL, 0);
+	TextDrawSetOutline(URL, 1);
+	TextDrawBackgroundColor(URL, 0x000000FF);
+	TextDrawFont(URL, 1);
+	TextDrawSetProportional(URL, 1);
 }
 
 hook OnPlayerConnect(playerid) {
@@ -200,6 +217,11 @@ hook OnPlayerConnect(playerid) {
 	PlayerTextDrawUseBox			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 1);
 	PlayerTextDrawBoxColor			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 255);
 	PlayerTextDrawTextSize			(playerid, HUD[playerid][HUD_COMPONENT_RADAR], 108.000000, 89.000000);
+}
+
+hook OnPlayerlogin(playerid) {
+	TextDrawShowForPlayer(playerid, URL);
+	print("sdsd");
 }
 
 SetHudComponentString(playerid, componentId, string[]) {
