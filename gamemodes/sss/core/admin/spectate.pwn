@@ -55,16 +55,13 @@ hook OnPlayerConnect(playerid) {
 hook OnPlayerDisconnect(playerid) {
 	if(spectate_Type[playerid] != SPECTATE_TYPE_NONE) ExitSpectateMode(playerid);
 
-	foreach(new i : Player) {
-		if(spectate_Target[i] != playerid) continue;
+	foreach(new admin : Player) {
+		if(spectate_Target[admin] != playerid) continue;
 
-		ChatMsg(i, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu.", playerid);
-		printf("[SPECTATE] %p estava vendo %p, quando ele saiu.", i, playerid);
+		ChatMsg(admin, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu.", playerid);
+		printf("[SPECTATE] %p estava vendo %p, quando ele saiu.", admin, playerid);
 
-		new Float:x, Float:y, Float:z;
-		GetPlayerCameraPos(i, x, y, z);
-
-		if(Iter_Count(Player) > 1) SpectateNextTarget(i); else ExitSpectateMode(i);
+		if(Iter_Count(Player) > 1) SpectateNextTarget(admin); else ExitSpectateMode(admin);
 	}
 
 	return 1;
