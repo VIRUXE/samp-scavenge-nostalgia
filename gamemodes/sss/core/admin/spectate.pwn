@@ -64,7 +64,7 @@ hook OnPlayerDisconnect(playerid) {
 		new Float:x, Float:y, Float:z;
 		GetPlayerCameraPos(i, x, y, z);
 
-		if(Iter_Count(Player) > 1) SpectateNextTarget(i); else EnterFreeMode(i, x, y, z);
+		if(Iter_Count(Player) > 1) SpectateNextTarget(i); else ExitSpectateMode(i);
 	}
 
 	return 1;
