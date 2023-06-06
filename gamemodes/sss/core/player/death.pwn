@@ -164,42 +164,41 @@ _OnDeath(playerid, killerId) {
 
 DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	new
-		itemid,
+		itemId,
 		interior = GetPlayerInterior(playerid),
-		world    = GetPlayerVirtualWorld(playerid);
+		world    = GetPlayerVirtualWorld(playerid),
+		Float:newX, Float:newY, Float:groundZ;
 
 	/*
 		Held item
 	*/
 
-	itemid = GetPlayerItem(playerid);
+	itemId = GetPlayerItem(playerid);
 
-	if(IsValidItem(itemid)) {
-		CreateItemInWorld(itemid,
-			x + floatsin(345.0, degrees),
-			y + floatcos(345.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+	if(IsValidItem(itemId)) {
+		newX = x + floatsin(345.0, degrees);
+		newY = y + floatcos(345.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
 	/*
 		Holstered item
 	*/
 
-	itemid = GetPlayerHolsterItem(playerid);
+	itemId = GetPlayerHolsterItem(playerid); // ? Porque criar outro?
 
-	if(IsValidItem(itemid)) {
+	if(IsValidItem(itemId)) {
 		RemovePlayerHolsterItem(playerid);
 
-		CreateItemInWorld(itemid,
-			x + floatsin(15.0, degrees),
-			y + floatcos(15.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+		newX = x + floatsin(15.0, degrees);
+		newY = y + floatcos(15.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
 	/*
@@ -207,66 +206,63 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	*/
 
 	for(new i; i < INV_MAX_SLOTS; i++) {
-		itemid = GetInventorySlotItem(playerid, 0);
+		itemId = GetInventorySlotItem(playerid, 0);
 
-		if(!IsValidItem(itemid))
-			break;
+		if(!IsValidItem(itemId)) break;
 
 		RemoveItemFromInventory(playerid, 0);
-		CreateItemInWorld(itemid,
-			x + floatsin(45.0 + (90.0 * float(i)), degrees),
-			y + floatcos(45.0 + (90.0 * float(i)), degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+
+		newX = x + floatsin(45.0 + (90.0 * float(i)), degrees);
+		newY = y + floatcos(45.0 + (90.0 * float(i)), degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
 	/*
 		Bag item
 	*/
 
-	itemid = GetPlayerBagItem(playerid);
+	itemId = GetPlayerBagItem(playerid);
 
-	if(IsValidItem(itemid)) {
+	if(IsValidItem(itemId)) {
 		RemovePlayerBag(playerid);
 
-		SetItemPos(itemid, x, y, z - FLOOR_OFFSET);
-		SetItemRot(itemid, 0.0, 0.0, r, true);
-		SetItemInterior(itemid, interior);
-		SetItemWorld(itemid, world);
+		SetItemPos(itemId, x, y, z - FLOOR_OFFSET); // ? A mochila fica no centro?
+		SetItemRot(itemId, 0.0, 0.0, r, true);
+		SetItemInterior(itemId, interior);
+		SetItemWorld(itemId, world);
 	}
 
 	/*
 		Head-wear item
 	*/
 
-	itemid = RemovePlayerHatItem(playerid);
+	itemId = RemovePlayerHatItem(playerid);
 
-	if(IsValidItem(itemid)) {
-		CreateItemInWorld(itemid,
-			x + floatsin(270.0, degrees),
-			y + floatcos(270.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+	if(IsValidItem(itemId)) {
+		newX = x + floatsin(270.0, degrees);
+		newY = y + floatcos(270.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
 	/*
 		Face-wear item
 	*/
 
-	itemid = RemovePlayerMaskItem(playerid);
+	itemId = RemovePlayerMaskItem(playerid);
 
-	if(IsValidItem(itemid)) {
-		CreateItemInWorld(itemid,
-			x + floatsin(280.0, degrees),
-			y + floatcos(280.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+	if(IsValidItem(itemId)) {
+		newX = x + floatsin(280.0, degrees);
+		newY = y + floatcos(280.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
 	/*
@@ -274,21 +270,17 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	*/
 
 	if(GetPlayerAP(playerid) > 0.0) {
-		itemid = CreateItemInWorld(RemovePlayerArmourItem(playerid),
-			x + floatsin(80.0, degrees),
-			y + floatcos(80.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+		newX = x + floatsin(80.0, degrees);
+		newY = y + floatcos(80.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		itemId = CreateItemInWorld(RemovePlayerArmourItem(playerid), newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 
 		SetPlayerAP(playerid, 0.0);
 	}
 
-	/*
-		These items should only be dropped on death.
-	*/
-
+	// Os itens seguintes apenas devem ser dropados na morte
 	if(!death) return;
 
 	/*
@@ -296,43 +288,37 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	*/
 
 	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED) {
-		CreateItem(item_HandCuffs,
-			x + floatsin(135.0, degrees),
-			y + floatcos(135.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+		newX = x + floatsin(135.0, degrees);
+		newY = y + floatcos(135.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItem(item_HandCuffs, newX,newY, groundZ, .rz = r, .world = world, .interior = interior);
 
 		SetPlayerCuffs(playerid, false);
 	}
 
-	/*
-		Clothes item
-	*/
+	// Roupas
+	newX = x + floatsin(90.0, degrees);
+	newY = y + floatcos(90.0, degrees);
 
-	itemid = CreateItem(item_Clothes,
-		x + floatsin(90.0, degrees),
-		y + floatcos(90.0, degrees),
-		z - FLOOR_OFFSET,
-		.rz = r,
-		.world = world,
-		.interior = interior);
+	CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+	itemId = CreateItem(item_Clothes, newX,newY, groundZ, .rz = r, .world = world, .interior = interior);
 
 	if(GetPlayerSkin(playerid) == 287) {
 		SetPlayerClothesID(playerid, skin_Civ0M);
 		SetPlayerClothes(playerid, GetPlayerClothesID(playerid));
 
-		CreateItem(item_Camouflage,
-			x + floatsin(135.0, degrees),
-			y + floatcos(135.0, degrees),
-			z - FLOOR_OFFSET,
-			.rz = r,
-			.world = world,
-			.interior = interior);
+		newX = x + floatsin(135.0, degrees);
+		newY = y + floatcos(135.0, degrees);
+
+		CA_FindZ_For2DCoord(newX,newY, groundZ);
+
+		CreateItem(item_Camouflage, newX,newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 		
-	SetItemExtraData(itemid, GetPlayerClothes(playerid));
+	SetItemExtraData(itemId, GetPlayerClothes(playerid));
 
 	return;
 }
