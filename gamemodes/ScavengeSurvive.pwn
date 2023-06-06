@@ -264,7 +264,7 @@ public OnGameModeInit() {
 #define KEYTEXT_DOORS				"~k~~TOGGLE_SUBMISSIONS~"
 
 // HUD Components
-#define MAX_HUD_COMPONENTS 16
+#define MAX_HUD_COMPONENTS 17
 #define HUD_COMPONENT_RADAR 0 			// Cobre o radar
 #define HUD_STATUS_BG 1 				// Fundo dos textos do status
 #define HUD_STATUS_FOOD_SPRITE 2 		// Hamburguer
@@ -281,6 +281,7 @@ public OnGameModeInit() {
 #define HUD_STATUS_CLAN_VALUE 13 		// Nome do clan
 #define HUD_STATUS_BORDER_LEFT 14 		// Barra preta na esquerda do fundo do status
 #define HUD_STATUS_DIVIDER 15 			// Barra divisória preta no meio do fundo do status
+#define HUD_URL 16
 
 // Attachment slots
 enum {
@@ -405,7 +406,7 @@ enum {
 //#include "sss/core/player/interior.pwn" // By Kolorado
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/accounts.pwn"
-#include "sss/core/player/afk-check.pwn"
+#include "sss/core/player/afk.pwn"
 #include "sss/core/player/aliases.pwn"
 #include "sss/core/player/alt-tab-check.pwn"
 #include "sss/core/player/animes.pwn" // By Kolorado
