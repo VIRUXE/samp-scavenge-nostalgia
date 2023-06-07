@@ -25,6 +25,8 @@ public OnPlayerAFK(playerid, bool:afk) {
 }
 
 ptask AFKCheck[SEC(1)](playerid) {
+	if(!IsPlayerSpawned(playerid)) return;
+
 	if(gettime() - lastUpdateTime[playerid] > AFK_THRESHOLD) {
 		if (!AFKTime[playerid]) {
 			AFKTime[playerid] = gettime();
