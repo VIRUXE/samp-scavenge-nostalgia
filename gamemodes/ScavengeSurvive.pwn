@@ -323,7 +323,13 @@ new RequestsClient:requestsClient;
 
 enum {
 	DIALOG_ADMIN_COMMANDS, // Mostra a lista de comandos de admin
-	DIALOG_ENTER_DETFIELD  // Dialog para quem entra numa detfield sem estar como excepcao
+	DIALOG_ENTER_DETFIELD,  // Dialog para quem entra numa detfield sem estar como excepcao
+	DIALOG_AJUDA,
+	DIALOG_REGRAS,
+	DIALOG_EXPLOSIVOS,
+	DIALOG_METAIS,
+	DIALOG_MOCHILAS,
+	DIALOG_CAIXAS
 }
 
 // UTILITIES

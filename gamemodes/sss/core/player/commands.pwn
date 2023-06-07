@@ -1,23 +1,19 @@
-CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " > https://discord.gg/jduSSH2Ezf");
+CMD:discord(playerid) return ChatMsg(playerid, 0xFFAA00, " > http://discord.scavengenostalgia.fun");
 
-CMD:dicas(playerid)
-{
-	if(IsPlayerToolTipsOn(playerid)){
-		ChatMsg(playerid, YELLOW, "player/tips/off");
-		SetPlayerToolTips(playerid, false);
-		HideHelpTip(playerid);
-	}else{
-		ChatMsg(playerid, YELLOW, "player/tips/on");
-		SetPlayerToolTips(playerid, true);
-	}
+CMD:dicas(playerid) {
+	new tooltips = IsPlayerToolTipsOn(playerid);
+
+	if(tooltips) HideHelpTip(playerid);
+
+	ChatMsg(playerid, YELLOW, tooltips ? "player/tips/off" : "player/tips/on");
+	SetPlayerToolTips(playerid, !tooltips);
 
 	return 1;
 }
 
 CMD:tooltips(playerid) return cmd_dicas(playerid);
 
-CMD:mudarsenha(playerid, params[])
-{
+CMD:mudarsenha(playerid, params[]) {
 	if(!IsPlayerLoggedIn(playerid)) return ChatMsg(playerid, YELLOW, "player/command/cant-use-not-logged-in");
 
 	new
@@ -40,13 +36,13 @@ CMD:mudarsenha(playerid, params[])
 
 			WP_Hash(buffer, MAX_PASSWORD_LEN, newpass);
 
-			if(SetAccountPassword(name, buffer))
-			{
+			if(SetAccountPassword(name, buffer)) {
 				SetPlayerPassHash(playerid, buffer);
 				ChatMsg(playerid, YELLOW, "player/changepassword/success", newpass);
-			}
-			else ChatMsg(playerid, RED, "player/changepassword/error");
-		} else ChatMsg(playerid, RED, "player/changepassword/no-match");
+			} else
+				ChatMsg(playerid, RED, "player/changepassword/error");
+		} else
+			ChatMsg(playerid, RED, "player/changepassword/no-match");
 	}
 
 	return 1;
@@ -61,11 +57,8 @@ CMD:pos(playerid){
 	return 1;
 }
 
-// ===========================================================================================================
-
-CMD:ajuda(playerid)
-{
-	ShowPlayerDialog(playerid, 10008, DIALOG_STYLE_MSGBOX, "InformaÃ§Ãµes/Informations", ls(playerid, "server/command/help"), "X", "");
+CMD:ajuda(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_AJUDA, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Informations" : "Informações", ls(playerid, "server/command/help"), "Ok", "");
 	return 1;
 }
 
@@ -74,9 +67,8 @@ CMD:comandos(playerid) return cmd_ajuda(playerid);
 
 // ===========================================================================================================
 
-CMD:regras(playerid)
-{
-	ShowPlayerDialog(playerid, 12450, DIALOG_STYLE_MSGBOX, "Regras/Rules", ls(playerid, "server/command/lists/rules"), "X", "");
+CMD:regras(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_REGRAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Rules" : "Regras", ls(playerid, "server/command/lists/rules"), "Ok", "");
 	return 1;
 }
 
@@ -84,9 +76,8 @@ CMD:rules(playerid) return cmd_regras(playerid);
 
 // ===========================================================================================================
 
-CMD:explosivos(playerid)
-{
-	ShowPlayerDialog(playerid, 12550, DIALOG_STYLE_MSGBOX, "Explosivos/Explosives", ls(playerid, "server/command/bombs-list"), "X", "");
+CMD:explosivos(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_EXPLOSIVOS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Explosives" : "Explosivos", ls(playerid, "server/command/bombs-list"), "Ok", "");
 	return 1;
 }
 
@@ -95,9 +86,8 @@ CMD:bombas(playerid) return cmd_explosivos(playerid);
 
 // ===========================================================================================================
 
-CMD:metais(playerid)
-{
-	ShowPlayerDialog(playerid, 12650, DIALOG_STYLE_MSGBOX, "Defesas/Defences", ls(playerid, "defences-list"), "X", "");
+CMD:metais(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_METAIS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Defences" : "Defesas", ls(playerid, "defences-list"), "Ok", "");
 	return 1;
 }
 
@@ -105,9 +95,8 @@ CMD:defences(playerid) return cmd_metais(playerid);
 
 // ===========================================================================================================
 
-CMD:mochilas(playerid)
-{
-	ShowPlayerDialog(playerid, 12750, DIALOG_STYLE_MSGBOX, "Mochilas/Backpacks", ls(playerid, "server/command/lists/backpack"), "X", "");
+CMD:mochilas(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_MOCHILAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Backpacks" : "Mochilas", ls(playerid, "server/command/lists/backpack"), "Ok", "");
 	return 1;
 }
 
@@ -115,9 +104,8 @@ CMD:backpacks(playerid) return cmd_mochilas(playerid);
 
 // ===========================================================================================================
 
-CMD:caixas(playerid)
-{
-	ShowPlayerDialog(playerid, 12850, DIALOG_STYLE_MSGBOX, "Caixas/Boxes", ls(playerid, "server/command/lists/boxes"), "X", "");
+CMD:caixas(playerid) {
+	ShowPlayerDialog(playerid, DIALOG_CAIXAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Boxes" : "Caixas", ls(playerid, "server/command/lists/boxes"), "Ok", "");
 	return 1;
 }
 
