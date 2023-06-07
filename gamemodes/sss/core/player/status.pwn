@@ -1,36 +1,31 @@
 
-#include <YSI\y_hooks>
+// #include <YSI\y_hooks>
 
-stock ShowStatusPlayerForPlayer(i, forplayer){
-	if(IsPlayerViewingInventory(forplayer))
-    	ClosePlayerInventory(forplayer, true);
+stock ShowPlayerStatus(playerId, targetId) {
+	if(IsPlayerViewingInventory(playerId)) ClosePlayerInventory(playerId, true);
     
-    gBigString[i][0] = EOS;
+    gBigString[playerId][0] = EOS;
     
-    strcat(gBigString[i], sprintf(C_YELLOW"Score"C_WHITE": %d\n \n", ls(i, "player/score"), GetPlayerScore(i)));
-    strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "player/kills"), GetPlayerDeathCount(i)));
-    strcat(gBigString[i], sprintf(C_YELLOW"Killing Spree"C_WHITE": %d\n \n", ls(i, "player/killingspree"), GetPlayerSpree(i)));
-    strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(i, "player/aliveminutes"), GetPlayerAliveTime(i) / 60));
-	strcat(gBigString[i], sprintf(C_YELLOW"%s"C_WHITE": %s\n \n", ls(i, "player/clan"), GetPlayerClan(i)));
+    strcat(gBigString[playerId], sprintf(C_YELLOW"Score"C_WHITE": %d\n \n", ls(playerId, "player/score"), GetPlayerScore(targetId)));
+    strcat(gBigString[playerId], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(playerId, "player/kills"), GetPlayerDeathCount(targetId)));
+    strcat(gBigString[playerId], sprintf(C_YELLOW"Killing Spree"C_WHITE": %d\n \n", ls(playerId, "player/killingspree"), GetPlayerSpree(targetId)));
+    strcat(gBigString[playerId], sprintf(C_YELLOW"%s"C_WHITE": %d\n \n", ls(playerId, "player/aliveminutes"), GetPlayerAliveTime(targetId) / 60));
+	strcat(gBigString[playerId], sprintf(C_YELLOW"%s"C_WHITE": %s\n \n", ls(playerId, "player/clan"), GetPlayerClan(targetId)));
 	
-	new name[MAX_PLAYER_NAME];
-	GetPlayerName(i, name, MAX_PLAYER_NAME);
-
-	ShowPlayerDialog(forplayer, 10008, DIALOG_STYLE_MSGBOX, name, gBigString[i], "X", "");
+	ShowPlayerDialog(playerId, DIALOG_PLAYER_STATUS, DIALOG_STYLE_MSGBOX, GetPlayerNameEx(playerId), gBigString[playerId], "Ok", "");
 }
 
 /*new status_InventoryOption[MAX_PLAYERS];
 
-hook OnPlayerOpenInventory(playerid){
-	status_InventoryOption[playerid] = AddInventoryListItem(playerid, "{C_YELLOW}Status >");
+hook OnPlayerOpenInventory(playerId){
+	status_InventoryOption[playerId] = AddInventoryListItem(playerId, "{C_YELLOW}Status >");
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }*/
 
-/*hook OnPlayerSelectExtraItem(playerid, item){
-	if(item == status_InventoryOption[playerid])
-        ShowStatusPlayerForPlayer(playerid, playerid);
+/*hook OnPlayerSelectExtraItem(playerId, item){
+	if(item == status_InventoryOption[playerId])
+        ShowPlayerStatus(playerId, playerId);
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }*/
 
-public OnPlayerClickPlayer(playerid, clickedplayerid, source)
-    ShowStatusPlayerForPlayer(clickedplayerid, playerid);
+public OnPlayerClickPlayer(playerid, clickedplayerid, source) ShowPlayerStatus(playerid, clickedplayerid);

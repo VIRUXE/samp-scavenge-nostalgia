@@ -329,7 +329,8 @@ enum {
 	DIALOG_EXPLOSIVOS,
 	DIALOG_METAIS,
 	DIALOG_MOCHILAS,
-	DIALOG_CAIXAS
+	DIALOG_CAIXAS,
+	DIALOG_PLAYER_STATUS
 }
 
 // UTILITIES
@@ -411,7 +412,7 @@ enum {
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/accounts.pwn"
-#include "sss/core/player/afk.pwn"
+// #include "sss/core/player/afk.pwn"
 #include "sss/core/player/aliases.pwn"
 #include "sss/core/player/alt-tab-check.pwn"
 #include "sss/core/player/animes.pwn" // By Kolorado
@@ -429,7 +430,7 @@ enum {
 #include "sss/core/player/PM.pwn"
 #include "sss/core/player/recipes.pwn"
 #include "sss/core/player/spawn.pwn"
-//#include "sss/core/player/status.pwn" // By Kolorado
+#include "sss/core/player/status.pwn"
 #include "sss/core/player/TextDraw.pwn"
 #include "sss/core/player/tips.pwn"
 #include "sss/core/player/tutorial.pwn"
