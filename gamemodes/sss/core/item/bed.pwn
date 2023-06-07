@@ -7,51 +7,40 @@ Timer:  Bed_Sleeping[MAX_PLAYERS],
 Timer:  Bed_SleepingBrightness[MAX_PLAYERS],
         Bed_PlayerSleeping[MAX_PLAYERS];
 
-hook OnPlayerLogin(playerid)
-{
+hook OnPlayerDisconnect(playerid, reason) {
+    stop Bed_Sleeping[playerid];
+    stop Bed_SleepingBrightness[playerid];
+
     Bed_PlayerSleeping[playerid] = 0;
 }
 
-hook OnPlayerDisconnect(playerid, reason)
-{
-    stop Bed_Sleeping[playerid];
-    stop Bed_SleepingBrightness[playerid];
-}
+CMD:dormir(playerid) {
+	if(!IsPlayerSpawned(playerid)) return 0;
 
-CMD:dormir(playerid)
-{
-	if(!IsPlayerSpawned(playerid))
-	    return 1;
-
-	if(Bed_PlayerSleeping[playerid] != 0)
-	    return 1;
+	if(Bed_PlayerSleeping[playerid] != 0) return 1;
 
 	new Float:x, Float:y, Float:z;
 	new Float:x2, Float:y2, Float:z2;
+	
 	GetPlayerPos(playerid, x, y, z);
 
     new
 		items[256],
-		count,
 		Float:rz,
 		Bed_ItemID;
 
-	count = GetItemsInRange(x, y, z, 1.0, items);
+	new const count = GetItemsInRange(x, y, z, 1.0, items);
 
-	if(count == 0)
-	    return 1;
+	if(count == 0) return 1;
 
-	for (new o; o < count; o++)
-	{
+	for (new o; o < count; o++) {
 		if(GetItemType(items[o]) == item_Bed)
 		    Bed_ItemID = items[o];
 	}
 
-	if(!Bed_ItemID)
-	    return ChatMsg(playerid, PINK, " > Não há nenhuma cama por perto");
+	if(!Bed_ItemID) return ChatMsg(playerid, PINK, " > Não há nenhuma cama por perto");
 
-    foreach(new i : Player)
-	{
+    foreach(new i : Player) {
 	    if(Bed_PlayerSleeping[i] == Bed_ItemID && i != playerid)
 	    	Bed_ItemID = 0;
 	}
@@ -83,47 +72,36 @@ CMD:dormir(playerid)
     GetPlayerFacingAngle(playerid, rz);
     GetPlayerPos(playerid, z, z, z);
 
-    defer CheckPlayerSlep(playerid);
+    defer CheckPlayerSleep(playerid);
 
     GameTextForPlayer(playerid, "_~n~Dormindo...", TIME_SLEEP * 1000, 3);
+
 	return 1;
 }
 
-timer CheckPlayerSlep[SEC(1)](playerid)
-{
+timer CheckPlayerSleep[SEC(1)](playerid) {
 	ApplyAnimation(playerid,"CRACK","crckdeth2", 10.1, 0, 1, 1, 1, 0, 1);
 }
 
-timer SleepingBrightness[300](playerid)
-{
+timer SleepingBrightness[300](playerid) {
     // SetPlayerScreenFade(playerid, GetPlayerScreenFade(playerid) + 6);
     if(GetPlayerScreenFade(playerid) < 200) Bed_SleepingBrightness[playerid] = defer SleepingBrightness(playerid);
 }
 
-timer Stop_Sleeping[TIME_SLEEP * SEC(1)](playerid, Float:x, Float:y, Float:z)
-{
+timer Stop_Sleeping[TIME_SLEEP * SEC(1)](playerid, Float:x, Float:y, Float:z) {
     Bed_PlayerSleeping[playerid] = 0;
 	ClearAnimations(playerid);
 	SetPlayerPos(playerid, x, y, z + 1.0);
 	SetPlayerHP(playerid, 100.0);
-	ChatMsg(playerid, PINK, " > Você dormiu e recuperou a vida. Quando Você morrer nascerÃ¡ aqui.");
+	ChatMsg(playerid, PINK, " > Você dormiu e recuperou a vida. Quando Você morrer nascerá aqui.");
 }
 
-hook OnPlayerPickUpItem(playerid, itemid)
-{
+hook OnPlayerPickUpItem(playerid, itemid) {
 	new ItemType:itemtype = GetItemType(itemid);
 
-	if(itemtype == item_Bed)
-	{
-		return Y_HOOKS_BREAK_RETURN_1;
-	}
+	if(itemtype == item_Bed) return Y_HOOKS_BREAK_RETURN_1;
+
 	return 1;
 }
 
-stock IsPlayerSleeping(playerid)
-{
-	if(Bed_PlayerSleeping[playerid] > 0)
-	    return 1;
-
-	return 0;
-}
+stock IsPlayerSleeping(playerid) return Bed_PlayerSleeping[playerid] > 0;
