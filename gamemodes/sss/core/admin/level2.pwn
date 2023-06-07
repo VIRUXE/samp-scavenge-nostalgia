@@ -50,7 +50,7 @@ ACMD:ir[2](playerid, params[]) {
 
 	FreezePlayer(targetId, SEC(2));
 
-	ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
+	if(!GetPlayerAdminLevel(targetId)) ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
 	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
