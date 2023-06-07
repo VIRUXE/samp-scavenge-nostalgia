@@ -110,8 +110,8 @@ ACMD:veh[4](playerid, params[]) {
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
 }
 
-ACMD:addveiculo[4](playerid, params[]) acmd_veh_4(playerid, params);
-ACMD:av[4](playerid, params[]) acmd_veh_4(playerid, params);
+ACMD:addveiculo[4](playerid, params[]) return acmd_veh_4(playerid, params);
+ACMD:av[4](playerid, params[]) return acmd_veh_4(playerid, params);
 
 ACMD:deletar[4](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
