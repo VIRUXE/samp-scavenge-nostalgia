@@ -4,7 +4,7 @@ hook OnGameModeInit() {
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "(des)calar", "(Des)calar um jogador");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "avisar", "Dar aviso em um jogador");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "kick", "Kickar jogadores");
-    RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "anun", "Enviar um Anúncio no Chat");
+    RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "msg", "Enviar um Anúncio no Chat");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "cc", "Limpar o Chat");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "rr", "Responder a um Relatório");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "blockrr", "Bloquear alguém de enviar relatórios");
@@ -95,10 +95,10 @@ ACMD:kick[1](playerid, params[]) {
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) kickou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetId, targetId, reason);
 }
 
-ACMD:anun[1](playerid, params[]) {
+ACMD:msg[1](playerid, params[]) {
 	new anuncio[255];
 
-	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /anun [mensagem]");
+	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
 
 	SendClientMessageToAll(COLOR_RADIATION, " >>>>> Administração: <<<<<");
 	return ChatMsgAll(COLOR_RADIATION, " > %p disse: {FFFFFF}%s", playerid, anuncio);
