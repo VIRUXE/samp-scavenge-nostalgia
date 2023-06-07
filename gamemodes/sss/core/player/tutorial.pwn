@@ -464,11 +464,12 @@ timer EnterTutorial[SEC(2)](playerid) {
 	SetPlayerGender(playerid, GetClothesGender(GetPlayerClothesID(playerid)));
 	SetPlayerBleedRate(playerid, 0.0);
 
-	SetPlayerAliveState(playerid, false);
-	SetPlayerSpawnedState(playerid, false);
 
 	FreezePlayer(playerid, SEC(3));
 	PrepareForSpawn(playerid);
+
+	// PrepareForSpawn coloca true
+	SetPlayerSpawnedState(playerid, false);
 
 	Tutorial[playerid][TUT_VEHICLE] = CreateWorldVehicle(veht_Bobcat, 949.1641,2060.3074,10.8203, 272.1444, random(100), random(100), .world = virtualworld);
 	SetVehicleHealth(Tutorial[playerid][TUT_VEHICLE], 321.9);
@@ -579,7 +580,6 @@ timer ExitTutorial[SEC(2)](playerid, bool:completed) {
 	RemovePlayerBag(playerid);
 	RemovePlayerHolsterItem(playerid);
 	
-	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, true);
 	SetPlayerVirtualWorld(playerid, 0);
 
