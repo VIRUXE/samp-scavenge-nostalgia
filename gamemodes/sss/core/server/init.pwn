@@ -137,12 +137,12 @@ new stock
 	liquid_Thermite,
 	liquid_StrongThermite;
 
-/*// TREE CATEGORIES
+// TREE CATEGORIES
 new stock
 	tree_Desert,
 	tree_DarkForest,
 	tree_LightForest,
-	tree_GrassPlanes;*/
+	tree_GrassPlanes;
 
 // ITEM TYPES
 new stock
@@ -1616,7 +1616,7 @@ public OnScriptInit() {
 	DefineLiquidContainerItem(item_Mustard,			0.5,	true);
 
 
-/*	// TREE SPECIES DEFINITIONS
+ 	// TREE SPECIES DEFINITIONS
 	tree_Desert				= DefineTreeCategory("Deserto");
 	tree_DarkForest			= DefineTreeCategory("Floresta Negra");
 	tree_LightForest		= DefineTreeCategory("Floresta Clara");
@@ -1703,7 +1703,7 @@ public OnScriptInit() {
 	DefineTreeSpecies(782, 1.5, 800.0, 100.0, 6, tree_GrassPlanes, FALL_TYPE_ROTATE, item_Chainsaw, item_WoodLog);
 	DefineTreeSpecies(886, 1.0, 800.0, 100.0, 5, tree_GrassPlanes, FALL_TYPE_ZDROP, item_Chainsaw, item_WoodLog);
 	DefineTreeSpecies(887, 1.5, 800.0, 100.0, 6, tree_GrassPlanes, FALL_TYPE_ZDROP, item_Chainsaw, item_WoodLog);
-	DefineTreeSpecies(888, 1.0, 600.0, 100.0, 4, tree_GrassPlanes, FALL_TYPE_ZDROP, item_Chainsaw, item_WoodLog);*/
+	DefineTreeSpecies(888, 1.0, 600.0, 100.0, 4, tree_GrassPlanes, FALL_TYPE_ZDROP, item_Chainsaw, item_WoodLog);
 
 	/*
 		VEHICLE GROUP AND TYPE DEFINITIONS

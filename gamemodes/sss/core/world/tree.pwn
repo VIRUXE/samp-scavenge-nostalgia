@@ -10,15 +10,12 @@
 #define TREE_STREAMER_AREA_IDENTIFIER	(600)
 #define HARVEST_DROP_MAX_SPHERE_SIZE	(1.5)
 
-
-enum E_FALL_TYPE
-{
+enum E_FALL_TYPE {
 	FALL_TYPE_ROTATE,
 	FALL_TYPE_ZDROP
 }
 
-enum E_TREE_SPECIES_DATA
-{
+enum E_TREE_SPECIES_DATA {
 			tree_model,
 Float:		tree_diameter,
 Float:		tree_max_health,
@@ -31,15 +28,13 @@ ItemType:	tree_result_item,
 Float:		tree_zoffset
 }
 
-enum E_TREE_DATA
-{
+enum E_TREE_DATA {
 			tree_species,
-			tree_objectid,
-			tree_areaid,
-Text3D:		tree_labelid,
+			tree_objectId,
+			tree_areaId,
+Text3D:		tree_labelId,
 Float:		tree_health
 }
-
 
 static
 			treeCategory_Data[MAX_TREE_CATEGORIES][MAX_TREE_CATEGORY_NAME],
@@ -57,35 +52,23 @@ Iterator:   tree_Index<MAX_TREES>,
 			tree_CuttingTree[MAX_PLAYERS];
 
 
-forward OnPlayerEnterTreeArea(playerid, treeid);
-forward OnPlayerLeaveTreeArea(playerid, treeid);
+forward OnPlayerEnterTreeArea(playerid, treeId);
+forward OnPlayerLeaveTreeArea(playerid, treeId);
 
-forward Float:GetTreeHealth(treeid);
-forward Float:GetTreeSpeciesDiameter(speciesid);
-forward Float:GetTreeSpeciesMaxHealth(speciesid);
-forward Float:GetTreeSpeciesChopDamage(speciesid);
-forward ItemType:GetTreeSpeciesHarvestItem(speciesid);
-forward ItemType:GetTreeSpeciesResultItem(speciesid);
+forward Float:GetTreeHealth(treeId);
+forward Float:GetTreeSpeciesDiameter(speciesId);
+forward Float:GetTreeSpeciesMaxHealth(speciesId);
+forward Float:GetTreeSpeciesChopDamage(speciesId);
+forward ItemType:GetTreeSpeciesHarvestItem(speciesId);
+forward ItemType:GetTreeSpeciesResultItem(speciesId);
 
-
-hook OnPlayerConnect(playerid)
-{
-	tree_AtTree[playerid] = INVALID_TREE_ID;
+hook OnPlayerDisconnect(playerid) {
+	tree_AtTree[playerid]      = INVALID_TREE_ID;
 	tree_CuttingTree[playerid] = INVALID_TREE_ID;
 }
 
-
-/*==============================================================================
-
-	Core
-
-==============================================================================*/
-
-
-DefineTreeCategory(name[])
-{
-	if(treeCategory_Total >= MAX_TREE_CATEGORIES)
-	{
+DefineTreeCategory(name[]) {
+	if(treeCategory_Total >= MAX_TREE_CATEGORIES) {
 		err("Tree category index limit reached at name: %i", name);
 		return -1;
 	}
@@ -96,19 +79,15 @@ DefineTreeCategory(name[])
 	return treeCategory_Total++;
 }
 
-DefineTreeSpecies(modelid, Float:diameter, Float:health, Float:chop_damage, pieces, categoryid, E_FALL_TYPE:falltype, ItemType:harvestitem, ItemType:resultitem, Float:zoffset = 0.0)
-{
-	if(treeSpecies_Total >= MAX_TREE_SPECIES - 1)
-	{
+DefineTreeSpecies(modelid, Float:diameter, Float:health, Float:chop_damage, pieces, categoryid, E_FALL_TYPE:falltype, ItemType:harvestitem, ItemType:resultitem, Float:zoffset = 0.0) {
+	if(treeSpecies_Total >= MAX_TREE_SPECIES - 1) {
 		err("Tree species limit reached at modelid: %i", modelid);
 		return -1;
 	}
 
-	if(!(0 <= categoryid < treeCategory_Total))
-		return -1;
+	if(!(0 <= categoryid < treeCategory_Total)) return -1;
 
-	if(!treeCategory_Data[categoryid][0])
-	{
+	if(!treeCategory_Data[categoryid][0]) {
 		err("DefineTreeSpecies() undefined \"categoryid\" parameter: %i", categoryid);
 		return -1;
 	}
@@ -130,41 +109,37 @@ DefineTreeSpecies(modelid, Float:diameter, Float:health, Float:chop_damage, piec
 	return treeSpecies_Total++;
 }
 
-CreateTree(speciesid, Float:x, Float:y, Float:z)
-{
-	if(!(0 <= speciesid < MAX_TREE_SPECIES))
-	{
-		err("Invalid tree species ID: %d", speciesid);
+CreateTree(speciesId, Float:x, Float:y, Float:z) {
+	if(!(0 <= speciesId < MAX_TREE_SPECIES)) {
+		err("Invalid tree species ID: %d", speciesId);
 		return -1;
 	}
 
-	if(treeSpecies_Data[speciesid][tree_model] == 0)
-	{
-		err("CreateTree() undefined \"speciesid\" parameter: %i", speciesid);
+	if(treeSpecies_Data[speciesId][tree_model] == 0) {
+		err("CreateTree() undefined \"speciesId\" parameter: %i", speciesId);
 		return -1;
 	}
 
 	new
-		Float:treeDiameter = treeSpecies_Data[speciesid][tree_diameter] + 1.0,
+		Float:treeDiameter = treeSpecies_Data[speciesId][tree_diameter] + 1.0,
 		id = Iter_Free(tree_Index),
 		data[2];
 
-	if(id == ITER_NONE)
-	{
-		err("CreateTree() limit reached at [%i, %f, %f, %f]", speciesid, x, y, z);
+	if(id == ITER_NONE) {
+		err("CreateTree() limit reached at [%i, %f, %f, %f]", speciesId, x, y, z);
 		return -1;
 	}
 
-	tree_Data[id][tree_species]		= speciesid;
-	tree_Data[id][tree_objectid]	= CreateDynamicObject(treeSpecies_Data[speciesid][tree_model], x, y, z + treeSpecies_Data[speciesid][tree_zoffset], 0.0, 0.0, frandom(360.0), 0, 0);
-	tree_Data[id][tree_areaid]		= CreateDynamicSphere(x, y, z, treeDiameter, 0, 0);
-	tree_Data[id][tree_health]		= treeSpecies_Data[speciesid][tree_max_health];
-	tree_Data[id][tree_labelid]		= CreateDynamic3DTextLabel("0.0", YELLOW, x, y, z + 1.0, treeDiameter);
+	tree_Data[id][tree_species]		= speciesId;
+	tree_Data[id][tree_objectId]	= CreateDynamicObject(treeSpecies_Data[speciesId][tree_model], x, y, z + treeSpecies_Data[speciesId][tree_zoffset], 0.0, 0.0, frandom(360.0), 0, 0);
+	tree_Data[id][tree_areaId]		= CreateDynamicSphere(x, y, z, treeDiameter, 0, 0);
+	tree_Data[id][tree_health]		= treeSpecies_Data[speciesId][tree_max_health];
+	tree_Data[id][tree_labelId]		= CreateDynamic3DTextLabel("0.0", YELLOW, x, y, z + 1.0, treeDiameter);
 
 	data[0] = TREE_STREAMER_AREA_IDENTIFIER;
 	data[1] = id;
 
-	Streamer_SetArrayData(STREAMER_TYPE_AREA, tree_Data[id][tree_areaid], E_STREAMER_EXTRA_ID, data, 2);
+	Streamer_SetArrayData(STREAMER_TYPE_AREA, tree_Data[id][tree_areaId], E_STREAMER_EXTRA_ID, data, 2);
 
 	Iter_Add(tree_Index, id);
 	SetTreeHealth(id, tree_Data[id][tree_health]);
@@ -172,232 +147,175 @@ CreateTree(speciesid, Float:x, Float:y, Float:z)
 	return id;
 }
 
-LeanTree(index)
-{
-	if(!Iter_Contains(tree_Index, index))
-		return 0;
+LeanTree(index) {
+	if(!Iter_Contains(tree_Index, index)) return 0;
 
 	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:rx,
-		Float:ry,
-		Float:rz;
+		Float:x, Float:y, Float:z,
+		Float:rx, Float:ry, Float:rz;
 
-	GetDynamicObjectPos	(tree_Data[index][tree_objectid], x, y, z);
-	GetDynamicObjectRot	(tree_Data[index][tree_objectid], rx, ry, rz);
-	MoveDynamicObject	(tree_Data[index][tree_objectid], x, y, z + 0.0001, 0.0001, rx, 35.0, rz);
+	GetDynamicObjectPos	(tree_Data[index][tree_objectId], x, y, z);
+	GetDynamicObjectRot	(tree_Data[index][tree_objectId], rx, ry, rz);
+	MoveDynamicObject	(tree_Data[index][tree_objectId], x, y, z + 0.0001, 0.0001, rx, 35.0, rz);
 
 	defer _UpdateTreePos(index);
 
 	return 1;
 }
 
-DestroyTree(index)
-{
-	if(!Iter_Contains(tree_Index, index))
-		return 0;
+DestroyTree(index) {
+	if(!Iter_Contains(tree_Index, index)) return 0;
 
 	new next;
 
 	Iter_SafeRemove(tree_Index, index, next);
 
-	DestroyDynamicObject(tree_Data[index][tree_objectid]);
-	DestroyDynamicArea(tree_Data[index][tree_areaid]);
-	DestroyDynamic3DTextLabel(tree_Data[index][tree_labelid]);
+	DestroyDynamicObject(tree_Data[index][tree_objectId]);
+	DestroyDynamicArea(tree_Data[index][tree_areaId]);
+	DestroyDynamic3DTextLabel(tree_Data[index][tree_labelId]);
 
 	tree_Data[index][tree_species] 	= 0;
-	tree_Data[index][tree_objectid] = INVALID_OBJECT_ID;
-	tree_Data[index][tree_areaid]   = -1;
-	tree_Data[index][tree_labelid]  = Text3D:-1;
+	tree_Data[index][tree_objectId] = INVALID_OBJECT_ID;
+	tree_Data[index][tree_areaId]   = -1;
+	tree_Data[index][tree_labelId]  = Text3D:-1;
 	tree_Data[index][tree_health] 	= 0.0;
 
 	return next;
 }
 
-
-/*==============================================================================
-
-	Hooks and Internal
-
-==============================================================================*/
-
-
-timer _UpdateTreePos[SEC(1)](treeid) // time = distance / speed | (0.0001 / 0.0001 = 1 seconds)
-{
+timer _UpdateTreePos[SEC(1)](treeId) { // time = distance / speed | (0.0001 / 0.0001 = 1 seconds) {
 	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:rx,
-		Float:ry,
-		Float:rz
-	;
-	GetDynamicObjectPos	(tree_Data[treeid][tree_objectid], x, y, z);
-	GetDynamicObjectRot	(tree_Data[treeid][tree_objectid], rx, ry, rz);
+		Float:x, Float:y, Float:z,
+		Float:rx, Float:ry, Float:rz;
 
-	if(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_falltype] == FALL_TYPE_ROTATE)
-		MoveDynamicObject(tree_Data[treeid][tree_objectid], x, y, z - 0.0001, 0.0001, rx, 90.0, rz);
+	GetDynamicObjectPos(tree_Data[treeId][tree_objectId], x, y, z);
+	GetDynamicObjectRot(tree_Data[treeId][tree_objectId], rx, ry, rz);
 
+	if(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_falltype] == FALL_TYPE_ROTATE)
+		MoveDynamicObject(tree_Data[treeId][tree_objectId], x, y, z - 0.0001, 0.0001, rx, 90.0, rz);
 	else
-		MoveDynamicObject(tree_Data[treeid][tree_objectid], x, y, z - 20.0, 4.0, -10.0 + frandom(10.0), -35.0, rz);
+		MoveDynamicObject(tree_Data[treeId][tree_objectId], x, y, z - 20.0, 4.0, -10.0 + frandom(10.0), -35.0, rz);
 
-	defer _DeleteTree(treeid, x, y, z);
+	defer _DeleteTree(treeId, x, y, z);
 }
 
-timer _DeleteTree[SEC(2)](treeid, Float:x, Float:y, Float:z)
-{
-	new
-		Float:woodAngle,
-		Float:woodDistance;
+timer _DeleteTree[SEC(2)](treeId, Float:x, Float:y, Float:z) {
+	new Float:woodAngle, Float:woodDistance;
 
 	CA_FindZ_For2DCoord(x, y, z);
 
-	for(new i; i < treeSpecies_Data[tree_Data[treeid][tree_species]][tree_pieces]; i++)
-	{
-		woodAngle = frandom(360.0);
+	for(new i; i < treeSpecies_Data[tree_Data[treeId][tree_species]][tree_pieces]; i++) {
+		woodAngle    = frandom(360.0);
 		woodDistance = frandom(HARVEST_DROP_MAX_SPHERE_SIZE);
 
 		x += woodDistance * floatsin(-woodAngle, degrees);
 		y += woodDistance * floatcos(-woodAngle, degrees);
 
-		CreateItem(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_result_item], x, y, z + 0.088, .rz = frandom(360.0));
+		CreateItem(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_result_item], x, y, z + 0.088, .rz = frandom(360.0));
 	}
 
-	DestroyTree(treeid);
+	DestroyTree(treeId);
 }
 
-hook OnPlayerEnterDynArea(playerid, areaid)
-{
+hook OnPlayerEnterDynArea(playerid, areaid) {
 	new data[2];
 
 	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, data, 2);
 
-	if(data[0] == TREE_STREAMER_AREA_IDENTIFIER)
-	{
+	if(data[0] == TREE_STREAMER_AREA_IDENTIFIER) {
+		new toolName[ITM_MAX_NAME], yieldName[ITM_MAX_NAME];
 
+		GetItemTypeName(treeSpecies_Data[tree_Data[data[1]][tree_species]][tree_harvest_item], toolName);
+		GetItemTypeName(treeSpecies_Data[tree_Data[data[1]][tree_species]][tree_result_item], yieldName);
 
-		new
-			toolname[ITM_MAX_NAME],
-			yieldname[ITM_MAX_NAME];
-
-		GetItemTypeName(treeSpecies_Data[tree_Data[data[1]][tree_species]][tree_harvest_item], toolname);
-		GetItemTypeName(treeSpecies_Data[tree_Data[data[1]][tree_species]][tree_result_item], yieldname);
-
-		ShowActionText(playerid, sprintf(ls(playerid, "item/tree/cut"), toolname, yieldname), 6000);
+		ShowActionText(playerid, sprintf(ls(playerid, "item/tree/cut"), toolName, yieldName), 6000);
 		tree_AtTree[playerid] = data[1];
 		CallLocalFunction("OnPlayerEnterTreeArea", "dd", playerid, data[1]);
+
 		return Y_HOOKS_CONTINUE_RETURN_0;
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerLeaveDynArea(playerid, areaid)
-{
+hook OnPlayerLeaveDynArea(playerid, areaid) {
 	new data[2];
 
 	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, data, 2);
 
-	if(data[0] == TREE_STREAMER_AREA_IDENTIFIER)
-	{
-
+	if(data[0] == TREE_STREAMER_AREA_IDENTIFIER) {
 		CallLocalFunction("OnPlayerLeaveTreeArea", "dd", playerid, data[1]);
 		tree_AtTree[playerid] = INVALID_TREE_ID;
+
 		return Y_HOOKS_CONTINUE_RETURN_0;
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerUseItem(playerid, itemid)
-{
-	if(tree_AtTree[playerid] != INVALID_TREE_ID)
-	{
-		if(GetItemType(itemid) == treeSpecies_Data[tree_Data[tree_AtTree[playerid]][tree_species]][tree_harvest_item])
-		{
+hook OnPlayerUseItem(playerid, itemId) {
+	if(tree_AtTree[playerid] != INVALID_TREE_ID) {
+		if(GetItemType(itemId) == treeSpecies_Data[tree_Data[tree_AtTree[playerid]][tree_species]][tree_harvest_item])
 			_StartWoodCutting(playerid, tree_AtTree[playerid]);
-		}
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if(tree_CuttingTree[playerid] == INVALID_TREE_ID) return Y_HOOKS_CONTINUE_RETURN_0;
 
-
-	if(tree_CuttingTree[playerid] == INVALID_TREE_ID)
-		return Y_HOOKS_CONTINUE_RETURN_0;
-
-	if(oldkeys == 16)
-		_StopWoodCutting(playerid);
+	if(oldkeys == 16) _StopWoodCutting(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-_StartWoodCutting(playerid, treeid)
-{
+_StartWoodCutting(playerid, treeId) {
 	new
-		mult = 1000,
-		start = floatround(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_max_health]) / floatround(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_chop_damage]),
-		end = floatround(tree_Data[treeid][tree_health]) / floatround(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_chop_damage]);
+		mult  = 1000,
+		start = floatround(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_max_health]) / floatround(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_chop_damage]),
+		end   = floatround(tree_Data[treeId][tree_health]) / floatround(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_chop_damage]);
 
 //	mult = GetPlayerSkillTimeModifier(playerid, mult, "Silvicultura");
 
 	StartHoldAction(playerid, floatround(1.1 * (mult * start)), mult * (start - end));
 
-	SetPlayerToFaceTree(playerid, treeid);
+	SetPlayerToFaceTree(playerid, treeId);
 	ApplyAnimation(playerid, "CHAINSAW", "CSAW_G", 4.0, 1, 0, 0, 0, 0, 1);
-	tree_CuttingTree[playerid] = treeid;
+	tree_CuttingTree[playerid] = treeId;
 }
 
-_StopWoodCutting(playerid)
-{
+_StopWoodCutting(playerid) {
 	ClearAnimations(playerid);
 	StopHoldAction(playerid);
 	tree_CuttingTree[playerid] = INVALID_TREE_ID;
 }
 
-hook OnHoldActionUpdate(playerid, progress)
-{
-
-
-	if(tree_CuttingTree[playerid] == INVALID_TREE_ID)
-		return Y_HOOKS_CONTINUE_RETURN_0;
+hook OnHoldActionUpdate(playerid, progress) {
+	if(tree_CuttingTree[playerid] == INVALID_TREE_ID) return Y_HOOKS_CONTINUE_RETURN_0;
 		
-	if(!IsValidTree(tree_CuttingTree[playerid]))
-	{
+	if(!IsValidTree(tree_CuttingTree[playerid])) {
 		_StopWoodCutting(playerid);
 		return 1;
 	}
 
-	new
-		itemid,
-		ItemType:itemtype;
+	new const itemId   = GetPlayerItem(playerid);
+	new const ItemType:itemType = GetItemType(itemId);
 
-	itemid = GetPlayerItem(playerid);
-	itemtype = GetItemType(itemid);
-
-	if(itemtype != GetTreeSpeciesHarvestItem(GetTreeSpecies(tree_CuttingTree[playerid])))
-	{
+	if(itemType != GetTreeSpeciesHarvestItem(GetTreeSpecies(tree_CuttingTree[playerid]))) {
 		_StopWoodCutting(playerid);
 		return 1;
 	}
 
-	if(GetItemTypeWeaponFlags(itemtype) & WEAPON_FLAG_LIQUID_AMMO)
-	{
-		new ammo = GetItemWeaponItemMagAmmo(itemid);
+	if(GetItemTypeWeaponFlags(itemType) & WEAPON_FLAG_LIQUID_AMMO) {
+		new const ammo = GetItemWeaponItemMagAmmo(itemId);
 
-		if(ammo <= 0)
-		{
+		if(ammo <= 0) {
 			_StopWoodCutting(playerid);
 			return 1;
 		}
 
-		if(floatround(GetPlayerProgressBarValue(playerid, ActionBar) * 10) % 60 == 0)
-			_FireWeapon(playerid, WEAPON_CHAINSAW);
+		if(floatround(GetPlayerProgressBarValue(playerid, ActionBar) * 10) % 60 == 0) _FireWeapon(playerid, WEAPON_CHAINSAW);
 	}
 
 	new mult = 1000;
@@ -406,8 +324,7 @@ hook OnHoldActionUpdate(playerid, progress)
 
 	SetTreeHealth(tree_CuttingTree[playerid], GetTreeHealth(tree_CuttingTree[playerid]) - ((treeSpecies_Data[GetTreeSpecies(tree_CuttingTree[playerid])][tree_chop_damage] / 10000) * mult) );
 
-	if(tree_Data[tree_CuttingTree[playerid]][tree_health] <= 0.0)
-	{
+	if(tree_Data[tree_CuttingTree[playerid]][tree_health] <= 0.0) {
 		LeanTree(tree_CuttingTree[playerid]);
 //		PlayerGainSkillExperience(playerid, "Silvicultura");
 		_StopWoodCutting(playerid);
@@ -416,163 +333,113 @@ hook OnHoldActionUpdate(playerid, progress)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
+stock GetTreeSpeciesModel(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return INVALID_TREE_SPECIES_ID;
 
-/*==============================================================================
-
-	Interface
-
-==============================================================================*/
-
-
-// tree_model
-stock GetTreeSpeciesModel(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return INVALID_TREE_SPECIES_ID;
-
-	return treeSpecies_Data[speciesid][tree_model];
+	return treeSpecies_Data[speciesId][tree_model];
 }
 
 // tree_diameter
-stock Float:GetTreeSpeciesDiameter(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return 0.0;
+stock Float:GetTreeSpeciesDiameter(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return 0.0;
 
-	return treeSpecies_Data[speciesid][tree_diameter];
+	return treeSpecies_Data[speciesId][tree_diameter];
 }
 
 // tree_max_health
-stock Float:GetTreeSpeciesMaxHealth(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return 0.0;
+stock Float:GetTreeSpeciesMaxHealth(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return 0.0;
 
-	return treeSpecies_Data[speciesid][tree_max_health];
+	return treeSpecies_Data[speciesId][tree_max_health];
 }
 
 // tree_chop_damage
-stock Float:GetTreeSpeciesChopDamage(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return 0.0;
+stock Float:GetTreeSpeciesChopDamage(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return 0.0;
 
-	return treeSpecies_Data[speciesid][tree_chop_damage];
+	return treeSpecies_Data[speciesId][tree_chop_damage];
 }
 
 // tree_pieces
-stock GetTreeSpeciesChopPieces(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return 0;
+stock GetTreeSpeciesChopPieces(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return 0;
 
-	return treeSpecies_Data[speciesid][tree_pieces];
+	return treeSpecies_Data[speciesId][tree_pieces];
 }
 
 // tree_category
-stock GetTreeSpeciesCategory(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return -1;
+stock GetTreeSpeciesCategory(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return -1;
 
-	return treeSpecies_Data[speciesid][tree_category];
+	return treeSpecies_Data[speciesId][tree_category];
 }
 
 // tree_falltype
-stock GetTreeSpeciesFalltype(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return -1;
+stock GetTreeSpeciesFalltype(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return -1;
 
-	return treeSpecies_Data[speciesid][tree_falltype];
+	return treeSpecies_Data[speciesId][tree_falltype];
 }
 
 // tree_harvest_item
-stock ItemType:GetTreeSpeciesHarvestItem(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return INVALID_ITEM_TYPE;
+stock ItemType:GetTreeSpeciesHarvestItem(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return INVALID_ITEM_TYPE;
 
-	return treeSpecies_Data[speciesid][tree_harvest_item];
+	return treeSpecies_Data[speciesId][tree_harvest_item];
 }
 
 // tree_result_item
-stock ItemType:GetTreeSpeciesResultItem(speciesid)
-{
-	if(!(0 <= speciesid < treeSpecies_Total))
-		return INVALID_ITEM_TYPE;
+stock ItemType:GetTreeSpeciesResultItem(speciesId) {
+	if(!(0 <= speciesId < treeSpecies_Total)) return INVALID_ITEM_TYPE;
 
-	return treeSpecies_Data[speciesid][tree_result_item];
+	return treeSpecies_Data[speciesId][tree_result_item];
 }
 
 
-stock IsValidTree(treeid)
-{
-	if(!Iter_Contains(tree_Index, treeid))
-		return 0;
+stock IsValidTree(treeId) {
+	if(!Iter_Contains(tree_Index, treeId)) return 0;
 
 	return 1;
 }
 
 
 // tree_species
-stock GetTreeSpecies(treeid)
-{
-	if(!Iter_Contains(tree_Index, treeid))
-		return 0;
+stock GetTreeSpecies(treeId) {
+	if(!Iter_Contains(tree_Index, treeId)) return 0;
 
-	return tree_Data[treeid][tree_species];
+	return tree_Data[treeId][tree_species];
 }
 
-// tree_objectid
-//
+Float:GetTreeHealth(treeId) {
+	if(!Iter_Contains(tree_Index, treeId)) return 0.0;
 
-// tree_areaid
-//
-
-// tree_labelid
-//
-
-// tree_health
-Float:GetTreeHealth(treeid)
-{
-	if(!Iter_Contains(tree_Index, treeid))
-		return 0.0;
-
-	return tree_Data[treeid][tree_health];
+	return tree_Data[treeId][tree_health];
 }
 
-stock SetTreeHealth(treeid, Float:health)
-{
-	if(!Iter_Contains(tree_Index, treeid))
-		return 0;
+stock SetTreeHealth(treeId, Float:health) {
+	if(!Iter_Contains(tree_Index, treeId)) return 0;
 
 	new
-		toolname[ITM_MAX_NAME],
-		yieldname[ITM_MAX_NAME];
+		toolName[ITM_MAX_NAME],
+		yieldName[ITM_MAX_NAME];
 
-	GetItemTypeName(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_harvest_item], toolname);
-	GetItemTypeName(treeSpecies_Data[tree_Data[treeid][tree_species]][tree_result_item], yieldname);
+	GetItemTypeName(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_harvest_item], toolName);
+	GetItemTypeName(treeSpecies_Data[tree_Data[treeId][tree_species]][tree_result_item], yieldName);
 
-	tree_Data[treeid][tree_health] = health;
+	tree_Data[treeId][tree_health] = health;
 
-	if(tree_Data[treeid][tree_health] < 0.0)
-		tree_Data[treeid][tree_health] = 0.0;
+	if(tree_Data[treeId][tree_health] < 0.0)
+		tree_Data[treeId][tree_health] = 0.0;
 
-	UpdateDynamic3DTextLabelText(tree_Data[treeid][tree_labelid], YELLOW, sprintf("Vida: %.2f/%.2f\n"C_TEAL"Ferramenta requirida: %s\n"C_GREEN"Rendimento: %s", tree_Data[treeid][tree_health], treeSpecies_Data[tree_Data[treeid][tree_species]][tree_max_health], toolname, yieldname));
+	UpdateDynamic3DTextLabelText(tree_Data[treeId][tree_labelId], YELLOW, sprintf("Vida: %.2f/%.2f\n"C_TEAL"Ferramenta requirida: %s\n"C_GREEN"Rendimento: %s", tree_Data[treeId][tree_health], treeSpecies_Data[tree_Data[treeId][tree_species]][tree_max_health], toolName, yieldName));
 
 	return 1;
 }
 
-// Utility
-stock GetRandomTreeSpecies(categoryid = -1)
-{
+stock GetRandomTreeSpecies(categoryid = -1) {
 	if(categoryid == -1)
-	{
 		return random(treeSpecies_Total);
-	}
-	else
-	{
+	else {
 		if(!(0 <= categoryid < treeCategory_Total))
 			return 0;
 
@@ -583,55 +450,36 @@ stock GetRandomTreeSpecies(categoryid = -1)
 	}
 }
 
-stock GetTreeCategoryFromName(name[])
-{
-	for(new i; i < treeCategory_Total; i++)
-	{
-		if(!strcmp(treeCategory_Data[i], name))
-			return i;
-	}
+stock GetTreeCategoryFromName(name[]) {
+	for(new i; i < treeCategory_Total; i++) 
+		if(!strcmp(treeCategory_Data[i], name)) return i;
 
 	return -1;
 }
 
-stock SetPlayerToFaceTree(playerid, treeid)
-{
-	if(!Iter_Contains(tree_Index, treeid))
-		return 0;
+stock SetPlayerToFaceTree(playerid, treeId) {
+	if(!Iter_Contains(tree_Index, treeId)) return 0;
 
 	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:tx,
-		Float:ty,
-		Float:tz;
+		Float:x, Float:y, Float:z,
+		Float:tx, Float:ty, Float:tz;
 
 	GetPlayerPos(playerid, x, y, z);
-	GetDynamicObjectPos	(tree_Data[treeid][tree_objectid], tx, ty, tz);
+	GetDynamicObjectPos	(tree_Data[treeId][tree_objectId], tx, ty, tz);
 
 	SetPlayerFacingAngle(playerid, GetAngleToPoint(x, y, tx, ty));
-	return 1;
-}
-
-
-/*==============================================================================
-
-	Dev
-
-==============================================================================*/
-
-
-ACMD:killalltrees[5](playerid, params[])
-{
-	foreach(new i : tree_Index)
-		LeanTree(i);
 
 	return 1;
 }
 
-ACMD:reloadtrees[5](playerid, params[])
-{
+ACMD:killalltrees[5](playerid, params[]) {
+	foreach(new i : tree_Index) LeanTree(i);
+
+	return 1;
+}
+
+ACMD:reloadtrees[5](playerid, params[]) {
 	LoadTreesFromFolder("Maps/");
+
 	return 1;
 }

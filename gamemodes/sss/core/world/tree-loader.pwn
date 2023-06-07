@@ -1,123 +1,83 @@
 #include <YSI\y_hooks>
 
-#define DIRECTORY_TREES "Maps/"
-
-
-hook OnScriptInit()
-{
-	DirectoryCheck(DIRECTORY_SCRIPTFILES DIRECTORY_TREES);
+hook OnScriptInit() {
+	DirectoryCheck("./scriptfiles/Maps/");
 }
 
-hook OnGameModeInit()
-{
-	LoadTreesFromFolder(DIRECTORY_TREES);
+hook OnGameModeInit() {
+	LoadTreesFromFolder("Maps/");
 }
 
-
-/*==============================================================================
-
-	Loading
-
-==============================================================================*/
-
-
-LoadTreesFromFolder(folder[])
-{
+LoadTreesFromFolder(folder[]) {
 	new
-		foldername[256],
-		dir:dirhandle,
-		item[64],
-		type,
-		filename[256];
+		itemName[64],
+		itemType;
 
-	format(foldername, sizeof(foldername), DIRECTORY_SCRIPTFILES"%s", folder);
-	dirhandle = dir_open(foldername);
+	new dir:directory = dir_open(sprintf("./scriptfiles/%s", folder));
 
-	while(dir_list(dirhandle, item, type))
-	{
-		if(type == FM_FILE)
-		{
-			if(!strcmp(item[strlen(item) - 4], ".tpl"))
-			{
-				filename[0] = EOS;
-				format(filename, sizeof(filename), "%s%s", folder, item);
-				LoadTrees(filename);
-			}
-		}
-
-		if(type == FM_DIR && strcmp(item, "..") && strcmp(item, ".") && strcmp(item, "_"))
-		{
-			filename[0] = EOS;
-			format(filename, sizeof(filename), "%s%s/", folder, item);
-			LoadTreesFromFolder(filename);
-		}
+	while(dir_list(directory, itemName, itemType)) {
+		if(itemType == FM_FILE) {
+			if(!strcmp(itemName[strlen(itemName) - 4], ".tpl"))
+				LoadTrees(sprintf("%s%s", folder, itemName));
+		} else if(itemType == FM_DIR && strcmp(itemName, "..") && strcmp(itemName, ".") && strcmp(itemName, "_"))
+			LoadTreesFromFolder(sprintf("%s%s/", folder, itemName));
 	}
 
-	dir_close(dirhandle);
+	dir_close(directory);
 }
 
-LoadTrees(filename[])
-{
+LoadTrees(fileName[]) {
 	new
 		File:file,
 		line[256],
-		linenumber = 1,
+		lineNumber = 1,
 		count,
 
-		funcname[32],
-		funcargs[128],
+		funcName[32],
+		funcArgs[128],
 
-		category_name[MAX_TREE_CATEGORY_NAME],
-		category_id,
-		Float:x,
-		Float:y,
-		Float:z;
+		categoryName[MAX_TREE_CATEGORY_NAME],
+		categoryId,
+		Float:x, Float:y, Float:z;
 
-	if(!fexist(filename))
-	{
-		err("file: \"%s\" NOT FOUND", filename);
+	if(!fexist(fileName)) {
+		err("file: \"%s\" NOT FOUND", fileName);
 		return 0;
 	}
 
-	file = fopen(filename, io_read);
+	file = fopen(fileName, io_read);
 
-	if(!file)
-	{
-		err("file: \"%s\" NOT LOADED", filename);
+	if(!file) {
+		err("file: \"%s\" NOT LOADED", fileName);
 		return 0;
 	}
 
-	while(fread(file, line))
-	{
-		if(line[0] < 65)
-		{
-			linenumber++;
+	while(fread(file, line)) {
+		if(line[0] < 65) {
+			lineNumber++;
 			continue;
 		}
 
-		if(sscanf(line, "p<(>s[32]p<)>s[128]{s[96]}", funcname, funcargs))
-		{
-			linenumber++;
+		if(sscanf(line, "p<(>s[32]p<)>s[128]{s[96]}", funcName, funcArgs)) {
+			lineNumber++;
 			continue;
 		}
 
-		if(!strcmp(funcname, "CreateTree"))
-		{
-			if(sscanf(funcargs, "p<,>s[32]fff", category_name, x, y, z))
-			{
-				err("[LoadTrees] Malformed parameters on line %d", linenumber);
-				linenumber++;
+		if(!strcmp(funcName, "CreateTree")) {
+			if(sscanf(funcArgs, "p<,>s[32]fff", categoryName, x, y, z)) {
+				err("[LoadTrees] Malformed parameters on line %d", lineNumber);
+				lineNumber++;
 				continue;
 			}
 
-			category_id = GetTreeCategoryFromName(category_name);
-			CreateTree(GetRandomTreeSpecies(category_id), x, y, z);
+			categoryId = GetTreeCategoryFromName(categoryName);
+			CreateTree(GetRandomTreeSpecies(categoryId), x, y, z);
 			count++;
-			linenumber++;
+			lineNumber++;
 		}
 	}
 
-	log("Loaded %d trees from '%s'.", count, filename);
+	log("Loaded %d trees from '%s'.", count, fileName);
 
 	return 1;
 }
