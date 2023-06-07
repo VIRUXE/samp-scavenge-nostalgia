@@ -1,6 +1,6 @@
 #define MAX_TIP_SIZE 112
 
-ptask SendTips[MIN(5)](playerid) {
+ptask SendTips[MIN(15)](playerid) {
     SendTip(playerid);
 }
 
