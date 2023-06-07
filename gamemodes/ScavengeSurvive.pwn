@@ -409,7 +409,6 @@ enum {
 
 // PLAYER INTERNAL SCRIPTS
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
-//#include "sss/core/player/interior.pwn" // By Kolorado
 #include "sss/core/player/screenfade.pwn"
 #include "sss/core/player/accounts.pwn"
 #include "sss/core/player/afk.pwn"
