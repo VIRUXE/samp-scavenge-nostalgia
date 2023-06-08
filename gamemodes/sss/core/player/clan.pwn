@@ -16,14 +16,25 @@ SetPlayerClan(playerid, clan[MAX_CLAN_NAME]) {
 }
 
 SavePlayerClan(playerid) {
-	new clan[MAX_CLAN_NAME];
-
-	clan = GetPlayerClan(playerid);
-
-	db_query(Database, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", clan, GetPlayerNameEx(playerid)));
+	db_query(Database, sprintf("UPDATE players SET clan = '%s' WHERE name = '%s';", GetPlayerClan(playerid), GetPlayerNameEx(playerid)));
 }
 
 GetPlayerClan(playerid) return Clan[playerid];
+
+bool:DoesPlayerHaveAClan(playerid) {
+	new bool:bool;
+
+	new DBStatement:stmt = db_prepare(Database, "SELECT COUNT(*) FROM players WHERE clan IS NOT "" AND name = ?");
+
+	stmt_bind_value(stmt, 0, DB::TYPE_PLAYER_NAME, playerid);
+	stmt_bind_result_field(stmt, 0, DB::TYPE_INTEGER, bool);
+
+	if(stmt_execute(stmt)) stmt_fetch_row(stmt);
+
+	printf("[CLAN] DoesPlayerHaveAClan(%p): %s", playerid, booltostr(bool));
+
+	return bool;
+}
 
 GetClanTag(const clan[MAX_CLAN_NAME]) {
 	new DBResult:result, tag[MAX_CLAN_TAG];
