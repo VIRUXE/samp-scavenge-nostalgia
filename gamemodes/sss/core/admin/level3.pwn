@@ -262,6 +262,7 @@ ACMD:veiculo[3](playerid, params[]) {
 
 	return 1;
 }
+ACMD:v[3](playerid, params[]) return acmd_veiculo_3(playerid, params);
 
 ACMD:move[3](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
