@@ -298,7 +298,7 @@ timer UpdateSpectateMode[100](playerid) {
 			GetCameraModeName(GetPlayerCameraMode(targetId), cameraModeName);
 
 			format(str, sizeof(str), "Vida: %.2f Colete: %.2f Fome: %.2f Int: %d VW: %d~n~\
-				Caido: %s Sangramento: %02f Item: %s~n~\
+				Caido: %s Sangramento: %.2f Item: %s~n~\
 				Camera: %s Velocidade: %.2f~n~\
 				Veiculo %d Como %s Gasolina: %.2f Trancado: %d",
 				GetPlayerHP(targetId),
@@ -333,7 +333,7 @@ timer UpdateSpectateMode[100](playerid) {
 			velocity = floatsqroot( (vx*vx)+(vy*vy)+(vz*vz) ) * 150.0;
 
 			format(str, sizeof(str), "Vida: %.2f Colete: %.2f Fome: %.2f Int: %d VW: %d~n~\
-				Caido: %s Sangramento: %02f Camera: %s Velocidade: %.2f~n~\
+				Caido: %s Sangramento: %.2f Camera: %s Velocidade: %.2f~n~\
 				Item: %s Coldre: %s",
 				GetPlayerHP(targetId),
 				GetPlayerAP(targetId),
