@@ -2,16 +2,8 @@
 
 #define MAX_BAN_REASON (128)
 #define ACCOUNTS_TABLE_BANS			"Bans"
-#define FIELD_BANS_NAME				"name"		// 00
-#define FIELD_BANS_IPV4				"ipv4"		// 01
-#define FIELD_BANS_DATE				"date"		// 02
-#define FIELD_BANS_REASON			"reason"	// 03
-#define FIELD_BANS_BY				"by"		// 04
-#define FIELD_BANS_DURATION			"duration"	// 05
-#define FIELD_BANS_ACTIVE			"active"	// 06
 
-enum
-{
+enum {
 	FIELD_ID_BANS_NAME,
 	FIELD_ID_BANS_IPV4,
 	FIELD_ID_BANS_DATE,
@@ -20,7 +12,6 @@ enum
 	FIELD_ID_BANS_DURATION,
 	FIELD_ID_BANS_ACTIVE
 }
-
 
 static
 DBStatement:	stmt_BanInsert,
@@ -36,37 +27,28 @@ DBStatement:	stmt_BanSetReason,
 DBStatement:	stmt_BanSetDuration;
 
 
-hook OnGameModeInit()
-{
-	db_free_result(db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_BANS" (\
-		"FIELD_BANS_NAME" TEXT,\
-		"FIELD_BANS_IPV4" INTEGER,\
-		"FIELD_BANS_DATE" INTEGER,\
-		"FIELD_BANS_REASON" TEXT,\
-		"FIELD_BANS_BY" TEXT,\
-		"FIELD_BANS_DURATION" INTEGER,\
-		"FIELD_BANS_ACTIVE" INTEGER)"));
+hook OnGameModeInit() {
+	db_free_result(db_query(Database, "CREATE TABLE IF NOT EXISTS bans (name TEXT, ipv4 INTEGER, date INTEGER, reason TEXT, by TEXT, duration INTEGER, active INTEGER)"));
 
 	DatabaseTableCheck(Database, ACCOUNTS_TABLE_BANS, 7);
 
-	stmt_BanInsert				= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_BANS" VALUES(?, ?, ?, ?, ?, ?, 1)");
-	stmt_BanUnban				= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_BANS" SET "FIELD_BANS_ACTIVE"=0 WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE");
-	stmt_BanGetFromNameIp		= db_prepare(Database, "SELECT COUNT(*), "FIELD_BANS_DATE", "FIELD_BANS_REASON", "FIELD_BANS_DURATION" FROM "ACCOUNTS_TABLE_BANS" WHERE ("FIELD_BANS_NAME" = ? COLLATE NOCASE OR "FIELD_BANS_IPV4" = ?) AND "FIELD_BANS_ACTIVE"=1 ORDER BY "FIELD_BANS_DATE" DESC");
-	stmt_BanNameCheck			= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_BANS" WHERE "FIELD_BANS_ACTIVE"=1 AND "FIELD_BANS_NAME" = ? COLLATE NOCASE ORDER BY "FIELD_BANS_DATE" DESC");
-	stmt_BanGetList				= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_BANS" WHERE "FIELD_BANS_ACTIVE"=1 ORDER BY "FIELD_BANS_DATE" DESC LIMIT ?, ? COLLATE NOCASE");
-	stmt_BanGetTotal			= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_BANS" WHERE "FIELD_BANS_ACTIVE"=1");
-	stmt_BanGetInfo				= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_BANS" WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE ORDER BY "FIELD_BANS_DATE" DESC");
-	stmt_BanUpdateInfo			= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_BANS" SET "FIELD_BANS_REASON" = ?, "FIELD_BANS_DURATION" = ? WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE");
-	stmt_BanSetIpv4				= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_BANS" SET "FIELD_BANS_IPV4" = ? WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE");
-	stmt_BanSetReason			= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_BANS" SET "FIELD_BANS_REASON" = ? WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE");
-	stmt_BanSetDuration			= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_BANS" SET "FIELD_BANS_DURATION" = ? WHERE "FIELD_BANS_NAME" = ? COLLATE NOCASE");
+	stmt_BanInsert				= db_prepare(Database, "INSERT INTO bans VALUES(?, ?, ?, ?, ?, ?, 1)");
+	stmt_BanUnban				= db_prepare(Database, "UPDATE bans SET active=0 WHERE name = ? COLLATE NOCASE");
+	stmt_BanGetFromNameIp		= db_prepare(Database, "SELECT COUNT(*), date, reason, duration FROM bans WHERE (name = ? COLLATE NOCASE OR ipv4 = ?) AND active=1 ORDER BY date DESC");
+	stmt_BanNameCheck			= db_prepare(Database, "SELECT COUNT(*) FROM bans WHERE active=1 AND name = ? COLLATE NOCASE ORDER BY date DESC");
+	stmt_BanGetList				= db_prepare(Database, "SELECT * FROM bans WHERE active=1 ORDER BY date DESC LIMIT ?, ? COLLATE NOCASE");
+	stmt_BanGetTotal			= db_prepare(Database, "SELECT COUNT(*) FROM bans WHERE active=1");
+	stmt_BanGetInfo				= db_prepare(Database, "SELECT * FROM bans WHERE name = ? COLLATE NOCASE ORDER BY date DESC");
+	stmt_BanUpdateInfo			= db_prepare(Database, "UPDATE bans SET reason = ?, duration = ? WHERE name = ? COLLATE NOCASE");
+	stmt_BanSetIpv4				= db_prepare(Database, "UPDATE bans SET ipv4 = ? WHERE name = ? COLLATE NOCASE");
+	stmt_BanSetReason			= db_prepare(Database, "UPDATE bans SET reason = ? WHERE name = ? COLLATE NOCASE");
+	stmt_BanSetDuration			= db_prepare(Database, "UPDATE bans SET duration = ? WHERE name = ? COLLATE NOCASE");
 }
 
-BanPlayer(playerid, reason[], byid, duration)
-{
+BanPlayer(playerid, reason[], byid, duration) {
 	new name[MAX_PLAYER_NAME];
 
-    ChatMsgAll(0xC457EBAA, "[Admin]: {C457EB}%p (%d) foi banido!", playerid, playerid);
+    ChatMsgAll(0xC457EBAA, " > %p foi banido!", playerid, playerid);
 
     GetPlayerName(playerid, name, MAX_PLAYER_NAME);
     CallLocalFunction("OnPlayerBan", "s", name);
@@ -79,8 +61,7 @@ BanPlayer(playerid, reason[], byid, duration)
 	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_BanInsert, 5, DB::TYPE_INTEGER, duration);
 
-	if(stmt_execute(stmt_BanInsert))
-	{
+	if(stmt_execute(stmt_BanInsert)) {
 		//ChatMsg(playerid, YELLOW, "BANNEDMESSG", reason);
 		//GameTextForPlayer(playerid, "Banido!", 10000, 6);
 		defer KickPlayerDelay(playerid);
@@ -90,10 +71,9 @@ BanPlayer(playerid, reason[], byid, duration)
 	return 0;
 }
 
-BanPlayerByName(name[], reason[], byid, duration)
-{
+BanPlayerByName(name[], reason[], byid, duration) {
 	new
-		forname[MAX_PLAYER_NAME],
+		forName[MAX_PLAYER_NAME],
 		id = INVALID_PLAYER_ID,
 		ip,
 		byname[MAX_PLAYER_NAME];
@@ -105,20 +85,15 @@ BanPlayerByName(name[], reason[], byid, duration)
 
     if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID) ChatMsgAll(0xC457EBAA, "[Admin]: %s foi banido!", name);
 	
-	foreach(new i : Player)
-	{
-		GetPlayerName(i, forname, MAX_PLAYER_NAME);
+	foreach(new i : Player) {
+		GetPlayerName(i, forName, MAX_PLAYER_NAME);
 
-		if(!strcmp(forname, name))
-			id = i;
+		if(!strcmp(forName, name)) id = i;
 	}
 
-	if(id == INVALID_PLAYER_ID)
-	{
+	if(id == INVALID_PLAYER_ID) {
 		GetAccountIP(name, ip);
-	}
-	else
-	{
+	} else {
 	    GameTextForPlayer(id, "Kickado!", 10000, 6);
 		ip = GetPlayerIpAsInt(id);
 		defer KickPlayerDelay(id);
@@ -133,41 +108,32 @@ BanPlayerByName(name[], reason[], byid, duration)
 	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_STRING, byname, MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_BanInsert, 5, DB::TYPE_INTEGER, duration);
 
-	if(!stmt_execute(stmt_BanInsert))
-		return 0;
+	if(!stmt_execute(stmt_BanInsert)) return 0;
 
 	return 1;
 }
 
-UpdateBanInfo(name[], reason[], duration)
-{
+UpdateBanInfo(name[], reason[], duration) {
 	stmt_bind_value(stmt_BanUpdateInfo, 0, DB::TYPE_STRING, reason, MAX_BAN_REASON);
 	stmt_bind_value(stmt_BanUpdateInfo, 1, DB::TYPE_INTEGER, duration);
 	stmt_bind_value(stmt_BanUpdateInfo, 2, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(stmt_execute(stmt_BanUpdateInfo))
-		return 1;
+	if(stmt_execute(stmt_BanUpdateInfo)) return 1;
 	
 	return 0;
 }
 
-UnBanPlayer(name[])
-{
-	if(!IsPlayerBanned(name))
-		return 0;
+UnBanPlayer(name[]) {
+	if(!IsPlayerBanned(name)) return 0;
 
 	stmt_bind_value(stmt_BanUnban, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(stmt_execute(stmt_BanUnban))
-	{
-		return 1;
-	}
+	if(stmt_execute(stmt_BanUnban)) return 1;
 
 	return 0;
 }
 
-BanCheck(playerid)
-{
+BanCheck(playerid) {
 	new
 		banned,
 		timestamp,
@@ -182,16 +148,12 @@ BanCheck(playerid)
 	stmt_bind_result_field(stmt_BanGetFromNameIp, 2, DB::TYPE_STRING, reason, MAX_BAN_REASON);
 	stmt_bind_result_field(stmt_BanGetFromNameIp, 3, DB::TYPE_INTEGER, duration);
 
-	if(stmt_execute(stmt_BanGetFromNameIp))
-	{
+	if(stmt_execute(stmt_BanGetFromNameIp)) {
 		stmt_fetch_row(stmt_BanGetFromNameIp);
 
-		if(banned)
-		{
-			if(duration > 0)
-			{
-				if(gettime() > (timestamp + duration))
-				{
+		if(banned) {
+			if(duration) {
+				if(gettime() > (timestamp + duration)) {
 					new name[MAX_PLAYER_NAME];
 					GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 					UnBanPlayer(name);
@@ -209,7 +171,7 @@ BanCheck(playerid)
 				"C_YELLOW"Data:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Motivo:\n\t\t"C_BLUE"%s\n\n\
 				"C_YELLOW"Desban:\n\t\t"C_BLUE"%s\n\n\
-				"C_RED"Se Você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf",
+				"C_RED"Se Você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. http://discord.scavengenostalgia.fun",
 				TimestampToDateTime(timestamp),
 				reason,
 				duration ? (TimestampToDateTime(timestamp + duration)) : "Nunca");
@@ -229,53 +191,38 @@ BanCheck(playerid)
 	return 0;
 }
 
-
-/*==============================================================================
-
-	Interface functions
-
-==============================================================================*/
-
-
 forward external_BanPlayer(name[], reason[], duration);
-public external_BanPlayer(name[], reason[], duration)
-{
+public external_BanPlayer(name[], reason[], duration) {
 	BanPlayerByName(name, reason, -1, duration);
 }
 
-stock IsPlayerBanned(name[])
-{
+stock IsPlayerBanned(name[]) {
 	new count;
 
 	stmt_bind_value(stmt_BanNameCheck, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_BanNameCheck, 0, DB::TYPE_INTEGER, count);
 
-	if(stmt_execute(stmt_BanNameCheck))
-	{
+	if(stmt_execute(stmt_BanNameCheck)) {
 		stmt_fetch_row(stmt_BanNameCheck);
 
-		if(count > 0)
-			return 1;
+		if(count) return 1;
 	}
 
 	return 0;
 }
 
-stock GetBanList(string[][MAX_PLAYER_NAME], limit, offset)
-{
+stock GetBanList(string[][MAX_PLAYER_NAME], limit, offset) {
 	new name[MAX_PLAYER_NAME];
 
 	stmt_bind_value(stmt_BanGetList, 0, DB::TYPE_INTEGER, offset);
 	stmt_bind_value(stmt_BanGetList, 1, DB::TYPE_INTEGER, limit);
 	stmt_bind_result_field(stmt_BanGetList, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
-	if(!stmt_execute(stmt_BanGetList))
-		return -1;
+	if(!stmt_execute(stmt_BanGetList)) return -1;
 
 	new idx;
 
-	while(stmt_fetch_row(stmt_BanGetList))
-	{
+	while(stmt_fetch_row(stmt_BanGetList)) {
 		string[idx] = name;
 		idx++;
 	}
@@ -283,8 +230,7 @@ stock GetBanList(string[][MAX_PLAYER_NAME], limit, offset)
 	return idx;
 }
 
-stock GetTotalBans()
-{
+stock GetTotalBans() {
 	new total;
 
 	stmt_bind_result_field(stmt_BanGetTotal, 0, DB::TYPE_INTEGER, total);
@@ -294,8 +240,7 @@ stock GetTotalBans()
 	return total;
 }
 
-stock GetBanInfo(name[], &timestamp, reason[], bannedby[], &duration)
-{
+stock GetBanInfo(name[], &timestamp, reason[], bannedby[], &duration) {
 	stmt_bind_value(stmt_BanGetInfo, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	stmt_bind_result_field(stmt_BanGetInfo, FIELD_ID_BANS_DATE, DB::TYPE_INTEGER, timestamp);
@@ -303,32 +248,28 @@ stock GetBanInfo(name[], &timestamp, reason[], bannedby[], &duration)
 	stmt_bind_result_field(stmt_BanGetInfo, FIELD_ID_BANS_BY, DB::TYPE_STRING, bannedby, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_BanGetInfo, FIELD_ID_BANS_DURATION, DB::TYPE_INTEGER, duration);
 
-	if(!stmt_execute(stmt_BanGetInfo))
-		return 0;
+	if(!stmt_execute(stmt_BanGetInfo)) return 0;
 
 	stmt_fetch_row(stmt_BanGetInfo);
 
 	return 1;
 }
 
-stock SetBanIpv4(name[], ipv4)
-{
+stock SetBanIpv4(name[], ipv4) {
 	stmt_bind_value(stmt_BanSetIpv4, 0, DB::TYPE_INTEGER, ipv4);
 	stmt_bind_value(stmt_BanSetIpv4, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_BanSetIpv4);
 }
 
-stock SetBanReason(name[], reason[])
-{
+stock SetBanReason(name[], reason[]) {
 	stmt_bind_value(stmt_BanSetReason, 0, DB::TYPE_STRING, reason, MAX_BAN_REASON);
 	stmt_bind_value(stmt_BanSetReason, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_BanSetReason);
 }
 
-stock SetBanDuration(name[], duration)
-{
+stock SetBanDuration(name[], duration) {
 	stmt_bind_value(stmt_BanSetDuration, 0, DB::TYPE_INTEGER, duration);
 	stmt_bind_value(stmt_BanSetDuration, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
