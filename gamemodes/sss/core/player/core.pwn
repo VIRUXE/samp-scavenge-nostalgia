@@ -264,7 +264,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 public OnPlayerSpawn(playerid) {
 	if(IsPlayerNPC(playerid)) return 1;
 
-	if(IsPlayerOnAdminDuty(playerid)) {
+	if(IsPlayerOnAdminDuty(playerid)) { // ? quando e que isso acontece?
 		SetPlayerPos(playerid, 0.0, 0.0, 3.0);
 		return 1;
 	}
