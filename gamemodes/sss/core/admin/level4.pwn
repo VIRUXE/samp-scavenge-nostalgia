@@ -198,7 +198,7 @@ ACMD:clima[4](playerid, params[]) {
 	JSON_SetObject(Settings, "world", node);
 	JSON_SaveFile("settings.json", Settings, .pretty = true);
 	
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
+	return ChatMsgAdmins(1, 0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
 ACMD:tapa[4](playerid, params[]) {
