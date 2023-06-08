@@ -2,14 +2,14 @@
 
 Load_Novos()
 {
-    log("[WORLD] Carregando Mapas Exclusivos...");
+    log("[WORLD] Carregando Mapas Novos...");
 
 	MapasNovos_Ilhas();
 	MapasNovos_LS();
 	MapasNovos_LV();
 	MapasNovos_SF();
 
-//	DefineSupplyDropPos("Tierra Robada South", -720.72766, 972.52899, 11.04721);
+//	DefineSupplyDropPos(" ", x, y, z);
 }
 
 MapasNovos_Ilhas()
@@ -62,15 +62,15 @@ MapasNovos_Ilhas()
 
 MapasNovos_LS()
 {
-	//	CreateStaticLootSpawn(-1603.15735, 2690.23340, 54.28019,	world_civilian, 20.0);
+	
 }
 
 MapasNovos_LV()
 {
-	//	CreateStaticLootSpawn(-692.57898, 1549.16516, 81.65029,		world_survivor, 10.0);
+	
 }
 
 MapasNovos_SF()
 {
-	//	CreateStaticLootSpawn(-881.05548, 1998.04822, 59.19070,		world_survivor, 10.0);
+	
 }
