@@ -87,7 +87,7 @@ _OnDeath(playerid, killerId) {
 	death_Spree[playerid] = 0;
 	death_Kills[playerid] = 0;
 	death_Dying[playerid] = true;
-	aliveTime[playerid] = 0;
+	aliveTime[playerid]   = 0;
 	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, false);
 
@@ -473,6 +473,8 @@ stock GetLastKilledById(playerid) {
 
 	return death_LastKilledById[playerid];
 }
+
+GetPlayerKillCount(playerid) return death_Kills[playerid];
 
 stock GetPlayerAliveTime(playerid) return aliveTime[playerid];
 	
