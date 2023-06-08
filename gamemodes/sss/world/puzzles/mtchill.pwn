@@ -208,11 +208,6 @@ hook OnGameModeInit() {
 	CreateDynamicObject(1687, -2326.85, -1638.37, 483.50,   0.00, 0.00, 26.40);
 	CreateDynamicObject(19273, -2307.81, -1650.67, 484.36,   0.00, 0.00, 26.46);
 	CreateDynamicObject(19273, -2307.80, -1650.67, 484.36,   0.00, 0.00, -153.54);
-
-	// Sign
-	SetDynamicObjectMaterialText(
-		CreateDynamicObject(18244, -2309.60, -1646.11, 487.69,   90.00, 0.00, 25.86),
-		0, "Mt. Chill\nRadio", OBJECT_MATERIAL_SIZE_512x256, "Impact", 72, 0, -1, 4278216843, 1);
 }
 
 hook OnPlayerActivateDoor(playerid, doorid, newstate) {
