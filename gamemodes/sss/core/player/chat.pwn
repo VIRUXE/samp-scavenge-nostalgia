@@ -139,7 +139,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 		GetPlayerPos(playerid, x, y, z);
 
 		format(line1, 256, "[L][%s] %C%p (%d)"C_WHITE": %s",
-			GetPlayerLanguage(playerid) == PORTUGUESE ? "PT" : "EN",
+			IsPlayerSpectating(playerid) ? "SPECTATE" : (GetPlayerLanguage(playerid) == PORTUGUESE ? "PT" : "EN"),
 			IsPlayerOnAdminDuty(playerid) ? GetAdminRankColour(GetPlayerAdminLevel(playerid)) : GetPlayerColor(playerid),
 			playerid,
 			playerid,
