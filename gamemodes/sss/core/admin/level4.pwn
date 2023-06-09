@@ -116,9 +116,7 @@ ACMD:av[4](playerid, params[]) return acmd_veh_4(playerid, params);
 ACMD:deletar[4](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
-	new
-		type[8],
-		Float:range;
+	new type[8], Float:range;
 
 	if(sscanf(params, "s[7]F(1.5)", type, range)) return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] (distância)");
 
@@ -130,7 +128,7 @@ ACMD:deletar[4](playerid, params[]) {
 
 	GetPlayerPos(playerid, px, py, pz);
 
-	if(!strcmp(type, "itens", true, 4)) {
+	if(isequal(type, "itens", true)) {
 		foreach(new i : itm_Index) {
 		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
 
@@ -140,7 +138,7 @@ ACMD:deletar[4](playerid, params[]) {
 		}
 
 		return 1;
-	} else if(!strcmp(type, "tendas", true, 4)) {
+	} else if(isequal(type, "tendas", true)) {
 		foreach(new i : tnt_Index) {
 		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
 
@@ -153,7 +151,7 @@ ACMD:deletar[4](playerid, params[]) {
 		}
 
 		return 1;
-	} else if(!strcmp(type, "defesas", true, 7)) {
+	} else if(isequal(type, "defesas", true)) {
 		foreach(new i : itm_Index) {
 			if(GetItemTypeDefenceType(GetItemType(i)) == INVALID_DEFENCE_TYPE) continue;
 
@@ -170,6 +168,7 @@ ACMD:deletar[4](playerid, params[]) {
 
 	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [distância] - (recomendado: 1 de distância)");
 }
+ACMD:del[4](playerid, params[]) return acmd_deletar_4(playerid, params);
 
 ACMD:congelarall[4](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, false);
