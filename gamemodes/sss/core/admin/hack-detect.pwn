@@ -23,14 +23,12 @@ AC_KickPlayer(playerid, reason[], info[] = ""){
 		format(str, sizeof(str), "[Anti-Cheat] Você foi kickado do servidor. Motivo: %s", reason);
 		SendClientMessage(playerid, 0xA9C4E4AA, str);
 
-		SendClientMessage(playerid, 0xA9C4E4AA, " > Se você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. https://discord.gg/jduSSH2Ezf");
+		SendClientMessage(playerid, 0xA9C4E4AA, " > Se você acha isso injusto, entre em nosso grupo do discord e fale com um administrador. http://discord.scavengenostalgia.fun");
 
 	    KickPlayer(playerid, "Anti-Cheat", false);
-    }
-    else {
-        format(str, sizeof(str), "[Anti-Cheat] %s(%d) EstÃ¡ sendo reportado, motivo: %s", name, playerid, reason);
-		ChatMsgAdmins(1, 0xA9C4E4AA, str);
-    }
+    } else
+		ChatMsgAdmins(1, 0xA9C4E4AA, "[Anti-Cheat] %s(%d) EstÃ¡ sendo reportado, motivo: %s", name, playerid, reason);
+
     return 1;
 }
 
@@ -107,14 +105,6 @@ ptask player_Check[SEC(1)](playerid) {
 		if(z > 5.0 && !IsPosInWater(x, y, z)) AC_KickPlayer(playerid, "Fly Hack");
 	}
 
-	/*==========================================================================
-
-		Dinheiro e mochila ajato bloqueadas
-
-	==========================================================================*/
-	
-    if(GetPlayerMoney(playerid) > 0) BanPlayer(playerid, "Money-Hack", -1, 0);
-
     if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_USEJETPACK) BanPlayer(playerid, "JetPack-Hack", -1, 0);
 		
 	/*==========================================================================
@@ -123,28 +113,28 @@ ptask player_Check[SEC(1)](playerid) {
 
 	==========================================================================*/
 	
-    new vehicleid, component;
+    new vehicleId, component;
 
-	vehicleid = GetPlayerVehicleID(playerid);
+	vehicleId = GetPlayerVehicleID(playerid);
 
-	component = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_NITRO);
+	component = GetVehicleComponentInSlot(vehicleId, CARMODTYPE_NITRO);
 
 	if(component == 1008 || component == 1009 || component == 1010) {
 		BanPlayer(playerid, "Detectado Nitro no Veículo.", -1, 0);
-		RemoveVehicleComponent(vehicleid, CARMODTYPE_NITRO);
+		RemoveVehicleComponent(vehicleId, CARMODTYPE_NITRO);
 	}
 
-	component = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_HYDRAULICS);
+	component = GetVehicleComponentInSlot(vehicleId, CARMODTYPE_HYDRAULICS);
 
 	if(component == 1087) {
 		BanPlayer(playerid, "Detectado Hydraulica no Veículo.", -1, 0);
-		RemoveVehicleComponent(vehicleid, CARMODTYPE_HYDRAULICS);
+		RemoveVehicleComponent(vehicleId, CARMODTYPE_HYDRAULICS);
 	}
 	
     new
 		Float:vehiclehp;
 
-	GetVehicleHealth(vehicleid, vehiclehp);
+	GetVehicleHealth(vehicleId, vehiclehp);
 
 	if(vehiclehp > 990.0 && GetPlayerVehicleSeat(playerid) == 0) { // Only check the driver - Checking passengers causes a false ban 
 		AC_KickPlayer(playerid, "Veículo Health-Hack");
@@ -160,8 +150,8 @@ ptask player_Check[SEC(1)](playerid) {
 	CameraDistanceCheck(playerid);
 }
 
-timer vh_ResetVehiclePosition[SEC(1)](vehicleid) {
-	SetVehicleHealth(vehicleid, 300.0);
+timer vh_ResetVehiclePosition[SEC(1)](vehicleId) {
+	SetVehicleHealth(vehicleId, 300.0);
 }
 
 /*==============================================================================
@@ -172,19 +162,17 @@ timer vh_ResetVehiclePosition[SEC(1)](vehicleid) {
 
 
 hook OnPlayerStateChange(playerid, newstate, oldstate){
-	if(newstate == PLAYER_STATE_DRIVER) 
-	{
+	if(newstate == PLAYER_STATE_DRIVER) {
 		new
-			vehicleid,
-			E_LOCK_STATE:lockstate;
+			vehicleId,
+			E_LOCK_STATE:lockState;
 
-		vehicleid = GetPlayerVehicleID(playerid);
-		lockstate = GetVehicleLockState(vehicleid);
+		vehicleId = GetPlayerVehicleID(playerid);
+		lockState = GetVehicleLockState(vehicleId);
 
-		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500) 
-		{
+		if(lockState != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleId)) > 3500) {
 		    AC_KickPlayer(playerid, "Teleporte Veículo");
-			defer StillInVeh(playerid, vehicleid, _:lockstate);
+			defer StillInVeh(playerid, vehicleId, _:lockState);
 
 			return 1;
 		}
@@ -192,15 +180,15 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 
 	if(newstate == PLAYER_STATE_PASSENGER) {
 		new
-			vehicleid,
-			E_LOCK_STATE:lockstate;
+			vehicleId,
+			E_LOCK_STATE:lockState;
 
-		vehicleid = GetPlayerVehicleID(playerid);
-		lockstate = GetVehicleLockState(vehicleid);
+		vehicleId = GetPlayerVehicleID(playerid);
+		lockState = GetVehicleLockState(vehicleId);
 
-		if(lockstate != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleid)) > 3500) {
+		if(lockState != E_LOCK_STATE_OPEN && GetTickCountDifference(GetTickCount(), GetVehicleLockTick(vehicleId)) > 3500) {
 			AC_KickPlayer(playerid, "Teleporte Veículo");
-			defer StillInVeh(playerid, vehicleid, _:lockstate);
+			defer StillInVeh(playerid, vehicleId, _:lockState);
 			return 1;
 		}
 	}
@@ -208,10 +196,10 @@ hook OnPlayerStateChange(playerid, newstate, oldstate){
 	return 1;
 }
 
-timer StillInVeh[SEC(1)](playerid, vehicleid, ls) {
+timer StillInVeh[SEC(1)](playerid, vehicleId, ls) {
 	if(!IsPlayerConnected(playerid)) return;
 
-	SetVehicleExternalLock(vehicleid, E_LOCK_STATE:ls);
+	SetVehicleExternalLock(vehicleId, E_LOCK_STATE:ls);
 }
 
 /*==============================================================================
@@ -360,15 +348,9 @@ CameraDistanceCheck(playerid) {
 	}
 
 	new
-		Float:cx,
-		Float:cy,
-		Float:cz,
-		Float:px,
-		Float:py,
-		Float:pz,
-		Float:cx_vec,
-		Float:cy_vec,
-		Float:cz_vec,
+		Float:cx, Float:cy, Float:cz,
+		Float:px, Float:py, Float:pz,
+		Float:cx_vec, Float:cy_vec, Float:cz_vec,
 		Float:distance,
 		Float:cmp,
 		type;
@@ -379,23 +361,22 @@ CameraDistanceCheck(playerid) {
 	if(IsAtDefaultPos(cx, cy, cz)) return;
 
 	if(IsPlayerInAnyVehicle(playerid)) {
-		new cameramode = GetPlayerCameraMode(playerid);
+		new cameraMode = GetPlayerCameraMode(playerid);
 
 		GetVehiclePos(GetPlayerVehicleID(playerid), px, py, pz);
 
 		distance = Distance(px, py, pz, cx, cy, cz);
 
-		if(cameramode == 56) {
+		if(cameraMode == 56) {
 			type = CAMERA_TYPE_INCAR_CINEMATIC;
-			cmp = CAMERA_DISTANCE_INCAR_CINEMATIC;
-		} else if(cameramode == 57) {
+			cmp  = CAMERA_DISTANCE_INCAR_CINEMATIC;
+		} else if(cameraMode == 57) {
 			type = CAMERA_TYPE_INCAR_CINEMATIC;
-			cmp = CAMERA_DISTANCE_INCAR_CINEMATIC;
-		} else if(cameramode == 15) {
+			cmp  = CAMERA_DISTANCE_INCAR_CINEMATIC;
+		} else if(cameraMode == 15) {
 			type = CAMERA_TYPE_INCAR_CINEMOVE;
-			cmp = CAMERA_DISTANCE_INCAR_CINEMOVE;
-		} else
-		{
+			cmp  = CAMERA_DISTANCE_INCAR_CINEMOVE;
+		} else {
 			if(vx + vy > 0.0) {
 				type = CAMERA_TYPE_INCAR_MOVING;
 				cmp  = CAMERA_DISTANCE_INCAR_MOVING;
@@ -413,7 +394,7 @@ CameraDistanceCheck(playerid) {
 
 			GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
-			format(reason, sizeof(reason), " >  %s(%d) camera distance %.0f (incar, %d, %d at %.0f, %.0f, %.0f)", name, playerid, distance, type, cameramode, cx, cy, cz);
+			format(reason, sizeof(reason), " >  %s(%d) camera distance %.0f (incar, %d, %d at %.0f, %.0f, %.0f)", name, playerid, distance, type, cameraMode, cx, cy, cz);
 			format(info, sizeof(info), "%.1f, %.1f, %.1f, %.1f, %.1f, %.1f", cx, cy, cz, vx, vy, vz);
 			//ReportPlayer(name, reason, -1, REPORT_TYPE_CAMDIST, px, py, pz, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), info);
 			ChatMsgAdmins(3, YELLOW, reason);
@@ -421,7 +402,7 @@ CameraDistanceCheck(playerid) {
 			cd_ReportTick[playerid] = GetTickCount();
 		}
 	} else {
-		new cameramode = GetPlayerCameraMode(playerid);
+		new cameraMode = GetPlayerCameraMode(playerid);
 
 		GetPlayerPos(playerid, px, py, pz);
 
@@ -448,7 +429,7 @@ CameraDistanceCheck(playerid) {
 
 			GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
-			format(reason, sizeof(reason), "Camera distance from player %.0f (onfoot, %d, %d at %.0f, %.0f, %.0f)", distance, type, cameramode, cx, cy, cz);
+			format(reason, sizeof(reason), "Camera distance from player %.0f (onfoot, %d, %d at %.0f, %.0f, %.0f)", distance, type, cameraMode, cx, cy, cz);
 			format(info, sizeof(info), "%.1f, %.1f, %.1f, %.1f, %.1f, %.1f", cx, cy, cz, cx_vec, cy_vec, cz_vec);
 			ReportPlayer(name, reason, -1, REPORT_TYPE_CAMDIST, px, py, pz, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), info);
 			TimeoutPlayer(playerid, reason, false);
@@ -504,12 +485,9 @@ IPacket:207(playerid, BitStream:bs) {
 	BS_ReadOnFootSync(bs, onFootData);
 
 	// Anti Fly
-	switch (onFootData[PR_animationId])
-    {
-        case 157, 159, 161:
-        {
-            if (!IsPlayerInAnyVehicle(playerid))
-            {
+	switch (onFootData[PR_animationId]) {
+        case 157, 159, 161: {
+            if (!IsPlayerInAnyVehicle(playerid)) {
                 onFootData[PR_animationId] = 1189;
                 onFootData[PR_velocity][0] = onFootData[PR_velocity][1] = onFootData[PR_velocity][2] = 0.0;
 
@@ -546,8 +524,7 @@ public OnPlayerSuspectedForAimbot(playerid,hitid,weaponid,warnings) {
 	    lastattacker,
 		lastweapon;
 
-	if(!IsPlayerCombatLogging(playerid, lastattacker, lastweapon))
-    	AC_KickPlayer(playerid, "Suspeita de Aimbot");
+	if(!IsPlayerCombatLogging(playerid, lastattacker, lastweapon)) AC_KickPlayer(playerid, "Suspeita de Aimbot");
     	
 	return 1;
 }
@@ -560,6 +537,7 @@ IPacket:206(playerid, BitStream:bs) {
 	    AC_KickPlayer(playerid, "Arma Minigun invisível");
 		return 0;
 	}
+
 	return 1;
 }
 

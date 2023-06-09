@@ -275,7 +275,6 @@ public OnPlayerSpawn(playerid) {
 
 	SetAllWeaponSkills(playerid, 500);
 	SetPlayerTeam(playerid, 0);
-	ResetPlayerMoney(playerid);
 
 	PlayerPlaySound(playerid, 1186, 0.0, 0.0, 0.0);
 	PreloadPlayerAnims(playerid);
