@@ -123,6 +123,8 @@ _OnDeath(playerid, killerId) {
 
 	SendDeathMessage(killerId, playerid, deathReason);
 
+	ChatMsgAll(RED, " > Que merda %P"C_RED" acabou por morrer com {FFFFFF}%d"C_RED" de score!", playerid, GetPlayerScore(playerid));
+
 	if(IsPlayerConnected(killerId)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerId, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
@@ -182,10 +184,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		world    = GetPlayerVirtualWorld(playerid),
 		Float:newX, Float:newY, Float:groundZ;
 
-	/*
-		Held item
-	*/
-
+	// Held item
 	itemId = GetPlayerItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -197,10 +196,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Holstered item
-	*/
-
+	// Holstered item
 	itemId = GetPlayerHolsterItem(playerid); // ? Porque criar outro?
 
 	if(IsValidItem(itemId)) {
@@ -214,10 +210,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Inventory
-	*/
-
+	// Inventory
 	for(new i; i < INV_MAX_SLOTS; i++) {
 		itemId = GetInventorySlotItem(playerid, 0);
 
@@ -233,10 +226,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Bag item
-	*/
-
+	// Bag item
 	itemId = GetPlayerBagItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -248,10 +238,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		SetItemWorld(itemId, world);
 	}
 
-	/*
-		Head-wear item
-	*/
-
+	// Head-wear item
 	itemId = RemovePlayerHatItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -263,10 +250,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Face-wear item
-	*/
-
+	// Face-wear item
 	itemId = RemovePlayerMaskItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -278,10 +262,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Armour item
-	*/
-
+	// Armour item
 	if(GetPlayerAP(playerid) > 0.0) {
 		newX = x + floatsin(80.0, degrees);
 		newY = y + floatcos(80.0, degrees);
@@ -296,10 +277,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	// Os itens seguintes apenas devem ser dropados na morte
 	if(!death) return;
 
-	/*
-		Handcuffs
-	*/
-
+	// Handcuffs
 	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED) {
 		newX = x + floatsin(135.0, degrees);
 		newY = y + floatcos(135.0, degrees);
@@ -404,14 +382,9 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 	return 1;
 }
-/* 
-	TODO: Essas textdraws podem simplesmente ser criadas na morte.
-	Tem vezes que o jogador nem morre na sessao de jogo
 
-	TODO: Introduzir internacionalizacao
-*/
 hook OnGameModeInit() {
-
+	// TODO: internacionalizacao
 	DeathText					=TextDrawCreate(320.000000, 300.000000, "MORTO!");
 	TextDrawAlignment			(DeathText, 2);
 	TextDrawBackgroundColor		(DeathText, 255);
