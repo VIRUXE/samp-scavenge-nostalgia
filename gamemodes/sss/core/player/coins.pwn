@@ -19,7 +19,7 @@ stock AddPlayerCoins(playerId, amount) {
     return;
 }
 
-timer UpdateMoney[10](playerId, amount) {
+timer UpdateMoney[50](playerId, amount) {
     if(GetPlayerMoney(playerId) < amount)
         GivePlayerMoney(playerId, 1);
     else
@@ -51,13 +51,14 @@ stock GetPlayerCoins(playerId) {
 }
 
 ACMD:setcoins[5](playerId, params[]) {
-    new coins, targetId;
-	if(sscanf(params, "dd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /setcoins [id] [coins]");
+    new targetId, coins;
+	if(sscanf(params, "rd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /setcoins [id/nome] [coins]");
 
-	ChatMsg(targetId, YELLOW, " >  %p(id:%d) Setou seus coins para "C_BLUE"%d", playerId, playerId, coins);
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] %p(id:%d) Setou os coins de "C_BLUE"%p(id:%d) para %d", playerId, playerId, targetId, targetId, coins);
+	ChatMsg(targetId, YELLOW, " >  %p setou seus coins para %d", playerId, coins);
+    ChatMsgAdmins(1, BLUE, "[Admin] %p setou os coins de %p para %d", playerId, targetId, coins);
     
     SetPlayerCoins(targetId, coins);
+
     return 1;
 }
 
@@ -65,8 +66,8 @@ ACMD:givecoins[5](playerId, params[]) {
     new targetId, coins;
 	if(sscanf(params, "rd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /givecoins [id/nome] [coins]");
 
-	ChatMsg(targetId, YELLOW, " >  %p(id:%d) Setou seus coins para "C_BLUE"%d", playerId, playerId, coins);
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] %p(id:%d) Setou os coins de "C_BLUE"%p(id:%d) para %d", playerId, playerId, targetId, targetId, coins);
+	ChatMsg(targetId, YELLOW, " >  %p deu a você %d coins", playerId, coins);
+    ChatMsgAdmins(1, BLUE, "[Admin] %p deu %d coins a %p", playerId, coins, targetId);
     
     AddPlayerCoins(targetId, coins);
 
