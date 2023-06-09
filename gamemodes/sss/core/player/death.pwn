@@ -63,14 +63,20 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	aliveTime[playerid]++;
 
+	// TODO: Ingles
+	new const hoursAlive = aliveTime[playerid] / 3600;
+
+	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
+
+	if((aliveTime[playerid] / 60) % 1000 == 0) {
+		AddPlayerCoins(playerid, 1000);
+
+		ChatMsgAll(GREEN, " > Parabéns a %P"C_GREEN"! Ele completou agora 1000 de Score e ganhou 1000 MOEDAS!", playerid);
+	}
+
 	db_query(Database, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
-
-	new const hoursAlive = aliveTime[playerid] / 3600;
-
-	// TODO: Ingles
-	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
 }
 
 _OnDeath(playerid, killerId) {
