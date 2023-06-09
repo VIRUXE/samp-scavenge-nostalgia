@@ -345,17 +345,16 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
 
 	if(GetPlayerSurfingVehicleID(playerid) == vehicleid) CancelPlayerMovement(playerid);
 
-	if(ispassenger) {
+	/* if(ispassenger) { // ? Porque?
 		new driverid = -1;
 
-		foreach(new i : Player)
-			if(IsPlayerInVehicle(i, vehicleid)) 
-				if(GetPlayerState(i) == PLAYER_STATE_DRIVER) 
-					driverid = i;
+		foreach(new i : Player) {
+			if(IsPlayerInVehicle(i, vehicleid) && GetPlayerState(i) == PLAYER_STATE_DRIVER) 
+				driverid = i;
+		}
 
-		if(driverid == -1)
-			CancelPlayerMovement(playerid);
-	}
+		if(driverid == -1) CancelPlayerMovement(playerid);
+	} */
 
 	return 1;
 }
