@@ -498,8 +498,7 @@ ShowDetfieldNameFields(playerid, fieldName[]) {
 	return 1;
 }
 
-Dialog:DetfieldName(playerid, response, listitem, inputtext[])
-{
+Dialog:DetfieldName(playerid, response, listitem, inputtext[]) {
 	// TODO: do something with the data (jump to field log or something).
 }
 
@@ -544,16 +543,21 @@ AddNewDetectionFieldPoint(playerid) {
 		dfm_Points[playerid][8] = dfm_Points[playerid][0];
 		dfm_Points[playerid][9] = dfm_Points[playerid][1];
 
-		// Adicionamos o criador como excepcao
-		GetPlayerName(playerid, dfm_Exceptions[playerid][0], MAX_PLAYER_NAME);
+		GetPlayerName(playerid, dfm_Exceptions[playerid][0], MAX_PLAYER_NAME); // Adicionamos o criador como excepcao
 
 		dfm_Editing[playerid] = false;
 
 		new result = AddDetectionField(dfm_Name[playerid], dfm_Points[playerid], dfm_MinZ[playerid], dfm_MaxZ[playerid], dfm_Exceptions[playerid], GetPlayerAdminLevel(playerid));
 
-		if(result < 0) 
-			ChatMsg(playerid, RED, " >  Ocorreu um erro ao fazer isto (code: %d)", result);
-		else {
+		if(result < 0) {
+			switch(result) {
+				case -1: ChatMsg(playerid, RED, " >  Esse nome não é válido.", result);
+				case -2: ChatMsg(playerid, RED, " >  Já existe uma detection field com esse nome.", result);
+				case -3: ChatMsg(playerid, RED, " >  O limite de detection fields foi atingido. Aviso um Administrador.", result);
+			}
+
+			return;
+		} else {
 			ChatMsg(playerid, YELLOW, " >  Ponto %d setado para %f, %f. Field '%s' criada.",
 				dfm_CurrentPoint[playerid] + 1,
 				dfm_Points[playerid][dfm_CurrentPoint[playerid] * 2],
