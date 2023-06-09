@@ -232,13 +232,13 @@ stock DestroyDetectionField(detfieldId) {
 bool:IsDetectionFieldActive(detfieldId) return det_Active[detfieldId];
 
 AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ, Float:maxZ, exceptionList[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME], active) {
-	if(DetectionFieldExists(name)) return -1;
+	if(!IsValidDetectionFieldName(name)) return -1;
 
-	if(!IsValidDetectionFieldName(name)) return -2;
+	if(DetectionFieldExists(name)) return -2;
 
 	new id = CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
 
-	if(id < 0) return -1;
+	if(id < 0) return -3;
 
 	new
 		vert1[32],
