@@ -658,7 +658,7 @@ hook OnPlayerLogin(playerid) {
 	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
 			if(!det_Active[d]) {
-				SendClientMessage(playerid, YELLOW, " > Existem Detection Fields por Ativar");
+				SendClientMessage(playerid, RED, " > Existem Detection Fields por Ativar");
 				break;
 			}
 		}
