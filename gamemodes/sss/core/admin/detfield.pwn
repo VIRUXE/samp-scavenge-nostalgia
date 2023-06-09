@@ -307,6 +307,26 @@ SetDetectionFieldActive(detfieldId, bool:active) {
 
 	db_query(det_Database, sprintf("UPDATE field_list SET active = %d WHERE name = '%s';", active ? 1 : 0, det_Name[detfieldId]));
 
+	// Eliminamos as linhas antigas
+	for(new i; i < 8; i++) {
+		DestroyLineSegment(det_Lines[detfieldId][i]);
+		det_Lines[detfieldId][i] = INVALID_LINE_SEGMENT_ID;
+	}
+
+	// Criamos com a nova cor de neon
+	new const lineObjectId = active ? 18652 : 18647, Float:objectLength = 2.00;
+	for(new i; i < 8; i += 2) {
+		// Linhas para baixo
+		det_Lines[detfieldId][i + 0] = CreateLineSegment(lineObjectId, objectLength,
+			det_Points[detfieldId][i + 0], det_Points[detfieldId][i + 1], det_MinZ[detfieldId],
+			det_Points[detfieldId][i + 2], det_Points[detfieldId][i + 3], det_MinZ[detfieldId], .objlengthoffset = -(objectLength/2));
+
+		// Linhas para cima
+		det_Lines[detfieldId][i + 1] = CreateLineSegment(lineObjectId, objectLength,
+			det_Points[detfieldId][i + 0], det_Points[detfieldId][i + 1], det_MaxZ[detfieldId],
+			det_Points[detfieldId][i + 2], det_Points[detfieldId][i + 3], det_MaxZ[detfieldId], .objlengthoffset = -(objectLength/2));
+	}
+
 	log("[DETFIELD] SetDetectionFieldActive(%d, %s)", detfieldId, booltostr(active));
 
 	return 1;
