@@ -418,7 +418,7 @@ enum {
 #include "sss/core/player/animes.pwn" // By Kolorado
 #include "sss/core/player/chat.pwn"
 #include "sss/core/player/clan.pwn" // By Kolorado
-#include "sss/core/player/Coins.pwn"
+#include "sss/core/player/coins.pwn"
 #include "sss/core/player/commands.pwn"
 #include "sss/core/player/death.pwn"
 #include "sss/core/player/disallow-actions.pwn"
@@ -481,7 +481,7 @@ enum {
 #include "sss/core/ui/body-preview.pwn"
 
 // WORLD ENTITIES
-#include "sss/core/world/comerciante.pwn"
+// #include "sss/core/world/comerciante.pwn"
 #include "sss/core/world/fuel.pwn"
 #include "sss/core/world/barbecue.pwn"
 #include "sss/core/world/defences.pwn"
