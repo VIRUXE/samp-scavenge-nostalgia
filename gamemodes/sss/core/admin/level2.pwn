@@ -40,7 +40,7 @@ ACMD:ir[2](playerid, params[]) {
 
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /ir [id/nome]");
 
 	if(!IsPlayerConnected(targetId)) return CMD_INVALID_PLAYER;
 
@@ -61,7 +61,7 @@ ACMD:puxar[2](playerid, params[]) {
 
 	new targetId;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [playerid]");
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /puxar [id/nome]");
 
 	if(!IsPlayerConnected(targetId)) return CMD_INVALID_PLAYER;
 
@@ -79,7 +79,7 @@ ACMD:puxar[2](playerid, params[]) {
 ACMD:congelar[2](playerid, params[]) {
 	new targetid, delay;
 
-	if(sscanf(params, "dD(0)", targetid, delay)) return ChatMsg(playerid, YELLOW, " >  Use: /congelar [playerid] [segundos]");
+	if(sscanf(params, "dD(0)", targetid, delay)) return ChatMsg(playerid, YELLOW, " >  Use: /congelar [id/nome] [segundos]");
 
 	if(GetPlayerAdminLevel(targetid) >= GetPlayerAdminLevel(playerid) && playerid != targetid) return 3;
 
@@ -101,7 +101,7 @@ ACMD:congelar[2](playerid, params[]) {
 ACMD:descongelar[2](playerid, params[]) {
 	new targetid;
 
-	if(sscanf(params, "d", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /descongelar [playerid]");
+	if(sscanf(params, "d", targetid)) return ChatMsg(playerid, YELLOW, " >  Use: /descongelar [id/nome]");
 
 	if(!IsPlayerConnected(targetid)) return 4;
 

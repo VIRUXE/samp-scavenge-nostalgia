@@ -13,7 +13,7 @@ hook OnGameModeInit() {
 ACMD:calar[1](playerid, params[]) {
 	new targetId, delay, reason[128];
 
-	if(sscanf(params, "dds[128]", targetId, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
+	if(sscanf(params, "dds[128]", targetId, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [id/nome] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
 
 	if(!IsPlayerConnected(targetId)) return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
 
