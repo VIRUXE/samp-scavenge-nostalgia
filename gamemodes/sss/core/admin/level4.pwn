@@ -8,7 +8,6 @@ hook OnGameModeInit() {
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "aliases", "Checar IPs");
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "clima", "Mudar o clima do servidor");
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "deletar", "Deletar metais, tendas, itens");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "tapa", "Dar tapa em algum player");
 }
 
 ACMD:reiniciar[4](playerid, params[]) {
@@ -198,22 +197,6 @@ ACMD:clima[4](playerid, params[]) {
 	JSON_SaveFile("settings.json", Settings, .pretty = true);
 	
 	return ChatMsgAdmins(1, 0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
-}
-
-ACMD:tapa[4](playerid, params[]) {
-    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
-		
-    new targetId;
-	
-	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [id/nick]");
-
-	if(GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
-
-	new Float:x, Float:y, Float:z;
-	GetPlayerPos(targetId, x, y, z);
-	SetPlayerPos(targetId, x, y, z + 6.0);
-
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 }
 
 ACMD:aliases[4](playerid, params[]) {
