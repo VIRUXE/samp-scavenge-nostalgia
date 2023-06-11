@@ -5,7 +5,8 @@ enum {
 		CHAT_MODE_LOCAL,		// 0 - Speak to players within chatbubble distance
 		CHAT_MODE_GLOBAL,		// 1 - Speak to all players
 		CHAT_MODE_CLAN,			// 2 - Clan Chat
-		CHAT_MODE_ADMIN			// 3 - Speak to admins
+		CHAT_MODE_ADMIN,		// 3 - Speak to admins
+		CHAT_MODE_VIP
 }
 
 static
@@ -91,7 +92,7 @@ hook OnPlayerText(playerid, text[]) {
 	if(chat_Mode[playerid] == CHAT_MODE_LOCAL) PlayerSendChat(playerid, text, 0.0);
 	else if(chat_Mode[playerid] == CHAT_MODE_GLOBAL) PlayerSendChat(playerid, text, 1.0);
 	else if(chat_Mode[playerid] == CHAT_MODE_ADMIN) PlayerSendChat(playerid, text, 3.0);
-	else if(chat_Mode[playerid] == CHAT_MODE_CLAN) PlayerSendChat(playerid, text, 4.0);
+	else if(chat_Mode[playerid] == CHAT_MODE_VIP) PlayerSendChat(playerid, text, 4.0);
 	
 	return 0;
 }
@@ -108,6 +109,7 @@ SetChatModeLetter(playerid) {
 		case CHAT_MODE_GLOBAL: letter = "G";
 		case CHAT_MODE_CLAN:   letter = "C";
 		case CHAT_MODE_ADMIN:  letter = "A";
+		case CHAT_MODE_VIP:  letter = "V";
 	}
 
 	PlayerTextDrawSetString(playerid, chatModeTextDraw, letter);
@@ -214,23 +216,50 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 
 		return 1;
 	} else if(frequency == 3.0) {
-		log("[CHAT][ADMIN] [%p]: %s", playerid, chat);
+		log("[CHAT][VIP] [%p]: %s", playerid, chat);
 
-		format(line1, 256, "%C[ADMIN] %P (%d)"C_WHITE": %s",
-			GetAdminRankColour(GetPlayerAdminLevel(playerid)),
-			playerid,
-			playerid,
-			TagScan(chat));
+		new Float:x, Float:y, Float:z;
+
+		GetPlayerPos(playerid, x, y, z);
+
+		format(line1, 256, "[VIP] %P %s", playerid, TagScan(chat));
 
 		TruncateChatMessage(line1, line2);
 
 		foreach(new i : Player) {
-			if(GetPlayerAdminLevel(i) > 0) {
+			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i)) {
 				SendClientMessage(i, CHAT_LOCAL, line1);
 
 				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
 			}
 		}
+
+		//SetPlayerChatBubble(playerid, TagScan(chat), CHAT_LOCAL, 40.0, 10000);
+
+		return 1;
+	} else if(frequency == 4.0) {
+		log("[CHAT][VIP] [%p]: %s", playerid, chat);
+
+		format(line1, 256, "[VIP][%s] %C%p (%d)"C_WHITE": %s",
+			GetPlayerLanguage(playerid) == 0 ? "PT" : "EN",
+			IsPlayerOnAdminDuty(playerid) ? GetAdminRankColour(GetPlayerAdminLevel(playerid)) : GetPlayerColor(playerid),
+			playerid,
+			playerid,
+			TagScan(chat, true));
+
+		TruncateChatMessage(line1, line2);
+
+		foreach(new i : Player) {
+			if(chat_Quiet[i]) continue;
+
+			if(IsPlayerInTutorial(i)) continue;
+			    
+			SendClientMessage(i, WHITE, line1);
+
+			if(!isnull(line2)) SendClientMessage(i, WHITE, line2);
+		}
+
+		//SetPlayerChatBubble(playerid, TagScan(chat), WHITE, 40.0, 10000);
 
 		return 1;
 	} else {
