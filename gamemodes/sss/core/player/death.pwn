@@ -38,7 +38,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 
     if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < SEC(1)) return -1; // ? Ignorar se morreu a menos de 1 segundo? Impossivel?
 
-	SetPlayerScreenFade(playerid, FADE_OUT, 255);
+	SetPlayerScreenFade(playerid, FADE_OUT, 255, 100); // Mais lento para conseguir ver a death cam
 
 	if(killerid == INVALID_PLAYER_ID) {
 		killerid = GetLastHitById(playerid);
@@ -68,7 +68,7 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
 
-	if(aliveTime[playerid] > 0 && (aliveTime[playerid] / 60) % 1000 == 0) {
+	if (aliveTime[playerid] % (60 * 1000) == 0) {
 		AddPlayerCoins(playerid, 1000);
 
 		ChatMsgAll(GREEN, " > Parabéns a %P"C_GREEN"! Ele completou agora 1000 de Score e ganhou 1000 MOEDAS!", playerid);
