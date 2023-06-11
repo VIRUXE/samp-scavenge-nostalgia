@@ -86,7 +86,7 @@ ACMD:additem[4](playerid, params[]) {
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
 
-ACMD:veh[4](playerid, params[]) {
+ACMD:addveh[4](playerid, params[]) {
     if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /veh [id/nome]");
 	
 	new Float:x, Float:y, Float:z, Float:r;
@@ -105,9 +105,8 @@ ACMD:veh[4](playerid, params[]) {
 	
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
 }
-
-ACMD:addveiculo[4](playerid, params[]) return acmd_veh_4(playerid, params);
-ACMD:av[4](playerid, params[]) return acmd_veh_4(playerid, params);
+ACMD:addveiculo[4](playerid, params[]) return acmd_addveh_4(playerid, params);
+ACMD:av[4](playerid, params[]) return acmd_addveh_4(playerid, params);
 
 ACMD:deletar[4](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
