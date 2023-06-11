@@ -216,25 +216,23 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 
 		return 1;
 	} else if(frequency == 3.0) {
-		log("[CHAT][VIP] [%p]: %s", playerid, chat);
+		log("[CHAT][ADMIN] [%p]: %s", playerid, chat);
 
-		new Float:x, Float:y, Float:z;
-
-		GetPlayerPos(playerid, x, y, z);
-
-		format(line1, 256, "[VIP] %P %s", playerid, TagScan(chat));
+		format(line1, 256, "%C[ADMIN] %P (%d)"C_WHITE": %s",
+			GetAdminRankColour(GetPlayerAdminLevel(playerid)),
+			playerid,
+			playerid,
+			TagScan(chat));
 
 		TruncateChatMessage(line1, line2);
 
 		foreach(new i : Player) {
-			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i)) {
-				SendClientMessage(i, CHAT_LOCAL, line1);
+			if(!GetPlayerAdminLevel(i)) continue;
+			
+			SendClientMessage(i, CHAT_LOCAL, line1);
 
-				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
-			}
+			if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
 		}
-
-		//SetPlayerChatBubble(playerid, TagScan(chat), CHAT_LOCAL, 40.0, 10000);
 
 		return 1;
 	} else if(frequency == 4.0) {
@@ -260,8 +258,6 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 
 			if(!isnull(line2)) SendClientMessage(i, WHITE, line2);
 		}
-
-		//SetPlayerChatBubble(playerid, TagScan(chat), WHITE, 40.0, 10000);
 
 		return 1;
 	} else {
