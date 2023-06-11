@@ -12,7 +12,9 @@ hook OnGameModeInit() {
 }
 
 ACMD:tapa[1](playerid, params[]) {
-    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
+	new admin = GetPlayerAdminLevel(playerid);
+
+    if(admin < STAFF_LEVEL_LEAD && admin > STAFF_LEVEL_GAME_MASTER && !IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
 		
     new targetId;
 	
