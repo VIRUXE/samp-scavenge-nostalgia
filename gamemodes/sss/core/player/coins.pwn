@@ -14,9 +14,14 @@ stock AddPlayerCoins(playerId, amount) {
 
     Coins[playerId][owned] = Coins[playerId][owned] + amount;
     
-    Coins[playerId][updateTimer] = repeat UpdateMoney(playerId, amount);
+    ShowPlayerCoins(playerId);
 
     return;
+}
+
+ShowPlayerCoins(playerId) {
+    stop Coins[playerId][updateTimer];
+    Coins[playerId][updateTimer] = repeat UpdateMoney(playerId, Coins[playerId][owned]);
 }
 
 timer UpdateMoney[50](playerId, amount) {
@@ -32,14 +37,12 @@ stock RemovePlayerCoins(playerId, coins) {
     return 1;
 }
 
-stock SetPlayerCoins(playerId, coins) {
+stock SetPlayerCoins(playerId, coins, bool:show) {
     if(!Coins[playerId][set]) Coins[playerId][set] = true;
 
     Coins[playerId][owned] = coins;
 
-    ResetPlayerMoney(playerId);
-
-    Coins[playerId][updateTimer] = repeat UpdateMoney(playerId, coins);
+    if(show) ResetPlayerMoney(playerId), ShowPlayerCoins(playerId);
 
     return 1;
 }
@@ -50,6 +53,10 @@ stock GetPlayerCoins(playerId) {
     return Coins[playerId][owned];
 }
 
+hook OnPlayerLogin(playerid) {
+    ShowPlayerCoins(playerid);
+}
+
 ACMD:setcoins[5](playerId, params[]) {
     new targetId, coins;
 	if(sscanf(params, "rd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /setcoins [id/nome] [coins]");
@@ -57,7 +64,7 @@ ACMD:setcoins[5](playerId, params[]) {
 	ChatMsg(targetId, YELLOW, " >  %p setou seus coins para %d", playerId, coins);
     ChatMsgAdmins(1, BLUE, "[Admin] %p setou os coins de %p para %d", playerId, targetId, coins);
     
-    SetPlayerCoins(targetId, coins);
+    SetPlayerCoins(targetId, coins, true);
 
     return 1;
 }
