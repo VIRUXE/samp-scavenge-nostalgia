@@ -87,26 +87,23 @@ ACMD:additem[4](playerid, params[]) {
 }
 
 ACMD:veh[4](playerid, params[]) {
-    if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /addveiculo [Nome ou ID]");
+    if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /veh [id/nome]");
 	
-	new
-		type,
-		Float:x, Float:y, Float:z, Float:r,
-		vehicleid;
+	new Float:x, Float:y, Float:z, Float:r;
 
-	type = isnumeric(params) ? strval(params) : GetVehicleTypeFromName(params, true, true);
+	new const type = isnumeric(params) ? strval(params) : GetVehicleTypeFromName(params, true, true);
 
 	if(!IsValidVehicleType(type)) return ChatMsg(playerid, YELLOW, " >  Tipo de veiculo inválido.");
 
 	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	vehicleid = CreateLootVehicle(type, x, y, z, r);
-	SetVehicleFuel(vehicleid, 1000.0);
-	SetVehicleHealth(vehicleid, 990.0);
-	SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
+	new const vehicleId = CreateLootVehicle(type, x, y, z, r);
+	SetVehicleFuel(vehicleId, 1000.0);
+	SetVehicleHealth(vehicleId, 990.0);
+	SetVehicleExternalLock(vehicleId, E_LOCK_STATE_OPEN);
 	
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
 }
 
 ACMD:addveiculo[4](playerid, params[]) return acmd_veh_4(playerid, params);
