@@ -665,42 +665,6 @@ hook OnPlayerLogin(playerid) {
 	}
 }
 
-ACMD:addex[2](playerid, params[]) {
-	new name[24];
-
-    if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use /addex [Nick ou ID]");
-
-	if(isnumeric(name)) {
-		new targetid = strval(name);
-
-		if(IsPlayerConnected(targetid))
-			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  ID '%d' não está conectado.", targetid);
-		else
-			return 4;
-	}
-
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  Conta  '%s' não existente.", name);
-
-	new const detfieldId = IsPlayerInsideDetectionField(playerid);
-
-	if(detfieldId) {
-		new result = AddDetectionFieldException(detfieldId, name);
-
-		if(result) return ChatMsg(playerid, GREEN, " > Player "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", name);
-		else if(result == 0) return ChatMsg(playerid, RED, " >  Invalid detection field (error code 0)");
-		else if(result == -1) return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
-		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
-		else if(result == -3) return ChatMsg(playerid, RED, " >  O player já está na lista");
-
-		UpdateDetectionFieldExceptions(detfieldId);
-	} else 
-		return ChatMsg(playerid, YELLOW, " > Você não está em nenhuma field.");
-
-	return 1;
-}
-
 IsPlayerInsideDetectionField(playerid) {
 	new Float:x, Float:y, Float:z;
 
