@@ -249,7 +249,7 @@ LoadAccount(playerid) {
 	SetHudComponentString(playerid, HUD_STATUS_KILLS_VALUE, ret_valstr(kills));
 	SetPlayerDeathCount(playerid, deaths);
 	SetPlayerAliveTime(playerid, aliveTime);
-	SetPlayerCoins(playerid, coins);
+	SetPlayerCoins(playerid, coins, false);
 
 	printf("[ACCOUNTS] %p (%d) carregou conta. (Último Login: %T, Registrado em: %T, VIP: %s, Ultimo Respawn: %T, Clan: %s, Total de Spawns: %d, Total de Avisos: %d, Kills: %d, Total de Mortes: %d, Total de Tempo Vivo: %d, Coins: %d, Vivo?: %s)",
 		playerid, playerid, lastLog, regDate, booltostr(vip), spawnTime, hasClan ? clan : "Nenhum", spawns, warnings, deaths, kills, aliveTime, coins, booltostr(alive));
