@@ -10,6 +10,7 @@ LoadSettings()
 
 		Settings = JSON_Object(
 			"server", JSON_Object(
+				"commits", JSON_Int(1500), // Numeros de commits no github
 				"env", JSON_String("prod"),
 				"name", JSON_String("Nostalgia ~ Scavenge"),
 				"address", JSON_String("scavengenostalgia.fun"),
