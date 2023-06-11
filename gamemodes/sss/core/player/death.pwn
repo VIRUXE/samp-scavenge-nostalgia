@@ -68,7 +68,7 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
 
-	if(aliveTime[playerid] && (aliveTime[playerid] / 60) % 1000 == 0) {
+	if(aliveTime[playerid] > 0 && (aliveTime[playerid] / 60) % 1000 == 0) {
 		AddPlayerCoins(playerid, 1000);
 
 		ChatMsgAll(GREEN, " > Parabéns a %P"C_GREEN"! Ele completou agora 1000 de Score e ganhou 1000 MOEDAS!", playerid);
