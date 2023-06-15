@@ -631,12 +631,8 @@ stock DeleteDetectionFieldLogsOfName(detfieldId, name[]) {
 	return 1;
 }
 
-hook OnPlayerConnect(playerid) {
-	fld_PlayerInvade[playerid]       = false;
-	trunk_playerNotAllowed[playerid] = false;
-}
 
-hook OnPlayerLogin(playerid) {
+timer HandleFieldInvasionOnLogin[SEC(1)](playerid) {
 	new detfieldId = IsPlayerInsideDetectionField(playerid);
 
 	if(detfieldId != -1 && !IsNameInExceptionList(detfieldId, GetPlayerNameEx(playerid))) {
@@ -654,6 +650,16 @@ hook OnPlayerLogin(playerid) {
 
 		ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
 	}
+}
+
+hook OnPlayerConnect(playerid) {
+	fld_PlayerInvade[playerid]       = false;
+	trunk_playerNotAllowed[playerid] = false;
+}
+
+hook OnPlayerLogin(playerid) {
+	// Esperamos o mundo carregar completamente (1 seg) e depois verificamos se o jogador esta numa field sem excepcao
+	defer HandleFieldInvasionOnLogin(playerid);
 
 	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
