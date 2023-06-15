@@ -154,7 +154,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 			if(IsPlayerInRangeOfPoint(i, 40.0, x, y, z) && !IsPlayerInTutorial(i)) {
 				SendClientMessage(i, CHAT_LOCAL, line1);
 
-				if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
+				if(!isnull(line2)) SendClientMessage(i, WHITE, line2);
 			}
 		}
 
@@ -231,7 +231,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 			
 			SendClientMessage(i, CHAT_LOCAL, line1);
 
-			if(!isnull(line2)) SendClientMessage(i, CHAT_LOCAL, line2);
+			if(!isnull(line2)) SendClientMessage(i, WHITE, line2);
 		}
 
 		return 1;
