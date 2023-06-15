@@ -221,7 +221,7 @@ KickPlayer(playerid, reason[], bool:tellPlayer = true) {
 
 	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
 
-	ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
+	if(IsPlayerLoggedIn(playerid)) ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
 	if(tellPlayer) ChatMsg(playerid, GREY, sprintf(" >  %s", ls(playerid, "player/kicked")), reason);
 
@@ -404,24 +404,27 @@ stock RegisterAdminCommand(level, command[], description[]) {
 ACMD:acmds[1](playerid) {
 	gBigString[playerid] = C_WHITE"a [mensagem] - Chat de Administração";
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) 
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_LEAD], admin_Names[STAFF_LEVEL_LEAD], admin_Commands[3]));
+	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_LEAD], admin_Names[STAFF_LEVEL_LEAD]));
+		strcat(gBigString[playerid], admin_Commands[3]);
+	}
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) 
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_ADMINISTRATOR], admin_Names[STAFF_LEVEL_ADMINISTRATOR], admin_Commands[2]));
+	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_ADMINISTRATOR], admin_Names[STAFF_LEVEL_ADMINISTRATOR]));
+		strcat(gBigString[playerid], admin_Commands[2]);
+	}
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) 
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_MODERATOR], admin_Names[STAFF_LEVEL_MODERATOR], admin_Commands[1]));
+	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_MODERATOR], admin_Names[STAFF_LEVEL_MODERATOR]));
+		strcat(gBigString[playerid], admin_Commands[1]);
+	}
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) 
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n%s", admin_Colours[STAFF_LEVEL_GAME_MASTER], admin_Names[STAFF_LEVEL_GAME_MASTER], admin_Commands[0]));
+	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_GAME_MASTER], admin_Names[STAFF_LEVEL_GAME_MASTER]));
+		strcat(gBigString[playerid], admin_Commands[0]);
+	}
 
 	ShowPlayerDialog(playerid, DIALOG_ADMIN_COMMANDS, DIALOG_STYLE_MSGBOX, "Comandos de Admin:", gBigString[playerid], "OK", "");
-
-	printf("strlen: %d", strlen(admin_Commands[3]));
-	printf("strlen: %d", strlen(admin_Commands[2]));
-	printf("strlen: %d", strlen(admin_Commands[1]));
-	printf("strlen: %d", strlen(admin_Commands[0]));
 
 	return 1;
 }
