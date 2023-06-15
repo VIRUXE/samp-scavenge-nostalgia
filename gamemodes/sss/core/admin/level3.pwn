@@ -4,8 +4,7 @@ hook OnGameModeInit() {
 	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)congelar", "Congelar/descongelar players");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)banir", "Banir/desbanir players");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "delreports", "Apagar todos os reports enviados");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "goto ou tp", "Ver os comandos de teleportes");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "ip", "Pegar ip de players");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "goto/tp", "Ver os comandos de teleportes");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "irpos", "Ir em uma determinada coordenada");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "move", "Para mover no mundo");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "recam", "Da reset na camara depois de /free");
@@ -13,7 +12,7 @@ hook OnGameModeInit() {
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "setactive", "ativar/desativar contas");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "sethp", "Define a vida de um jogador");
     RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "spec/free", "Observar alguém, camera livre");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "veiculo", "Controlar Veículos");
+    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "veiculo/veh", "Controlar Veículos");
 }
 
 /*
@@ -188,8 +187,7 @@ ACMD:veiculo[3](playerid, params[]) {
 		PutPlayerInVehicle(playerid, vehicleId, 0);
 
 		return 1;
-	}
-	else if(isequal(command, "deletar", true)) {
+	} else if(isequal(command, "deletar", true)) {
 		DestroyWorldVehicle(vehicleId, true);
 
 		return ChatMsg(playerid, YELLOW, " >  Veiculo %d deletado", vehicleId);
