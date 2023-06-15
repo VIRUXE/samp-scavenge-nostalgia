@@ -96,7 +96,7 @@ CMD:field(playerid, params[]) {
 
 		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) || GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid)) return SendClientMessage(playerid, RED, "Você não pode remover essa Detection Field.");
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && (GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid))) return SendClientMessage(playerid, RED, "Você não pode remover essa Detection Field.");
 
 		dfm_CurrentDetfield[playerid] = detfieldId;
 		ShowDetfieldDeletePrompt(playerid, detfieldId);
@@ -112,6 +112,33 @@ CMD:field(playerid, params[]) {
 		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
 
 		ShowDetfieldRenamePrompt(playerid, id);
+	} else if(isequal(command, "ex", true)) {
+		new const detfieldId = IsPlayerInsideDetectionField(playerid);
+
+		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
+
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_CANT_USE;
+
+		new playerName[MAX_PLAYER_NAME];
+
+		if(sscanf(params, "{s[3]}s[*]", MAX_PLAYER_NAME, playerName)) return ChatMsg(playerid, YELLOW, " >  Use /field ex [id/nick]");
+
+		if(isnumeric(playerName)) {
+			new targetId = strval(playerName);
+
+			if(IsPlayerConnected(targetId)) GetPlayerName(targetId, playerName, MAX_PLAYER_NAME); else return CMD_INVALID_PLAYER;
+		}
+
+		if(!AccountExists(playerName)) return ChatMsg(playerid, YELLOW, " >  Conta '%s' não existente.", playerName);
+
+		new result = AddDetectionFieldException(detfieldId, playerName);
+
+		if(result) return ChatMsg(playerid, GREEN, " > "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", playerName);
+		else if(result == -1) return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
+		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
+		else if(result == -3) return ChatMsg(playerid, RED, " >  Esse jogador já está na lista");
+
+		UpdateDetectionFieldExceptions(detfieldId);
 	} else if(isequal(command, "nome", true)) {
 		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
