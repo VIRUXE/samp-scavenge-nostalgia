@@ -129,11 +129,12 @@ timer _Finalise[500]() {
 }
 
 public OnWorldGenerated() {
-	new Node:node, result, password[24], servername[64];
+	new Node:node, result, password[24], serverName[64], commits;
 	JSON_GetObject(Settings, "server", node);
 
-	JSON_GetString(node, "name", servername);
-	SendRconCommand(sprintf("hostname %s", servername));
+	JSON_GetString(node, "name", serverName);
+	JSON_GetInt(node, "commits", commits);
+	SendRconCommand(sprintf("hostname %s (c%d)", serverName, commits));
 
 	if(gEnvironment == PRODUCTION) {
 		result = JSON_GetString(node, "password", password);

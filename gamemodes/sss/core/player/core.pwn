@@ -264,7 +264,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 public OnPlayerSpawn(playerid) {
 	if(IsPlayerNPC(playerid)) return 1;
 
-	if(IsPlayerOnAdminDuty(playerid)) {
+	if(IsPlayerOnAdminDuty(playerid)) { // ? quando e que isso acontece?
 		SetPlayerPos(playerid, 0.0, 0.0, 3.0);
 		return 1;
 	}
@@ -275,7 +275,6 @@ public OnPlayerSpawn(playerid) {
 
 	SetAllWeaponSkills(playerid, 500);
 	SetPlayerTeam(playerid, 0);
-	ResetPlayerMoney(playerid);
 
 	PlayerPlaySound(playerid, 1186, 0.0, 0.0, 0.0);
 	PreloadPlayerAnims(playerid);
@@ -346,17 +345,16 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
 
 	if(GetPlayerSurfingVehicleID(playerid) == vehicleid) CancelPlayerMovement(playerid);
 
-	if(ispassenger) {
+	/* if(ispassenger) { // ? Porque?
 		new driverid = -1;
 
-		foreach(new i : Player)
-			if(IsPlayerInVehicle(i, vehicleid)) 
-				if(GetPlayerState(i) == PLAYER_STATE_DRIVER) 
-					driverid = i;
+		foreach(new i : Player) {
+			if(IsPlayerInVehicle(i, vehicleid) && GetPlayerState(i) == PLAYER_STATE_DRIVER) 
+				driverid = i;
+		}
 
-		if(driverid == -1)
-			CancelPlayerMovement(playerid);
-	}
+		if(driverid == -1) CancelPlayerMovement(playerid);
+	} */
 
 	return 1;
 }

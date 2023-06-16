@@ -154,6 +154,22 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 	return 1;
 }
 
+CMD:v(playerid, params[]) {
+	if(!IsPlayerVip(playerid) && !GetPlayerAdminLevel(playerid)) return 0;
+
+	if(isnull(params)) {
+		SetPlayerChatMode(playerid, CHAT_MODE_VIP);
+		ChatMsg(playerid, WHITE, "player/radio/vip");
+	} else {
+		PlayerSendChat(playerid, params, 4.0);
+
+		if(GetPlayerChatMode(playerid) == CHAT_MODE_VIP) ChatMsg(playerid, GREY, "player/chat/mode/already-tip");
+	}
+
+	// return 7;
+	return 1;
+}
+
 hook OnPlayerConnect(playerid) {
 	if(GetPlayerAdminLevel(playerid) == 0 && Iter_Count(Player) >= 35 && !IsPlayerVip(playerid)) 
 		return KickPlayer(playerid, "O servidor está lotado com 35 online. VIPS possuem 5 slots reservados!", true);

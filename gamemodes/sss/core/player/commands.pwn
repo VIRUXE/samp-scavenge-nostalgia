@@ -61,7 +61,6 @@ CMD:ajuda(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_AJUDA, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Informations" : "Informações", ls(playerid, "server/command/help"), "Ok", "");
 	return 1;
 }
-
 CMD:help(playerid) return cmd_ajuda(playerid);
 CMD:comandos(playerid) return cmd_ajuda(playerid);
 
@@ -71,35 +70,31 @@ CMD:regras(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_REGRAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Rules" : "Regras", ls(playerid, "server/command/lists/rules"), "Ok", "");
 	return 1;
 }
-
 CMD:rules(playerid) return cmd_regras(playerid);
 
 // ===========================================================================================================
 
 CMD:explosivos(playerid) {
-	ShowPlayerDialog(playerid, DIALOG_EXPLOSIVOS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Explosives" : "Explosivos", ls(playerid, "server/command/bombs-list"), "Ok", "");
+	ShowPlayerDialog(playerid, DIALOG_EXPLOSIVOS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Explosives" : "Explosivos", ls(playerid, "server/command/lists/bombs"), "Ok", "");
 	return 1;
 }
-
 CMD:explosives(playerid) return cmd_explosivos(playerid);
 CMD:bombas(playerid) return cmd_explosivos(playerid);
 
 // ===========================================================================================================
 
 CMD:metais(playerid) {
-	ShowPlayerDialog(playerid, DIALOG_METAIS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Defences" : "Defesas", ls(playerid, "defences-list"), "Ok", "");
+	ShowPlayerDialog(playerid, DIALOG_METAIS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Defences" : "Defesas", ls(playerid, "server/command/lists/defences"), "Ok", "");
 	return 1;
 }
-
 CMD:defences(playerid) return cmd_metais(playerid);
 
 // ===========================================================================================================
 
 CMD:mochilas(playerid) {
-	ShowPlayerDialog(playerid, DIALOG_MOCHILAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Backpacks" : "Mochilas", ls(playerid, "server/command/lists/backpack"), "Ok", "");
+	ShowPlayerDialog(playerid, DIALOG_MOCHILAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Backpacks" : "Mochilas", ls(playerid, "server/command/lists/backpacks"), "Ok", "");
 	return 1;
 }
-
 CMD:backpacks(playerid) return cmd_mochilas(playerid);
 
 // ===========================================================================================================
@@ -108,7 +103,6 @@ CMD:caixas(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_CAIXAS, DIALOG_STYLE_MSGBOX, GetPlayerLanguage(playerid) ? "Boxes" : "Caixas", ls(playerid, "server/command/lists/boxes"), "Ok", "");
 	return 1;
 }
-
 CMD:boxes(playerid) return cmd_caixas(playerid);
 
 // ===========================================================================================================

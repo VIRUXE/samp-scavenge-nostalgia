@@ -38,7 +38,7 @@ public OnPlayerDeath(playerid, killerid, reason) {
 
     if(GetTickCountDifference(GetTickCount(), death_LastDeath[playerid]) < SEC(1)) return -1; // ? Ignorar se morreu a menos de 1 segundo? Impossivel?
 
-	SetPlayerScreenFade(playerid, FADE_OUT, 255);
+	SetPlayerScreenFade(playerid, FADE_OUT, 255, 100); // Mais lento para conseguir ver a death cam
 
 	if(killerid == INVALID_PLAYER_ID) {
 		killerid = GetLastHitById(playerid);
@@ -63,14 +63,20 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 	aliveTime[playerid]++;
 
+	// TODO: Ingles
+	new const hoursAlive = aliveTime[playerid] / 3600;
+
+	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
+
+	if (aliveTime[playerid] % (60 * 1000) == 0) {
+		AddPlayerCoins(playerid, 1000);
+
+		ChatMsgAll(GREEN, " > Parabéns a %P"C_GREEN"! Ele completou agora 1000 de Score e ganhou 1000 MOEDAS!", playerid);
+	}
+
 	db_query(Database, sprintf("UPDATE players SET aliveTime = aliveTime + 1 WHERE name = '%s';", GetPlayerNameEx(playerid)));
 
 	if(aliveTime[playerid] % 60 == 0) GiveScore(playerid, 1);
-
-	new const hoursAlive = aliveTime[playerid] / 3600;
-
-	// TODO: Ingles
-	if(aliveTime[playerid] % 3600 == 0) ChatMsgAll(GOLD, "[Score] %P "C_GOLD"completou agora %s hora vivo! (Total: %d hora%s)", playerid, hoursAlive > 1 ? "mais uma" : "uma", hoursAlive, hoursAlive > 1 ? "s" : ""); 
 }
 
 _OnDeath(playerid, killerId) {
@@ -87,7 +93,7 @@ _OnDeath(playerid, killerId) {
 	death_Spree[playerid] = 0;
 	death_Kills[playerid] = 0;
 	death_Dying[playerid] = true;
-	aliveTime[playerid] = 0;
+	aliveTime[playerid]   = 0;
 	SetPlayerSpawnedState(playerid, false);
 	SetPlayerAliveState(playerid, false);
 
@@ -116,6 +122,8 @@ _OnDeath(playerid, killerId) {
 	KillPlayer(playerid, killerId, deathReason);
 
 	SendDeathMessage(killerId, playerid, deathReason);
+
+	ChatMsgAll(RED, " > Que merda %P"C_RED" acabou por morrer com {FFFFFF}%d"C_RED" de score!", playerid, GetPlayerScore(playerid));
 
 	if(IsPlayerConnected(killerId)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerId, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
@@ -176,10 +184,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		world    = GetPlayerVirtualWorld(playerid),
 		Float:newX, Float:newY, Float:groundZ;
 
-	/*
-		Held item
-	*/
-
+	// Held item
 	itemId = GetPlayerItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -191,10 +196,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Holstered item
-	*/
-
+	// Holstered item
 	itemId = GetPlayerHolsterItem(playerid); // ? Porque criar outro?
 
 	if(IsValidItem(itemId)) {
@@ -208,10 +210,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Inventory
-	*/
-
+	// Inventory
 	for(new i; i < INV_MAX_SLOTS; i++) {
 		itemId = GetInventorySlotItem(playerid, 0);
 
@@ -227,10 +226,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Bag item
-	*/
-
+	// Bag item
 	itemId = GetPlayerBagItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -242,10 +238,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		SetItemWorld(itemId, world);
 	}
 
-	/*
-		Head-wear item
-	*/
-
+	// Head-wear item
 	itemId = RemovePlayerHatItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -257,10 +250,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Face-wear item
-	*/
-
+	// Face-wear item
 	itemId = RemovePlayerMaskItem(playerid);
 
 	if(IsValidItem(itemId)) {
@@ -272,10 +262,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 		CreateItemInWorld(itemId, newX, newY, groundZ, .rz = r, .world = world, .interior = interior);
 	}
 
-	/*
-		Armour item
-	*/
-
+	// Armour item
 	if(GetPlayerAP(playerid) > 0.0) {
 		newX = x + floatsin(80.0, degrees);
 		newY = y + floatcos(80.0, degrees);
@@ -290,10 +277,7 @@ DropItems(playerid, Float:x, Float:y, Float:z, Float:r, bool:death) {
 	// Os itens seguintes apenas devem ser dropados na morte
 	if(!death) return;
 
-	/*
-		Handcuffs
-	*/
-
+	// Handcuffs
 	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_CUFFED) {
 		newX = x + floatsin(135.0, degrees);
 		newY = y + floatcos(135.0, degrees);
@@ -398,14 +382,9 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 	return 1;
 }
-/* 
-	TODO: Essas textdraws podem simplesmente ser criadas na morte.
-	Tem vezes que o jogador nem morre na sessao de jogo
 
-	TODO: Introduzir internacionalizacao
-*/
 hook OnGameModeInit() {
-
+	// TODO: internacionalizacao
 	DeathText					=TextDrawCreate(320.000000, 300.000000, "MORTO!");
 	TextDrawAlignment			(DeathText, 2);
 	TextDrawBackgroundColor		(DeathText, 255);
@@ -473,6 +452,8 @@ stock GetLastKilledById(playerid) {
 
 	return death_LastKilledById[playerid];
 }
+
+GetPlayerKillCount(playerid) return death_Kills[playerid];
 
 stock GetPlayerAliveTime(playerid) return aliveTime[playerid];
 	

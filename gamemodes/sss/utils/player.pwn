@@ -1,30 +1,19 @@
-
-
-
-stock TeleportPlayerToPlayer(playerid, targetid)
-{
+stock TeleportPlayerToPlayer(playerid, targetid) {
 	new
-		Float:px,
-		Float:py,
-		Float:pz,
+		Float:px, Float:py, Float:pz,
 		Float:ang,
-		Float:vx,
-		Float:vy,
-		Float:vz,
+		Float:vx, Float:vy, Float:vz,
 		virtualworld = GetPlayerVirtualWorld(targetid),
-		interior = GetPlayerInterior(targetid);
+		interior     = GetPlayerInterior(targetid);
 
-	if(IsPlayerInAnyVehicle(targetid))
-	{
+	if(IsPlayerInAnyVehicle(targetid)) {
 		new vehicleid = GetPlayerVehicleID(targetid);
 
 		GetVehiclePos(vehicleid, px, py, pz);
 		GetVehicleZAngle(vehicleid, ang);
 		GetVehicleVelocity(vehicleid, vx, vy, vz);
 		pz += 2.0;
-	}
-	else
-	{
+	} else {
 		GetPlayerPos(targetid, px, py, pz);
 		GetPlayerFacingAngle(targetid, ang);
 		GetPlayerVelocity(targetid, vx, vy, vz);
@@ -35,19 +24,16 @@ stock TeleportPlayerToPlayer(playerid, targetid)
 	SetPlayerVirtualWorld(playerid, virtualworld);
 	SetPlayerInterior(playerid, interior);
 
-	if(IsPlayerInAnyVehicle(playerid))
-	{
+	if(IsPlayerInAnyVehicle(playerid)) {
 		new vehicleid = GetPlayerVehicleID(playerid);
 
-		SetVehiclePos(vehicleid, px, py, pz);
+		SetVehiclePos(vehicleid, px, py, pz + 1.0);
 		SetVehicleZAngle(vehicleid, ang);
 		SetVehicleVelocity(vehicleid, vx, vy, vz);
 		SetVehicleVirtualWorld(vehicleid, virtualworld);
 		LinkVehicleToInterior(vehicleid, interior);
-	}
-	else
-	{
-		SetPlayerPos(playerid, px, py, pz);
+	} else {
+		SetPlayerPos(playerid, px, py, pz + 1.0); // Tem vezes que fica debaixo do chao
 		SetPlayerFacingAngle(playerid, ang);
 		SetPlayerVelocity(playerid, vx, vy, vz);
 	}
@@ -68,33 +54,25 @@ stock IsValidUsername(name[]) {
 	return 1;
 }
 
-stock GetPlayerIDFromName(name[], bool:ignorecase = false, bool:partialname = false)
-{
+stock GetPlayerIDFromName(name[], bool:ignorecase = false, bool:partialname = false) {
 	new
 		playerid = INVALID_PLAYER_ID,
 		comparison[MAX_PLAYER_NAME];
 
-	if(partialname)
-	{
-		foreach(new i : Player)
-		{
+	if(partialname) {
+		foreach(new i : Player) {
 			GetPlayerName(i, comparison, MAX_PLAYER_NAME);
 
-			if(!strfind(comparison, name, ignorecase))
-			{
+			if(!strfind(comparison, name, ignorecase)) {
 				playerid = i;
 				break;
 			}
 		}
-	}
-	else
-	{
-		foreach(new i : Player)
-		{
+	} else {
+		foreach(new i : Player) {
 			GetPlayerName(i, comparison, MAX_PLAYER_NAME);
 
-			if(!strcmp(name, comparison, ignorecase))
-			{
+			if(!strcmp(name, comparison, ignorecase)) {
 				playerid = i;
 				break;
 			}
@@ -104,12 +82,8 @@ stock GetPlayerIDFromName(name[], bool:ignorecase = false, bool:partialname = fa
 	return playerid;
 }
 
-stock CancelPlayerMovement(playerid)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+stock CancelPlayerMovement(playerid) {
+	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(playerid, x, y, z);
 	SetPlayerPos(playerid, x, y, z);
@@ -117,40 +91,28 @@ stock CancelPlayerMovement(playerid)
 	TogglePlayerControllable(playerid, true);
 }
 
-stock SetPlayerToFacePlayer(playerid, targetid, Float:offset = 0.0)
-{
+stock SetPlayerToFacePlayer(playerid, targetid, Float:offset = 0.0) {
 	new
-		Float:x1,
-		Float:y1,
-		Float:z1,
-		Float:x2,
-		Float:y2,
-		Float:z2;
+		Float:x1, Float:y1, Float:z1,
+		Float:x2, Float:y2, Float:z2;
 
 	GetPlayerPos(playerid, x1, y1, z1);
 	GetPlayerPos(targetid, x2, y2, z2);
 	SetPlayerFacingAngle(playerid, GetAngleToPoint(x1, y1, x2, y2) + offset);
 }
 
-stock SetPlayerToFaceVehicle(playerid, vehicleid, Float:offset = 0.0)
-{
+stock SetPlayerToFaceVehicle(playerid, vehicleid, Float:offset = 0.0) {
 	new
-		Float:x1,
-		Float:y1,
-		Float:z1,
-		Float:x2,
-		Float:y2,
-		Float:z2;
+		Float:x1, Float:y1, Float:z1,
+		Float:x2, Float:y2, Float:z2;
 
 	GetPlayerPos(playerid, x1, y1, z1);
 	GetVehiclePos(vehicleid, x2, y2, z2);
 	SetPlayerFacingAngle(playerid, GetAngleToPoint(x1, y1, x2, y2) + offset);
 }
 
-stock PlaySoundForAll(sound, Float:x, Float:y, Float:z, Float:range = -1.0)
-{
-	foreach(new i : Player)
-	{
+stock PlaySoundForAll(sound, Float:x, Float:y, Float:z, Float:range = -1.0) {
+	foreach(new i : Player) {
 		if(IsPlayerInRangeOfPoint(i, range, x, y, z) || range <= 0.0)
 			PlayerPlaySound(i, sound, x, y, z);
 	}
@@ -159,33 +121,23 @@ stock PlaySoundForAll(sound, Float:x, Float:y, Float:z, Float:range = -1.0)
 }
 
 
-stock PlaySoundForPlayersInRange(soundid, Float:range, Float:x, Float:y, Float:z)
-{
-	foreach(new i : Player)
-	{
+stock PlaySoundForPlayersInRange(soundid, Float:range, Float:x, Float:y, Float:z) {
+	foreach(new i : Player) {
 	    if(IsPlayerConnected(i) && IsPlayerInRangeOfPoint(i,range,x,y,z))
-	    {
 		    PlayerPlaySound(i, soundid, x, y, z);
-	    }
 	}
 }
 
-stock IsPlayerInWater(playerid)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+stock IsPlayerInWater(playerid) {
+	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(playerid, x, y, z);
 
 	return IsPosInWater(x, y, z);
 }
 
-stock IsPlayerIdle(playerid)
-{
-	switch(GetPlayerAnimationIndex(playerid))
-	{
+stock IsPlayerIdle(playerid) {
+	switch(GetPlayerAnimationIndex(playerid)) {
 		case 320, 471, 1164, 1183, 1188, 1189:
 			return 1;
 	}
@@ -193,43 +145,26 @@ stock IsPlayerIdle(playerid)
 	return 0;
 }
 
-stock IsPlayerInArea(playerid, Float:MinX, Float:MinY, Float:MaxX, Float:MaxY)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:pz;
+stock IsPlayerInArea(playerid, Float:MinX, Float:MinY, Float:MaxX, Float:MaxY) {
+	new Float:x, Float:y, Float:pz;
 
-	GetPlayerPos(playerid,x,y,pz);
+	GetPlayerPos(playerid, x,y,pz);
 
-	if(x >= MinX && x <= MaxX && y >= MinY && y <= MaxY)
-	{
-		return 1;
-	}
-	return 0;
+	return x >= MinX && x <= MaxX && y >= MinY && y <= MaxY;
 }
 
-stock Float:GetDistanceBetweenPlayers(playerid, targetid)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+stock Float:GetDistanceBetweenPlayers(playerid, targetid) {
+	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(targetid, x, y, z);
 
 	return GetPlayerDistanceFromPoint(playerid, x, y, z);
 }
 
-stock Float:GetPlayerAngleToPlayer(playerid, targetid)
-{
+stock Float:GetPlayerAngleToPlayer(playerid, targetid) {
 	new
-		Float:px,
-		Float:py,
-		Float:pz,
-		Float:tx,
-		Float:ty,
-		Float:tz;
+		Float:px, Float:py, Float:pz,
+		Float:tx, Float:ty, Float:tz;
 
 	GetPlayerPos(playerid, px, py, pz);
 	GetPlayerPos(targetid, tx, ty, tz);
@@ -237,48 +172,37 @@ stock Float:GetPlayerAngleToPlayer(playerid, targetid)
 	return GetAngleToPoint(px, py, tx, ty);
 }
 
-stock GetClosestPlayerFromPlayer(playerid, &Float:range = 10000.0)
-{
-	new
-		Float:x,
-		Float:y,
-		Float:z;
+stock GetClosestPlayerFromPlayer(playerid, &Float:range = 10000.0) {
+	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(playerid, x, y, z);
 	
 	return GetClosestPlayerFromPoint(x, y, z, range, playerid);
 }
 
-stock GetClosestPlayerFromPoint(Float:x, Float:y, Float:z, &Float:lowestdistance = 10000.0, exceptionid = INVALID_PLAYER_ID)
-{
+stock GetClosestPlayerFromPoint(Float:x, Float:y, Float:z, &Float:lowestdistance = 10000.0, exceptionid = INVALID_PLAYER_ID) {
 	new
-		Float:px,
-		Float:py,
-		Float:pz,
+		Float:px, Float:py, Float:pz,
 		Float:distance,
 		closestplayer = -1;
 
-	foreach(new i : Player)
-	{
-		if(i == exceptionid)
-			continue;
+	foreach(new i : Player) {
+		if(i == exceptionid) continue;
 
 		GetPlayerPos(i, px, py, pz);
 
 		distance = Distance(px, py, pz, x, y, z);
 
-		if(distance < lowestdistance)
-		{
+		if(distance < lowestdistance) {
 			lowestdistance = distance;
-			closestplayer = i;
+			closestplayer  = i;
 		}
 	}
 
 	return closestplayer;
 }
 
-new CameraModeNames[66][37]=
-{
+new CameraModeNames[66][37]= {
 	"MODE_NONE",
 	"MODE_TOPDOWN",
 	"MODE_GTACLASSIC",
@@ -347,10 +271,8 @@ new CameraModeNames[66][37]=
 	"MODE_AIMWEAPON_ATTACHED"
 };
 
-stock GetCameraModeName(cameramode, output[])
-{
-	if(!(0 <= cameramode <= 66))
-		return 0;
+stock GetCameraModeName(cameramode, output[]) {
+	if(!(0 <= cameramode <= 66)) return 0;
 
 	output[0] = EOS;
 	strcat(output, CameraModeNames[cameramode], 37);
@@ -359,8 +281,7 @@ stock GetCameraModeName(cameramode, output[])
 }
 
 #define PreloadAnimLib(%1,%2) ApplyAnimation(%1,%2,"null",0.0,0,0,0,0,0)
-stock PreloadPlayerAnims(playerid)
-{
+stock PreloadPlayerAnims(playerid) {
 	PreloadAnimLib(playerid, "AIRPORT");
 	PreloadAnimLib(playerid, "ATTRACTORS");
 	PreloadAnimLib(playerid, "BAR");

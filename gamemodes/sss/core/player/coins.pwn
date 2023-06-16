@@ -1,62 +1,84 @@
 #include <YSI\y_hooks>
 
-static
-	player_Coins[MAX_PLAYERS] = 0;
+enum E_COINS {
+    bool:set,
+    owned,
+    Timer:updateTimer
+}
 
-/* =====================================================================
+static Coins[MAX_PLAYERS][E_COINS];
 
-                            STOCKS:
+stock AddPlayerCoins(playerId, amount) {
+    // Banir se o dinheiro for diferente do montante de coins que temos internamente
+    // if(Coins[playerId][set] && GetPlayerMoney(playerId) != Coins[playerId][owned]) BanPlayer(playerId, "Bad coins.", -1, 0);
 
-===================================================================== =*/ 
+    Coins[playerId][owned] = Coins[playerId][owned] + amount;
     
-stock AddPlayerCoins(playerid, coins){
-    player_Coins[playerid] = player_Coins[playerid] + coins;
+    ShowPlayerCoins(playerId);
+
+    return;
+}
+
+ShowPlayerCoins(playerId) {
+    stop Coins[playerId][updateTimer];
+    Coins[playerId][updateTimer] = repeat UpdateMoney(playerId, Coins[playerId][owned]);
+}
+
+timer UpdateMoney[50](playerId, amount) {
+    if(GetPlayerMoney(playerId) < amount)
+        GivePlayerMoney(playerId, 1);
+    else
+        stop Coins[playerId][updateTimer];
+}
+
+stock RemovePlayerCoins(playerId, coins) {
+    Coins[playerId][owned] = Coins[playerId][owned] - coins;
 
     return 1;
 }
 
-stock RemovePlayerCoins(playerid, coins){
-    player_Coins[playerid] = player_Coins[playerid] - coins;
+stock SetPlayerCoins(playerId, coins, bool:show) {
+    if(!Coins[playerId][set]) Coins[playerId][set] = true;
+
+    Coins[playerId][owned] = coins;
+
+    if(show) ResetPlayerMoney(playerId), ShowPlayerCoins(playerId);
 
     return 1;
 }
 
-stock SetPlayerCoins(playerid, coins){
-    player_Coins[playerid] = coins;
+stock GetPlayerCoins(playerId) {
+    if(!IsPlayerConnected(playerId)) return 0;
 
-    return 1;
+    return Coins[playerId][owned];
 }
 
-stock GetPlayerCoins(playerid){
-    if(!IsPlayerConnected(playerid))
-        return 0;
-
-    return player_Coins[playerid];
+hook OnPlayerLogin(playerid) {
+    ShowPlayerCoins(playerid);
 }
 
-/* =====================================================================
+ACMD:setcoins[5](playerId, params[]) {
+    new targetId, coins;
+	if(sscanf(params, "rd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /setcoins [id/nome] [coins]");
 
-                                COMANDOS:
-
-===================================================================== =*/ 
-
-ACMD:playercoins[5](playerid, params[]){
-    new pid;
-	if(sscanf(params, "d", playerid)) return ChatMsg(playerid, YELLOW," >  Use: /playercoins [id]");
-
-    ChatMsg(playerid, GREEN, " > O player tem {FFFF00}%d {33AA33}coins", GetPlayerCoins(pid));
-    return 1;
-}
-
-ACMD:setcoins[5](playerid, params[]){
-    new coins, targetid;
-	if(sscanf(params, "dd", targetid, coins)) return ChatMsg(playerid,YELLOW," >  Use: /setcoins [id] [coins]");
-
-	ChatMsg(targetid, YELLOW, " >  %p(id:%d) Setou seus coins para "C_BLUE"%d", playerid, playerid, coins);
-    ChatMsgAdmins(1, BLUE, "[Admin-Log] %p(id:%d) Setou os coins de "C_BLUE"%p(id:%d) para %d", playerid, playerid, targetid, targetid, coins);
+	ChatMsg(targetId, YELLOW, " >  %p setou seus coins para %d", playerId, coins);
+    ChatMsgAdmins(1, BLUE, "[Admin] %p setou os coins de %p para %d", playerId, targetId, coins);
     
-    SetPlayerCoins(targetid, coins);
+    SetPlayerCoins(targetId, coins, true);
+
     return 1;
 }
 
-CMD:coins(playerid) return ChatMsg(playerid, GREEN, " > Você possui {FFFF00}%d {33AA33}coins", GetPlayerCoins(playerid));
+ACMD:givecoins[5](playerId, params[]) {
+    new targetId, coins;
+	if(sscanf(params, "rd", targetId, coins)) return ChatMsg(playerId,YELLOW," >  Use: /givecoins [id/nome] [coins]");
+
+	ChatMsg(targetId, YELLOW, " >  %p deu a você %d coins", playerId, coins);
+    ChatMsgAdmins(1, BLUE, "[Admin] %p deu %d coins a %p", playerId, coins, targetId);
+    
+    AddPlayerCoins(targetId, coins);
+
+    return 1;
+}
+
+CMD:coins(playerId) return ChatMsg(playerId, GREEN, " > Você possui {FFFF00}%d {33AA33}coins", GetPlayerCoins(playerId));

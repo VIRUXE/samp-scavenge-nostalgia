@@ -8,20 +8,39 @@ hook OnGameModeInit() {
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "cc", "Limpar o Chat");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "rr", "Responder a um Relatório");
     RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "blockrr", "Bloquear alguém de enviar relatórios");
+    RegisterAdminCommand(STAFF_LEVEL_GAME_MASTER, "tapa", "Dar tapa em algum player");
+}
+
+ACMD:tapa[1](playerid, params[]) {
+	new admin = GetPlayerAdminLevel(playerid);
+
+    if(admin < STAFF_LEVEL_LEAD && admin > STAFF_LEVEL_GAME_MASTER && !IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
+		
+    new targetId;
+	
+	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [id/nick]");
+
+	if(GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
+
+	new Float:x, Float:y, Float:z;
+	GetPlayerPos(targetId, x, y, z);
+	SetPlayerPos(targetId, x, y, z + 6.0);
+
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 }
 
 ACMD:calar[1](playerid, params[]) {
 	new targetId, delay, reason[128];
 
-	if(sscanf(params, "dds[128]", targetId, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [playerid] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
+	if(sscanf(params, "rds[128]", targetId, delay, reason)) return ChatMsg(playerid,YELLOW," >  Use: /calar [id/nome] [segundos] [motivo] - use -1 nos segundos para calar permanentemente.");
 
 	if(!IsPlayerConnected(targetId)) return ChatMsg(playerid,RED, " >  Esse player não está conectado.");
 
-	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid)) return 3;
+	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid)) return CMD_CANT_USE_ON;
 
 	if(IsPlayerMuted(targetId)) return ChatMsg(playerid, YELLOW, " >  Esse player já está calado.");
 
-	if(delay > 0) {
+	if(delay) {
 		TogglePlayerMute(targetId, true, delay);
 		ChatMsg(playerid, YELLOW, " >  Calou o player %P "C_WHITE"por %d segundos.", targetId, delay);
 		ChatMsg(targetId, YELLOW, "player/muted-time", delay, reason);
@@ -39,9 +58,9 @@ ACMD:descalar[1](playerid, params[]) {
 
 	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /descalar [id/nick]");
 
-	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return 3;
+	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return CMD_CANT_USE_ON;
 
-	if(!IsPlayerConnected(targetId)) return 4;
+	if(!IsPlayerConnected(targetId)) return CMD_INVALID_PLAYER;
 
 	TogglePlayerMute(targetId, false);
 
@@ -58,7 +77,7 @@ ACMD:avisar[1](playerid, params[]) {
 
 	if(!IsPlayerConnected(targetId)) return ChatMsg(playerid,RED, " >  Esse player não está conectado");
 
-	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return 3;
+	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return CMD_CANT_USE_ON;
 
 	new warnings = GetPlayerWarnings(targetId) + 1;
 
@@ -126,7 +145,7 @@ ACMD:history[1](playerid, params[]) {
 		else if(targetId > 99)
 			ChatMsg(playerid, YELLOW, " >  O ID '%d' não está online, tente usar o nome do jogador.", targetId);
 		else
-			return 4;
+			return CMD_INVALID_PLAYER;
 	}
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);

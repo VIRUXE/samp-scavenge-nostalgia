@@ -8,7 +8,6 @@ hook OnGameModeInit() {
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "aliases", "Checar IPs");
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "clima", "Mudar o clima do servidor");
     RegisterAdminCommand(STAFF_LEVEL_LEAD, "deletar", "Deletar metais, tendas, itens");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "tapa", "Dar tapa em algum player");
 }
 
 ACMD:reiniciar[4](playerid, params[]) {
@@ -60,116 +59,114 @@ ACMD:additem[4](playerid, params[]) {
 	if(type == INVALID_ITEM_TYPE) return ChatMsg(playerid, RED, " >  Tipo de item inválido: %d", _:type);
 
 	new
-		exdatasize,
-		typemaxsize = GetItemTypeArrayDataSize(type),
-		itemid,
+		extraDataSize,
+		typeMaxSize = GetItemTypeArrayDataSize(type),
+		itemId,
 		Float:x, Float:y, Float:z, Float:r;
 
 	for(new i; i < 8; ++i) {
 		if(exdata[i] != cellmin)
-			++exdatasize;
+			++extraDataSize;
 	}
 
-	if(exdatasize > typemaxsize) exdatasize = typemaxsize;
+	if(extraDataSize > typeMaxSize) extraDataSize = typeMaxSize;
 
 	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	itemid = CreateItem(type,
+	CA_FindZ_For2DCoord(x,y, z);
+
+	itemId = CreateItem(type,
 		x + (0.5 * floatsin(-r, degrees)),
 		y + (0.5 * floatcos(-r, degrees)),
-		z - FLOOR_OFFSET, .rz = r);
+		z, .rz = r);
 
-	if(exdatasize > 0) SetItemArrayData(itemid, exdata, exdatasize);
+	if(extraDataSize > 0) SetItemArrayData(itemId, exdata, extraDataSize);
 
 	log("[ADMIN][ADDITEM] %p adicionou o item %s (tipo: %d)", playerid, itemname, _:type);
 
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
 
-ACMD:veh[4](playerid, params[]) {
-    if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /addveiculo [Nome ou ID]");
+ACMD:addveh[4](playerid, params[]) {
+    if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /veh [id/nome]");
 	
-	new
-		type,
-		Float:x, Float:y, Float:z, Float:r,
-		vehicleid;
+	new Float:x, Float:y, Float:z, Float:r;
 
-	type = isnumeric(params) ? strval(params) : GetVehicleTypeFromName(params, true, true);
+	new const type = isnumeric(params) ? strval(params) : GetVehicleTypeFromName(params, true, true);
 
 	if(!IsValidVehicleType(type)) return ChatMsg(playerid, YELLOW, " >  Tipo de veiculo inválido.");
 
 	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, r);
 
-	vehicleid = CreateLootVehicle(type, x, y, z, r);
-	SetVehicleFuel(vehicleid, 1000.0);
-	SetVehicleHealth(vehicleid, 990.0);
-	SetVehicleExternalLock(vehicleid, E_LOCK_STATE_OPEN);
+	new const vehicleId = CreateLootVehicle(type, x, y, z, r);
+	SetVehicleFuel(vehicleId, 1000.0);
+	SetVehicleHealth(vehicleId, 990.0);
+	SetVehicleExternalLock(vehicleId, E_LOCK_STATE_OPEN);
 	
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /addveiculo", playerid, playerid);
+	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
 }
-
-ACMD:addveiculo[4](playerid, params[]) return acmd_veh_4(playerid, params);
-ACMD:av[4](playerid, params[]) return acmd_veh_4(playerid, params);
+ACMD:addveiculo[4](playerid, params[]) return acmd_addveh_4(playerid, params);
+ACMD:av[4](playerid, params[]) return acmd_addveh_4(playerid, params);
 
 ACMD:deletar[4](playerid, params[]) {
 	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
 
-	new
-		type[8],
-		Float:range;
+	new type[8], Float:range;
 
-	if(sscanf(params, "s[7]F(1.5)", type, range)) return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] (distância)");
+	if(sscanf(params, "s[8]F(1.5)", type, range)) return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] (distância)");
+
+	printf("%s %f", type, range);
 
 	if(range > 50.0) return ChatMsg(playerid, YELLOW, " >  Limite de Área: 50 metros");
 
 	new
-		Float:px, Float:py, Float:pz, 
-		Float:ix, Float:iy, Float:iz;
+		Float:pX, Float:pY, Float:pZ, 
+		Float:iX, Float:iY, Float:iZ,
+		count;
 
-	GetPlayerPos(playerid, px, py, pz);
+	GetPlayerPos(playerid, pX, pY, pZ);
 
-	if(!strcmp(type, "itens", true, 4)) {
+	if(isequal(type, "itens", true)) {
 		foreach(new i : itm_Index) {
-		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
+		    // if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
 
-			GetItemPos(i, ix, iy, iz);
+			GetItemPos(i, iX, iY, iZ);
 
-			if(Distance(px, py, pz, ix, iy, iz) < range) i = DestroyItem(i);
+			if(Distance(pX, pY, pZ, iX, iY, iZ) < range) {
+				count++;
+				i = DestroyItem(i);
+			}
 		}
-
-		return 1;
-	} else if(!strcmp(type, "tendas", true, 4)) {
+	} else if(isequal(type, "tendas", true)) {
 		foreach(new i : tnt_Index) {
-		    if(GetItemTypeDefenceType(GetItemType(i)) != INVALID_DEFENCE_TYPE) continue;
+			GetTentPos(i, iX, iY, iZ);
 
-			GetTentPos(i, ix, iy, iz);
-
-			if(Distance(px, py, pz, ix, iy, iz) < range) {
+			if(Distance(pX, pY, pZ, iX, iY, iZ) < range) {
+				count++;
 				i = DestroyTent(i);
 				//CallLocalFunction("OnTentDestroy", "d", GetTentID(i));
 			}
 		}
-
-		return 1;
-	} else if(!strcmp(type, "defesas", true, 7)) {
+	} else if(isequal(type, "defesas", true)) {
 		foreach(new i : itm_Index) {
 			if(GetItemTypeDefenceType(GetItemType(i)) == INVALID_DEFENCE_TYPE) continue;
 
-			GetItemPos(i, ix, iy, iz);
+			GetItemPos(i, iX, iY, iZ);
 
-			if(Distance(px, py, pz, ix, iy, iz) < range) {
-			    CallLocalFunction("OnDefenceDestroy", "d", i);
+			if(Distance(pX, pY, pZ, iX, iY, iZ) < range) {
+				count++;
 				i = DestroyItem(i);
+			    CallLocalFunction("OnDefenceDestroy", "d", i);
 			}
 		}
+	} else
+		return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] (distância)");
 
-		return 1;
-	}
-
-	return ChatMsg(playerid, YELLOW, " >  Use: /deletar [itens/tendas/defesas] [distância] - (recomendado: 1 de distância)");
+	return ChatMsg(playerid, GREEN, " > %d %s", count, type);
 }
+ACMD:del[4](playerid, params[]) return acmd_deletar_4(playerid, params);
 
 ACMD:congelarall[4](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, false);
@@ -198,23 +195,7 @@ ACMD:clima[4](playerid, params[]) {
 	JSON_SetObject(Settings, "world", node);
 	JSON_SaveFile("settings.json", Settings, .pretty = true);
 	
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
-}
-
-ACMD:tapa[4](playerid, params[]) {
-    if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
-		
-    new targetId;
-	
-	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [id/nick]");
-
-	if(GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
-
-	new Float:x, Float:y, Float:z;
-	GetPlayerPos(targetId, x, y, z);
-	SetPlayerPos(targetId, x, y, z + 6.0);
-
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	return ChatMsgAdmins(1, 0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
 ACMD:aliases[4](playerid, params[]) {

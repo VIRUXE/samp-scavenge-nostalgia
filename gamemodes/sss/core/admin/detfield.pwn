@@ -106,7 +106,7 @@ hook OnScriptInit() {
 	det_Stmt_DetfieldRename			= db_prepare(det_Database, "UPDATE field_list SET name = ? WHERE name = ?");
 	det_Stmt_DetfieldRenameRecords	= db_prepare(det_Database, "UPDATE field_logs SET field = ? WHERE field = ?");
 	det_Stmt_DetfieldSetExcps		= db_prepare(det_Database, "UPDATE field_list SET excps = ? WHERE name = ?");
-	det_Stmt_DetfieldLoad			= db_prepare(det_Database, "SELECT * FROM field_list WHERE active = 1");
+	det_Stmt_DetfieldLoad			= db_prepare(det_Database, "SELECT * FROM field_list");
 	det_Stmt_DetfieldLogEntry		= db_prepare(det_Database, "INSERT INTO field_logs VALUES(?, ?, ?, ?, 1)");
 	det_Stmt_DetfieldLogEntryCount	= db_prepare(det_Database, "SELECT COUNT(*) FROM field_logs WHERE field = ?");
 	det_Stmt_DetfieldLogList		= db_prepare(det_Database, "SELECT rowid, name, pos, time FROM field_logs WHERE field = ? AND active = 1 ORDER BY time DESC LIMIT ? OFFSET ? COLLATE NOCASE");
@@ -232,13 +232,13 @@ stock DestroyDetectionField(detfieldId) {
 bool:IsDetectionFieldActive(detfieldId) return det_Active[detfieldId];
 
 AddDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ, Float:maxZ, exceptionList[MAX_DETFIELD_EXCEPTIONS][MAX_PLAYER_NAME], active) {
-	if(DetectionFieldExists(name)) return -1;
+	if(!IsValidDetectionFieldName(name)) return -1;
 
-	if(!IsValidDetectionFieldName(name)) return -2;
+	if(DetectionFieldExists(name)) return -2;
 
 	new id = CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
 
-	if(id < 0) return -1;
+	if(id < 0) return -3;
 
 	new
 		vert1[32],
@@ -306,6 +306,26 @@ SetDetectionFieldActive(detfieldId, bool:active) {
 	det_Active[detfieldId] = active;
 
 	db_query(det_Database, sprintf("UPDATE field_list SET active = %d WHERE name = '%s';", active ? 1 : 0, det_Name[detfieldId]));
+
+	// Eliminamos as linhas antigas
+	for(new i; i < 8; i++) {
+		DestroyLineSegment(det_Lines[detfieldId][i]);
+		det_Lines[detfieldId][i] = INVALID_LINE_SEGMENT_ID;
+	}
+
+	// Criamos com a nova cor de neon
+	new const lineObjectId = active ? 18652 : 18647, Float:objectLength = 2.00;
+	for(new i; i < 8; i += 2) {
+		// Linhas para baixo
+		det_Lines[detfieldId][i + 0] = CreateLineSegment(lineObjectId, objectLength,
+			det_Points[detfieldId][i + 0], det_Points[detfieldId][i + 1], det_MinZ[detfieldId],
+			det_Points[detfieldId][i + 2], det_Points[detfieldId][i + 3], det_MinZ[detfieldId], .objlengthoffset = -(objectLength/2));
+
+		// Linhas para cima
+		det_Lines[detfieldId][i + 1] = CreateLineSegment(lineObjectId, objectLength,
+			det_Points[detfieldId][i + 0], det_Points[detfieldId][i + 1], det_MaxZ[detfieldId],
+			det_Points[detfieldId][i + 2], det_Points[detfieldId][i + 3], det_MaxZ[detfieldId], .objlengthoffset = -(objectLength/2));
+	}
 
 	log("[DETFIELD] SetDetectionFieldActive(%d, %s)", detfieldId, booltostr(active));
 
@@ -611,12 +631,8 @@ stock DeleteDetectionFieldLogsOfName(detfieldId, name[]) {
 	return 1;
 }
 
-hook OnPlayerConnect(playerid) {
-	fld_PlayerInvade[playerid]       = false;
-	trunk_playerNotAllowed[playerid] = false;
-}
 
-hook OnPlayerLogin(playerid) {
+timer HandleFieldInvasionOnLogin[SEC(1)](playerid) {
 	new detfieldId = IsPlayerInsideDetectionField(playerid);
 
 	if(detfieldId != -1 && !IsNameInExceptionList(detfieldId, GetPlayerNameEx(playerid))) {
@@ -634,51 +650,25 @@ hook OnPlayerLogin(playerid) {
 
 		ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
 	}
+}
+
+hook OnPlayerConnect(playerid) {
+	fld_PlayerInvade[playerid]       = false;
+	trunk_playerNotAllowed[playerid] = false;
+}
+
+hook OnPlayerLogin(playerid) {
+	// Esperamos o mundo carregar completamente (1 seg) e depois verificamos se o jogador esta numa field sem excepcao
+	defer HandleFieldInvasionOnLogin(playerid);
 
 	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
 			if(!det_Active[d]) {
-				SendClientMessage(playerid, YELLOW, " > Existem Detection Fields por Ativar");
+				SendClientMessage(playerid, RED, " > Existem Detection Fields por Ativar");
 				break;
 			}
 		}
 	}
-}
-
-ACMD:addex[2](playerid, params[]) {
-	new name[24];
-
-    if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use /addex [Nick ou ID]");
-
-	if(isnumeric(name)) {
-		new targetid = strval(name);
-
-		if(IsPlayerConnected(targetid))
-			GetPlayerName(targetid, name, MAX_PLAYER_NAME);
-		else if(targetid > 99)
-			ChatMsg(playerid, YELLOW, " >  ID '%d' não está conectado.", targetid);
-		else
-			return 4;
-	}
-
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  Conta  '%s' não existente.", name);
-
-	new const detfieldId = IsPlayerInsideDetectionField(playerid);
-
-	if(detfieldId) {
-		new result = AddDetectionFieldException(detfieldId, name);
-
-		if(result) return ChatMsg(playerid, GREEN, " > Player "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", name);
-		else if(result == 0) return ChatMsg(playerid, RED, " >  Invalid detection field (error code 0)");
-		else if(result == -1) return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
-		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
-		else if(result == -3) return ChatMsg(playerid, RED, " >  O player já está na lista");
-
-		UpdateDetectionFieldExceptions(detfieldId);
-	} else 
-		return ChatMsg(playerid, YELLOW, " > Você não está em nenhuma field.");
-
-	return 1;
 }
 
 IsPlayerInsideDetectionField(playerid) {
