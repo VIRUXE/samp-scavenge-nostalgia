@@ -196,7 +196,7 @@ _UpdateKeyActions(playerid)
 			AddToolTipText(playerid, KEYTEXT_DROP_ITEM, ls(playerid, "player/key-actions/player/remove_bag"));
 
 		if(IsValidItem(GetPlayerHolsterItem(playerid)))
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/player/holster-get"));
 
 		ShowPlayerKeyActionUI(playerid);
 
