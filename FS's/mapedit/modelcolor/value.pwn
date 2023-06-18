@@ -1,5 +1,0 @@
-#define MAX_MODELCOLORS \
-    138
-
-#define MAX_MODELCOLOR_NAMELEN \
-	22

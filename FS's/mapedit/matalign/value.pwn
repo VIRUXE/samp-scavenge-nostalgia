@@ -1,5 +1,0 @@
-#define MAX_MATERIAL_ALIGNMENTS \
-    3
-
-#define MAX_MATERIALALIGN_NAMELEN \
-    6

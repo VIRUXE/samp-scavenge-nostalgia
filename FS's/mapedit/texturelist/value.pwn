@@ -1,5 +1,0 @@
-#define MAX_TEXTURELIST_ROWS \
-    20
-
-#define MIN_TEXTURELIST_PAGE \
-    0

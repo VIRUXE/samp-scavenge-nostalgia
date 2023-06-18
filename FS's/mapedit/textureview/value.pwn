@@ -1,8 +1,0 @@
-#define TEXTUREVIEW_DISTANCE \
-    10.0
-
-#define TEXTUREVIEW_MODELID \
-    18764
-
-#define TEXTUREVIEW_MATINDEX \
-    0
