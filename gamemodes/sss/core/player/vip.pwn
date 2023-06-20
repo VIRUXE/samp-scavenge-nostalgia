@@ -3,22 +3,29 @@
 #define VIP_COLOR 0xFFAA0000
 #define MAX_JOINSENTENCE_LEN 90
 
-static bool:VIP[MAX_PLAYERS], VIP_Anuncio;
+enum {
+	VIP_NONE,
+	VIP_COPPER,
+	VIP_SILVER,
+	VIP_GOLD
+}
+
+static VIP[MAX_PLAYERS], VIP_Anuncio;
 
 ACMD:setvip[5](playerid, params[]) {
-	new targetId;
+	new targetId, tier;
 
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, RED, " > Use: /setvip [id/nick]");
+	if(sscanf(params, "rD(*)", targetId, VIP_NONE, tier)) return ChatMsg(playerid, RED, " > Use: /setvip [id/nick] (plano)");
 	
 	if(targetId == INVALID_PLAYER_ID) return 4; // CMD_INVALID_PLAYER
 
-	SetPlayerVip(targetId, !VIP[targetId]);
+	SetPlayerVip(targetId, tier);
 
 	db_query(Database, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
 
 	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : 0xB8B8B800);
 
-	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, targetId);
+	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP (%s) do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, GetVipTierName(tier), targetId);
 }
 
 CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick, luta
@@ -211,12 +218,24 @@ GetPlayerJoinSentence(playerid) {
 	return frase;
 }
 
-stock IsPlayerVip(playerid) return VIP[playerid];
+IsPlayerVip(playerid) return VIP[playerid];
 
-stock SetPlayerVip(playerid, bool:toggle) {
-	if(toggle == VIP[playerid]) return 0;
+SetPlayerVip(playerid, tier) {
+	if(VIP[playerid] == tier) return 0;
 
-    VIP[playerid] = toggle;
+    VIP[playerid] = tier;
 
 	return 1;
+}
+
+GetVipTierName(tier) {
+	new name[6];
+
+	switch(tier) {
+		case VIP_COPPER: name = "Cobre";
+		case VIP_SILVER: name = "Prata";
+		case VIP_GOLD:   name = "Ouro";
+	}
+
+	return name;
 }
