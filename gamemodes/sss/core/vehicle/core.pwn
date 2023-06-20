@@ -803,8 +803,8 @@ public OnVehicleDeath(vehicleid, killerid) {
 
 	veh_Data[vehicleid][veh_state] = VEHICLE_STATE_DYING;
 
-/*	DestroyVehicle(vehicleid);
-	ChatMsgAll(YELLOW, "> %p(id:%d) destrui­u o veículo ID: %d", killerid, killerid, vehicleid);*/
+	DestroyVehicle(vehicleid);
+
 	log("[VEHICLE][DEATH] %s (%d) killed by %p -> %f %f %f", GetVehicleGEID(vehicleid), vehicleid, killerid, veh_Data[vehicleid][veh_spawnX], veh_Data[vehicleid][veh_spawnY], veh_Data[vehicleid][veh_spawnZ]);
 }
 
