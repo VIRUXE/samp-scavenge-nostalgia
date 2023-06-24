@@ -252,7 +252,7 @@ PlayerSendChat(playerid, chat[], Float:frequency) {
 
 			if(IsPlayerInTutorial(i)) continue;
 
-			if(!IsPlayerVip(playerid) || !GetPlayerAdminLevel(playerid)) continue;
+			if(!GetPlayerVipTier(playerid) || !GetPlayerAdminLevel(playerid)) continue;
 			    
 			SendClientMessage(i, WHITE, line1);
 

@@ -249,7 +249,7 @@ StartBuildingDefence(playerid, itemId) {
 
 	def_CurrentDefenceItem[playerid] = itemId;
 	
-	StartHoldAction(playerid, IsPlayerVip(playerid) ? 4000 : 8000);
+	StartHoldAction(playerid, GetPlayerVipMulti(playerid, 8000));
 	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemTypeName));
@@ -364,7 +364,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 		def_CurrentDefenceEdit[playerid] = itemId;
 		StartHoldAction(playerid, 8000);
 		
-		StartHoldAction(playerid, IsPlayerVip(playerid) ? 5000 : 8000);
+		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 8000));
 	    
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/removing"), itemTypeName));
@@ -386,7 +386,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 		
-		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
+		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -409,7 +409,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 
-		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
+		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -432,7 +432,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 
-		StartHoldAction(playerid, IsPlayerVip(playerid) ? 3000 : 6000);
+		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 

@@ -26,11 +26,9 @@ static
 	},
 	spawn_Last[MAX_PLAYERS];
 
-	// Spawn dos VIPs
-	
+// Spawn dos VIPs
 static
-	Float:spawn_ListVIP[MAX_SPAWNS_VIP][4] =
-	{					   
+	Float:spawn_ListVIP[MAX_SPAWNS_VIP][4] = {					   
 		{-2923.4396,	-70.4305,		0.7973,		269.0305},
 		{-2914.9213,	-902.9458,		0.5190,		339.3433},
 		{-2804.5021,	-2296.2153,		0.7071,		249.8544},
@@ -61,13 +59,11 @@ static
 	},
 	spawn_LastVIP[MAX_PLAYERS];
 
-GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r)
-{
-    if(IsPlayerVip(playerid)){
+GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r) {
+    if(GetPlayerVipTier(playerid)) {
         new index = random(sizeof(spawn_ListVIP));
 
-		while(index == spawn_LastVIP[playerid])
-			index = random(sizeof(spawn_ListVIP));
+		while(index == spawn_LastVIP[playerid]) index = random(sizeof(spawn_ListVIP));
 
 		x = spawn_ListVIP[index][0];
 		y = spawn_ListVIP[index][1];
@@ -76,11 +72,10 @@ GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r)
 
 		spawn_LastVIP[playerid] = index;
 
-    } else{
+    } else {
         new index = random(sizeof(spawn_List));
 
-		while(index == spawn_Last[playerid])
-			index = random(sizeof(spawn_List));
+		while(index == spawn_Last[playerid]) index = random(sizeof(spawn_List));
 
 		x = spawn_List[index][0];
 		y = spawn_List[index][1];

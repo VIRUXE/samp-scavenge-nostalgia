@@ -252,9 +252,9 @@ CreateNewCharacter(playerid, gender) {
 	
 	SetPlayerClothesID(playerid, skin);
 
-	SetPlayerHP(playerid, 		 IsPlayerVip(playerid) ? spawn_VipBlood : spawn_Blood);
-	SetPlayerFP(playerid, 		 IsPlayerVip(playerid) ? spawn_VipFood  : spawn_Food);
-	SetPlayerBleedRate(playerid, IsPlayerVip(playerid) ? spawn_VipBleed : spawn_Bleed);
+	SetPlayerHP(playerid, 		 GetPlayerVipTier(playerid) ? spawn_VipBlood : spawn_Blood);
+	SetPlayerFP(playerid, 		 GetPlayerVipTier(playerid) ? spawn_VipFood  : spawn_Food);
+	SetPlayerBleedRate(playerid, GetPlayerVipTier(playerid) ? spawn_VipBleed : spawn_Bleed);
 
 	SetPlayerAP(playerid, 0.0);
 	SetPlayerClothes(playerid, GetPlayerClothesID(playerid));

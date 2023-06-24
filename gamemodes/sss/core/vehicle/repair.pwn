@@ -112,8 +112,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	}
 }
 
-StartRepairingVehicle(playerid, vehicleid)
-{
+StartRepairingVehicle(playerid, vehicleid) {
 	GetVehicleHealth(vehicleid, fix_Progress[playerid]);
 
 	if(fix_Progress[playerid] >= 990.0) return 0;
@@ -121,7 +120,7 @@ StartRepairingVehicle(playerid, vehicleid)
 	ApplyAnimation(playerid, "INT_SHOP", "SHOP_CASHIER", 4.0, 1, 0, 0, 0, 0, 1);
 	VehicleBonnetState(fix_TargetVehicle[playerid], 1); // Abre o capô do veí­culo
 
-	new buildtime = IsPlayerVip(playerid) ? 38 : 50;
+	new buildtime = GetPlayerVipMulti(playerid, 50);
 
    	StartHoldAction(playerid, buildtime * 1000, floatround(fix_Progress[playerid] * buildtime));
 
@@ -130,13 +129,11 @@ StartRepairingVehicle(playerid, vehicleid)
 	return 1;
 }
 
-StopRepairingVehicle(playerid)
-{
+StopRepairingVehicle(playerid) {
 	if(fix_TargetVehicle[playerid] == INVALID_VEHICLE_ID) return 0;
 
-	if(fix_Progress[playerid] >= 988.0)
-	{
-		if(IsPlayerVip(playerid)) {
+	if(fix_Progress[playerid] >= 988.0) {
+		if(GetPlayerVipTier(playerid)) {
        		// Reparar lataria do veículo    
 			new Float:lataria, j1, j2, j3, j4, p1, p2, p3, p4, aux, luzes, pneus;
 

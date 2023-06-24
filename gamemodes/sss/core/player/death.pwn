@@ -128,7 +128,7 @@ _OnDeath(playerid, killerId) {
 	if(IsPlayerConnected(killerId)) {
 		log("[KILL] %p killed %p with %d at %f, %f, %f (%f)", killerId, playerid, deathReason, death_PosX[playerid], death_PosY[playerid], death_PosZ[playerid], death_RotZ[playerid]);
 	
-		GiveScore(killerId, IsPlayerVip(killerId) ? 2 : 1);
+		GiveScore(killerId, GetPlayerVipTier(killerId) ? 2 : 1);
 
 		db_query(Database, sprintf("UPDATE players SET kills = kills + CASE WHEN vip = 1 THEN 2 ELSE 1 END WHERE name = '%s';", GetPlayerNameEx(killerId)));
 		

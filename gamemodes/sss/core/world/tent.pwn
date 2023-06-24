@@ -4,14 +4,12 @@
 #define MAX_TENT_ITEMS		(32)
 #define INVALID_TENT_ID		(-1)
 
-enum E_TENT_DATA
-{
+enum E_TENT_DATA {
 			tnt_itemId,
 			tnt_containerId
 }
 
-enum E_TENT_OBJECT_DATA
-{
+enum E_TENT_OBJECT_DATA {
 			tnt_objSideR1,
 			tnt_objSideR2,
 			tnt_objSideL1,
@@ -39,48 +37,40 @@ hook OnPlayerConnect(playerid) {
 	tnt_CurrentTentItem[playerid] = INVALID_ITEM_ID;
 }
 
-hook OnItemTypeDefined(uname[])
-{
+hook OnItemTypeDefined(uname[]) {
 	if(!strcmp(uname, "TentPack"))
 		SetItemTypeMaxArrayData(GetItemTypeFromUniqueName("TentPack"), 1);
 }
 
-hook OnItemCreated(itemid)
-{
+hook OnItemCreated(itemid) {
 	if(GetItemType(itemid) == item_TentPack) 
 		SetItemExtraData(itemid, INVALID_TENT_ID);
 }
 
-stock CreateTentFromItem(itemid)
-{
-	if(GetItemType(itemid) != item_TentPack)
-	{
+stock CreateTentFromItem(itemid) {
+	if(GetItemType(itemid) != item_TentPack) {
 		err("Attempted to create tent from non-tentpack item %d type: %d", itemid, _:GetItemType(itemid));
 		return -1;
 	}
 
 	new id = Iter_Free(tnt_Index);
 
-	if(id == -1)
-	{
-		err("MAX_TENT limit reached.");
+	if(id == -1) {
+		err("MAX_TENT limit reached."); 
 		return -1;
 	}
 
 	Iter_Add(tnt_Index, id);
 
 	new
-		Float:x,
-		Float:y,
-		Float:z,
-		Float:rz,
-		worldid = GetItemWorld(itemid),
+		Float:x, Float:y, Float:z, Float:rz,
+		worldid    = GetItemWorld(itemid),
 		interiorid = GetItemInterior(itemid);
 
 	GetItemPos(itemid, x, y, z);
 	GetItemRot(itemid, rz, rz, rz);
 
-	z += 0.4;
+	z  += 0.4;
 	rz += 90.0;
 
 	tnt_Data[id][tnt_itemId] = itemid;
@@ -137,8 +127,7 @@ stock CreateTentFromItem(itemid)
 	return id;
 }
 
-stock DestroyTent(tentid)
-{
+stock DestroyTent(tentid) {
 	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	CallLocalFunction("OnTentDestroy", "d", tentid);
@@ -172,14 +161,11 @@ stock DestroyTent(tentid)
 ==============================================================================*/
 
 
-hook OnPlayerPickUpItem(playerid, itemid)
-{
-	if(GetItemType(itemid) == item_TentPack)
-	{
+hook OnPlayerPickUpItem(playerid, itemid) {
+	if(GetItemType(itemid) == item_TentPack) {
 		new tentid = GetItemExtraData(itemid);
 
-		if(IsValidTent(tentid))
-		{
+		if(IsValidTent(tentid)) {
 			DisplayContainerInventory(playerid, tnt_Data[tentid][tnt_containerId]);
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
@@ -188,31 +174,22 @@ hook OnPlayerPickUpItem(playerid, itemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
-{
-	if(GetItemType(withitemid) == item_TentPack)
-	{
+hook OnPlayerUseItemWithItem(playerid, itemid, withitemid) {
+	if(GetItemType(withitemid) == item_TentPack) {
 		new tentid = GetItemArrayDataAtCell(withitemid, 0);
 
-		if(!IsValidTent(tentid))
-		{
-			if(GetItemType(itemid) == item_Hammer)
-			{
+		if(!IsValidTent(tentid)) {
+			if(GetItemType(itemid) == item_Hammer) {
 				StartBuildingTent(playerid, withitemid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
-		}
-		else
-		{
-			if(GetItemType(itemid) == item_Crowbar)
-			{
+		} else {
+			if(GetItemType(itemid) == item_Crowbar) {
 				if(IsBadInteract(playerid)) return Y_HOOKS_BREAK_RETURN_0;
 
 				StartRemovingTent(playerid, withitemid);
 				return Y_HOOKS_BREAK_RETURN_1;
-			}
-			else
-			{
+			} else {
 				DisplayContainerInventory(playerid, tnt_Data[tentid][tnt_containerId]);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
@@ -222,11 +199,10 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-StartBuildingTent(playerid, itemid)
-{
-	if(GetPlayerInterior(playerid) != 0) return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
+StartBuildingTent(playerid, itemid) {
+	if(GetPlayerInterior(playerid)) return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
 		
-	StartHoldAction(playerid, IsPlayerVip(playerid) ? 5000 : 10000);
+	StartHoldAction(playerid, GetPlayerVipMulti(playerid, 10000));
     	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, ls(playerid, "item/tent_building"));
@@ -238,8 +214,7 @@ StartBuildingTent(playerid, itemid)
 	return 1;
 }
 
-StopBuildingTent(playerid)
-{
+StopBuildingTent(playerid) {
 	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID) return;
 
 	StopHoldAction(playerid);
@@ -250,8 +225,7 @@ StopBuildingTent(playerid)
 	return;
 }
 
-StartRemovingTent(playerid, itemid)
-{
+StartRemovingTent(playerid, itemid) {
 	StartHoldAction(playerid, 15000);
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
@@ -259,8 +233,7 @@ StartRemovingTent(playerid, itemid)
 	tnt_CurrentTentItem[playerid] = itemid;
 }
 
-StopRemovingTent(playerid)
-{
+StopRemovingTent(playerid) {
 	if(tnt_CurrentTentItem[playerid] == INVALID_ITEM_ID) return;
 
 	StopHoldAction(playerid);
@@ -271,17 +244,13 @@ StopRemovingTent(playerid)
 	return;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
-	if(oldkeys & 16)
-	{
-		if(tnt_CurrentTentItem[playerid] != INVALID_ITEM_ID)
-		{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if(oldkeys & 16) {
+		if(tnt_CurrentTentItem[playerid] != INVALID_ITEM_ID) {
 			new ItemType:itemtype = GetItemType(GetPlayerItem(playerid));
 
 			if(itemtype == item_Hammer)
 				StopBuildingTent(playerid);
-				
 			else if(itemtype == item_Crowbar)
 				StopRemovingTent(playerid);
 		}
@@ -290,12 +259,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	return 1;
 }
 
-hook OnHoldActionFinish(playerid)
-{
-	if(tnt_CurrentTentItem[playerid] != INVALID_ITEM_ID)
-	{
-		if(GetItemType(GetPlayerItem(playerid)) == item_Hammer)
-		{
+hook OnHoldActionFinish(playerid) {
+	if(tnt_CurrentTentItem[playerid] != INVALID_ITEM_ID) {
+		if(GetItemType(GetPlayerItem(playerid)) == item_Hammer) {
 			new tentid = CreateTentFromItem(tnt_CurrentTentItem[playerid]);
 			GetPlayerName(playerid, tnt_Owner[tentid], MAX_PLAYER_NAME);
    			SetItemLabel(tnt_CurrentTentItem[playerid], sprintf("Tenda de ({FFFFFF}%s{FFFF00})", tnt_Owner[tentid]), 0xFFFF00FF, 10.0, true);
@@ -304,16 +270,12 @@ hook OnHoldActionFinish(playerid)
 			CallLocalFunction("OnTentBuilt", "ii", playerid, tentid);
 		}
 
-		if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar)
-		{
+		if(GetItemType(GetPlayerItem(playerid)) == item_Crowbar) {
 			new
-				Float:x,
-				Float:y,
-				Float:z,
+				Float:x, Float:y, Float:z,
 				tentid = GetItemExtraData(tnt_CurrentTentItem[playerid]);
 
-			if(!IsValidTent(tentid))
-			{
+			if(!IsValidTent(tentid)) {
 				err("Player %d attempted to destroy invalid tent %d from item %d", playerid, tentid, tnt_CurrentTentItem[playerid]);
 				return Y_HOOKS_CONTINUE_RETURN_0;
 			}
@@ -345,55 +307,42 @@ stock GetTentOwner(tentid, Owner[])
 stock SetTentOwner(tentid, Owner[])
     format(tnt_Owner[tentid], 24, "%s", Owner);
 
-stock IsValidTent(tentid)
-{
-	if(!Iter_Contains(tnt_Index, tentid))
-		return 0;
+stock IsValidTent(tentid) {
+	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	return 1;
 }
 
 // tnt_itemId
-stock GetTentItem(tentid)
-{
-	if(!Iter_Contains(tnt_Index, tentid))
-		return 0;
+stock GetTentItem(tentid) {
+	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	return tnt_Data[tentid][tnt_itemId];
 }
 
 // tnt_containerId
-stock GetTentContainer(tentid)
-{
-	if(!Iter_Contains(tnt_Index, tentid))
-		return 0;
+stock GetTentContainer(tentid) {
+	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	return tnt_Data[tentid][tnt_containerId];
 }
 
-stock GetContainerTent(containerid)
-{
-	if(!IsValidContainer(containerid))
-		return INVALID_TENT_ID;
+stock GetContainerTent(containerid) {
+	if(!IsValidContainer(containerid)) return INVALID_TENT_ID;
 
 	return tnt_ContainerTent[containerid];
 }
 
-stock GetTentPos(tentid, &Float:x, &Float:y, &Float:z)
-{
-	if(!Iter_Contains(tnt_Index, tentid))
-		return 0;
+stock GetTentPos(tentid, &Float:x, &Float:y, &Float:z) {
+	if(!Iter_Contains(tnt_Index, tentid)) return 0;
 
 	return GetItemPos(tnt_Data[tentid][tnt_itemId], x, y, z);
 }
 
-stock IsItemTypeTent(ItemType:itemtype)
-{
-	if(!IsValidItemType(itemtype))
-		return false;
+stock IsItemTypeTent(ItemType:itemtype) {
+	if(!IsValidItemType(itemtype)) return false;
 
-	if(itemtype == item_TentPack)
-		return true;
+	if(itemtype == item_TentPack) return true;
 
 	return false;
 }

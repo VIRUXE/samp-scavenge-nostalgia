@@ -52,7 +52,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 		
 		syntax[] = " > Use: /vip [anuncio, reset, skin, pintar, frase, kill, nick, luta]";
 
-	if(!IsPlayerVip(playerid)) {
+	if(!VIP[playerid]) {
 		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", help, "Fechar", "");
 		return 1;
 	}
@@ -162,7 +162,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 }
 
 CMD:v(playerid, params[]) {
-	if(!IsPlayerVip(playerid) && !GetPlayerAdminLevel(playerid)) return 0;
+	if(!VIP[playerid] && !GetPlayerAdminLevel(playerid)) return 0;
 
 	if(isnull(params)) {
 		SetPlayerChatMode(playerid, CHAT_MODE_VIP);
@@ -178,7 +178,7 @@ CMD:v(playerid, params[]) {
 }
 
 hook OnPlayerConnect(playerid) {
-	if(GetPlayerAdminLevel(playerid) == 0 && Iter_Count(Player) >= 35 && !IsPlayerVip(playerid)) 
+	if(GetPlayerAdminLevel(playerid) == 0 && Iter_Count(Player) >= 35 && !VIP[playerid]) 
 		return KickPlayer(playerid, "O servidor está lotado com 35 online. VIPS possuem 5 slots reservados!", true);
 
 	return 1;
@@ -190,7 +190,7 @@ hook OnPlayerConnect(playerid) {
 } */
 
 hook OnPlayerLogin(playerid) {
-	if(IsPlayerVip(playerid)) {
+	if(VIP[playerid]) {
 		SetPlayerColor(playerid, VIP_COLOR);
 
 		ChatMsg(playerid, VIP_COLOR, " > Você é um jogador VIP! Obrigado por apoiar o servidor.");
@@ -198,7 +198,7 @@ hook OnPlayerLogin(playerid) {
 }
 
 hook OnPlayerSpawnNewChar(playerid) {
-	if(IsPlayerVip(playerid)) {
+	if(VIP[playerid]) {
 		// * Creio que existe uma forma melhor de dar itens ao jogador
 		GivePlayerBag(playerid, CreateItem(item_Satchel));
 		AddItemToPlayer(playerid, CreateItem(item_Wrench), true, false);
@@ -218,7 +218,17 @@ GetPlayerJoinSentence(playerid) {
 	return frase;
 }
 
-IsPlayerVip(playerid) return VIP[playerid];
+GetPlayerVipTier(playerid) return VIP[playerid];
+
+Float:GetPlayerVipMulti(playerid, baseValue) {
+	switch(VIP[playerid]) {
+		case VIP_COPPER: return baseValue / 1.5;
+		case VIP_SILVER: return baseValue / 2.0;
+		case VIP_GOLD:   return baseValue / 3.0;
+	}
+	
+	return baseValue * 0.0;
+}
 
 SetPlayerVip(playerid, tier) {
 	if(VIP[playerid] == tier) return 0;
