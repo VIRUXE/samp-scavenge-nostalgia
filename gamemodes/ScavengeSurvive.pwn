@@ -437,6 +437,7 @@ enum {
 #include "sss/core/player/vip.pwn"
 #include "sss/core/player/votekick.pwn"
 #include "sss/core/player/map.pwn"
+#include "sss/core/player/store.pwn"
 
 // CHARACTER SCRIPTS
 #include "sss/core/char/food.pwn"
