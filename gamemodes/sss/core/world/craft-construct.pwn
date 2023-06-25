@@ -75,7 +75,7 @@ hook OnPlayerUseItem(playerid, itemid) {
 			if(cons_CraftsetConstructSet[craftset] != -1) {
 				if(cons_Data[cons_CraftsetConstructSet[craftset]][cons_tool] == GetItemType(GetPlayerItem(playerid))) {
 					if(!CallLocalFunction("OnPlayerConstruct", "dd", playerid, cons_CraftsetConstructSet[craftset])) {
-						StartHoldAction(playerid, GetPlayerVipMulti(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_buildtime]));
+						StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_buildtime]));
 
 						ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 						ShowActionText(playerid, ls(playerid, "item/craft/constructing"));
@@ -108,7 +108,7 @@ StartRemovingConstructedItem(playerid, itemid, craftset) {
 	new uniqueid[ITM_MAX_NAME];
 	GetItemTypeName(GetCraftSetResult(craftset), uniqueid);
 	
-	StartHoldAction(playerid, GetPlayerVipMulti(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_removalTime]));	    
+	StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, cons_Data[cons_CraftsetConstructSet[craftset]][cons_removalTime]));	    
 
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, ls(playerid, "item/craft/deconstructing"));

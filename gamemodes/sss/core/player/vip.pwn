@@ -19,17 +19,20 @@ ACMD:setvip[5](playerid, params[]) {
 	
 	if(targetId == INVALID_PLAYER_ID) return 4; // CMD_INVALID_PLAYER
 
-	SetPlayerVip(targetId, tier);
+	if(!SetPlayerVip(targetId, tier)) return SendClientMessage(playerid, RED, "Impossível fazer isso. Ou colocou um plano errado ou o jogador já se encontra nesse plano.");
 
-	db_query(Database, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId] ? 1 : 0, GetPlayerNameEx(targetId)));
+	db_query(Database, sprintf("UPDATE players SET vip = %d WHERE name = '%s'", VIP[targetId], GetPlayerNameEx(targetId)));
 
 	SetPlayerColor(targetId, VIP[targetId] ? VIP_COLOR : 0xB8B8B800);
 
-	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP (%s) do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o vip do servidor. :(", targetId, GetVipTierName(tier), targetId);
+	if(!VIP[targetId]) SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
+
+	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP (%s) do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o VIP (%s) do servidor. :(", targetId, targetId, GetVipTierName(tier));
 }
 
 CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick, luta
-	new help[] = 
+	new 
+		help[] = 
 		"{FFFF00}Benefícios de ser VIP: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00){FFAA00}\n\n\
 		- Tem uma maior variedade de Locais de Spawn após morrer\n\
 		- Consegue trocar o Nickname usando {FFFFFF}'nick'{FFAA00}\n\
@@ -220,18 +223,18 @@ GetPlayerJoinSentence(playerid) {
 
 GetPlayerVipTier(playerid) return VIP[playerid];
 
-Float:GetPlayerVipMulti(playerid, baseValue) {
+CalculateVIPAdjustedTime(playerid, baseValue) {
 	switch(VIP[playerid]) {
-		case VIP_COPPER: return baseValue / 1.5;
-		case VIP_SILVER: return baseValue / 2.0;
-		case VIP_GOLD:   return baseValue / 3.0;
+		case VIP_COPPER: return floatround(baseValue / 1.5);
+		case VIP_SILVER: return floatround(baseValue / 2.0);
+		case VIP_GOLD:   return floatround(baseValue / 3.0);
 	}
 	
-	return baseValue * 0.0;
+	return baseValue;
 }
 
 SetPlayerVip(playerid, tier) {
-	if(VIP[playerid] == tier) return 0;
+	if(tier < 0 || tier > 3 || VIP[playerid] == tier) return 0;
 
     VIP[playerid] = tier;
 

@@ -202,7 +202,7 @@ hook OnPlayerUseItemWithItem(playerid, itemid, withitemid) {
 StartBuildingTent(playerid, itemid) {
 	if(GetPlayerInterior(playerid)) return SendClientMessage(playerid, RED, " > Você não pode construir aqui.");
 		
-	StartHoldAction(playerid, GetPlayerVipMulti(playerid, 10000));
+	StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 10000));
     	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, ls(playerid, "item/tent_building"));

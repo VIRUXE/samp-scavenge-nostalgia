@@ -108,9 +108,9 @@ ActivateDefenceItem(itemId) {
 		return INVALID_ITEM_ID;
 	}
 
-	new defencetype = def_ItemTypeDefenceType[itemType];
+	new defenceType = def_ItemTypeDefenceType[itemType];
 
-	if(defencetype == INVALID_DEFENCE_TYPE) {
+	if(defenceType == INVALID_DEFENCE_TYPE) {
 		err("Attempted to create defence from item that is not a defence type (%d)", _:itemType);
 		return INVALID_ITEM_ID;
 	}
@@ -121,7 +121,7 @@ ActivateDefenceItem(itemId) {
 		itemTypeName[ITM_MAX_NAME],
 		itemData[e_DEFENCE_DATA];
 
-	GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
+	GetItemTypeName(def_TypeData[defenceType][def_itemtype], itemTypeName);
 	GetItemArrayData(itemId, itemData);
 
 	itemData[def_active] = true;
@@ -249,7 +249,7 @@ StartBuildingDefence(playerid, itemId) {
 
 	def_CurrentDefenceItem[playerid] = itemId;
 	
-	StartHoldAction(playerid, GetPlayerVipMulti(playerid, 8000));
+	StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 8000));
 	
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.0, 1, 0, 0, 0, 0);
 	ShowActionText(playerid, sprintf(ls(playerid, "item/defence/building"), itemTypeName));
@@ -334,15 +334,15 @@ _InteractDefence(playerid, itemId) {
 
 _InteractDefenceWithItem(playerid, itemId, tool) {
 	new
-		defencetype,
-		ItemType:tooltype,
+		defenceType,
+		ItemType:toolType,
 		Float:angle;
 
-	defencetype = def_ItemTypeDefenceType[GetItemType(itemId)];
-	tooltype = GetItemType(tool);
+	defenceType = def_ItemTypeDefenceType[GetItemType(itemId)];
+	toolType = GetItemType(tool);
 	GetItemRot(itemId, angle, angle, angle);
 
-	angle = absoluteangle((angle - def_TypeData[defencetype][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(itemId)));
+	angle = absoluteangle((angle - def_TypeData[defenceType][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(itemId)));
 
 	// ensures the player can only perform these actions on the back-side.
 	if(!(90.0 < angle < 270.0)) return 0;
@@ -356,15 +356,15 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 	if(Distance(x, y, z, ix, iy, iz) > 1.5) return 0;
 	    
-	if(tooltype == item_Crowbar) {
+	if(toolType == item_Crowbar) {
 		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
+		GetItemTypeName(def_TypeData[defenceType][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 		StartHoldAction(playerid, 8000);
 		
-		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 8000));
+		StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 8000));
 	    
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 		ShowActionText(playerid, sprintf(ls(playerid, "item/defence/removing"), itemTypeName));
@@ -372,8 +372,8 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 		return 1;
 	}
 
-	if(tooltype == item_Motor) {
-	    if(!def_TypeData[defencetype][def_movable]) {
+	if(toolType == item_Motor) {
+	    if(!def_TypeData[defenceType][def_movable]) {
 			ShowActionText(playerid, ls(playerid, "item/defence/not-movable"));
 			return 1;
 		}
@@ -382,11 +382,11 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
+		GetItemTypeName(def_TypeData[defenceType][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 		
-		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
+		StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -395,7 +395,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 		return 1;
 	}
 
-	if(tooltype == item_Keypad) {
+	if(toolType == item_Keypad) {
         if(GetItemArrayDataAtCell(itemId, def_pose) == DEFENCE_POSE_HORIZONTAL) return 0;
 
 		if(!GetItemArrayDataAtCell(itemId, _:def_motor)) {
@@ -405,11 +405,11 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
+		GetItemTypeName(def_TypeData[defenceType][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 
-		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
+		StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -418,7 +418,7 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 		return 1;
 	}
 
-	if(tooltype == item_AdvancedKeypad) {
+	if(toolType == item_AdvancedKeypad) {
 	    if(GetItemArrayDataAtCell(itemId, def_pose) == DEFENCE_POSE_HORIZONTAL) return 0;
 
 		if(!GetItemArrayDataAtCell(itemId, _:def_motor)) {
@@ -428,11 +428,11 @@ _InteractDefenceWithItem(playerid, itemId, tool) {
 
 		new itemTypeName[ITM_MAX_NAME];
 
-		GetItemTypeName(def_TypeData[defencetype][def_itemtype], itemTypeName);
+		GetItemTypeName(def_TypeData[defenceType][def_itemtype], itemTypeName);
 
 		def_CurrentDefenceEdit[playerid] = itemId;
 
-		StartHoldAction(playerid, GetPlayerVipMulti(playerid, 6000));
+		StartHoldAction(playerid, CalculateVIPAdjustedTime(playerid, 6000));
 	    	
 		ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
@@ -459,12 +459,12 @@ hook OnHoldActionFinish(playerid) {
         
 		new
 			ItemType:itemType,
-			ItemType:defenceitemtype,
+			ItemType:defenceItemType,
 			pose,
 			itemId;
 
 		itemType        = GetItemType(GetPlayerItem(playerid));
-		defenceitemtype = GetItemType(def_CurrentDefenceItem[playerid]);
+		defenceItemType = GetItemType(def_CurrentDefenceItem[playerid]);
 
 		if(itemType == item_Screwdriver) pose = DEFENCE_POSE_VERTICAL;
 		else if(itemType == item_Hammer) pose = DEFENCE_POSE_HORIZONTAL;
@@ -487,14 +487,14 @@ hook OnHoldActionFinish(playerid) {
 		GetItemRot(itemId, rx, ry, rz);
 
 		if(pose == DEFENCE_POSE_HORIZONTAL) {
-			rx  = def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_horizontalRotX];
-			ry  = def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_horizontalRotY];
-			rz += def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_horizontalRotZ];
+			rx  = def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_horizontalRotX];
+			ry  = def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_horizontalRotY];
+			rz += def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_horizontalRotZ];
 		} else if(pose == DEFENCE_POSE_VERTICAL) {
-			z  += def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_placeOffsetZ];
-			rx  = def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_verticalRotX];
-			ry  = def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_verticalRotY];
-			rz += def_TypeData[def_ItemTypeDefenceType[defenceitemtype]][def_verticalRotZ];
+			z  += def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_placeOffsetZ];
+			rx  = def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_verticalRotX];
+			ry  = def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_verticalRotY];
+			rz += def_TypeData[def_ItemTypeDefenceType[defenceItemType]][def_verticalRotZ];
 		}
 
 		SetItemPos(itemId, x, y, z);
@@ -580,8 +580,7 @@ hook OnPlayerKeypadEnter(playerid, keypadid, code, match) {
 
 			def_CurrentDefenceEdit[playerid] = -1;
 
-			if(code == 0)
-				ChatMsg(playerid, YELLOW, "item/defence/code-zero");
+			if(code == 0) ChatMsg(playerid, YELLOW, "item/defence/code-zero");
 
 			return Y_HOOKS_BREAK_RETURN_1;
 		}
@@ -842,18 +841,18 @@ Timer:	def_AngleCheckTimer[MAX_PLAYERS],
 hook OnPlayerEnterButtonArea(playerid, buttonid) {
 	if(!IsPlayerOnAdminDuty(playerid) && IsPlayerSpawned(playerid)) {
 		new
-			defencetype,
+			defenceType,
 			Float:angle;
 
 		foreach(new i : def_Index) {
 			if(
 				(!GetDefenceMotor(i) && GetDefencePose(i) == DEFENCE_POSE_VERTICAL) ||
 				(GetDefenceMotor(i) && GetDefencePose(i) == DEFENCE_POSE_VERTICAL) ) {
-				defencetype = def_ItemTypeDefenceType[GetItemType(i)];
+				defenceType = def_ItemTypeDefenceType[GetItemType(i)];
 
 				GetItemRot(i, angle, angle, angle);
 
-				angle = absoluteangle((angle - def_TypeData[defencetype][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(i)));
+				angle = absoluteangle((angle - def_TypeData[defenceType][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(i)));
 
 				if(angle < 90.0 || angle > 270.0) {
 					stop def_AngleCheckTimer[playerid];
@@ -880,18 +879,18 @@ hook OnPlayerDisconnect(playerid, reason){
 
 timer DefenceAngleCheck[100](playerid, itemId) {
     new
-		defencetype,
+		defenceType,
 		Float:angle,
 		Float:x,
 		Float:y,
 		Float:z;
 		
 	GetItemPos(itemId, x, y, z);
-	defencetype = def_ItemTypeDefenceType[GetItemType(itemId)];
+	defenceType = def_ItemTypeDefenceType[GetItemType(itemId)];
 
 	GetItemRot(itemId, angle, angle, angle);
 
-	angle = absoluteangle((angle - def_TypeData[defencetype][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(itemId)));
+	angle = absoluteangle((angle - def_TypeData[defenceType][def_verticalRotZ]) - GetButtonAngleToPlayer(playerid, GetItemButtonID(itemId)));
 	
 	if(120.0 < angle < 250.0) {
 	    if(gettime() - def_SetPosTick[playerid] < 2000)
@@ -939,22 +938,22 @@ stock IsItemTypeDefence(ItemType:itemType) {
 }
 
 // def_itemtype
-forward ItemType:GetDefenceTypeItemType(defencetype);
-stock ItemType:GetDefenceTypeItemType(defencetype) {
-	if(!(0 <= defencetype < def_TypeTotal)) return INVALID_ITEM_TYPE;
+forward ItemType:GetDefenceTypeItemType(defenceType);
+stock ItemType:GetDefenceTypeItemType(defenceType) {
+	if(!(0 <= defenceType < def_TypeTotal)) return INVALID_ITEM_TYPE;
 
-	return def_TypeData[defencetype][def_itemtype];
+	return def_TypeData[defenceType][def_itemtype];
 }
 
 // def_verticalRotX
 // def_verticalRotY
 // def_verticalRotZ
-stock GetDefenceTypeVerticalRot(defencetype, &Float:x, &Float:y, &Float:z) {
-	if(!(0 <= defencetype < def_TypeTotal)) return 0;
+stock GetDefenceTypeVerticalRot(defenceType, &Float:x, &Float:y, &Float:z) {
+	if(!(0 <= defenceType < def_TypeTotal)) return 0;
 
-	x = def_TypeData[defencetype][def_verticalRotX];
-	y = def_TypeData[defencetype][def_verticalRotY];
-	z = def_TypeData[defencetype][def_verticalRotZ];
+	x = def_TypeData[defenceType][def_verticalRotX];
+	y = def_TypeData[defenceType][def_verticalRotY];
+	z = def_TypeData[defenceType][def_verticalRotZ];
 
 	return 1;
 }
@@ -962,22 +961,22 @@ stock GetDefenceTypeVerticalRot(defencetype, &Float:x, &Float:y, &Float:z) {
 // def_horizontalRotX
 // def_horizontalRotY
 // def_horizontalRotZ
-stock GetDefenceTypeHorizontalRot(defencetype, &Float:x, &Float:y, &Float:z) {
-	if(!(0 <= defencetype < def_TypeTotal)) return 0;
+stock GetDefenceTypeHorizontalRot(defenceType, &Float:x, &Float:y, &Float:z) {
+	if(!(0 <= defenceType < def_TypeTotal)) return 0;
 
-	x = def_TypeData[defencetype][def_horizontalRotX];
-	y = def_TypeData[defencetype][def_horizontalRotY];
-	z = def_TypeData[defencetype][def_horizontalRotZ];
+	x = def_TypeData[defenceType][def_horizontalRotX];
+	y = def_TypeData[defenceType][def_horizontalRotY];
+	z = def_TypeData[defenceType][def_horizontalRotZ];
 
 	return 1;
 }
 
 // def_placeOffsetZ
-forward Float:GetDefenceTypeOffsetZ(defencetype);
-stock Float:GetDefenceTypeOffsetZ(defencetype) {
-	if(!(0 <= defencetype < def_TypeTotal)) return 0.0;
+forward Float:GetDefenceTypeOffsetZ(defenceType);
+stock Float:GetDefenceTypeOffsetZ(defenceType) {
+	if(!(0 <= defenceType < def_TypeTotal)) return 0.0;
 
-	return def_TypeData[defencetype][def_placeOffsetZ];
+	return def_TypeData[defenceType][def_placeOffsetZ];
 }
 
 // def_type
