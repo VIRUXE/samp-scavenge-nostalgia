@@ -1,8 +1,9 @@
-
 #include <YSI\y_hooks>
 
+#define MAX_BASKET_ITEMS 32
+
 static enum E_BASKET {
-    ItemType:item,
+    ItemType:type,
     quantity
 }
 
@@ -11,7 +12,7 @@ static enum E_PRICING {
     price
 }
 
-static Basket[MAX_PLAYERS][32][E_BASKET];
+static Basket[MAX_PLAYERS][32][E_BASKET], Iterator:BasketIndex<MAX_BASKET_ITEMS>;
 
 static ItemPricing[][E_PRICING] = {
 	{"Accelerometer", 1337},
@@ -32,18 +33,18 @@ static ItemPricing[][E_PRICING] = {
 	{"AmmoFlechette", 1337},
 	{"AmmoHomeBuck", 1337},
 	{"AmmoRocket", 1337},
-	{"AntiSepBandage", 1337},
-	{"AppleJuice", 1337},
-	{"Armour", 1337},
+	{"AntiSepBandage", 50},
+	{"AppleJuice", 10},
+	{"Armour", 100},
 	{"AutoInjec", 1337},
 	{"Backpack", 1337},
-	{"Banana", 1337},
-	{"Bandage", 1337},
-	{"BandanaBl", 1337},
-	{"BandanaGr", 1337},
-	{"BandanaPat", 1337},
-	{"BandanaWh", 1337},
-	{"Barbecue", 1337},
+	{"Banana", 10},
+	{"Bandage", 40},
+	{"BandanaBl", 5},
+	{"BandanaGr", 5},
+	{"BandanaPat", 5},
+	{"BandanaWh", 5},
+	{"Barbecue", 100},
 	{"Barstool", 1337},
 	{"Bat", 1337},
 	{"Baton", 1337},
@@ -202,7 +203,6 @@ static ItemPricing[][E_PRICING] = {
 	{"Model70Rifle", 1337},
 	{"Molotov", 1337},
 	{"MolotovEmpty", 1337},
-	{"Money", 1337},
 	{"MotionSense", 1337},
 	{"Motor", 1337},
 	{"MP5", 1337},
@@ -336,21 +336,6 @@ static ItemPricing[][E_PRICING] = {
 };
 
 CMD:store(playerid, params[]) {
-    /* 	new list[MAX_DETFIELD_PAGESIZE * (MAX_DETFIELD_NAME + 1)];
-
-	new const totalFields = GetTotalDetectionFields();
-	new const count       = GetDetectionFieldList(dfm_FieldList[playerid], list, MAX_DETFIELD_PAGESIZE, dfm_PageIndex[playerid]);
-
-	if(!count) {
-		dfm_PageIndex[playerid] = 0;
-		return 0;
-	}
-
-	Dialog_Show(playerid, DetfieldList, DIALOG_STYLE_LIST, sprintf("Lista de Fields (%d-%d de %d)",
-		dfm_PageIndex[playerid],
-		(dfm_PageIndex[playerid] + count > totalFields) ? (totalFields) : (dfm_PageIndex[playerid] + count),
-		totalFields), list, "Opções", "Fechar"); */
-
     new const coinsAvailable = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
 
     new itemList[25000] = "Nome:\tPreço (Coins):\tCesto:\n";
@@ -371,8 +356,32 @@ CMD:loja(playerid, params[]) return cmd_store(playerid, params);
 
 Dialog:ShowItemList(playerid, response, listitem, inputtext[]) {
     if(response) {
+		new itemName[ITM_MAX_NAME];
 
+		new const ItemType:itemType = GetItemTypeFromUniqueName(ItemPricing[listitem][E_PRICING:name]);
+
+		GetItemTypeName(itemType, itemName);
+
+		new basketQuantity = 0;
+
+		for(new i; i < MAX_BASKET_ITEMS; i++) {
+			if(Basket[playerid][i][E_BASKET:type] == itemType) 
+				basketQuantity = Basket[playerid][i][E_BASKET:quantity];
+		}
+
+		// Define the quantity for this item
+		Dialog_Show(playerid, AddItemToBasket, DIALOG_STYLE_INPUT, 
+		sprintf("Adicionar '%s' ao Cesto - Quantidade:", itemName), 
+		sprintf(C_WHITE"Quantidade no Cesto: "C_GREY"%d"C_WHITE"\n\n\
+		Escolha a quantidade para esse item.\n\n\
+		Esse item custa "C_GREY"%d Coins"C_WHITE" por unidade. Você tem "C_GREY"%d/%d Coins"C_WHITE".", basketQuantity, ItemPricing[listitem][E_PRICING:price], GetPlayerCoins(playerid) - GetBasketTotal(playerid), GetPlayerCoins(playerid)),
+		basketQuantity ? "Atualizar" : "Adicionar", "Sair");
     } else {
+		if(GetBasketTotal(playerid)) { // Meaning there are some items
+
+		} else {
+
+		}
     }
 }
 
@@ -387,6 +396,8 @@ Dialog:BasketOptions(playerid, response, listitem, inputtext[]) {
     } else {
     }
 }
+
+
 
 GetBasketTotal(playerid) {
 
