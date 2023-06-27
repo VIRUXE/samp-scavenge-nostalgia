@@ -130,7 +130,7 @@ public OnGameModeInit() {
 
 #define YELLOW						0xFFFF00FF
 #define RED							0xE85454FF
-#define GREEN						0x33AA33FF
+#define GREEN						0x7CFC00FF
 #define BLUE						0x33CCFFFF
 #define ORANGE						0xFFAA00FF
 #define GREY						0xAFAFAFFF
@@ -152,7 +152,7 @@ public OnGameModeInit() {
 
 #define C_YELLOW					"{FFFF00}"
 #define C_RED						"{E85454}"
-#define C_GREEN						"{33AA33}"
+#define C_GREEN						"{7CFC00}"
 #define C_BLUE						"{33CCFF}"
 #define C_ORANGE					"{FFAA00}"
 #define C_GREY						"{AFAFAF}"
