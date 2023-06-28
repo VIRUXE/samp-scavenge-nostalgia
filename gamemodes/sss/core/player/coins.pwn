@@ -12,7 +12,7 @@ stock AddPlayerCoins(playerId, amount) {
     // Banir se o dinheiro for diferente do montante de coins que temos internamente
     // if(Coins[playerId][set] && GetPlayerMoney(playerId) != Coins[playerId][owned]) BanPlayer(playerId, "Bad coins.", -1, 0);
 
-    Coins[playerId][owned] = Coins[playerId][owned] + amount;
+    Coins[playerId][owned] += amount;
     
     ShowPlayerCoins(playerId);
 
@@ -20,11 +20,12 @@ stock AddPlayerCoins(playerId, amount) {
 }
 
 ShowPlayerCoins(playerId) {
+    ResetPlayerMoney(playerId);
     stop Coins[playerId][updateTimer];
     Coins[playerId][updateTimer] = repeat UpdateMoney(playerId, Coins[playerId][owned]);
 }
 
-timer UpdateMoney[50](playerId, amount) {
+timer UpdateMoney[25](playerId, amount) {
     if(GetPlayerMoney(playerId) < amount)
         GivePlayerMoney(playerId, 1);
     else
@@ -32,7 +33,7 @@ timer UpdateMoney[50](playerId, amount) {
 }
 
 stock RemovePlayerCoins(playerId, coins) {
-    Coins[playerId][owned] = Coins[playerId][owned] - coins;
+    Coins[playerId][owned] -= coins;
 
     return 1;
 }
@@ -42,7 +43,7 @@ stock SetPlayerCoins(playerId, coins, bool:show) {
 
     Coins[playerId][owned] = coins;
 
-    if(show) ResetPlayerMoney(playerId), ShowPlayerCoins(playerId);
+    if(show) ShowPlayerCoins(playerId);
 
     return 1;
 }
