@@ -172,14 +172,13 @@ CMD:store(playerid, params[]) {
 
     for(new i; i < sizeof(ItemPricing); i++) {
         new itemName[ITM_MAX_NAME];
-
 		new const ItemType:itemType = GetItemTypeFromUniqueName(ItemPricing[i][E_PRICING:name]);
+		new const basketQuantity = GetItemQuantityInBasket(playerid, itemType);
+		new const bool:canBuy = coinsAvailable >= ItemPricing[i][E_PRICING:price];
 
         GetItemTypeName(itemType, itemName);
 
-		new basketQuantity = GetItemQuantityInBasket(playerid, itemType);
-
-        strcat(itemList, sprintf("%s%s\t%d\t%s\n", basketQuantity ? C_GREEN : "", itemName, ItemPricing[i][E_PRICING:price], basketQuantity ? sprintf("x%d", basketQuantity) : ""));
+        strcat(itemList, sprintf("%s%s\t%s%d\t%s\n", basketQuantity ? C_GREEN : "", itemName, !canBuy ? C_RED : "", ItemPricing[i][E_PRICING:price], basketQuantity ? sprintf("x%d", basketQuantity) : ""));
     }
 
     Dialog_Show(playerid, ShowItemList, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Loja de Itens (Coins Disponíveis: %d)", coinsAvailable), itemList, "Quantidade", GetBasketTotal(playerid) ? "Opções" : "Sair");
@@ -201,11 +200,27 @@ CMD:basket(playerid, params[]) {
         strcat(itemList, sprintf("%s\tx%d\n", itemName, Basket[playerid][i][E_BASKET:quantity]));
     }
 
-    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d (Coins Disponíveis: %d)", coinsAvailable), itemList, "Pagar", "Voltar");
+    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins (Coins Disponíveis: %d)", coinsAvailable), itemList, "Pagar", "Voltar");
 
 	return 1;
 }
 CMD:cesto(playerid, params[]) return cmd_basket(playerid, params);
+
+CMD:itens(playerid, paramsp[]) {
+	new itemList[25000] = "Nome:\tQuantidade:\n";
+
+	// Query the database for the purchased items
+
+    Dialog_Show(playerid, PurchasedItems, DIALOG_STYLE_TABLIST_HEADERS, "Itens Comprados na Loja:", itemList, "Spawn", "Sair");
+
+	return 1;
+}
+
+Dialog:PurchasedItems(playerid, response, listitem, inputtext[]) {
+    if(response) {
+	} else {
+	}
+}
 
 Dialog:ShowItemList(playerid, response, listitem, inputtext[]) {
     if(response) {
