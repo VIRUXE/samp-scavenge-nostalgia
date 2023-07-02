@@ -14,7 +14,7 @@ static enum E_PRICING {
 
 static Basket[MAX_PLAYERS][32][E_BASKET], Iterator:BasketIndex<MAX_BASKET_ITEMS>;
 
-static ItemType:selectedItem[MAX_PLAYERS];
+static ItemType:SelectedItem[MAX_PLAYERS];
 
 static ItemPricing[][E_PRICING] = {
 	// Explosivos
@@ -166,34 +166,30 @@ bool:RemoveItemFromBasket(playerid, ItemType:item) {
 }
 
 CMD:store(playerid, params[]) {
-    new const coinsAvailable = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
+    new const remainingCoins = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
 
-    new itemList[35000] = "Nome:\tPreço (Coins):\tQuant. Poss.:\tCesto:\n";
+    new itemList[35000] = "Nome:\tCoins:\tQuant. Poss.:\tCesto:\n";
 
     for(new i; i < sizeof(ItemPricing); i++) {
         new itemName[ITM_MAX_NAME];
 		new const ItemType:itemType = GetItemTypeFromUniqueName(ItemPricing[i][E_PRICING:name]);
-		new const basketQuantity    = GetItemQuantityInBasket(playerid, itemType);
-		new const bool:canBuy       = coinsAvailable >= ItemPricing[i][E_PRICING:price];
-		new const itemPrice         = GetItemPrice(selectedItem[playerid]);
-		new const quantityPossible  = coinsAvailable % itemPrice;
-		new listItem[1024];
+		new const basketItemQuantity    = GetItemQuantityInBasket(playerid, itemType);
+		new const bool:canBuy       = remainingCoins >= ItemPricing[i][E_PRICING:price];
+		new const quantityPossible  = remainingCoins / GetItemPrice(itemType);
 
         GetItemTypeName(itemType, itemName);
 
-		format(listItem, sizeof(listItem), "%s%s\t%s%d\t%s\t%s\n", basketQuantity ? C_GREEN : "", itemName, !canBuy ? C_RED : "", ItemPricing[i][E_PRICING:price], quantityPossible ? sprintf("x%s", quantityPossible) : "", basketQuantity ? sprintf("x%d", basketQuantity) : "");
-
-        strcat(itemList, listItem);
+        strcat(itemList, sprintf("%s%s\t%s%d\t%s\t%s\n", basketItemQuantity ? C_GREEN : "", itemName, !canBuy ? C_RED : "", ItemPricing[i][E_PRICING:price], quantityPossible ? sprintf("x%d", quantityPossible) : " ", basketItemQuantity ? sprintf("x%d", basketItemQuantity) : " "));
     }
 
-    Dialog_Show(playerid, ShowItemList, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Loja de Itens (Coins Disponíveis: %d)", coinsAvailable), itemList, "Quantidade", GetBasketTotal(playerid) ? "Opções" : "Sair");
-    
+    Dialog_Show(playerid, ShowItemList, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Loja de Itens (Coins Disponíveis: %d)", remainingCoins), itemList, "Quantidade", GetBasketTotal(playerid) ? "Opções" : "Sair");
+  
     return 1;
 }
 CMD:loja(playerid, params[]) return cmd_store(playerid, params);
 
 CMD:basket(playerid, params[]) {
-	new const coinsAvailable = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
+	new const remainingCoins = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
 
     new itemList[25000] = "Nome:\tQuantidade:\n";
 
@@ -205,7 +201,7 @@ CMD:basket(playerid, params[]) {
         strcat(itemList, sprintf("%s\tx%d\n", itemName, Basket[playerid][i][E_BASKET:quantity]));
     }
 
-    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins (Coins Disponíveis: %d)", coinsAvailable), itemList, "Pagar", "Voltar");
+    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins (Coins Disponíveis: %d)", remainingCoins), itemList, "Pagar", "Voltar");
 
 	return 1;
 }
@@ -245,17 +241,17 @@ Dialog:ShowItemList(playerid, response, listitem, inputtext[]) {
 
 		GetItemTypeName(itemType, itemName);
 
-		new basketQuantity = GetItemQuantityInBasket(playerid, itemType);
+		new basketItemQuantity = GetItemQuantityInBasket(playerid, itemType);
 
-		selectedItem[playerid] = itemType;
+		SelectedItem[playerid] = itemType;
 
 		// Define the quantity for this item
 		Dialog_Show(playerid, AddItemToBasket, DIALOG_STYLE_INPUT, 
 		sprintf(C_WHITE"Quantidade de "C_GREEN"'%s'"C_WHITE" no Cesto:", itemName), 
 		sprintf("%sEscolha a quantidade para esse item.\n\n\
 		"C_WHITE"Quantidade Atual no Cesto: "C_GREEN"x%d"C_WHITE"\n\n\
-		Esse item custa "C_GREEN"%d Coins"C_WHITE" por unidade. Você tem "C_GREEN"%d Coins"C_WHITE".", basketQuantity ? C_YELLOW : C_BLUE, basketQuantity, ItemPricing[listitem][E_PRICING:price], remainingCoins),
-		basketQuantity ? "Atualizar" : "Adicionar", "Voltar");
+		Esse item custa "C_GREEN"%d Coins"C_WHITE" por unidade. Você tem "C_GREEN"%d Coins"C_WHITE". Pode comprar x%d.", basketItemQuantity ? C_YELLOW : C_BLUE, basketItemQuantity, ItemPricing[listitem][E_PRICING:price], remainingCoins, remainingCoins / GetItemPrice(itemType)),
+		basketItemQuantity ? "Atualizar" : "Adicionar", "Voltar");
     } else {
 		if(GetBasketTotal(playerid)) { // Meaning there are some items
 			new itemName[ITM_MAX_NAME];
@@ -264,11 +260,11 @@ Dialog:ShowItemList(playerid, response, listitem, inputtext[]) {
 
 			GetItemTypeName(itemType, itemName);
 
-			selectedItem[playerid] = itemType;
+			SelectedItem[playerid] = itemType;
 
     		Dialog_Show(playerid, ShowItemListOptions, DIALOG_STYLE_LIST, 
 			sprintf("Loja de Itens - Opções (%s)", itemName), 
-			"Remover do Cesto\nVer Cesto\nSair", 
+			"Remover do Cesto\nVer Cesto\nEsvaziar Cesto\nSair", 
 			"OK", "Voltar");
 		}
     }
@@ -287,34 +283,38 @@ Dialog:AddItemToBasket(playerid, response, listitem, inputtext[]) {
 
 		new itemName[ITM_MAX_NAME];
 
-		GetItemTypeName(selectedItem[playerid], itemName);
+		GetItemTypeName(SelectedItem[playerid], itemName);
 
 		if(inputQuantity == 0) {
 			// Remove the item if it's in the Basket
-			if(RemoveItemFromBasket(playerid, selectedItem[playerid])) ChatMsg(playerid, YELLOW, "Removeu '%s' do Cesto", itemName);
+			if(RemoveItemFromBasket(playerid, SelectedItem[playerid])) ChatMsg(playerid, YELLOW, "Removeu '%s' do Cesto", itemName);
 
 			return cmd_store(playerid, "");
 		}
 
-		new const coinsAvailable = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
-		new const itemPrice      = GetItemPrice(selectedItem[playerid]);
+		new const remainingCoins = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
+		new const itemPrice      = GetItemPrice(SelectedItem[playerid]);
+		new const basketItemQuantity = GetItemQuantityInBasket(playerid, SelectedItem[playerid]);
+		new const basketItemValue    = itemPrice * basketItemQuantity;
+		new const coins          = basketItemQuantity ? remainingCoins + basketItemValue : remainingCoins;
 
-		if(coinsAvailable < itemPrice * inputQuantity) {
+		if(coins < itemPrice * inputQuantity) {
 			ChatMsg(playerid, YELLOW, "Você não tem dinheiro suficiente para comprar x%d de '%s'", inputQuantity, itemName);
 
-			inputQuantity = coinsAvailable % itemPrice;
+			new const maxAffordableQuantity = coins / itemPrice;
+			inputQuantity = min(inputQuantity, maxAffordableQuantity);
 
 			// If the remainder is 0 or the quantity is the same then just go back to the list
-			if(!inputQuantity)  return cmd_store(playerid, "");
+			if(!inputQuantity) return cmd_store(playerid, "");
 		}
 
-		if(GetItemQuantityInBasket(playerid, selectedItem[playerid]) == inputQuantity) return cmd_store(playerid, "");
+		if(basketItemQuantity == inputQuantity) return cmd_store(playerid, "");
 
 		new bool:itemInBasket;
 
 		// Find out of the item type already exists in the basket and update the quantity
 		foreach(new i : BasketIndex) {
-			if(Basket[playerid][i][E_BASKET:type] == selectedItem[playerid]) {
+			if(Basket[playerid][i][E_BASKET:type] == SelectedItem[playerid]) {
 				Basket[playerid][i][E_BASKET:quantity] = inputQuantity;
 				itemInBasket = true;
 				ChatMsg(playerid, GREEN, "Tem agora x%d de '%s' no Cesto", inputQuantity, itemName);
@@ -332,7 +332,7 @@ Dialog:AddItemToBasket(playerid, response, listitem, inputtext[]) {
 				return cmd_store(playerid, "");
 			}
 
-			Basket[playerid][index][E_BASKET:type]     = selectedItem[playerid];
+			Basket[playerid][index][E_BASKET:type]     = SelectedItem[playerid];
 			Basket[playerid][index][E_BASKET:quantity] = inputQuantity;
 
 			Iter_Add(BasketIndex, index);
@@ -345,19 +345,24 @@ Dialog:AddItemToBasket(playerid, response, listitem, inputtext[]) {
 }
 
 Dialog:ShowItemListOptions(playerid, response, listitem, inputtext[]) {
-    if(response) { //Remover do Cesto\nVer Cesto\nSair
+    if(response) { // "Remover do Cesto\nVer Cesto\nEsvaziar Cesto\nSair", 
 		switch(listitem) {
 			case 0: {
-				if(RemoveItemFromBasket(playerid, selectedItem[playerid])) {
+				if(RemoveItemFromBasket(playerid, SelectedItem[playerid])) {
 					new itemName[ITM_MAX_NAME];
 
-					GetItemTypeName(selectedItem[playerid], itemName);
+					GetItemTypeName(SelectedItem[playerid], itemName);
 					ChatMsg(playerid, YELLOW, "Removeu '%s' do Cesto", itemName);
 				}
 
 				return cmd_store(playerid, "");
 			}
 			case 1:	return cmd_basket(playerid, "");
+			case 2: {
+				EmptyBasket(playerid);
+
+				// return cmd_store(playerid, "");
+			}
 		}
 	} else 
 		return cmd_store(playerid, "");
