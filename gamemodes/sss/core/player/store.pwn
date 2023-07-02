@@ -12,142 +12,142 @@ static enum E_PRICING {
     price
 }
 
+// Database Statements
+static
+DBStatement:stmt_AddItemOrder,
+DBStatement:stmt_RedeemOrderItem,
+DBStatement:stmt_GetRedeemableOrderItem,
+DBStatement:stmt_GetRedeemableOrderItems;
+
 static Basket[MAX_PLAYERS][32][E_BASKET], Iterator:BasketIndex<MAX_BASKET_ITEMS>;
 
 static ItemType:SelectedItem[MAX_PLAYERS];
 
 static ItemPricing[][E_PRICING] = {
 	// Explosivos
-	{"Dynamite", 1337},
-	{"TntPhoneBomb", 1337},
-	{"TntProxMine", 1337},
-	{"TntTimebomb", 1337},
-	{"TntTripMine", 1337},
-	{"IedBomb", 1337},
-	{"IedPhoneBomb", 1337},
-	{"IedProxMine", 1337},
-	{"IedTimebomb", 1337},
-	{"IedTripMine", 1337},
-	{"FireworkBox", 1337},
-	{"EmpPhoneBomb", 1337},
-	{"EmpProxMine", 1337},
-	{"EmpTimebomb", 1337},
-	{"EmpTripMine", 1337},
-	{"Explosive", 1337},
-	{"MobilePhone", 1337},
+	{"Dynamite", 120},
+	{"TntPhoneBomb", 120},
+	{"TntProxMine", 120},
+	{"TntTimebomb", 120},
+	{"TntTripMine", 120},
+	{"IedBomb", 100},
+	{"IedPhoneBomb", 110},
+	{"IedProxMine", 120},
+	{"IedTimebomb", 120},
+	{"IedTripMine", 120},
+	{"FireworkBox", 80},
+	{"EmpPhoneBomb", 100},
+	{"EmpProxMine", 100},
+	{"EmpTimebomb", 100},
+	{"EmpTripMine", 100},
+	{"Explosive", 100},
+	{"MobilePhone", 20},
 
 	// Médico
-	{"Medkit", 1337},
+	{"Medkit", 60},
 	{"Bandage", 40},
 	{"AntiSepBandage", 50},
-	{"DoctorBag", 1337},
+	{"DoctorBag", 70},
 	
 	// Ferramentas
-	{"Spanner", 1337},
-	{"Wrench", 1337},
-	{"Screwdriver", 1337},
-	{"Hammer", 1337},
-	{"Crowbar", 1337},
+	{"Spanner", 10},
+	{"Wrench", 5},
+	{"Screwdriver", 10},
+	{"Hammer", 10},
+	{"Crowbar", 15},
 
-	{"Map", 1337},
-	{"MediumBag", 1337},
-	{"LargeBackpack", 1337},
-	{"MediumBox", 1337},
-	{"LargeBox", 1337},
-	{"Wheel", 1337},
-	{"Key", 1337},
-	{"LocksmithKit", 1337},
-	{"Keypad", 1337},
+	{"Map", 50},
+	{"MediumBag", 80},
+	{"LargeBackpack", 100},
+	{"MediumBox", 70},
+	{"LargeBox", 100},
+	{"Wheel", 10},
+	{"Key", 100},
+	{"LocksmithKit", 150},
+	{"Keypad", 150},
+	{"AdvancedKeypad", 9999},
 
 	// Defesas
-	{"InsulDoor", 1337},
-	{"ShipDoor", 1337},
-	{"TallFrame", 1337},
-	{"MetalFrame", 1337},
-	{"MetalGate1", 1337},
-	{"MetalGate2", 1337},
-	{"MetPanel", 1337},
-	{"WoodPanel", 1337},
-    {"CorPanel", 1337},
-    {"DiaboMask", 1337},
-    {"DupleDoor", 1337},
-    {"fire_hat1", 1337},
-    {"fire_hat2", 1337},
-    {"headphones04", 1337},
-    {"InsulPanel", 1337},
-    {"MetalBlin", 1337},
-    {"MetalStand", 1337},
-	{"GarageDoor", 1337},
-	{"DoorBlin", 1337},
-    {"PortaCofre", 1337},
+	{"InsulDoor", 50},
+	{"ShipDoor", 50},
+	{"TallFrame", 50},
+	{"MetalFrame", 50},
+	{"MetalGate1", 50},
+	{"MetalGate2", 50},
+	{"MetPanel", 50},
+	{"WoodPanel", 50},
+    {"CorPanel", 50},
+    {"DupleDoor", 50},
+    {"InsulPanel", 50},
+    {"MetalBlin", 50},
+    {"MetalStand", 50},
+	{"GarageDoor", 50},
+	{"DoorBlin", 50},
+    {"PortaCofre", 50},
 
 	// Armas
-	{"M16Rifle", 1337},
-	{"M77RMRifle", 1337},
-	{"M9Pistol", 1337},
-	{"M9PistolSD", 1337},
-	{"Mac10", 1337},
-	{"MP5", 1337},
-	{"PumpShotgun", 1337},
-	{"SemiAutoRifle", 1337},
-	{"Sawnoff", 1337},
-	{"Spas12", 1337},
-	{"Tec9", 1337},
-	{"WASR3Rifle", 1337},
-	{"SniperRifle", 1337},
-	{"Model70Rifle", 1337},
-	{"Molotov", 1337},
-	{"AK47Rifle", 1337},
-	{"Armour", 100},
-	{"Flamer", 1337},
-
-	{"AdvancedKeypad", 1337},
-	{"Backpack", 1337},
-	{"Barbecue", 100},
-	{"Battery", 1337},
-	{"Bed", 1337},
-	{"Campfire", 1337},
-	{"DataInterface", 1337},
+	{"M9Pistol", 250},
+	{"M9PistolSD", 250},
 	{"DesertEagle", 1337},
-	{"Detonator", 1337},
-	{"FireLighter", 1337},
-	{"Fluctuator", 1337},
-	{"FluxCap", 1337},
-	{"Fusebox", 1337},
-	{"GasCan", 1337},
-	{"GasMask", 1337},
-	{"GeigerCounter", 1337},
-	{"Gyroscope", 1337},
-	{"HackDevice", 1337},
-	{"HardDrive", 1337},
-	{"Headlight", 1337},
-	{"Heatseeker", 1337},
-	{"Holdall", 1337},
-	{"IoUnit", 1337},
+	{"M16Rifle", 250},
+	{"M77RMRifle", 250},
+	{"Mac10", 250},
+	{"MP5", 250},
+	{"PumpShotgun", 250},
+	{"SemiAutoRifle", 250},
+	{"Sawnoff", 250},
+	{"Spas12", 250},
+	{"Tec9", 250},
+	{"WASR3Rifle", 250},
+	{"SniperRifle", 400},
+	{"Model70Rifle", 250},
+	{"Molotov", 5},
+	{"AK47Rifle", 250},
+	{"Armour", 100},
+	{"Flamer", 250},
+	{"LenKnocksRifle", 250},
 
-	{"LenKnocksRifle", 1337},
-	{"Locator", 1337},
-	{"LockBreaker", 1337},
-	{"Locker", 1337},
-	{"LongPlank", 1337},
-	{"MotionSense", 1337},
-	{"Motor", 1337},
-	{"NightVision", 1337},
-	{"Padlock", 1337},
-	{"ParaBag", 1337},
-	{"Pills", 1337},
+	{"Backpack", 40},
+	{"Barbecue", 100},
+	{"Battery", 10},
+	{"Bed", 9999},
+	{"Campfire", 10},
+	// {"DataInterface", 1337},
+	// {"Detonator", 1337},
+	{"FireLighter", 5},
+	// {"Fluctuator", 1337},
+	{"Fusebox", 5},
+	{"GasCan", 10},
+	{"GasMask", 20},
+	{"GeigerCounter", 120},
+	{"HackDevice", 500},
+	{"HardDrive", 20},
+	{"Headlight", 20},
+	{"Heatseeker", 9999},
+	{"Holdall", 20},
+	{"IoUnit", 50},
+
+	// {"Locator", 1337},
+	// {"LockBreaker", 1337},
+	// {"Locker", 1337},
+	// {"LongPlank", 1337},
+	{"MotionSense", 10},
+	{"Motor", 15},
+	{"NightVision", 80},
+	{"Padlock", 40},
+	{"ParaBag", 50},
+	// {"Pills", 1337},
 	{"PowerSupply", 1337},
-	{"RemoteBomb", 1337},
-	{"RemoteControl", 1337},
-	{"Spatula", 1337},
+	// {"RemoteBomb", 1337},
+	// {"RemoteControl", 1337},
 	{"StunGun", 1337},
 	{"Teargas", 1337},
 	{"TentPack", 1337},
-	{"ThermalVision", 1337},
-	{"Timer", 1337},
-	{"WheelLock", 1337},
-	{"WoodLog", 1337},
-	{"Workbench", 1337}
+	{"ThermalVision", 200},
+	// {"Timer", 1337},
+	{"WheelLock", 25}
+	// {"WoodLog", 1337},
+	// {"Workbench", 1337}
 };
 
 bool:RemoveItemFromBasket(playerid, ItemType:item) {
@@ -172,10 +172,10 @@ CMD:store(playerid, params[]) {
 
     for(new i; i < sizeof(ItemPricing); i++) {
         new itemName[ITM_MAX_NAME];
-		new const ItemType:itemType = GetItemTypeFromUniqueName(ItemPricing[i][E_PRICING:name]);
-		new const basketItemQuantity    = GetItemQuantityInBasket(playerid, itemType);
-		new const bool:canBuy       = remainingCoins >= ItemPricing[i][E_PRICING:price];
-		new const quantityPossible  = remainingCoins / GetItemPrice(itemType);
+		new const ItemType:itemType  = GetItemTypeFromUniqueName(ItemPricing[i][E_PRICING:name]);
+		new const basketItemQuantity = GetItemQuantityInBasket(playerid, itemType);
+		new const bool:canBuy        = remainingCoins >= ItemPricing[i][E_PRICING:price];
+		new const quantityPossible   = remainingCoins / GetItemPrice(itemType);
 
         GetItemTypeName(itemType, itemName);
 
@@ -363,6 +363,7 @@ Dialog:ShowItemListOptions(playerid, response, listitem, inputtext[]) {
 
 				// return cmd_store(playerid, "");
 			}
+			default: return cmd_store(playerid, "");
 		}
 	} else 
 		return cmd_store(playerid, "");
@@ -423,7 +424,6 @@ GetBasketTotal(playerid) {
     return total;
 }
 
-
 EmptyBasket(playerid) {
 	new count;
 
@@ -437,4 +437,19 @@ EmptyBasket(playerid) {
 	}
 	
 	return count;
+}
+
+hook OnGamemodeInit() {
+	db_query(Database, "CREATE TABLE IF NOT EXISTS orders (\
+	player TEXT NOT NULL,\
+	item TEXT NOT NULL,\
+	purchased INTEGER NOT NULL\
+	redeemed INTEGER)");
+
+	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON orders(player)");
+
+	stmt_AddItemOrder            = db_prepare(Database, "INSERT INTO orders VALUES(?,?,?);");
+	stmt_RedeemOrderItem         = db_prepare(Database, "UPDATE orders SET redeemed = redeemed + 1 WHERE item = ? AND player = ?;");
+	stmt_GetRedeemableOrderItem  = db_prepare(Database, "SELECT purchased - redeemed as `redeemable` FROM orders WHERE item = ? AND player = ?;");
+	stmt_GetRedeemableOrderItems = db_prepare(Database, "SELECT item, purchased - redeemed as `redeemable` FROM orders WHERE player = ?;");
 }
