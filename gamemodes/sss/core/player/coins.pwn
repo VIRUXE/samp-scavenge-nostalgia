@@ -48,6 +48,10 @@ stock SetPlayerCoins(playerId, coins, bool:show) {
     return 1;
 }
 
+SavePlayerCoins(playerid) {
+    db_query(Database, sprintf("UPDATE players SET coins = %d WHERE name = '%s';", GetPlayerCoins(playerid), GetPlayerNameEx(playerid)));
+}
+
 stock GetPlayerCoins(playerId) {
     if(!IsPlayerConnected(playerId)) return 0;
 
@@ -67,6 +71,8 @@ ACMD:setcoins[5](playerId, params[]) {
     
     SetPlayerCoins(targetId, coins, true);
 
+    SavePlayerCoins(playerId);
+
     return 1;
 }
 
@@ -78,6 +84,8 @@ ACMD:givecoins[5](playerId, params[]) {
     ChatMsgAdmins(1, BLUE, "[Admin] %p deu %d coins a %p", playerId, coins, targetId);
     
     AddPlayerCoins(targetId, coins);
+
+    SavePlayerCoins(playerId);
 
     return 1;
 }
