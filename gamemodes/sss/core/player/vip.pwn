@@ -27,7 +27,7 @@ ACMD:setvip[5](playerid, params[]) {
 
 	if(!VIP[targetId]) SetPlayerChatMode(playerid, CHAT_MODE_LOCAL);
 
-	return ChatMsgAll(PINK, VIP[targetId] ? " > %p (%d) É o mais novo VIP (%s) do servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o VIP (%s) do servidor. :(", targetId, targetId, GetVipTierName(tier));
+	return ChatMsgAll(GetVipTierColor(VIP[targetId]), VIP[targetId] ? " > %p (%d) É o mais novo VIP %sdo servidor. Parabéns!!! :D" : " > %p (%d) Perdeu o VIP %sdo servidor. :(", targetId, targetId, VIP[targetId] ? sprintf("(%s) ", GetVipTierName(tier)) : "");
 }
 
 CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick, luta
@@ -251,4 +251,14 @@ GetVipTierName(tier) {
 	}
 
 	return name;
+}
+
+GetVipTierColor(tier) {
+	switch(tier) {
+		case VIP_COPPER: return 0xb87333FF;
+		case VIP_SILVER: return 0x808080FF;
+		case VIP_GOLD:   return GOLD;
+	}
+
+	return 0xFFFFFFFF;
 }
