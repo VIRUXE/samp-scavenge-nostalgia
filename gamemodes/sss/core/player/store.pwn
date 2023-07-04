@@ -150,6 +150,21 @@ static ItemPricing[][E_PRICING] = {
 	// {"Workbench", 1337}
 };
 
+hook OnGamemodeInit() {
+	db_query(Database, "CREATE TABLE IF NOT EXISTS orders (\
+	player TEXT NOT NULL,\
+	item TEXT NOT NULL,\
+	purchased INTEGER NOT NULL,\
+	redeemed INTEGER)");
+
+	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON orders(player)");
+
+	stmt_AddItemOrder            = db_prepare(Database, "INSERT INTO orders VALUES(?,?,?,0);");
+	stmt_RedeemOrderItem         = db_prepare(Database, "UPDATE orders SET redeemed = redeemed + 1 WHERE item = ? AND player = ?;");
+	stmt_GetRedeemableOrderItem  = db_prepare(Database, "SELECT purchased - redeemed as `redeemable` FROM orders WHERE item = ? AND player = ?;");
+	stmt_GetRedeemableOrderItems = db_prepare(Database, "SELECT item, purchased - redeemed as `redeemable` FROM orders WHERE player = ?;");
+}
+
 bool:RemoveItemFromBasket(playerid, ItemType:item) {
 	foreach(new i : BasketIndex) {
 		if(Basket[playerid][i][E_BASKET:type] == item) {
@@ -189,8 +204,6 @@ CMD:store(playerid, params[]) {
 CMD:loja(playerid, params[]) return cmd_store(playerid, params);
 
 CMD:basket(playerid, params[]) {
-	new const remainingCoins = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
-
     new itemList[25000] = "Nome:\tQuantidade:\n";
 
     foreach(new i : BasketIndex) {
@@ -201,7 +214,7 @@ CMD:basket(playerid, params[]) {
         strcat(itemList, sprintf("%s\tx%d\n", itemName, Basket[playerid][i][E_BASKET:quantity]));
     }
 
-    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins (Coins Disponíveis: %d)", remainingCoins), itemList, "Pagar", "Voltar");
+    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins", GetBasketTotal(playerid)), itemList, "Pagar", "Voltar");
 
 	return 1;
 }
@@ -292,17 +305,16 @@ Dialog:AddItemToBasket(playerid, response, listitem, inputtext[]) {
 			return cmd_store(playerid, "");
 		}
 
-		new const remainingCoins = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
-		new const itemPrice      = GetItemPrice(SelectedItem[playerid]);
+		new const remainingCoins     = GetPlayerCoins(playerid) - GetBasketTotal(playerid);
+		new const itemPrice          = GetItemPrice(SelectedItem[playerid]);
 		new const basketItemQuantity = GetItemQuantityInBasket(playerid, SelectedItem[playerid]);
 		new const basketItemValue    = itemPrice * basketItemQuantity;
-		new const coins          = basketItemQuantity ? remainingCoins + basketItemValue : remainingCoins;
+		new const coins              = basketItemQuantity ? remainingCoins + basketItemValue : remainingCoins;
 
 		if(coins < itemPrice * inputQuantity) {
 			ChatMsg(playerid, YELLOW, "Você não tem dinheiro suficiente para comprar x%d de '%s'", inputQuantity, itemName);
 
-			new const maxAffordableQuantity = coins / itemPrice;
-			inputQuantity = min(inputQuantity, maxAffordableQuantity);
+			inputQuantity = min(inputQuantity, coins / itemPrice);
 
 			// If the remainder is 0 or the quantity is the same then just go back to the list
 			if(!inputQuantity) return cmd_store(playerid, "");
@@ -359,11 +371,11 @@ Dialog:ShowItemListOptions(playerid, response, listitem, inputtext[]) {
 			}
 			case 1:	return cmd_basket(playerid, "");
 			case 2: {
-				EmptyBasket(playerid);
+				// EmptyBasket(playerid);
 
-				// return cmd_store(playerid, "");
+				return cmd_store(playerid, "");
 			}
-			default: return cmd_store(playerid, "");
+			default: return 1; // ? Redundant?
 		}
 	} else 
 		return cmd_store(playerid, "");
@@ -374,11 +386,41 @@ Dialog:ShowItemListOptions(playerid, response, listitem, inputtext[]) {
 Dialog:ShowBasket(playerid, response, listitem, inputtext[]) {
     if(response) {
 		new const total = GetBasketTotal(playerid);
-		// Cria a encomenda
 
-		RemovePlayerCoins(playerid, total);
-		EmptyBasket(playerid);
-    } else {
+		printf("[STORE] Salvando Ordem para '%p'", playerid);
+
+		// Create the order in the database
+		// stmt_bind_value(stmt_AddItemOrder, 0, DB::TYPE_PLAYER_NAME, playerid);
+
+		new bool:badOrder;
+
+		foreach(new i : BasketIndex) {
+			new uniqueName[ITM_MAX_NAME];
+
+			GetItemTypeUniqueName(Basket[playerid][i][E_BASKET:type], uniqueName);
+
+			printf("\tItem: %s Quantidade: %d", uniqueName, Basket[playerid][i][E_BASKET:quantity]);
+
+			// stmt_bind_value(stmt_AddItemOrder, 1, DB::TYPE_STRING, uniqueName, ITM_MAX_NAME);
+			// stmt_bind_value(stmt_AddItemOrder, 2, DB::TYPE_INTEGER, Basket[playerid][i][E_BASKET:quantity]);
+
+			// if(!stmt_execute(stmt_AddItemOrder)) badOrder = true;
+
+			// ! wtf SQLitei Warning: (stmt_bind_value) Parameter index larger than number of parameters (1 > 0).
+
+			db_query(Database, sprintf("INSERT INTO orders VALUES('%s','%s',%d,0);", GetPlayerNameEx(playerid), uniqueName, Basket[playerid][i][E_BASKET:quantity]));
+		}
+
+		if(!badOrder) {
+			RemovePlayerCoins(playerid, total);
+			// EmptyBasket(playerid);
+
+			db_query(Database, sprintf("UPDATE players SET coins = coins - %d WHERE name = '%s';", total, GetPlayerNameEx(playerid)));
+
+			SendClientMessage(playerid, GREEN, "Parabéns, concluiu a sua compra. Pode agora redimir os seus itens utilizando '/itens'");
+		} else
+			SendClientMessage(playerid, RED, "Ocorreu um erro ao efetuar a sua compra. Abra um post no fórum do Discord.");
+	} else {
 		cmd_store(playerid, "");
     }
 }
@@ -396,10 +438,11 @@ GetItemPrice(ItemType:item) {
 	return 0;
 }
 
-
 GetItemQuantityInBasket(playerid, ItemType:item) {
-	for(new i; i < MAX_BASKET_ITEMS; i++) 
-		if(Basket[playerid][i][E_BASKET:type] == item) return Basket[playerid][i][E_BASKET:quantity];
+	foreach(new i : BasketIndex) {
+		if(Basket[playerid][i][E_BASKET:type] == item) 
+			return Basket[playerid][i][E_BASKET:quantity];
+	}
 
 	return 0;
 }
@@ -437,19 +480,4 @@ EmptyBasket(playerid) {
 	}
 	
 	return count;
-}
-
-hook OnGamemodeInit() {
-	db_query(Database, "CREATE TABLE IF NOT EXISTS orders (\
-	player TEXT NOT NULL,\
-	item TEXT NOT NULL,\
-	purchased INTEGER NOT NULL\
-	redeemed INTEGER)");
-
-	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON orders(player)");
-
-	stmt_AddItemOrder            = db_prepare(Database, "INSERT INTO orders VALUES(?,?,?);");
-	stmt_RedeemOrderItem         = db_prepare(Database, "UPDATE orders SET redeemed = redeemed + 1 WHERE item = ? AND player = ?;");
-	stmt_GetRedeemableOrderItem  = db_prepare(Database, "SELECT purchased - redeemed as `redeemable` FROM orders WHERE item = ? AND player = ?;");
-	stmt_GetRedeemableOrderItems = db_prepare(Database, "SELECT item, purchased - redeemed as `redeemable` FROM orders WHERE player = ?;");
 }
