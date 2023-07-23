@@ -62,10 +62,12 @@ BanPlayer(playerid, reason[], byid, duration) {
 	stmt_bind_value(stmt_BanInsert, 5, DB::TYPE_INTEGER, duration);
 
 	if(stmt_execute(stmt_BanInsert)) {
-		//ChatMsg(playerid, YELLOW, "BANNEDMESSG", reason);
-		//GameTextForPlayer(playerid, "Banido!", 10000, 6);
+		// ChatMsg(playerid, YELLOW, "BANNEDMESSG", reason);
+		GameTextForPlayer(playerid, "Banido!", 10000, 6);
+		
 		defer KickPlayerDelay(playerid);
-		//return 1;
+
+		return 1;
 	}
 
 	return 0;
