@@ -14,7 +14,6 @@ LoadSettings()
 				"env", JSON_String("prod"),
 				"name", JSON_String("Nostalgia ~ Scavenge"),
 				"address", JSON_String("scavengenostalgia.fun"),
-				"website", JSON_String("http://www.scavengenostalgia.fun"),
 				"discord", JSON_String("http://discord.scavengenostalgia.fun"),
 				"global-debug-level", JSON_Int(0),
 				"max-uptime", JSON_Int(14400), // 4 horas em segundos
@@ -161,11 +160,6 @@ function OnSettingsLoaded() {
 
 	// No caso de a propriedade nao existir, coloca em modo de producao
 	gEnvironment = isequal(env, "dev") ? DEVELOPMENT : PRODUCTION;
-
-	new website[64];
-	JSON_GetString(server, "website", website);
-	SendRconCommand(sprintf("weburl %s", website));
-	log("[SETTINGS] Website: %s", website);
 
 	// Podemos carregar ate 24 regras (MAX_RULE)
 	new Node:rules;
