@@ -136,7 +136,7 @@ public OnGameModeInit() {
 #define GREY						0xAFAFAFFF
 #define PINK						0xFFC0CBFF
 #define NAVY						0x000080FF
-#define GOLD						0xB8860BFF
+#define GOLD						0xFFD700FF
 #define LGREEN						0x00FD4DFF
 #define TEAL						0x008080FF
 #define BROWN						0xA52A2AFF
