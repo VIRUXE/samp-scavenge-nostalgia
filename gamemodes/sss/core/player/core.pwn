@@ -110,7 +110,7 @@ public OnPlayerConnect(playerid) {
 
 	new const bool:localhost = isequal(ip, "127.0.0.1");
 
-	if(!localhost) {
+	/* if(!localhost) {
 		new version[24];
 
 		GetPlayerVersion(playerid, version, sizeof(version));
@@ -123,7 +123,7 @@ public OnPlayerConnect(playerid) {
 
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
-	}
+	} */
 
 	if(IsOTPModeEnabled() && !localhost) {
         GenerateOTP(playerid);
