@@ -214,9 +214,14 @@ CMD:setadmin(playerid, params[]) {
 	new targetId, level;
 
 	if(!sscanf(params, "rd", targetId, level)) {
-		if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+		new playerName[MAX_PLAYER_NAME];
 
-		if(!SetPlayerAdminLevel(targetId, level)) return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
+		if(targetId != INVALID_PLAYER_ID)
+			GetPlayerName(targetId, playerName, MAX_PLAYER_NAME);
+		else
+			sscanf(params, "s[*]{d}", MAX_PLAYER_NAME, playerName);
+		
+		if(!SetPlayerAdminLevel(playerName, level)) return ChatMsg(playerid, RED, " >  Admin level must be equal to or between 0 and 3");
 
 		new rankName[15];
 		

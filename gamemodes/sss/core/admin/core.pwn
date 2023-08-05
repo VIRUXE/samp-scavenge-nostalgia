@@ -133,8 +133,7 @@ UpdateAdmin(name[MAX_PLAYER_NAME], level) {
 
 		if(stmt_execute(stmt_AdminUpdate)) {
 			for(new i; i < admin_Total; i++) {
-				if(!strcmp(name, admin_Data[i][admin_Name]))
-				{
+				if(!strcmp(name, admin_Data[i][admin_Name])) {
 					admin_Data[i][admin_Rank] = level;
 					break;
 				}
@@ -214,23 +213,26 @@ KickPlayer(playerid, reason[], bool:tellPlayer = true) {
 
 	if(admin_PlayerKicked[playerid]) return 0;
 
-	SetPlayerScreenFade(playerid, 1, 255, 10);
-
-	defer KickPlayerDelay(playerid);
-	admin_PlayerKicked[playerid] = true;
+	if(tellPlayer) {
+		ChatMsg(playerid, GREY, sprintf(ls(playerid, "player/kicked"), reason));
+		ShowPlayerDialog(playerid, DIALOG_KICK, DIALOG_STYLE_MSGBOX, "Kick!", sprintf(ls(playerid, "player/kicked"), reason), "Ok", "");
+	}
 
 	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
-
+	
 	if(IsPlayerLoggedIn(playerid)) ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
 
-	if(tellPlayer) ChatMsg(playerid, GREY, sprintf(" >  %s", ls(playerid, "player/kicked")), reason);
+	SetPlayerScreenFade(playerid, 1, 255, 10);
+
+	defer KickPlayerDelay(playerid); // ? why
+	admin_PlayerKicked[playerid] = true;
 
 	return 1;
 }
 
 stock IsPlayerKicked(playerid) return admin_PlayerKicked[playerid];
 
-timer KickPlayerDelay[SEC(1)](playerid) {
+timer KickPlayerDelay[500](playerid) {
 	Kick(playerid);
 	admin_PlayerKicked[playerid] = false;
 }
@@ -322,12 +324,14 @@ TogglePlayerAdminDuty(playerid, bool:toggle, bool:goBack = true) {
 	CallLocalFunction("OnAdminToggleDuty", "dbb", playerid, toggle, goBack);
 }
 
-stock SetPlayerAdminLevel(playerid, level) {
+stock SetPlayerAdminLevel(playerName[MAX_PLAYER_NAME], level) {
 	if(!(0 <= level < MAX_ADMIN_LEVELS)) return 0;
 
-	admin_Level[playerid] = level;
+	new playerId = GetPlayerIDFromName(playerName, true);
+	
+	if(playerId != INVALID_PLAYER_ID) admin_Level[playerId] = level;
 
-	UpdateAdmin(GetPlayerNameEx(playerid), level);
+	UpdateAdmin(playerName, level);
 
 	return 1;
 }
