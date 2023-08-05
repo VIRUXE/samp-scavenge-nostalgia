@@ -63,7 +63,7 @@ stock ChatMsgAll(colour, fmat[], {Float,_}:...)
 stock ChatMsgAdmins(level, colour, fmat[], {Float,_}:...)
 {
 	format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
-	ChatMsgAdminsFlat(level, colour, formatBuffer);
+	ChatMsgAdminsFlat(level, colour, sprintf("[ADMIN] %s", formatBuffer));
 
 	return 1;
 }
