@@ -141,37 +141,37 @@ CheckForExtraAccounts(playerid) {
 	if(!IsPlayerRegistered(playerid) || !IsPlayerLoggedIn(playerid)) return 0;
 
 	new
-		name[MAX_PLAYER_NAME],
+		playerName[MAX_PLAYER_NAME],
 		list[15][MAX_PLAYER_NAME],
 		count,
-		adminlevel,
+		adminLevel,
 		bool:doneWarning,
 		string[(MAX_PLAYER_NAME + 2) * 15];
 
-	GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+	GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-	GetAccountAliasesByAll(name, list, count, 15, adminlevel);
+	GetAccountAliasesByAll(playerName, list, count, 15, adminLevel);
 
-	if(count == 0) return 0;
-
-	if(count == 1) strcat(string, list[0]);
-
-	if(count > 1) {
+	if(count == 0)
+		return 0;
+	else if(count == 1)
+		strcat(string, list[0]);
+	else if(count > 1) {
 		for(new i; i < count && i < sizeof(list); i++) {
 			strcat(string, list[i]);
 			strcat(string, ", ");
 
 			if(IsPlayerBanned(list[i]) && !doneWarning) {
-				ChatMsgAdmins(1, RED, " > Aviso: Um ou mais desses aliases sÃ£o banidos");
+				ChatMsgAdmins(1, RED, " > Aviso: Um ou mais desses aliases são banidos");
 				doneWarning = true;
 			}
 		}
 	}
 
-	if(doneWarning && GetAdminsOnline() == 0) {
+	/* if(doneWarning && GetAdminsOnline() == 0) {
 		KickPlayer(playerid, "Uma de suas contas usadas anteriormente está banida.");
 		return 0;
-	}
+	} */
 
 	return ChatMsgAdmins(1, YELLOW, " >  Aliases: "C_BLUE"(%d)"C_ORANGE" %s", count, string);
 }
