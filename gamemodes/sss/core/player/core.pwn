@@ -105,34 +105,53 @@ _OnPlayerConnect(playerid) {
 public OnPlayerConnect(playerid) {
 	if(IsPlayerNPC(playerid)) return 0;
 
-	new ip[16];
-	GetPlayerIp(playerid, ip, 16);
+	new playerName[MAX_PLAYER_NAME], ip[16], version[24], hash[MAX_GPCI_LEN];
+	
+	GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+	GetPlayerIp(playerid, ip, sizeof(ip));
+	GetPlayerVersion(playerid, version, sizeof(version));
+	gpci(playerid, hash, MAX_GPCI_LEN);
+
+	log("[VERSION] %s is using version: %s", playerName, version);
+
+	ChatMsgAdmins(5, WHITE, "%p (%d) est· a utilizar a vers„o '%s'.", playerid, playerid, version);
 
 	new const bool:localhost = isequal(ip, "127.0.0.1");
 
-	/* if(!localhost) {
-		new version[24];
+	if(!localhost) {
+		if(isequal(hash, "ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990")) { // Android hash
+			KickPlayer(playerid, "Android.");
 
-		GetPlayerVersion(playerid, version, sizeof(version));
+			return Y_HOOKS_BREAK_RETURN_0;
+		}
 
-		if(!isequal(version, "0.3.7-R5")) {
+		new hashAllowed = IsPlayerNotAllowedWithHash(playerName, hash);
+
+		log("[GPCI] %s is %s (%d)", playerName, hashAllowed ? "not allowed" : "allowed", hashAllowed);
+
+		if(hashAllowed) {
+			KickPlayer(playerid, "Code: 37");
+
+			return Y_HOOKS_BREAK_RETURN_0;
+		}
+
+		/* if(!isequal(version, "0.3.7-R5")) {
 			ChatMsg(playerid, RED, "Para entrar no nosso servidor tem que instalar a vers„o R5 do SA-MP.");
 			ChatMsg(playerid, YELLOW, "Isso faz com que existam menos hackers, pois maior parte dos hacks n„o est· atualizada para essa vers„o.");
 			ChatMsg(playerid, GREEN, "Obrigado pela sua compreens„o!");
 			KickPlayer(playerid, "Install SA-MP 0.3.7-R5: http://scavengenostalgia.fun/baixar");
 
 			return Y_HOOKS_BREAK_RETURN_0;
-		}
-	} */
+		} */
+	}
 
 	if(IsOTPModeEnabled() && !localhost) {
         GenerateOTP(playerid);
         ShowOTPPrompt(playerid);
 
 	 	ChatMsgAdmins(5, WHITE, "[OTP] %p (%d) estù a esperar pela OTP.", playerid, playerid);
-	} else {
+	} else
 		_OnPlayerConnect(playerid);
-	}
 
 	return 1;
 }

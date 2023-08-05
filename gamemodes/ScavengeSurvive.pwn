@@ -322,6 +322,7 @@ new stock GLOBAL_DEBUG = -1;
 new RequestsClient:requestsClient;
 
 enum {
+	DIALOG_KICK, // Dialog para o dialog de razao de kick
 	DIALOG_ADMIN_COMMANDS, // Mostra a lista de comandos de admin
 	DIALOG_ENTER_DETFIELD,  // Dialog para quem entra numa detfield sem estar como excepcao
 	DIALOG_AJUDA,
@@ -359,7 +360,7 @@ enum {
 #include "sss/core/server/text-tags.pwn"
 //#include "sss/core/server/save-block.pwn"
 #include "sss/core/server/i18n.pwn"
-#include "sss/core/server/anti-cheat.pwn"
+// #include "sss/core/server/anti-cheat.pwn"
 
 /*
 	PARENT SYSTEMS
