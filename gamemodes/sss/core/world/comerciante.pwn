@@ -250,7 +250,7 @@ stock BuyItem(playerid, item, value){
 		case 6: CreateItem(item_Knife, x, y, z - FLOOR_OFFSET);
 		case 7: CreateItem(item_Map, x, y, z - FLOOR_OFFSET);
 	}
-    RemovePlayerCoins(playerid, value);
+    TakePlayerCoins(playerid, value);
 	PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
 
 	ChatMsg(playerid, GREEN, " >  Você comprou um item com sucesso.");
@@ -270,7 +270,7 @@ stock SellItem(playerid, itemid, value){
 	}
 
     DestroyItem(itemid);
-    AddPlayerCoins(playerid, value);
+    GivePlayerCoins(playerid, value);
 	PlayerPlaySound(playerid, 1058, 0.0, 0.0, 0.0);
 
 	ChatMsg(playerid, GREEN, " >  Você vendeu um item com sucesso.");

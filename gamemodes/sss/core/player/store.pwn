@@ -412,7 +412,7 @@ Dialog:ShowBasket(playerid, response, listitem, inputtext[]) {
 		}
 
 		if(!badOrder) {
-			RemovePlayerCoins(playerid, total);
+			TakePlayerCoins(playerid, total);
 			// EmptyBasket(playerid);
 
 			db_query(Database, sprintf("UPDATE players SET coins = coins - %d WHERE name = '%s';", total, GetPlayerNameEx(playerid)));

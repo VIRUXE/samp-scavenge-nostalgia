@@ -8,17 +8,6 @@ enum E_COINS {
 
 static Coins[MAX_PLAYERS][E_COINS];
 
-stock AddPlayerCoins(playerId, amount) {
-    // Banir se o dinheiro for diferente do montante de coins que temos internamente
-    // if(Coins[playerId][set] && GetPlayerMoney(playerId) != Coins[playerId][owned]) BanPlayer(playerId, "Bad coins.", -1, 0);
-
-    Coins[playerId][owned] += amount;
-    
-    ShowPlayerCoins(playerId);
-
-    return;
-}
-
 ShowPlayerCoins(playerId) {
     ResetPlayerMoney(playerId);
     stop Coins[playerId][updateTimer];
@@ -32,10 +21,25 @@ timer UpdateMoney[25](playerId, amount) {
         stop Coins[playerId][updateTimer];
 }
 
-stock RemovePlayerCoins(playerId, coins) {
-    Coins[playerId][owned] -= coins;
+stock GivePlayerCoins(playerId, amount) {
+    // Banir se o dinheiro for diferente do montante de coins que temos internamente
+    // if(Coins[playerId][set] && GetPlayerMoney(playerId) != Coins[playerId][owned]) BanPlayer(playerId, "Bad coins.", -1, 0);
 
-    return 1;
+    Coins[playerId][owned] += amount;
+
+    sprintf("[COINS] %p has been given %d coins. Total: %d", playerId, amount, Coins[playerId][owned]);
+    
+    ShowPlayerCoins(playerId);
+
+    return;
+}
+
+stock TakePlayerCoins(playerId, amount) {
+    Coins[playerId][owned] -= amount;
+
+    sprintf("[COINS] %d coins were taken from %p. Total: %d", amount, playerId, Coins[playerId][owned]);
+    
+    ShowPlayerCoins(playerId);
 }
 
 stock SetPlayerCoins(playerId, coins, bool:show) {
@@ -83,7 +87,7 @@ ACMD:givecoins[5](playerId, params[]) {
 	ChatMsg(targetId, YELLOW, " >  %p deu a você %d coins", playerId, coins);
     ChatMsgAdmins(1, BLUE, "[Admin] %p deu %d coins a %p", playerId, coins, targetId);
     
-    AddPlayerCoins(targetId, coins);
+    GivePlayerCoins(targetId, coins);
 
     SavePlayerCoins(playerId);
 
