@@ -1,63 +1,44 @@
-
-
 #include <YSI\y_hooks>
 
-
-enum
-{
+enum {
 	INFECT_TYPE_FOOD,
 	INFECT_TYPE_WOUND
 }
-
 
 static
 	infect_InfectionIntensity[MAX_PLAYERS][2],
 	infect_LastShake[MAX_PLAYERS];
 
-
-hook OnPlayerConnect(playerid)
-{
-	
-
-	infect_InfectionIntensity[playerid][0] = 0;
-	infect_InfectionIntensity[playerid][1] = 0;
+hook OnPlayerConnect(playerid) {
+	infect_InfectionIntensity[playerid][INFECT_TYPE_FOOD]  = 0;
+	infect_InfectionIntensity[playerid][INFECT_TYPE_WOUND] = 0;
 	infect_LastShake[playerid] = 0;
 
 	return 1;
 }
 
-hook OnPlayerDeath(playerid, killerid, reason)
-{
-
-
-	infect_InfectionIntensity[playerid][0] = 0;
-	infect_InfectionIntensity[playerid][1] = 0;
+hook OnPlayerDeath(playerid, killerid, reason) {
+	infect_InfectionIntensity[playerid][INFECT_TYPE_FOOD]  = 0;
+	infect_InfectionIntensity[playerid][INFECT_TYPE_WOUND] = 0;
 	infect_LastShake[playerid] = 0;
 }
 
-hook OnPlayerScriptUpdate(playerid)
-{
-	if(infect_InfectionIntensity[playerid][INFECT_TYPE_FOOD] == 0 && infect_InfectionIntensity[playerid][INFECT_TYPE_WOUND] == 0)
-		return;
+hook OnPlayerScriptUpdate(playerid) {
+	if(infect_InfectionIntensity[playerid][INFECT_TYPE_FOOD] == 0 && infect_InfectionIntensity[playerid][INFECT_TYPE_WOUND] == 0) return; // N�o fazer nada se n�o estiver infecionado
 
-	if(
+	if( // N�o fazer nada se estiver com Morfine, Ar ou Adrenalina
         !IsPlayerUnderDrugEffect(playerid, drug_Morphine) || 
         !IsPlayerUnderDrugEffect(playerid, drug_Air) || 
         !IsPlayerUnderDrugEffect(playerid, drug_Adrenaline)) 
 		return;
 
-	if(GetPlayerDrunkLevel(playerid) == 0)
-	{
-		if(GetTickCountDifference(GetTickCount(), infect_LastShake[playerid]) > 500 * GetPlayerHP(playerid))
-		{
+	if(GetPlayerDrunkLevel(playerid) == 0) {
+		if(GetTickCountDifference(GetTickCount(), infect_LastShake[playerid]) > 500 * GetPlayerHP(playerid)) {
 			infect_LastShake[playerid] = GetTickCount();
 			SetPlayerDrunkLevel(playerid, 5000);
 		}
-	}
-	else
-	{
-		if(GetTickCountDifference(GetTickCount(), infect_LastShake[playerid]) > 100 * (120 - GetPlayerHP(playerid)) || 1 < GetPlayerDrunkLevel(playerid) < 2000)
-		{
+	} else {
+		if(GetTickCountDifference(GetTickCount(), infect_LastShake[playerid]) > 100 * (120 - GetPlayerHP(playerid)) || 1 < GetPlayerDrunkLevel(playerid) < 2000) {
 			infect_LastShake[playerid] = GetTickCount();
 			SetPlayerDrunkLevel(playerid, 0);
 		}
@@ -66,17 +47,13 @@ hook OnPlayerScriptUpdate(playerid)
 	return;
 }
 
-stock GetPlayerInfectionIntensity(playerid, type)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock GetPlayerInfectionIntensity(playerid, type) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	return infect_InfectionIntensity[playerid][type];
 }
 
-/*
-
-SetPlayerInfectionIntensity(playerid, type, amount)
+/* SetPlayerInfectionIntensity(playerid, type, amount)
 
 Parâmetros: 
 
@@ -84,31 +61,19 @@ Parâmetros:
 type 0 - Infecção Alimentar.
 type 1 - Infecção na Ferída.
 
-- amount: Quantidade de infecção que pode ser setado no jogador. (0 - 1)
-
-
-*/
-
-stock SetPlayerInfectionIntensity(playerid, type, amount)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+- amount: Quantidade de infecção que pode ser setado no jogador. (0 - 1) */
+stock SetPlayerInfectionIntensity(playerid, type, amount) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	infect_InfectionIntensity[playerid][type] = amount;
 
 	return 1;
 }
 
-hook OnPlayerSave(playerid, filename[])
-{
-
-
+hook OnPlayerSave(playerid, filename[]) {
 	modio_push(filename, _T<I,N,F,C>, 2, infect_InfectionIntensity[playerid]);
 }
 
-hook OnPlayerLoad(playerid, filename[])
-{
-
-
+hook OnPlayerLoad(playerid, filename[]) {
 	modio_read(filename, _T<I,N,F,C>, 2, infect_InfectionIntensity[playerid]);
 }
