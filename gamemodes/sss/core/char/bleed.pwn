@@ -1,39 +1,22 @@
 #include <YSI\y_hooks>
 
+static Float:bld_BleedRate[MAX_PLAYERS];
 
-static
-Float:	bld_BleedRate[MAX_PLAYERS];
+hook OnPlayerScriptUpdate(playerid) {
+	if(!IsPlayerSpawned(playerid) || IsPlayerOnAdminDuty(playerid)) {
+        RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
+        return;
+    }
 
+	if(IsNaN(bld_BleedRate[playerid]) || bld_BleedRate[playerid] < 0.0) bld_BleedRate[playerid] = 0.0;
 
-hook OnPlayerScriptUpdate(playerid)
-{
-	if(!IsPlayerSpawned(playerid))
-	{
-		RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
-		return;
-	}
+	if(bld_BleedRate[playerid] > 0.0) {
+		new Float:playerHealthPoints = GetPlayerHP(playerid);
 
-	if(IsPlayerOnAdminDuty(playerid))
-	{
-		RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
-		return;
-	}
+		if(frandom(1.0) < 0.7) {
+			SetPlayerHP(playerid, playerHealthPoints - bld_BleedRate[playerid]);
 
-	if(IsNaN(bld_BleedRate[playerid]) || bld_BleedRate[playerid] < 0.0)
-		bld_BleedRate[playerid] = 0.0;
-
-	if(bld_BleedRate[playerid] > 0.0)
-	{
-		new
-			Float:hp = GetPlayerHP(playerid),
-			Float:slowrate = (((((100.0 - hp) / 360.0) * bld_BleedRate[playerid]) / GetPlayerWounds(playerid)) / 100.0);
-
-		if(frandom(1.0) < 0.7)
-		{
-			SetPlayerHP(playerid, hp - bld_BleedRate[playerid]);
-
-			if(GetPlayerHP(playerid) < 0.1)
-				SetPlayerHP(playerid, 0.0);
+			if(GetPlayerHP(playerid) < 0.1) SetPlayerHP(playerid, 0.0);
 		}
 
 		/*
@@ -44,55 +27,37 @@ hook OnPlayerScriptUpdate(playerid)
 			will automatically stop the bleed rate due to the nature of the
 			formula (however this is still intentional).
 		*/
-		if(random(100) < 50)
-			bld_BleedRate[playerid] -= slowrate;
+		if(random(100) < 50) bld_BleedRate[playerid] -= (((((100.0 - playerHealthPoints) / 360.0) * bld_BleedRate[playerid]) / GetPlayerWounds(playerid)) / 100.0);
 
 		if(debug_conditional(\"gamemodes/sss/core/char/bleed.pwn\", 1))
-			ShowActionText(playerid, sprintf("HP: %f Sangramento: %f~n~Feridas %d Sangramento lento: %f", hp, bld_BleedRate[playerid], GetPlayerWounds(playerid)));
+			ShowActionText(playerid, sprintf("HP: %f Sangramento: %f~n~Feridas %d Sangramento lento: %f", playerHealthPoints, bld_BleedRate[playerid], GetPlayerWounds(playerid)));
 
-		if(!IsPlayerInAnyVehicle(playerid))
-		{
-			if(IsPlayerAttachedObjectSlotUsed(playerid, ATTACHSLOT_BLOOD))
-			{
-				if(frandom(0.1) < 0.1 - bld_BleedRate[playerid])
-					RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
-			}
-			else
-			{
-				if(frandom(0.1) < bld_BleedRate[playerid])
-					SetPlayerAttachedObject(playerid, ATTACHSLOT_BLOOD, 18706, 1,  0.088999, 0.020000, 0.044999,  0.088999, 0.020000, 0.044999,  1.179000, 1.510999, 0.005000);
-			}
-		}
-		else RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
-	}
-	else
-	{
-		if(IsPlayerAttachedObjectSlotUsed(playerid, ATTACHSLOT_BLOOD))
+		if(IsPlayerInAnyVehicle(playerid)) { // Remove o sangue se estiver dentro de um veículo
 			RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
+		} else if(IsPlayerAttachedObjectSlotUsed(playerid, ATTACHSLOT_BLOOD) && frandom(0.1) < 0.1 - bld_BleedRate[playerid]) { // Remove o sangue se a taxa for quase nula
+			RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
+		} else if(frandom(0.1) < bld_BleedRate[playerid]) {
+			SetPlayerAttachedObject(playerid, ATTACHSLOT_BLOOD, 18706, 1,  0.088999, 0.020000, 0.044999,  0.088999, 0.020000, 0.044999,  1.179000, 1.510999, 0.005000);
+		}
+	} else {
+		if(IsPlayerAttachedObjectSlotUsed(playerid, ATTACHSLOT_BLOOD)) RemovePlayerAttachedObject(playerid, ATTACHSLOT_BLOOD);
 
-		new intensity = GetPlayerInfectionIntensity(playerid, 1);
+		HealPlayer(playerid, 0.001925925 * GetPlayerFP(playerid) * (GetPlayerInfectionIntensity(playerid, INFECT_TYPE_WOUND) ? 0.5 : 1.0));
 
-		HealPlayer(playerid, 0.001925925 * GetPlayerFP(playerid) * (intensity ? 0.5 : 1.0));
-
-		if(bld_BleedRate[playerid] < 0.0)
-			bld_BleedRate[playerid] = 0.0;
+		if(bld_BleedRate[playerid] < 0.0) bld_BleedRate[playerid] = 0.0;
 	}
 
-	if(IsPlayerUnderDrugEffect(playerid, drug_Morphine))
-	{
+	if(IsPlayerUnderDrugEffect(playerid, drug_Morphine)) {
 		SetPlayerDrunkLevel(playerid, 2200);
 
-		if(random(100) < 80)
-			HealPlayer(playerid, 0.5);
+		if(random(100) < 80) HealPlayer(playerid, 0.5);
 	}
 
 	return;
 }
 
-stock SetPlayerBleedRate(playerid, Float:rate)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0;
+stock SetPlayerBleedRate(playerid, Float:rate) {
+	if(!IsPlayerConnected(playerid)) return 0;
 
 	bld_BleedRate[playerid] = rate;
 
@@ -100,10 +65,8 @@ stock SetPlayerBleedRate(playerid, Float:rate)
 }
 
 forward Float:GetPlayerBleedRate(playerid);
-stock Float:GetPlayerBleedRate(playerid)
-{
-	if(!IsPlayerConnected(playerid))
-		return 0.0;
+stock Float:GetPlayerBleedRate(playerid) {
+	if(!IsPlayerConnected(playerid)) return 0.0;
 
 	return bld_BleedRate[playerid];
 }
