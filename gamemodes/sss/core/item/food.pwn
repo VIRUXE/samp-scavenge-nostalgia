@@ -112,21 +112,24 @@ _EatItem(playerid, itemid) {
 		return 0;
 	}
 
-	if(GetItemArrayDataAtCell(itemid, food_amount) > 0) {
-		if(food_Data[foodType][food_canCook] && GetItemArrayDataAtCell(itemid, food_cooked) == 0) {
-			SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodType][food_biteValue] * 0.7);
+	new foodAmount = GetItemArrayDataAtCell(itemid, food_amount);
 
-			if(food_Data[foodType][food_canRawInfect]) SetPlayerInfectionIntensity(playerid, 0, 1);
-		} else 
-			SetPlayerFP(playerid, GetPlayerFP(playerid) + food_Data[foodType][food_biteValue]);
-
-		SetItemArrayDataAtCell(itemid, GetItemArrayDataAtCell(itemid, food_amount) - 1, food_amount, 0);
+	if(foodAmount <= 0) {
+		_StopEating(playerid);
+		if(food_Data[foodType][food_destroyOnEnd]) DestroyItem(itemid);
+		return 1;
 	}
 
-	if(GetItemArrayDataAtCell(itemid, food_amount) > 0)
-		_StartEating(playerid, itemid, true);
-	else
-		_StopEating(playerid);
+	new Float:playerFoodPoints = GetPlayerFP(playerid);
+
+	if(food_Data[foodType][food_canCook] && GetItemArrayDataAtCell(itemid, food_cooked) == 0) {
+		SetPlayerFP(playerid, playerFoodPoints + food_Data[foodType][food_biteValue] * 0.7);
+		if(food_Data[foodType][food_canRawInfect]) SetPlayerInfectionIntensity(playerid, INFECT_TYPE_FOOD, 1);
+	} else
+		SetPlayerFP(playerid, playerFoodPoints + food_Data[foodType][food_biteValue]);
+
+	SetItemArrayDataAtCell(itemid, foodAmount - 1, food_amount, 0);
+	_StartEating(playerid, itemid, true);
 
 	if(food_Data[foodType][food_destroyOnEnd]) DestroyItem(itemid);
 
