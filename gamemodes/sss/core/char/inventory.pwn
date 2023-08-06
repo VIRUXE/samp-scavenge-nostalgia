@@ -140,9 +140,9 @@ ShowPlayerHealthInfo(playerid) {
 		drugsList[MAX_DRUG_TYPE],
 		drugs,
 		drugName[MAX_DRUG_NAME],
-		Float:bleedRate = GetPlayerBleedRate(playerid),
-		infected1 = GetPlayerInfectionIntensity(playerid, 0),
-		infected2 = GetPlayerInfectionIntensity(playerid, 1);
+		Float:bleedRate     = GetPlayerBleedRate(playerid),
+		      infectedFood  = GetPlayerInfectionIntensity(playerid, 0),
+		      infectedWound = GetPlayerInfectionIntensity(playerid, 1);
 
 	GetPlayerWoundsPerBodypart(playerid, bodypartWounds);
 	drugs = GetPlayerDrugsList(playerid, drugsList);
@@ -178,10 +178,10 @@ ShowPlayerHealthInfo(playerid) {
 	if(bleedRate > 0.0)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 35.0, ls(playerid, "player/health/status_ui/bleeding"), RGBAToHex(truncateforbyte(floatround(bleedRate * 3200.0)), truncateforbyte(255 - floatround(bleedRate * 3200.0)), 0, 255));
 
-	if(infected1)
+	if(infectedFood)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, ls(playerid, "player/health/status_ui/infections/food"), 0xFF0000FF);
 
-	if(infected2)
+	if(infectedWound)
 		SetBodyPreviewLabel(playerid, 1, tmp++, 20.0, ls(playerid, "player/health/status_ui/infections/wound"), 0xFF0000FF);
 
 	for(new i; i < drugs; i++) {
