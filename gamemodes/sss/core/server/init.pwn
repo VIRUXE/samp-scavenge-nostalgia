@@ -1317,7 +1317,8 @@ public OnScriptInit() {
 	SetRadioExplosiveTriggerItem(item_MobilePhone);
 
 	// FOOD ITEM TYPE DEFINITIONS
-	DefineFoodItem(item_HotDog,			4, 18.00,	1, 1, 1);
+	// Function Signature: DefineFoodItem(ItemType:itemType, maxBites, Float:biteValue, canCook, canRawInfect, destroyOnEnd) {
+	DefineFoodItem(item_HotDog,			4, 18.00,	1, 0, 1);
 	DefineFoodItem(item_Pizza,			6, 18.30,	1, 0, 0);
 	DefineFoodItem(item_Burger,			4, 16.25,	1, 1, 1);
 	DefineFoodItem(item_BurgerBox,		4, 16.25,	1, 0, 0);
