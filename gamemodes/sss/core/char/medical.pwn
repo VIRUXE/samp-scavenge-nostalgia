@@ -3,71 +3,48 @@
 #define HEAL_PROGRESS_MAX (4000)
 #define REVIVE_PROGRESS_MAX (6000)
 
-
 static med_HealTarget[MAX_PLAYERS];
 
-
-hook OnPlayerConnect(playerid)
-{
-	
-
+hook OnPlayerConnect(playerid) {
 	med_HealTarget[playerid] = INVALID_PLAYER_ID;
 }
 
-hook OnItemTypeDefined(uname[])
-{
+hook OnItemTypeDefined(uname[]) {
 	if(!strcmp(uname, "DoctorBag"))
 		SetItemTypeMaxArrayData(GetItemTypeFromUniqueName("DoctorBag"), 2);
 }
 
-hook OnItemCreate(itemid)
-{
+hook OnItemCreate(itemId) {
+	if(GetItemLootIndex(itemId) != -1) {
+		if(GetItemType(itemId) == item_DoctorBag) {
+			SetItemArrayDataAtCell(itemId, 1 + random(3), 0, 1);
 
-
-	if(GetItemLootIndex(itemid) != -1)
-	{
-		if(GetItemType(itemid) == item_DoctorBag)
-		{
-			SetItemArrayDataAtCell(itemid, 1 + random(3), 0, 1);
-
-			switch(random(4))
-			{
-				case 0: SetItemArrayDataAtCell(itemid, drug_Antibiotic, 1, 1);
-				case 1: SetItemArrayDataAtCell(itemid, drug_Painkill, 1, 1);
-				case 2: SetItemArrayDataAtCell(itemid, drug_Morphine, 1, 1);
-				case 3: SetItemArrayDataAtCell(itemid, drug_Adrenaline, 1, 1);
+			switch(random(4)) {
+				case 0: SetItemArrayDataAtCell(itemId, drug_Antibiotic, 1, 1);
+				case 1: SetItemArrayDataAtCell(itemId, drug_Painkill, 1, 1);
+				case 2: SetItemArrayDataAtCell(itemId, drug_Morphine, 1, 1);
+				case 3: SetItemArrayDataAtCell(itemId, drug_Adrenaline, 1, 1);
 			}
 		}
 	}
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-{
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	new ItemType:itemType = GetItemType(GetPlayerItem(playerid));
 
-
-	new
-		itemid,
-		ItemType:itemtype;
-
-	itemid = GetPlayerItem(playerid);
-	itemtype = GetItemType(itemid);
-
-	if(itemtype == item_Medkit || itemtype == item_Bandage || itemtype == item_DoctorBag || itemtype == item_AntiSepBandage)
-	{
-		if(newkeys == 16)
-		{
-			if(IsPlayerKnockedOut(playerid))
-				return 0;
+	if(itemType == item_Medkit || itemType == item_Bandage || itemType == item_DoctorBag || itemType == item_AntiSepBandage) {
+		if(newkeys == 16) {
+			if(IsPlayerKnockedOut(playerid)) return 0;
 
 			med_HealTarget[playerid] = playerid;
-			foreach(new i : Character)
-			{
+			foreach(new i : Character) {
 				if(IsPlayerInPlayerArea(playerid, i) && !IsPlayerInAnyVehicle(i))
 					med_HealTarget[playerid] = i;
 			}
 
 			PlayerStartHeal(playerid, med_HealTarget[playerid]);
 		}
+
 		if(oldkeys == 16) PlayerStopHeal(playerid);
 	}
 
@@ -75,35 +52,29 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 }
 
 
-PlayerStartHeal(playerid, target)
-{
+PlayerStartHeal(playerid, target) {
 	new duration = HEAL_PROGRESS_MAX;
 
 	med_HealTarget[playerid] = target;
 
-	if(target != playerid)
-	{
-		if(IsPlayerKnockedOut(target))
-		{
+	if(target != playerid) {
+		if(IsPlayerKnockedOut(target)) {
 			ApplyAnimation(playerid, "MEDIC", "CPR", 4.0, 1, 0, 0, 0, 0);
 			duration = REVIVE_PROGRESS_MAX;
-		}
-		else ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
+		} else
+			ApplyAnimation(playerid, "COP_AMBIENT", "COPBROWSE_LOOP", 4.0, 1, 0, 0, 0, 0);
 
 		SetPlayerProgressBarMaxValue(target, ActionBar, duration);
 		SetPlayerProgressBarValue(target, ActionBar, 0.0);
-	}
-	else ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
+	} else
+		ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
 
 	StartHoldAction(playerid, duration);
 }
 
-PlayerStopHeal(playerid)
-{
-	if(med_HealTarget[playerid] != INVALID_PLAYER_ID)
-	{
-		if(med_HealTarget[playerid] != playerid)
-			HidePlayerProgressBar(med_HealTarget[playerid], ActionBar);
+PlayerStopHeal(playerid) {
+	if(med_HealTarget[playerid] != INVALID_PLAYER_ID) {
+		if(med_HealTarget[playerid] != playerid) HidePlayerProgressBar(med_HealTarget[playerid], ActionBar);
 
 		StopHoldAction(playerid);
 		ClearAnimations(playerid);
@@ -112,43 +83,33 @@ PlayerStopHeal(playerid)
 	}
 }
 
-hook OnItemNameRender(itemid, ItemType:itemtype)
-{
-	if(itemtype == item_DoctorBag)
-	{
+hook OnItemNameRender(itemId, ItemType:itemtype) {
+	if(itemtype == item_DoctorBag) {
 		new data[2];
 
-		GetItemArrayData(itemid, data);
+		GetItemArrayData(itemId, data);
 
-		if(data[0] > 0)
-		{
+		if(data[0] > 0) {
 			new name[MAX_DRUG_NAME];
 
 			GetDrugName(data[1], name);
 
-			SetItemNameExtra(itemid, sprintf("%d/3, %s", data, name));
+			SetItemNameExtra(itemId, sprintf("%d/3, %s", data, name));
 		}
 	}
 }
 
-hook OnHoldActionUpdate(playerid, progress)
-{
-
-
-	if(med_HealTarget[playerid] != INVALID_PLAYER_ID)
-	{
-		if(med_HealTarget[playerid] != playerid)
-		{
-			if(!IsPlayerInPlayerArea(playerid, med_HealTarget[playerid]))
-			{
+hook OnHoldActionUpdate(playerid, progress) {
+	if(med_HealTarget[playerid] != INVALID_PLAYER_ID) {
+		if(med_HealTarget[playerid] != playerid) {
+			if(!IsPlayerInPlayerArea(playerid, med_HealTarget[playerid])) {
 				StopHoldAction(playerid);
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
 
 			new progresscap = HEAL_PROGRESS_MAX;
 
-			if(IsPlayerKnockedOut(med_HealTarget[playerid]))
-				progresscap = REVIVE_PROGRESS_MAX;
+			if(IsPlayerKnockedOut(med_HealTarget[playerid])) progresscap = REVIVE_PROGRESS_MAX;
 
 			SetPlayerToFacePlayer(playerid, med_HealTarget[playerid]);
 			SetPlayerProgressBarMaxValue(med_HealTarget[playerid], ActionBar, progresscap);
@@ -162,74 +123,58 @@ hook OnHoldActionUpdate(playerid, progress)
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-hook OnHoldActionFinish(playerid)
-{
-
-
-	if(med_HealTarget[playerid] != INVALID_PLAYER_ID)
-	{
+hook OnHoldActionFinish(playerid) {
+	if(med_HealTarget[playerid] != INVALID_PLAYER_ID) {
 		new
-			itemid,
-			ItemType:itemtype;
+			itemId,
+			ItemType:itemType;
 
-		itemid = GetPlayerItem(playerid);
-		itemtype = GetItemType(itemid);
+		itemId   = GetPlayerItem(playerid);
+		itemType = GetItemType(itemId);
 
-		if(itemtype == item_Bandage)
-		{
-			new Float:bleedrate = GetPlayerBleedRate(med_HealTarget[playerid]);
+		if(itemType == item_Bandage) {
+			new Float:bleedRate = GetPlayerBleedRate(med_HealTarget[playerid]);
 
-			if(bleedrate > 0.0)
-			{
-				bleedrate -= bleedrate * floatpower(1.0091 - bleedrate, 2.1);
-				bleedrate = (bleedrate < 0.00001) ? 0.0 : bleedrate;
+			if(bleedRate > 0.0) {
+				bleedRate -= bleedRate * floatpower(1.0091 - bleedRate, 2.1);
+				bleedRate = (bleedRate < 0.00001) ? 0.0 : bleedRate;
 
-				if(random(100) < 33)
-				{
+				if(random(100) < 33) {
 					SetPlayerInfectionIntensity(playerid, 1, 1);
 					ShowActionText(playerid, ls(playerid, "player/health/wounds/infected"), 5000);
 				}
 
-				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
+				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedRate);
 
-				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
+				SetPlayerBleedRate(med_HealTarget[playerid], bleedRate);
 
-				DestroyItem(itemid);
+				DestroyItem(itemId);
 			}
-		}
-
-		if(itemtype == item_Medkit)
-		{
+		} else if(itemType == item_Medkit) {
 			new
-				Float:bleedrate = GetPlayerBleedRate(med_HealTarget[playerid]),
-				woundcount = (med_HealTarget[playerid] == playerid) ? 1 + random(2) : 2 + random(2);
+				Float:bleedRate = GetPlayerBleedRate(med_HealTarget[playerid]),
+				woundCount = (med_HealTarget[playerid] == playerid) ? 1 + random(2) : 2 + random(2);
 
-			if(bleedrate > 0.0)
-			{
-				bleedrate -= bleedrate * floatpower(1.0091 - bleedrate, 2.1);
-				bleedrate = (bleedrate < 0.00001) ? 0.0 : bleedrate;
+			if(bleedRate > 0.0) {
+				bleedRate -= bleedRate * floatpower(1.0091 - bleedRate, 2.1);
+				bleedRate = (bleedRate < 0.00001) ? 0.0 : bleedRate;
 
-				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
-				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
+				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedRate);
+				SetPlayerBleedRate(med_HealTarget[playerid], bleedRate);
 			}
 
-			if(woundcount > 0)
-			{
-				RemovePlayerWounds(med_HealTarget[playerid], woundcount);
-				ShowActionText(playerid, sprintf(ls(playerid, "player/health/wounds/cured"), woundcount), 5000);
+			if(woundCount > 0) {
+				RemovePlayerWounds(med_HealTarget[playerid], woundCount);
+				ShowActionText(playerid, sprintf(ls(playerid, "player/health/wounds/cured"), woundCount), 5000);
 
-				DestroyItem(itemid);
+				DestroyItem(itemId);
 			}
-		}
+		} else if(itemType == item_DoctorBag) {
+			new woundCount = (med_HealTarget[playerid] == playerid) ? 1 + random(2) : 3 + random(3);
 
-		if(itemtype == item_DoctorBag)
-		{
-			new woundcount = (med_HealTarget[playerid] == playerid) ? 1 + random(2) : 3 + random(3);
-
-			if(woundcount > 0)
-			{
-				RemovePlayerWounds(med_HealTarget[playerid], woundcount);
-				ShowActionText(playerid, sprintf(ls(playerid, "player/health/wounds/cured"), woundcount), 5000);
+			if(woundCount > 0) {
+				RemovePlayerWounds(med_HealTarget[playerid], woundCount);
+				ShowActionText(playerid, sprintf(ls(playerid, "player/health/wounds/cured"), woundCount), 5000);
 			}
 
 			SetPlayerBleedRate(med_HealTarget[playerid], 0.0);
@@ -237,35 +182,31 @@ hook OnHoldActionFinish(playerid)
 
 			new data[2];
 
-			GetItemArrayData(itemid, data);
+			GetItemArrayData(itemId, data);
 
-			if(data[0] > 1) SetItemArrayDataAtCell(itemid, data[0] - 1, 0);
-
-			else DestroyItem(itemid);
+			if(data[0] > 1)
+				SetItemArrayDataAtCell(itemId, data[0] - 1, 0);
+			else
+				DestroyItem(itemId);
 
 			ApplyDrug(med_HealTarget[playerid], data[1]);
-		}
+		} else if(itemType == item_AntiSepBandage) {
+			new Float:bleedRate = GetPlayerBleedRate(med_HealTarget[playerid]);
 
-		if(itemtype == item_AntiSepBandage)
-		{
-			new Float:bleedrate = GetPlayerBleedRate(med_HealTarget[playerid]);
+			if(bleedRate > 0.0) {
+				bleedRate -= bleedRate * floatpower(1.0091 - bleedRate, 2.1);
+				bleedRate = (bleedRate < 0.00001) ? 0.0 : bleedRate;
 
-			if(bleedrate > 0.0)
-			{
-				bleedrate -= bleedrate * floatpower(1.0091 - bleedrate, 2.1);
-				bleedrate = (bleedrate < 0.00001) ? 0.0 : bleedrate;
+				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedRate);
 
-				ChatMsg(playerid, YELLOW, "player/reducebleed", GetPlayerBleedRate(med_HealTarget[playerid]), bleedrate);
-
-				SetPlayerBleedRate(med_HealTarget[playerid], bleedrate);
-				DestroyItem(itemid);
+				SetPlayerBleedRate(med_HealTarget[playerid], bleedRate);
+				DestroyItem(itemId);
 			}
 
 			SetPlayerInfectionIntensity(playerid, 1, 0);
 		}
 
-		if(med_HealTarget[playerid] != playerid && IsPlayerKnockedOut(med_HealTarget[playerid]))
-		    WakeUpPlayer(med_HealTarget[playerid]);
+		if(med_HealTarget[playerid] != playerid && IsPlayerKnockedOut(med_HealTarget[playerid])) WakeUpPlayer(med_HealTarget[playerid]);
 		    
 		PlayerStopHeal(playerid);
 
