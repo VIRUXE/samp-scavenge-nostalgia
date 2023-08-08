@@ -20,7 +20,7 @@ ACMD:tapa[1](playerid, params[]) {
 	
 	if(sscanf(params, "r", targetId)) return SendClientMessage(playerid, YELLOW, " > Use: /tapa [id/nick]");
 
-	if(GetPlayerAdminLevel(targetId) > 1) return CMD_CANT_USE_ON;
+	if(targetId != playerid && GetPlayerAdminLevel(targetId) > GetPlayerAdminLevel(playerid)) return CMD_CANT_USE_ON;
 
 	new Float:x, Float:y, Float:z;
 	GetPlayerPos(targetId, x, y, z);
