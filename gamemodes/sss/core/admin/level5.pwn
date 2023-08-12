@@ -227,8 +227,8 @@ CMD:setadmin(playerid, params[]) {
 		
 		rankName = GetAdminRankName(level);
 
-		ChatMsg(playerid, YELLOW, " >  You made %P"C_YELLOW" a %s", targetId, rankName);
-		ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" colocou voce como "C_WHITE"%s", playerid, rankName);
+		ChatMsg(playerid, YELLOW, " >  You made %s a %s", playerName, rankName);
+		if(targetId != INVALID_PLAYER_ID) ChatMsg(targetId, YELLOW, " >  %P"C_YELLOW" colocou voce como "C_WHITE"%s", playerid, rankName);
 	} else
 		ChatMsg(playerid, YELLOW, " >  Usage: /setadmin [id/nick] [level]");
 

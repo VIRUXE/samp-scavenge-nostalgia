@@ -181,7 +181,7 @@ AnnouncePlayerJoined(playerid) {
 		if(i != playerid && IsPlayerLoggedIn(playerid)) {
 			new frase[90];
 			
-			frase = GetPlayerJoinSentence(playerid);
+			if(GetPlayerVipTier(playerid)) frase = GetPlayerJoinSentence(playerid);
 
 			ChatMsg(i, WHITE, "player/join", playerid, GetPlayerLanguage(playerid) == 0 ? "PT" : "EN", !isnull(frase) ? sprintf(C_GOLD"> %s", frase) : "");
 		}
