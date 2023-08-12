@@ -48,7 +48,6 @@ static
         {-2958.2080,    1208.1550,      2.3131,     225.9419},
         {302.0441,      617.5668,       6.4133,     357.2603},
         {2776.3047,     595.1189,       2.2804,     351.4703},
-
 		{-2134.3933, 	172.5120, 		42.2500, 	309.1142},
     	{2460.6790, 	1434.5192, 		14.9421, 	176.9331},
     	{1359.3881, 	197.3184, 		23.2270, 	66.2469},
@@ -59,7 +58,20 @@ static
 	},
 	spawn_LastVIP[MAX_PLAYERS];
 
-GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r) {
+GetUniqueSpawnPoint(playerid, Float:array[][], arraySize, &Float:x, &Float:y, &Float:z, &Float:r, lastSpawn[]) {
+    new index = random(arraySize);
+
+    while(index == lastSpawn[playerid]) index = random(arraySize);
+
+    x = array[index][0];
+    y = array[index][1];
+    z = array[index][2];
+    r = array[index][3];
+
+    lastSpawn[playerid] = index;
+}
+
+/* GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r) {
     if(GetPlayerVipTier(playerid)) {
         new index = random(sizeof(spawn_ListVIP));
 
@@ -84,4 +96,32 @@ GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r) {
 
 		spawn_Last[playerid] = index;
     }
+} */
+
+GenerateSpawnPoint(playerid, &Float:x, &Float:y, &Float:z, &Float:r) {
+    new attempts = 0;
+
+    do {
+        if(GetPlayerVipTier(playerid))
+            GetUniqueSpawnPoint(playerid, spawn_ListVIP, MAX_SPAWNS_VIP, x, y, z, r, spawn_LastVIP);
+        else
+            GetUniqueSpawnPoint(playerid, spawn_List, MAX_SPAWNS, x, y, z, r, spawn_Last);
+        
+        attempts++;
+        if(attempts > 10) {
+            // Too many attempts, pick a random point within the map's boundary
+			log("[SPAWN] GenerateSpawnPoint: 10 attempts in radiation.");
+            RandomSpawnOutsideRadiation(x, y, z);
+            return;
+        }
+    } while(IsPointInRadiation(x, y));
+}
+
+RandomSpawnOutsideRadiation(&Float:x, &Float:y, &Float:z) {
+    do {
+        x = random_float(-MAP_SIZE, MAP_SIZE);  // Assuming the map is centered around (0,0)
+        y = random_float(-MAP_SIZE, MAP_SIZE);
+    } while(IsPointInRadiation(x, y));
+
+	CA_FindZ_For2DCoord(x,y, z);
 }

@@ -220,8 +220,6 @@ CreateNewCharacter(playerid, gender) {
 
 	GenerateSpawnPoint(playerid, x, y, z, r);
 	
-	while(IsPointInRadiation(x,y)) GenerateSpawnPoint(playerid, x, y, z, r);
-	
 	Streamer_UpdateEx(playerid, x, y, z, 0, 0);
 	SetPlayerPos(playerid, x, y, z);
 	SetPlayerFacingAngle(playerid, r);
