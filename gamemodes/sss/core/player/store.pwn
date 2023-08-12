@@ -151,13 +151,8 @@ static ItemPricing[][E_PRICING] = {
 };
 
 hook OnGamemodeInit() {
-	db_query(Database, "CREATE TABLE IF NOT EXISTS orders (\
-	player TEXT NOT NULL,\
-	item TEXT NOT NULL,\
-	purchased INTEGER NOT NULL,\
-	redeemed INTEGER)");
-
-	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON orders(player)");
+	db_query(Database, "CREATE TABLE IF NOT EXISTS orders (player TEXT NOT NULL, item TEXT NOT NULL, purchased INTEGER NOT NULL, redeemed INTEGER);");
+	db_query(Database, "CREATE INDEX IF NOT EXISTS player_index ON orders(player);");
 
 	stmt_AddItemOrder            = db_prepare(Database, "INSERT INTO orders VALUES(?,?,?,0);");
 	stmt_RedeemOrderItem         = db_prepare(Database, "UPDATE orders SET redeemed = redeemed + 1 WHERE item = ? AND player = ?;");
