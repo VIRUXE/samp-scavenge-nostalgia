@@ -101,8 +101,6 @@ stock IsPlayerNotAllowedWithHash(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]
 
 	stmt_execute(stmt_GpciPlayerAllowed);
 
-	stmt_fetch_row(stmt_GpciPlayerAllowed);
-
 	return result;
 }
 

@@ -129,8 +129,8 @@ public OnPlayerConnect(playerid) {
 
 		log("[GPCI] %s is %s (%d)", playerName, hashAllowed ? "not allowed" : "allowed", hashAllowed);
 
-		if(hashAllowed) {
-			KickPlayer(playerid, "Code: 37");
+		if(!hashAllowed) {
+			KickPlayer(playerid, "Multi-Account");
 
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
