@@ -82,7 +82,7 @@ static bool:trunk_playerNotAllowed[MAX_PLAYERS];
 hook OnScriptInit() {
 	det_Database = db_open_persistent("data/detfield.db");
 
-	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_list (\
+	db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_list (\
 		name TEXT,\
 		vert1 TEXT,\
 		vert2 TEXT,\
@@ -91,14 +91,14 @@ hook OnScriptInit() {
 		minz REAL,\
 		maxz REAL,\
 		excps TEXT,\
-		active INTEGER)", false));
+		active INTEGER)");
 
-	db_free_result(db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_logs (\
+	db_query(det_Database, "CREATE TABLE IF NOT EXISTS field_logs (\
 		field TEXT,\
 		name TEXT,\
 		pos TEXT,\
 		time INTEGER,\
-		active INTEGER)", false));
+		active INTEGER)");
 
 	det_Stmt_DetfieldAdd			= db_prepare(det_Database, "INSERT INTO field_list VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	det_Stmt_DetfieldExists			= db_prepare(det_Database, "SELECT COUNT(*) FROM field_list WHERE name = ?");
@@ -505,7 +505,7 @@ stock AddDetectionFieldException(detfieldId, name[MAX_PLAYER_NAME]) {
 
 	new targetId = GetPlayerIDFromName(name);
 	if(targetId != INVALID_PLAYER_ID) {
-		ChatMsg(targetId, GREEN, "Você foi adicionado como excepção em uma base com proteção field (%s).", det_Name[detfieldId]);
+		ChatMsg(targetId, GREEN, "Você foi adicionado como excepção em uma base com campo de proteção (%s).", det_Name[detfieldId]);
         fld_PlayerInvade[targetId] = false;
 	}
 
@@ -694,6 +694,8 @@ IsPlayerDetectionFieldOwner(playerid, detfieldId) {
 }
 
 hook OnPlayerEnterDynArea(playerid, areaid) {
+	if(GetPlayerVirtualWorld(playerid) != 0) return Y_HOOKS_CONTINUE_RETURN_0;
+
 	foreach(new i : det_Index) {
 		if(!IsDetectionFieldActive(i)) continue;
 
@@ -713,17 +715,19 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 						"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
 					"Fechar", "");
 					
-					ChatMsgAdmins(1, PINK, "[FIELD] %p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
+					ChatMsgAdmins(LEVEL_MODERATOR, PINK, "%p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
 					
 					PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 
 				    fld_PlayerInvade[playerid] = true;
 				} else
 					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
-			} else if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR)
-				ChatMsg(playerid, PINK, " > Você entrou na field '%s'", det_Name[i]);
+			} else if(GetPlayerAdminLevel(playerid))
+				ShowHelpTip(playerid, det_Name[i], 8000);
 		}
 	}
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 stock IsPlayerInvadedField(playerid) return fld_PlayerInvade[playerid];
