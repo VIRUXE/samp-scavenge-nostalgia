@@ -21,7 +21,7 @@ HidePlayerPageButtons(playerid) {
 hook OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	if(clickedid == page_Left)
 		CallLocalFunction("OnPlayerDialogPage", "dd", playerid, 0);
-	if(clickedid == page_Right)
+	else if(clickedid == page_Right)
 		CallLocalFunction("OnPlayerDialogPage", "dd", playerid, 1);
 }
 
