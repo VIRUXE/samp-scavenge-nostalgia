@@ -764,6 +764,8 @@ task RestartUpdate[SEC(1)]() {
 			ChatMsg(i, RED, "server/restart_warning_1m");
 			ChatMsg(i, RED, "");
 		}
+
+		SendRconCommand("password 1234"); // Fechar para mais ninguém entrar, pois pode crashar
 	}
 
 	TextDrawSetString(RestartCount, sprintf("Respawn em: ~%s~%02d:%02d:%02d", gServerUptime <= gServerMaxUptime - 600 ? "y" : (seconds % 2 ? "y" : "r"), hours, minutes, seconds));
