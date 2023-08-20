@@ -125,11 +125,31 @@ public OnPlayerConnect(playerid) {
 			return Y_HOOKS_BREAK_RETURN_0;
 		}
 
-		new hashAllowed = IsPlayerNotAllowedWithHash(playerName, hash);
+		new hashStatus = CheckPlayerHashStatus(playerName, hash);
 
-		log("[GPCI] %s is %s (%d)", playerName, hashAllowed ? "not allowed" : "allowed", hashAllowed);
+		if (hashStatus == 1) { // Shared but not allowed
+			new list[15][MAX_PLAYER_NAME],
+			count,
+			adminLevel,
+			aliases[(MAX_PLAYER_NAME + 2) * 15];
 
-		if(!hashAllowed) {
+			GetAccountAliasesByAll(playerName, list, count, 15, adminLevel);
+
+			if(count == 0)
+				return 0;
+			else if(count == 1)
+				strcat(aliases, list[0]);
+			else if(count > 1) {
+				for(new i; i < count && i < sizeof(list); i++) {
+					strcat(aliases, list[i]);
+					strcat(aliases, ", ");
+				}
+			}
+
+			log("[GPCI] %s (%s) has a shared hash but is not allowed (%s)", playerName, hash, aliases);
+
+			ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%p foi kickado por ter várias contas.", playerid);
+
 			KickPlayer(playerid, "Multi-Account");
 
 			return Y_HOOKS_BREAK_RETURN_0;

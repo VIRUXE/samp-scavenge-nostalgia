@@ -17,8 +17,7 @@ static
 DBStatement:	stmt_GpciInsert,
 DBStatement:	stmt_GpciCheckName,
 DBStatement:	stmt_GpciGetRecordsFromGpci,
-DBStatement:	stmt_GpciGetRecordsFromName,
-DBStatement:	stmt_GpciPlayerAllowed;
+DBStatement:	stmt_GpciGetRecordsFromName;
 
 
 hook OnGameModeInit() {
@@ -31,30 +30,6 @@ hook OnGameModeInit() {
 	stmt_GpciCheckName			= db_prepare(Database, "SELECT COUNT(*) FROM gpci_log WHERE name=? AND hash=?");
 	stmt_GpciGetRecordsFromGpci	= db_prepare(Database, "SELECT * FROM gpci_log WHERE hash=? ORDER BY date DESC");
 	stmt_GpciGetRecordsFromName	= db_prepare(Database, "SELECT * FROM gpci_log WHERE name=? COLLATE NOCASE ORDER BY date DESC");
-
-	/*
-	This SQL query checks if a player is allowed to join the game using a hash that is present in the 'gpci_log' table more than once.
-
-	The query uses the 'EXISTS' function to return a boolean value: 
-
-	1. It returns 1 (true) if the player's name and hash exist in the 'gpci_allowed' table and the same hash is used by more than one player (found in the 'gpci_log' table).
-	2. It returns 0 (false) if the above conditions are not met, meaning the player's hash is either not found in the 'gpci_log' table, is not used by more than one player, or the player's name and hash are not present in the 'gpci_allowed' table.
-
-	This is useful to ensure that a player is only allowed to join the game if they have previously been granted permission to use a hash that is shared by multiple players.
-	*/
-	stmt_GpciPlayerAllowed		= db_prepare(Database,
-		"SELECT 1\
-		FROM gpci_log\
-		WHERE gpci_log.hash = ?\
-		GROUP BY gpci_log.hash\
-		HAVING COUNT(gpci_log.hash) > 0 \
-		AND NOT EXISTS (\
-			SELECT 1 \
-			FROM gpci_allowed\
-			WHERE gpci_allowed.name = ?\
-			AND gpci_allowed.hash = gpci_log.hash\
-		);"
-	);
 }
 
 hook OnPlayerConnect(playerid) {
@@ -89,19 +64,36 @@ hook OnPlayerConnect(playerid) {
 }
 
 // Check if there are multiple rows of the same hash
-stock IsPlayerNotAllowedWithHash(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
-	new result;
+stock CheckPlayerHashStatus(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
+    new result, query[512], DBResult:dbResult;
 
-	log("(IsPlayerNotAllowedWithHash) name: %s hash: %s", playerName, hash);
+    format(query, sizeof(query),
+        "SELECT CASE \
+            WHEN EXISTS (\
+                SELECT 1 \
+                FROM gpci_log \
+                WHERE gpci_log.hash = '%s'\
+            ) AND NOT EXISTS (\
+                SELECT 1 \
+                FROM gpci_allowed \
+                WHERE gpci_allowed.name = '%s' \
+                AND gpci_allowed.hash = '%s'\
+            ) THEN 1 \
+            ELSE 0 \
+        END;", hash, playerName, hash);
 
-	stmt_bind_result_field(stmt_GpciPlayerAllowed, 0, DB::TYPE_INTEGER, result);
+    dbResult = db_query(Database, query);
 
-	stmt_bind_value(stmt_GpciPlayerAllowed, 0, DB::TYPE_STRING, hash, MAX_GPCI_LEN);
-	stmt_bind_value(stmt_GpciPlayerAllowed, 1, DB::TYPE_STRING, playerName, MAX_GPCI_LEN);
+    if (dbResult == DB::INVALID_RESULT) {
+        log("Error executing query: %s", query);
+        return 0;
+    }
 
-	stmt_execute(stmt_GpciPlayerAllowed);
+    if (db_num_rows(dbResult) > 0) result = db_get_field_int(dbResult);
 
-	return result;
+    db_free_result(dbResult);
+
+    return result;
 }
 
 stock GetAccountGpciHistoryFromGpci(inputgpci[MAX_GPCI_LEN], output[][e_gpci_list_output_structure], max, &count) {
