@@ -9,8 +9,7 @@ static
 	banlist_CurrentName[MAX_PLAYERS][MAX_PLAYER_NAME];
 
 
-ShowListOfBans(playerid, index = 0)
-{
+ShowListOfBans(playerid, index = 0) {
 	new
 		list[MAX_BANS_PER_PAGE][MAX_PLAYER_NAME],
 		totalbans,
@@ -37,8 +36,7 @@ ShowListOfBans(playerid, index = 0)
 		string[((MAX_PLAYER_NAME + 1) * MAX_BANS_PER_PAGE)],
 		title[22];
 
-	while(idx < listitems )
-	{
+	while(idx < listitems ) {
 		strcat(string, list[idx]);
 		strcat(string, "\n");
 		idx++;
@@ -56,10 +54,8 @@ ShowListOfBans(playerid, index = 0)
 	return 1;
 }
 
-Dialog:ListOfBans(playerid, response, listitem, inputtext[])
-{
-	if(response)
-	{
+Dialog:ListOfBans(playerid, response, listitem, inputtext[]) {
+	if(response) {
 		new name[MAX_PLAYER_NAME];
 		strmid(name, inputtext, 0, MAX_PLAYER_NAME);
 		ShowBanInfo(playerid, name);
@@ -70,8 +66,7 @@ Dialog:ListOfBans(playerid, response, listitem, inputtext[])
 	CancelSelectTextDraw(playerid);
 }
 
-ShowBanInfo(playerid, name[MAX_PLAYER_NAME])
-{
+ShowBanInfo(playerid, name[MAX_PLAYER_NAME]) {
 	new
 		timestamp,
 		reason[MAX_BAN_REASON],
@@ -99,26 +94,21 @@ ShowBanInfo(playerid, name[MAX_PLAYER_NAME])
 	return 1;
 }
 
-Dialog:BanInfo(playerid, response, listitem, inputtext[])
-{
+Dialog:BanInfo(playerid, response, listitem, inputtext[]) {
 	if(response) ShowBanOptions(playerid);
 
 	else ShowListOfBans(playerid);
 }
 
-ShowBanOptions(playerid)
-{
+ShowBanOptions(playerid) {
 	Dialog_Show(playerid, BanOptions, DIALOG_STYLE_LIST, banlist_CurrentName[playerid], "Editar motivo\nEditar duração\nSetar a data\nDesbanir\n", "Selecionar", "Voltar");
 
 	return 1;
 }
 
-Dialog:BanOptions(playerid, response, listitem, inputtext[])
-{
-	if(response)
-	{
-		switch(listitem)
-		{
+Dialog:BanOptions(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		switch(listitem) {
 			case 0: ShowBanReasonEdit(playerid); // Edit reason
 			case 1: ShowBanDurationEdit(playerid); // Edit duration
 			case 2: ShowBanDateEdit(playerid); // Edit set unban
@@ -128,46 +118,32 @@ Dialog:BanOptions(playerid, response, listitem, inputtext[])
 	else ShowBanInfo(playerid, banlist_CurrentName[playerid]);
 }
 
-ShowBanReasonEdit(playerid)
-{
+ShowBanReasonEdit(playerid) {
 	Dialog_Show(playerid, BanReasonEdit, DIALOG_STYLE_INPUT, "Editar o motivo do banimento", "Insira o novo motivo de banimento.", "Confirmar", "Cancelar");
 
 	return 1;
 }
 
-Dialog:BanReasonEdit(playerid, response, listitem, inputtext[])
-{
+Dialog:BanReasonEdit(playerid, response, listitem, inputtext[]) {
 	if(response) SetBanReason(banlist_CurrentName[playerid], inputtext);
 
 	ShowBanOptions(playerid);
 }
 
-ShowBanDurationEdit(playerid)
-{
+ShowBanDurationEdit(playerid) {
 	Dialog_Show(playerid, BanDurationEdit, DIALOG_STYLE_INPUT, "Editar a duração do banimento", "Insira a nova duração do banimento abaixo no formato <n�mero> <days/weeks/months>", "Confirmar", "Cancelar");
 
 	return 1;
 }
 
-Dialog:BanDurationEdit(playerid, response, listitem, inputtext[])
-{
-	if(response)
-	{
-		new duration;
+Dialog:BanDurationEdit(playerid, response, listitem, inputtext[]) {
+	if(response) {
+		new duration = isequal(inputtext, "forever", true) ? 0 : GetDurationFromString(inputtext);
 
-		if(!strcmp(inputtext, "forever", true))
-			duration = 0;
-
-		else
-			duration = GetDurationFromString(inputtext);
-
-		if(duration == -1)
-		{
-			ChatMsg(playerid, YELLOW, " >  Inválido. Use <n�mero> <days/weeks/months>.");
+		if(duration == -1) {
+			ChatMsg(playerid, YELLOW, " >  Invlido. Use <n�mero> <days/weeks/months>.");
 			ShowBanDurationEdit(playerid);
-		}
-		else
-		{
+		} else {
 			SetBanDuration(banlist_CurrentName[playerid], duration);
 			ShowBanOptions(playerid);
 		}
@@ -176,43 +152,36 @@ Dialog:BanDurationEdit(playerid, response, listitem, inputtext[])
 	ShowBanOptions(playerid);
 }
 
-ShowBanDateEdit(playerid)
-{
+ShowBanDateEdit(playerid) {
 	Dialog_Show(playerid, BanDateEdit, DIALOG_STYLE_INPUT, "Editar a data do banimento", "Insira o formato da data: dd/mm/yy", "Confirmar", "Cancelar");
 
 	return 1;
 }
 
-Dialog:BanDateEdit(playerid, response, listitem, inputtext[])
-{
+Dialog:BanDateEdit(playerid, response, listitem, inputtext[]) {
 	if(response) ChatMsg(playerid, YELLOW, " >  Not implemented.");
 
 	ShowBanOptions(playerid);
 }
 
-ShowUnbanPrompt(playerid)
-{
+ShowUnbanPrompt(playerid) {
 	Dialog_Show(playerid, UnbanPrompt, DIALOG_STYLE_MSGBOX, "Desbanimento", "Quer mesmo desbanir?", "Confirmar", "Cancelar");
 
 	return 1;
 }
 
-Dialog:UnbanPrompt(playerid, response, listitem, inputtext[])
-{
+Dialog:UnbanPrompt(playerid, response, listitem, inputtext[]) {
 	if(response) UnBanPlayer(banlist_CurrentName[playerid]);
 
 	ShowBanOptions(playerid);
 }
 
-hook OnPlayerDialogPage(playerid, direction)
-{
-
-
-	if(banlist_ViewingList[playerid])
-	{
-		if(direction == 0) banlist_CurrentIndex[playerid] -= MAX_BANS_PER_PAGE;
-
-		else banlist_CurrentIndex[playerid] += MAX_BANS_PER_PAGE;
+hook OnPlayerDialogPage(playerid, direction) {
+	if(banlist_ViewingList[playerid]) {
+		if(direction == 0) 
+			banlist_CurrentIndex[playerid] -= MAX_BANS_PER_PAGE;
+		else 
+			banlist_CurrentIndex[playerid] += MAX_BANS_PER_PAGE;
 
 		ShowListOfBans(playerid, banlist_CurrentIndex[playerid]);
 	}
