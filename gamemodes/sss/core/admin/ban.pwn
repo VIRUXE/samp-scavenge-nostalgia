@@ -1,7 +1,6 @@
 #include <YSI\y_hooks>
 
-#define MAX_BAN_REASON (128)
-#define ACCOUNTS_TABLE_BANS			"Bans"
+#define MAX_BAN_REASON 128
 
 enum {
 	FIELD_ID_BANS_NAME,
@@ -30,7 +29,7 @@ DBStatement:	stmt_BanSetDuration;
 hook OnGameModeInit() {
 	db_free_result(db_query(Database, "CREATE TABLE IF NOT EXISTS bans (name TEXT, ipv4 INTEGER, date INTEGER, reason TEXT, by TEXT, duration INTEGER, active INTEGER)"));
 
-	DatabaseTableCheck(Database, ACCOUNTS_TABLE_BANS, 7);
+	DatabaseTableCheck(Database, "Bans", 7);
 
 	stmt_BanInsert				= db_prepare(Database, "INSERT INTO bans VALUES(?, ?, ?, ?, ?, ?, 1)");
 	stmt_BanUnban				= db_prepare(Database, "UPDATE bans SET active=0 WHERE name = ? COLLATE NOCASE");
@@ -45,27 +44,25 @@ hook OnGameModeInit() {
 	stmt_BanSetDuration			= db_prepare(Database, "UPDATE bans SET duration = ? WHERE name = ? COLLATE NOCASE");
 }
 
-BanPlayer(playerid, reason[], byid, duration) {
-	new name[MAX_PLAYER_NAME];
+BanPlayer(playerId, reason[], byId, duration) {
+	new playerName[MAX_PLAYER_NAME];
 
-    ChatMsgAll(0xC457EBAA, " > %p foi banido!", playerid, playerid);
+	GetPlayerName(playerId, playerName, MAX_PLAYER_NAME);
 
-    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-    CallLocalFunction("OnPlayerBan", "s", name);
-    GetPlayerName(byid, name, MAX_PLAYER_NAME);
-    
-	stmt_bind_value(stmt_BanInsert, 0, DB::TYPE_PLAYER_NAME, playerid);
-	stmt_bind_value(stmt_BanInsert, 1, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerid));
+	stmt_bind_value(stmt_BanInsert, 0, DB::TYPE_STRING, playerName);
+	stmt_bind_value(stmt_BanInsert, 1, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerId));
 	stmt_bind_value(stmt_BanInsert, 2, DB::TYPE_INTEGER, gettime());
 	stmt_bind_value(stmt_BanInsert, 3, DB::TYPE_STRING, reason, MAX_BAN_REASON);
-	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_PLAYER_NAME, byId);
 	stmt_bind_value(stmt_BanInsert, 5, DB::TYPE_INTEGER, duration);
 
 	if(stmt_execute(stmt_BanInsert)) {
-		// ChatMsg(playerid, YELLOW, "BANNEDMESSG", reason);
-		GameTextForPlayer(playerid, "Banido!", 10000, 6);
+		CallLocalFunction("OnPlayerBan", "s", playerName);
+
+   		ChatMsgAll(WHITE, " > %p foi banido!", playerId);
+		GameTextForPlayer(playerId, "Banido!", 10000, 6);
 		
-		defer KickPlayerDelay(playerid);
+		defer KickPlayerDelay(playerId);
 
 		return 1;
 	}
@@ -75,30 +72,24 @@ BanPlayer(playerid, reason[], byid, duration) {
 
 BanPlayerByName(name[], reason[], byid, duration) {
 	new
-		forName[MAX_PLAYER_NAME],
-		id = INVALID_PLAYER_ID,
+		playerId = GetPlayerIDFromName(name),
 		ip,
-		byname[MAX_PLAYER_NAME];
+		byName[MAX_PLAYER_NAME];
 
 	if(byid == -1)
-		byname = "Server";
+		byName = "Server";
 	else
-		GetPlayerName(byid, byname, MAX_PLAYER_NAME);
+		GetPlayerName(byid, byName, MAX_PLAYER_NAME);
 
-    if(GetPlayerIDFromName(name) != INVALID_PLAYER_ID) ChatMsgAll(0xC457EBAA, "[Admin]: %s foi banido!", name);
-	
-	foreach(new i : Player) {
-		GetPlayerName(i, forName, MAX_PLAYER_NAME);
-
-		if(!strcmp(forName, name)) id = i;
-	}
-
-	if(id == INVALID_PLAYER_ID) {
+	if(playerId == INVALID_PLAYER_ID) {
 		GetAccountIP(name, ip);
 	} else {
-	    GameTextForPlayer(id, "Kickado!", 10000, 6);
-		ip = GetPlayerIpAsInt(id);
-		defer KickPlayerDelay(id);
+		ChatMsgAll(WHITE, " > %s foi banido!", name);
+	    GameTextForPlayer(playerId, "Kickado!", 10000, 6);
+
+		ip = GetPlayerIpAsInt(playerId);
+
+		defer KickPlayerDelay(playerId);
 	}
 
     CallLocalFunction("OnPlayerBan", "s", name);
@@ -107,7 +98,7 @@ BanPlayerByName(name[], reason[], byid, duration) {
 	stmt_bind_value(stmt_BanInsert, 1, DB::TYPE_INTEGER, ip);
 	stmt_bind_value(stmt_BanInsert, 2, DB::TYPE_INTEGER, gettime());
 	stmt_bind_value(stmt_BanInsert, 3, DB::TYPE_STRING, reason, MAX_BAN_REASON);
-	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_STRING, byname, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_BanInsert, 4, DB::TYPE_STRING, byName, MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_BanInsert, 5, DB::TYPE_INTEGER, duration);
 
 	if(!stmt_execute(stmt_BanInsert)) return 0;
