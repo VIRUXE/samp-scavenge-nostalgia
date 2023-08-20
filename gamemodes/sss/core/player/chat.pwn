@@ -40,7 +40,7 @@ ACMD:setglobal[2](playerid, params[]) {
 }
 
 hook OnGamemodeInit() {
-    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "setglobal", "Mudar o tempo de enviar mensagem no global");
+    RegisterAdminCommand(LEVEL_MODERATOR, "setglobal", "Mudar o tempo de enviar mensagem no global");
 }
 
 hook OnPlayerConnect(playerid) {

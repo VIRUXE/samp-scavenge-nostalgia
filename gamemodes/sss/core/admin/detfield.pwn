@@ -661,7 +661,7 @@ hook OnPlayerLogin(playerid) {
 	// Esperamos o mundo carregar completamente (1 seg) e depois verificamos se o jogador esta numa field sem excepcao
 	defer HandleFieldInvasionOnLogin(playerid);
 
-	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) {
+	if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
 			if(!det_Active[d]) {
 				SendClientMessage(playerid, RED, " > Existem Detection Fields por Ativar");
@@ -720,7 +720,7 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 				    fld_PlayerInvade[playerid] = true;
 				} else
 					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
-			} else if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR)
+			} else if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR)
 				ChatMsg(playerid, PINK, " > Você entrou na field '%s'", det_Name[i]);
 		}
 	}

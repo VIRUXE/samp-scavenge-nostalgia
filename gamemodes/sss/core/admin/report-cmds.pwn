@@ -314,7 +314,7 @@ Dialog:Report(playerid, response, listitem, inputtext[]) {
 ShowReportOptions(playerid) {
 	new options[128] = "Banir\nDeletar\nDeletar reports do jogador\nDeixar lido\n";
 
-	if(IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_LEAD) {
+	if(IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) >= LEVEL_LEAD) {
 		strcat(options, "Ir para a Posição do report\n");
 
 		if(isequal(report_CurrentType[playerid], "TELE"))

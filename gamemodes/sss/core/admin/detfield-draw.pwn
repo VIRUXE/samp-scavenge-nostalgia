@@ -4,7 +4,7 @@
 static det_LineIds[MAX_DETFIELD][8];
 
 hook OnGamemodeInit() {
-    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "rdpon/rdpoff", "Ver zonas onde possuí­ fields nas bases (cercado com uma corda em todas as pontas)");
+    RegisterAdminCommand(LEVEL_MODERATOR, "rdpon/rdpoff", "Ver zonas onde possuí­ fields nas bases (cercado com uma corda em todas as pontas)");
 }
 
 hook OnFilterScriptInit()

@@ -1,16 +1,16 @@
 #include <YSI\y_hooks>
 
 hook OnGameModeInit() {
-	RegisterAdminCommand(STAFF_LEVEL_LEAD, "reiniciar", "Reiniciar o servidor");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "(des)congelarall", "(Des)congelar todos os players online");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "additem", "Adicionar um item");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "addveiculo", "Adicionar um veiculo");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "aliases", "Checar IPs");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "clima", "Mudar o clima do servidor");
-    RegisterAdminCommand(STAFF_LEVEL_LEAD, "deletar", "Deletar metais, tendas, itens");
+	RegisterAdminCommand(LEVEL_LEAD, "reiniciar", "Reiniciar o servidor");
+    RegisterAdminCommand(LEVEL_LEAD, "(des)congelarall", "(Des)congelar todos os players online");
+    RegisterAdminCommand(LEVEL_LEAD, "additem", "Adicionar um item");
+    RegisterAdminCommand(LEVEL_LEAD, "addveiculo", "Adicionar um veiculo");
+    RegisterAdminCommand(LEVEL_LEAD, "aliases", "Checar IPs");
+    RegisterAdminCommand(LEVEL_LEAD, "clima", "Mudar o clima do servidor");
+    RegisterAdminCommand(LEVEL_LEAD, "deletar", "Deletar metais, tendas, itens");
 }
 
-ACMD:reiniciar[4](playerid, params[]) {
+ACMD:reiniciar[3](playerid, params[]) {
 	new duration;
 
 	if(sscanf(params, "D(300)", duration)) return ChatMsg(playerid, YELLOW, " >  Use: /reiniciar (segundos)");
@@ -22,7 +22,7 @@ ACMD:reiniciar[4](playerid, params[]) {
 	return 1;
 }
 
-ACMD:additem[4](playerid, params[]) {
+ACMD:additem[3](playerid, params[]) {
 	new
 		ItemType:type = INVALID_ITEM_TYPE,
 		itemname[ITM_MAX_NAME + 10],
@@ -88,7 +88,7 @@ ACMD:additem[4](playerid, params[]) {
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
 
-ACMD:addveh[4](playerid, params[]) {
+ACMD:addveh[3](playerid, params[]) {
     if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /veh [id/nome]");
 	
 	new Float:x, Float:y, Float:z, Float:r;
@@ -107,11 +107,11 @@ ACMD:addveh[4](playerid, params[]) {
 	
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
 }
-ACMD:addveiculo[4](playerid, params[]) return acmd_addveh_4(playerid, params);
-ACMD:av[4](playerid, params[]) return acmd_addveh_4(playerid, params);
+ACMD:addveiculo[3](playerid, params[]) return acmd_addveh_3(playerid, params);
+ACMD:av[3](playerid, params[]) return acmd_addveh_3(playerid, params);
 
-ACMD:deletar[4](playerid, params[]) {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
+ACMD:deletar[3](playerid, params[]) {
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new type[8], Float:range;
 
@@ -166,21 +166,21 @@ ACMD:deletar[4](playerid, params[]) {
 
 	return ChatMsg(playerid, GREEN, " > %d %s", count, type);
 }
-ACMD:del[4](playerid, params[]) return acmd_deletar_4(playerid, params);
+ACMD:del[3](playerid, params[]) return acmd_deletar_3(playerid, params);
 
-ACMD:congelarall[4](playerid) {
+ACMD:congelarall[3](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, false);
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p{0xC457EBAA} (%d) congelou todos os players online do servidor!", playerid, playerid);
 }
 
-ACMD:descongelarall[4](playerid) {
+ACMD:descongelarall[3](playerid) {
 	foreach(new i : Player) TogglePlayerControllable(i, true);
 
 	return ChatMsgAll(0xC457EBAA, "[Admin]: %p{0xC457EBAA} (%d) descongelou todos os players online do servidor!", playerid, playerid);
 }
 
-ACMD:clima[4](playerid, params[]) {
+ACMD:clima[3](playerid, params[]) {
 	new clima;
 
 	if(sscanf(params, "D(20)", clima)) return SendClientMessage(playerid, YELLOW, " > Use: /mudarclima [ID do Clima]");
@@ -198,7 +198,7 @@ ACMD:clima[4](playerid, params[]) {
 	return ChatMsgAdmins(1, 0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
 }
 
-ACMD:aliases[4](playerid, params[]) {
+ACMD:aliases[3](playerid, params[]) {
 	new
 		name[MAX_PLAYER_NAME],
 		type;

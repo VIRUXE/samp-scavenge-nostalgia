@@ -1,4 +1,4 @@
-ACMD:gamename[5](playerid,params[]) {
+ACMD:gamename[4](playerid,params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /gamename [name]");
 
 	SetGameModeText(params);
@@ -7,7 +7,7 @@ ACMD:gamename[5](playerid,params[]) {
 	return 1;
 }
 
-ACMD:hostname[5](playerid,params[]) {
+ACMD:hostname[4](playerid,params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /hostname [name]");
 
 	SendRconCommand(sprintf("hostname %s", params));
@@ -17,7 +17,7 @@ ACMD:hostname[5](playerid,params[]) {
 	return 1;
 }
 
-ACMD:mapname[5](playerid,params[]) {
+ACMD:mapname[4](playerid,params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid,YELLOW," >  Usage: /mapname [name]");
 
 	SendRconCommand(sprintf("mapname %s", params));
@@ -25,12 +25,12 @@ ACMD:mapname[5](playerid,params[]) {
 	return 1;
 }
 
-ACMD:gmx[5](playerid) {
+ACMD:gmx[4](playerid) {
 	RestartGamemode();
 	return 1;
 }
 
-ACMD:loadfs[5](playerid, params[]) {
+ACMD:loadfs[4](playerid, params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	SendRconCommand(sprintf("loadfs %s", params));
@@ -39,7 +39,7 @@ ACMD:loadfs[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:reloadfs[5](playerid, params[]) {
+ACMD:reloadfs[4](playerid, params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	SendRconCommand(sprintf("reloadfs %s", params));
@@ -48,7 +48,7 @@ ACMD:reloadfs[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:unloadfs[5](playerid, params[]) {
+ACMD:unloadfs[4](playerid, params[]) {
 	if(!(0 < strlen(params) < 64)) return ChatMsg(playerid, YELLOW, " >  Usage: /loadfs [FS name]");
 
 	SendRconCommand(sprintf("unloadfs %s", params));
@@ -57,14 +57,14 @@ ACMD:unloadfs[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:nametags[5](playerid, params[]) {
+ACMD:nametags[4](playerid, params[]) {
 	ToggleNameTagsForPlayer(playerid, !GetPlayerNameTagsToggle(playerid));
 	ChatMsg(playerid, YELLOW, " >  Nametags toggled %s", (GetPlayerNameTagsToggle(playerid)) ? ("on") : ("off"));
 
 	return 1;
 }
 
-/*ACMD:gotoitem[5](playerid, params[]) {
+/*ACMD:gotoitem[4](playerid, params[]) {
 	new
 		itemid = strval(params),
 		Float:x,
@@ -77,7 +77,7 @@ ACMD:nametags[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:destroyitemid[5](playerid, params[]) {
+ACMD:destroyitemid[4](playerid, params[]) {
 	new
 		itemid = strval(params);
 
@@ -86,7 +86,7 @@ ACMD:destroyitemid[5](playerid, params[]) {
 	return 1;
 }*/
 
-ACMD:addloot[5](playerid, params[]) {
+ACMD:addloot[4](playerid, params[]) {
 	new
 		lootIndexName[MAX_LOOT_INDEX_NAME],
 		lootIndex,
@@ -108,7 +108,7 @@ ACMD:addloot[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:setitemhp[5](playerid, params[]) {
+ACMD:setitemhp[4](playerid, params[]) {
 	new itemid, hitpoints;
 
 	if(sscanf(params, "dd", itemid, hitpoints)) return ChatMsg(playerid, YELLOW, " >  Usage: /setitemhp [itemid] [hitpoints]");
@@ -118,7 +118,7 @@ ACMD:setitemhp[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:vw[5](playerid, params[]) {
+ACMD:vw[4](playerid, params[]) {
 	if(isnull(params))
 		ChatMsg(playerid, YELLOW, "Current VW: %d", GetPlayerVirtualWorld(playerid));
 	else
@@ -127,7 +127,7 @@ ACMD:vw[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:iw[5](playerid, params[]) {
+ACMD:iw[4](playerid, params[]) {
 	if(isnull(params))
 		ChatMsg(playerid, YELLOW, "Current INT: %d", GetPlayerInterior(playerid));
 	else
@@ -136,7 +136,7 @@ ACMD:iw[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:food[5](playerid, params[]) {
+ACMD:food[4](playerid, params[]) {
 	new targetId, Float:value;
 
 	if(sscanf(params, "rF(100)", targetId, value)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /food [id/nick] (valor)");
@@ -151,7 +151,7 @@ ACMD:food[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:bleed[5](playerid, params[]) {
+ACMD:bleed[4](playerid, params[]) {
 	new targetId, Float:value;
 
 	if(sscanf(params, "R(*)F(100.0)", playerid, targetId, value)) return 1;
@@ -162,24 +162,24 @@ ACMD:bleed[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:knockout[5](playerid, params[]) {
+ACMD:knockout[4](playerid, params[]) {
 	KnockOutPlayer(playerid, strval(params));
 	ChatMsg(playerid, YELLOW, "Set knockout time to %d", strval(params));
 	return 1;
 }
 
-ACMD:showdamage[5](playerid) {
+ACMD:showdamage[4](playerid) {
 	ShowActionText(playerid, sprintf("bleedrate: %f~n~wounds: %d", GetPlayerBleedRate(playerid), GetPlayerWounds(playerid)), 5000);
 	return 1;
 }
 
-ACMD:removewounds[5](playerid, params[]) {
+ACMD:removewounds[4](playerid, params[]) {
 	RemovePlayerWounds(playerid, strval(params));
 	ChatMsg(playerid, YELLOW, "Removed %d wounds.", strval(params));
 	return 1;
 }
 
-ACMD:wc[5](playerid) {
+ACMD:wc[4](playerid) {
 	new Float:x, Float:y, Float:z;
 
 	GetPlayerPos(playerid, x, y, z);
@@ -192,7 +192,7 @@ ACMD:wc[5](playerid) {
 
 static cloneid[MAX_PLAYERS] = {INVALID_ACTOR_ID, ...};
 
-ACMD:clone[5](playerid) {
+ACMD:clone[4](playerid) {
 	if(cloneid[playerid] == INVALID_ACTOR_ID) {
 		new Float:x, Float:y, Float:z, Float:a;
 
@@ -209,7 +209,7 @@ ACMD:clone[5](playerid) {
 }
 
 CMD:setadmin(playerid, params[]) {
-	if(!IsPlayerAdmin(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return 0;
+	if(!IsPlayerAdmin(playerid) && GetPlayerAdminLevel(playerid) < LEVEL_LEAD) return 0;
 
 	new targetId, level;
 
@@ -235,7 +235,7 @@ CMD:setadmin(playerid, params[]) {
 	return 1;
 }
 
-ACMD:debug[5](playerid, params[]) {
+ACMD:debug[4](playerid, params[]) {
 	new
 		handlername[32],
 		level;
@@ -249,7 +249,7 @@ ACMD:debug[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:sifdebug[5](playerid, params[]) {
+ACMD:sifdebug[4](playerid, params[]) {
 	new
 		handlername[32],
 		level,
@@ -272,7 +272,7 @@ ACMD:sifdebug[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:sifgdebug[5](playerid, params[]) {
+ACMD:sifgdebug[4](playerid, params[]) {
 	new
 		handlername[32],
 		level,
@@ -295,7 +295,7 @@ ACMD:sifgdebug[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:dbl[5](playerid) {
+ACMD:dbl[4](playerid) {
 	#if defined SIF_USE_DEBUG_LABELS
 		if(IsPlayerToggledAllDebugLabels(playerid)) {
 			HideAllDebugLabelsForPlayer(playerid);
@@ -311,7 +311,7 @@ ACMD:dbl[5](playerid) {
 	return 1;
 }
 
-ACMD:otp[5](playerid, params[]) {
+ACMD:otp[4](playerid, params[]) {
 	new targetId;
 
 	if(sscanf(params, "r", targetId)) { // Se nao especificar um jogador, ativa/desativa o modo de chave unica para o proprio jogador
@@ -332,7 +332,7 @@ ACMD:otp[5](playerid, params[]) {
 	return 1;
 }
 
-ACMD:delreports[5](playerid) {
+ACMD:delreports[4](playerid) {
     for(new i = 0; i < 5000; i++) SetReportRead(i, 1); // * 5 mil? caralho
 		
 	ChatMsg(playerid, YELLOW, " >  Todos os reports foram deletados.");

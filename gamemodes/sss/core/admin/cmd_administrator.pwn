@@ -1,22 +1,22 @@
 #include <YSI\y_hooks>
 
 hook OnGameModeInit() {
-	RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)congelar", "Congelar/descongelar players");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "(des)banir", "Banir/desbanir players");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "delreports", "Apagar todos os reports enviados");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "goto/tp", "Ver os comandos de teleportes");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "irpos", "Ir em uma determinada coordenada");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "move", "Para mover no mundo");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "recam", "Da reset na camara depois de /free");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "resetarsenha", "Resetar senha de alguém (a senha nova será: 'password')");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "setactive", "ativar/desativar contas");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "sethp", "Define a vida de um jogador");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "spec/free", "Observar alguém, camera livre");
-    RegisterAdminCommand(STAFF_LEVEL_ADMINISTRATOR, "veiculo/veh", "Controlar Veículos");
+	RegisterAdminCommand(LEVEL_ADMINISTRATOR, "(des)congelar", "Congelar/descongelar players");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "(des)banir", "Banir/desbanir players");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "delreports", "Apagar todos os reports enviados");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "goto/tp", "Ver os comandos de teleportes");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "irpos", "Ir em uma determinada coordenada");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "move", "Para mover no mundo");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "recam", "Da reset na camara depois de /free");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "resetarsenha", "Resetar senha de alguém (a senha nova será: 'password')");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "setactive", "ativar/desativar contas");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "sethp", "Define a vida de um jogador");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "spec/free", "Observar alguém, camera livre");
+    RegisterAdminCommand(LEVEL_ADMINISTRATOR, "veiculo/veh", "Controlar Veículos");
 }
 
 /*
-ACMD:whitelist[3](playerid, params[]) {
+ACMD:whitelist[2](playerid, params[]) {
 	new
 		command[7],
 		name[MAX_PLAYER_NAME];
@@ -108,7 +108,7 @@ ACMD:whitelist[3](playerid, params[]) {
 	return 1;
 }*/
 
-ACMD:spec[3](playerid, params[]) {
+ACMD:spec[2](playerid, params[]) {
 	if(!(IsPlayerOnAdminDuty(playerid))) return CMD_NOT_DUTY;
 
 	// If there's only one player, don't do anything
@@ -140,7 +140,7 @@ ACMD:spec[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:free[3](playerid) {
+ACMD:free[2](playerid) {
 	if(!IsPlayerOnAdminDuty(playerid)) return CMD_NOT_DUTY;
 
 	// TODO: Adicionar opcao para coordenada
@@ -154,8 +154,8 @@ ACMD:recam[4](playerid, params[]) {
 	return 1;
 }
 
-ACMD:veiculo[3](playerid, params[]) {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
+ACMD:veiculo[2](playerid, params[]) {
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new command[30], vehicleId;
 
@@ -260,10 +260,10 @@ ACMD:veiculo[3](playerid, params[]) {
 
 	return 1;
 }
-ACMD:veh[3](playerid, params[]) return acmd_veiculo_3(playerid, params);
+ACMD:veh[2](playerid, params[]) return acmd_veiculo_2(playerid, params);
 
-ACMD:move[3](playerid, params[]) {
-	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
+ACMD:move[2](playerid, params[]) {
+	if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < LEVEL_LEAD) return CMD_NOT_DUTY;
 
 	new
 		direction[10],
@@ -295,7 +295,7 @@ ACMD:move[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:resetarsenha[3](playerid, params[]) {
+ACMD:resetarsenha[2](playerid, params[]) {
 	if(isnull(params)) return ChatMsg(playerid, YELLOW, " >  Use: /resetarsenha [Nick]");
 
 	new buffer[129];
@@ -310,7 +310,7 @@ ACMD:resetarsenha[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:setactive[3](playerid, params[]) {
+ACMD:setactive[2](playerid, params[]) {
 	new name[MAX_PLAYER_NAME], active;
 
 	if(sscanf(params, "s[24]d", name, active)) return ChatMsg(playerid, YELLOW, " >  Use: /setactive [nick] [1/0] (1 = ativar, 0 = desativar)");
@@ -326,8 +326,8 @@ ACMD:setactive[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:irpos[3](playerid, params[]) {
-    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_LEAD) return CMD_NOT_DUTY;
+ACMD:irpos[2](playerid, params[]) {
+    if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < LEVEL_LEAD) return CMD_NOT_DUTY;
 		
 	new Float:x, Float:y, Float:z;
 
@@ -341,7 +341,7 @@ ACMD:irpos[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:banir[3](playerid, params[]) {
+ACMD:banir[2](playerid, params[]) {
 	new name[MAX_PLAYER_NAME];
 
 	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /banir [playerid/nome]");
@@ -357,14 +357,14 @@ ACMD:banir[3](playerid, params[]) {
 
 	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " > a conta '%s' não existe.", name);
 
-	if(GetAdminLevelByName(name) > STAFF_LEVEL_NONE) return 2;
+	if(GetAdminLevelByName(name) > LEVEL_NONE) return 2;
 
 	BanAndEnterInfo(playerid, name);
 
 	return 1;
 }
 
-ACMD:desbanir[3](playerid, params[]) {
+ACMD:desbanir[2](playerid, params[]) {
 	new name[MAX_PLAYER_NAME];
 
 	if(sscanf(params, "s[24]", name)) return ChatMsg(playerid, YELLOW, " >  Use: /desbanir [Nick]");
@@ -377,7 +377,7 @@ ACMD:desbanir[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:banidos[3](playerid, params[]) {
+ACMD:banidos[2](playerid, params[]) {
 	new result = ShowListOfBans(playerid, 0);
 
 	if(result == 0) return ChatMsg(playerid, YELLOW, " >  Não há nenhum player banido.");
@@ -386,7 +386,7 @@ ACMD:banidos[3](playerid, params[]) {
 	return 1;
 }
 
-ACMD:sethp[3](playerid, params[]) {
+ACMD:sethp[2](playerid, params[]) {
 	new targetId, hp;
 
 	if(sscanf(params, "rD(100)", targetId, hp)) return ChatMsg(playerid, RED, " >  Use: /sethp [id/nick] (hp)");

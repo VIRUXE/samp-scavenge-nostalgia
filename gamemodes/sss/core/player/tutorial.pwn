@@ -355,7 +355,7 @@ public OnPlayerProgressTutorial(playerid, stepsCompleted) {
 		SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
 		defer ExitTutorial(playerid, true);
 
-		ChatMsgAdmins(STAFF_LEVEL_GAME_MASTER, GREEN, "%p concluiu o Tutorial.", playerid);
+		ChatMsgAdmins(LEVEL_MODERATOR, GREEN, "%p concluiu o Tutorial.", playerid);
 	} else {
 		new const steps[][2][] = {
 			{"Abrir Inventario", "Open Inventory"},

@@ -1,24 +1,10 @@
 #include <YSI\y_hooks>
 
-#define MAX_REPORT_REASON_LENGTH	(128)
-#define MAX_REPORT_TYPE_LENGTH		(40)
-#define MAX_REPORT_INFO_LENGTH		(128)
-#define MAX_REPORTS_PER_PAGE		(32)
-#define MAX_REPORT_TYPES			(20)
-#define ACCOUNTS_TABLE_REPORTS		"Reports"
-#define FIELD_REPORTS_NAME			"name"		// 00
-#define FIELD_REPORTS_REASON		"reason"	// 01
-#define FIELD_REPORTS_DATE			"date"		// 02
-#define FIELD_REPORTS_READ			"read"		// 03
-#define FIELD_REPORTS_TYPE			"type"		// 04
-#define FIELD_REPORTS_POSX			"posx"		// 05
-#define FIELD_REPORTS_POSY			"posy"		// 06
-#define FIELD_REPORTS_POSZ			"posz"		// 07
-#define FIELD_REPORTS_POSW			"world"		// 08
-#define FIELD_REPORTS_POSI			"interior"	// 09
-#define FIELD_REPORTS_INFO			"info"		// 10
-#define FIELD_REPORTS_BY			"by"		// 11
-#define FIELD_REPORTS_ACTIVE		"active"	// 12
+#define MAX_REPORT_REASON_LENGTH	128
+#define MAX_REPORT_TYPE_LENGTH		40
+#define MAX_REPORT_INFO_LENGTH		128
+#define MAX_REPORTS_PER_PAGE		32
+#define MAX_REPORT_TYPES			20
 
 // Report types
 #define REPORT_TYPE_PLAYER_ID		"PLY ID"
@@ -40,8 +26,7 @@
 #define REPORT_TYPE_BADHITOFFSET	"BHIT"
 #define REPORT_TYPE_BAD_SHOT_WEAP	"BSHT"
 
-enum
-{
+enum {
 	FIELD_ID_REPORTS_NAME,
 	FIELD_ID_REPORTS_REASON,
 	FIELD_ID_REPORTS_DATE,
@@ -57,8 +42,7 @@ enum
 	FIELD_ID_REPORTS_ACTIVE
 }
 
-enum e_report_list_struct
-{
+enum e_report_list_struct {
 	report_name[MAX_PLAYER_NAME],
 	report_type[MAX_REPORT_TYPE_LENGTH],
 	report_read,
@@ -76,71 +60,48 @@ DBStatement:	stmt_ReportInfo,
 DBStatement:	stmt_ReportSetRead,
 DBStatement:	stmt_ReportGetUnread;
 
+hook OnGameModeInit() {
+	db_query(Database, "CREATE TABLE IF NOT EXISTS Reports (\
+		name TEXT,\
+		reason TEXT,\
+		date INTEGER,\
+		read INTEGER,\
+		type TEXT,\
+		posx REAL,\
+		posy REAL,\
+		posz REAL,\
+		posw INTEGER,\
+		posi INTEGER,\
+		info TEXT,\
+		by TEXT,\
+		active INTEGER);");
 
-/*==============================================================================
+	db_query(Database, "CREATE INDEX idx_active ON Reports (active); CREATE INDEX idx_read ON Reports (read);");
 
-	Initialisation
+	DatabaseTableCheck(Database, "Reports", 13);
 
-==============================================================================*/
-
-
-hook OnGameModeInit()
-{
-	db_query(Database, "CREATE TABLE IF NOT EXISTS "ACCOUNTS_TABLE_REPORTS" (\
-		"FIELD_REPORTS_NAME" TEXT,\
-		"FIELD_REPORTS_REASON" TEXT,\
-		"FIELD_REPORTS_DATE" INTEGER,\
-		"FIELD_REPORTS_READ" INTEGER,\
-		"FIELD_REPORTS_TYPE" TEXT,\
-		"FIELD_REPORTS_POSX" REAL,\
-		"FIELD_REPORTS_POSY" REAL,\
-		"FIELD_REPORTS_POSZ" REAL,\
-		"FIELD_REPORTS_POSW" INTEGER,\
-		"FIELD_REPORTS_POSI" INTEGER,\
-		"FIELD_REPORTS_INFO" TEXT,\
-		"FIELD_REPORTS_BY" TEXT,\
-		"FIELD_REPORTS_ACTIVE" INTEGER)");
-
-	DatabaseTableCheck(Database, ACCOUNTS_TABLE_REPORTS, 13);
-
-	stmt_ReportInsert		= db_prepare(Database, "INSERT INTO "ACCOUNTS_TABLE_REPORTS" VALUES(?, ?, ?, '0', ?, ?, ?, ?, ?, ?, ?, ?, 1)");
-	stmt_ReportDelete		= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE rowid = ?");
-	stmt_ReportDeleteName	= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_NAME" = ?");
-	stmt_ReportDeleteRead	= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_ACTIVE"=0, "FIELD_REPORTS_READ"=1 WHERE "FIELD_REPORTS_READ" = 1");
-	stmt_ReportNameExists	= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_NAME" = ?");
-	stmt_ReportList			= db_prepare(Database, "SELECT "FIELD_REPORTS_NAME", "FIELD_REPORTS_READ", "FIELD_REPORTS_TYPE", rowid FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_ACTIVE"=1");
-	stmt_ReportInfo			= db_prepare(Database, "SELECT * FROM "ACCOUNTS_TABLE_REPORTS" WHERE rowid = ?");
-	stmt_ReportSetRead		= db_prepare(Database, "UPDATE "ACCOUNTS_TABLE_REPORTS" SET "FIELD_REPORTS_READ" = ? WHERE rowid = ?");
-	stmt_ReportGetUnread	= db_prepare(Database, "SELECT COUNT(*) FROM "ACCOUNTS_TABLE_REPORTS" WHERE "FIELD_REPORTS_READ" = 0");
+	stmt_ReportInsert		= db_prepare(Database, "INSERT INTO Reports VALUES(?, ?, ?, '0', ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+	stmt_ReportDelete		= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE rowId = ?");
+	stmt_ReportDeleteName	= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE name = ?");
+	stmt_ReportDeleteRead	= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE read = 1");
+	stmt_ReportNameExists	= db_prepare(Database, "SELECT COUNT(*) FROM Reports WHERE name = ?");
+	stmt_ReportList			= db_prepare(Database, "SELECT name, read, type, rowId FROM Reports WHERE active=1");
+	stmt_ReportInfo			= db_prepare(Database, "SELECT * FROM Reports WHERE rowId = ?");
+	stmt_ReportSetRead		= db_prepare(Database, "UPDATE Reports SET read = ? WHERE rowId = ?");
+	stmt_ReportGetUnread	= db_prepare(Database, "SELECT COUNT(*) FROM Reports WHERE read = 0");
 }
 
-
-/*==============================================================================
-
-	Core
-
-==============================================================================*/
-
-
-ReportPlayer(name[], reason[], reporter, type[], Float:posx, Float:posy, Float:posz, world, interior, infostring[])
-{
+ReportPlayer(name[], reason[], reporter, type[], Float:posx, Float:posy, Float:posz, world, interior, infostring[]) {
 	if(strlen(name) < 3) return 1;
 	    
-    for(new i = 0; i < MAX_PLAYERS; i++) {
-	    new nome[24];
-		GetPlayerName(i, nome, 24);
-		
-		if(!strcmp(name, nome) && IsPlayerNPC(i)) return 1;
-	}
-		
-	new reportername[MAX_PLAYER_NAME];
+	new reporterName[MAX_PLAYER_NAME];
 
 	if(reporter == -1) {
 		ChatMsgAdmins(1, YELLOW, " >  Servidor reportou %s, Motivo: %s", name, reason);
-		reportername = "Servidor";
+		reporterName = "Servidor";
 	} else {
 		ChatMsgAdmins(1, YELLOW, " >  %p Reportado %s, Motivo: %s", reporter, name, reason);
-		GetPlayerName(reporter, reportername, MAX_PLAYER_NAME);
+		GetPlayerName(reporter, reporterName, MAX_PLAYER_NAME);
 	}
 
 	stmt_bind_value(stmt_ReportInsert, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
@@ -153,22 +114,20 @@ ReportPlayer(name[], reason[], reporter, type[], Float:posx, Float:posy, Float:p
 	stmt_bind_value(stmt_ReportInsert, 7, DB::TYPE_INTEGER, world);
 	stmt_bind_value(stmt_ReportInsert, 8, DB::TYPE_INTEGER, interior);
 	stmt_bind_value(stmt_ReportInsert, 9, DB::TYPE_STRING, infostring, MAX_REPORT_INFO_LENGTH);
-	stmt_bind_value(stmt_ReportInsert, 10, DB::TYPE_STRING, reportername, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_ReportInsert, 10, DB::TYPE_STRING, reporterName, MAX_PLAYER_NAME);
 
 	if(stmt_execute(stmt_ReportInsert)) return 1;
 
 	return 0;
 }
 
-DeleteReport(rowid)
-{
-	stmt_bind_value(stmt_ReportDelete, 0, DB::TYPE_INTEGER, rowid);
+DeleteReport(rowId) {
+	stmt_bind_value(stmt_ReportDelete, 0, DB::TYPE_INTEGER, rowId);
 
 	return stmt_execute(stmt_ReportDelete);
 }
 
-DeleteReportsOfPlayer(name[])
-{
+DeleteReportsOfPlayer(name[]) {
 	stmt_bind_value(stmt_ReportDeleteName, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 
 	return stmt_execute(stmt_ReportDeleteName);
@@ -177,44 +136,34 @@ DeleteReportsOfPlayer(name[])
 DeleteReadReports() return stmt_execute(stmt_ReportDeleteRead);
 
 
-/*==============================================================================
-
-	Interface
-
-==============================================================================*/
-
-
-stock GetReportList(list[][e_report_list_struct])
-{
+stock GetReportList(list[][e_report_list_struct]) {
 	new
 		name[MAX_PLAYER_NAME],
 		type[MAX_REPORT_TYPE_LENGTH],
 		read,
-		rowid,
+		rowId,
 		idx;
 
 	stmt_bind_result_field(stmt_ReportList, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_ReportList, 1, DB::TYPE_INTEGER, read);
 	stmt_bind_result_field(stmt_ReportList, 2, DB::TYPE_STRING, type, MAX_REPORT_TYPE_LENGTH);
-	stmt_bind_result_field(stmt_ReportList, 3, DB::TYPE_INTEGER, rowid);
+	stmt_bind_result_field(stmt_ReportList, 3, DB::TYPE_INTEGER, rowId);
 
 	if(!stmt_execute(stmt_ReportList)) return 0;
 
-	while(stmt_fetch_row(stmt_ReportList))
-	{
+	while(stmt_fetch_row(stmt_ReportList)) {
 		list[idx][report_name] = name;
 		list[idx][report_type] = type;
 		list[idx][report_read] = read;
-		list[idx][report_rowid] = rowid;
+		list[idx][report_rowid] = rowId;
 		idx++;
 	}
 
 	return idx;
 }
 
-stock GetReportInfo(rowid, reason[], &date, type[], &Float:posx, &Float:posy, &Float:posz, &world, &interior, info[], reporter[])
-{
-	stmt_bind_value(stmt_ReportInfo, 0, DB::TYPE_INTEGER, rowid);
+stock GetReportInfo(rowId, reason[], &date, type[], &Float:posx, &Float:posy, &Float:posz, &world, &interior, info[], reporter[]) {
+	stmt_bind_value(stmt_ReportInfo, 0, DB::TYPE_INTEGER, rowId);
 
 	stmt_bind_result_field(stmt_ReportInfo, FIELD_ID_REPORTS_REASON, DB::TYPE_STRING, reason, MAX_REPORT_REASON_LENGTH);
 	stmt_bind_result_field(stmt_ReportInfo, FIELD_ID_REPORTS_DATE, DB::TYPE_INTEGER, date);
@@ -234,16 +183,14 @@ stock GetReportInfo(rowid, reason[], &date, type[], &Float:posx, &Float:posy, &F
 	return 1;
 }
 
-stock SetReportRead(rowid, read)
-{
+stock SetReportRead(rowId, read) {
 	stmt_bind_value(stmt_ReportSetRead, 0, DB::TYPE_INTEGER, read);
-	stmt_bind_value(stmt_ReportSetRead, 1, DB::TYPE_INTEGER, rowid);
+	stmt_bind_value(stmt_ReportSetRead, 1, DB::TYPE_INTEGER, rowId);
 
 	return stmt_execute(stmt_ReportSetRead);
 }
 
-stock GetUnreadReports()
-{
+stock GetUnreadReports() {
 	new count;
 
 	stmt_bind_result_field(stmt_ReportGetUnread, 0, DB::TYPE_INTEGER, count);	
@@ -253,8 +200,7 @@ stock GetUnreadReports()
 	return count;
 }
 
-stock IsPlayerReported(name[])
-{
+stock IsPlayerReported(name[]) {
 	new count;
 
 	stmt_bind_value(stmt_ReportNameExists, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);

@@ -334,6 +334,15 @@ enum {
 	DIALOG_PLAYER_STATUS
 }
 
+enum {
+	LEVEL_NONE,
+	LEVEL_MODERATOR,
+	LEVEL_ADMINISTRATOR,
+	LEVEL_LEAD,
+	LEVEL_DEVELOPER,
+	LEVEL_SECRET
+}
+
 // UTILITIES
 #include "sss/utils/logging.pwn"
 #include "sss/utils/math.pwn"
@@ -526,11 +535,10 @@ enum {
 #include "sss/core/admin/ban-list.pwn"
 #include "sss/core/admin/info.pwn"
 #include "sss/core/admin/spectate.pwn"
-#include "sss/core/admin/level1.pwn"
-#include "sss/core/admin/level2.pwn"
-#include "sss/core/admin/level3.pwn"
-#include "sss/core/admin/level4.pwn"
-#include "sss/core/admin/level5.pwn"
+#include "sss/core/admin/cmd_moderator.pwn"
+#include "sss/core/admin/cmd_administrator.pwn"
+#include "sss/core/admin/cmd_lead.pwn"
+#include "sss/core/admin/cmd_dev.pwn"
 #include "sss/core/admin/bug-report.pwn"
 #include "sss/core/admin/mute.pwn"
 #include "sss/core/admin/rcon.pwn"

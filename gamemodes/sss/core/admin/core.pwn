@@ -4,15 +4,7 @@
 
 forward OnAdminToggleDuty(playerid, bool:toggle, bool:goBack);
 
-enum {
-	STAFF_LEVEL_NONE,
-	STAFF_LEVEL_GAME_MASTER,
-	STAFF_LEVEL_MODERATOR,
-	STAFF_LEVEL_ADMINISTRATOR,
-	STAFF_LEVEL_LEAD,
-	STAFF_LEVEL_DEVELOPER,
-	STAFF_LEVEL_SECRET
-}
+
 
 enum e_admin_data {
 	admin_Name[MAX_PLAYER_NAME],
@@ -385,7 +377,7 @@ stock IsPlayerOnAdminDuty(playerid) {
 }
 
 stock RegisterAdminCommand(level, command[], description[]) {
-    if (!(STAFF_LEVEL_GAME_MASTER <= level <= STAFF_LEVEL_LEAD)) {
+    if (!(LEVEL_MODERATOR <= level <= LEVEL_LEAD)) {
         err("Cannot register admin command for level %d", level);
         return 0;
     }
@@ -408,24 +400,19 @@ stock RegisterAdminCommand(level, command[], description[]) {
 ACMD:acmds[1](playerid) {
 	gBigString[playerid] = C_WHITE"a [mensagem] - Chat de Administração";
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_LEAD) {
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_LEAD], admin_Names[STAFF_LEVEL_LEAD]));
+	if(admin_Level[playerid] >= LEVEL_LEAD) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[LEVEL_LEAD], admin_Names[LEVEL_LEAD]));
 		strcat(gBigString[playerid], admin_Commands[3]);
 	}
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_ADMINISTRATOR) {
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_ADMINISTRATOR], admin_Names[STAFF_LEVEL_ADMINISTRATOR]));
+	if(admin_Level[playerid] >= LEVEL_ADMINISTRATOR) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[LEVEL_ADMINISTRATOR], admin_Names[LEVEL_ADMINISTRATOR]));
 		strcat(gBigString[playerid], admin_Commands[2]);
 	}
 
-	if(admin_Level[playerid] >= STAFF_LEVEL_MODERATOR) {
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_MODERATOR], admin_Names[STAFF_LEVEL_MODERATOR]));
+	if(admin_Level[playerid] >= LEVEL_MODERATOR) {
+		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[LEVEL_MODERATOR], admin_Names[LEVEL_MODERATOR]));
 		strcat(gBigString[playerid], admin_Commands[1]);
-	}
-
-	if(admin_Level[playerid] >= STAFF_LEVEL_GAME_MASTER) {
-		strcat(gBigString[playerid], sprintf("\n\n%C%s:\n", admin_Colours[STAFF_LEVEL_GAME_MASTER], admin_Names[STAFF_LEVEL_GAME_MASTER]));
-		strcat(gBigString[playerid], admin_Commands[0]);
 	}
 
 	ShowPlayerDialog(playerid, DIALOG_ADMIN_COMMANDS, DIALOG_STYLE_MSGBOX, "Comandos de Admin:", gBigString[playerid], "OK", "");
@@ -443,7 +430,7 @@ CMD:admins(playerid) {
 	strcat(gBigString[playerid], "\n\n");
 
 	for(new i; i < admin_Total; i++) {
-		if(admin_Data[i][admin_Rank] == STAFF_LEVEL_SECRET) continue;
+		if(admin_Data[i][admin_Rank] == LEVEL_SECRET) continue;
 
 		format(line, sizeof(line), "%s %C%s (%s)\n",
 			GetPlayerIDFromName(admin_Data[i][admin_Name]) != INVALID_PLAYER_ID ? "Online" : "Offline",

@@ -56,14 +56,14 @@ hook OnPlayerConnect(playerid) {
 CMD:field(playerid, params[]) {
 	new command[8];
 
-	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add/remover/ex");
+	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add/remover/ex");
 
 	if(isequal(command, "lista", true)) {
-		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		if(!ShowDetfieldList(playerid)) return ChatMsg(playerid, YELLOW, " >  Não existem fields.");
 	} else if(isequal(command, "log", true)) {
-		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
 
@@ -96,12 +96,12 @@ CMD:field(playerid, params[]) {
 
 		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && (GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, "Você não pode remover essa Detection Field.");
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && (GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, "Você não pode remover essa Detection Field.");
 
 		dfm_CurrentDetfield[playerid] = detfieldId;
 		ShowDetfieldDeletePrompt(playerid, detfieldId);
 	} else if(isequal(command, "rename", true)) {
-		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
 
@@ -117,7 +117,7 @@ CMD:field(playerid, params[]) {
 
 		if(detfieldId == -1) return ChatMsg(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_CANT_USE;
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_CANT_USE;
 
 		new playerName[MAX_PLAYER_NAME];
 
@@ -140,7 +140,7 @@ CMD:field(playerid, params[]) {
 		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
 		else if(result == -3) return ChatMsg(playerid, RED, " >  Esse jogador já está na lista");
 	} else if(isequal(command, "nome", true)) {
-		if(GetPlayerAdminLevel(playerid) < STAFF_LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_PLAYER_NAME];
 
@@ -416,7 +416,7 @@ Dialog:DetfieldDelete(playerid, response, listitem, inputtext[]) {
 		ChatMsgAdmins(1, BLUE, "[FIELD]: Field '%s' removida por '%p'", fieldName, playerid);
 	}
 
-	if(GetPlayerAdminLevel(playerid) >= STAFF_LEVEL_MODERATOR) ShowDetfieldList(playerid);
+	if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR) ShowDetfieldList(playerid);
 }
 
 ShowDetfieldLog(playerid, detfieldId) {
@@ -487,7 +487,7 @@ Dialog:DetfieldLogOpts(playerid, response, listitem, inputtext[]) {
 	if(response) {
 		switch(listitem) {
 			case 0: {
-				if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < STAFF_LEVEL_DEVELOPER) {
+				if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < LEVEL_DEVELOPER) {
 					SetPlayerPos(playerid,
 						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_X],
 						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_Y],
@@ -593,7 +593,7 @@ AddNewDetectionFieldPoint(playerid) {
 
 			if(!GetPlayerAdminLevel(playerid)) {
 				SendClientMessage(playerid, ORANGE, " >  Tem que aguardar pela aprovação da sua Detection Field.");
-				ChatMsgAdmins(STAFF_LEVEL_MODERATOR, YELLOW, " >  Detection Field '%s' criada por '%p' aguarda aprovação.", dfm_Name[playerid], playerid);
+				ChatMsgAdmins(LEVEL_MODERATOR, YELLOW, " >  Detection Field '%s' criada por '%p' aguarda aprovação.", dfm_Name[playerid], playerid);
 			}
 		}
 	} else

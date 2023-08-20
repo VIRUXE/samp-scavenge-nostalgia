@@ -124,10 +124,10 @@ ACMD:motd[1](playerid, params[]) {
     return ShowMotd(targetId);
 }
 
-ACMD:setmotd[2](playerid, params[]) return SetPortugueseMotd(playerid);
+ACMD:setmotd[3](playerid, params[]) return SetPortugueseMotd(playerid);
 
 hook OnGamemodeInit() {
-    RegisterAdminCommand(STAFF_LEVEL_MODERATOR, "setmotd", "Mudar as notícias do servidor");
+    RegisterAdminCommand(LEVEL_LEAD, "setmotd", "Mudar as notícias do servidor");
 }
 
 hook OnPlayerDisconnect(playerid) {
