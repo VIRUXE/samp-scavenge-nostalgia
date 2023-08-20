@@ -50,7 +50,7 @@ ACMD:ir[1](playerid, params[]) {
 	FreezePlayer(targetId, SEC(2));
 
 	if(!GetPlayerAdminLevel(targetId)) ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
@@ -70,7 +70,7 @@ ACMD:puxar[1](playerid, params[]) {
 
 	TeleportPlayerToPlayer(targetId, playerid);
 
-	ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) puxou %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) puxou %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
@@ -238,7 +238,7 @@ ACMD:tapa[1](playerid, params[]) {
 	GetPlayerPos(targetId, x, y, z);
 	SetPlayerPos(targetId, x, y, z + 6.0);
 
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) deu um tapa em %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) deu um tapa em %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
 }
 
 ACMD:calar[1](playerid, params[]) {
@@ -262,7 +262,7 @@ ACMD:calar[1](playerid, params[]) {
 		ChatMsg(targetId, YELLOW, "player/muted-reas", reason);
 	}
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) calou %P{C457EB} (%d)! "C_WHITE"[Segundos: %d]", playerid, playerid, targetId, targetId, delay);
+	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) calou %P"C_WHITE" (%d)! "C_WHITE"Segundos: %d", playerid, playerid, targetId, targetId, delay);
 }
 
 ACMD:descalar[1](playerid, params[]) {
@@ -295,21 +295,18 @@ ACMD:avisar[1](playerid, params[]) {
 
 	SetPlayerWarnings(targetId, warnings);
 	
-	ChatMsg(playerid, ORANGE, " >  %P"C_YELLOW" levou um aviso. (%d/3) Motivo: %s", targetId, warnings, reason);
 	ChatMsg(targetId, ORANGE, "WARNEDMESSG", warnings, reason);
 
 	if(warnings >= 3) {
 	    SetPlayerWarnings(targetId, 0);
-		KickPlayer(targetId, "Atingiu 3 avisos da administraÃ§Ã£o.");
+		KickPlayer(targetId, "Atingiu 3 avisos.");
 	}
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) avisou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetId, targetId, reason);
+	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) avisou %P"C_WHITE" (%d)! "C_WHITE"Motivo: %s", playerid, playerid, targetId, targetId, reason);
 }
 
 ACMD:kick[1](playerid, params[]) {
-	new targetId, reason[64], highestadmin;
-
-	foreach(new i : Player) if(GetPlayerAdminLevel(i) > GetPlayerAdminLevel(highestadmin)) highestadmin = i;
+	new targetId, reason[64];
 
 	if(sscanf(params, "rs[64]", targetId, reason)) return ChatMsg(playerid, YELLOW, " >  Use: /kick [id/nick] [motivo]");
 
@@ -319,11 +316,9 @@ ACMD:kick[1](playerid, params[]) {
 
 	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return CMD_CANT_USE_ON;
 
-	if(GetPlayerAdminLevel(playerid) != GetPlayerAdminLevel(highestadmin)) ChatMsg(highestadmin, YELLOW, " >  %p kickou o player: (%d)%p motivo: %s", playerid, targetId, targetId, reason);
-
 	KickPlayer(targetId, reason, true);
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) kickou %P{C457EB} (%d)! "C_WHITE"[Motivo: %s]", playerid, playerid, targetId, targetId, reason);
+	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) kickou %P"C_WHITE" (%d)! "C_WHITE"Motivo: %s", playerid, playerid, targetId, targetId, reason);
 }
 
 ACMD:msg[1](playerid, params[]) {
@@ -338,7 +333,7 @@ ACMD:msg[1](playerid, params[]) {
 ACMD:cc[1](playerid) {
 	for(new i;i<100;i++) ChatMsgAll(WHITE, " ");
 
-	return ChatMsgAll(0xC457EBAA, "[Admin]: %P{C457EB} (%d) limpou o chat!", playerid, playerid);
+	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P{C457EB} (%d) limpou o chat!", playerid, playerid);
 }
 
 ACMD:history[1](playerid, params[]) {
