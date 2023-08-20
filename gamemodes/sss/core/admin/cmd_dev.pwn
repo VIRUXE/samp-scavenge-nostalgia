@@ -333,10 +333,17 @@ ACMD:otp[4](playerid, params[]) {
 }
 
 ACMD:delreports[4](playerid) {
-    for(new i = 0; i < 5000; i++) SetReportRead(i, 1); // * 5 mil? caralho
+    for(new i = 0; i < 500; i++) SetReportRead(i, 1); // * 5 mil? caralho
 		
-	ChatMsg(playerid, YELLOW, " >  Todos os reports foram deletados.");
 	DeleteReadReports();
+	ChatMsg(playerid, YELLOW, " >  Todos os reports foram deletados.");
+
+	return 1;
+}
+
+ACMD:delreadreports[4](playerid) {
+	DeleteReadReports();
+	ChatMsg(playerid, YELLOW, " >  Todos os reports lidos foram deletados.");
 
 	return 1;
 }
