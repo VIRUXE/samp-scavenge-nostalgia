@@ -83,7 +83,7 @@ hook OnGameModeInit() {
 	stmt_ReportInsert		= db_prepare(Database, "INSERT INTO Reports VALUES(?, ?, ?, '0', ?, ?, ?, ?, ?, ?, ?, ?, 1)");
 	stmt_ReportDelete		= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE rowId = ?");
 	stmt_ReportDeleteName	= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE name = ?");
-	stmt_ReportDeleteRead	= db_prepare(Database, "UPDATE Reports SET active=0, read=1 WHERE read = 1");
+	stmt_ReportDeleteRead	= db_prepare(Database, "UPDATE Reports SET active=0 WHERE read = 1");
 	stmt_ReportNameExists	= db_prepare(Database, "SELECT COUNT(*) FROM Reports WHERE name = ?");
 	stmt_ReportList			= db_prepare(Database, "SELECT name, read, type, rowId FROM Reports WHERE active=1");
 	stmt_ReportInfo			= db_prepare(Database, "SELECT * FROM Reports WHERE rowId = ?");
@@ -135,7 +135,6 @@ DeleteReportsOfPlayer(name[]) {
 
 DeleteReadReports() return stmt_execute(stmt_ReportDeleteRead);
 
-
 stock GetReportList(list[][e_report_list_struct]) {
 	new
 		name[MAX_PLAYER_NAME],
@@ -152,9 +151,9 @@ stock GetReportList(list[][e_report_list_struct]) {
 	if(!stmt_execute(stmt_ReportList)) return 0;
 
 	while(stmt_fetch_row(stmt_ReportList)) {
-		list[idx][report_name] = name;
-		list[idx][report_type] = type;
-		list[idx][report_read] = read;
+		list[idx][report_name]  = name;
+		list[idx][report_type]  = type;
+		list[idx][report_read]  = read;
 		list[idx][report_rowid] = rowId;
 		idx++;
 	}
