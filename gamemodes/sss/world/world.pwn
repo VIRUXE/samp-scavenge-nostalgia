@@ -51,7 +51,7 @@ timer LoadWorld[10]() {
 	JSON_GetObject(Settings, "server", node);
 	JSON_GetString(node, "name", servername);
 	
-	SetGameModeText("Scavenge Survive (by Southclaw)");
+	SetGameModeText("Scavenge Survive by Southclaw");
 	SendRconCommand(sprintf("hostname %s (Iniciando)", servername));
 	if(gEnvironment == PRODUCTION) SendRconCommand("password 1234"); // This is just so that the server doesn't get flooded with players while it's loading.
 
