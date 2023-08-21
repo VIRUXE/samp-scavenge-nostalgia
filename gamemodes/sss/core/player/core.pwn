@@ -105,55 +105,87 @@ _OnPlayerConnect(playerid) {
 public OnPlayerConnect(playerid) {
 	if(IsPlayerNPC(playerid)) return 0;
 
-	new playerName[MAX_PLAYER_NAME], ip[16], version[24], hash[MAX_GPCI_LEN];
+	new ip[16];
 	
-	GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 	GetPlayerIp(playerid, ip, sizeof(ip));
-	GetPlayerVersion(playerid, version, sizeof(version));
-	gpci(playerid, hash, MAX_GPCI_LEN);
-
-	log("[VERSION] %s is using version: %s", playerName, version);
-
-	ChatMsgAdmins(5, WHITE, "%p (%d) está a utilizar a versão '%s'.", playerid, playerid, version);
 
 	new const bool:localhost = isequal(ip, "127.0.0.1");
 
 	if(!localhost) {
-		if(isequal(hash, "ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990")) { // Android hash
-			KickPlayer(playerid, "Android.");
+		new playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN];
 
-			return Y_HOOKS_BREAK_RETURN_0;
-		}
+		GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+		gpci(playerid, hash, MAX_GPCI_LEN);
 
-		new hashStatus = CheckPlayerHashStatus(playerName, hash);
+		// Kick Multi-Accounts
+		switch (CheckPlayerHashStatus(playerName, hash)) {
+			case 0: { // Hash recorded multiple times but not allowed
+				// Check if windows_username is null for the given hash
+				/* new DBResult:result = db_query(Database, sprintf("SELECT 1 FROM gpci_log WHERE hash = '%s' AND windows_username IS NULL;", hash));
 
-		if (hashStatus == 1) { // Shared but not allowed
-			new list[15][MAX_PLAYER_NAME],
-			count,
-			adminLevel,
-			aliases[(MAX_PLAYER_NAME + 2) * 15];
+				if (result != DB::INVALID_RESULT && db_num_rows(result)) {
+					db_free_result(result);
 
-			GetAccountAliasesByAll(playerName, list, count, 15, adminLevel);
+					// windows_username is null, ask for the Windows username
+					// ShowInputDialog(playerid, DIALOG_ASK_USERNAME, "Please enter your Windows username:", "", "Submit", "Cancel");
+				} */
 
-			if(count == 0)
-				return 0;
-			else if(count == 1)
-				strcat(aliases, list[0]);
-			else if(count > 1) {
-				for(new i; i < count && i < sizeof(list); i++) {
-					strcat(aliases, list[i]);
-					strcat(aliases, ", ");
+				KickPlayer(playerid, "Multi-Account");
+
+				new accounts[15][MAX_PLAYER_NAME],
+				count,
+				adminLevel,
+				accountsString[(MAX_PLAYER_NAME + 2) * 15];
+
+				GetAccountAliasesByAll(playerName, accounts, count, 15, adminLevel);
+
+				if(count == 1)
+					strcat(accountsString, accounts[0]);
+				else if(count > 1) {
+					for(new i; i < count && i < sizeof(accounts); i++) {
+						strcat(accountsString, accounts[i]);
+						if (i < count - 1) strcat(accountsString, ", ");
+					}
 				}
+
+				log("[GPCI] %s (%s) has a shared hash but is NOT allowed (%s).", playerName, hash, accountsString);
+
+				ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%s foi kickado por ter várias contas.", playerName);
+
+				return Y_HOOKS_BREAK_RETURN_0;
 			}
+			case 1: { // Hash recorded multiple times and allowed
+				// CheckForWindowsUsername(playerid, hash);
+				log("[GPCI] %s has a shared hash but IS allowed.", playerName, hash);
+			}
+			case 2: { // Hash is unique
+			}
+			case -1: { // Invalid hash format
+				KickPlayer(playerid, "Nope.");
 
-			log("[GPCI] %s (%s) has a shared hash but is not allowed (%s)", playerName, hash, aliases);
+				log("[GPCI] %s tried joining with an invalid hash (%s).", playerName, hash);
 
-			ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%p foi kickado por ter várias contas.", playerid);
+				return Y_HOOKS_BREAK_RETURN_0;
+			}
+			case -2: { // Android
+				KickPlayer(playerid, "Android.");
 
-			KickPlayer(playerid, "Multi-Account");
+				return Y_HOOKS_BREAK_RETURN_0;
+			}
+			case -3: { // Error occurred during query execution
+				KickPlayer(playerid, "Error: An internal error occurred. Please contact an admin.");
 
-			return Y_HOOKS_BREAK_RETURN_0;
+				return Y_HOOKS_BREAK_RETURN_0;
+			}
 		}
+
+		new version[24];
+
+		GetPlayerVersion(playerid, version, sizeof(version));
+
+		log("[VERSION] %s is using version: %s", playerName, version);
+
+		ChatMsgAdmins(LEVEL_ADMINISTRATOR, WHITE, "%p (%d) está a utilizar a versão '%s'.", playerid, playerid, version);
 
 		/* if(!isequal(version, "0.3.7-R5")) {
 			ChatMsg(playerid, RED, "Para entrar no nosso servidor tem que instalar a versão R5 do SA-MP.");
