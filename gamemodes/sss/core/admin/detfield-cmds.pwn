@@ -59,11 +59,11 @@ CMD:field(playerid, params[]) {
 	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add/remover/ex");
 
 	if(isequal(command, "lista", true)) {
-		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		if(!ShowDetfieldList(playerid)) return ChatMsg(playerid, YELLOW, " >  Não existem fields.");
 	} else if(isequal(command, "log", true)) {
-		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
 
@@ -96,12 +96,12 @@ CMD:field(playerid, params[]) {
 
 		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && (GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, "Você não pode remover essa Detection Field.");
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !(GetPlayerAdminLevel(playerid) || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, "Você não pode remover essa Detection Field.");
 
 		dfm_CurrentDetfield[playerid] = detfieldId;
 		ShowDetfieldDeletePrompt(playerid, detfieldId);
 	} else if(isequal(command, "rename", true)) {
-		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
 
@@ -117,7 +117,7 @@ CMD:field(playerid, params[]) {
 
 		if(detfieldId == -1) return ChatMsg(playerid, RED, "Você não está dentro de uma Detection Field.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_CANT_USE;
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !GetPlayerAdminLevel(playerid)) return CMD_CANT_USE;
 
 		new playerName[MAX_PLAYER_NAME];
 
@@ -135,12 +135,16 @@ CMD:field(playerid, params[]) {
 
 		UpdateDetectionFieldExceptions(detfieldId);
 
-		if(result) return ChatMsg(playerid, GREEN, " > "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", playerName);
-		else if(result == -1) return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
-		else if(result == -2) return ChatMsg(playerid, RED, " >  Nome inválido ");
-		else if(result == -3) return ChatMsg(playerid, RED, " >  Esse jogador já está na lista");
+		if(result) 
+			return ChatMsg(playerid, GREEN, " > "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", playerName);
+		else if(result == -1) 
+			return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
+		else if(result == -2) 
+			return ChatMsg(playerid, RED, " >  Nome inválido ");
+		else if(result == -3) 
+			return ChatMsg(playerid, RED, " >  Esse jogador já está na lista");
 	} else if(isequal(command, "nome", true)) {
-		if(GetPlayerAdminLevel(playerid) < LEVEL_MODERATOR) return CMD_NOT_ADMIN;
+		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_PLAYER_NAME];
 
