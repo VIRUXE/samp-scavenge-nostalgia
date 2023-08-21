@@ -159,7 +159,7 @@ CheckForExtraAccounts(playerid) {
 	else if(count > 1) {
 		for(new i; i < count && i < sizeof(list); i++) {
 			strcat(string, list[i]);
-			strcat(string, ", ");
+			if (i < count - 1) strcat(string, ", ");
 
 			if(IsPlayerBanned(list[i]) && !doneWarning) {
 				ChatMsgAdmins(1, RED, " > Aviso: Um ou mais desses aliases são banidos");
