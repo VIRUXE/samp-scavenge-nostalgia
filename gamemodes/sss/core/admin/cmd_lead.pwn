@@ -25,7 +25,7 @@ ACMD:reiniciar[3](playerid, params[]) {
 ACMD:additem[3](playerid, params[]) {
 	new
 		ItemType:type = INVALID_ITEM_TYPE,
-		itemname[ITM_MAX_NAME + 10],
+		itemName[ITM_MAX_NAME + 10],
 		exdata[8];
 
 	if(sscanf(params, "p<,>dA<d>(-2147483648)[8]", _:type, exdata) != 0) {
@@ -34,9 +34,9 @@ ACMD:additem[3](playerid, params[]) {
 		if(sscanf(params, "p<,>s[32]A<d>(-2147483648)[8]", tmp, exdata)) return ChatMsg(playerid, YELLOW, " >  Use: /additem [ID do item/Nome do item], [opcional:extra do item, separado]");
 
 		for(new ItemType:i; i < ITM_MAX_TYPES; i++) {
-			GetItemTypeUniqueName(i, itemname);
+			GetItemTypeUniqueName(i, itemName);
 
-			if(strfind(itemname, tmp, true) != -1) {
+			if(strfind(itemName, tmp, true) != -1) {
 				type = i;
 				break;
 			}
@@ -44,9 +44,9 @@ ACMD:additem[3](playerid, params[]) {
 
 		if(type == INVALID_ITEM_TYPE) {
 			for(new ItemType:i; i < ITM_MAX_TYPES; i++) {
-				GetItemTypeName(i, itemname);
+				GetItemTypeName(i, itemName);
 
-				if(strfind(itemname, tmp, true) != -1) {
+				if(strfind(itemName, tmp, true) != -1) {
 					type = i;
 					break;
 				}
@@ -61,7 +61,6 @@ ACMD:additem[3](playerid, params[]) {
 	new
 		extraDataSize,
 		typeMaxSize = GetItemTypeArrayDataSize(type),
-		itemId,
 		Float:x, Float:y, Float:z, Float:r;
 
 	for(new i; i < 8; ++i) {
@@ -76,14 +75,22 @@ ACMD:additem[3](playerid, params[]) {
 
 	CA_FindZ_For2DCoord(x,y, z);
 
-	itemId = CreateItem(type,
-		x + (0.5 * floatsin(-r, degrees)),
-		y + (0.5 * floatcos(-r, degrees)),
+	new const Float:itemDistance = 0.25;
+	new itemId = CreateItem(type,
+		x + (itemDistance * floatsin(-r, degrees)),
+		y + (itemDistance * floatcos(-r, degrees)),
 		z, .rz = r);
 
 	if(extraDataSize > 0) SetItemArrayData(itemId, exdata, extraDataSize);
 
-	log("[ADMIN][ADDITEM] %p adicionou o item %s (tipo: %d)", playerid, itemname, _:type);
+	new spectateTargetId = GetPlayerSpectateTarget(playerid);
+
+	if(spectateTargetId != INVALID_PLAYER_ID) {
+		FreezePlayer(spectateTargetId, SEC(1));
+		ChatMsg(spectateTargetId, GREEN, " > Um admin spawnou agora um '%s' para você!", itemName);
+	}
+
+	log("[ADMIN][ADDITEM] %p adicionou o item %s (tipo: %d)", playerid, itemName, _:type);
 
 	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
