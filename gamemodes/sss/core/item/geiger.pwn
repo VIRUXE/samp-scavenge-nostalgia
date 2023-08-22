@@ -12,10 +12,10 @@ static
     PlayerBar: intensityBar = INVALID_PLAYER_BAR_ID;
 
 static enum {
-    NONE,
-    IN_HAND,
-    IN_INV,
-    IN_BAG
+    GEIGER_NONE,
+    GEIGER_IN_HAND,
+    GEIGER_IN_INV,
+    GEIGER_IN_BAG
 }
 
 ToggleGeiger(playerid, bool:toggle) {
@@ -23,7 +23,7 @@ ToggleGeiger(playerid, bool:toggle) {
 
     if(toggle) {
         // Mostrar a barra apenas se estiver na mao
-        if(DoesPlayerHaveGeiger(playerid) == IN_HAND) {
+        if(DoesPlayerHaveGeiger(playerid) == GEIGER_IN_HAND) {
             barTimer[playerid] = repeat UpdateBar(playerid);
             ShowPlayerProgressBar(playerid, intensityBar);
         }
@@ -55,21 +55,21 @@ ToggleGeiger(playerid, bool:toggle) {
 
 DoesPlayerHaveGeiger(playerid) {
     // Na mao
-    if(GetItemType(GetPlayerItem(playerid)) == item_GeigerCounter) return IN_HAND;
+    if(GetItemType(GetPlayerItem(playerid)) == item_GeigerCounter) return GEIGER_IN_HAND;
 
     // No inventario
     for(new i; i < INV_MAX_SLOTS; i++)
-        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return IN_INV;
+        if(GetItemType(GetInventorySlotItem(playerid, i)) == item_GeigerCounter) return GEIGER_IN_INV;
 
     // Na mochila
     new const bagItem = GetPlayerBagItem(playerid);
-    if(!IsValidItem(bagItem)) return NONE;
+    if(!IsValidItem(bagItem)) return GEIGER_NONE;
 
     new const containerId = GetBagItemContainerID(bagItem);
     for(new i; i < GetContainerSize(containerId); i++)
-        if(GetItemType(GetContainerSlotItem(containerId, i)) == item_GeigerCounter) return IN_BAG;
+        if(GetItemType(GetContainerSlotItem(containerId, i)) == item_GeigerCounter) return GEIGER_IN_BAG;
 
-    return NONE;
+    return GEIGER_NONE;
 }
 
 CalculateBeepInterval(playerid) {
