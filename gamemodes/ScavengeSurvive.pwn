@@ -124,6 +124,8 @@ public OnGameModeInit() {
 	forward main_OnGameModeInit();
 #endif
 
+#define COLOR_NONE -1
+
 // Colours
 #define LBLUE						0x1589FFFF
 #define LORANGE						0xFF8A14FF
