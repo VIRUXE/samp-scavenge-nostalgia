@@ -521,7 +521,7 @@
 {"player/key-actions/vehicle/toggle_engine", "Motor", "Engine"},
 {"player/key-actions/vehicle/toggle_horn", "Buzina", "Horn"},
 {"player/key-actions/vehicle/toggle_lights", "Farois", "Lights"},
-{"player/kicked", " >  Kickado, motivo: {33CCFF}%s", " >  Kicked, reason: {33CCFF}%s"},
+{"player/kicked", "Kickado(a): {33CCFF}%s", "Kicked: {33CCFF}%s"},
 {"player/left-crash", "%P perdeu a conexão ou crashou", "%P either crashed or lost connection"},
 {"player/left", "%P saiu do servidor", "%P left the server"},
 {"player/mute-timer", " >  Você esta mudo. Tempo restante: %s", " >  You are muted. Time remaining: %s"},
