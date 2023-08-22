@@ -92,7 +92,7 @@ ACMD:additem[3](playerid, params[]) {
 
 	log("[ADMIN][ADDITEM] %p adicionou o item %s (tipo: %d)", playerid, itemName, _:type);
 
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
+	return ChatMsgAdmins(LEVEL_MODERATOR, BLUE, "%P"C_BLUE" (%d) usou o comando /additem", playerid, playerid);
 }
 
 ACMD:addveh[3](playerid, params[]) {
@@ -112,7 +112,7 @@ ACMD:addveh[3](playerid, params[]) {
 	SetVehicleHealth(vehicleId, 990.0);
 	SetVehicleExternalLock(vehicleId, E_LOCK_STATE_OPEN);
 	
-	return ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
+	return ChatMsgAdmins(LEVEL_MODERATOR, BLUE, "%P"C_BLUE" (%d) usou o comando /veh", playerid, playerid);
 }
 ACMD:addveiculo[3](playerid, params[]) return acmd_addveh_3(playerid, params);
 ACMD:av[3](playerid, params[]) return acmd_addveh_3(playerid, params);
