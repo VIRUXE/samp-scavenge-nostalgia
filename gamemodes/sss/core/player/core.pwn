@@ -98,6 +98,8 @@ _OnPlayerConnect(playerid) {
 
 	ply_Data[playerid][ply_ShowHUD] = true;
 
+	EnablePlayerCameraTarget(playerid, 1);
+
 	return 1;
 }
 
@@ -150,30 +152,44 @@ public OnPlayerConnect(playerid) {
 
 				log("[GPCI] %s (%s) has a shared hash but is NOT allowed (%s).", playerName, hash, accountsString);
 
-				ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%s foi kickado por ter várias contas.", playerName);
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s foi kickado por ter várias contas.", playerName);
 
 				return Y_HOOKS_BREAK_RETURN_0;
 			}
 			case 1: { // Hash recorded multiple times and allowed
 				// CheckForWindowsUsername(playerid, hash);
 				log("[GPCI] %s has a shared hash but IS allowed.", playerName, hash);
+
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tem várias contas, mas está autorizado.", playerName);
 			}
 			case 2: { // Hash is unique
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tem um hash único.", playerName);
+			}
+			case 3: {
+				RegisterGPCI(playerName, hash);
+
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s não tem hash registrado.", playerName);
 			}
 			case -1: { // Invalid hash format
 				KickPlayer(playerid, "Nope.");
 
 				log("[GPCI] %s tried joining with an invalid hash (%s).", playerName, hash);
 
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tentou entrar com um hash inválido.", playerName);
+
 				return Y_HOOKS_BREAK_RETURN_0;
 			}
 			case -2: { // Android
 				KickPlayer(playerid, "Android.");
 
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s foi kickado por ser Android.", playerName);
+
 				return Y_HOOKS_BREAK_RETURN_0;
 			}
 			case -3: { // Error occurred during query execution
 				KickPlayer(playerid, "Error: An internal error occurred. Please contact an admin.");
+
+				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "Ocorreu um erro no CheckPlayerHashStatus para %s.", playerName);
 
 				return Y_HOOKS_BREAK_RETURN_0;
 			}
@@ -185,7 +201,7 @@ public OnPlayerConnect(playerid) {
 
 		log("[VERSION] %s is using version: %s", playerName, version);
 
-		ChatMsgAdmins(LEVEL_ADMINISTRATOR, WHITE, "%p (%d) está a utilizar a versão '%s'.", playerid, playerid, version);
+		ChatMsgAdmins(LEVEL_LEAD, WHITE, "%p (%d) está a utilizar a versão '%s'.", playerid, playerid, version);
 
 		/* if(!isequal(version, "0.3.7-R5")) {
 			ChatMsg(playerid, RED, "Para entrar no nosso servidor tem que instalar a versão R5 do SA-MP.");
