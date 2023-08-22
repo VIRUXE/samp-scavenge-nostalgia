@@ -206,13 +206,13 @@ KickPlayer(playerid, reason[], bool:tellPlayer = true) {
 	if(admin_PlayerKicked[playerid]) return 0;
 
 	if(tellPlayer) {
-		ChatMsg(playerid, GREY, sprintf(ls(playerid, "player/kicked"), reason));
+		// ChatMsg(playerid, GREY, sprintf(ls(playerid, "player/kicked"), reason));
 		ShowPlayerDialog(playerid, DIALOG_KICK, DIALOG_STYLE_MSGBOX, "Kick!", sprintf(ls(playerid, "player/kicked"), reason), "Ok", "");
 	}
 
 	log("[KICK] %p (%d), razão: %s", playerid, playerid, reason);
 	
-	if(IsPlayerLoggedIn(playerid)) ChatMsgAdmins(1, GREY, " >  %P"C_GREY" Kickado, motivo: "C_BLUE"%s", playerid, reason);
+	if(IsPlayerLoggedIn(playerid)) ChatMsgAdmins(LEVEL_MODERATOR, GREY, " >  %P"C_GREY" foi kickado: "C_BLUE"%s", playerid, reason);
 
 	SetPlayerScreenFade(playerid, 1, 255, 10);
 
