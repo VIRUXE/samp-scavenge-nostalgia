@@ -75,6 +75,13 @@ ACMD:additem[3](playerid, params[]) {
 
 	CA_FindZ_For2DCoord(x,y, z);
 
+	new spectateTargetId = GetPlayerSpectateTarget(playerid);
+
+	if(spectateTargetId != INVALID_PLAYER_ID) {
+		FreezePlayer(spectateTargetId, SEC(1));
+		ChatMsg(spectateTargetId, GREEN, " > Um admin spawnou agora um '%s' para você!", itemName);
+	}
+
 	new const Float:itemDistance = 0.25;
 	new itemId = CreateItem(type,
 		x + (itemDistance * floatsin(-r, degrees)),
@@ -82,13 +89,6 @@ ACMD:additem[3](playerid, params[]) {
 		z, .rz = r);
 
 	if(extraDataSize > 0) SetItemArrayData(itemId, exdata, extraDataSize);
-
-	new spectateTargetId = GetPlayerSpectateTarget(playerid);
-
-	if(spectateTargetId != INVALID_PLAYER_ID) {
-		FreezePlayer(spectateTargetId, SEC(1));
-		ChatMsg(spectateTargetId, GREEN, " > Um admin spawnou agora um '%s' para você!", itemName);
-	}
 
 	log("[ADMIN][ADDITEM] %p adicionou o item %s (tipo: %d)", playerid, itemName, _:type);
 
