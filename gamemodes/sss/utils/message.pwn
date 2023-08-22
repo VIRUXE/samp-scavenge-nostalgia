@@ -1,15 +1,12 @@
 #include <YSI\y_va>
 
-
 static formatBuffer[244];
 
 #define SendClientMessageToAll msg_SendClientMessageToAll
 
 // Override SendClientMessageToAll to use our own function
-stock msg_SendClientMessageToAll(colour, string[])
-{
-	foreach(new i: Player)
-	{
+stock msg_SendClientMessageToAll(colour, string[]) {
+	foreach(new i: Player) {
 		if(IsPlayerInTutorial(i)) continue; // don't send messages to players in tutorial
 		if(!IsPlayerLoggedIn(i)) continue; // don't send messages to players who aren't logged in
 
@@ -19,29 +16,18 @@ stock msg_SendClientMessageToAll(colour, string[])
 	return 1;
 }
 
-
-/*==============================================================================
-
-	Main Chat Functions
-
-==============================================================================*/
-
-
-stock ChatMsg(playerid, colour, fmat[], {Float,_}:...)
-{
-	if(strfind(fmat, " ") == -1 && strfind(fmat, "/") != -1) {
+stock ChatMsg(playerid, colour, fmat[], {Float,_}:...) {
+	if(strfind(fmat, " ") == -1 && strfind(fmat, "/") != -1)
 		format(formatBuffer, sizeof(formatBuffer), ls(playerid, fmat), ___(3));
-	} else {
+	else
 		format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
-	}
 
 	ChatMsgFlat(playerid, colour, formatBuffer);
 
 	return 1;
 }
 
-stock ChatMsgAllEx(playerid, colour, fmat[], {Float,_}:...)
-{
+stock ChatMsgAllEx(playerid, colour, fmat[], {Float,_}:...) {
 	foreach(new i: Player) {
 	    if(i == playerid) continue;
 
@@ -52,18 +38,18 @@ stock ChatMsgAllEx(playerid, colour, fmat[], {Float,_}:...)
 	return 1;
 }
 
-stock ChatMsgAll(colour, fmat[], {Float,_}:...)
-{
+stock ChatMsgAll(colour, fmat[], {Float,_}:...) {
 	format(formatBuffer, sizeof(formatBuffer), fmat, ___(2));
 	ChatMsgAllFlat(colour, formatBuffer);
 
 	return 1;
 }
 
-stock ChatMsgAdmins(level, colour, fmat[], {Float,_}:...)
-{
+stock ChatMsgAdmins(level, colour, fmat[], {Float,_}:...) {
+	if(colour == -1) colour = GetAdminRankColour(level);
+
 	format(formatBuffer, sizeof(formatBuffer), fmat, ___(3));
-	ChatMsgAdminsFlat(level, colour, sprintf("[ADMIN] %s", formatBuffer));
+	ChatMsgAdminsFlat(level, colour, sprintf("[ADMIN][%d] {FFFFFF}%s", level, formatBuffer));
 
 	return 1;
 }
@@ -76,8 +62,7 @@ stock ChatMsgAdmins(level, colour, fmat[], {Float,_}:...)
 ==============================================================================*/
 
 
-stock ChatMsgFlat(playerid, colour, string[])
-{
+stock ChatMsgFlat(playerid, colour, string[]) {
 	if(strlen(string) > 127) {
 		new
 			string2[128],
@@ -101,8 +86,7 @@ stock ChatMsgFlat(playerid, colour, string[])
 	return 1;
 }
 
-stock ChatMsgAllFlat(colour, string[])
-{
+stock ChatMsgAllFlat(colour, string[]) {
 	if(strlen(string) > 127) {
 		new
 			string2[128],
