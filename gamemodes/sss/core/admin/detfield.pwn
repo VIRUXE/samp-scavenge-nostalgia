@@ -631,7 +631,6 @@ stock DeleteDetectionFieldLogsOfName(detfieldId, name[]) {
 	return 1;
 }
 
-
 timer HandleFieldInvasionOnLogin[SEC(1)](playerid) {
 	new detfieldId = IsPlayerInsideDetectionField(playerid);
 
@@ -722,8 +721,8 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 				    fld_PlayerInvade[playerid] = true;
 				} else
 					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
-			} else if(GetPlayerAdminLevel(playerid))
-				ShowHelpTip(playerid, det_Name[i], 8000);
+			} else if(GetPlayerAdminLevel(playerid)) // Aviso de field para admin
+				GameTextForPlayer(playerid, sprintf("Field: %s", det_Name[i]), SEC(1), 3);
 		}
 	}
 
@@ -934,14 +933,13 @@ stock GetDetectionFieldMaxZ(detfieldId, &Float:maxZ) {
 }
 
 stock IsValidDetectionFieldName(name[]) {
-	if(!isalphabetic(name[0])) return 0;
+	if(!isalphabetic(name[0]) || strlen(name) <= 5 || !ContainsUnderscore(name) || !ContainsCapital(name)) return 0;
 
 	if(!strcmp(name, "field_list")) return 0;
 
 	new i;
 
-	while(name[i] != EOS) {
-		// Permitimos caracteres alphanumericos, underscores e tracos
+	while (name[i] != EOS) {
 		if(isalphanumeric(name[i]) || name[i] == '_' || name[i] == '-')
 			i++;
 		else
@@ -968,10 +966,8 @@ stock GetDetectionFieldExceptionName(detfieldId, exceptionId, name[MAX_PLAYER_NA
 }
 
 stock SetPlayerNameField(oldName[MAX_PLAYER_NAME], newName[MAX_PLAYER_NAME]) {
-    foreach(new i : det_Index) {
-		if(IsNameInExceptionList(i, oldName))
-			AddDetectionFieldException(i, newName);
-	}
+    foreach(new i : det_Index) 
+		if(IsNameInExceptionList(i, oldName)) AddDetectionFieldException(i, newName);
 
 	return 1;
 }
