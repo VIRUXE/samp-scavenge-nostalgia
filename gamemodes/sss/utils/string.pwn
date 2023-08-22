@@ -81,3 +81,12 @@ booltostr(bool:b) { // * Gambiarra do crl
 
 	return result;
 }
+
+stock ContainsUnderscore(name[]) return (strfind(name, "_") != -1) ? 1 : 0;
+
+stock ContainsCapital(name[]) {
+	for (new i = 0; name[i] != EOS; i++)
+		if (name[i] >= 'A' && name[i] <= 'Z') return 1;
+
+	return 0;
+}

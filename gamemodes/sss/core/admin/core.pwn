@@ -1,10 +1,8 @@
 #include <YSI\y_hooks>
 
-#define MAX_ADMIN_LEVELS			(7)
+#define MAX_ADMIN_LEVELS 6
 
 forward OnAdminToggleDuty(playerid, bool:toggle, bool:goBack);
-
-
 
 enum e_admin_data {
 	admin_Name[MAX_PLAYER_NAME],
@@ -16,21 +14,19 @@ static
 				admin_Total,
 				admin_Names[MAX_ADMIN_LEVELS][15] = {
 					"Jogador",	// 0 (Unused)
-					"Ajudante",	// 1
-					"Moderador",	// 2
-					"Administrador",	// 3
-					"Lider de Admin",	// 4
-					"Desenvolvedor",	// 5
-					"Secreto"	// 6
+					"Moderador",	// 1
+					"Administrador",	// 2
+					"Lider de Admin",	// 3
+					"Desenvolvedor",	// 4
+					"Secreto"	// 5
 				},
 				admin_Colours[MAX_ADMIN_LEVELS] = {
 					WHITE,			// 0 (Unused)
-					TEAL,			// 1
-					BLUE,			// 2
-					ORANGE,			// 3
-					RED,			// 4
-					0x00FF00FF,		// 5
-					BLACK			// 6
+					BLUE,			// 1
+					ORANGE,			// 2
+					RED,			// 3
+					0x00FF00FF,		// 4
+					BLACK			// 5
 				},
 				admin_Commands[4][1024],
 DBStatement:	stmt_AdminLoadAll,
@@ -46,7 +42,7 @@ static
 				admin_PlayerKicked[MAX_PLAYERS];
 
 hook OnScriptInit() {
-	db_free_result(db_query(Database, "CREATE TABLE IF NOT EXISTS Admins (name TEXT, level INTEGER)"));
+	db_query(Database, "CREATE TABLE IF NOT EXISTS Admins (name TEXT, level INTEGER)");
 
 	DatabaseTableCheck(Database, "Admins", 2);
 
