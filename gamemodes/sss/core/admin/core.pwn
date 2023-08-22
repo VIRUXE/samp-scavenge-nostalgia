@@ -191,7 +191,7 @@ TimeoutPlayer(playerid, reason[], bool:tellPlayer = true, time = HOUR(1)) {
 
 	log("[TIMEOUT] %p (%d) levou timeout. Tempo (ms) %d, razão: %s", playerid, playerid, time, reason);
 
-	ChatMsgAdmins(1, GREY, " >  A conexão de %P"C_GREY" foi cortada. Motivo: "C_BLUE"%s", playerid, reason);
+	ChatMsgAdmins(LEVEL_MODERATOR, GREY, " >  A conexão de %P"C_WHITE" foi cortada. Motivo: "C_BLUE"%s", playerid, reason);
 
 	return 1;
 }
