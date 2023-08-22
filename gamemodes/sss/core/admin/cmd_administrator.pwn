@@ -133,7 +133,7 @@ ACMD:spec[2](playerid, params[]) {
 
 			EnterSpectateMode(playerid, targetId);
 
-            ChatMsgAdmins(1, BLUE, "[Admin] %P"C_BLUE" (%d) está observando %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+            ChatMsgAdmins(LEVEL_MODERATOR, COLOR_NONE, "%P"C_WHITE" (%d) está observando %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
 		}
 	}
 
