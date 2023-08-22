@@ -5,8 +5,7 @@ static
 	PlayerText:	ToolTipText[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 	Timer:      ToolTipTimer[MAX_PLAYERS];
 
-ShowHelpTip(playerid, text[], time = 0)
-{
+ShowHelpTip(playerid, text[], time = 0) {
 	if(!ToolTips[playerid]) return 0;
 
 	PlayerTextDrawSetString(playerid, ToolTipText[playerid], text);
@@ -19,18 +18,14 @@ ShowHelpTip(playerid, text[], time = 0)
 	return 1;
 }
 
-timer HideHelpTip_Delay[time](playerid, time)
-{
+timer HideHelpTip_Delay[time](playerid, time) {
 	HideHelpTip(playerid);
 	#pragma unused time
 }
 
 HideHelpTip(playerid) PlayerTextDrawHide(playerid, ToolTipText[playerid]);
 
-hook OnPlayerConnect(playerid)
-{
-	
-
+hook OnPlayerConnect(playerid) {
 	ToolTipText[playerid] = CreatePlayerTextDraw(playerid, 12.894577, 162.983322, "Use isso para reabastecer Veículos");
 	PlayerTextDrawLetterSize(playerid, ToolTipText[playerid], 0.279665, 1.952331);
 	PlayerTextDrawTextSize(playerid, ToolTipText[playerid], 182.651519, 35.466674);
@@ -45,12 +40,8 @@ hook OnPlayerConnect(playerid)
 	PlayerTextDrawSetProportional(playerid, ToolTipText[playerid], 1);
 }
 
-hook OnPlayerPickedUpItem(playerid, itemid)
-{
-
-
-	if(ToolTips[playerid])
-	{
+hook OnPlayerPickedUpItem(playerid, itemid) {
+	if(ToolTips[playerid]) {
 		new itemname[ITM_MAX_NAME];
 
 		GetItemTypeUniqueName(GetItemType(itemid), itemname);
@@ -61,24 +52,19 @@ hook OnPlayerPickedUpItem(playerid, itemid)
 	}
 }
 
-hook OnPlayerDropItem(playerid, itemid)
-{
-
-
+hook OnPlayerDropItem(playerid, itemid) {
 	if(ToolTips[playerid]) HideHelpTip(playerid);
 
 	return Y_HOOKS_CONTINUE_RETURN_0;
 }
 
-stock IsPlayerToolTipsOn(playerid)
-{
+stock IsPlayerToolTipsOn(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	return ToolTips[playerid];
 }
 
-stock SetPlayerToolTips(playerid, bool:st)
-{
+stock SetPlayerToolTips(playerid, bool:st) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
 	if(!st) HideHelpTip(playerid);
