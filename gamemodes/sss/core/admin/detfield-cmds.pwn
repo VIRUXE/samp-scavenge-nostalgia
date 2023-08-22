@@ -417,7 +417,7 @@ Dialog:DetfieldDelete(playerid, response, listitem, inputtext[]) {
 	    GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
 	    RemoveDetectionField(dfm_CurrentDetfield[playerid]);
 
-		ChatMsgAdmins(1, BLUE, "[FIELD]: Field '%s' removida por '%p'", fieldName, playerid);
+		ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "Field '%s' removida por '%p'", fieldName, playerid);
 	}
 
 	if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR) ShowDetfieldList(playerid);
@@ -434,8 +434,7 @@ ShowDetfieldLog(playerid, detfieldId) {
 
 	GetDetectionFieldName(detfieldId, fieldName);
 
-	new const count = GetDetectionFieldLogBuffer(detfieldId, dfm_LogBuffer[playerid], MAX_DETFIELD_LOG_PAGESIZE, dfm_LogIndex[playerid]);
-	
+	new const count        = GetDetectionFieldLogBuffer(detfieldId, dfm_LogBuffer[playerid], MAX_DETFIELD_LOG_PAGESIZE, dfm_LogIndex[playerid]);
 	new const totalEntries = GetDetectionFieldLogEntries(detfieldId);
 
 	for(new i; i < count; i++) {
