@@ -68,11 +68,9 @@ DBStatement:	stmt_AccountSetActiveState,
 DBStatement:	stmt_AccountGetAliasData,
 DBStatement:	stmt_AccountSetName;
 
-
 forward OnPlayerLoadAccount(playerid);
 forward OnPlayerRegister(playerid);
 forward OnPlayerLogin(playerid);
-
 
 hook OnGameModeInit() {
 	db_query(Database, "CREATE TABLE IF NOT EXISTS players (\
@@ -347,6 +345,7 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
 
 		if(isequal(inputhash, storedhash)) {
 			SetPlayerScreenFade(playerid, FADE_OUT, 255, 10, 1);
+			ShowMotd(playerid);
 
 			if(GetPlayerTotalSpawns(playerid))
 				defer Login(playerid); // Chave correta
@@ -436,7 +435,6 @@ public OnPlayerLogin(playerid) {
 	
 	AnnouncePlayerJoined(playerid);
 
-	ShowMotd(playerid);
 
 	// Mostrar o marcador para os admins que estiverem em duty
 	foreach(new p : Player) {
@@ -444,6 +442,8 @@ public OnPlayerLogin(playerid) {
 
 		SetPlayerMarkerForPlayer(p, playerid, (GetPlayerColor(playerid) | 0x000000FF));
 	}
+
+	EnablePlayerCameraTarget(playerid, 1);
 
 	return 1;
 }
