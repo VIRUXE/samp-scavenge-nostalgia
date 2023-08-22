@@ -15,18 +15,18 @@ DBStatement:	stmt_GpciGetRecordsFromGpci,
 DBStatement:	stmt_GpciGetRecordsFromName;
 
 hook OnGameModeInit() {
-	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_log (name TEXT, hash TEXT, date INTEGER)");
-	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_allowed (name TEXT, hash TEXT, date INTEGER)");
+	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_log (name TEXT, hash TEXT, windows_username TEXT, date INTEGER);");
+	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_allowed (name TEXT, hash TEXT, date INTEGER);");
 
 	DatabaseTableCheck(Database, "gpci_log", 4);
 
-	stmt_GpciInsert				= db_prepare(Database, "INSERT INTO gpci_log VALUES(?,?,?)");
+	stmt_GpciInsert				= db_prepare(Database, "INSERT INTO gpci_log (name, hash, date) VALUES(?,?,?)");
 	stmt_GpciCheckName			= db_prepare(Database, "SELECT COUNT(*) FROM gpci_log WHERE name=? AND hash=?");
 	stmt_GpciGetRecordsFromGpci	= db_prepare(Database, "SELECT * FROM gpci_log WHERE hash=? ORDER BY date DESC");
 	stmt_GpciGetRecordsFromName	= db_prepare(Database, "SELECT * FROM gpci_log WHERE name=? COLLATE NOCASE ORDER BY date DESC");
 }
 
-hook OnPlayerConnect(playerid) {
+/* hook OnPlayerConnect(playerid) {
 	if(!IsPlayerNPC(playerid)) {
 		new
 			name[MAX_PLAYER_NAME],
@@ -55,42 +55,63 @@ hook OnPlayerConnect(playerid) {
 	}
 
 	return 1;
+} */
+
+stock RegisterGPCI(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
+	stmt_bind_value(stmt_GpciInsert, 0, DB::TYPE_STRING, playerName, MAX_PLAYER_NAME);
+	stmt_bind_value(stmt_GpciInsert, 1, DB::TYPE_STRING, hash, MAX_GPCI_LEN);
+	stmt_bind_value(stmt_GpciInsert, 2, DB::TYPE_INTEGER, gettime());
+
+	if(!stmt_execute(stmt_GpciInsert)) {
+		err("Failed to execute statement 'stmt_GpciInsert'.");
+		return 0;
+	}
+
+	return 1;
 }
 
-stock bool:IsValidHash(hash[MAX_GPCI_LEN]) {
-	new const HASH_LENGTH = 40;
+stock IsValidHash(hash[MAX_GPCI_LEN]) {
+	new const HASH_LENGTH   = 40;
 	new const VALID_CHARS[] = "0123456789ABCDEF";
 
-    if(strlen(hash) != HASH_LENGTH) return false;
+    if(strlen(hash) != HASH_LENGTH) return -1;
 
-    for(new i = 0; i < HASH_LENGTH; i++) {
+    for (new i = 0; i < HASH_LENGTH; i++) {
         new found = false;
-
-        for(new j = 0; j < strlen(VALID_CHARS); j++) {
-            if(hash[i] == VALID_CHARS[j]) {
+		
+        for (new j = 0; j < strlen(VALID_CHARS); j++) {
+            if (hash[i] == VALID_CHARS[j]) {
                 found = true;
                 break;
             }
         }
-
-        if(!found) return false;
+		
+        if (!found) return 0; // Character is not valid
     }
 
-    return true;
+    return 1;
 }
 
 // Check if there are multiple rows of the same hash
 stock CheckPlayerHashStatus(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
-    if(!IsValidHash(hash)) return -1; // Invalid hash format
+	new validationResult = IsValidHash(hash);
+
+    if(!validationResult) {
+		log("[GPCI] '%s' - IsValidHash(%s): %d", playerName, hash, validationResult);
+		ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tem uma hash inválida (%s).", playerName, validationResult == 0 ? "Formato" : sprintf("Tamanho: %d", strlen(hash)));
+
+		if(validationResult == 0) return -1; // Invalid hash format
+	}
 
 	if(isequal(hash, "ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990")) return -2; // Android peasant
 
-    new query[512];
+    new query[1024];
 
     format(query, sizeof(query),
         "SELECT \
             CASE \
-                WHEN COUNT(gpci_log.hash) = 1 THEN 2 \
+				WHEN COUNT(gpci_log.hash) = 0 THEN 3 \
+				WHEN COUNT(gpci_log.hash) = 1 THEN 2 \
                 WHEN COUNT(gpci_log.hash) > 1 AND EXISTS ( \
                     SELECT 1 \
                     FROM gpci_allowed \
