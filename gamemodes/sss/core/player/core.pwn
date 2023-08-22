@@ -98,8 +98,6 @@ _OnPlayerConnect(playerid) {
 
 	ply_Data[playerid][ply_ShowHUD] = true;
 
-	EnablePlayerCameraTarget(playerid, 1);
-
 	return 1;
 }
 
