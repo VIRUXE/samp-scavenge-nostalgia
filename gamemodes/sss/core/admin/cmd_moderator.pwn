@@ -50,7 +50,7 @@ ACMD:ir[1](playerid, params[]) {
 	FreezePlayer(targetId, SEC(2));
 
 	if(!GetPlayerAdminLevel(targetId)) ChatMsg(targetId, YELLOW, "admin/teleported-to", playerid);
-	ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) teleportou-se até %P"C_BLUE" (%d)", playerid, playerid, targetId, targetId);
+	ChatMsgAdmins(LEVEL_MODERATOR, COLOR_NONE, "%P"C_WHITE" (%d) teleportou-se até %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
@@ -70,7 +70,7 @@ ACMD:puxar[1](playerid, params[]) {
 
 	TeleportPlayerToPlayer(targetId, playerid);
 
-	ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) puxou %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
+	ChatMsgAdmins(LEVEL_MODERATOR, COLOR_NONE, "%P"C_WHITE" (%d) puxou %P"C_WHITE" (%d)", playerid, playerid, targetId, targetId);
 
 	return 1;
 }
@@ -325,6 +325,8 @@ ACMD:msg[1](playerid, params[]) {
 	new anuncio[255];
 
 	if(sscanf(params, "s[255]", anuncio)) return ChatMsg(playerid, RED, " > Use: /msg [mensagem]");
+
+	anuncio[0] = toupper(anuncio[0]); // Capitalize the first letter
 
 	SendClientMessageToAll(COLOR_RADIATION, " >>>>> Administração: <<<<<");
 	return ChatMsgAll(COLOR_RADIATION, " > %p disse: {FFFFFF}%s", playerid, anuncio);
