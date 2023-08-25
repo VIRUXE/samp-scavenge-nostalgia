@@ -12,27 +12,29 @@ hook OnPlayerConnect(playerid) twk_Item[playerid] = INVALID_ITEM_ID;
 	
 hook OnPlayerDisconnect(playerid, reason) TweakFinalise(playerid);
 
-stock TweakItem(playerid, itemid) {
-	if(twk_Item[playerid] != INVALID_ITEM_ID) return 0;
+stock TweakItem(playerId, itemId) {
+	if(twk_Item[playerId] != INVALID_ITEM_ID) return 0;
 
 	new Float:x, Float:y, Float:z, Float:r;
 	// new const Float:amount = 2.0;
 
-	GetPlayerPos(playerid, x, y, z);
-	GetPlayerFacingAngle(playerid, r);
+	GetPlayerPos(playerId, x, y, z);
+	GetPlayerFacingAngle(playerId, r);
 	
-	twk_pPos[playerid][0] = x;
-	twk_pPos[playerid][1] = y;
-	twk_pPos[playerid][2] = z;
+	twk_pPos[playerId][0] = x;
+	twk_pPos[playerId][1] = y;
+	twk_pPos[playerId][2] = z;
 
 	// Move o jogador para tras
 	// x -= amount * floatsin(-r, degrees), y -= amount * floatcos(-r, degrees);
 
-	// SetPlayerPos(playerid, x, y, z);
+	// SetPlayerPos(playerId, x, y, z);
 	
-    EditDynamicObject(playerid, GetItemObjectID(itemid));
+    EditDynamicObject(playerId, GetItemObjectID(itemId));
     
-    twk_Item[playerid] = itemid;
+    twk_Item[playerId] = itemId;
+
+	SendClientMessage(playerId, BLUE, "Não se esqueça que pode apertar ESPAÇO para movimentar a camera.");
 
 	return 1;
 }
@@ -73,7 +75,7 @@ hook OnPlayerUpdate(playerid) {
 
 // Corrigir Posição do objeto
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
-	if( (newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID) TweakResetItemPos(playerid);
+	if((newkeys & KEY_WALK) && twk_Item[playerid] != INVALID_ITEM_ID) TweakResetItemPos(playerid);
 
 	return 1;
 }
