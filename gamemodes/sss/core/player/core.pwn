@@ -112,13 +112,15 @@ public OnPlayerConnect(playerid) {
 	new const bool:localhost = isequal(ip, "127.0.0.1");
 
 	if(!localhost) {
-		new playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN];
+		new playerName[MAX_PLAYER_NAME], playerHash[MAX_GPCI_LEN];
 
 		GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
-		gpci(playerid, hash, MAX_GPCI_LEN);
+		gpci(playerid, playerHash, MAX_GPCI_LEN);
+
+		RegisterGPCI(playerName, playerHash);
 
 		// Kick Multi-Accounts
-		new const hashStatus = CheckPlayerHashStatus(playerName, hash);
+		new const hashStatus = CheckPlayerHashStatus(playerName, playerHash);
 		switch (hashStatus) {
 			case 0: { // Hash recorded multiple times but not allowed
 				// Check if windows_username is null for the given hash
@@ -147,7 +149,7 @@ public OnPlayerConnect(playerid) {
 					}
 				}
 
-				log("[GPCI] %s (%s) has a shared hash but is NOT allowed (%s).", playerName, hash, accountsString);
+				log("[GPCI] %s (%s) has a shared hash but is NOT allowed (%s).", playerName, playerHash, accountsString);
 
 				KickPlayer(playerid, "Multi-Account");
 
@@ -156,7 +158,7 @@ public OnPlayerConnect(playerid) {
 				return Y_HOOKS_BREAK_RETURN_0;
 			}
 			case 1: { // Hash recorded multiple times and allowed
-				// CheckForWindowsUsername(playerid, hash);
+				// CheckForWindowsUsername(playerid, playerHash);
 				log("[GPCI] %s has a shared hash but IS allowed.", playerName);
 
 				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tem várias contas, mas está autorizado.", playerName);
@@ -164,19 +166,18 @@ public OnPlayerConnect(playerid) {
 			case 2: { // Hash is unique
 				log("[GPCI] %s has a unique hash.", playerName);
 
-				RegisterGPCI(playerName, hash);
 
 				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s tem um hash único.", playerName);
 			}
 			case 3: {
 				log("[GPCI] %s doesn't have this hash recorded.", playerName);
 
-				RegisterGPCI(playerName, hash);
+				RegisterGPCI(playerName, playerHash);
 
 				ChatMsgAdmins(LEVEL_DEVELOPER, WHITE, "%s não tem hash registrado.", playerName);
 			}
 			case -1: { // Invalid hash format
-				log("[GPCI] %s tried joining with an invalid hash (%s).", playerName, hash);
+				log("[GPCI] %s tried joining with an invalid hash (%s).", playerName, playerHash);
 
 				KickPlayer(playerid, "Error: Invalid client.");
 
