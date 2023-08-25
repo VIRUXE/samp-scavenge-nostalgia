@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-admin_levels = {1: 'moderator', 2: 'administrador', 3: 'lead', 4: 'dev', 5: 'secret'}
+admin_levels = {1: 'moderador', 2: 'administrador', 3: 'lead', 4: 'dev', 5: 'secret'}
 commands_by_level = {name: [] for name in admin_levels.values()}
 
 for root, _, files in os.walk(os.getcwd()):
@@ -14,6 +14,9 @@ for root, _, files in os.walk(os.getcwd()):
                 for cmd, level in matches:
                     level_name = admin_levels.get(int(level))
                     if level_name: commands_by_level[level_name].append(cmd)
+
+for level_name in commands_by_level:
+    commands_by_level[level_name] = sorted(commands_by_level[level_name])
 
 with open('commands_by_level.json', 'w') as f:
     json.dump(commands_by_level, f)
