@@ -80,8 +80,7 @@ ptask player_Check[SEC(1)](playerid) {
 
 	if(GetPlayerAnimationIndex(playerid) == 373)
         AC_KickPlayer(playerid, "Fly Hack");
-	else if(GetPlayerAnimationIndex(playerid) == 958 || GetPlayerAnimationIndex(playerid) == 959 &&
-	GetPlayerWeapon(playerid) != 46)
+	else if(GetPlayerAnimationIndex(playerid) == 958 || GetPlayerAnimationIndex(playerid) == 959 && GetPlayerWeapon(playerid) != 46)
         AC_KickPlayer(playerid, "Fly Hack");
 
 	new
@@ -90,10 +89,9 @@ ptask player_Check[SEC(1)](playerid) {
 
 	GetAnimationName(GetPlayerAnimationIndex(playerid), animlib, sizeof(animlib), animname, sizeof(animname));
 
-	if(isnull(animlib))
-		return;
+	if(isnull(animlib)) return;
 
-	if(!strcmp(animlib, "SWIM")){
+	if(!strcmp(animlib, "SWIM")) {
 		new Float:x, Float:y, Float:z;
 
 		GetPlayerPos(playerid, x, y, z);
@@ -113,26 +111,21 @@ ptask player_Check[SEC(1)](playerid) {
 
 	==========================================================================*/
 	
-    new vehicleId, component;
+    new vehicleId = GetPlayerVehicleID(playerid);
 
-	vehicleId = GetPlayerVehicleID(playerid);
+	new componentId = GetVehicleComponentInSlot(vehicleId, CARMODTYPE_NITRO);
 
-	component = GetVehicleComponentInSlot(vehicleId, CARMODTYPE_NITRO);
-
-	if(component == 1008 || component == 1009 || component == 1010) {
+	if(componentId == 1008 || componentId == 1009 || componentId == 1010) {
 		BanPlayer(playerid, "Detectado Nitro no Veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleId, CARMODTYPE_NITRO);
 	}
 
-	component = GetVehicleComponentInSlot(vehicleId, CARMODTYPE_HYDRAULICS);
-
-	if(component == 1087) {
+	if(GetVehicleComponentInSlot(vehicleId, CARMODTYPE_HYDRAULICS) == 1087) {
 		BanPlayer(playerid, "Detectado Hydraulica no Veículo.", -1, 0);
 		RemoveVehicleComponent(vehicleId, CARMODTYPE_HYDRAULICS);
 	}
 	
-    new
-		Float:vehiclehp;
+    new Float:vehiclehp;
 
 	GetVehicleHealth(vehicleId, vehiclehp);
 
@@ -143,8 +136,7 @@ ptask player_Check[SEC(1)](playerid) {
 	}
 	
 	// Anti NameTag
-    foreach(new i : Player)
-		ShowPlayerNameTagForPlayer(playerid, i, false);
+    foreach(new i : Player) ShowPlayerNameTagForPlayer(playerid, i, false);
 
     // Anti Cam Hack
 	CameraDistanceCheck(playerid);
@@ -312,7 +304,7 @@ static
 		
 CameraDistanceCheck(playerid) {
 	if(
-		!IsPlayerLoggedIn(playerid) ||
+		!IsPlayerSpawned(playerid) ||
 		IsPlayerDead(playerid) ||
 		IsPlayerUnfocused(playerid) ||
 		IsPlayerOnZipline(playerid) ||
