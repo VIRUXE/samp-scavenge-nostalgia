@@ -145,10 +145,12 @@ SpawnCharacter(playerid) {
 
 	SetPlayerGender(playerid, GetClothesGender(GetPlayerClothes(playerid)));
 
-	if(GetPlayerWarnings(playerid) > 0) {
-		if(GetPlayerWarnings(playerid) >= 5) SetPlayerWarnings(playerid, 0);
+	new const warnings = GetPlayerWarnings(playerid);
+	if(warnings > 0) {
+		if(warnings >= 5) SetPlayerWarnings(playerid, 0);
 
-		ChatMsg(playerid, YELLOW, "player/warn-counter", GetPlayerWarnings(playerid));
+		ChatMsg(playerid, YELLOW, "player/warn-counter", warnings);
+		ChatMsgAdmins(LEVEL_MODERATOR, COLOR_NONE, "'%p' tem %d avisos!", playerid, warnings);
 	}
 
 	// Congelar se não for admin nível 6
@@ -173,7 +175,6 @@ SpawnCharacter(playerid) {
 
 timer ShowCharacterCreationScreen[SEC(2)](playerid) {
 	log("[CHARACTER] %p (%d) vai criar um novo personagem.", playerid, playerid);
-
 	
 	TogglePlayerControllable(playerid, false);
 
