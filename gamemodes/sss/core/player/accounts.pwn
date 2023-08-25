@@ -93,7 +93,8 @@ hook OnGameModeInit() {
 
 	stmt_AccountExists			= db_prepare(Database, "SELECT COUNT(*) FROM players WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountCreate			= db_prepare(Database, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'',0,0,0,0,0,1)");
+	// name, pass, ipv4, language, regDate, lastLog
+	stmt_AccountCreate			= db_prepare(Database, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,'','',0,0,0,0,0,1)");
 	stmt_AccountLoad			= db_prepare(Database, "SELECT * FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountUpdate			= db_prepare(Database, "UPDATE players SET alive=?, warnings=? WHERE name=? COLLATE NOCASE");
 
@@ -259,7 +260,7 @@ CreateAccount(playerid, password[]) {
 
 	if(!stmt_execute(stmt_AccountCreate)) {
 		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
-		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord.", true);
+		KickPlayer(playerid, "Não foi possível criar sua conta. Por favor, contacte um administrador no Discord. (http://discord.scavengenostalgia.fun)", true);
 
 		return 0;
 	}
@@ -414,7 +415,6 @@ public OnPlayerLogin(playerid) {
 	ChatMsg(playerid, GREY, " >  Modo de Chat atual: "C_WHITE"%s", chatModeStr);
 	
 	AnnouncePlayerJoined(playerid);
-
 
 	// Mostrar o marcador para os admins que estiverem em duty
 	foreach(new p : Player) {
