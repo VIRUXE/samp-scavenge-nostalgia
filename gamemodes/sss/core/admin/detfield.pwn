@@ -675,11 +675,7 @@ IsPlayerInsideDetectionField(playerid) {
 
 	GetPlayerPos(playerid, x,y,z);
 
-	foreach(new i : det_Index) {
-		if(!IsDetectionFieldActive(i)) continue;
-		
-		if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) return i;
-	}
+	foreach(new i : det_Index) if(IsPointInDynamicArea(det_AreaID[i], x, y, z)) return i;
 
 	return -1;
 }
@@ -696,34 +692,34 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 	if(GetPlayerVirtualWorld(playerid) != 0) return Y_HOOKS_CONTINUE_RETURN_0;
 
 	foreach(new i : det_Index) {
-		if(!IsDetectionFieldActive(i)) continue;
+		if(areaid != det_AreaID[i]) continue; // Ignorar se nao for uma detfield
 
-		if(areaid == det_AreaID[i]) {
-			if(!IsPlayerOnAdminDuty(playerid)) {
-				DetectionFieldLogPlayer(playerid, i);
+		if(!IsPlayerOnAdminDuty(playerid)) { // Jogador normal
+			if(!IsDetectionFieldActive(i)) continue; // Ignore se nao estiver ativa
 
-    			if(!IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
-					ShowPlayerDialog(playerid, DIALOG_ENTER_DETFIELD, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", 
-						C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
-						Você não poderá fazer as seguintes coisas:\n\n\
-						"C_YELLOW"\t- Construir.\n\
-						\t- Desmontar com pé de cabra.\n\
-						\t- Interagir tendas e caixas.\n\
-						\t- Interagir com veículos.\n\n\
-						"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /relatorio para remover a proteção.\n\n\
-						"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
-					"Fechar", "");
-					
-					ChatMsgAdmins(LEVEL_MODERATOR, PINK, "%p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
-					
-					PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
+			DetectionFieldLogPlayer(playerid, i);
 
-				    fld_PlayerInvade[playerid] = true;
-				} else
-					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
-			} else if(GetPlayerAdminLevel(playerid)) // Aviso de field para admin
-				GameTextForPlayer(playerid, sprintf("Field: ~w~%s", det_Name[i]), SEC(2), 3);
-		}
+			if(!IsNameInExceptionList(i, GetPlayerNameEx(playerid))) {
+				ShowPlayerDialog(playerid, DIALOG_ENTER_DETFIELD, DIALOG_STYLE_MSGBOX, "Proteção Anti-Cheater "C_RED"FIELD DETECTION", 
+					C_WHITE"Você entrou em uma base com proteção FIELD sem ter acesso.\n\n\
+					Você não poderá fazer as seguintes coisas:\n\n\
+					"C_YELLOW"\t- Construir.\n\
+					\t- Desmontar com pé de cabra.\n\
+					\t- Interagir tendas e caixas.\n\
+					\t- Interagir com veículos.\n\n\
+					"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /relatorio para remover a proteção.\n\n\
+					"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
+				"Fechar", "");
+				
+				ChatMsgAdmins(LEVEL_MODERATOR, PINK, "%p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
+				
+				PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
+
+				fld_PlayerInvade[playerid] = true;
+			} else
+				ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
+		} else if(GetPlayerAdminLevel(playerid)) // Aviso de field para admin
+			GameTextForPlayer(playerid, sprintf("Field: ~w~%s", det_Name[i]), SEC(2), 3);
 	}
 
 	return Y_HOOKS_CONTINUE_RETURN_1;
@@ -938,12 +934,23 @@ stock IsValidDetectionFieldName(name[]) {
 	if(!strcmp(name, "field_list")) return 0;
 
 	new i;
+	new hyphenFound = 0;
+	new underscoreFound = 0;
 
 	while (name[i] != EOS) {
-		if(isalphanumeric(name[i]) || name[i] == '_' || name[i] == '-')
+		if(name[i] == '-' && !hyphenFound) {
+			hyphenFound = 1;
+			if (!((name[i + 1] == 'L' && name[i + 2] == 'S' && name[i + 3] == '_') || 
+				  (name[i + 1] == 'S' && name[i + 2] == 'F' && name[i + 3] == '_') || 
+				  (name[i + 1] == 'L' && name[i + 2] == 'V' && name[i + 3] == '_'))) return 0;
+			i += 3;
+		} else if(isalphanumeric(name[i]) || (name[i] == '_' && !underscoreFound)) {
+			if(name[i] == '_') underscoreFound = 1; else underscoreFound = 0;
 			i++;
-		else
+		} else
 			return 0;
+		
+		if (underscoreFound && name[i] == '_') return 0; // Checking for two underscores in a row
 	}
 
 	return 1;
