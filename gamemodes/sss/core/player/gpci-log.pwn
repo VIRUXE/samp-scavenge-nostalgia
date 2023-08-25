@@ -57,9 +57,9 @@ hook OnGameModeInit() {
 	return 1;
 } */
 
-stock RegisterGPCI(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
+stock RegisterGPCI(playerName[MAX_PLAYER_NAME], playerHash[MAX_GPCI_LEN]) {
 	stmt_bind_value(stmt_GpciInsert, 0, DB::TYPE_STRING, playerName, MAX_PLAYER_NAME);
-	stmt_bind_value(stmt_GpciInsert, 1, DB::TYPE_STRING, hash, MAX_GPCI_LEN);
+	stmt_bind_value(stmt_GpciInsert, 1, DB::TYPE_STRING, playerHash, MAX_GPCI_LEN);
 	stmt_bind_value(stmt_GpciInsert, 2, DB::TYPE_INTEGER, gettime());
 
 	if(!stmt_execute(stmt_GpciInsert)) {
