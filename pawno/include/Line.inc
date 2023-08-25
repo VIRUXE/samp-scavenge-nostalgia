@@ -60,14 +60,11 @@ Iterator:   lin_Index<MAX_LINE>;
 ==============================================================================*/
 
 
-stock CreateLineSegment(modelid, Float:objlength, Float:PointX, Float:PointY, Float:PointZ, Float:DestX, Float:DestY, Float:DestZ, Float:RotX = 0.0, Float:RotY = 0.0, Float:RotZ = 0.0, Float:objlengthoffset = 0.0, worldid = -1, interiorid = -1, playerid = -1, Float:maxlength = 100.0)
-{
+stock CreateLineSegment(modelid, Float:objlength, Float:PointX, Float:PointY, Float:PointZ, Float:DestX, Float:DestY, Float:DestZ, Float:RotX = 0.0, Float:RotY = 0.0, Float:RotZ = 0.0, Float:objlengthoffset = 0.0, worldid = -1, interiorid = -1, playerid = -1, Float:maxlength = 100.0) {
 	new id = Iter_Free(lin_Index);
 
-	if(id == -1)
-	{
-		print("ERROR: MAX_LINE limit reached.");
-		return 0;
+	if(id == -1) {
+		print("ERROR: MAX_LINE limit reached."); return 0;
 	}
 	
 	lin_Data[id][lin_maxLength]			= maxlength;
@@ -98,13 +95,10 @@ stock CreateLineSegment(modelid, Float:objlength, Float:PointX, Float:PointY, Fl
 	return id;
 }
 
-stock DestroyLineSegment(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock DestroyLineSegment(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
-	for(new i; i < lin_Data[lineid][lin_objCount]; i++)
-	{
+	for(new i; i < lin_Data[lineid][lin_objCount]; i++) {
 		if(IsValidDynamicObject(lin_Objects[lineid][i]))
 		{
 			DestroyDynamicObject(lin_Objects[lineid][i]);
@@ -125,8 +119,7 @@ stock DestroyLineSegment(lineid)
 ==============================================================================*/
 
 
-UpdateLineSegment(lineid)
-{
+UpdateLineSegment(lineid) {
 	new
 		Float:rx,
 		Float:ry,
@@ -144,8 +137,7 @@ UpdateLineSegment(lineid)
 	distToDest = floatsqroot( (vx*vx) + (vy*vy) + (vz*vz) );
 	count = floatround(distToDest / lin_Data[lineid][lin_objLength], floatround_ceil) + 1;
 
-	for(new i; i < count; i++)
-	{
+	for(new i; i < count; i++) {
 		if(i == 0)
 			tmpdist = (lin_Data[lineid][lin_objLength] / 2.0) + lin_Data[lineid][lin_objLengthOffset];
 
@@ -188,8 +180,7 @@ UpdateLineSegment(lineid)
 			break;
 		}
 	}
-	if(count < lin_Data[lineid][lin_objCount])
-	{
+	if(count < lin_Data[lineid][lin_objCount]) {
 		for(new i = count; i < MAX_OBJECTS_PER_LINE; i++)
 		{
 		    if(IsValidDynamicObject(lin_Objects[lineid][i]))
@@ -213,35 +204,28 @@ UpdateLineSegment(lineid)
 ==============================================================================*/
 
 
-stock IsValidLineSegment(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock IsValidLineSegment(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return 1;
 }
 
 
 // lin_model
-stock GetLineSegmentModel(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentModel(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return lin_Data[lineid][lin_model];
 }
 
-stock SetLineSegmentModel(lineid, modelid, Float:objlength, Float:objlengthoffset)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentModel(lineid, modelid, Float:objlength, Float:objlengthoffset) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_model] = modelid;
     lin_Data[lineid][lin_objLength] = objlength;
     lin_Data[lineid][lin_objLengthOffset] = objlengthoffset;
 
-	for(new i; i < lin_Data[lineid][lin_objCount]; i++)
-	{
+	for(new i; i < lin_Data[lineid][lin_objCount]; i++) {
 		if(IsValidDynamicObject(lin_Objects[lineid][i]))
 			Streamer_SetIntData(STREAMER_TYPE_OBJECT, lin_Objects[lineid][i], E_STREAMER_MODEL_ID, modelid);
 	}
@@ -252,27 +236,21 @@ stock SetLineSegmentModel(lineid, modelid, Float:objlength, Float:objlengthoffse
 }
 
 // lin_objCount
-stock GetLineSegmentObjectCount(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentObjectCount(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return lin_Data[lineid][lin_objCount];
 }
 
 // lin_objLength
-stock Float:GetLineSegmentObjectLength(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetLineSegmentObjectLength(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	return lin_Data[lineid][lin_objLength];
 }
 
-stock SetLineSegmentObjectLength(lineid, Float:objlength)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentObjectLength(lineid, Float:objlength) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_objLength] = objlength;
 
@@ -280,18 +258,14 @@ stock SetLineSegmentObjectLength(lineid, Float:objlength)
 }
 
 // lin_objLengthOffset
-stock Float:GetLineSegmentObjectOffset(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetLineSegmentObjectOffset(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	return lin_Data[lineid][lin_objLengthOffset];
 }
 
-stock SetLineSegmentObjectOffset(lineid, Float:objlengthoffset)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentObjectOffset(lineid, Float:objlengthoffset) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_objLengthOffset] = objlengthoffset;
 
@@ -299,18 +273,14 @@ stock SetLineSegmentObjectOffset(lineid, Float:objlengthoffset)
 }
 
 // lin_maxLength
-stock Float:GetLineSegmentMaxLength(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetLineSegmentMaxLength(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	return lin_Data[lineid][lin_maxLength];
 }
 
-stock SetLineSegmentMaxLength(lineid, Float:maxlength)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentMaxLength(lineid, Float:maxlength) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_maxLength] = maxlength;
 
@@ -322,10 +292,8 @@ stock SetLineSegmentMaxLength(lineid, Float:maxlength)
 // lin_posX
 // lin_posY
 // lin_posZ
-stock GetLineSegmentPoint(lineid, &Float:PointX, &Float:PointY, &Float:PointZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentPoint(lineid, &Float:PointX, &Float:PointY, &Float:PointZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	PointX = lin_Data[lineid][lin_posX];
 	PointY = lin_Data[lineid][lin_posY];
@@ -336,10 +304,8 @@ stock GetLineSegmentPoint(lineid, &Float:PointX, &Float:PointY, &Float:PointZ)
 	return 1;
 }
 
-stock SetLineSegmentPoint(lineid, Float:PointX, Float:PointY, Float:PointZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentPoint(lineid, Float:PointX, Float:PointY, Float:PointZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_posX] = PointX;
 	lin_Data[lineid][lin_posY] = PointY;
@@ -353,10 +319,8 @@ stock SetLineSegmentPoint(lineid, Float:PointX, Float:PointY, Float:PointZ)
 // lin_dstX
 // lin_dstY
 // lin_dstZ
-stock GetLineSegmentDest(lineid, &Float:DestX, &Float:DestY, &Float:DestZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentDest(lineid, &Float:DestX, &Float:DestY, &Float:DestZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	DestX = lin_Data[lineid][lin_dstX];
 	DestY = lin_Data[lineid][lin_dstY];
@@ -367,10 +331,8 @@ stock GetLineSegmentDest(lineid, &Float:DestX, &Float:DestY, &Float:DestZ)
 	return 1;
 }
 
-stock SetLineSegmentDest(lineid, Float:DestX, Float:DestY, Float:DestZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentDest(lineid, Float:DestX, Float:DestY, Float:DestZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_dstX] = DestX;
 	lin_Data[lineid][lin_dstY] = DestY;
@@ -384,10 +346,8 @@ stock SetLineSegmentDest(lineid, Float:DestX, Float:DestY, Float:DestZ)
 // lin_rotX
 // lin_rotY
 // lin_rotZ
-stock GetLineSegmentModelAngles(lineid, &Float:RotX, &Float:RotY, &Float:RotZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentModelAngles(lineid, &Float:RotX, &Float:RotY, &Float:RotZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	RotX = lin_Data[lineid][lin_rotX];
 	RotY = lin_Data[lineid][lin_rotY];
@@ -398,10 +358,8 @@ stock GetLineSegmentModelAngles(lineid, &Float:RotX, &Float:RotY, &Float:RotZ)
 	return 1;
 }
 
-stock SetLineSegmentModelAngles(lineid, Float:RotX, Float:RotY, Float:RotZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentModelAngles(lineid, Float:RotX, Float:RotY, Float:RotZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_rotX] = RotX;
 	lin_Data[lineid][lin_rotY] = RotY;
@@ -413,23 +371,18 @@ stock SetLineSegmentModelAngles(lineid, Float:RotX, Float:RotY, Float:RotZ)
 }
 
 // lin_world
-stock GetLineSegmentWorld(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentWorld(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return lin_Data[lineid][lin_world];
 }
 
-stock SetLineSegmentWorld(lineid, world)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentWorld(lineid, world) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_world] = world;
 
-	for(new i; i < lin_Data[lineid][lin_objCount]; i++)
-	{
+	for(new i; i < lin_Data[lineid][lin_objCount]; i++) {
 		if(IsValidDynamicObject(lin_Objects[lineid][i]))
 			Streamer_SetIntData(STREAMER_TYPE_OBJECT, lin_Objects[lineid][i], E_STREAMER_WORLD_ID, world);
 	}
@@ -440,22 +393,17 @@ stock SetLineSegmentWorld(lineid, world)
 }
 
 // lin_interior
-stock GetLineSegmentInterior(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentInterior(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return lin_Data[lineid][lin_interior];
 }
-stock SetLineSegmentInterior(lineid, interior)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock SetLineSegmentInterior(lineid, interior) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_interior] = interior;
 
-	for(new i; i < lin_Data[lineid][lin_objCount]; i++)
-	{
+	for(new i; i < lin_Data[lineid][lin_objCount]; i++) {
 		if(IsValidDynamicObject(lin_Objects[lineid][i]))
 			Streamer_SetIntData(STREAMER_TYPE_OBJECT, lin_Objects[lineid][i], E_STREAMER_INTERIOR_ID, interior);
 	}
@@ -466,22 +414,18 @@ stock SetLineSegmentInterior(lineid, interior)
 }
 
 // lin_playerid
-stock GetLineSegmentPlayerID(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentPlayerID(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	return lin_Data[lineid][lin_playerid];
 }
-stock SetLineSegmentPlayerID(lineid, playerid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+
+stock SetLineSegmentPlayerID(lineid, playerid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	lin_Data[lineid][lin_playerid] = playerid;
 
-	for(new i; i < lin_Data[lineid][lin_objCount]; i++)
-	{
+	for(new i; i < lin_Data[lineid][lin_objCount]; i++) {
 		if(IsValidDynamicObject(lin_Objects[lineid][i]))
 			Streamer_SetIntData(STREAMER_TYPE_OBJECT, lin_Objects[lineid][i], E_STREAMER_PLAYER_ID, playerid);
 	}
@@ -499,10 +443,8 @@ stock SetLineSegmentPlayerID(lineid, playerid)
 ==============================================================================*/
 
 
-stock GetLineSegmentVector(lineid, &Float:x, &Float:y, &Float:z)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0;
+stock GetLineSegmentVector(lineid, &Float:x, &Float:y, &Float:z) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0;
 
 	new
 		Float:vx = lin_Data[lineid][lin_dstX] - lin_Data[lineid][lin_posX],
@@ -521,10 +463,8 @@ stock GetLineSegmentVector(lineid, &Float:x, &Float:y, &Float:z)
 	return 1;
 }
 
-stock Float:GetDistanceToLineSegmentPoint(lineid, Float:FromX, Float:FromY, Float:FromZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetDistanceToLineSegmentPoint(lineid, Float:FromX, Float:FromY, Float:FromZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	new
 		Float:vx = FromX - lin_Data[lineid][lin_posX],
@@ -534,10 +474,8 @@ stock Float:GetDistanceToLineSegmentPoint(lineid, Float:FromX, Float:FromY, Floa
 	return floatsqroot( (vx * vx) + (vy * vy) + (vz * vz) );
 }
 
-stock Float:GetDistanceToLineSegmentDest(lineid, Float:FromX, Float:FromY, Float:FromZ)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetDistanceToLineSegmentDest(lineid, Float:FromX, Float:FromY, Float:FromZ) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	new
 		Float:vx = FromX - lin_Data[lineid][lin_dstX],
@@ -547,10 +485,8 @@ stock Float:GetDistanceToLineSegmentDest(lineid, Float:FromX, Float:FromY, Float
 	return floatsqroot( (vx * vx) + (vy * vy) + (vz * vz) );
 }
 
-stock Float:GetLineSegmentLength(lineid)
-{
-	if(!Iter_Contains(lin_Index, lineid))
-		return 0.0;
+stock Float:GetLineSegmentLength(lineid) {
+	if(!Iter_Contains(lin_Index, lineid)) return 0.0;
 
 	new
 		Float:vx = lin_Data[lineid][lin_dstX] - lin_Data[lineid][lin_posX],
