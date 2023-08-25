@@ -722,7 +722,7 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 				} else
 					ShowHelpTip(playerid, "Você entrou como excepção em uma base com Detection Field.", 8000);
 			} else if(GetPlayerAdminLevel(playerid)) // Aviso de field para admin
-				GameTextForPlayer(playerid, sprintf("Field: %s", det_Name[i]), SEC(1), 3);
+				GameTextForPlayer(playerid, sprintf("Field: ~w~%s", det_Name[i]), SEC(2), 3);
 		}
 	}
 
