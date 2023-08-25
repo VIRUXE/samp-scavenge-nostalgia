@@ -316,6 +316,8 @@ ACMD:kick[1](playerid, params[]) {
 
 	if(GetPlayerAdminLevel(targetId) >= GetPlayerAdminLevel(playerid) && playerid != targetId) return CMD_CANT_USE_ON;
 
+	reason[0] = toupper(reason[0]); // Capitalize the first letter
+
 	KickPlayer(targetId, reason, true);
 
 	return ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "%P"C_WHITE" (%d) kickou %P"C_WHITE" (%d)! "C_WHITE"Motivo: %s", playerid, playerid, targetId, targetId, reason);
@@ -379,9 +381,9 @@ ACMD:history[1](playerid, params[]) {
 		if(lookup == 'n') 
 			ShowAccountGpciHistoryFromName(playerid, name);
 		else {
-			new hash[MAX_GPCI_LEN];
+			/* new hash[MAX_GPCI_LEN];
 			GetAccountGPCI(name, hash);
-			ShowAccountGpciHistoryFromGpci(playerid, hash);
+			ShowAccountGpciHistoryFromGpci(playerid, hash); */
 		}
 	} else
 		return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'h'(hash), o parâmetro opcional 'n' lista o histÃ³rico apenas para esse jogador.");
