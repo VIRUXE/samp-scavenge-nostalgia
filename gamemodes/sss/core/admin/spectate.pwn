@@ -15,7 +15,7 @@ PlayerText:	spectate_Name,
 PlayerText:	spectate_Info,
 			spectate_CameraObject[MAX_PLAYERS] = {INVALID_OBJECT_ID, ...},
 Float:		spectate_StartPos[MAX_PLAYERS][3],
-			spectate_LOSLine[MAX_PLAYERS]; // Para armazenar ids das linhas
+			spectate_LOSLine[MAX_PLAYERS] = {INVALID_LINE_SEGMENT_ID, ...}; // Para armazenar ids das linhas
 
 
 hook OnPlayerConnect(playerid) {
@@ -133,8 +133,11 @@ ExitSpectateMode(playerid) {
 
 	if(spectate_Type[playerid] == SPECTATE_TYPE_FREE) ExitFreeMode(playerid);
 
-	if(spectate_LOSLine[playerid] != INVALID_LINE_SEGMENT_ID) DestroyLineSegment(spectate_LOSLine[playerid]);
-
+	if(spectate_LOSLine[playerid] != INVALID_LINE_SEGMENT_ID) {
+		DestroyLineSegment(spectate_LOSLine[playerid]);
+		spectate_LOSLine[playerid] = INVALID_LINE_SEGMENT_ID;
+	}
+	
 	spectate_Target[playerid]  = INVALID_PLAYER_ID;
 	spectate_Type[playerid]    = SPECTATE_TYPE_NONE;
 	spectate_LOSLine[playerid] = INVALID_LINE_SEGMENT_ID;
@@ -231,9 +234,9 @@ timer UpdateSpectateMode[100](playerid) {
 		return;
 	}
 
-	new targetId = spectate_Target[playerid];
+	new const targetId = spectate_Target[playerid];
 
-	if(targetId == INVALID_PLAYER_ID) {
+	if(targetId == INVALID_PLAYER_ID) { // Free mode?
 		new
 			k,
 			ud,
@@ -277,8 +280,7 @@ timer UpdateSpectateMode[100](playerid) {
 
 		MoveObject(spectate_CameraObject[playerid], camX, camY, camZ, speed);
 
-		if(ud == 0 && lr == 0 && !(k & KEY_SPRINT) && !(k & KEY_CROUCH))
-			StopObject(spectate_CameraObject[playerid]);
+		if(ud == 0 && lr == 0 && !(k & KEY_SPRINT) && !(k & KEY_CROUCH)) StopObject(spectate_CameraObject[playerid]);
 	} else {
 		new
 			name[MAX_PLAYER_NAME],
@@ -360,34 +362,34 @@ timer UpdateSpectateMode[100](playerid) {
 		PlayerTextDrawSetString(playerid, spectate_Info, str);
 		PlayerTextDrawShow(playerid, spectate_Info);
 
-		new playerTarget = GetPlayerCameraTargetPlayer(targetId);
+		new const playerTarget = GetPlayerCameraTargetPlayer(targetId);
  
-		if(playerTarget != INVALID_PLAYER_ID) {
-			GameTextForPlayer(playerid, sprintf("> %s <", GetPlayerNameEx(playerTarget)), 3000, 3);
-			if(IsPlayerOnAdminDuty(playerTarget)) GameTextForPlayer(playerTarget, sprintf("~r~> %s <", GetPlayerNameEx(targetId)), 3000, 3);
+		if(playerTarget != INVALID_PLAYER_ID) { // Player  we are spectating is looking at someone
+			GameTextForPlayer(playerid, sprintf("> %s <", GetPlayerNameEx(playerTarget)), SEC(2), 3); // Show us the name of the player he is looking at
 
 			// Criamos uma linha que vai do jogador a ser visto ate ao outro jogador que ele esta a ver
 			new Float:playerX, Float:playerY, Float:playerZ, Float:targetX, Float:targetY, Float:targetZ;
 
-			GetPlayerPos(playerid, playerX, playerY, playerZ);
+			GetPlayerPos(targetId, playerX, playerY, playerZ);
 			GetPlayerPos(playerTarget, targetX, targetY, targetZ);
 
 			if(spectate_LOSLine[playerid] == INVALID_LINE_SEGMENT_ID) {
-				log("[SPECTATE] Created LOS line %p", playerid);
-
 				new const Float:objectLength = 2.00;
-				CreateLineSegment(18648, objectLength,
-				playerX, playerY, playerZ,
-				targetX, targetY, targetZ, .objlengthoffset = -(objectLength/2), .playerid = playerid);
-			} else {
-				log("[SPECTATE] Updated LOS line for %p", playerid);
 
+				spectate_LOSLine[playerid] = CreateLineSegment(18648, objectLength,
+				playerX, playerY, playerZ,
+				targetX, targetY, targetZ, 
+				.objlengthoffset = -(objectLength/2), .playerid = playerid);
+			} else {
 				SetLineSegmentPoint(spectate_LOSLine[playerid], playerX, playerY, playerZ);
 				SetLineSegmentDest(spectate_LOSLine[playerid], targetX, targetY, targetZ);
 			}
 		} else { // Not looking at another player
 			// Let's delete a line segment if we had any
-			if(spectate_LOSLine[playerid] != INVALID_LINE_SEGMENT_ID) DestroyLineSegment(spectate_LOSLine[playerid]);
+			if(spectate_LOSLine[playerid] != INVALID_LINE_SEGMENT_ID) {
+				DestroyLineSegment(spectate_LOSLine[playerid]);
+				spectate_LOSLine[playerid] = INVALID_LINE_SEGMENT_ID;
+			}
 		}
 	}
 }
