@@ -55,7 +55,7 @@ hook OnDefenceMove(itemid){
 	SaveDefenceItem(itemid);
 }
 
-hook OnDefenceDestroy(itemid){
+hook OnDefenseDestroyed(itemid){
 	SetItemArrayDataAtCell(itemid, 0, 0);
 	RemoveSavedItem(itemid, DIRECTORY_DEFENCES);
 }
