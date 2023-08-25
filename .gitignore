@@ -30,3 +30,4 @@ dependencies
 plugins
 /settings.json
 crashdetect.json
+gamemodes/commands_by_level.json
