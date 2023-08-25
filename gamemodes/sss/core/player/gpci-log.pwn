@@ -15,12 +15,12 @@ DBStatement:	stmt_GpciGetRecordsFromGpci,
 DBStatement:	stmt_GpciGetRecordsFromName;
 
 hook OnGameModeInit() {
-	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_log (name TEXT, hash TEXT, windows_username TEXT, date INTEGER);");
+	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_log (name TEXT, hash TEXT, windows_username TEXT, date INTEGER, UNIQUE(name, hash));");
 	db_query(Database, "CREATE TABLE IF NOT EXISTS gpci_allowed (name TEXT, hash TEXT, date INTEGER);");
 
 	DatabaseTableCheck(Database, "gpci_log", 4);
 
-	stmt_GpciInsert				= db_prepare(Database, "INSERT INTO gpci_log (name, hash, date) VALUES(?,?,?)");
+	stmt_GpciInsert				= db_prepare(Database, "INSERT OR IGNORE INTO gpci_log (name, hash, date) VALUES(?, ?, ?);");
 	stmt_GpciCheckName			= db_prepare(Database, "SELECT COUNT(*) FROM gpci_log WHERE name=? AND hash=?");
 	stmt_GpciGetRecordsFromGpci	= db_prepare(Database, "SELECT * FROM gpci_log WHERE hash=? ORDER BY date DESC");
 	stmt_GpciGetRecordsFromName	= db_prepare(Database, "SELECT * FROM gpci_log WHERE name=? COLLATE NOCASE ORDER BY date DESC");
@@ -136,6 +136,7 @@ stock CheckPlayerHashStatus(playerName[MAX_PLAYER_NAME], hash[MAX_GPCI_LEN]) {
     }
 
     if (db_num_rows(dbResult) == 0) {
+		log("Error occurred, no row returned: %s", query);
         db_free_result(dbResult);
         return -3; // Error occurred, no row returned
     }
