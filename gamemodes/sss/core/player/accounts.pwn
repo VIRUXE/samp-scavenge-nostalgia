@@ -11,7 +11,6 @@ static enum {
 	SPAWNTIME,
 	TOTALSPAWNS,
 	WARNINGS,
-	GPCI,
 	JOINSENTENCE,
 	CLAN,
 	VIP,
@@ -59,9 +58,6 @@ DBStatement:	stmt_AccountSetTotalSpawns,
 DBStatement:	stmt_AccountGetWarnings,
 DBStatement:	stmt_AccountSetWarnings,
 
-DBStatement:	stmt_AccountGetGpci,
-DBStatement:	stmt_AccountSetGpci,
-
 DBStatement:	stmt_AccountGetActiveState,
 DBStatement:	stmt_AccountSetActiveState,
 
@@ -84,7 +80,6 @@ hook OnGameModeInit() {
 		spawnTime INTEGER NOT NULL,\
 		totalSpawns INTEGER NOT NULL,\
 		warnings INTEGER NOT NULL,\
-		gpci TEXT NOT NULL,\
 		joinSentence TEXT,\
 		clan TEXT,\
 		vip INTEGER,\
@@ -98,7 +93,7 @@ hook OnGameModeInit() {
 
 	stmt_AccountExists			= db_prepare(Database, "SELECT COUNT(*) FROM players WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountCreate			= db_prepare(Database, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'','',0,0,0,0,0,1)");
+	stmt_AccountCreate			= db_prepare(Database, "INSERT INTO players VALUES(?,?,?,?,0,?,?,0,0,0,?,'',0,0,0,0,0,1)");
 	stmt_AccountLoad			= db_prepare(Database, "SELECT * FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountUpdate			= db_prepare(Database, "UPDATE players SET alive=?, warnings=? WHERE name=? COLLATE NOCASE");
 
@@ -126,13 +121,10 @@ hook OnGameModeInit() {
 	stmt_AccountGetWarnings		= db_prepare(Database, "SELECT warnings FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetWarnings		= db_prepare(Database, "UPDATE players SET warnings=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetGpci			= db_prepare(Database, "SELECT gpci FROM players WHERE name=? COLLATE NOCASE");
-	stmt_AccountSetGpci			= db_prepare(Database, "UPDATE players SET gpci=? WHERE name=? COLLATE NOCASE");
-
 	stmt_AccountGetActiveState	= db_prepare(Database, "SELECT active FROM players WHERE name=? COLLATE NOCASE");
 	stmt_AccountSetActiveState	= db_prepare(Database, "UPDATE players SET active=? WHERE name=? COLLATE NOCASE");
 
-	stmt_AccountGetAliasData	= db_prepare(Database, "SELECT ipv4, pass, gpci FROM players WHERE name=? AND active COLLATE NOCASE");
+	stmt_AccountGetAliasData	= db_prepare(Database, "SELECT ipv4, pass, FROM players WHERE name=? AND active COLLATE NOCASE");
 
     stmt_AccountSetName			= db_prepare(Database, "UPDATE players SET name=? WHERE name=? COLLATE NOCASE");
 }
@@ -258,16 +250,12 @@ LoadAccount(playerid) {
 CreateAccount(playerid, password[]) {
     if(IsPlayerNPC(playerid)) return 0;
 
-	new serial[MAX_GPCI_LEN];
-	gpci(playerid, serial, MAX_GPCI_LEN);
-
 	stmt_bind_value(stmt_AccountCreate, 0, DB::TYPE_STRING,		GetPlayerNameEx(playerid), MAX_PLAYER_NAME);
 	stmt_bind_value(stmt_AccountCreate, 1, DB::TYPE_STRING,		password, MAX_PASSWORD_LEN);
 	stmt_bind_value(stmt_AccountCreate, 2, DB::TYPE_INTEGER,	GetPlayerIpAsInt(playerid));
 	stmt_bind_value(stmt_AccountCreate, 3, DB::TYPE_INTEGER,	GetPlayerLanguage(playerid));
 	stmt_bind_value(stmt_AccountCreate, 4, DB::TYPE_INTEGER,	gettime()); // regDate
 	stmt_bind_value(stmt_AccountCreate, 5, DB::TYPE_INTEGER,	gettime()); // lastLog
-	stmt_bind_value(stmt_AccountCreate, 6, DB::TYPE_STRING,		serial, MAX_GPCI_LEN);
 
 	if(!stmt_execute(stmt_AccountCreate)) {
 		err("[ACCOUNTS] Error executing statement 'stmt_AccountCreate'.");
@@ -367,9 +355,6 @@ Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
 timer Login[SEC(2)](playerid) {
     if(IsPlayerNPC(playerid)) return 0;
 	
-	new serial[MAX_GPCI_LEN];
-	gpci(playerid, serial, MAX_GPCI_LEN);
-	
 	log("[ACCOUNTS] %p (%d) logou.", playerid, playerid);
 
 	// TODO: move to a single query
@@ -377,11 +362,6 @@ timer Login[SEC(2)](playerid) {
 	stmt_bind_value(stmt_AccountSetIpv4, 0, DB::TYPE_INTEGER, GetPlayerIpAsInt(playerid));
 	stmt_bind_value(stmt_AccountSetIpv4, 1, DB::TYPE_PLAYER_NAME, playerid);
 	stmt_execute(stmt_AccountSetIpv4);
-
-	// Actualiza o GPCI no banco de dados
-	stmt_bind_value(stmt_AccountSetGpci, 0, DB::TYPE_STRING, serial);
-	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_PLAYER_NAME, playerid);
-	stmt_execute(stmt_AccountSetGpci);
 
 	// Atualiza o Último login no banco de dados
 	stmt_bind_value(stmt_AccountSetLastLog, 0, DB::TYPE_INTEGER, gettime());
@@ -567,7 +547,7 @@ SavePlayerData(playerid) {
 	return 1;
 }
 
-stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTime, &totalSpawns, &warnings, gpci[], &active) {
+stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTime, &totalSpawns, &warnings, &active) {
 	stmt_bind_value(stmt_AccountLoad, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountLoad, PASS, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, IPV4, DB::TYPE_INTEGER, ipv4);
@@ -577,7 +557,6 @@ stock GetAccountData(name[], pass[], &ipv4, &alive, &regDate, &lastLog, &spawnTi
 	stmt_bind_result_field(stmt_AccountLoad, SPAWNTIME, DB::TYPE_INTEGER, spawnTime);
 	stmt_bind_result_field(stmt_AccountLoad, TOTALSPAWNS, DB::TYPE_INTEGER, totalSpawns);
 	stmt_bind_result_field(stmt_AccountLoad, WARNINGS, DB::TYPE_INTEGER, warnings);
-	stmt_bind_result_field(stmt_AccountLoad, GPCI, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 	stmt_bind_result_field(stmt_AccountLoad, ACTIVE, DB::TYPE_INTEGER, active);
 
 	if(!stmt_execute(stmt_AccountLoad)) {
@@ -765,25 +744,6 @@ stock SetAccountWarnings(name[], warnings) {
 	return stmt_execute(stmt_AccountSetWarnings);
 }
 
-// GPCI
-stock GetAccountGPCI(name[], gpci[MAX_GPCI_LEN]) {
-	stmt_bind_result_field(stmt_AccountGetGpci, 0, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
-	stmt_bind_value(stmt_AccountGetGpci, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
-
-	if(!stmt_execute(stmt_AccountGetGpci)) return 0;
-
-	stmt_fetch_row(stmt_AccountGetGpci);
-
-	return 1;
-}
-
-stock SetAccountGPCI(name[], gpci[MAX_GPCI_LEN]) {
-	stmt_bind_value(stmt_AccountSetGpci, 0, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
-	stmt_bind_value(stmt_AccountSetGpci, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
-
-	return stmt_execute(stmt_AccountSetGpci);
-}
-
 // ACTIVE
 stock GetAccountActiveState(name[], &active) {
 	stmt_bind_result_field(stmt_AccountGetActiveState, 0, DB::TYPE_INTEGER, active);
@@ -803,12 +763,11 @@ stock SetAccountActiveState(name[], active) {
 	return stmt_execute(stmt_AccountSetActiveState);
 }
 
-// Pass, IP and gpci
-stock GetAccountAliasData(name[], pass[129], &ip, gpci[MAX_GPCI_LEN]) {
+// Pass, IP
+stock GetAccountAliasData(name[], pass[129], &ip) {
 	stmt_bind_value(stmt_AccountGetAliasData, 0, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
 	stmt_bind_result_field(stmt_AccountGetAliasData, 0, DB::TYPE_STRING, pass, MAX_PASSWORD_LEN);
 	stmt_bind_result_field(stmt_AccountGetAliasData, 1, DB::TYPE_INTEGER, ip);
-	stmt_bind_result_field(stmt_AccountGetAliasData, 2, DB::TYPE_STRING, gpci, MAX_GPCI_LEN);
 
 	if(!stmt_execute(stmt_AccountGetAliasData)) return 0;
 
