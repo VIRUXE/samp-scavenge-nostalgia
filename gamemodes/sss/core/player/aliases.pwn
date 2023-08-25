@@ -11,7 +11,7 @@ DBStatement:	stmt_AliasesFromAll;
 hook OnGameModeInit() {
 	stmt_AliasesFromIp   = db_prepare(Database, "SELECT name FROM players WHERE ipv4=? AND active=1 AND name!=? COLLATE NOCASE");
 	stmt_AliasesFromPass = db_prepare(Database, "SELECT name FROM players WHERE pass=? AND active=1 AND name!=? COLLATE NOCASE");
-	stmt_AliasesFromHash = db_prepare(Database, "SELECT name FROM players WHERE gpci=? AND active=1 AND name!=? COLLATE NOCASE");
+	stmt_AliasesFromHash = db_prepare(Database, "SELECT name FROM gpci_log WHERE hash=?");
 	stmt_AliasesFromAll  = db_prepare(Database, "SELECT name FROM players WHERE (pass=? OR ipv4=? OR gpci = ?) AND active=1 AND name!=? COLLATE NOCASE");
 }
 
@@ -67,27 +67,24 @@ stock GetAccountAliasesByPass(name[], list[][MAX_PLAYER_NAME], &count, max, &adm
 	return 1;
 }
 
-stock GetAccountAliasesByHash(name[], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
-	new serial[MAX_GPCI_LEN], tempname[MAX_PLAYER_NAME], templevel;
-
-	GetAccountGPCI(name, serial);
+stock GetAccountAliasesByHash(serial[MAX_GPCI_LEN], list[][MAX_PLAYER_NAME], &count, max, &adminlevel) {
+	new alias[MAX_PLAYER_NAME], aliasLevel;
 
 	if(isnull(serial)) return 0;
 
 	if(serial[0] == '0') return 0;
 
 	stmt_bind_value(stmt_AliasesFromHash, 0, DB::TYPE_STRING, serial, MAX_GPCI_LEN);
-	stmt_bind_value(stmt_AliasesFromHash, 1, DB::TYPE_STRING, name, MAX_PLAYER_NAME);
-	stmt_bind_result_field(stmt_AliasesFromHash, 0, DB::TYPE_STRING, tempname, MAX_PLAYER_NAME);
+	stmt_bind_result_field(stmt_AliasesFromHash, 0, DB::TYPE_STRING, alias, MAX_PLAYER_NAME);
 
 	if(!stmt_execute(stmt_AliasesFromHash)) return 0;
 
 	while(stmt_fetch_row(stmt_AliasesFromHash)) {
-		if(count < max) strcat(list[count], tempname, max * MAX_PLAYER_NAME);
+		if(count < max) strcat(list[count], alias, max * MAX_PLAYER_NAME);
 
-		templevel = GetAdminLevelByName(tempname);
+		aliasLevel = GetAdminLevelByName(alias);
 
-		if(templevel > adminlevel) adminlevel = templevel;
+		if(aliasLevel > adminlevel) adminlevel = aliasLevel; // Hide aliases with superior level
 
 		count++;
 	}
@@ -103,7 +100,7 @@ stock GetAccountAliasesByAll(name[], list[][MAX_PLAYER_NAME], &count, max, &admi
 		tempname[MAX_PLAYER_NAME],
 		templevel;
 
-	GetAccountAliasData(name, pass, ip, serial);
+	GetAccountAliasData(name, pass, ip);
 
 	if(isnull(serial)) return 0;
 
