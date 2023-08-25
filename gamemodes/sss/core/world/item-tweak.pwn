@@ -46,8 +46,14 @@ stock TweakFinalise(playerid) {
 //		HideHelpTip(playerid);
 
 		// TODO: Colocar como tip
-		if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid) || GetItemTypeDefenceType(GetItemType(twk_Item[playerid])) != INVALID_DEFENCE_TYPE)
-			ChatMsg(playerid, GREEN, " > [FIELD] Após construir a sua base, chame um admin no /relatorio para por uma proteção (field) contra hackers.");
+		/* if(!IsPlayerInvadedField(playerid) || !IsPlayerInTutorial(playerid) || GetItemTypeDefenceType(GetItemType(twk_Item[playerid])) != INVALID_DEFENCE_TYPE) {
+			static seen[MAX_PLAYERS];
+
+			if(!seen[playerid]) {
+				seen[playerid] = true;
+				ChatMsg(playerid, GREEN, " > Após construir a sua base, não se esqueça de colocar um Campo de Deteção (/field).");
+			}
+		} */
 
    		twk_Item[playerid] = INVALID_ITEM_ID;
     }
