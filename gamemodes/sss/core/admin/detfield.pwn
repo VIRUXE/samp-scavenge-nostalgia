@@ -950,7 +950,7 @@ stock IsValidDetectionFieldName(name[]) {
 		} else
 			return 0;
 		
-		if (underscoreFound && name[i] == '_') return 0; // Checking for two underscores in a row
+		if (underscoreFound && name[i] == '_') return 0;
 	}
 
 	return 1;
