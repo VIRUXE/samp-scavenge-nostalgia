@@ -324,6 +324,7 @@ new stock GLOBAL_DEBUG = -1;
 new RequestsClient:requestsClient;
 
 enum {
+	DIALOG_MESSAGE,
 	DIALOG_KICK, // Dialog para o dialog de razao de kick
 	DIALOG_ADMIN_COMMANDS, // Mostra a lista de comandos de admin
 	DIALOG_ENTER_DETFIELD,  // Dialog para quem entra numa detfield sem estar como excepcao
