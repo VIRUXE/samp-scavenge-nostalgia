@@ -31,29 +31,40 @@ ACMD:setvip[5](playerid, params[]) {
 }
 
 CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick, luta
-	new 
-		help[] = 
-		"{FFFF00}Benefícios de ser VIP: {33AA33}(Preço: 1 Mês - R$20,00 | 2 Meses - R$35,00){FFAA00}\n\n\
-		- Tem uma maior variedade de Locais de Spawn após morrer\n\
-		- Consegue trocar o Nickname usando {FFFFFF}'nick'{FFAA00}\n\
-		- Consegue trocar o Estilo de Luta usando {FFFFFF}'luta'{FFAA00}\n\
-		- Nickname colorido (destacado)\n\
-		- Cargo VIP permanente no Discord\n\
-		- Chat e Voz VIP no Discord\n\
-		- Consegue se Matar usando {FFFFFF}'kill'{FFAA00}\n\
-		- Consegue fazer um Anúncio VIP no chat usando {FFFFFF}'anuncio'{FFAA00}\n\
-		- Consegue alterar a Cor de Veículos usando {FFFFFF}'pintar'{FFAA00}\n\
-		- Monta e Desmonta estruturas 3x mais rápido\n\
-		- Consegue Consertar o Veículo 3x mais rápido\n\
-		- Consegue Resetar o Status (Kills, Spree, Mortes) com {FFFFFF}'resetar'{FFAA00}\n\
-		- Consegue colocar uma Frase de Login destacada para todos com {FFFFFF}'frase'{FFAA00}\n\
-		- Spawna sem Fome (jogadores sem VIP nascem com 20% de fome faltando)\n\
-		- Recebe o dobro de Kills (Score) ao eliminar algum jogador\n\
-		- Consegue trocar a Skin usando {FFFFFF}'skin'{FFAA00}\n\
-		- Nasce com Chave de Roda, Chave de Fenda, Mapa, Mochila Pequena e um Bastão\n\
-		- Consegue Reparar a Lataria do Veículo ao finalizar o Reparo com Ferramentas.",
-		
-		syntax[] = " > Use: /vip [anuncio, reset, skin, pintar, frase, kill, nick, luta]";
+    new 
+        help[] = 
+        "{FFFF00}Benefícios de ser VIP:{FFAA00}\n\n\
+        — Tem uma maior variedade de Locais de Spawn após morrer;\n\
+        — Consegue alterar o seu nickname utilizando {FFFFFF}'nick'{FFAA00};\n\
+        — Consegue alterar o seu estilo de luta utlizando {FFFFFF}'luta'{FFAA00};\n\
+        — Consegue cometer suicídio utilizando {FFFFFF}'kill'{FFAA00};\n\
+        — Consegue fazer um Anúncio VIP no chat utilizando {FFFFFF}'anuncio'{FFAA00};\n\
+        — Consegue alterar a cor de veículos utilizando {FFFFFF}'pintar'{FFAA00};\n\
+        — Consegue resetar o seu Status (Kills, Spree, Mortes) com {FFFFFF}'resetar'{FFAA00};\n\
+        — Consegue adicionar uma Frase de Login visível para todos com {FFFFFF}'frase'{FFAA00};\n\
+        — Nickname colorido e distinto nas suas mensagens;\n\
+        — Nasce sem fome (jogadores sem VIP nascem com 20% de fome faltando);\n\
+        — Consegue trocar a sua skin utlizando {FFFFFF}'skin'{FFAA00};\n\
+        — Nasce com Chave de Roda, Chave de Fenda, Mapa, Mochila Pequena e um Bastão;\n\
+        — Consegue reparar a lataria do veículo ao finalizar o reparo com ferramentas.\n\n\
+        {B87333}VIP Cobre: {33AA33}(Preço: 1 Mês - R$10,00){FFAA00}\n\n\
+        + Recebe {FFFFFF}250 Coins {FFAA00}mensalmente;\n\
+        + Cargo no Discord em {B87333}Cobre{FFAA00};\n\
+        + Monta e desmonta estruturas {FFFFFF}1.5x {FFAA00}mais rápido;\n\
+        + Conserta o veículo {FFFFFF}1.5x {FFAA00}mais rápido.\n\n\
+        {C0C0C0}VIP Prata: {33AA33}(Preço: 1 Mês - R$20,00){FFAA00}\n\n\
+        + Recebe {FFFFFF}1000 Coins {FFAA00}mensalmente;\n\
+        + Cargo no Discord em {C0C0C0}Prata{FFAA00};\n\
+        + Monta e desmonta estruturas {FFFFFF}2x {FFAA00}mais rápido;\n\
+        + Conserta o veículo {FFFFFF}2x {FFAA00}mais rápido.\n\n\
+        {FFD700}VIP Ouro: {33AA33}(Preço: 1 Mês - R$30,00){FFAA00}\n\n\
+        + Recebe {FFFFFF}2000 Coins {FFAA00}mensalmente;\n\
+        + Cargo no Discord em {FFD700}Ouro{FFAA00};\n\
+        + Monta e desmonta estruturas {FFFFFF}3x {FFAA00}mais rápido;\n\
+        + Conserta o veículo {FFFFFF}3x {FFAA00}mais rápido.\n\n\
+		{FFFFFF}Subscreva em http://scavengenostalgia.fun",
+        
+        syntax[] = " > Use: /vip [anuncio, reset, skin, pintar, frase, kill, nick, luta]";
 
 	if(!VIP[playerid]) {
 		ShowPlayerDialog(playerid, 9146, DIALOG_STYLE_MSGBOX, "Ajuda VIP:", help, "Fechar", "");
