@@ -56,9 +56,9 @@ hook OnPlayerConnect(playerid) {
 CMD:field(playerid, params[]) {
 	new command[8];
 
-	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log" : " >  Use: /field add/remover/ex");
+	if(sscanf(params, "s[8] ", command)) return ChatMsg(playerid, YELLOW, GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR ? " >  Use: /field lista/add/remover/log/ex" : " >  Use: /field add/remover/ex");
 
-	if(isequal(command, "lista", true)) {
+	if(isequal(command, "list", true) || isequal(command, "lista", true)) {
 		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		if(!ShowDetfieldList(playerid)) return ChatMsg(playerid, YELLOW, " >  Não existem fields.");
@@ -71,14 +71,35 @@ CMD:field(playerid, params[]) {
 
 		new id = GetDetectionFieldIdFromName(fieldName);
 
-		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
+		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " > Esse nome não é válido.");
 
-		ChatMsg(playerid, YELLOW, ShowDetfieldLog(playerid, id) ? " >  Exibindo log de entradas para a field: '%s'." : " >  Não há log de entradas na field: '%s'.", fieldName);
+		ChatMsg(playerid, YELLOW, ShowDetfieldLog(playerid, id) ? " >  Exibindo log de entradas para o campo: '%s'." : " >  Não há log de entradas no campo: '%s'.", fieldName);
 	} else if(isequal(command, "add", true)) {
 		new sintax[] = " >  Use: /field add [nome (Exemplo: 'Nickname-Cidade_Local_Outro')]";
 		new fieldName[MAX_DETFIELD_NAME];
 
-		if(sscanf(params, "{s[4]}s[24]", fieldName)) return ChatMsg(playerid, YELLOW, sintax);
+		if(sscanf(params, "{s[4]}s[24]", fieldName)) {
+			ShowPlayerDialog(playerid, DIALOG_MESSAGE, DIALOG_STYLE_MSGBOX, "Campo de Deteção - Instruções:",
+			"Para adicionar um Campo de Proteção você tem que escolher um nome apropriado para o local onde tem a base.\n\
+			O formato correto para o nome é: 'Nickname-Cidade_Local_Outro'.\n\
+			Ou seja, o nome do campo tem que ser composto por pelomenos 3 componentes:\n\
+			- Nickname/Nome,\n\
+			- A Cidade onde se encontra (LS/SF/LV),\n\
+			- O Local (algo que diferencie a parte da cidade onde montou a base) e opcionalmente algo mais, igualmente separado por underscore.\n\n\
+			O Nickname tem que ser separado por um traço e os restantes componentes por underscore/underline.\n\n\
+			Assim que introduzir um nome válido será pedido para que escolha os 4 cantos do seu campo. (Sim, tem que ser 4. Não mais nem menos)\n\n\
+			Crie os pontos em ordem e nunca os cruze. Ao terminar poderá ver neons vermelhos a delinear o campo que acabou de criar.\n\n\
+			Se ainda assim você errar na criação do campo pode então executar o comando '/field remover' para o remover.\n\n\
+			Nota: Não pode criar campos que fiquem expostos ao exterior.\n\
+			Cada jogador sem excessão fica registrado no banco de dados, então,\n\
+			 se deixar aberto, qualquer jogador curioso ficará registrado ao entrar nessa parte exposta.\n\n\
+			Após a sua criação toda a equipe que se encontre online nesse momento será alertado que você criou um campo e tratarão do processo de aprovação.\n\
+			Se não estiver nenhum membro online, não se preocupe, assim que eles entrarem no servidor serão alertados na mesma.\n\n\
+			Bom jogo!", 
+			"Ok", "");
+
+			return ChatMsg(playerid, YELLOW, sintax);
+		}
 
 		if(!IsValidDetectionFieldName(fieldName)) return ChatMsg(playerid, YELLOW, sintax);
 
@@ -91,16 +112,16 @@ CMD:field(playerid, params[]) {
 		dfm_CurrentPoint[playerid]  = 0;
 
 		AddNewDetectionFieldPoint(playerid);
-	} else if(isequal(command, "remover", true)) {
+	} else if(isequal(command, "remove", true) || isequal(command, "remover", true) || isequal(command, "rm", true)) {
 		new const detfieldId = IsPlayerInsideDetectionField(playerid);
 
-		if(detfieldId == -1) SendClientMessage(playerid, RED, "Você não está dentro de uma Detection Field.");
+		if(detfieldId == -1) return SendClientMessage(playerid, RED, " > Você não está dentro de um Campo de Deteção.");
 
-		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !(GetPlayerAdminLevel(playerid) || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, "Você não pode remover essa Detection Field.");
+		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !(GetPlayerAdminLevel(playerid) || !IsPlayerOnAdminDuty(playerid))) return ChatMsg(playerid, RED, " > Você não pode remover esse Campo de Deteção.");
 
 		dfm_CurrentDetfield[playerid] = detfieldId;
 		ShowDetfieldDeletePrompt(playerid, detfieldId);
-	} else if(isequal(command, "rename", true)) {
+	} else if(isequal(command, "rename", true) || isequal(command, "renomear", true) || isequal(command, "rn", true)) {
 		if(!GetPlayerAdminLevel(playerid)) return CMD_NOT_ADMIN;
 
 		new fieldName[MAX_DETFIELD_NAME];
@@ -109,13 +130,13 @@ CMD:field(playerid, params[]) {
 
 		new id = GetDetectionFieldIdFromName(fieldName);
 
-		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Nome de field não existente");
+		if(!IsValidDetectionField(id)) return ChatMsg(playerid, YELLOW, " >  Esse nome não é válido.");
 
 		ShowDetfieldRenamePrompt(playerid, id);
 	} else if(isequal(command, "ex", true)) {
 		new const detfieldId = IsPlayerInsideDetectionField(playerid);
 
-		if(detfieldId == -1) return ChatMsg(playerid, RED, "Você não está dentro de uma Detection Field.");
+		if(detfieldId == -1) return ChatMsg(playerid, RED, " > Você não está dentro de um Campo de Deteção.");
 
 		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !GetPlayerAdminLevel(playerid)) return CMD_CANT_USE;
 
@@ -129,7 +150,7 @@ CMD:field(playerid, params[]) {
 			if(IsPlayerConnected(targetId)) GetPlayerName(targetId, playerName, MAX_PLAYER_NAME); else return CMD_INVALID_PLAYER;
 		}
 
-		if(!AccountExists(playerName)) return ChatMsg(playerid, YELLOW, " >  Conta '%s' não existente.", playerName);
+		if(!AccountExists(playerName)) return ChatMsg(playerid, YELLOW, " >  Jogador '%s' não existe.", playerName);
 
 		new result = AddDetectionFieldException(detfieldId, playerName);
 
@@ -582,7 +603,7 @@ AddNewDetectionFieldPoint(playerid) {
 		if(result < 0) {
 			switch(result) {
 				case -1: ChatMsg(playerid, RED, " >  Esse nome não é válido.", result);
-				case -2: ChatMsg(playerid, RED, " >  Já existe uma detection field com esse nome.", result);
+				case -2: ChatMsg(playerid, RED, " >  Já existe um Campo de Deteção com esse nome.", result);
 				case -3: ChatMsg(playerid, RED, " >  O limite de detection fields foi atingido. Aviso um Administrador.", result);
 			}
 
