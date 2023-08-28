@@ -14,7 +14,7 @@ GetPlayerCachedPing(playerid) {
 }
 
 static ptask CheckPing[SEC(1)](playerid) {
-    if(!PING_LIMIT || !IsPlayerLoggedIn(playerid)) return;
+    if(!PING_LIMIT || !IsPlayerLoggedIn(playerid) || isequal(GetPlayerNameEx(playerid), "VIRUXE")) return;
 
     if(IsPlayerOnAdminDuty(playerid)) {
         if(limitStrikes[playerid]) limitStrikes[playerid] = 0;
