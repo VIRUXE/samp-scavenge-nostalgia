@@ -27,7 +27,7 @@
     {
       "label": "Compilar Gamemode",
       "type": "shell",
-      "command": "${workspaceRoot}\\build.bat",
+      "command": "${workspaceRoot}\\build.bat && powershell 7z a -mx=9 '${workspaceRoot}\\gamemodes\\ScavengeSurvive.7z' '${workspaceRoot}\\gamemodes\\ScavengeSurvive.amx'",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -38,7 +38,7 @@
         "panel": "dedicated"
       },
       "problemMatcher": "$pawncc"
-    },
+    },    
     {
       "label": "Upload",
       "type": "shell",
@@ -53,18 +53,6 @@
         "panel": "dedicated"
       },
       "problemMatcher": []
-    },
-    {
-      "type": "vsls",
-      "taskUid": "shell:build",
-      "problemMatcher": [
-        "$vsls"
-      ],
-      "label": "Shared: build",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
     }
   ]
 }
