@@ -698,8 +698,9 @@ ShowSetPassDialog_Keypad(playerid){
 }
 
 ShowEnterPassDialog_Keypad(playerid, msg = 0) {
-	if(msg == 0) ChatMsg(playerid, YELLOW, "item/defence/enter-code");
-	else if(msg == 1) ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
+	/* if(msg == 0) ChatMsg(playerid, YELLOW, "item/defence/enter-code");
+	else  */
+	if(msg == 1) ChatMsg(playerid, YELLOW, "item/defence/incorrect-code");
 	else if(msg == 2) ChatMsg(playerid, YELLOW, "item/defence/code-fast", MsToString(def_Cooldown[playerid] - GetTickCountDifference(GetTickCount(), def_LastPassEntry[playerid]), "%m:%s"));
 
 	ShowKeypad(playerid, 100, GetItemArrayDataAtCell(def_CurrentDefenceOpen[playerid], def_pass));
