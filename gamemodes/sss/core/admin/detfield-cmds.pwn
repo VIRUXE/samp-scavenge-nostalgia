@@ -140,25 +140,31 @@ CMD:field(playerid, params[]) {
 
 		if(!IsPlayerDetectionFieldOwner(playerid, detfieldId) && !GetPlayerAdminLevel(playerid)) return CMD_CANT_USE;
 
-		new playerName[MAX_PLAYER_NAME];
+		new targetName[MAX_PLAYER_NAME];
 
-		if(sscanf(params, "{s[3]}s[*]", MAX_PLAYER_NAME, playerName)) return ChatMsg(playerid, YELLOW, " >  Use /field ex [id/nick]");
+		if(sscanf(params, "{s[3]}s[*]", MAX_PLAYER_NAME, targetName)) return ChatMsg(playerid, YELLOW, " >  Use /field ex [id/nick]");
 
-		if(isnumeric(playerName)) {
-			new targetId = strval(playerName);
+		if(isnumeric(targetName)) {
+			new targetId = strval(targetName);
 
-			if(IsPlayerConnected(targetId)) GetPlayerName(targetId, playerName, MAX_PLAYER_NAME); else return CMD_INVALID_PLAYER;
+			if(IsPlayerConnected(targetId)) GetPlayerName(targetId, targetName, MAX_PLAYER_NAME); else return CMD_INVALID_PLAYER;
 		}
 
-		if(!AccountExists(playerName)) return ChatMsg(playerid, YELLOW, " >  Jogador '%s' não existe.", playerName);
+		if(!AccountExists(targetName)) return ChatMsg(playerid, YELLOW, " >  Jogador '%s' não existe.", targetName);
 
-		new result = AddDetectionFieldException(detfieldId, playerName);
+		new result = AddDetectionFieldException(detfieldId, targetName);
 
 		UpdateDetectionFieldExceptions(detfieldId);
 
-		if(result) 
-			return ChatMsg(playerid, GREEN, " > "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", playerName);
-		else if(result == -1) 
+		if(result) {
+			new fieldName[MAX_DETFIELD_NAME];
+
+			GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);			
+
+			log("[DETFIELD] '%p' adicionou '%p' como exceção no campo '%s'", playerid, targetName, fieldName);
+
+			return ChatMsg(playerid, GREEN, " > "C_WHITE"%s "C_GREEN"adicionado a field com sucesso!", targetName);
+		} else if(result == -1) 
 			return ChatMsg(playerid, RED, " >  Lista de exceções cheias");
 		else if(result == -2) 
 			return ChatMsg(playerid, RED, " >  Nome inválido ");
@@ -239,7 +245,11 @@ Dialog:DetfieldListOptions(playerid, response, listitem, inputtext[]) {
 	if(response) {
 		switch(listitem) {
 			case 0: { // Ativar ou Desativar
-				SetDetectionFieldActive(dfm_CurrentDetfield[playerid], !IsDetectionFieldActive(dfm_CurrentDetfield[playerid]));
+				new const bool:active = IsDetectionFieldActive(dfm_CurrentDetfield[playerid]);
+
+				log("[DETFIELD] Campo '%s' %s por '%p'", dfm_Name[playerid], active ? "DESATIVADO" : "ATIVADO", playerid);
+
+				SetDetectionFieldActive(dfm_CurrentDetfield[playerid], !active);
 			}
 			case 1: {
 				if(!ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid])) {
@@ -341,7 +351,14 @@ Dialog:DetfieldAddExc(playerid, response, listitem, inputtext[]) {
 		new result = AddDetectionFieldException(dfm_CurrentDetfield[playerid], tmp);
 
 		if(result) {
+			new fieldName[MAX_DETFIELD_NAME];
+
+			GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
+
+			log("[DETFIELD] '%p' adicionou '%s' como exceção ao campo '%s'", playerid, tmp, fieldName);
+
 			ShowDetfieldExceptions(playerid, dfm_CurrentDetfield[playerid]);
+
 			return 1;
 		}
 
@@ -438,7 +455,10 @@ Dialog:DetfieldDelete(playerid, response, listitem, inputtext[]) {
 	    GetDetectionFieldName(dfm_CurrentDetfield[playerid], fieldName);
 	    RemoveDetectionField(dfm_CurrentDetfield[playerid]);
 
-		ChatMsgAdmins(LEVEL_MODERATOR, WHITE, "Field '%s' removida por '%p'", fieldName, playerid);
+		new fmt[] = "Campo '%s' removido por '%p'";
+
+		log(sprintf("[DETFIELD] %s", fmt), fieldName, playerid);
+		ChatMsgAdmins(LEVEL_MODERATOR, WHITE, fmt, fieldName, playerid);
 	}
 
 	if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR) ShowDetfieldList(playerid);
@@ -509,23 +529,25 @@ ShowDetfieldLogOptions(playerid, detfieldId, logEntry) {
 
 Dialog:DetfieldLogOpts(playerid, response, listitem, inputtext[]) {
 	if(response) {
+		new const entry = dfm_CurrentLogEntry[playerid];
+
 		switch(listitem) {
 			case 0: {
-				if(!(IsPlayerOnAdminDuty(playerid)) && GetPlayerAdminLevel(playerid) < LEVEL_DEVELOPER) {
-					SetPlayerPos(playerid,
-						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_X],
-						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_Y],
-						dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_POS_Z]);
-				} else
+				if(!IsPlayerOnAdminDuty(playerid) && GetPlayerAdminLevel(playerid) < LEVEL_DEVELOPER) 
 					ChatMsg(playerid, RED, "server/command/need-duty");
+				else
+					SetPlayerPos(playerid,
+						dfm_LogBuffer[playerid][entry][DETLOG_BUFFER_POS_X],
+						dfm_LogBuffer[playerid][entry][DETLOG_BUFFER_POS_Y],
+						dfm_LogBuffer[playerid][entry][DETLOG_BUFFER_POS_Z]);
 			}
 			case 1: {
-				DeleteDetectionFieldLogEntry(dfm_CurrentDetfield[playerid], dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_ROW_ID]);
+				DeleteDetectionFieldLogEntry(dfm_CurrentDetfield[playerid], dfm_LogBuffer[playerid][entry][DETLOG_BUFFER_ROW_ID]);
 
 				ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid]);
 			}
 			case 2: {
-				DeleteDetectionFieldLogsOfName(dfm_CurrentDetfield[playerid], dfm_LogBuffer[playerid][dfm_CurrentLogEntry[playerid] ][DETLOG_BUFFER_NAME]);
+				DeleteDetectionFieldLogsOfName(dfm_CurrentDetfield[playerid], dfm_LogBuffer[playerid][entry][DETLOG_BUFFER_NAME]);
 
 				ShowDetfieldLog(playerid, dfm_CurrentDetfield[playerid]);
 			}
@@ -616,6 +638,7 @@ AddNewDetectionFieldPoint(playerid) {
 				dfm_Name[playerid]);
 
 			if(!GetPlayerAdminLevel(playerid)) {
+				log("[DETFIELD] Campo '%s' criado por '%p'", dfm_Name[playerid], playerid);
 				SendClientMessage(playerid, ORANGE, " >  Tem que aguardar pela aprovação da sua Detection Field.");
 				ChatMsgAdmins(LEVEL_MODERATOR, YELLOW, " >  Detection Field '%s' criada por '%p' aguarda aprovação.", dfm_Name[playerid], playerid);
 			}
