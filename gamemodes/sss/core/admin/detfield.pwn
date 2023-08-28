@@ -647,7 +647,7 @@ timer HandleFieldInvasionOnLogin[SEC(1)](playerid) {
 		SetCameraBehindPlayer(playerid);
 		fld_PlayerInvade[playerid] = false;
 
-		ChatMsg(playerid, GREEN, "[FIELD]: Você nasceu em uma area com field e foi respawnado!");
+		ChatMsg(playerid, YELLOW, " > Você nasceu em uma área com Campo de Deteção e foi respawnado!");
 	}
 }
 
@@ -663,7 +663,7 @@ hook OnPlayerLogin(playerid) {
 	if(GetPlayerAdminLevel(playerid) >= LEVEL_MODERATOR) {
 		foreach(new d : det_Index) {
 			if(!det_Active[d]) {
-				SendClientMessage(playerid, RED, " > Existem Detection Fields por Ativar");
+				SendClientMessage(playerid, RED, " > Existem Campos de Deteção por Ativar!");
 				break;
 			}
 		}
@@ -707,11 +707,14 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 					\t- Desmontar com pé de cabra.\n\
 					\t- Interagir tendas e caixas.\n\
 					\t- Interagir com veículos.\n\n\
-					"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um admin em /relatorio para remover a proteção.\n\n\
+					"C_WHITE"Se você entrou em uma base aberta ou explodiu ela, chame um membro da equipe para remover a proteção.\n\n\
 					"C_RED"[AVISO] Isso serve para evitar que hackers invadam bases no servidor.",
 				"Fechar", "");
+
+				new fmt[] = "%p (%d) entrou em uma base sem acesso. Nome: %s";
 				
-				ChatMsgAdmins(LEVEL_MODERATOR, PINK, "%p (%d) entrou em uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
+				log(sprintf("[DETFIELD] %s", fmt), playerid, playerid, det_Name[i]);
+				ChatMsgAdmins(LEVEL_MODERATOR, PINK, fmt, playerid, playerid, det_Name[i]);
 				
 				PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 
@@ -749,7 +752,11 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
 
 		if(areaid == det_AreaID[i]) {
 		    if(fld_PlayerInvade[playerid]) {
-				ChatMsgAdmins(1, PINK, "[FIELD] %p(%d) Saiu de uma base sem acesso. Nome: %s", playerid, playerid, det_Name[i]);
+				new fmt[] = "%p (%d) saiu de uma base sem acesso. Nome: %s";
+
+				log(sprintf("[DETFIELD] %s", fmt), playerid, playerid, det_Name[i]);
+				ChatMsgAdmins(LEVEL_MODERATOR, PINK, fmt, playerid, playerid, det_Name[i]);
+
 				fld_PlayerInvade[playerid] = false;
 			}
 		}
