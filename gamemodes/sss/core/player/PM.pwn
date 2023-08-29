@@ -3,14 +3,12 @@
 static 
     DBStatement:stmt_InsertMessage,
     bool:Blocked[MAX_PLAYERS],
-    CurrentConversation[MAX_PLAYERS] = {-1, ...}; // Stores the recipient's ID or -1 if not viewing any convo
+    CurrentConversation[MAX_PLAYERS] = {-1, ...}; // Stores the current conversation id or -1 if not viewing any convo
 
 hook OnGameModeInit() {
     db_query(Database, "CREATE TABLE IF NOT EXISTS private_messages (sender TEXT, recipient TEXT, message TEXT, date INTEGER DEFAULT (strftime('%s', 'now')));");
 
     stmt_InsertMessage = db_prepare(Database, "INSERT INTO conversation_messages (conversation_id, sender, message) VALUES (?, ?, ?);");
-
-    // stmt_GetConversationId = db_prepare(Database, "SELECT id FROM conversations WHERE (player1 = ? AND player2 = ?) OR (player1 = ? AND player2 = ?)");
 }
 
 hook OnPlayerDisconnect(playerid) {
@@ -33,16 +31,16 @@ hook OnPlayerLogin(playerid) {
 
     new DBResult:result = db_query(Database, query);
 
-    if(result == DB::INVALID_RESULT) {
+    if(result == DB::INVALID_RESULT || !db_num_rows(result)) {
         log("[PM] Error on OnPlayerLogin(%p): %s", playerid, query);
         return Y_HOOKS_CONTINUE_RETURN_0;
     }
 
-    new const newMessagesCount = db_num_rows(result);
+    new const newMessagesCount = db_get_field_int(result);
 
     if(newMessagesCount) {
         db_free_result(result);
-        ChatMsg(playerid, YELLOW, " > Você tem %d mensagens por lêr!", newMessagesCount);
+        ChatMsg(playerid, YELLOW, " > Você tem %d mensage%s por lêr! Veja em '/pms'", newMessagesCount, newMessagesCount > 1 ? "ns" : "m");
     }
 
     return Y_HOOKS_CONTINUE_RETURN_1;
@@ -65,10 +63,14 @@ stock SendPrivateMessage(conversationId, playerId, message[]) {
 
     if(otherPlayerId != INVALID_PLAYER_ID) { // The other participant is online
         if(Blocked[otherPlayerId]) return 1;
+        
+        // If the other participant is also viewing the conversation
+        if(CurrentConversation[otherPlayerId] == conversationId) 
+            ShowConversation(otherPlayerId, conversationId); // This will mainly "refresh" the dialog
+        else
+            ChatMsg(otherPlayerId, BROWN, "[PRIVADO] %P"C_WHITE": %s", playerId, message);
 
-        if(CurrentConversation[otherPlayerId] == conversationId) ShowConversation(otherPlayerId, conversationId); // This will mainly "refresh" the dialog
-
-        GameTextForPlayer(otherPlayerId, sprintf("~G~~H~ Mensagem de %s!", playerName), 3000, 1);
+        GameTextForPlayer(otherPlayerId, sprintf("~G~~H~ Mensagem de %s!", playerName), 4000, 1);
         
         PlayerPlaySound(otherPlayerId,5205,0.0,0.0,0.0);
     }
@@ -101,6 +103,8 @@ stock GetConversationId(sender[MAX_PLAYER_NAME], recipient[MAX_PLAYER_NAME]) {
 
     return id;
 }
+
+stock GetPlayerCurrentConversation(playerId) return CurrentConversation[playerId];
 
 stock GetOtherConversationParticipant(conversationId, playerName[MAX_PLAYER_NAME], otherParticipant[MAX_PLAYER_NAME]) {
     if(conversationId == -1) return 0;
@@ -158,17 +162,14 @@ stock SetConversationLastSeen(conversationId, playerName[MAX_PLAYER_NAME]) {
 stock ShowConversation(playerId, conversationId) {
     if(conversationId == -1) return 0;
 
-    new playerName[MAX_PLAYER_NAME], otherParticipant[MAX_PLAYER_NAME];
+    new playerName[MAX_PLAYER_NAME], otherParticipant[MAX_PLAYER_NAME], dialogText[2048], query[512];
+
+    CurrentConversation[playerId] = conversationId;
 
     GetPlayerName(playerId, playerName, sizeof(playerName));
     GetOtherConversationParticipant(conversationId, playerName, otherParticipant);
 
-    new dialogText[2048];
-    new query[512];
-    
-    CurrentConversation[playerId] = conversationId;
-
-    format(query, sizeof(query), "SELECT sender, message, strftime('%%Y-%%m-%%d %%H:%%M:%%S', date, 'unixepoch') FROM conversation_messages WHERE conversation_id = %d ORDER BY date ASC LIMIT 20;", conversationId);
+    format(query, sizeof(query), "SELECT sender, message, strftime('%%Y-%%m-%%d %%H:%%M:%%S', date, 'unixepoch'), date FROM (SELECT * FROM conversation_messages WHERE conversation_id = %d ORDER BY date DESC LIMIT 20) sub ORDER BY date ASC;", conversationId);
 
     new DBResult:result = db_query(Database, query);
 
@@ -178,7 +179,11 @@ stock ShowConversation(playerId, conversationId) {
     }
 
     if(db_num_rows(result)) {
-        dialogText = sprintf("'%s' viu pela última vez ás: %d\n", otherParticipant, GetConversationLastSeen(conversationId, otherParticipant));
+        new 
+            bool:firstRow = true,
+            lastSeenSelf = GetConversationLastSeen(conversationId, playerName);
+
+        dialogText = sprintf("'%s' viu pela última vez em: %s\n", otherParticipant, TimestampToDateTime(GetConversationLastSeen(conversationId, otherParticipant), "%d-%m-%Y %X"));
 
         do {
             new sender[MAX_PLAYER_NAME + 1], message[128], date[64];
@@ -187,7 +192,17 @@ stock ShowConversation(playerId, conversationId) {
             db_get_field(result, 1, message);
             db_get_field(result, 2, date);
 
-            format(dialogText, sizeof(dialogText), "%s\n{FFFFFF}%s%s%s{FFFFFF}: %s", dialogText, date, isequal(sender, playerName) ? C_BLUE : C_GREY, sender, message);
+            if(firstRow) {
+                if(db_get_field_int(result, 3) > lastSeenSelf && !isequal(sender, playerName)) {
+                    new otherParticipantId = GetPlayerIDFromName(otherParticipant);
+
+                    if(otherParticipantId != INVALID_PLAYER_ID) ChatMsg(otherParticipantId, -1, !" > %s acabou de ler a sua conversa!", playerName);
+                }
+
+                firstRow = false;
+            }
+
+            format(dialogText, sizeof(dialogText), "%s\n"C_GREY"%s %s%s{FFFFFF}: %s", dialogText, date, isequal(sender, playerName) ? C_BLUE : C_AQUA, sender, message);
         } while(db_next_row(result));
 
         db_free_result(result);
@@ -207,41 +222,46 @@ stock ShowConversation(playerId, conversationId) {
 
 Dialog:ShowConversation(playerid, response, listitem, inputtext[]) {
 	if(response) {
-        if(!isempty(inputtext)) {
-            SendPrivateMessage(CurrentConversation[playerid], playerid, inputtext);
-            // SendClientMessage(playerid, YELLOW, " > Esse jogador não se encontra online. Ele poderá ver a mensagem quando entrar no servidor.");
-        }
+        if(!isempty(inputtext)) SendPrivateMessage(CurrentConversation[playerid], playerid, inputtext);
 
-        // Always show the conversation again
-        ShowConversation(playerid, CurrentConversation[playerid]);
-	} else
+        ShowConversation(playerid, CurrentConversation[playerid]); // Always show the conversation again
+	} else {
         CurrentConversation[playerid] = -1;
+        ShowConversationList(playerid);
+    }
 }
 
 stock ShowConversationList(playerId) {
     new playerName[MAX_PLAYER_NAME + 1];
     GetPlayerName(playerId, playerName, sizeof(playerName));
 
-    new dialogitems[4096] = "";
+    new dialogItems[4096] = "Recipiente:\tÚltima Mensagem:\n";
     new query[1024];
 
-    format(query, sizeof(query), "SELECT rowid, \
+    format(query, sizeof(query), 
+        "SELECT c.id, \
             CASE \
                 WHEN c.player1 = '%s' THEN c.player2 \
                 ELSE c.player1 \
             END as other_party, \
-            datetime(MAX(cm.date), 'unixepoch') as date \
+            datetime(MAX(cm.date), 'unixepoch') as date, \
+            SUM(CASE \
+                WHEN c.player1 = '%s' AND cm.date > c.last_seen_player1 THEN 1 \
+                WHEN c.player2 = '%s' AND cm.date > c.last_seen_player2 THEN 1 \
+                ELSE 0 \
+            END) as unread_count \
         FROM conversations c \
         JOIN conversation_messages cm ON c.id = cm.conversation_id \
         WHERE c.player1 = '%s' OR c.player2 = '%s' \
         GROUP BY c.id \
-        ORDER BY date DESC;",
-        playerName, playerName, playerName);
+        ORDER BY cm.date DESC;",
+        playerName, playerName, playerName, playerName, playerName
+    );
 
     new DBResult:result = db_query(Database, query);
 
     if (result == DB::INVALID_RESULT) {
-        log("Error getting conversation list for '%s': %s", playerName, query);
+        printf("Error on ShowConversationList(%s): %s", playerName, query);
         return -1;
     }
 
@@ -256,23 +276,49 @@ stock ShowConversationList(playerId) {
             db_get_field(result, 1, participantName);
             db_get_field(result, 2, date);
             
-            strcat(dialogitems, sprintf("%s (%s)", participantName, date));
-            if(db_get_field_int(result) != numRows) strcat(dialogitems, "\n");
+            strcat(dialogItems, sprintf("%s\t%s%s", participantName, db_get_field_int(result, 3) ? C_YELLOW : "", date));
+            if(db_get_field_int(result) != numRows) strcat(dialogItems, "\n"); // ? wat
         } while(db_next_row(result));
     }
 
     db_free_result(result);
 
-    Dialog_Show(playerId, ShowConversation, DIALOG_STYLE_LIST, "Conversas Privadas", dialogitems, "Select", "Cancel");
+    Dialog_Show(playerId, ShowConversationList, DIALOG_STYLE_TABLIST_HEADERS, "Conversas Privadas:", dialogItems, "Abrir", "Sair");
 
     return 1;
 }
 
 Dialog:ShowConversationList(playerid, response, listitem, inputtext[]) {
-	if(response) {
-        // ShowConversation(playerid, listitem);
-	}
+    if (response) {
+        new playerName[MAX_PLAYER_NAME], query[1024];
+
+        GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+
+        format(query, sizeof(query),
+            "SELECT c.id, \
+                CASE \
+                    WHEN c.player1 = '%s' THEN c.player2 \
+                    ELSE c.player1 \
+                END as other_party, \
+                datetime(MAX(cm.date), 'unixepoch') as date \
+            FROM conversations c \
+            JOIN conversation_messages cm ON c.id = cm.conversation_id \
+            WHERE c.player1 = '%s' OR c.player2 = '%s' \
+            GROUP BY c.id \
+            ORDER BY date DESC \
+            LIMIT 1 OFFSET %d;",
+            playerName, playerName, playerName, listitem
+        );
+
+        new DBResult:result = db_query(Database, query);
+
+        if (result != DB::INVALID_RESULT && db_num_rows(result)) {
+            ShowConversation(playerid, db_get_field_int(result));
+            db_free_result(result);
+        }
+    }
 }
+
 
 CMD:pm(playerid, params[]) {
     // if(!IsPlayerLoggedIn(playerid)) return CMD_CANT_USE;
@@ -290,7 +336,7 @@ CMD:pm(playerid, params[]) {
         \tIsso pode ser de très formas. Pelo id, pelo nome completo, ou nome parcial (sim, apenas algumas letras do nome).\n\
         \tNo entanto, se o jogador estiver Offline, você tem que escrever o nome dele exatamente como utilizado.\n\
         - Se estiver em conversa (dialog aberto) com um jogador e o mesmo enviar uma mensagem para você...\n\
-        \t... Você recebe logo essa mensagem no seu dialog, pois ele atualiza direto.\n\n\
+        \t...você recebe logo essa mensagem no seu dialog, pois ele atualiza direto.\n\n\
         - Se desejar ver todas as suas conversas execute '/pms'", 
         "Ok", ""
     );
@@ -313,10 +359,8 @@ CMD:pm(playerid, params[]) {
 
             if(!isempty(message)) // Direct message
                 SendPrivateMessage(conversationId, playerid, message); // If a message was typed already we send that
-            else {
-                CurrentConversation[playerid] = conversationId;
-                ShowConversation(playerid, conversationId);
-            }
+
+            ShowConversation(playerid, conversationId);
         } else
             return CMD_INVALID_PLAYER;
     } else { // Player provided a valid player id
@@ -325,13 +369,17 @@ CMD:pm(playerid, params[]) {
 
         new conversationId = GetConversationId(playerName, GetPlayerNameEx(targetId));
 
-        if(!isempty(message)) { // Direct message
-            ChatMsg(targetId, BROWN, "[PRIVADO] %P"C_WHITE": %s", playerid, message);
+        if(!isempty(message)) { // The message parameter was provided.
+            ChatMsg(playerid, GREEN, "[PRIVADO] %P"C_WHITE": %s", playerid, message);
             SendPrivateMessage(conversationId, playerid, message); // If a message was typed already we send that
-        } else {
-            CurrentConversation[playerid] = conversationId;
+
+            // If the other party has the conversation open, update
+            /* if(CurrentConversation[targetId] == conversationId) 
+                ShowConversation(targetId, conversationId);
+            else // Otherwise send to chat
+                ChatMsg(targetId, BROWN, "[PRIVADO] %P"C_WHITE": %s", playerid, message); */
+        } else
             ShowConversation(playerid, conversationId);
-        }
     }
 
     return 1;
