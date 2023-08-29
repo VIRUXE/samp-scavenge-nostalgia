@@ -209,7 +209,7 @@ CMD:basket(playerid, params[]) {
         strcat(itemList, sprintf("%s\tx%d\n", itemName, Basket[playerid][i][E_BASKET:quantity]));
     }
 
-    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins", GetBasketTotal(playerid)), itemList, "Pagar", "Voltar");
+    Dialog_Show(playerid, ShowBasket, DIALOG_STYLE_TABLIST_HEADERS, sprintf("Cesto da Loja - Total: %d Coins", GetBasketTotal(playerid)), itemList, "Comprar", "Voltar");
 
 	return 1;
 }
@@ -285,7 +285,7 @@ Dialog:AddItemToBasket(playerid, response, listitem, inputtext[]) {
 		new inputQuantity = strval(inputtext);
 
 		if(!isnumeric(inputtext) || inputQuantity < 0) {
-			SendClientMessage(playerid, RED, "Tem que introduzir ou 0 para remover do Cesto ou um número positivo.");
+			SendClientMessage(playerid, RED, "Tem que introduzir um número positivo ou 0 para remover do Cesto.");
 			return cmd_store(playerid, "");
 		}
 
