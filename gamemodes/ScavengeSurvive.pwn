@@ -164,10 +164,10 @@ public OnGameModeInit() {
 #define C_LGREEN					"{00FD4D}"
 #define C_TEAL						"{008080}"
 #define C_BROWN						"{DEB887}"
-#define C_AQUA						"{F0F8FF}"
+#define C_AQUA						"{F0F8FF}" // ! Useless
 #define C_BLACK						"{000000}"
 #define C_WHITE						"{FFFFFF}"
-#define C_SPECIAL					"{0025AA}"
+#define C_SPECIAL					"{0025AA}" // Blue
 
 /*==============================================================================
 
