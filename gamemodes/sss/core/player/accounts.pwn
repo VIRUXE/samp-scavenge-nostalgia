@@ -392,7 +392,7 @@ timer Login[SEC(2)](playerid) {
 }
 
 // Chamado após o jogador logar
-public OnPlayerLogin(playerid) {
+hook OnPlayerLogin(playerid) {
  	ChatMsg(playerid, BLUE, "");
 	ChatMsg(playerid, BLUE, " >  Scavenge and Survive (Copyright (C) 2016 Barnaby \"Southclaws\" Keene)");
 	ChatMsg(playerid, BLUE, "");
