@@ -6,17 +6,13 @@
 #define CTIME_DATE_SHORT		"%x"
 #define CTIME_TIME_SHORT		"%X"
 
-#define ROUND_TYPE_MINUTE		(60)
-#define ROUND_TYPE_HOUR			(3600)
-#define ROUND_TYPE_DAY			(86400)
+#define ROUND_TYPE_MINUTE		60
+#define ROUND_TYPE_HOUR			3600
+#define ROUND_TYPE_DAY			86400
 
-stock RoundTimestamp(timestamp, roundamount)
-{
-	return timestamp - (timestamp % roundamount);
-}
+stock RoundTimestamp(timestamp, roundamount) return timestamp - (timestamp % roundamount);
 
-stock TimestampToDateTime(datetime, format[] = CTIME_DATE_TIME)
-{
+stock TimestampToDateTime(datetime, format[] = CTIME_DATE_TIME) {
 	new
 		str[64],
 		tm<timestamp>;
@@ -27,8 +23,7 @@ stock TimestampToDateTime(datetime, format[] = CTIME_DATE_TIME)
 	return str;
 }
 
-stock MsToString(millisecond, format[])
-{
+stock MsToString(millisecond, format[]) {
 	new
 		tmp[4],
 		result[64],
@@ -40,35 +35,27 @@ stock MsToString(millisecond, format[])
 		bool:padding,
 		len = strlen(format);
 
-	hour			= (millisecond / (1000 * 60 * 60));
-	minute			= (millisecond % (1000 * 60 * 60)) / (1000 * 60);
-	second			= ((millisecond % (1000 * 60 * 60)) % (1000 * 60)) / 1000;
-	millisecond		= millisecond - (hour * 60 * 60 * 1000) - (minute * 60 * 1000) - (second * 1000);
+	hour        = (millisecond / (1000 * 60 * 60));
+	minute      = (millisecond % (1000 * 60 * 60)) / (1000 * 60);
+	second      = ((millisecond % (1000 * 60 * 60)) % (1000 * 60)) / 1000;
+	millisecond = millisecond - (hour * 60 * 60 * 1000) - (minute * 60 * 1000) - (second * 1000);
 
-	while(format_char < len)
-	{
-		if(format[format_char] == '%')
-		{
+	while(format_char < len) {
+		if(format[format_char] == '%') {
 			format_char++;
 
-			if(format[format_char] == '1')
-			{
+			if(format[format_char] == '1') {
 				padding = true;
 				format_char++;
-			}
-			else
-			{
+			} else {
 				padding = false;
 			}
 
-			switch(format[format_char])
-			{
-				case 'h':
-				{
+			switch(format[format_char]) {
+				case 'h': {
 					valstr(tmp, hour);
 
-					if(padding)
-					{
+					if(padding) {
 						if(hour < 10)
 							strcat(result, "0");
 					}
@@ -77,12 +64,10 @@ stock MsToString(millisecond, format[])
 					result_lenght = strlen(result);
 				}
 
-				case 'm':
-				{
+				case 'm': {
 					valstr(tmp, minute);
 
-					if(padding)
-					{
+					if(padding) {
 						if(minute < 10)
 							strcat(result, "0");
 					}
@@ -91,12 +76,10 @@ stock MsToString(millisecond, format[])
 					result_lenght = strlen(result);
 				}
 
-				case 's':
-				{
+				case 's': {
 					valstr(tmp, second);
 
-					if(padding)
-					{
+					if(padding) {
 						if(second < 10)
 							strcat(result, "0");
 					}
@@ -105,15 +88,12 @@ stock MsToString(millisecond, format[])
 					result_lenght = strlen(result);
 				}
 
-				case 'd':
-				{
+				case 'd': {
 					valstr(tmp, millisecond);
 
-					if(padding)
-					{
+					if(padding) {
 						if(millisecond < 10)
 							strcat(result, "00");
-
 						else if(millisecond < 100)
 							strcat(result, "0");
 					}
@@ -122,9 +102,7 @@ stock MsToString(millisecond, format[])
 					result_lenght = strlen(result);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			result[result_lenght] = format[format_char];
 			result_lenght++;
 		}
@@ -135,26 +113,16 @@ stock MsToString(millisecond, format[])
 	return result;
 }
 
-GetDurationFromString(string[])
-{
-	new
-		value,
-		type[16];
+GetDurationFromString(string[]) {
+	new value, type[16];
 
-	if(sscanf(string, "ds[16]", value, type))
-		return -1;
+	if(sscanf(string, "ds[16]", value, type)) return -1;
 
-	if(value <= 0)
-		return -1;
+	if(value <= 0) return -1;
 
-	if(!strcmp(type, "day", true, 3))
-		return value * 86400;
-
-	if(!strcmp(type, "week", true, 4))
-		return value * 604800;
-
-	if(!strcmp(type, "month", true, 5))
-		return value * 2628000;
+	if(!strcmp(type, "day", true, 3)) return value * 86400;
+	else if(!strcmp(type, "week", true, 4)) return value * 604800;
+	else if(!strcmp(type, "month", true, 5)) return value * 2628000;
 
 	return -1;
 }
