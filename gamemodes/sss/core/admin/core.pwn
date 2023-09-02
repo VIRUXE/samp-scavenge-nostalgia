@@ -324,6 +324,9 @@ stock SetPlayerAdminLevel(playerName[MAX_PLAYER_NAME], level) {
 	return 1;
 }
 
+/* 
+1 - Moderator, 2 - Administrator, 3 - Team Leader, 4 - Developer, 5 - Secret
+ */
 stock GetPlayerAdminLevel(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 
