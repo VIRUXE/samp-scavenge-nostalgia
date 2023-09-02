@@ -571,6 +571,7 @@
 {"server/restart_warning_3m", "> AVISO: O respawn de itens ocorrera em 3 minutos. Saia para evitar bugs!", "> WARNING: Item respawn will occur in 3 minutes. Log out to avoid bugs!"},
 {"tutorial/exit", "Você saiu do tutorial. Boa sorte tentando sobreviver.", "You left the tutorial. Have fun trying to survive."},
 {"tutorial/intro", "Bem-vindo ao tutorial! Olhe ao redor e tente coisas. As mensagens de ajuda aparecerao aqui!", "Welcome to the tutorial! Look around and try things. Help messages will appear here!"},
+{"tutorial/intro-more", "Se se sentir preso em algum passo envie '/pm' a algum '/admins' ou fale no #bate-papo no Discord!", "If you are feeling stuck in any step ask for help in #bate-papo on Discord."},
 {"tutorial/step/add_item_to_container", "Adicionar Item a Mochila", "Add Item to Backpack"},
 {"tutorial/step/add_item_to_inventory", "Adicionar Item ao Inventario", "Add Item to Inventory."},
 {"tutorial/step/build_tent", "Montar Tenda", "Build Tent"},
