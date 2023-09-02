@@ -44,7 +44,7 @@ static enum E_TUTORIAL_ITEMS {
 }
 
 // Bool para cada passo do tutorial porque ele pode ser feito em qualquer ordem.
-static enum E_TUTORIAL_STEPS {
+static enum TutorialStep {
     bool:OPEN_INVENTORY,
     bool:EQUIP_BACKPACK,
     bool:ADD_ITEM_TO_INVENTORY,
@@ -62,7 +62,7 @@ static enum E_TUTORIAL_STEPS {
 
 static enum E_TUTORIAL {
 	PlayerText:TUT_STATUS,
-	TUT_STEPS[E_TUTORIAL_STEPS],
+	TUT_STEPS[TutorialStep],
 	TUT_VEHICLE,
 	TUT_ITEMS[E_TUTORIAL_ITEMS],
 	TUT_PICKUPS[E_TUTORIAL_ITEMS],
@@ -379,14 +379,14 @@ public OnPlayerProgressTutorial(playerid, stepsCompleted) {
 		// Encontra a tarefa mais baixa que ainda nao foi completada
 		new next_step = -1;
 		for(new i = 0; i < MAX_TUTORIAL_STEPS; i++) {
-			if(!Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:i]) {
+			if(!Tutorial[playerid][TUT_STEPS][TutorialStep:i]) {
 				next_step = i;
 				break;
 			}
 		}
 
 		// Dicas para cada tarefa/passo
-		if(E_TUTORIAL_STEPS:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
+		if(TutorialStep:next_step == USE_ITEM_ON_ANOTHER_ITEM) {
 			
 			for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
@@ -398,9 +398,9 @@ public OnPlayerProgressTutorial(playerid, stepsCompleted) {
 	}
 }
 
-static IsStepCompleted(playerid, E_TUTORIAL_STEPS:step) return Tutorial[playerid][TUT_STEPS][step];
+static IsStepCompleted(playerid, TutorialStep:step) return Tutorial[playerid][TUT_STEPS][step];
 
-IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
+IncreaseTutorialProgress(playerid, TutorialStep:step) {
 	if(!IsPlayerInTutorial(playerid)) return 0;
 	if(IsStepCompleted(playerid, step)) return 0;
 
@@ -415,7 +415,7 @@ IncreaseTutorialProgress(playerid, E_TUTORIAL_STEPS:step) {
 	// Calculate how many steps are completed
 	new stepsCompleted = 0;
 	for(new s = 0; s < MAX_TUTORIAL_STEPS; s++) {
-		if(IsStepCompleted(playerid, E_TUTORIAL_STEPS:s)) stepsCompleted++;
+		if(IsStepCompleted(playerid, TutorialStep:s)) stepsCompleted++;
 	}
 
 	CallLocalFunction("OnPlayerProgressTutorial", "ii", playerid, stepsCompleted);
@@ -570,6 +570,7 @@ timer EnterTutorial[SEC(2)](playerid) {
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
 	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/intro"));
+	ChatMsg(playerid, YELLOW, " > "C_WHITE" %s", ls(playerid, "tutorial/intro-more"));
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
@@ -586,7 +587,7 @@ timer ExitTutorial[SEC(2)](playerid, bool:completed) {
 	SetPlayerVirtualWorld(playerid, 0);
 
 	// Resetar os passos do tutorial
-	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) Tutorial[playerid][TUT_STEPS][E_TUTORIAL_STEPS:step] = false;
+	for(new step = 0; step < MAX_TUTORIAL_STEPS; step++) Tutorial[playerid][TUT_STEPS][TutorialStep:step] = false;
 
 	// Destroi os itens e pickups do tutorial
 	for(new i = 0; i < MAX_TUTORIAL_ITEMS; i++) {
