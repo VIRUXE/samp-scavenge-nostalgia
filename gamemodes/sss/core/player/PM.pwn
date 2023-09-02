@@ -352,6 +352,11 @@ CMD:pm(playerid, params[]) {
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
     if(targetId == INVALID_PLAYER_ID) { // Provided player is offline so we check if the account exists and go from there
+        if(IsPlayerInTutorial(playerid)) {
+            SendClientMessage(playerid, -1, "Apenas pode enviar mensagem a administradores, enquanto no tutorial. Veja '/admins' e depois execute '/pm' de acordo.");
+            return CMD_CANT_USE;
+        }
+
         new output[1][MAX_PLAYER_NAME];
 
         strexplode(output, params, " ");
@@ -371,6 +376,12 @@ CMD:pm(playerid, params[]) {
             return CMD_INVALID_PLAYER;
     } else { // Player provided a valid player id
         if(targetId == playerid) return SendClientMessage(playerid, RED, " > Você não pode enviar uma mensagem para Você mesmo!");
+
+        if(IsPlayerInTutorial(playerid) && !GetPlayerAdminLevel(targetId)) {
+            SendClientMessage(playerid, -1, "Apenas pode enviar mensagem a administradores, enquanto no tutorial. Veja '/admins' e depois execute '/pm' de acordo.");
+            return CMD_CANT_USE;
+        }
+
         if(Blocked[targetId]) return ChatMsg(playerid, RED, " > Você não pode enviar uma mensagem para %P"C_RED" pois ele está com o PM Bloqueado!", targetId);
 
         new conversationId = GetConversationId(playerName, GetPlayerNameEx(targetId));
