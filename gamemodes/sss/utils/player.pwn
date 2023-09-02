@@ -39,7 +39,7 @@ stock TeleportPlayerToPlayer(playerid, targetid) {
 	}
 }
 
-stock IsValidUsername(name[]) {
+/* stock IsValidUsername(name[]) {
 	new i, len = strlen(name);
 
 	if(len < 3) return 0;
@@ -52,6 +52,16 @@ stock IsValidUsername(name[]) {
 	}
 
 	return 1;
+} */
+
+stock IsValidNickname(nickname[]) {
+    if(strlen(nickname) == 0 || !isalphabetic(nickname[0])) return 0;
+	
+    for(new i = 0; i < strlen(nickname); i++) {
+        if(!isalphanumeric(nickname[i])) return 0;
+    }
+
+    return 1;
 }
 
 stock GetPlayerIDFromName(name[], bool:ignorecase = false, bool:partialname = false) {

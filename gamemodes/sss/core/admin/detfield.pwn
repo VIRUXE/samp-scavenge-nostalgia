@@ -494,7 +494,7 @@ stock AddDetectionFieldException(detfieldId, name[MAX_PLAYER_NAME]) {
 
 	if(det_ExceptionCount[detfieldId] == MAX_DETFIELD_EXCEPTIONS) return -1;
 
-	if(!IsValidUsername(name)) return -2;
+	if(!IsValidNickname(name)) return -2;
 
 	if(IsNameInExceptionList(detfieldId, name)) return -3;
 
@@ -936,31 +936,47 @@ stock GetDetectionFieldMaxZ(detfieldId, &Float:maxZ) {
 }
 
 stock IsValidDetectionFieldName(name[]) {
-	if(!isalphabetic(name[0]) || strlen(name) <= 5 || !ContainsUnderscore(name) || !ContainsCapital(name)) return 0;
+    if(strlen(name) <= 5 || !isalphabetic(name[0])) return 0;
 
-	if(!strcmp(name, "field_list")) return 0;
+    new idx = strfind(name, "-");
+    if(idx == -1) return 0;
+    
+    new nickname[MAX_PLAYER_NAME + 1];
+    new remainder[256];
+    
+    strmid(nickname, name, 0, idx);
+    strmid(remainder, name, idx + 1, strlen(name) - idx);
 
-	new i;
-	new hyphenFound = 0;
-	new underscoreFound = 0;
-
-	while (name[i] != EOS) {
-		if(name[i] == '-' && !hyphenFound) {
-			hyphenFound = 1;
-			if (!((name[i + 1] == 'L' && name[i + 2] == 'S' && name[i + 3] == '_') || 
-				  (name[i + 1] == 'S' && name[i + 2] == 'F' && name[i + 3] == '_') || 
-				  (name[i + 1] == 'L' && name[i + 2] == 'V' && name[i + 3] == '_'))) return 0;
-			i += 3;
-		} else if(isalphanumeric(name[i]) || (name[i] == '_' && !underscoreFound)) {
-			if(name[i] == '_') underscoreFound = 1; else underscoreFound = 0;
-			i++;
-		} else
-			return 0;
-		
-		if (underscoreFound && name[i] == '_') return 0;
-	}
-
-	return 1;
+    if(!IsValidNickname(nickname)) return 0;
+    
+    idx = strfind(remainder, "_");
+    if(idx == -1) return 0;
+    
+    new city[3];
+    new other_part[256];
+    
+    strmid(city, remainder, 0, idx);
+    strmid(other_part, remainder, idx + 1, strlen(remainder) - idx);
+    
+    if(!strcmp(city, "LS") && !strcmp(city, "SF") && !strcmp(city, "LV")) return 0;
+    if(strlen(other_part) == 0) return 0;
+    
+    idx = strfind(other_part, "_");
+    new other[256];
+    new optional[256];
+    
+    if(idx == -1) {
+        strcopy(other, other_part);
+        optional[0] = EOS;
+    } else {
+        strmid(other, other_part, 0, idx);
+        strmid(optional, other_part, idx + 1, strlen(other_part) - idx);
+    }
+    
+    if(strlen(other) == 0 || isnumeric(other[0])) return 0;
+    if(strlen(optional) > 0 && optional[0] == EOS) return 0;
+    
+    return 1;
 }
 
 stock GetDetectionFieldExceptionCount(detfieldId) {

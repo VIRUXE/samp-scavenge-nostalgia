@@ -43,6 +43,10 @@ hook OnPlayerLogin(playerid) {
         ChatMsg(playerid, YELLOW, " > Você tem %d mensage%s por lêr! Veja em '/pms'", newMessagesCount, newMessagesCount > 1 ? "ns" : "m");
     }
 
+    //
+
+    
+
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -67,8 +71,10 @@ stock SendPrivateMessage(conversationId, playerId, message[]) {
         // If the other participant is also viewing the conversation
         if(CurrentConversation[otherPlayerId] == conversationId) 
             ShowConversation(otherPlayerId, conversationId); // This will mainly "refresh" the dialog
-        else
+        else {
+            SetConversationLastSeen(conversationId, otherPlayerName);
             ChatMsg(otherPlayerId, BROWN, "[PRIVADO] %P"C_WHITE": %s", playerId, message);
+        }
 
         GameTextForPlayer(otherPlayerId, sprintf("~G~~H~ Mensagem de %s!", playerName), 4000, 1);
         
@@ -352,7 +358,7 @@ CMD:pm(playerid, params[]) {
 
         // log("[PM] strexplode: %s", output[0]);
 
-        if(!IsValidUsername(output[0])) return SendClientMessage(playerid, YELLOW, " > Esse nome de jogador não é válido.");
+        if(!IsValidNickname(output[0])) return SendClientMessage(playerid, YELLOW, " > Esse nome de jogador não é válido.");
 
         if(AccountExists(output[0])) { // Player account actually exists so we can open a conversation
             new conversationId = GetConversationId(playerName, output[0]);

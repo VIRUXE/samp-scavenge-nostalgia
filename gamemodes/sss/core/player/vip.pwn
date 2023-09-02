@@ -155,7 +155,7 @@ CMD:vip(playerid, params[]) { // anuncio, reset, skin, pintar, frase, kill, nick
 
 		if(strlen(nick) > MAX_PLAYER_NAME || strlen(nick) < 3) return ChatMsg(playerid, YELLOW, "Seu nick deve ter entre 3 e 22 caracteres.");
 
-		if(!IsValidUsername(nick)) return ChatMsg(playerid, YELLOW, "O Nick que você digitou possui algum caracter inválido");
+		if(!IsValidNickname(nick)) return ChatMsg(playerid, YELLOW, "O Nick que você digitou possui algum caracter inválido");
 
 		if(AccountExists(nick)) return ChatMsg(playerid, YELLOW, "Este nick já está registrado no Servidor.");
 
