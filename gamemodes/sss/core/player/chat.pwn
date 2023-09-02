@@ -47,7 +47,7 @@ hook OnPlayerConnect(playerid) {
     GlobalTime[playerid] = 0;
 	chat_LastMessageTick[playerid] = 0;
 
-	chatModeTextDraw = CreatePlayerTextDraw(playerid, 5, 1.133333, "X");
+	chatModeTextDraw = CreatePlayerTextDraw(playerid, 1.0, 0.5, "X");
 	PlayerTextDrawLetterSize(playerid, chatModeTextDraw, 0.5, 2);
 	PlayerTextDrawTextSize(playerid, chatModeTextDraw, 19.375, 19.833333);
 	PlayerTextDrawAlignment(playerid, chatModeTextDraw, 1);
@@ -64,38 +64,40 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerText(playerid, text[]) {
-	if(IsPlayerMuted(playerid)) {
-		if(GetPlayerMuteRemainder(playerid) == -1)
-			ChatMsg(playerid, RED, "player/muted-perm");
-		else
-			ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+    if(IsPlayerMuted(playerid)) {
+        if(GetPlayerMuteRemainder(playerid) == -1)
+            ChatMsg(playerid, RED, "player/muted-perm");
+        else
+            ChatMsg(playerid, RED, "player/mute-timer", MsToString(GetPlayerMuteRemainder(playerid) * 1000, "%1h:%1m:%1s"));
+        return 0;
+    }
 
-		return 0;
-	} else {
-		if(GetTickCountDifference(GetTickCount(), chat_LastMessageTick[playerid]) < 1000) {
-			chat_MessageStreak[playerid]++;
+    if(GetTickCountDifference(GetTickCount(), chat_LastMessageTick[playerid]) < 1000) 
+        chat_MessageStreak[playerid]++;
+    else if(chat_MessageStreak[playerid] > 0) 
+        chat_MessageStreak[playerid]--;
 
-			if(chat_MessageStreak[playerid] == 3) {
-				TogglePlayerMute(playerid, true, 30);
-				ChatMsg(playerid, RED, "player/muted-temp");
+    if(chat_MessageStreak[playerid] == 3) {
+        TogglePlayerMute(playerid, true, 30);
+        ChatMsg(playerid, RED, "player/muted-temp");
+        return 0;
+    }
 
-				return 0;
-			}
-		} else {
-			if(chat_MessageStreak[playerid] > 0)
-				chat_MessageStreak[playerid]--;
-		}
-	}
+    new Float:freq;
+    switch(chat_Mode[playerid]) {
+        case CHAT_MODE_LOCAL:  freq = 0.0;
+        case CHAT_MODE_GLOBAL: freq = 1.0;
+        case CHAT_MODE_ADMIN:  freq = 3.0;
+        case CHAT_MODE_VIP:    freq = 4.0;
+    }
+    
+    PlayerSendChat(playerid, text, freq);
 
-	chat_LastMessageTick[playerid] = GetTickCount();
+    chat_LastMessageTick[playerid] = GetTickCount();
 
-	if(chat_Mode[playerid] == CHAT_MODE_LOCAL) PlayerSendChat(playerid, text, 0.0);
-	else if(chat_Mode[playerid] == CHAT_MODE_GLOBAL) PlayerSendChat(playerid, text, 1.0);
-	else if(chat_Mode[playerid] == CHAT_MODE_ADMIN) PlayerSendChat(playerid, text, 3.0);
-	else if(chat_Mode[playerid] == CHAT_MODE_VIP) PlayerSendChat(playerid, text, 4.0);
-	
-	return 0;
+    return 0;
 }
+
 
 hook OnPlayerLogin(playerid) {
 	SetChatModeLetter(playerid);
@@ -109,7 +111,7 @@ SetChatModeLetter(playerid) {
 		case CHAT_MODE_GLOBAL: letter = "G";
 		case CHAT_MODE_CLAN:   letter = "C";
 		case CHAT_MODE_ADMIN:  letter = "A";
-		case CHAT_MODE_VIP:  letter = "V";
+		case CHAT_MODE_VIP:    letter = "V";
 	}
 
 	PlayerTextDrawSetString(playerid, chatModeTextDraw, letter);
