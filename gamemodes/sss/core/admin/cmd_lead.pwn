@@ -165,7 +165,7 @@ ACMD:deletar[3](playerid, params[]) {
 			if(Distance(pX, pY, pZ, iX, iY, iZ) < range) {
 				count++;
 				i = DestroyItem(i);
-			    CallLocalFunction("OnDefenceDestroy", "d", i);
+			    CallLocalFunction("OnDefenseDestroyed", "d", i);
 			}
 		}
 	} else
@@ -203,41 +203,4 @@ ACMD:clima[3](playerid, params[]) {
 	JSON_SaveFile("settings.json", Settings, .pretty = true);
 	
 	return ChatMsgAdmins(1, 0xC457EBAA, "[Admin]: %p (%d) mudou o clima do servidor!", playerid, playerid);
-}
-
-ACMD:aliases[3](playerid, params[]) {
-	new
-		name[MAX_PLAYER_NAME],
-		type;
-
-	// TODO: Isso pode ser feito de outra forma com "u"
-	if(sscanf(params, "s[24]C(a)", name, type)) return ChatMsg(playerid, YELLOW, " >  Use: /aliases [id/nick] [i/p/h/a]");
-
-	if(isnumeric(name)) {
-		new targetId = strval(name);
-
-		if(IsPlayerConnected(targetId)) GetPlayerName(targetId, name, MAX_PLAYER_NAME);
-	}
-
-	if(!AccountExists(name)) return ChatMsg(playerid, YELLOW, " >  A conta '%s' não existe.", name);
-
-	new
-		result,
-		list[MAX_PLAYERS][MAX_PLAYER_NAME],
-		count,
-		adminLevel;
-
-	if(type == 'a') result = GetAccountAliasesByAll(name, list, count, MAX_PLAYERS, adminLevel);
-	else if(type == 'i') result = GetAccountAliasesByIP(name, list, count, MAX_PLAYERS, adminLevel);
-	else if(type == 'p') result = GetAccountAliasesByPass(name, list, count, MAX_PLAYERS, adminLevel);
-	else if(type == 'h') result = GetAccountAliasesByHash(name, list, count, MAX_PLAYERS, adminLevel);
-	else return ChatMsg(playerid, YELLOW, " >  O tipo de pesquisa deve ser um dos: 'i'(ip) 'p'(senha) 'h'(hash) 'a'(all)");
-
-	if(!result) return ChatMsg(playerid, RED, " >  Ocorreu um erro.");
-
-	if(!count) return ChatMsg(playerid, YELLOW, " >  Sem aliases encontradas para %s", name);
-
-	ShowPlayerList(playerid, list, (count > MAX_PLAYERS) ? MAX_PLAYERS : count, true);
-
-	return 1;
 }
