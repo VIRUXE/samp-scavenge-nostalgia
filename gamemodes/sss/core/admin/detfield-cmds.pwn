@@ -84,7 +84,7 @@ CMD:field(playerid, params[]) {
 			O formato correto para o nome é: 'Nickname-Cidade_Local_Outro'.\n\
 			Ou seja, o nome do campo tem que ser composto por pelomenos 3 componentes:\n\
 			- Nickname/Nome,\n\
-			- A Cidade onde se encontra (LS/SF/LV),\n\
+			- A Cidade onde se encontra (LS/SF/LV/TR/W/FC/RC/BC),\n\
 			- O Local (algo que diferencie a parte da cidade onde montou a base) e opcionalmente algo mais, igualmente separado por underscore.\n\n\
 			O Nickname tem que ser separado por um traço e os restantes componentes por underscore/underline.\n\n\
 			Assim que introduzir um nome válido será pedido para que escolha os 4 cantos do seu campo. (Sim, tem que ser 4. Não mais nem menos)\n\n\
