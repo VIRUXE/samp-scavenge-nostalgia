@@ -161,9 +161,20 @@ hook OnScriptInit() {
 
 		sscanf(exceptions, "a<s[24]>[32]", exceptionList);
 
-		CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
+		new detfield = CreateDetectionField(name, points, minZ, maxZ, exceptionList, active);
 
-		printf("[DETFIELD] %s (%s) -> Ativa: %s", name, exceptionList[0], active ? "Sim" : "Não");
+		if(detfield >= 0) {
+			printf("[DETFIELD] (%d) %s (Dono: %s) -> Ativa: %s", name, exceptionList[0], active ? "Sim" : "Não");
+		} else {
+			new reason[33];
+
+			switch(detfield) {
+				case -1: reason = "Reached Maximum Detection Fields";
+				case -2: reason = "Invalid Name";
+			}
+
+			printf("[DETFIELD] Unable to Load (%d) '%s': %s", detfield, name, reason);
+		}
 	}
 
 	log("[DETFIELD] Loaded %d Detection Fields", Iter_Count(det_Index));
@@ -958,7 +969,8 @@ stock IsValidDetectionFieldName(name[]) {
     strmid(city, remainder, 0, idx);
     strmid(other_part, remainder, idx + 1, strlen(remainder) - idx);
     
-    if(!strcmp(city, "LS") && !strcmp(city, "SF") && !strcmp(city, "LV")) return 0;
+    if(!strcmp(city, "LS") && !strcmp(city, "SF") && !strcmp(city, "LV") && !strcmp(city, "TR") && !strcmp(city, "W") && !strcmp(city, "FC") && !strcmp(city, "RC") && !strcmp(city, "BC")) return 0;
+	
     if(strlen(other_part) == 0) return 0;
     
     idx = strfind(other_part, "_");
