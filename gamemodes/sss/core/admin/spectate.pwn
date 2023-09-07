@@ -54,15 +54,18 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerDisconnect(playerid) {
-	if(spectate_Type[playerid] != SPECTATE_TYPE_NONE) ExitSpectateMode(playerid);
-
 	foreach(new admin : Player) {
 		if(spectate_Target[admin] != playerid) continue;
 
-		ChatMsg(admin, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu.", playerid);
-		printf("[SPECTATE] %p estava vendo %p, quando ele saiu.", admin, playerid);
+		new totalPlayers = Iter_Count(Player);
 
-		if(Iter_Count(Player) > 1) SpectateNextTarget(admin); else ExitSpectateMode(admin);
+		ChatMsg(admin, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu. (%d jogadores atuais)", playerid, totalPlayers);
+		printf("[SPECTATE] %p estava vendo %p, quando ele saiu. (%d jogadores atuais)", admin, playerid, totalPlayers);
+
+		if(totalPlayers > 2) // This playerid just left but still counts as a player
+			SpectateNextTarget(admin);
+		else 
+			ExitSpectateMode(admin);
 	}
 
 	return 1;
