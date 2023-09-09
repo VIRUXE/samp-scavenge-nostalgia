@@ -464,7 +464,6 @@ timer EnterTutorial[SEC(2)](playerid) {
 	SetPlayerGender(playerid, GetClothesGender(GetPlayerClothesID(playerid)));
 	SetPlayerBleedRate(playerid, 0.0);
 
-
 	FreezePlayer(playerid, SEC(3));
 	PrepareForSpawn(playerid);
 
@@ -483,10 +482,9 @@ timer EnterTutorial[SEC(2)](playerid) {
 	);
 
 	// Port�o bloqueando a entrada do galp�o
-
 	Tutorial[playerid][TUT_GATE_OBJ] = CreatePlayerObject(playerid, 971, 977.73792, 2073.38745, 10.37790,   0.00000, 0.00000, 90.00000, 300.0);
 
-	//	Items
+	// Items
 	new const Float:ITEM_Z = 9.8603, Float:PICKUP_Z_OFFSET = 1.7, Float:PICKUP_Z = ITEM_Z + PICKUP_Z_OFFSET;
 
 	Tutorial[playerid][TUT_ITEMS][TUT_ITEM_CORPANEL][0]   = CreateItem(item_CorPanel, 973.7151, 2067.4258, ITEM_Z, .rz = frandom(360.0), .world = virtualworld);
@@ -609,8 +607,12 @@ timer ExitTutorial[SEC(2)](playerid, bool:completed) {
 		PlayerTextDrawDestroy(playerid, Tutorial[playerid][TUT_STATUS]);
 		Tutorial[playerid][TUT_STATUS] = PlayerText:INVALID_TEXT_DRAW;
 		
+		/* if(IsPlayerAlive(playerid))
+			SpawnCharacter(playerid);
+		else { */
 		SetPlayerScreenFade(playerid, FADE_OUT, 255, 25);
 		defer ShowCharacterCreationScreen(playerid);
+		// }
 
 		PlayAudioStreamForPlayer(playerid, sprintf("https://translate.google.com/translate_tts?ie=UTF-8&q=%s&tl=%s-TW&client=tw-ob", ls(playerid, "tutorial/exit"), ls(playerid, "common/lang-shortcode")));
 		for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
@@ -641,24 +643,6 @@ IsPlayerInTutorial(playerid) {
 	return Tutorial[playerid][TUT_VEHICLE] != INVALID_VEHICLE_ID;
 }
 
-/* ACMD:settutorial[3](playerid, params[]) {
-	new targetId;
-
-	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " >  Use: /settutorial [id/nick]"); 
-
-	if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
-
-	if(GetPlayerAdminLevel(targetId)) return CMD_CANT_USE_ON;
-
-	if(!IsPlayerLoggedIn(playerid)) return CMD_CANT_USE_ON;
-
-	// Salva tudo do jogador primeiro
-	Logout(playerid);
-	EnterTutorial(targetId);
-
-	return 1;
-} */
-
 public OnPlayerExitTutorial(playerid, bool:completed) {
 	if(completed) {
 		AnnouncePlayerJoined(playerid);
@@ -672,5 +656,25 @@ CMD:exittutorial(playerid) {
 
 	if(IsPlayerAdmin(playerid)) OnPlayerProgressTutorial(playerid, MAX_TUTORIAL_STEPS);
 	
+	return 1;
+}
+
+ACMD:tutorial[3](playerid, params[]) {
+	new targetId;
+
+	if(sscanf(params, "r", targetId)) return ChatMsg(playerid, YELLOW, " > Sintaxe: /tutorial [id/nick]");
+
+	if(targetId == INVALID_PLAYER_ID) return CMD_INVALID_PLAYER;
+
+	if(IsPlayerInTutorial(targetId)) {
+		OnPlayerProgressTutorial(playerid, MAX_TUTORIAL_STEPS);
+		ChatMsg(playerid, -1, " > %p removido do tutorial", targetId);
+	} else {
+		if(!IsPlayerLoggedIn(playerid) || (targetId != playerid && GetPlayerAdminLevel(targetId))) return CMD_CANT_USE_ON;
+
+		Logout(playerid);
+		EnterTutorial(targetId);
+	}
+
 	return 1;
 }
