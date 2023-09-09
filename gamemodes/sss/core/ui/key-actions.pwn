@@ -5,7 +5,7 @@ PlayerText:	KeyActions[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...},
 			KeyActionsText[MAX_PLAYERS][512];
 
 hook OnPlayerConnect(playerid) {
-	KeyActions[playerid]			=CreatePlayerTextDraw(playerid, 618.000000, 120.000000, "fixed it");
+	KeyActions[playerid]			=CreatePlayerTextDraw(playerid, 618.000000, 120.000000, "Yes");
 	PlayerTextDrawAlignment			(playerid, KeyActions[playerid], 3);
 	PlayerTextDrawBackgroundColor	(playerid, KeyActions[playerid], 255);
 	PlayerTextDrawFont				(playerid, KeyActions[playerid], 1);
@@ -85,14 +85,14 @@ _UpdateKeyActions(playerid) {
     if(IsPlayerNPC(playerid)) return;
 
 	if(
-		!IsPlayerSpawned(playerid) || 
-		IsPlayerViewingInventory(playerid) || 
-		IsValidContainer(GetPlayerCurrentContainer(playerid)) || 
-		IsPlayerKnockedOut(playerid) || 
+		(!IsPlayerSpawned(playerid) && !IsPlayerInTutorial(playerid)) ||
+		IsPlayerViewingInventory(playerid) ||
+		IsValidContainer(GetPlayerCurrentContainer(playerid)) ||
+		IsPlayerKnockedOut(playerid) ||
 		!IsPlayerHudOn(playerid)
 	) {
 		HidePlayerKeyActionUI(playerid);
-		return;		
+		return;
 	}
 
 	if(IsPlayerInAnyVehicle(playerid)) {
@@ -117,14 +117,6 @@ _UpdateKeyActions(playerid) {
 			return;
 		}
 	}
-
-	// On foot
-
-	
-
-	// GetItemFromButtonID(buttonid)
-	// GetPlayerNearbyItems(playerid, list[])
-	// GetItemsInRange(Float:x, Float:y, Float:z, Float:range = 500.0, items[], maxitems = sizeof(items))
 
 	new
 		itemId        = GetPlayerItem(playerid),
@@ -164,8 +156,13 @@ _UpdateKeyActions(playerid) {
 		// printf("[KEY-ACTIONS] currButton: %d, currButtonItemId: %d, itemType: %s", currButton, currButtonItem, itemTypeName);
 
 		if(currButtonItemType != INVALID_ITEM_TYPE) { // Player is standing at an item
-			// Hold F to Equip a Bag
-			if(IsItemTypeBag(currButtonItemType)) AddToolTipText(playerid, KEYTEXT_INTERACT, "Pegar (Segurar)");
+			if(IsItemTypeBag(currButtonItemType)) {
+				AddToolTipText(playerid, KEYTEXT_INTERACT, "Olhar Dentro");
+				AddToolTipText(playerid, KEYTEXT_INTERACT, "Pegar (Segurar)");
+			} else if(IsItemTypeCarry(currButtonItemType)) {
+				AddToolTipText(playerid, KEYTEXT_INTERACT, "Carregar");
+			} else
+				AddToolTipText(playerid, KEYTEXT_INTERACT, "Pegar Item");
 		}
 
 		AddToolTipText(playerid, KEYTEXT_INVENTORY, ls(playerid, "player/key-actions/player/open_inventory"));			    
@@ -224,7 +221,7 @@ _UpdateKeyActions(playerid) {
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/eat"));
 		else if(IsItemTypeBag(itemType)) {
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/player/open_bag"));
-			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/items/use"));
+			AddToolTipText(playerid, KEYTEXT_PUT_AWAY, ls(playerid, "player/key-actions/items/equip"));
 		} else if(GetHatFromItem(itemType) != -1)
 			AddToolTipText(playerid, KEYTEXT_INTERACT, ls(playerid, "player/key-actions/items/use-acessory"));
 		else if(GetMaskFromItem(itemType) != -1)

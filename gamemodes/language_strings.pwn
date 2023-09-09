@@ -486,6 +486,7 @@
 {"player/key-actions/items/take_pills", "Tomar Comprimidos", "Take Pills"},
 {"player/key-actions/items/use-acessory", "Usar Acessorio", "Use Acessory"},
 {"player/key-actions/items/use", "Usar", "Use"},
+{"player/key-actions/items/equip", "Equipar", "Equip"},
 {"player/key-actions/items/weapon_reload", "Recarregar Arma", "Reload Weapon"},
 {"player/key-actions/items/weapon_unload", "Descarregar Arma", "Unload Weapon"},
 {"player/key-actions/player/apply_cuffs", "Algemar", "Cuff"},
