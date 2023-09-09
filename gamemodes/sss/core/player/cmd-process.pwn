@@ -63,7 +63,7 @@ public OnPlayerCommandText(playerid, cmdtext[]) {
 	if		(result == CMD_INVALID) 		ChatMsg(playerid, ORANGE, "server/command/unknown"); // invalid command
 	else if	(result == CMD_VALID) return 1; // valid command, do nothing.
 	else if	(result == CMD_CANT_USE) 		ChatMsg(playerid, ORANGE, "server/command/cant-use"); // cant use command
-	else if	(result == CMD_CANT_USE_ON) 	ChatMsg(playerid, RED, "server/commandcant-use-player"); // cant use command on that player
+	else if	(result == CMD_CANT_USE_ON) 	ChatMsg(playerid, RED, "server/command/cant-use-player"); // cant use command on that player
 	else if	(result == CMD_INVALID_PLAYER) 	ChatMsg(playerid, RED, "server/command/invalid-player"); // invalid player
 	else if	(result == CMD_NOT_ADMIN) 		ChatMsg(playerid, RED, "server/command/no-permission"); // not high enough admin level
 	else if	(result == CMD_NOT_DUTY) 		ChatMsg(playerid, RED, "server/command/need-duty"); // only usable in duty
