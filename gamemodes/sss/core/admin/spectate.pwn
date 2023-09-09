@@ -59,8 +59,8 @@ hook OnPlayerDisconnect(playerid) {
 
 		new totalPlayers = Iter_Count(Player);
 
-		ChatMsg(admin, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu. (%d jogadores atuais)", playerid, totalPlayers);
-		printf("[SPECTATE] %p estava vendo %p, quando ele saiu. (%d jogadores atuais)", admin, playerid, totalPlayers);
+		ChatMsg(admin, YELLOW, "[SPECTATE] Você estava vendo %p, mas ele saiu. (%d jogadores atuais)", playerid, totalPlayers-1);
+		printf("[SPECTATE] %p estava vendo %p, quando ele saiu. (%d jogadores atuais)", admin, playerid, totalPlayers-1);
 
 		if(totalPlayers > 2) // This playerid just left but still counts as a player
 			SpectateNextTarget(admin);
