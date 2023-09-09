@@ -207,9 +207,9 @@ static InitializeRadiationCloud() {
     cloudSpeed     = random_float(CLOUD_MIN_SPEED, CLOUD_MAX_SPEED);
     cloudDirection = random_float(0.0, 360.0);
 
-    new const borderDescriptions[][9] = {"Superior", "Inferior", "Esquerda", "Direita"};
+    /* new const borderDescriptions[][9] = {"Superior", "Inferior", "Esquerda", "Direita"};
 
-    printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Dire??o: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection);
+    printf("[RADIATION] Nuvem Criada -> Borda: %s, Tamanho: %.2f, Velocidade: %.2f, Dire??o: %.2f", borderDescriptions[border], cloudSize, cloudSpeed, cloudDirection); */
 }
 
 public OnPlayerEnterRadiation(playerid, Float:percentageInside) {
@@ -241,12 +241,12 @@ static task UpdateRadiationCloud[SEC(1)]() {
     cloudSize  += random_float(-CLOUD_SIZE_CHANGE, CLOUD_SIZE_CHANGE);
     
     // Calculate the coordinates for the gangzone
-    new const Float:cloudWidth  = cloudSize * 2.0;
+    /* new const Float:cloudWidth  = cloudSize * 2.0;
     new const Float:cloudHeight = cloudSize * 2.0;
     new const Float:cloudMinX   = cloudPosX - cloudWidth / 2.0;
     new const Float:cloudMaxX   = cloudPosX + cloudWidth / 2.0;
     new const Float:cloudMinY   = cloudPosY - cloudHeight / 2.0;
-    new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0;
+    new const Float:cloudMaxY   = cloudPosY + cloudHeight / 2.0; */
 
     // Check if the cloud is currently on land.
     new const bool:isCurrentlyOnLand = IsPosition2DOnLand(cloudPosX, cloudPosY);
@@ -255,7 +255,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
     if (isCurrentlyOnLand != isCloudOnLand) {
         isCloudOnLand = isCurrentlyOnLand;
 
-        printf("[RADIATION] Nuvem %s de terra.", isCloudOnLand ? "chegou em" : "saiu de");
+        // printf("[RADIATION] Nuvem %s de terra.", isCloudOnLand ? "chegou em" : "saiu de");
     }
 
     // Atualiza a posi??o e o tamanho da zona de gangue
@@ -292,7 +292,7 @@ static task UpdateRadiationCloud[SEC(1)]() {
 
     // Verifica se a nuvem alcan?ou a borda oposta do mapa e reinicializa
     if((cloudPosX > MAP_SIZE) || (cloudPosX < -MAP_SIZE) || (cloudPosY > MAP_SIZE) || (cloudPosY < -MAP_SIZE)) {
-        printf("[RADIATION] Nuvem bateu numa borda. Iniciando outra.");
+        // printf("[RADIATION] Nuvem bateu numa borda. Iniciando outra.");
 
         InitializeRadiationCloud();
     } else
