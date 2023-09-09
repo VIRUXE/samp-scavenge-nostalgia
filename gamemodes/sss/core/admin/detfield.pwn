@@ -213,12 +213,12 @@ stock CreateDetectionField(name[MAX_DETFIELD_NAME], Float:points[10], Float:minZ
 		// Linhas para baixo
 		det_Lines[id][i + 0] = CreateLineSegment(lineObjectId, objectLength,
 			points[i + 0], points[i + 1], minZ,
-			points[i + 2], points[i + 3], minZ, .objlengthoffset = -(objectLength/2));
+			points[i + 2], points[i + 3], minZ, .objlengthoffset = -(objectLength/2), .worldid = 0);
 
 		// Linhas para cima
 		det_Lines[id][i + 1] = CreateLineSegment(lineObjectId, objectLength,
 			points[i + 0], points[i + 1], maxZ,
-			points[i + 2], points[i + 3], maxZ, .objlengthoffset = -(objectLength/2));
+			points[i + 2], points[i + 3], maxZ, .objlengthoffset = -(objectLength/2), .worldid = 0);
 	}
 
 	return id;
