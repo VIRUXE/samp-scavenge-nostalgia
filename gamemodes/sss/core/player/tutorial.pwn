@@ -566,6 +566,7 @@ timer EnterTutorial[SEC(2)](playerid) {
 	for(new i = 0; i < 20; i++) SendClientMessage(playerid, WHITE, "");
 
 	ChatMsg(playerid, GREEN, " > "C_WHITE" %s", ls(playerid, "tutorial/intro"));
+	ChatMsg(playerid, -1, "Se necessitar de ajuda abra um post no #suporte no Discord.");
 
 	PlayerTextDrawShow(playerid, Tutorial[playerid][TUT_STATUS]);
 }
