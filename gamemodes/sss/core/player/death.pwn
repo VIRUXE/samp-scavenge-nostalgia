@@ -82,6 +82,12 @@ ptask UpdatePlayerAliveTime[SEC(1)](playerid) {
 
 _OnDeath(playerid, killerId) {
 	if(!IsPlayerAlive(playerid) || IsPlayerOnAdminDuty(playerid)) return 0;
+
+	if(IsPlayerInTutorial(playerid)) {
+		BanPlayer(playerid, "Morreu no Tutorial", -1, HOUR(24));
+
+		return 0;
+	}
 	
 	new
 		deathReason = GetLastHitByWeapon(playerid),
