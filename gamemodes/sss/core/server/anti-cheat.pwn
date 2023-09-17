@@ -5,16 +5,14 @@ static
 	bool:ac_active = true,
 	player_AntiCheat[MAX_PLAYERS] = 0;
 
-hook OnPlayerLogin(playerid)
-{
-    new ip[16], nick[MAX_PLAYER_NAME];
+hook OnPlayerLogin(playerid) {
+    new ip[16];
 
 	GetPlayerIp(playerid, ip, sizeof ip);
-	GetPlayerName(playerid, nick, MAX_PLAYER_NAME);
 
 	// if(strcmp(ip, "127.0.0.1", true) == 0) return 1; // Ignore localhost
 
-	ac_requests[playerid] = Request(requestsClient, sprintf("anticheat.php?nick=%s&ip=%s", nick, ip), HTTP_METHOD_GET, "OnGetData");
+	ac_requests[playerid] = Request(Requests, sprintf("anticheat.php?nick=%s&ip=%s", GetPlayerNameEx(playerid), ip), HTTP_METHOD_GET, "OnGetData");
 
 	return 1;
 }
