@@ -243,17 +243,17 @@ ACMD:reports[1](playerid, params[]) {
 }
 
 ShowListOfReports(playerid) {
-	new totalreports = GetReportList(report_CurrentReportList[playerid]);
+	new totalReports = GetReportList(report_CurrentReportList[playerid]);
 
-	if(!totalreports) return 0;
+	if(!totalReports) return 0;
 
 	new
 		colour[9],
 		string[(8 + MAX_PLAYER_NAME + 13 + 1) * MAX_REPORTS_PER_PAGE],
 		idx;
 
-	while(idx < totalreports && idx < MAX_REPORTS_PER_PAGE) {
-		if(isequal(report_CurrentReportList[playerid][idx][report_type], "R_FIELD")) 
+	while(idx < totalReports && idx < MAX_REPORTS_PER_PAGE) {
+		if(isequal(report_CurrentReportList[playerid][idx][report_type], "R_FIELD")) // Invasao de field
             colour = C_GREEN;
 		else if(IsPlayerBanned(report_CurrentReportList[playerid][idx][report_name])) 
 			colour = C_RED;
@@ -441,3 +441,14 @@ Dialog:BanPrompt(playerid, response, listitem, inputtext[]) {
 
 	return 0;
 }
+
+/* hook OnPlayerDialogPage(playerid, direction) {
+	if(banlist_ViewingList[playerid]) {
+		if(direction == 0) 
+			banlist_CurrentIndex[playerid] -= MAX_BANS_PER_PAGE;
+		else 
+			banlist_CurrentIndex[playerid] += MAX_BANS_PER_PAGE;
+
+		ShowListOfBans(playerid, banlist_CurrentIndex[playerid]);
+	}
+} */

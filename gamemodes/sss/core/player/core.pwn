@@ -288,7 +288,7 @@ public OnPlayerJoinScenario(playerid) {
 			// Isso e necessario para escolher automaticamente o idioma para a conta do jogador
 			RequestPlayerGeo(playerid);
 		} case 1: { // Conta existe
-			DisplayLoginPrompt(playerid);
+			CheckPlayerSession(playerid);
 		} case 4: { // Conta existe mas esta desativada
 			ChatMsg(playerid, YELLOW, " > Essa conta foi desativada.");
 			ChatMsg(playerid, YELLOW, " > Isso pode pode ter acontecido devido a criação de 2 ou mais contas no servidor.");

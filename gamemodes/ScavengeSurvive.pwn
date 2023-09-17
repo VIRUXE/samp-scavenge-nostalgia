@@ -215,7 +215,7 @@ public OnGameModeInit() {
 #define MAX_PLAYER_FILE				(MAX_PLAYER_NAME+16)
 #define MAX_ADMIN					(48)
 #define MAX_PASSWORD_LEN			(129)
-#define MAX_GPCI_LEN				(41)
+#define MAX_GPCI_LEN				41+1
 #define MAX_HOST_LEN				(256)
 
 
@@ -226,9 +226,6 @@ public OnGameModeInit() {
 // Genders
 #define GENDER_MALE					(0)
 #define GENDER_FEMALE				(1)
-
-// Files
-#define ACCOUNT_DATABASE			DIRECTORY_MAIN"accounts.db"
 
 // Macros
 #define function%0(%1) forward%0(%1); public%0(%1)
@@ -307,7 +304,7 @@ bool:	gServerRestarting = false,
 new Text:RestartCount = Text:INVALID_TEXT_DRAW, Text:ClockRestart = Text:INVALID_TEXT_DRAW;
 
 // Banco de Dados
-new DB:Database;
+new DB:Database, DB:Sessions;
 
 // GLOBAL SERVER SETTINGS (Todo: modularise)
 new
@@ -321,7 +318,9 @@ new gBigString[MAX_PLAYERS][4096];
 new stock GLOBAL_DEBUG = -1;
 
 // pawn-requests
-new RequestsClient:requestsClient;
+new 
+	RequestsClient:Requests,
+	RequestsClient:APIRequests;
 
 enum {
 	DIALOG_MESSAGE,
@@ -424,6 +423,7 @@ enum {
 // PLAYER INTERNAL SCRIPTS
 //#include "sss/core/player/claninventario.pwn" // By Kolorado
 #include "sss/core/player/screenfade.pwn"
+#include "sss/core/player/sessions.pwn"
 #include "sss/core/player/accounts.pwn"
 // #include "sss/core/player/afk.pwn"
 #include "sss/core/player/aliases.pwn"
@@ -679,7 +679,9 @@ OnGameModeInit_Setup() {
 		dir_create(DIRECTORY_SCRIPTFILES DIRECTORY_MAIN);
 	}
 
-	Database = db_open_persistent(ACCOUNT_DATABASE);
+	Database = db_open_persistent("data/accounts.db");
+
+	Sessions = db_open("data/sessions.db");
 
 	LoadSettings();
 
@@ -690,7 +692,8 @@ OnGameModeInit_Setup() {
 
 	debug_set_level("global", gGlobalDebugLevel);
 
-	requestsClient = RequestsClient("http://sv.scavengenostalgia.fun/", RequestHeaders());
+	Requests    = RequestsClient("http://sv.scavengenostalgia.fun/", RequestHeaders());
+	APIRequests = RequestsClient("https://api.scavengenostalgia.fun/", RequestHeaders());
 
 	RestartCount				=TextDrawCreate(18.400001, 433.100067, "Respawn em: ~r~~h~~h~00:00");
 	TextDrawBackgroundColor		(RestartCount, 255);

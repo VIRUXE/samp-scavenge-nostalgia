@@ -311,47 +311,6 @@ Dialog:RegisterPrompt(playerid, response, listitem, inputtext[]) {
 	return 0;
 }
 
-DisplayLoginPrompt(playerid, badpass = 0) {
-	Dialog_Show(playerid, LoginPrompt, DIALOG_STYLE_PASSWORD, ls(playerid, "player/account/login/dialog-title"), sprintf(ls(playerid, badpass ? "player/account/login/wrong-password" : "player/account/login/dialog-body"), badpass ? acc_LoginAttempts[playerid] : playerid), ls(playerid, "common/enter"), ls(playerid, "common/cancel"));
-
-	return 1;
-}
-
-Dialog:LoginPrompt(playerid, response, listitem, inputtext[]) {
-	if(response) {
-		if(strlen(inputtext) < 4) {// Chave muito curta
-			acc_LoginAttempts[playerid]++;
-
-			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
-
-			return 1;
-		}
-
-		new inputhash[MAX_PASSWORD_LEN], storedhash[MAX_PASSWORD_LEN];
-
-		WP_Hash(inputhash, MAX_PASSWORD_LEN, inputtext);
-		GetPlayerPassHash(playerid, storedhash);
-
-		if(isequal(inputhash, storedhash)) {
-			SetPlayerScreenFade(playerid, FADE_OUT, 255, 10, 1);
-			ShowMotd(playerid);
-
-			if(GetPlayerTotalSpawns(playerid))
-				defer Login(playerid); // Chave correta
-			else
-				defer EnterTutorial(playerid);
-		} else {
-			acc_LoginAttempts[playerid]++;
-
-			if(acc_LoginAttempts[playerid] < 5) DisplayLoginPrompt(playerid, 1); else Kick(playerid);
-
-			return 1;
-		}
-	} else Kick(playerid);
-
-	return 0;
-}
-
 //	Loads a player's account, updates some data and spawns them.
 timer Login[SEC(2)](playerid) {
     if(IsPlayerNPC(playerid)) return 0;
